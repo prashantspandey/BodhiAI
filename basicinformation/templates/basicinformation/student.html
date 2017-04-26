@@ -1,0 +1,75 @@
+{%extends 'basicinformation/base.html' %}
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{%block title %}Student Page{%endblock %}</title>
+    {%block scripts %}
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+     
+     <script>
+     $(document).ready(function () {
+
+      $('.well').each(function(index,element){
+          console.log($(this).children('#subjectName').text());
+         if ($(this).children('#subjectName').text()== 'Science'){
+             $(this).children('#prediction').text('Science Marks Prediction for Half Yearly:  ' + '{{sciencehy_prediction}}');
+
+         }
+         else if ($(this).children('#subjectName').text()== 'Maths'){
+
+             $(this).children('#prediction').text('Maths Marks Prediction for Half Yearly '+ '{{mathshy_prediction}}');
+         }
+         else if ($(this).children('#subjectName').text()== 'Hindi'){
+
+             $(this).children('#prediction').text('Hindi Marks Prediction for Half Yearly '+ '{{hindihy_prediction}}');
+         }
+         else if ($(this).children('#subjectName').text()== 'English'){
+
+             $(this).children('#prediction').text('English Marks Prediction for Half Yearly '+ '{{englishhy_prediction}}');
+         }
+
+
+      });
+
+     });
+
+     </script>
+    <link rel="stylesheet" href="{% static 'basicinformation/style.css' %}">
+    {%endblock%}
+</head>
+<body>
+{%block content%}
+<h1>Student Page</h1>
+
+
+<div class="jumbotron">
+  <h1 id="name">Hello {{profile.name}}</h1>
+  <p>Class: {{profile.klass}}</p>
+  <p>Rollnumber: {{profile.rollNumber}}</p>
+  <p>Date of Birth: {{profile.dob}}</p>
+
+</div>
+
+
+
+<h2>Marks</h2>
+{%for sub in subjects %}
+<div class="well">
+<h3 id='subjectName'>{{sub.name}}</h3>
+{%if sub.test1 %}<p class="testmarks">First test:{{sub.test1}}</p>{%endif%}
+{%if sub.test2 %}<p>Second test:{{sub.test2}}</p>{%endif%}
+{%if sub.test3 %}<p>Thrid test:{{sub.test3}}</p>{%endif%}
+{%if sub.test4 %}<p>Fourth test:{{sub.test4}}</p>{%endif%}
+ <p id="prediction"></p>
+
+</div>
+{%endfor%}
+
+
+{%endblock%}
+
+
+</body>
+</html>

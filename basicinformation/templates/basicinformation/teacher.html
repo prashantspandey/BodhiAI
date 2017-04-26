@@ -1,0 +1,90 @@
+{%extends 'basicinformation/base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{%block title%}Teacher{%endblock%}</title>
+{%block scripts %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+<script>
+
+$(document).ready(function () {
+    var marks = []
+    {%for students in allstudents %}
+    marks.push({{students.predicted_hy}});
+    {%endfor%}
+for (var i=0;i<marks.length;i++){
+ $('.well').each(function(index,element){
+
+console.log(marks)
+
+console.log(marks[i])
+  if (marks[i] == 0) {
+    $(this).children('#predictionhy').text('Fail');
+        console.log($(this).children('#predictionhy').text());
+        i++
+
+
+  }
+  else if (marks[i] == 1){
+    $(this).children('#predictionhy').text('40%-50%');
+    console.log($(this).children('#predictionhy').text());
+i++
+
+  }
+  else if (marks[i] == 2){
+    $(this).children('#predictionhy').text('50%-60%');
+    console.log($(this).children('#predictionhy').text());
+i++
+
+  }
+  else if (marks[i] == 3){
+    $(this).children('#predictionhy').text('60%-70%');
+    console.log($(this).children('#predictionhy').text());
+i++
+
+  }
+  else if (marks[i] == 4){
+    $(this).children('#predictionhy').text('70%-80%');
+    console.log($(this).children('#predictionhy').text());
+i++
+
+  }
+  else if (marks[i] == 5){
+    $(this).children('#predictionhy').text('80%-90%');
+    console.log($(this).children('#predictionhy').text());
+i++
+
+  }
+
+  else if (marks[i] == 6){
+    $(this).children('#predictionhy').text('90%-100%');
+    console.log($(this).children('#predictionhy').text());
+    i++
+  }
+  });
+}
+});
+
+</script>
+{%endblock%}
+
+</head>
+<body>
+{%block content%}
+<h1>Teacher Page</h1>
+<h2>{{profile.name}}</h2>
+{%for students in allstudents%}
+<div class='well'>
+<h2>{{students.student}}</h2>
+<p>{{students.name}} test 1:{{students.test1}}</p>
+<p>{{students.name}} test 2:{{students.test2}}</p>
+<p>{{students.name}} test 3:{{students.test3}}</p>
+{%if students.test4%}<p>test 4:{{students.test4}}</p>{%endif%}
+    <p id="predictionhy"></p>
+<p>
+</div>
+{%endfor%}
+{%endblock%}
+</body>
+</html>

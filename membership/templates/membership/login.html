@@ -1,0 +1,51 @@
+<!--{%extends 'basicinformation/base.html' %}-->
+
+<html>
+<title>{%block title %}Login To Bodhi.AI{%endblock%}</title>
+
+{% block content %}
+
+<body>
+<h1>Login To Bodhi.AI</h1>
+<div class="panel panel-default">
+  <div class="panel-body">
+
+
+
+  <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  {% include 'membership/form-template.html' %}
+    <!--{% if messages %}-->
+<!--<ul class="messages">-->
+    <!--{% for message in messages %}-->
+    <!--<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>-->
+    <!--{% endfor %}-->
+<!--</ul>-->
+<!--{% endif %}-->
+  <div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+  <button type="submit" class="btn btn-success">Log In</button>
+
+
+  </div>
+
+
+  </div>
+
+
+
+  </form>
+
+
+
+  </div>
+</div>
+
+
+
+
+
+</body>
+{% endblock%}
+</html>
