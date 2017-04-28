@@ -175,25 +175,33 @@ def science_3testhyprediction(test1, test2, test3, DOB, section):
 
 
 def predictionConvertion(prediction):
+    try:
+        prediction = prediction[0]
+    except:
+        pass
+
+    print(prediction)
     if prediction == 0:
-        conversion = '<40% '
+        conversion = 35
     elif prediction == 1:
-        conversion = '40% - 50% '
+        conversion = 45
     elif prediction == 2:
-        conversion = '50% - 60% '
+        conversion = 55
     elif prediction == 3:
-        conversion = '60% - 70%'
+        conversion = 65
     elif prediction == 4:
-        conversion = '70%-80% '
+        conversion = 75
     elif prediction == 5:
-        conversion = '80%-90% '
+        conversion = 85
     elif prediction == 6:
-        conversion = '90%-100% '
+        conversion = 95
     else:
-        conversion = 'something wrong'
+        conversion = '404'
     return conversion
 
 # function for updating all the half yearly predictions (whole database)
+
+
 def update_all_predictedmarks():
     subject = Subject.objects.all()
     alluniquestudents = set()
@@ -251,3 +259,29 @@ def update_all_predictedmarks():
 
         else:
             pass
+
+
+def get_predicted_marks(user, subjects):
+
+    try:
+        hindi = subjects.get(name='Hindi')
+        predicted_hindihy = predictionConvertion(hindi.predicted_hy)
+    except:
+        predicted_hindihy = 0
+    try:
+        maths = subjects.get(name='Maths')
+        predicted_mathshy = predictionConvertion(maths.predicted_hy)
+    except:
+        predicted_mathshy = 0
+    try:
+        english = subjects.get(name='English')
+        predicted_englishhy = predictionConvertion(english.predicted_hy)
+    except:
+        predicted_englishhy = 0
+    try:
+        science = subjects.get(name='Science')
+        predicted_sciencehy = predictionConvertion(science.predicted_hy)
+    except:
+        predicted_sciencehy = 0
+
+    return predicted_hindihy, predicted_mathshy, predicted_englishhy, predicted_sciencehy
