@@ -1,10 +1,11 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse, redirect
-from django.contrib.auth.decorators import login_required
+from django.http import Http404, HttpResponse
+import urllib.request
 from django.contrib.auth.models import User, Group
 from .models import Student, Teacher, Subject, School, klass
 from django.utils import timezone
-from .marksprediction import hindi_3testhyprediction, english_3testhyprediction, science_3testhyprediction, \
-    maths_3testhyprediction, predictionConvertion, get_predicted_marks
+# from .marksprediction import predictionConvertion, readmarks, averageoftest, teacher_get_students_classwise
+from .marksprediction import *
 
 
 def home(request):
@@ -18,10 +19,10 @@ def home(request):
 
             # retrieve all marks from database
             mathst1, mathst2, mathst3, mathshy, mathst4, mathspredhy, \
-                hindit1, hindit2, hindit3, hindihy, hindit4, hindipredhy, \
-                englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
-                sciencet1, sciencet2, sciencet3, sciencehy, sciencet4, sciencepredhy = readmarks(
-                    user)
+            hindit1, hindit2, hindit3, hindihy, hindit4, hindipredhy, \
+            englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
+            sciencet1, sciencet2, sciencet3, sciencehy, sciencet4, sciencepredhy = readmarks(
+                user)
             hindipredhy = predictionConvertion(hindipredhy)
             mathspredhy = predictionConvertion(mathspredhy)
             englishpredhy = predictionConvertion(englishpredhy)
@@ -47,12 +48,12 @@ def home(request):
             for i in subject:
                 allstudents.append(i)
 
-
+            st = []
             for stu in allstudents:
-                print(stu.test1)
-                print(stu.name)
+                st.append(stu.test1)
 
-            context = {'profile': profile, 'allstudents': allstudents}
+            context = {'profile': profile, 'allstudents': allstudents,
+                       'stu': st}
 
             return render(request, 'basicinformation/teacher.html', context)
         else:
@@ -63,81 +64,136 @@ def home(request):
         return HttpResponseRedirect(reverse('membership:login'))
 
 
-# def create_teacher(num):
-#     for i in range(3, num):
-#         us = User.objects.create_user(username='teacher' + str(i),
-#                                       email='teacher' + str(i) + '@gmail.com',
-#                                       password='dnpandey')
-#         us.save()
-#         gr = Group.objects.get(name='Teachers')
-#         gr.user_set.add(us)
-#
-#         teach = Teacher(teacheruser=us, experience=5, name=us.username)
-#         teach.save()
-#
-#
-# def create_student(num):
-#     for i in range(4, num):
-#         us = User.objects.create_user(username='student' + str(i),
-#                                       email='studentss' + str(i) + '@gmail.com',
-#                                       password='dnpandey')
-#         us.save()
-#         gr = Group.objects.get(name='Students')
-#         gr.user_set.add(us)
-#         cl = klass.objects.all()
-#         classes = []
-#         for k in cl:
-#             classes.append(k)
-#         stu = Student(studentuser=us, klass=classes[0], rollNumber=int(str(i) + '00'), name='stu' + str(i),
-#                       dob=timezone.now(), pincode=int(str(405060)))
-#         stu.save()
-#         sub = Subject(name='Science', student=stu)
-#         sub.save()
+def current_analysis(request, grade):
+    user = request.user
+    if user.is_authenticated:
+        if user.groups.filter(name='Students').exists():
+            raise Http404("You don't have the permissions to view this page.")
+        elif user.groups.filter(name='Teachers').exists():
+
+            klass_dict, all_klasses = teacher_get_students_classwise(request)
+
+            klass_test1_dict, klass_test2_dict, klass_test3_dict = teacher_get_testmarks_classwise(request, klass_dict)
+            # find out the average of class tests (all the classes separated by commas)
+
+            av1 = []  # list to hold the averages of test1
+            av2 = []
+            av3 = []
+            for i in klass_test1_dict.values():
+                av_test1 = averageoftest(i)
+                av1.append(av_test1)
+
+            for i in klass_test2_dict.values():
+                av_test2 = averageoftest(i)
+                av2.append(av_test2)
+
+            for i in klass_test3_dict.values():
+                av_test3 = averageoftest(i)
+                av3.append(av_test3)
+
+            context = {'avtest1': av1, 'avtest2': av2, 'avtest3': av3, 'klass_dict': klass_dict}
+
+            return render(request, 'basicinformation/analysis_current.html',
+                          context)
+    else:
+        raise Http404("You don't have the permissions to view this page.")
 
 
-def readmarks(user):
-    profile = user.student
-    subjects = user.student.subject_set.all()
-    mathst1, mathst2, mathst3, mathshy, \
-        mathst4, mathspredhy = [], [], [], [], [], []
-    hindit1, hindit2, hindit3, hindihy, hindit4, \
-        hindipredhy = [], [], [], [], [], []
-    englisht1, englisht2, englisht3, englishhy, \
-        englisht4, englishpredhy = [], [], [], [], [], []
-    sciencet1, sciencet2, sciencet3, sciencehy, \
-        sciencet4, sciencepredhy = [], [], [], [], [], []
+def teacher_home_page(request):
+    user = request.user
+    if user.is_authenticated:
+        if user.groups.filter(name='Teachers').exists():
+            profile = user.teacher
 
-    for i in subjects:
-        if i.name == 'Maths':
-            mathst1.append(i.test1)
-            mathst2.append(i.test2)
-            mathst3.append(i.test3)
-            mathshy.append(i.hy)
-            mathst4.append(i.test4)
-            mathspredhy.append(i.predicted_hy)
-        elif i.name == 'Hindi':
-            hindit1.append(i.test1)
-            hindit2.append(i.test2)
-            hindit3.append(i.test3)
-            hindihy.append(i.hy)
-            hindit4.append(i.test4)
-            hindipredhy.append(i.predicted_hy)
-        elif i.name == 'English':
-            englisht1.append(i.test1)
-            englisht2.append(i.test2)
-            englisht3.append(i.test3)
-            englishhy.append(i.hy)
-            englisht4.append(i.test4)
-            englishpredhy.append(i.predicted_hy)
-        elif i.name == 'Science':
-            sciencet1.append(i.test1)
-            sciencet2.append(i.test2)
-            sciencet3.append(i.test3)
-            sciencehy.append(i.hy)
-            sciencet4.append(i.test4)
-            sciencepredhy.append(i.predicted_hy)
+            nine_a_test1, nine_b_test1, nine_a_test2, \
+            nine_b_test2, nine_a_test3, nine_b_test3 = teacher_listofStudentsMarks(profile)
 
-    return mathst1, mathst2, mathst3, mathshy, mathst4, mathspredhy, \
-        hindit1, hindit2, hindit3, hindihy, hindit4, hindipredhy, \
-        englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
-        sciencet1, sciencet2, sciencet3, sciencehy, sciencet4, sciencepredhy
+            klass_dict, all_klasses = teacher_get_students_classwise(request)
+            context = {'profile': profile, 'klasses': all_klasses}
+            return render(request, 'basicinformation/teacherHomePage.html', context)
+        else:
+            raise Http404("You don't have the permissions to view this page.")
+    else:
+        raise Http404("You don't have the permissions to view this page.")
+
+
+def teacher_update_page(request):
+    user = request.user
+    profile = user.teacher
+    nine_a, nine_b = teacher_listofStudents(profile)
+    klass_dict, all_klasses = teacher_get_students_classwise(request)
+
+    if request.GET:
+        ajKlass = request.GET['ajKlass']
+
+        if urllib.request.unquote(str(ajKlass)) == urllib.request.unquote('9th a'):
+
+            return render(request, 'basicinformation/teacher_update_page.html', {'klass': nine_a})
+        elif urllib.request.unquote(str(ajKlass)) == urllib.request.unquote('9th b'):
+
+            return render(request, 'basicinformation/teacher_update_page.html', {'klass': nine_b})
+        elif urllib.request.unquote(str(ajKlass)) == urllib.request.unquote('9th b' + 'relativeaveragescurrent'):
+
+            nine_a_test1, nine_b_test1, nine_a_test2, \
+            nine_b_test2, nine_a_test3, nine_b_test3 = teacher_listofStudentsMarks(profile)
+            nine_b_average_test1, nine_b_average_test2, nine_b_average_test3 = averageoftest(nine_b_test1, nine_b_test2,
+                                                                                             nine_b_test3)
+
+            t1, t2, t3 = find_grade_from_marks(nine_b_test1, nine_b_test2, nine_b_test3)
+            t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s, \
+            t2_fg_a, t2_fg_b, t2_fg_c, t2_fg_d, t2_fg_e, t2_fg_f, t2_fg_s, \
+            t3_fg_a, t3_fg_b, t3_fg_c, t3_fg_d, t3_fg_e, t3_fg_f, t3_fg_s = find_frequency_grades(t1, t2, t3)
+
+            context = {'test1av': nine_b_average_test1, 'test2av': nine_b_average_test2,
+                       'test3av': nine_b_average_test3, 't1_fg_a': t1_fg_a, 't1_fg_b': t1_fg_b, 't1_fg_c': t1_fg_c,
+                       't1_fg_d': t1_fg_d,
+                       't1_fg_e': t1_fg_e, 't1_fg_f': t1_fg_f, 't1_fg_s': t1_fg_s, 't2_fg_a': t2_fg_a,
+                       't2_fg_b': t2_fg_b,
+                       't2_fg_c': t2_fg_c, 't2_fg_d': t2_fg_d, 't2_fg_e': t2_fg_e, 't2_fg_f': t2_fg_f,
+                       't2_fg_s': t2_fg_s,
+                       't3_fg_a': t3_fg_a, 't3_fg_b': t3_fg_b, 't3_fg_c': t2_fg_c, 't3_fg_d': t3_fg_d,
+                       't3_fg_e': t3_fg_e, 't3_fg_f': t3_fg_f, 't3_fg_s': t3_fg_s}
+            return render(request, 'basicinformation/teacher_relative_averages_current.html', context)
+        elif urllib.request.unquote(str(ajKlass)) == urllib.request.unquote('9th a' + 'relativeaveragescurrent'):
+
+            nine_a_test1, nine_b_test1, nine_a_test2, \
+            nine_b_test2, nine_a_test3, nine_b_test3 = teacher_listofStudentsMarks(profile)
+            nine_a_average_test1, nine_a_average_test2, nine_a_average_test3 = averageoftest(nine_a_test1, nine_a_test2,
+                                                                                             nine_a_test3)
+
+            t1, t2, t3 = find_grade_from_marks(nine_a_test1, nine_a_test2, nine_a_test3)
+            t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s, \
+            t2_fg_a, t2_fg_b, t2_fg_c, t2_fg_d, t2_fg_e, t2_fg_f, t2_fg_s, \
+            t3_fg_a, t3_fg_b, t3_fg_c, t3_fg_d, t3_fg_e, t3_fg_f, t3_fg_s = find_frequency_grades(t1, t2, t3)
+
+            context = {'test1av': nine_a_average_test1, 'test2av': nine_a_average_test2,
+                       'test3av': nine_a_average_test3, 't1_fg_a': t1_fg_a, 't1_fg_b': t1_fg_b, 't1_fg_c': t1_fg_c,
+                       't1_fg_d': t1_fg_d,
+                       't1_fg_e': t1_fg_e, 't1_fg_f': t1_fg_f, 't1_fg_s': t1_fg_s, 't2_fg_a': t2_fg_a,
+                       't2_fg_b': t2_fg_b,
+                       't2_fg_c': t2_fg_c, 't2_fg_d': t2_fg_d, 't2_fg_e': t2_fg_e, 't2_fg_f': t2_fg_f,
+                       't2_fg_s': t2_fg_s,
+                       't3_fg_a': t3_fg_a, 't3_fg_b': t3_fg_b, 't3_fg_c': t2_fg_c, 't3_fg_d': t3_fg_d,
+                       't3_fg_e': t3_fg_e, 't3_fg_f': t3_fg_f, 't3_fg_s': t3_fg_s}
+            return render(request, 'basicinformation/teacher_relative_averages_current.html', context)
+ # def create_student(num):
+ #
+ #
+ #     for i in range(10, num):
+ #
+ #         us = User.objects.create_user(username='student' + str(i),
+ #                                                      email='studentss' + str(i) + '@gmail.com',
+ #                                                      password='dnpandey')
+ #         us.save()
+ #         gr = Group.objects.get(name='Students')
+ #         gr.user_set.add(us)
+ #         cl = klass.objects.all()
+ #         classes = []
+ #         for k in cl:
+ #
+ #             classes.append(k)
+ #             stu = Student(studentuser=us, klass=classes[0], rollNumber=int(str(i) + '00'), name='stu' + str(i),
+ #                                      dob=timezone.now(), pincode=int(str(405060)))
+ #             stu.save()
+ #             sub = Subject(name='Science', student=stu)
+ #             sub.save()

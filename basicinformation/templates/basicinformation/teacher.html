@@ -5,65 +5,8 @@
     <title>{%block title%}Teacher{%endblock%}</title>
 {%block scripts %}
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
-<script>
-
-$(document).ready(function () {
-    var marks = []
-    {%for students in allstudents %}
-    marks.push({{students.predicted_hy}});
-    {%endfor%}
-for (var i=0;i<marks.length;i++){
- $('.well').each(function(index,element){
-
-  if (marks[i] == 0) {
-    $(this).children('#predictionhy').text('Fail');
-        console.log($(this).children('#predictionhy').text());
-        i++
-
-
-  }
-  else if (marks[i] == 1){
-    $(this).children('#predictionhy').text('40%-50%');
-    console.log($(this).children('#predictionhy').text());
-i++
-
-  }
-  else if (marks[i] == 2){
-    $(this).children('#predictionhy').text('50%-60%');
-    console.log($(this).children('#predictionhy').text());
-i++
-
-  }
-  else if (marks[i] == 3){
-    $(this).children('#predictionhy').text('60%-70%');
-    console.log($(this).children('#predictionhy').text());
-i++
-
-  }
-  else if (marks[i] == 4){
-    $(this).children('#predictionhy').text('70%-80%');
-    console.log($(this).children('#predictionhy').text());
-i++
-
-  }
-  else if (marks[i] == 5){
-    $(this).children('#predictionhy').text('80%-90%');
-    console.log($(this).children('#predictionhy').text());
-i++
-
-  }
-
-  else if (marks[i] == 6){
-    $(this).children('#predictionhy').text('90%-100%');
-    console.log($(this).children('#predictionhy').text());
-    i++
-  }
-  });
-}
-});
-
-</script>
 {%endblock%}
 
 </head>
@@ -77,9 +20,87 @@ i++
 <p class="text-center">{{students.name}} test 1:{{students.test1}}</p>
 <p class="text-center">{{students.name}} test 2:{{students.test2}}</p>
 <p class="text-center">{{students.name}} test 3:{{students.test3}}</p>
+
+{%if students.predicted_hy == 6 %}
+<p class="text-center">Predicted marks for Half Yearly: 95% (+-5%)</p>{%elif students.predicted_hy == 5%}
+<p class="text-center">Predicted marks for Half Yearly: 85% (+-5%)</p>{%elif students.predicted_hy == 4%}
+<p class="text-center">Predicted marks for Half Yearly: 75% (+-5%)</p>{%elif students.predicted_hy == 3%}
+<p class="text-center">Predicted marks for Half Yearly: 65% (+-5%)</p>{%elif students.predicted_hy == 2%}
+<p class="text-center">Predicted marks for Half Yearly: 55% (+-5%)</p>{%elif students.predicted_hy == 1%}
+<p class="text-center">Predicted marks for Half Yearly: 45% (+-5%)</p>{%else%}
+<p class="text-center">Predicted marks for Half Yearly: Fail</p>
+{%endif%}
 {%if students.test4%}<p>test 4:{{students.test4}}</p>{%endif%}
-    <p class="text-center" id="predictionhy"></p>
-<p>
+<script>
+$(document).ready(function () {
+    var ctx{{forloop.counter}} = document.getElementById("myChart{{forloop.counter}}");
+    var myChart1{{forloop.counter}} = new Chart(ctx{{forloop.counter}}, {
+            type: 'bar',
+            data: {
+                labels: ["Test1","Test2","Test3","Predicted Half Yearly"],
+                datasets: [{
+                    label: 'Student performance and predictions',
+
+
+                    {%if students.predicted_hy == 6 %}
+                    data: [parseInt({{students.test1}})*10,parseInt({{students.test2}})*10,parseInt({{students.test3}})*10,parseInt({{95}})],
+                    {%elif students.predicted_hy == 5 %}
+                    data: [parseInt({{students.test1}})*10,parseInt({{students.test2}})*10,parseInt({{students.test3}})*10,parseInt({{85}})],
+                    {%elif students.predicted_hy == 4 %}
+                    data: [parseInt({{students.test1}})*10,parseInt({{students.test2}})*10,parseInt({{students.test3}})*10,parseInt({{75}})],
+                    {%elif students.predicted_hy == 3 %}
+                    data: [parseInt({{students.test1}})*10,parseInt({{students.test2}})*10,parseInt({{students.test3}})*10,parseInt({{65}})],
+                    {%elif students.predicted_hy == 2 %}
+                    data: [parseInt({{students.test1}})*10,parseInt({{students.test2}})*10,parseInt({{students.test3}})*10,parseInt({{55}})],
+                    {%elif students.predicted_hy == 1 %}
+                    data: [parseInt({{students.test1}})*10,parseInt({{students.test2}})*10,parseInt({{students.test3}})*10,parseInt({{45}})],
+                    {%else%}
+                    data: [parseInt({{students.test1}})*10,parseInt({{students.test2}})*10,parseInt({{students.test3}})*10,parseInt({{30}})],
+                    {%endif%}
+
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.4)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(0, 0, 0, 0.9)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 3
+                }]
+            },
+            options: {   responsive: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+                            max: 100
+                        }
+                    }]
+                }
+            }
+        });
+    });
+</script>
+
+
+
+<canvas  id="myChart{{forloop.counter}}" style="display: block; height: 200px; width: 400px; padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;" width="300" height="270">
+</canvas>
+
+
+
 </div>
 {%endfor%}
 {%endblock%}

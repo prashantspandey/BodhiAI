@@ -1,7 +1,7 @@
 import numpy as np
 import pickle
 from datetime import datetime, date
-from basicinformation.models import Subject
+from .models import Subject
 
 '''
 load pickles for data transformation and prediction (hindi)
@@ -199,13 +199,14 @@ def predictionConvertion(prediction):
         conversion = '404'
     return conversion
 
+
 # function for updating all the half yearly predictions (whole database)
 
 
 def update_all_predictedmarks():
     subject = Subject.objects.all()
     alluniquestudents = set()
-    sub = []
+
     for i in subject:
         alluniquestudents.add(i.student)
     allsubjects = []
@@ -262,7 +263,6 @@ def update_all_predictedmarks():
 
 
 def get_predicted_marks(user, subjects):
-
     try:
         hindi = subjects.get(name='Hindi')
         predicted_hindihy = predictionConvertion(hindi.predicted_hy)
@@ -285,3 +285,492 @@ def get_predicted_marks(user, subjects):
         predicted_sciencehy = 0
 
     return predicted_hindihy, predicted_mathshy, predicted_englishhy, predicted_sciencehy
+
+
+def averageoftest(test, test2=None, test3=None):
+    if test2 is None and test3 is None:
+        testmarks = np.array(test)
+        return np.mean(testmarks)
+    elif test3 is None:
+        testmarks = np.array(test)
+        testmarks2 = np.array(test2)
+        return np.mean(testmarks), np.mean(testmarks2)
+    else:
+        testmarks = np.array(test)
+        testmarks2 = np.array(test2)
+        testmarks3 = np.array(test3)
+        return np.mean(testmarks), np.mean(testmarks2), np.mean(testmarks3)
+
+
+# all the helper functions for teacher pages
+
+def teacher_get_students_classwise(req):
+    user = req.user
+    profile = user.teacher
+    subject = profile.subject_set.all()
+
+    allstudents = []  # list for subjects of all students (taught by the teacher)
+    klass_dict = {}  # dictionary for subjects of individual classes
+    all_klasses = set()  # set of all unique classes taught by the teacher
+
+    for i in subject:
+        allstudents.append(i)
+        all_klasses.add(str(i.student.klass))
+
+    # fill out the dictionary for subjects of each class
+    for k in all_klasses:
+        sub9a = []
+        for j in subject:
+            if str(j.student.klass) == str(k):
+                sub9a.append(j)
+                temp_dict = {str(k): sub9a}
+                klass_dict.update(temp_dict)
+    return klass_dict, all_klasses
+
+
+def teacher_get_testmarks_classwise(req, klass_dict):
+    klass_test1_dict = {}  # dictionary to hold test1 marks of different classes
+    klass_test2_dict = {}
+    klass_test3_dict = {}
+
+    # fill out the above dictionaries
+
+    for i in klass_dict.values():
+        kk = i
+        klasstest1 = []
+        klasstest2 = []
+        klasstest3 = []
+
+        for j in kk:
+            klasstest1.append(j.test1)
+            klasstest2.append(j.test2)
+            klasstest3.append(j.test3)
+            testm1 = {str(j.student.klass): klasstest1}
+            testm2 = {str(j.student.klass): klasstest2}
+            testm3 = {str(j.student.klass): klasstest3}
+        klass_test1_dict.update(testm1)
+        klass_test2_dict.update(testm2)
+        klass_test3_dict.update(testm3)
+    return klass_test1_dict, klass_test2_dict, klass_test2_dict
+
+
+def teacher_get_classwise_studnetNames(request, klass_dict):
+    ktdict = {}
+    for i in klass_dict.values():
+        kk = i
+        kt = []
+        for k in kk:
+            kt.append(k.student)
+            stu1 = {str(k.student.klass): kt}
+        ktdict.update(stu1)
+    return ktdict
+
+
+def teacher_get_classwise_listofStudents(request, studict):
+    kl0 = []
+    kl1 = []
+    kl2 = []
+    kl3 = []
+    kl4 = []
+    kl5 = []
+    nine_a = []
+    nine_b = []
+    nine_c = []
+    ten_a = []
+    ten_b = []
+    ten_c = []
+
+    for i, n in enumerate(studict.values()):
+        eval('kl' + str(i)).extend(n)
+    for i in kl0:
+
+        if str(i.klass) == '9th a':
+            nine_a = kl0
+            break
+
+    for i in kl1:
+        if str(i.klass) == '9th b':
+            nine_b = kl1
+            break
+    return nine_a, nine_b
+
+
+def teacher_listofStudents(profile):
+    nine_a = []
+    nine_b = []
+    subject9a = profile.subject_set.filter(student__klass__name='9th a')
+    subject9b = profile.subject_set.filter(student__klass__name='9th b')
+    if not subject9a:
+        pass
+    else:
+        for i in subject9a:
+            nine_a.append(i)
+
+    if not subject9b:
+        pass
+    else:
+        for i in subject9b:
+            nine_b.append(i)
+    return nine_a, nine_b
+
+
+def teacher_listofStudentsMarks(profile):
+    nine_a_test1 = []
+    nine_b_test1 = []
+    nine_a_test2 = []
+    nine_b_test2 = []
+    nine_a_test3 = []
+    nine_b_test3 = []
+    subject9a = profile.subject_set.filter(student__klass__name='9th a')
+    subject9b = profile.subject_set.filter(student__klass__name='9th b')
+    if not subject9a:
+        pass
+    else:
+        for i in subject9a:
+            nine_a_test1.append(i.test1)
+            nine_a_test2.append(i.test2)
+            nine_a_test3.append(i.test3)
+
+    if not subject9b:
+        pass
+    else:
+        for i in subject9b:
+            nine_b_test1.append(i.test1)
+            nine_b_test2.append(i.test2)
+            nine_b_test3.append(i.test3)
+    return nine_a_test1, nine_b_test1, nine_a_test2, nine_b_test2, nine_a_test3, nine_b_test3
+
+
+def find_grade_from_marks(test1, test2=None, test3=None):
+    test1_grade = []
+    test2_grade = []
+    test3_grade = []
+    test1 = np.array(test1)
+    if test2 is None:
+        for i, n in enumerate(test1):
+            if n < 4:
+                test1_grade.append('F')
+            if 4 <= n < 5:
+                test1_grade.append('E')
+            if 5 <= n < 6:
+                test1_grade.append('D')
+            if 6 <= n < 7:
+                test1_grade.append('C')
+            if 7 <= n < 8:
+                test1_grade.append('B')
+            if 8 <= n < 9:
+                test1_grade.append('A')
+            if 9 <= n <= 10:
+                test1_grade.append('S')
+        return test1_grade
+    elif test3 is None:
+
+        test2 = np.array(test2)
+
+        for i, n in enumerate(test1):
+            if n < 4:
+                test1_grade.append('F')
+            if 4 <= n < 5:
+                test1_grade.append('E')
+            if 5 <= n < 6:
+                test1_grade.append('D')
+            if 6 <= n < 7:
+                test1_grade.append('C')
+            if 7 <= n < 8:
+                test1_grade.append('B')
+            if 8 <= n < 9:
+                test1_grade.append('A')
+            if 9 <= n <= 10:
+                test1_grade.append('S')
+
+        for i, n in enumerate(test2):
+            if n < 4:
+                test2_grade.append('F')
+            if 4 <= n < 5:
+                test2_grade.append('E')
+            if 5 <= n < 6:
+                test2_grade.append('D')
+            if 6 <= n < 7:
+                test2_grade.append('C')
+            if 7 <= n < 8:
+                test2_grade.append('B')
+            if 8 <= n < 9:
+                test2_grade.append('A')
+            if 9 <= n <= 10:
+                test2_grade.append('S')
+        return test1_grade, test2_grade
+    else:
+        test2 = np.array(test2)
+        test3 = np.array(test3)
+        for i, n in enumerate(test1):
+            if n < 4:
+                test1_grade.append('F')
+            if 4 <= n < 5:
+                test1_grade.append('E')
+            if 5 <= n < 6:
+                test1_grade.append('D')
+            if 6 <= n < 7:
+                test1_grade.append('C')
+            if 7 <= n < 8:
+                test1_grade.append('B')
+            if 8 <= n < 9:
+                test1_grade.append('A')
+            if 9 <= n <= 10:
+                test1_grade.append('S')
+
+        for i, n in enumerate(test2):
+            if n < 4:
+                test2_grade.append('F')
+            if 4 <= n < 5:
+                test2_grade.append('E')
+            if 5 <= n < 6:
+                test2_grade.append('D')
+            if 6 <= n < 7:
+                test2_grade.append('C')
+            if 7 <= n < 8:
+                test2_grade.append('B')
+            if 8 <= n < 9:
+                test2_grade.append('A')
+            if 9 <= n < 11:
+                test2_grade.append('S')
+        for i, n in enumerate(test3):
+            if n < 4:
+                test3_grade.append('F')
+            if 4 <= n < 5:
+                test3_grade.append('E')
+            if 5 <= n < 6:
+                test3_grade.append('D')
+            if 6 <= n < 7:
+                test3_grade.append('C')
+            if 7 <= n < 8:
+                test3_grade.append('B')
+            if 8 <= n < 9:
+                test3_grade.append('A')
+            if 9 <= n <= 10:
+                test3_grade.append('S')
+        return test1_grade, test2_grade, test3_grade
+
+
+def find_frequency_grades(test1, test2=None, test3=None):
+    t1_fg_a = 0
+    t1_fg_b = 0
+    t1_fg_c = 0
+    t1_fg_d = 0
+    t1_fg_e = 0
+    t1_fg_f = 0
+    t1_fg_s = 0
+
+    t2_fg_a = 0
+    t2_fg_b = 0
+    t2_fg_c = 0
+    t2_fg_d = 0
+    t2_fg_f = 0
+    t2_fg_e = 0
+    t2_fg_s = 0
+
+    t3_fg_a = 0
+    t3_fg_b = 0
+    t3_fg_c = 0
+    t3_fg_d = 0
+    t3_fg_e = 0
+    t3_fg_f = 0
+    t3_fg_s = 0
+    if test2 is None:
+
+        for i in test1:
+            if i == 'E':
+                t1_fg_e = t1_fg_e + 1
+            elif i == 'F':
+                t1_fg_f = t1_fg_f + 1
+            elif i == 'A':
+                t1_fg_a = t1_fg_a + 1
+            elif i == 'B':
+                t1_fg_b = t1_fg_b + 1
+            elif i == 'C':
+                t1_fg_c = t1_fg_c + 1
+            elif i == 'D':
+                t1_fg_d = t1_fg_d + 1
+            elif i == 'S':
+                t1_fg_s = t1_fg_s + 1
+        return t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s
+
+    elif test3 is None:
+        for i in test1:
+            if i == 'E':
+                t1_fg_e = t1_fg_e + 1
+            elif i == 'F':
+                t1_fg_f = t1_fg_f + 1
+            elif i == 'A':
+                t1_fg_a = t1_fg_a + 1
+            elif i == 'B':
+                t1_fg_b = t1_fg_b + 1
+            elif i == 'C':
+                t1_fg_c = t1_fg_c + 1
+            elif i == 'D':
+                t1_fg_d = t1_fg_d + 1
+            elif i == 'S':
+                t1_fg_s = t1_fg_s + 1
+
+        for i in test2:
+            if i == 'E':
+                t2_fg_e = t2_fg_e + 1
+            elif i == 'F':
+                t2_fg_f = t2_fg_f + 1
+            elif i == 'A':
+                t2_fg_a = t2_fg_a + 1
+            elif i == 'B':
+                t2_fg_b = t2_fg_b + 1
+            elif i == 'C':
+                t2_fg_c = t2_fg_c + 1
+            elif i == 'D':
+                t2_fg_d = t2_fg_d + 1
+            elif i == 'S':
+                t2_fg_s = t2_fg_s + 1
+
+        return t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s, \
+                        t2_fg_a,t2_fg_b,t2_fg_c,t2_fg_d,t2_fg_e,t2_fg_f,t2_fg_s
+    else:
+        for i in test1:
+            if i == 'E':
+                t1_fg_e = t1_fg_e + 1
+            elif i == 'F':
+                t1_fg_f = t1_fg_f + 1
+            elif i == 'A':
+                t1_fg_a = t1_fg_a + 1
+            elif i == 'B':
+                t1_fg_b = t1_fg_b + 1
+            elif i == 'C':
+                t1_fg_c = t1_fg_c + 1
+            elif i == 'D':
+                t1_fg_d = t1_fg_d + 1
+            elif i == 'S':
+                t1_fg_s = t1_fg_s + 1
+
+        for i in test2:
+            if i == 'E':
+                t2_fg_e = t2_fg_e + 1
+            elif i == 'F':
+                t2_fg_f = t2_fg_f + 1
+            elif i == 'A':
+                t2_fg_a = t2_fg_a + 1
+            elif i == 'B':
+                t2_fg_b = t2_fg_b + 1
+            elif i == 'C':
+                t2_fg_c = t2_fg_c + 1
+            elif i == 'D':
+                t2_fg_d = t2_fg_d + 1
+            elif i == 'S':
+                t2_fg_s = t2_fg_s + 1
+        for i in test3:
+            if i == 'E':
+                t3_fg_e = t3_fg_e + 1
+            elif i == 'F':
+                t3_fg_f = t3_fg_f + 1
+            elif i == 'A':
+                t3_fg_a = t3_fg_a + 1
+            elif i == 'B':
+                t3_fg_b = t3_fg_b + 1
+            elif i == 'C':
+                t3_fg_c = t3_fg_c + 1
+            elif i == 'D':
+                t3_fg_d = t3_fg_d + 1
+            elif i == 'S':
+                t3_fg_s = t3_fg_s + 1
+        return t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s, \
+                t2_fg_a, t2_fg_b, t2_fg_c, t2_fg_d, t2_fg_e, t2_fg_f, t2_fg_s , \
+               t3_fg_a, t3_fg_b, t3_fg_c, t3_fg_d, t3_fg_e, t3_fg_f, t3_fg_s
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                # def create_teacher(num):
+                #     for i in range(3, num):
+                #         us = User.objects.create_user(username='teacher' + str(i),
+                #                                       email='teacher' + str(i) + '@gmail.com',
+                #                                       password='dnpandey')
+                #         us.save()
+                #         gr = Group.objects.get(name='Teachers')
+                #         gr.user_set.add(us)
+                #
+                #         teach = Teacher(teacheruser=us, experience=5, name=us.username)
+                #         teach.save()
+                #
+                #
+                # def create_student(num):
+                #     for i in range(4, num):
+                #         us = User.objects.create_user(username='student' + str(i),
+                #                                       email='studentss' + str(i) + '@gmail.com',
+                #                                       password='dnpandey')
+                #         us.save()
+                #         gr = Group.objects.get(name='Students')
+                #         gr.user_set.add(us)
+                #         cl = klass.objects.all()
+                #         classes = []
+                #         for k in cl:
+                #             classes.append(k)
+                #         stu = Student(studentuser=us, klass=classes[0], rollNumber=int(str(i) + '00'), name='stu' + str(i),
+                #                       dob=timezone.now(), pincode=int(str(405060)))
+                #         stu.save()
+                #         sub = Subject(name='Science', student=stu)
+                #         sub.save()
+
+
+def readmarks(user):
+    profile = user.student
+    subjects = user.student.subject_set.all()
+    mathst1, mathst2, mathst3, mathshy, \
+    mathst4, mathspredhy = [], [], [], [], [], []
+    hindit1, hindit2, hindit3, hindihy, hindit4, \
+    hindipredhy = [], [], [], [], [], []
+    englisht1, englisht2, englisht3, englishhy, \
+    englisht4, englishpredhy = [], [], [], [], [], []
+    sciencet1, sciencet2, sciencet3, sciencehy, \
+    sciencet4, sciencepredhy = [], [], [], [], [], []
+
+    for i in subjects:
+        if i.name == 'Maths':
+            mathst1.append(i.test1)
+            mathst2.append(i.test2)
+            mathst3.append(i.test3)
+            mathshy.append(i.hy)
+            mathst4.append(i.test4)
+            mathspredhy.append(i.predicted_hy)
+        elif i.name == 'Hindi':
+            hindit1.append(i.test1)
+            hindit2.append(i.test2)
+            hindit3.append(i.test3)
+            hindihy.append(i.hy)
+            hindit4.append(i.test4)
+            hindipredhy.append(i.predicted_hy)
+        elif i.name == 'English':
+            englisht1.append(i.test1)
+            englisht2.append(i.test2)
+            englisht3.append(i.test3)
+            englishhy.append(i.hy)
+            englisht4.append(i.test4)
+            englishpredhy.append(i.predicted_hy)
+        elif i.name == 'Science':
+            sciencet1.append(i.test1)
+            sciencet2.append(i.test2)
+            sciencet3.append(i.test3)
+            sciencehy.append(i.hy)
+            sciencet4.append(i.test4)
+            sciencepredhy.append(i.predicted_hy)
+
+    return mathst1, mathst2, mathst3, mathshy, mathst4, mathspredhy, \
+           hindit1, hindit2, hindit3, hindihy, hindit4, hindipredhy, \
+           englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
+           sciencet1, sciencet2, sciencet3, sciencehy, sciencet4, sciencepredhy
+update_all_predictedmarks()
