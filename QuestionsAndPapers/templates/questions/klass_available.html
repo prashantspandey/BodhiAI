@@ -1,0 +1,58 @@
+<html>
+<body>
+<head>
+<script>
+	
+ $(document).ready(function () {
+   var pr
+		 	for(i=1 ; i<=10; i++){
+		 	$(eval("'#chapterButton'+i")).click(function(){
+          chap = $(this).text();
+          which_klass = $('#which_klass').text()
+         $(this).removeClass("btn btn-default").addClass("btn btn-success");
+ 		  $('#allQuestions').removeClass("hidden");
+         $('#allQuestions').html('').load('{% url 'QuestionsAndPapers:createTest' %}?chapter_test='+encodeURIComponent(chap+','+which_klass));
+ $(this).animate({
+            height: '40px',
+            width: '60px',
+        });
+
+          $(eval("'#'+pr")).animate({
+            height: '35px',
+            width: '55px',
+        });
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+
+        $('#analysisType').removeClass('hidden');
+
+
+
+    pr = $(this).attr('id');
+         
+       
+		 });
+
+		 };
+});
+
+
+</script>
+</head>
+<div class="btn-group" role="group" aria-label="...">
+  <div class="panel-heading text-center">Chapters Available: </div>
+  {% for i in fin %}
+    <div class="panel-body" >
+  <button type="button" class="btn btn-default text-center" id="chapterButton{{forloop.counter}}">{{i}}</button>
+  </div>
+  {%endfor%}
+  <div class="hidden" id="which_klass">{{which_klass}}</div>
+</div>
+<div class="hidden panel panel-default" id="allQuestions" >
+  <div class="panel-heading text-center">Questions</div>
+  <div class="panel-body" >
+{%include 'questions/klass_questions.html' %}
+</div>
+</div>
+  
+</body>
+</html>

@@ -19,5 +19,7 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^bodhi/', include('basicinformation.urls')),
     url(r'^membership/', include('membership.urls')),
+    url(r'^questions/',include('QuestionsAndPapers.urls')),
+    url(r'^pMessages/',include('Private_Messages.urls')),
     url(r'^admin/', admin.site.urls),
 ]

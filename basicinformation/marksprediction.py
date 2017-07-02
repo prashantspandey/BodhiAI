@@ -2,36 +2,39 @@ import numpy as np
 import pickle
 from datetime import datetime, date
 from .models import Subject
+from more_itertools import unique_everseen
+
+ptp = '/home/prashant/Desktop/programming/projects/bod/src/bodhialgorithms/'
 
 '''
 load pickles for data transformation and prediction (hindi)
 '''
-pickle_in_hindi = open('F:\\bodhi.ai\\bodhialgorithms\\preprocesshindihy.pickle', 'rb')
-svm_pickle_hindi = open('F:\\bodhi.ai\\bodhialgorithms\\svmhindihhy.pickle', 'rb')
+pickle_in_hindi = open('/home/prashant/Desktop/programming/projects/bod/src/bodhialgorithms/preprocesshindihy.pickle', 'rb')
+svm_pickle_hindi = open('/home/prashant/Desktop/programming/projects/bod/src/bodhialgorithms/svmhindihhy.pickle', 'rb')
 sca_hindi = pickle.load(pickle_in_hindi)
 svmhindihhy = pickle.load(svm_pickle_hindi)
 
 '''
 load pickles for data transformation and prediction (maths)
 '''
-pickle_in_maths = open('F:\\bodhi.ai\\bodhialgorithms\\preprocesshindihy.pickle', 'rb')
-knn7_pickle_maths = open('F:\\bodhi.ai\\bodhialgorithms\\svmhindihhy.pickle', 'rb')
+pickle_in_maths = open(ptp+'preprocesshindihy.pickle', 'rb')
+knn7_pickle_maths = open(ptp+'svmhindihhy.pickle', 'rb')
 sca_maths = pickle.load(pickle_in_maths)
 knn7mathshhy = pickle.load(knn7_pickle_maths)
 
 '''
 load pickles for data transformation and prediction (english)
 '''
-pickle_in_english = open('F:\\bodhi.ai\\bodhialgorithms\\preprocesshindihy.pickle', 'rb')
-knn7_pickle_english = open('F:\\bodhi.ai\\bodhialgorithms\\svmhindihhy.pickle', 'rb')
+pickle_in_english = open(ptp+'preprocesshindihy.pickle', 'rb')
+knn7_pickle_english = open(ptp+'svmhindihhy.pickle', 'rb')
 sca_english = pickle.load(pickle_in_english)
 knn7englishhhy = pickle.load(knn7_pickle_english)
 
 '''
 load pickles for data transformation and prediction (science)
 '''
-pickle_in_science = open('F:\\bodhi.ai\\bodhialgorithms\\preprocesshindihy.pickle', 'rb')
-knn7_pickle_science = open('F:\\bodhi.ai\\bodhialgorithms\\svmhindihhy.pickle', 'rb')
+pickle_in_science = open(ptp+'preprocesshindihy.pickle', 'rb')
+knn7_pickle_science = open(ptp+'svmhindihhy.pickle', 'rb')
 sca_science = pickle.load(pickle_in_science)
 knn7sciencehhy = pickle.load(knn7_pickle_science)
 
@@ -205,10 +208,10 @@ def predictionConvertion(prediction):
 
 def update_all_predictedmarks():
     subject = Subject.objects.all()
-    alluniquestudents = set()
-
+    alluniquestudents = []
+    alluniquestudents = list(unique_everseen(alluniquestudents))
     for i in subject:
-        alluniquestudents.add(i.student)
+        alluniquestudents.append(i.student)
     allsubjects = []
     for j in alluniquestudents:
         allsubjects.extend(j.subject_set.all())
@@ -309,13 +312,14 @@ def teacher_get_students_classwise(req):
     profile = user.teacher
     subject = profile.subject_set.all()
 
-    allstudents = []  # list for subjects of all students (taught by the teacher)
+    allstudents = []  # list of subjects of all students (taught by the teacher)
     klass_dict = {}  # dictionary for subjects of individual classes
-    all_klasses = set()  # set of all unique classes taught by the teacher
+    all_klasses = [] # list of all unique classes taught by the teacher
+    all_klasses = list(unique_everseen(all_klasses))
 
     for i in subject:
         allstudents.append(i)
-        all_klasses.add(str(i.student.klass))
+        all_klasses.append(str(i.student.klass))
 
     # fill out the dictionary for subjects of each class
     for k in all_klasses:
@@ -395,50 +399,33 @@ def teacher_get_classwise_listofStudents(request, studict):
     return nine_a, nine_b
 
 
-def teacher_listofStudents(profile):
-    nine_a = []
-    nine_b = []
-    subject9a = profile.subject_set.filter(student__klass__name='9th a')
-    subject9b = profile.subject_set.filter(student__klass__name='9th b')
-    if not subject9a:
+def teacher_listofStudents(profile,klass):
+    listofstudents = []
+    subject_list = profile.subject_set.filter(student__klass__name=klass)
+    for i in subject_list:
+        listofstudents.append(i)
+    return listofstudents
+    
+
+def teacher_listofStudentsMarks(profile,which_class):
+    marks_class_test1 = []
+    marks_class_test2 = []
+    marks_class_test3 = []
+    marks_class_predictedHy =[]
+    sub_class = profile.subject_set.filter(student__klass__name=which_class)
+    if not sub_class:
         pass
     else:
-        for i in subject9a:
-            nine_a.append(i)
-
-    if not subject9b:
-        pass
-    else:
-        for i in subject9b:
-            nine_b.append(i)
-    return nine_a, nine_b
-
-
-def teacher_listofStudentsMarks(profile):
-    nine_a_test1 = []
-    nine_b_test1 = []
-    nine_a_test2 = []
-    nine_b_test2 = []
-    nine_a_test3 = []
-    nine_b_test3 = []
-    subject9a = profile.subject_set.filter(student__klass__name='9th a')
-    subject9b = profile.subject_set.filter(student__klass__name='9th b')
-    if not subject9a:
-        pass
-    else:
-        for i in subject9a:
-            nine_a_test1.append(i.test1)
-            nine_a_test2.append(i.test2)
-            nine_a_test3.append(i.test3)
-
-    if not subject9b:
-        pass
-    else:
-        for i in subject9b:
-            nine_b_test1.append(i.test1)
-            nine_b_test2.append(i.test2)
-            nine_b_test3.append(i.test3)
-    return nine_a_test1, nine_b_test1, nine_a_test2, nine_b_test2, nine_a_test3, nine_b_test3
+        for i in sub_class:
+            if i.test1:
+                marks_class_test1.append(i.test1)
+            if i.test2:
+                marks_class_test2.append(i.test2)
+            if i.test3:
+                marks_class_test3.append(i.test3)
+            if i.predicted_hy:
+                marks_class_predictedHy.append(i.predicted_hy)
+    return marks_class_test1,marks_class_test2,marks_class_test3,marks_class_predictedHy
 
 
 def find_grade_from_marks(test1, test2=None, test3=None):
@@ -550,6 +537,25 @@ def find_grade_from_marks(test1, test2=None, test3=None):
                 test3_grade.append('S')
         return test1_grade, test2_grade, test3_grade
 
+def find_grade_fromMark_predicted(predicted):
+    predicted = np.array(predicted)
+    retpred = []
+    for i,n in enumerate(predicted):
+        if n == 0:
+            retpred.append('F')
+        elif n == 1:
+            retpred.append('E')
+        elif n == 2:
+            retpred.append('D')
+        elif n == 3:
+            retpred.append('C')
+        elif n == 4:
+            retpred.append('B')
+        elif n == 5:
+            retpred.append('A')
+        elif n == 6:
+            retpred.append('S')
+    return retpred
 
 def find_frequency_grades(test1, test2=None, test3=None):
     t1_fg_a = 0
@@ -773,4 +779,3 @@ def readmarks(user):
            hindit1, hindit2, hindit3, hindihy, hindit4, hindipredhy, \
            englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
            sciencet1, sciencet2, sciencet3, sciencehy, sciencet4, sciencepredhy
-update_all_predictedmarks()

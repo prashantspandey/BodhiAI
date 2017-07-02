@@ -31,7 +31,6 @@ class Student(models.Model):
 
 class Teacher(models.Model):
     teacheruser = models.OneToOneField(User,blank=True,null=True)
-
     name = models.CharField(max_length=200)
     experience = models.FloatField()
 
@@ -59,4 +58,5 @@ class Subject(models.Model):
         return self.name
 
 
+    
 

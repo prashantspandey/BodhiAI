@@ -14,7 +14,8 @@
 
         for(i=1 ; i<=10; i++){
          $(eval("'#classButton'+i")).click(function(){
-         var ajKl = $(this).text();
+          ajKl = $(this).text();
+	  console.log($(this).val())
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
          $('.cont').removeClass("hidden");
          $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?ajKlass='+encodeURIComponent(ajKl));
@@ -41,23 +42,23 @@
  $('#analysisAverageCurrent').click(function(){
     async: false
      var analysisClass
-    if (pr == 'classButton1'){
 
-        analysisClass = '9th b';
-    }else if (pr == 'classButton2'){
 
-        analysisClass = '9th a';
-        }
-        else{
-
-        analysisClass = 'none';
-        }
 
         $('.cont').removeClass("hidden");
-      $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?ajKlass='+encodeURIComponent(analysisClass)+'relativeaveragescurrent');
+      $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?ajKlass='+encodeURIComponent(ajKl)+'relativeaveragescurrent');
 
     });
+    $('#analysisAveragePredicted').click(function(){
+    async: false
+     var analysisClass
 
+
+
+        $('.cont').removeClass("hidden");
+      $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?ajKlass='+encodeURIComponent(ajKl)+'relativeaveragespredicted');
+
+    });
 
 
          });
@@ -78,7 +79,7 @@
 {% for i in klasses %}
 
 <div class="btn-group" role="group" aria-label="...">
-  <button type="button" class="btn btn-default text-center" id="classButton{{forloop.counter}}">{{i}}</button>
+	<button type="button" class="btn btn-default text-center" value ="{{i}}" id="classButton{{forloop.counter}}">{{i}}</button>
 </div>
 
 {%endfor%}
@@ -111,6 +112,7 @@
 <div class="hidden cont">
     {%include 'basicinformation/teacher_relative_averages_current.html' %}
     {%include 'basicinformation/teacher_update_page.html' %}
+     {%include 'basicinformation/teacher_relative_averages_predicted.html' %}
 
 
 

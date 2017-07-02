@@ -21,7 +21,9 @@
   <li role="presentation" class="active"><a href="{%url 'basic:home' %}">Home</a></li>
   <li role="presentation"><a href="{%url 'membership:login' %}">Log In</a></li>
   <li role="presentation"><a href="{%url 'membership:logout' %}">Logout</a></li>
-
+  <li role="presentation"><a href="{%url 'pms:messages' %}">Messages</a></li>
+  <li role="presentation"><a href="{% if isTeacher %} {% url 'basic:teacherHomePage' %}{%else%}{%url 'basic:studentAnalysis' %}{%endif%}">{%if isTeacher %} Student Performance {%else%} My Performance {%endif%}</a></li>
+  
 </ul>
 {%block content %}
 

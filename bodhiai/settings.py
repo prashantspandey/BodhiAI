@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'basicinformation',
     'membership',
+    'QuestionsAndPapers',
+    'Private_Messages'
 ]
 
 MIDDLEWARE = [
@@ -78,9 +80,11 @@ WSGI_APPLICATION = 'bodhiai.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bodhiai',
+        'NAME': 'bodhiai2',
+        'HOST':'localhost',        
         'USER':'postgres',
-        'PASSWORD':'dnpandey'
+        'PASSWORD':'dnpandey',
+        
     }
 }
 
