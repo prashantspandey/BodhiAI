@@ -1,0 +1,50 @@
+{% extends 'basicinformation/base.html' %}
+
+<html>
+	<head>
+		<title>
+			Analysis
+		</title>
+
+		{% block scripts %}
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+	<script>
+         $(document).ready(function () {
+	for(i=1;i<=20;i++){
+         $(eval("'#subjectButton'+i")).click(function(){
+		var subject_name = $(this).val()
+		console.log(subject_name)
+		$('.cont').removeClass('hidden')
+		$('.cont').html('').load('{% url 'basic:studentSubjectAnalysis' %}?subject_name='+subject_name);
+
+	 });	
+	 };
+	 });
+
+	</script>
+
+		{%endblock%}
+	</head>
+	<body>
+		{% block content %}
+		<br>
+<div class="panel panel-default">
+  <div class="panel-heading text-center">Choose a Subject:</div>
+  <div class="panel-body">
+{% for i in allSubjects %}
+
+<div class="btn-group" role="group" aria-label="...">
+	<button type="button" class="btn btn-default text-center" value ="{{i}}" id="subjectButton{{forloop.counter}}">{{i}}</button>
+</div>
+
+{%endfor%}
+        </div>
+	<div class="hidden cont">
+		{% include 'basicinformation/studentAverageCurrent.html' %}
+	</div>
+		{%endblock%}
+
+	</body>
+
+</html>
