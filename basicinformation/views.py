@@ -16,12 +16,16 @@ def home(request):
 
         if user.groups.filter(name='Students').exists():
             profile = user.student
+<<<<<<< HEAD
             me = Studs(request.user)
+=======
+>>>>>>> 5320e0a2f8de669ff202dc1b9767d4f6dc29e083
             subjects = user.student.subject_set.all()
             teacher_name = {}
             for sub in subjects:
                 teacher_name[sub.name] = sub.teacher
                 print('%s teaches --'%sub.teacher,sub.name)
+<<<<<<< HEAD
             #retrieve all marks from database
             mathst1, mathst2, mathst3, mathshy, \
             mathst4, mathspredhy = [], [], [], [], [], []
@@ -42,6 +46,20 @@ def home(request):
             englishpredhy = me.predictionConvertion(englishpredhy)
             sciencepredhy = me.predictionConvertion(sciencepredhy)
             # sending all values to template
+=======
+            # retrieve all marks from database
+            mathst1, mathst2, mathst3, mathshy, mathst4, mathspredhy, \
+            hindit1, hindit2, hindit3, hindihy, hindit4, hindipredhy, \
+            englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
+            sciencet1, sciencet2, sciencet3, sciencehy, sciencet4, sciencepredhy = readmarks(
+                user)
+            print(mathst1,sciencet1)
+            hindipredhy = predictionConvertion(hindipredhy)
+            mathspredhy = predictionConvertion(mathspredhy)
+            englishpredhy = predictionConvertion(englishpredhy)
+            sciencepredhy = predictionConvertion(sciencepredhy)
+
+>>>>>>> 5320e0a2f8de669ff202dc1b9767d4f6dc29e083
             context = {'profile': profile, 'subjects': subjects,
                        'hindihy_prediction': hindipredhy,
                        'mathshy_prediction': mathspredhy,
@@ -57,13 +75,31 @@ def home(request):
             return render(request, 'basicinformation/student.html', context)
 
         elif user.groups.filter(name='Teachers').exists():
+<<<<<<< HEAD
             me = Teach(user)
             profile = user.teacher
+=======
+            profile = user.teacher
+            #create_student(50,request)
+>>>>>>> 5320e0a2f8de669ff202dc1b9767d4f6dc29e083
             subject = profile.subject_set.all()
             allstudents = []
             for i in subject:
                 allstudents.append(i)
             st = []
+<<<<<<< HEAD
+=======
+            #for stu in allstudents:
+            #    if stu.test1:
+            #        st.append(stu.test1)
+            #    if stu.test2:
+            #        st.append(stu.test2)
+            #    if stu.test1:
+            #        st.append(stu.test3)
+            #    if stu.testhy:
+            #        st.append(stu.testhy)
+
+>>>>>>> 5320e0a2f8de669ff202dc1b9767d4f6dc29e083
 
 
             context = {'profile': profile, 'allstudents': allstudents,
@@ -80,8 +116,16 @@ def student_self_analysis(request):
         if user.groups.filter(name='Teachers').exists():
             raise Http404(" This page is only meant for student to see.")
         elif user.groups.filter(name='Students').exists():
+<<<<<<< HEAD
             me = Studs(user)
             allSubjects = me.my_subjects_objects()
+=======
+            profile = user.student
+            subjects = profile.subject_set.all()
+            allSubjects = []
+            for i in subjects:
+                allSubjects.append(i)
+>>>>>>> 5320e0a2f8de669ff202dc1b9767d4f6dc29e083
             context = {'allSubjects':allSubjects}
             return render(request,'basicinformation/selfStudentAnalysis.html',context)
 def student_subject_analysis(request):

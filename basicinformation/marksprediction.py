@@ -773,11 +773,17 @@ def readmarks(user):
             sciencet3.append(i.test3)
             sciencehy.append(i.hy)
             sciencet4.append(i.test4)
+<<<<<<< HEAD
             
+=======
+            sciencepredhy.append(i.predicted_hy)
+
+>>>>>>> 5320e0a2f8de669ff202dc1b9767d4f6dc29e083
     return mathst1, mathst2, mathst3, mathshy, mathst4, mathspredhy, \
            hindit1, hindit2, hindit3, hindihy, hindit4, hindipredhy, \
            englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
            sciencet1, sciencet2, sciencet3, sciencehy, sciencet4, sciencepredhy
+<<<<<<< HEAD
 
 
 # class way
@@ -948,3 +954,5 @@ class Teach:
             klass_test2_dict.update(testm2)
             klass_test3_dict.update(testm3)
         return klass_test1_dict, klass_test2_dict, klass_test2_dict
+=======
+>>>>>>> 5320e0a2f8de669ff202dc1b9767d4f6dc29e083

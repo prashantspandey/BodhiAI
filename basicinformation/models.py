@@ -33,8 +33,12 @@ class Teacher(models.Model):
     teacheruser = models.OneToOneField(User,blank=True,null=True)
     name = models.CharField(max_length=200)
     experience = models.FloatField()
+<<<<<<< HEAD
     school = models.ForeignKey(School)
     
+=======
+
+>>>>>>> 5320e0a2f8de669ff202dc1b9767d4f6dc29e083
     def __str__(self):
         return self.name
 
