@@ -16,23 +16,32 @@ def home(request):
 
         if user.groups.filter(name='Students').exists():
             profile = user.student
+            me = Studs(request.user)
             subjects = user.student.subject_set.all()
             teacher_name = {}
             for sub in subjects:
                 teacher_name[sub.name] = sub.teacher
                 print('%s teaches --'%sub.teacher,sub.name)
-            # retrieve all marks from database
+            #retrieve all marks from database
+            mathst1, mathst2, mathst3, mathshy, \
+            mathst4, mathspredhy = [], [], [], [], [], []
+            hindit1, hindit2, hindit3, hindihy, hindit4, \
+            hindipredhy = [], [], [], [], [], []
+            englisht1, englisht2, englisht3, englishhy, \
+            englisht4, englishpredhy = [], [], [], [], [], []
+            sciencet1, sciencet2, sciencet3, sciencehy, \
+            sciencet4, sciencepredhy = [], [], [], [], [], []
             mathst1, mathst2, mathst3, mathshy, mathst4, mathspredhy, \
             hindit1, hindit2, hindit3, hindihy, hindit4, hindipredhy, \
             englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
-            sciencet1, sciencet2, sciencet3, sciencehy, sciencet4, sciencepredhy = readmarks(
-                user)
-            print(mathst1,sciencet1)
-            hindipredhy = predictionConvertion(hindipredhy)
-            mathspredhy = predictionConvertion(mathspredhy)
-            englishpredhy = predictionConvertion(englishpredhy)
-            sciencepredhy = predictionConvertion(sciencepredhy)
-
+            sciencet1, sciencet2, sciencet3, sciencehy, sciencet4,
+            sciencepredhy = me.readmarks()
+            # find the predicted marks
+            hindipredhy = me.predictionConvertion(hindipredhy)
+            mathspredhy = me.predictionConvertion(mathspredhy)
+            englishpredhy = me.predictionConvertion(englishpredhy)
+            sciencepredhy = me.predictionConvertion(sciencepredhy)
+            # sending all values to template
             context = {'profile': profile, 'subjects': subjects,
                        'hindihy_prediction': hindipredhy,
                        'mathshy_prediction': mathspredhy,
@@ -48,23 +57,13 @@ def home(request):
             return render(request, 'basicinformation/student.html', context)
 
         elif user.groups.filter(name='Teachers').exists():
+            me = Teach(user)
             profile = user.teacher
-            #create_student(50,request)
             subject = profile.subject_set.all()
             allstudents = []
             for i in subject:
                 allstudents.append(i)
             st = []
-            #for stu in allstudents:
-            #    if stu.test1:
-            #        st.append(stu.test1)
-            #    if stu.test2:
-            #        st.append(stu.test2)
-            #    if stu.test1:
-            #        st.append(stu.test3)
-            #    if stu.testhy:
-            #        st.append(stu.testhy)
-
 
 
             context = {'profile': profile, 'allstudents': allstudents,
@@ -81,11 +80,8 @@ def student_self_analysis(request):
         if user.groups.filter(name='Teachers').exists():
             raise Http404(" This page is only meant for student to see.")
         elif user.groups.filter(name='Students').exists():
-            profile = user.student
-            subjects = profile.subject_set.all()
-            allSubjects = []
-            for i in subjects:
-                allSubjects.append(i)
+            me = Studs(user)
+            allSubjects = me.my_subjects_objects()
             context = {'allSubjects':allSubjects}
             return render(request,'basicinformation/selfStudentAnalysis.html',context)
 def student_subject_analysis(request):

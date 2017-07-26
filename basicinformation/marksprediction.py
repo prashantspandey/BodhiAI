@@ -773,9 +773,178 @@ def readmarks(user):
             sciencet3.append(i.test3)
             sciencehy.append(i.hy)
             sciencet4.append(i.test4)
-            sciencepredhy.append(i.predicted_hy)
-
+            
     return mathst1, mathst2, mathst3, mathshy, mathst4, mathspredhy, \
            hindit1, hindit2, hindit3, hindihy, hindit4, hindipredhy, \
            englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
            sciencet1, sciencet2, sciencet3, sciencehy, sciencet4, sciencepredhy
+
+
+# class way
+
+class Studs:
+
+
+    def __init__(self,user):
+        self.profile = user.student
+
+
+    def my_subjects_objects(self):
+        subs = self.profile.subject_set.all()
+        subjects = []
+        for sub in subs:
+            subjects.append(sub)
+        return subjects
+
+    def my_subjects_names(self):
+        subs = self.profile.subject_set.all()
+        subjects = []
+        for sub in subs:
+            subjects.append(sub.name)
+        subjects = list(unique_everseen(subjects))
+        return subjects
+    def readmarks(self):
+        subjects = self.profile.subject_set.all()
+        mathst1, mathst2, mathst3, mathshy, \
+        mathst4, mathspredhy = [], [], [], [], [], []
+        hindit1, hindit2, hindit3, hindihy, hindit4, \
+        hindipredhy = [], [], [], [], [], []
+        englisht1, englisht2, englisht3, englishhy, \
+        englisht4, englishpredhy = [], [], [], [], [], []
+        sciencet1, sciencet2, sciencet3, sciencehy, \
+        sciencet4, sciencepredhy = [], [], [], [], [], []
+
+        for i in subjects:
+            if i.name == 'Maths':
+                mathst1.append(i.test1)
+                print(i.test1)
+                mathst2.append(i.test2)
+                mathst3.append(i.test3)
+                mathshy.append(i.hy)
+                mathst4.append(i.test4)
+                mathspredhy.append(i.predicted_hy)
+            elif i.name == 'Hindi':
+                hindit1.append(i.test1)
+                hindit2.append(i.test2)
+                hindit3.append(i.test3)
+                hindihy.append(i.hy)
+                hindit4.append(i.test4)
+                hindipredhy.append(i.predicted_hy)
+            elif i.name == 'English':
+                englisht1.append(i.test1)
+                englisht2.append(i.test2)
+                englisht3.append(i.test3)
+                englishhy.append(i.hy)
+                englisht4.append(i.test4)
+                englishpredhy.append(i.predicted_hy) 
+            elif i.name == 'Science':
+                sciencet1.append(i.test1)
+                sciencet2.append(i.test2)
+                sciencet3.append(i.test3)
+                sciencehy.append(i.hy)
+                sciencet4.append(i.test4)
+            return mathst1, mathst2, mathst3, mathshy, mathst4, mathspredhy, \
+               hindit1, hindit2, hindit3, hindihy, hindit4, hindipredhy, \
+               englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
+               sciencet1, sciencet2, sciencet3, sciencehy, sciencet4, sciencepredhy
+    def predictionConvertion(self,prediction):
+        try:
+            prediction = prediction[0]
+        except:
+            pass
+
+        if prediction == 0:
+            conversion = 35
+        elif prediction == 1:
+            conversion = 45
+        elif prediction == 2:
+            conversion = 55
+        elif prediction == 3:
+            conversion = 65
+        elif prediction == 4:
+            conversion = 75
+        elif prediction == 5:
+            conversion = 85
+        elif prediction == 6:
+            conversion = 95
+        else:
+            conversion = '404'
+        return conversion
+
+class Teach:
+
+    def __init__(self,user):
+        profile = self.user.teacher
+
+
+    def my_classes_objects(self):
+        subs = self.profile.subject_set.all()
+        if subs:
+            klasses = []
+            for sub in subs:
+                klasses.append(sub.student.klass)
+            return klasses            
+        else:
+            return None
+    def my_classes_names(self):
+        subs = self.profile.subject_set.all()
+        if subs:
+            klasses = []
+            for sub in subs:
+                klasses.append(sub.student.klass.name)
+            klasses = list(unique_everseen(klasses))
+            return klasses            
+        else:
+            return None
+
+    def listofStudents(profile,klass):
+        listofstudents = []
+        subject_list = profile.subject_set.filter(student__klass__name=klass)
+        for i in subject_list:
+            listofstudents.append(i)
+        return listofstudents
+
+    def listofStudentsMarks(profile,which_class):
+        marks_class_test1 = []
+        marks_class_test2 = []
+        marks_class_test3 = []
+        marks_class_predictedHy =[]
+        sub_class = profile.subject_set.filter(student__klass__name=which_class)
+        if not sub_class:
+            pass
+        else:
+            for i in sub_class:
+                if i.test1:
+                    marks_class_test1.append(i.test1)
+                if i.test2:
+                    marks_class_test2.append(i.test2)
+                if i.test3:
+                    marks_class_test3.append(i.test3)
+                if i.predicted_hy:
+                    marks_class_predictedHy.append(i.predicted_hy)
+        return marks_class_test1,marks_class_test2,marks_class_test3,marks_class_predictedHy
+
+    def teacher_get_testmarks_classwise(req, klass_dict):
+        klass_test1_dict = {}  # dictionary to hold test1 marks of different classes
+        klass_test2_dict = {}
+        klass_test3_dict = {}
+
+        # fill out the above dictionaries
+
+        for i in klass_dict.values():
+            kk = i
+            klasstest1 = []
+            klasstest2 = []
+            klasstest3 = []
+
+            for j in kk:
+                klasstest1.append(j.test1)
+                klasstest2.append(j.test2)
+                klasstest3.append(j.test3)
+                testm1 = {str(j.student.klass): klasstest1}
+                testm2 = {str(j.student.klass): klasstest2}
+                testm3 = {str(j.student.klass): klasstest3}
+            klass_test1_dict.update(testm1)
+            klass_test2_dict.update(testm2)
+            klass_test3_dict.update(testm3)
+        return klass_test1_dict, klass_test2_dict, klass_test2_dict
