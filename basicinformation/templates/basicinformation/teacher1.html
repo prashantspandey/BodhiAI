@@ -1,0 +1,33 @@
+{%extends 'basicinformation/base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{%block title%}Teacher{%endblock%}</title>
+{%block scripts %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+{%endblock%}
+
+</head>
+<body>
+	{% block content %}
+<h1>Teacher Page</h1>
+<h2>{{profile.name}}</h2>
+
+<div class='well'>
+	<h3> You teach {{num_klasses}} classes at {{profile.school}}</h3>
+	{% for kl in klasses %}
+	<h4> {{kl}} </h4>
+	{%endfor%}
+</div>
+
+<div class='well'>
+	<h3> You teach {{num_subjects}} subjects </h3>
+	{% for sub in subjects %}
+	<h4> {{sub}} </h4>
+	{%endfor%}
+</div>
+	{%endblock%}
+</body>
+</html>

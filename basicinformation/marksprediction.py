@@ -733,57 +733,53 @@ def find_frequency_grades(test1, test2=None, test3=None):
                 #         sub.save()
 
 
-def readmarks(user):
-    profile = user.student
-    subjects = user.student.subject_set.all()
-    mathst1, mathst2, mathst3, mathshy, \
-    mathst4, mathspredhy = [], [], [], [], [], []
-    hindit1, hindit2, hindit3, hindihy, hindit4, \
-    hindipredhy = [], [], [], [], [], []
-    englisht1, englisht2, englisht3, englishhy, \
-    englisht4, englishpredhy = [], [], [], [], [], []
-    sciencet1, sciencet2, sciencet3, sciencehy, \
-    sciencet4, sciencepredhy = [], [], [], [], [], []
+#def readmarks(user):
+#    profile = user.student
+#    subjects = user.student.subject_set.all()
+#    mathst1, mathst2, mathst3, mathshy, \
+#    mathst4, mathspredhy = [], [], [], [], [], []
+#    hindit1, hindit2, hindit3, hindihy, hindit4, \
+#    hindipredhy = [], [], [], [], [], []
+#    englisht1, englisht2, englisht3, englishhy, \
+#    englisht4, englishpredhy = [], [], [], [], [], []
+#    sciencet1, sciencet2, sciencet3, sciencehy, \
+#    sciencet4, sciencepredhy = [], [], [], [], [], []
+#
+#    for i in subjects:
+#        if i.name == 'Maths':
+#            mathst1.append(i.test1)
+#            mathst2.append(i.test2)
+#            mathst3.append(i.test3)
+#            mathshy.append(i.hy)
+#            mathst4.append(i.test4)
+#            mathspredhy.append(i.predicted_hy)
+#        elif i.name == 'Hindi':
+#            hindit1.append(i.test1)
+#            hindit2.append(i.test2)
+#            hindit3.append(i.test3)
+#            hindihy.append(i.hy)
+#            hindit4.append(i.test4)
+#            hindipredhy.append(i.predicted_hy)
+#        elif i.name == 'English':
+#            englisht1.append(i.test1)
+#            englisht2.append(i.test2)
+#            englisht3.append(i.test3)
+#            englishhy.append(i.hy)
+#            englisht4.append(i.test4)
+#            englishpredhy.append(i.predicted_hy)
+#        elif i.name == 'Science':
+#            sciencet1.append(i.test1)
+#            sciencet2.append(i.test2)
+#            sciencet3.append(i.test3)
+#            sciencehy.append(i.hy)
+#            sciencet4.append(i.test4)
+#            
+#            sciencepredhy.append(i.predicted_hy)
 
-    for i in subjects:
-        if i.name == 'Maths':
-            mathst1.append(i.test1)
-            mathst2.append(i.test2)
-            mathst3.append(i.test3)
-            mathshy.append(i.hy)
-            mathst4.append(i.test4)
-            mathspredhy.append(i.predicted_hy)
-        elif i.name == 'Hindi':
-            hindit1.append(i.test1)
-            hindit2.append(i.test2)
-            hindit3.append(i.test3)
-            hindihy.append(i.hy)
-            hindit4.append(i.test4)
-            hindipredhy.append(i.predicted_hy)
-        elif i.name == 'English':
-            englisht1.append(i.test1)
-            englisht2.append(i.test2)
-            englisht3.append(i.test3)
-            englishhy.append(i.hy)
-            englisht4.append(i.test4)
-            englishpredhy.append(i.predicted_hy)
-        elif i.name == 'Science':
-            sciencet1.append(i.test1)
-            sciencet2.append(i.test2)
-            sciencet3.append(i.test3)
-            sciencehy.append(i.hy)
-            sciencet4.append(i.test4)
-<<<<<<< HEAD
-            
-=======
-            sciencepredhy.append(i.predicted_hy)
-
->>>>>>> 5320e0a2f8de669ff202dc1b9767d4f6dc29e083
     return mathst1, mathst2, mathst3, mathshy, mathst4, mathspredhy, \
            hindit1, hindit2, hindit3, hindihy, hindit4, hindipredhy, \
            englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
            sciencet1, sciencet2, sciencet3, sciencehy, sciencet4, sciencepredhy
-<<<<<<< HEAD
 
 
 # class way
@@ -880,10 +876,21 @@ class Studs:
 class Teach:
 
     def __init__(self,user):
-        profile = self.user.teacher
+        self.profile = user.teacher
 
 
-    def my_classes_objects(self):
+    def my_classes_objects(self,klass_name=None):
+        if klass_name:
+            subs = self.profile.subject_set.all()
+            if subs:
+                klasses = []
+                for sub in subs:
+                    if sub.student.klass.name == klass_name:
+                        klasses.append(sub.student.klass)
+                return klasses[0]            
+            else:
+                return None
+
         subs = self.profile.subject_set.all()
         if subs:
             klasses = []
@@ -902,20 +909,33 @@ class Teach:
             return klasses            
         else:
             return None
+    def my_subjects_names(self):
+        subs = self.profile.subject_set.all()
+        subjects = []
+        for i in subs:
+            subjects.append(i.name)
+        subjects = list(unique_everseen(subjects))
+        return subjects
+    def my_school(self):
+        school = self.profile.school
+        return school
 
-    def listofStudents(profile,klass):
+
+
+    def listofStudents(self,klass):
         listofstudents = []
-        subject_list = profile.subject_set.filter(student__klass__name=klass)
+        subject_list = self.profile.subject_set.filter(student__klass__name=klass)
         for i in subject_list:
-            listofstudents.append(i)
+            listofstudents.append(i.student)
         return listofstudents
 
-    def listofStudentsMarks(profile,which_class):
+    def listofStudentsMarks(self,which_class):
         marks_class_test1 = []
         marks_class_test2 = []
         marks_class_test3 = []
         marks_class_predictedHy =[]
-        sub_class = profile.subject_set.filter(student__klass__name=which_class)
+        sub_class = self.profile.subject_set.filter(student__klass__name=which_class)
+        print(sub_class)
         if not sub_class:
             pass
         else:
@@ -954,5 +974,267 @@ class Teach:
             klass_test2_dict.update(testm2)
             klass_test3_dict.update(testm3)
         return klass_test1_dict, klass_test2_dict, klass_test2_dict
-=======
->>>>>>> 5320e0a2f8de669ff202dc1b9767d4f6dc29e083
+
+    def find_frequency_grades(self,test1, test2=None, test3=None):
+        t1_fg_a = 0
+        t1_fg_b = 0
+        t1_fg_c = 0
+        t1_fg_d = 0
+        t1_fg_e = 0
+        t1_fg_f = 0
+        t1_fg_s = 0
+
+        t2_fg_a = 0
+        t2_fg_b = 0
+        t2_fg_c = 0
+        t2_fg_d = 0
+        t2_fg_f = 0
+        t2_fg_e = 0
+        t2_fg_s = 0
+
+        t3_fg_a = 0
+        t3_fg_b = 0
+        t3_fg_c = 0
+        t3_fg_d = 0
+        t3_fg_e = 0
+        t3_fg_f = 0
+        t3_fg_s = 0
+        if test2 is None:
+
+            for i in test1:
+                if i == 'E':
+                    t1_fg_e = t1_fg_e + 1
+                elif i == 'F':
+                    t1_fg_f = t1_fg_f + 1
+                elif i == 'A':
+                    t1_fg_a = t1_fg_a + 1
+                elif i == 'B':
+                    t1_fg_b = t1_fg_b + 1
+                elif i == 'C':
+                    t1_fg_c = t1_fg_c + 1
+                elif i == 'D':
+                    t1_fg_d = t1_fg_d + 1
+                elif i == 'S':
+                    t1_fg_s = t1_fg_s + 1
+            return t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s
+
+        elif test3 is None:
+            for i in test1:
+                if i == 'E':
+                    t1_fg_e = t1_fg_e + 1
+                elif i == 'F':
+                    t1_fg_f = t1_fg_f + 1
+                elif i == 'A':
+                    t1_fg_a = t1_fg_a + 1
+                elif i == 'B':
+                    t1_fg_b = t1_fg_b + 1
+                elif i == 'C':
+                    t1_fg_c = t1_fg_c + 1
+                elif i == 'D':
+                    t1_fg_d = t1_fg_d + 1
+                elif i == 'S':
+                    t1_fg_s = t1_fg_s + 1
+
+            for i in test2:
+                if i == 'E':
+                    t2_fg_e = t2_fg_e + 1
+                elif i == 'F':
+                    t2_fg_f = t2_fg_f + 1
+                elif i == 'A':
+                    t2_fg_a = t2_fg_a + 1
+                elif i == 'B':
+                    t2_fg_b = t2_fg_b + 1
+                elif i == 'C':
+                    t2_fg_c = t2_fg_c + 1
+                elif i == 'D':
+                    t2_fg_d = t2_fg_d + 1
+                elif i == 'S':
+                    t2_fg_s = t2_fg_s + 1
+
+            return t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s, \
+                            t2_fg_a,t2_fg_b,t2_fg_c,t2_fg_d,t2_fg_e,t2_fg_f,t2_fg_s
+        else:
+            for i in test1:
+                if i == 'E':
+                    t1_fg_e = t1_fg_e + 1
+                elif i == 'F':
+                    t1_fg_f = t1_fg_f + 1
+                elif i == 'A':
+                    t1_fg_a = t1_fg_a + 1
+                elif i == 'B':
+                    t1_fg_b = t1_fg_b + 1
+                elif i == 'C':
+                    t1_fg_c = t1_fg_c + 1
+                elif i == 'D':
+                    t1_fg_d = t1_fg_d + 1
+                elif i == 'S':
+                    t1_fg_s = t1_fg_s + 1
+
+            for i in test2:
+                if i == 'E':
+                    t2_fg_e = t2_fg_e + 1
+                elif i == 'F':
+                    t2_fg_f = t2_fg_f + 1
+                elif i == 'A':
+                    t2_fg_a = t2_fg_a + 1
+                elif i == 'B':
+                    t2_fg_b = t2_fg_b + 1
+                elif i == 'C':
+                    t2_fg_c = t2_fg_c + 1
+                elif i == 'D':
+                    t2_fg_d = t2_fg_d + 1
+                elif i == 'S':
+                    t2_fg_s = t2_fg_s + 1
+            for i in test3:
+                if i == 'E':
+                    t3_fg_e = t3_fg_e + 1
+                elif i == 'F':
+                    t3_fg_f = t3_fg_f + 1
+                elif i == 'A':
+                    t3_fg_a = t3_fg_a + 1
+                elif i == 'B':
+                    t3_fg_b = t3_fg_b + 1
+                elif i == 'C':
+                    t3_fg_c = t3_fg_c + 1
+                elif i == 'D':
+                    t3_fg_d = t3_fg_d + 1
+                elif i == 'S':
+                    t3_fg_s = t3_fg_s + 1
+            return t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s, \
+                    t2_fg_a, t2_fg_b, t2_fg_c, t2_fg_d, t2_fg_e, t2_fg_f, t2_fg_s , \
+                   t3_fg_a, t3_fg_b, t3_fg_c, t3_fg_d, t3_fg_e, t3_fg_f, t3_fg_s
+
+    def find_grade_from_marks(self,test1, test2=None, test3=None):
+        test1_grade = []
+        test2_grade = []
+        test3_grade = []
+        test1 = np.array(test1)
+        if test2 is None:
+            for i, n in enumerate(test1):
+                if n < 4:
+                    test1_grade.append('F')
+                if 4 <= n < 5:
+                    test1_grade.append('E')
+                if 5 <= n < 6:
+                    test1_grade.append('D')
+                if 6 <= n < 7:
+                    test1_grade.append('C')
+                if 7 <= n < 8:
+                    test1_grade.append('B')
+                if 8 <= n < 9:
+                    test1_grade.append('A')
+                if 9 <= n <= 10:
+                    test1_grade.append('S')
+            return test1_grade
+        elif test3 is None:
+
+            test2 = np.array(test2)
+
+            for i, n in enumerate(test1):
+                if n < 4:
+                    test1_grade.append('F')
+                if 4 <= n < 5:
+                    test1_grade.append('E')
+                if 5 <= n < 6:
+                    test1_grade.append('D')
+                if 6 <= n < 7:
+                    test1_grade.append('C')
+                if 7 <= n < 8:
+                    test1_grade.append('B')
+                if 8 <= n < 9:
+                    test1_grade.append('A')
+                if 9 <= n <= 10:
+                    test1_grade.append('S')
+
+            for i, n in enumerate(test2):
+                if n < 4:
+                    test2_grade.append('F')
+                if 4 <= n < 5:
+                    test2_grade.append('E')
+                if 5 <= n < 6:
+                    test2_grade.append('D')
+                if 6 <= n < 7:
+                    test2_grade.append('C')
+                if 7 <= n < 8:
+                    test2_grade.append('B')
+                if 8 <= n < 9:
+                    test2_grade.append('A')
+                if 9 <= n <= 10:
+                    test2_grade.append('S')
+            return test1_grade, test2_grade
+        else:
+            test2 = np.array(test2)
+            test3 = np.array(test3)
+            for i, n in enumerate(test1):
+                if n < 4:
+                    test1_grade.append('F')
+                if 4 <= n < 5:
+                    test1_grade.append('E')
+                if 5 <= n < 6:
+                    test1_grade.append('D')
+                if 6 <= n < 7:
+                    test1_grade.append('C')
+                if 7 <= n < 8:
+                    test1_grade.append('B')
+                if 8 <= n < 9:
+                    test1_grade.append('A')
+                if 9 <= n <= 10:
+                    test1_grade.append('S')
+
+            for i, n in enumerate(test2):
+                if n < 4:
+                    test2_grade.append('F')
+                if 4 <= n < 5:
+                    test2_grade.append('E')
+                if 5 <= n < 6:
+                    test2_grade.append('D')
+                if 6 <= n < 7:
+                    test2_grade.append('C')
+                if 7 <= n < 8:
+                    test2_grade.append('B')
+                if 8 <= n < 9:
+                    test2_grade.append('A')
+                if 9 <= n < 11:
+                    test2_grade.append('S')
+            for i, n in enumerate(test3):
+                if n < 4:
+                    test3_grade.append('F')
+                if 4 <= n < 5:
+                    test3_grade.append('E')
+                if 5 <= n < 6:
+                    test3_grade.append('D')
+                if 6 <= n < 7:
+                    test3_grade.append('C')
+                if 7 <= n < 8:
+                    test3_grade.append('B')
+                if 8 <= n < 9:
+                    test3_grade.append('A')
+                if 9 <= n <= 10:
+                    test3_grade.append('S')
+            return test1_grade, test2_grade, test3_grade
+    def averageoftest(self,test, test2=None, test3=None):
+        if test2 is None and test3 is None:
+            testmarks = np.array(test)
+            return np.mean(testmarks)
+        elif test3 is None:
+            testmarks = np.array(test)
+            testmarks2 = np.array(test2)
+            return np.mean(testmarks), np.mean(testmarks2)
+        else:
+            testmarks = np.array(test)
+            testmarks2 = np.array(test2)
+            testmarks3 = np.array(test3)
+            return np.mean(testmarks), np.mean(testmarks2), np.mean(testmarks3)
+    def school_test_analysis(self,test):
+        average_test = self.averageoftest(test)
+        g1 = self.find_grade_from_marks(test)
+        t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s=\
+        self.find_frequency_grades(g1)
+        context =\
+        {'testav':average_test,'t1_fg_a':t1_fg_a,'t1_fg_b':t1_fg_b,
+        't1_fg_c':t1_fg_c,'t1_fg_d':t1_fg_d,'t1_fg_e':t1_fg_e,'t1_fg_f':t1_fg_f,
+        't1_fg_s':t1_fg_s}
+        return context
+
+
+

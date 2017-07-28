@@ -23,7 +23,7 @@
   <li role="presentation"><a href="{%url 'membership:logout' %}">Logout</a></li>
   <li role="presentation"><a href="{%url 'pms:messages' %}">Messages</a></li>
   <li role="presentation"><a href="{% if isTeacher %} {% url 'basic:teacherHomePage' %}{%else%}{%url 'basic:studentAnalysis' %}{%endif%}">{%if isTeacher %} Student Performance {%else%} My Performance {%endif%}</a></li>
-  
+  {%if user.is_authenticated %}  {%if user.teacher %}  <li role="presentation"><a href="{%url 'QuestionsAndPapers:createTest' %}">Create Test</a></li> {%endif%}{%endif%}
 </ul>
 {%block content %}
 

@@ -25,7 +25,7 @@ def every_messages(request):
             count = 0
             for i in my_messages:
                 count = count + 1
-                context = {'teachers':my_teachers,'count':count,'isTeacher':False}
+            context = {'teachers':my_teachers,'count':count,'isTeacher':False}
             return render(request,'Private_Messages/messages.html',context) 
         if user.groups.filter(name='Teachers').exists():
             profile = user.teacher

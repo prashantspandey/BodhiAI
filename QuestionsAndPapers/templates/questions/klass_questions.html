@@ -5,7 +5,6 @@
 	
 
 $(document).ready(function () {
-	var addedquests=[];
 	var removedquests = 'ids';
     var  clicked_id = 0
         for(i=0 ; i<=100; i++){
@@ -13,34 +12,27 @@ $(document).ready(function () {
         $(now).click(function(){
           ajKl = $(this).attr('id')
               console.log(ajKl)
+	    which_klass = $('#tells_klass').text()
          $(this).removeClass("btn btn-primary").addClass("btn btn-success");
          $(this).addClass('hidden');
 		 $(eval("'#r'+ajKl")).removeClass("hidden");
-         addedquests.push(ajKl)
          $('#addedQuestions').removeClass("hidden");
-         $('#addedQuestions').html('').load('{% url 'QuestionsAndPapers:addQuestions' %}?question_id='+encodeURIComponent(addedquests));
+	 $('#addedQuestions').html('').load('{% url 'QuestionsAndPapers:addQuestions' %}?question_id='+encodeURIComponent(ajKl)+','+which_klass);
 
 
           
 });
-	 $(eval("'#ckbox'+i")).change(function(){
-		 if ($(eval("'#ckbox'+i")).is(':checked')){
-				 console.log('hell')
-		 }
- });
 $(eval("'#r'+i")).click(function(){
     rem_id = $(this).attr('id')
-        console.log(addedquests)
         rem_id = rem_id.replace('r','')
+        console.log(rem_id)
         
         $(this).addClass('hidden');
         $(eval("'#'+rem_id")).removeClass('hidden');
-        for (var j = addedquests.length-1;j>=0;j--){
-            if (rem_id == addedquests[j]){
-                addedquests.splice(j,1)
-            }
-        }
-    $('#addedQuestions').html('').load('{% url 'QuestionsAndPapers:addQuestions' %}?remove_id='+encodeURIComponent(addedquests));
+         $('#addedQuestions').removeClass("hidden");
+	    which_klass = $('#tells_klass').text()
+        
+	 $('#addedQuestions').html('').load('{% url 'QuestionsAndPapers:addQuestions' %}?remove_id='+encodeURIComponent(rem_id)+','+which_klass);
 });
 
 };
@@ -62,23 +54,40 @@ $(eval("'#r'+i")).click(function(){
 <h1 align='center'> Questions </h1>
 
 <form action="{%url 'QuestionsAndPapers:addQuestions'%}" method='post'>{%csrf_token%}
+
 		{%for i in que %}
+		<div class='well col-md-offset-1 col-md-10'>
 			<h3 class="col-md-offset-1">{{i.text}}</h3>
+			<div class='hidden' id='tells_klass'>{{which_class}}</div>
 			<div class="col-md-offset-10">
 			<p>Maximum-Marks: {{i.max_marks}}</p>
 			</div>
+			{% if i.pk in idlist %}
+<button type="button" id="r{{i.pk}}" class=""btn btn-default>Remove Question</button>
+			<button type="button" id="{{i.pk}}" class="hidden btn btn-default">Add to question paper</button>
+{%else%}
 			<button type="button" id="{{i.pk}}" class="btn btn-default">Add to question paper</button>
 <button type="button" id="r{{i.pk}}" class="hidden">Remove Question</button>
-
+{%endif%}
 			{% for j in i.choices_set.all %}
 			<div class="radio col-md-offset-1">
-			Option {{forloop.counter}}
- 			 <label><input type="radio" name="optradio" value="{{j.predicament}}"> {{j.text}}</label>
+ 			 <label><input type="radio" name="optradio" value="{{j.predicament}}"> {{j.text}}
+				 {%if j.predicament == 'Correct' %}
+				 <span class="label label-success">Correct Answer</span> </label>
+				{%endif%}
 			</div>
 
 			{% endfor %}
+		</div>
 						{% endfor %}
-		<input type="submit" value="Create Question Paper">					
+						<br>
+						<div class = 'col-md-offset-1 col-md-10'>
+				<div class="alert alert-info" role="alert">You can either create the test paper by clicking the button below or add more questions from different chapters by clicking on chapter numbers above this page.</div>
+				<input type='text' name='which_klass' value='{{which_class}}' class = 'hidden'>
+				<input type="submit" class="btn btn-primary" value="Create Question paper">
+				<br>
+				<br>
+						</div>
 </form>
 	{%endblock%}
 </body>

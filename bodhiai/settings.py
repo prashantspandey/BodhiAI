@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'bodhiai.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bodhiai2',
+        'NAME': 'bodhieducationdb2',
         'HOST':'localhost',        
         'USER':'postgres',
         'PASSWORD':'dnpandey',

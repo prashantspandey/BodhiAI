@@ -1,0 +1,52 @@
+<script>
+
+         $(document).ready(function () {
+    var pr
+
+        for(i=1 ; i<=20; i++){
+         $(eval("'#schoolTestButton'+i")).click(function(){
+          which_test = $(this).text();
+	  which_klass = $('#which_class').text()
+		  console.log(which_test,which_klass)
+         $(this).removeClass("btn btn-default").addClass("btn btn-success");
+         $('#schooltestanalysis').removeClass("hidden");
+         $('#schooltestanalysis').html('').load('{% url 'basic:teacher_update_page' %}?schoolTestid='+which_test+','+which_klass);
+
+
+            $(this).animate({
+            height: '40px',
+            width: '80px',
+        });
+
+          $(eval("'#'+pr")).animate({
+            height: '35px',
+            width: '75px',
+        });
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+
+
+
+
+    pr = $(this).attr('id');
+});
+};
+});
+    </script>
+
+<div class="panel panel-default">
+  <div class="panel-heading text-center">Choose a Test</div>
+  <div class="panel-body">
+	  {% if noTest %}
+	  <h3> No tests have been taken yet </h3>
+	  {%endif%}
+{% for i in Tests %}
+
+<div class="btn-group" role="group" aria-label="...">
+	<button type="button" class="btn btn-default text-center" value ="{{i}}" id="schoolTestButton{{forloop.counter}}">{{i}}</button>
+	<button type="button" class="hidden btn btn-default text-center" value ="{{i}}" id="which_class">{{which_class}}</button>
+</div>
+{%endfor%}
+        </div>
+<div class='hidden' id = 'schooltestanalysis'>
+{%include 'basicinformation/teacher_school_analysis3.html' %}
+</div>

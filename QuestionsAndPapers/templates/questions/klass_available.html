@@ -40,11 +40,15 @@
 </head>
 <div class="btn-group" role="group" aria-label="...">
   <div class="panel-heading text-center">Chapters Available: </div>
-  {% for i in fin %}
+  {% if noTest %}
+  <h3> No Questions available </h3>
+  {%else%}
     <div class="panel-body" >
+  {% for i in fin %}
   <button type="button" class="btn btn-default text-center" id="chapterButton{{forloop.counter}}">{{i}}</button>
-  </div>
   {%endfor%}
+  </div>
+  {%endif%}
   <div class="hidden" id="which_klass">{{which_klass}}</div>
 </div>
 <div class="hidden panel panel-default" id="allQuestions" >

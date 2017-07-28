@@ -11,9 +11,11 @@ class School(models.Model):
 
 
 class klass(models.Model):
+    level_choices = (('9','Ninth'),('10','Tenth'),('11','Eleventh'),('12','Twelveth'))
     school = models.ForeignKey(School)
     name = models.CharField(max_length=50)
-
+    level = models.CharField(max_length=10, choices =
+                             level_choices,null=True,blank=True)
     def __str__(self):
         return self.name
 
@@ -33,12 +35,9 @@ class Teacher(models.Model):
     teacheruser = models.OneToOneField(User,blank=True,null=True)
     name = models.CharField(max_length=200)
     experience = models.FloatField()
-<<<<<<< HEAD
-    school = models.ForeignKey(School)
+    school = models.ForeignKey(School,blank=True,null=True)
     
-=======
 
->>>>>>> 5320e0a2f8de669ff202dc1b9767d4f6dc29e083
     def __str__(self):
         return self.name
 
