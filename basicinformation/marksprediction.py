@@ -3,7 +3,7 @@ import pickle
 from datetime import datetime, date
 from .models import Subject
 from more_itertools import unique_everseen
-
+from QuestionsAndPapers.models import *
 ptp = '/home/prashant/Desktop/programming/projects/bod/src/bodhialgorithms/'
 
 '''
@@ -872,6 +872,21 @@ class Studs:
         else:
             conversion = '404'
         return conversion
+    def allOnlinetests(self):
+        my_tests = KlassTest.objects.filter(testTakers = self.profile)
+        return my_tests
+    def OnlineTestsSubwise(self,subject):
+        my_tests = KlassTest.objects.filter(testTakers = self.profile, sub =
+                                            subject)
+        return my_tests
+    def is_onlineTestTaken(self,test_id):
+        try:
+            test = OnlineMarks.objects.get(test__id = test_id, student =
+                                     self.profile)
+            return test
+        except:
+            return None
+        
 
 class Teach:
 

@@ -187,7 +187,10 @@ def publish_test(request):
                 print(due_date)
                 print(type(due_date))
                 myTest.due_date = due_date
-                
+                for sub in myTest.questions_set.all():
+                    subject = sub.sub
+                    break
+                myTest.sub = subject
                 myTest.save()
                 return HttpResponse('nice')
 
@@ -197,6 +200,89 @@ def see_Test(request):
     tests = KlassTest.objects.filter(creator = user)
     context = {'tests':tests}
     return render(request, 'questions/seeCreatedTest.html',context)
+
+def student_my_tests(request):
+    user = request.user
+    if user.is_authenticated:
+        if user.groups.filter(name= 'Students').exists():
+            me = Studs(user)
+            subjects = me.my_subjects_names()
+            context = {'subjects':subjects}
+            return render(request,'questions/student_my_tests.html',context)
+
+
+def student_show_onlineTests(request):
+        if 'onlineTestSubject' in request.GET:
+            my_sub = request.GET['onlineTestSubject']
+            me = Studs(request.user)
+            tests = me.OnlineTestsSubwise(my_sub)
+            context = {'tests':tests}
+            return render(request,'questions/student_onlinetests_subjectwise.html',context)
+        if 'onlineTestid' in request.GET:
+            me = Studs(request.user)
+            testid = request.GET['onlineTestid']
+            old_test = me.is_onlineTestTaken(testid)
+            print(old_test)
+            if old_test:
+                context = {'marks':old_test}
+                return render(request,'questions/student_evaluated_test.html',context)
+            else:
+                test = KlassTest.objects.get(id = testid)
+                context = {'test':test}
+                return render(request,'questions/student_OnlineTest.html',context)
+        if request.POST:
+            all_answers = []
+            right_answers = []
+            right_answers2 = []
+            wrong_answers = []
+            wrong_answers2 = []
+            skipped_answers = []
+            skipped_answers2 = []
+            num_of_quests = 0
+            testid = request.POST['submitTest']
+            test = KlassTest.objects.get(id= testid)
+            for j in test.questions_set.all():
+                num_of_quests += 1
+            for i in range(num_of_quests+1):
+                #ans = eval("'ans'+str(i)")
+                try:
+                    answerChoice = eval("'answerChoice'+str(i)")
+                    ans = request.POST[answerChoice]
+                    print(ans)
+                    all_answers.append(int(ans))
+                except:
+                    pass
+            test_marks  = 0
+            for qu in test.questions_set.all():
+                for ch in qu.choices_set.all():
+                    if not ch.id in all_answers:
+                        skipped_answers.append(qu.id)
+                    elif ch.id in all_answers and ch.predicament == "Correct":
+                        print('right_answers')
+                        right_answers.append(qu.id)
+                        right_answers2.append(ch.id)
+                        test_marks += int(qu.max_marks)
+                    elif ch.id in all_answers and ch.predicament == "Wrong":
+                        wrong_answers.append(qu.id)
+                        wrong_answers2.append(ch.id)
+            skipped_answers = list(unique_everseen(skipped_answers))
+            for an in skipped_answers:
+                if not an in right_answers and not an in wrong_answers:
+                    skipped_answers2.append(an)
+            my_marks = OnlineMarks()
+            my_marks.test = test
+            my_marks.student = request.user.student
+            my_marks.rightAnswers = right_answers2
+            my_marks.wrongAnswers = wrong_answers2
+            my_marks.skippedAnswers = skipped_answers2
+            my_marks.allAnswers = all_answers
+            my_marks.marks = test_marks
+            my_marks.testTaken = timezone.now()
+            my_marks.save()
+            context = {'marks':my_marks}
+            return
+        render(request,'questions/student_evaluated_test.html',context)
+            
 
 
 

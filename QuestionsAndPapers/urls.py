@@ -9,6 +9,10 @@ urlpatterns = [
     url(r'^addQuestions/$',views.add_questions,name= 'addQuestions'),
     url(r'^seeTests/$',views.see_Test,name= 'seeTests'),
     url(r'^publishTest/$',views.publish_test,name= 'publishTest'),
+    url(r'^students_homework_tests/$',views.student_my_tests,name=
+        'studentMyOnlineTests'),
+    url(r'^show_online_tests/$',views.student_show_onlineTests,name=
+        'studentShowOnlineTest'),
     #url(r'^teacher/(?P<grade>\d+)/$', views.current_analysis,
         #name='current_analysis'),
     #url(r'teach/$',views.teacher_home_page, name= 'teacherHomePage'),

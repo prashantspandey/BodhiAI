@@ -1,0 +1,63 @@
+{% extends 'basicinformation/base.html' %}
+
+<html>
+	<head>
+		<title> {%block title %} Tests/Homework {%endblock%} </title>
+{%block scripts%}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script>
+
+         $(document).ready(function () {
+		 var pr
+		for(i=1 ; i<=50; i++){
+		$(eval("'#subBox'+i")).click(function(){
+          my_sub = $(this).text();
+	  console.log(my_sub);
+         $(this).removeClass("btn btn-default").addClass("btn btn-success");
+ 		  $('#showOnlineTests').removeClass("hidden");
+         $('#showOnlineTests').html('').load('{% url 'QuestionsAndPapers:studentShowOnlineTest' %}?onlineTestSubject='+encodeURIComponent(my_sub));
+ $(this).animate({
+            height: '40px',
+            width: '90px',
+        });
+
+          $(eval("'#'+pr")).animate({
+            height: '35px',
+            width: '80px',
+        });
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+
+
+
+
+    pr = $(this).attr('id');
+         
+       
+		 });
+
+		 };
+});
+
+
+
+    </script>
+			{%endblock%}
+
+	</head>
+	<body>
+		{%block content %}
+		<div style="overflow:auto'">
+<div class="sidebar-nav well" style="float:top">
+	<h2 style='text-align:center;font-weight:bold;'> Subjects </h2>
+	{% for sub in subjects %}
+	<button type="button" class="btn btn-default text-center" id="subBox{{forloop.counter}}">{{sub}}</button>
+	{%endfor%}
+	</div>
+	<div class = 'hidden' id='showOnlineTests'>
+		{% include 'questions/student_onlinetests_subjectwise.html' %}
+	</div>
+		</div>
+		{%endblock%}
+	</body>
+</html>
+

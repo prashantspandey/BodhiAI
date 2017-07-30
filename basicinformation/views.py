@@ -74,30 +74,36 @@ def home(request):
             return render(request, 'basicinformation/home.html')
     else:
         return HttpResponseRedirect(reverse('membership:login'))
+
+
 def student_self_analysis(request):
     user = request.user
     if user.is_authenticated:
         if user.groups.filter(name='Teachers').exists():
             raise Http404(" This page is only meant for student to see.")
         elif user.groups.filter(name='Students').exists():
-            me = Studs(user)
-            allSubjects = me.my_subjects_objects()
-            profile = user.student
-            subjects = profile.subject_set.all()
-            allSubjects = []
-            for i in subjects:
-                allSubjects.append(i)
-            context = {'allSubjects':allSubjects}
+            analysis_types = ['School Tests Analysis','Online Test Analysis']
+            context = {'analysisTypes':analysis_types}
             return render(request,'basicinformation/selfStudentAnalysis.html',context)
+
+
 def student_subject_analysis(request):
     user = request.user
     if user.is_authenticated:
-        if 'subject_name' in request.GET:
-            subject_name = request.GET['subject_name']
-            subject = user.student.subject_set.get(name=subject_name)
-            test1 = subject.test1
-            context = {'test1_marks':test1}
-            return render(request,'basicinformation/studentAverageCurrent.html',context)
+        me = Studs(user)
+        if 'analysistype' in request.GET:
+            ana_type = request.GET['analysistype']
+            allSubjects = me.my_subjects_names()
+            if ana_type == 'School':
+                print('in school')
+                allSubjects = me.my_subjects_names()
+                context = {'subjects':allSubjects,'which_analysis':ana_type}
+                return render(request,'basicinformation/studentAverageCurrent.html',context)
+            elif ana_type == 'Online':
+                context = {'subjects':allSubjects}
+                return render(request,'basicinformation/studentAverageCurrent.html',context)
+
+
 def current_analysis(request, grade):
     user = request.user
     if user.is_authenticated:
@@ -154,15 +160,12 @@ def teacher_update_page(request):
     klass_dict, all_klasses = teacher_get_students_classwise(request)
     if 'ajKlass' in request.GET:
         which_class = request.GET['ajKlass']
-        print(which_class)
         return HttpResponse('nice')
         
     elif 'schoolTestAnalysis' in request.GET:
         which_klass = request.GET['schoolTestAnalysis']
         me = Teach(user)
         which_class = which_klass.split(',')[0]
-        #marks_class_test1,marks_class_test2,marks_class_test3,marks_class_predictedHy=\
-        #me.listofStudentsMarks(which_class)
         subjects = me.my_subjects_names()
         context = {'subjects':subjects,'which_class':which_class}
         return \
@@ -172,11 +175,8 @@ def teacher_update_page(request):
         me = Teach(user)
         sub = schoolSubject.split(',')[0]
         which_class = schoolSubject.split(',')[1]
-        print(which_class)
-        print(sub)
         marks_class_test1,marks_class_test2,marks_class_test3,marks_class_predictedHy=\
         me.listofStudentsMarks(which_class)
-        print(marks_class_test1,marks_class_test2)
         if not marks_class_test1:
             noTest  = 'No Tests'
             context = {'noTest':noTest,'which_class':which_class}

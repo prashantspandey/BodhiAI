@@ -11,12 +11,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 	<script>
          $(document).ready(function () {
-	for(i=1;i<=20;i++){
-         $(eval("'#subjectButton'+i")).click(function(){
-		var subject_name = $(this).val()
-		console.log(subject_name)
-		$('.cont').removeClass('hidden')
-		$('.cont').html('').load('{% url 'basic:studentSubjectAnalysis' %}?subject_name='+subject_name);
+	for(i=1;i<=5;i++){
+         $(eval("'#analysistype'+i")).click(function(){
+		var ana_type = $(this).text()
+		console.log(ana_type)
+		$('#studentSubjects').removeClass('hidden')
+		$('#studentSubjects').html('').load('{% url 'basic:studentSubjectAnalysis' %}?analysistype='+ana_type);
 
 	 });	
 	 };
@@ -30,19 +30,20 @@
 		{% block content %}
 		<br>
 <div class="panel panel-default">
-  <div class="panel-heading text-center">Choose a Subject:</div>
+  <div class="panel-heading text-center">Choose an Analysis:</div>
   <div class="panel-body">
-{% for i in allSubjects %}
+{% for i in analysisTypes %}
 
 <div class="btn-group" role="group" aria-label="...">
-	<button type="button" class="btn btn-default text-center" value ="{{i}}" id="subjectButton{{forloop.counter}}">{{i}}</button>
+	<button type="button" class="btn btn-default text-center" id="analysistype{{forloop.counter}}">{{i}}</button>
 </div>
 
 {%endfor%}
         </div>
-	<div class="hidden cont">
+	<div class="hidden" id="studentSubjects">
 		{% include 'basicinformation/studentAverageCurrent.html' %}
 	</div>
+        </div>
 		{%endblock%}
 
 	</body>

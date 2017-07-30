@@ -9,7 +9,7 @@ class KlassTest(models.Model):
     name = models.CharField(max_length=100)
     subject_choices = \
         (('Maths','Maths'),('Science','Science'),('English','English'))
-    max_marks = models.PositiveIntegerField()
+    max_marks = models.PositiveIntegerField() 
     testTakers = models.ManyToManyField(Student)
     published = models.DateField(auto_now_add= True)
     klas = models.ForeignKey(klass,null=True,blank=True)
@@ -53,13 +53,13 @@ class OnlineMarks(models.Model):
     test = models.ForeignKey(KlassTest)
     student = models.ForeignKey(Student)
     rightAnswers = ArrayField(models.IntegerField())
-    wringAnswers = ArrayField(models.IntegerField())
+    wrongAnswers = ArrayField(models.IntegerField())
     allAnswers = ArrayField(models.IntegerField())
     skippedAnswers = ArrayField(models.IntegerField())
     marks = models.IntegerField()
-
+    testTaken = models.DateField()
     def __str__(self):
-        return self.marks
+        return str(self.marks)
     
 
 

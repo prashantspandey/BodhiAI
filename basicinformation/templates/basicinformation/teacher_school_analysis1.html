@@ -7,7 +7,6 @@
          $(eval("'#subjectButton'+i")).click(function(){
           which_sub = $(this).text();
 	  which_klass = $('#which_class').text()
-		  console.log(which_sub,which_klass)
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
          $('#testid').removeClass("hidden");
          $('#testid').html('').load('{% url 'basic:teacher_update_page' %}?schoolSubject='+which_sub+','+which_klass);

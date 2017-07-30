@@ -1,0 +1,55 @@
+<html>
+	<head>
+    <script>
+
+         $(document).ready(function () {
+    var pr
+
+        for(i=1 ; i<=10; i++){
+         $(eval("'#whichTest'+i")).click(function(){
+          which_test = $(this).attr('value');
+         $(this).removeClass("btn btn-default").addClass("btn btn-success");
+         $('#homeTest').removeClass("hidden");
+         $('#homeTest').html('').load('{% url 'QuestionsAndPapers:studentShowOnlineTest' %}?onlineTestid='+which_test);
+
+
+            $(this).animate({
+            height: '40px',
+            width: '110px',
+        });
+
+          $(eval("'#'+pr")).animate({
+            height: '35px',
+            width: '100px',
+        });
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+
+
+
+
+    pr = $(this).attr('id');
+});
+};
+});
+    </script>
+
+
+
+	</head>
+	<body>
+
+<div class="panel panel-default">
+  <div class="panel-heading text-center">Choose a Test (ordered by publish date)</div>
+  <div class="panel-body">
+			{% for test in tests %}
+			<button type="button" class="btn btn-default text-center" value='{{test.id}}' id="whichTest{{forloop.counter}}">{{test.published}}</button>
+
+	{%endfor%}
+	</div>
+	</div>
+	<div class='hidden' id='homeTest'>
+		{%  include 'questions/student_OnlineTest.html' %}
+		{% include 'questions/student_evaluated_test.html' %}
+	</div>
+	</body>
+</html>
