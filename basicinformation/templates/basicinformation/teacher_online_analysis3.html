@@ -1,3 +1,101 @@
-{% for i in tests%}
-<p> {{i}}</p>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<hr style='width:3px'>
+<div class="col-md-4">
+	<h2 style='text-align:center;font-weight:bold'>Average of test is : {{average}} out of {{maxMarks}} or {{percentAverage}} %</p>
+</div>
+<div  class="col-md-8">
+    <script>
+
+$(document).ready(function () {
+	    var ctx = document.getElementById("analysis");
+		var myChart1 = new Chart(ctx, {
+            type: 'polarArea',
+            data: {
+                labels: ["S","A","B","C","D","E","F"],
+                datasets: [{
+			label: 'Student performance ',
+			data: [parseInt({{grade_s}}),parseInt({{grade_a}}),parseInt({{grade_b}}),parseInt({{grade_c}}),
+                    parseInt({{grade_d}}),parseInt({{grade_e}}),parseInt({{grade_f}}),],
+			 backgroundColor: [
+                        'rgba(103,58,183,1)',
+                        'rgba(118,255,3 ,0.7)',
+                        'rgba(174,234,0 ,0.6)',
+                        'rgba(255,214,0 ,0.6)',
+                        'rgba(255,171,0 ,0.7)',
+                        'rgba(255,109,0 ,0.7)',
+			'rgba(221,44,0 ,0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 3
+                }]
+            },
+            options: {   responsive: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+                            max: 100
+                        }
+                    }]
+                }
+            }
+        });
+    });
+
+</script>
+</div>
+<div>
+	<h2 style='text-align:center;font-weight:bold;'>Student Grade wise</h2>
+	<canvas  id="analysis" style="display: block; height: 300px; width: 400px; padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;" width="400" height="370">
+</canvas>
+<div class='col-md-offset-2'>
+<span class='badge' style='background-Color:rgba(103,58,183,0.9);'>{{grade_s}} students got 90 % - 100 %</span>
+<span class='badge' style='background-Color:rgba(118,255,3 ,0.7);'>{{grade_a}} students got 80 % - 90 %</span>
+<span class='badge' style='background-Color:rgba(174,234,0 ,0.6);'>{{grade_b}} students got 70 % - 80 %</span>
+<span class='badge' style='background-Color:rgba(255,214,0 ,0.6);'>{{grade_c}} students got 60 % - 70 %</span>
+<span class='badge' style='background-Color:rgba(255,171,0 ,0.7);'>{{grade_d}} students got 50 % - 60 %</span>
+<span class='badge' style='background-Color:rgba(255,109,0 ,0.7)'>{{grade_e}} students got 33 % - 50 %</span>
+<span class='badge' style='background-Color:rgba(221,44,0 ,0.6)'>{{grade_f}} students got less than 33 % </span>
+</div>
+<div>
+	{% for quest in test.questions_set.all %}
+	<div class = 'well col-md-offset-1 col-md-10'>
+		<h3> {{quest.text}} </h3>
+		{%for x,y in sq %}
+		{% if quest.id == x %}
+		<p style='text-align:center;font-weight:bold;'>	<span class="label label-warning" >{{y}} people skipped this question.</span></p>
+		{%endif%}
+		{%endfor%}
+
+		{% for ch in quest.choices_set.all %}
+		<p> {{ch.text }} 
+		{%for a,b in freq %}
+		{% if ch.id == a %}
+		<span class="label label-info">{{b}} people chose this answer.</span>
+		{%endif%}
+		{%endfor%}
+		{% if ch.predicament == 'Correct' %}
+		<span class="label label-primary">Correct Answer</span>
+		{%endif%}
+		</p>
+		{%endfor%}
+</div>
 {%endfor%}
+</div>
+</div>

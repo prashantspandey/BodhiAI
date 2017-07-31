@@ -4,8 +4,8 @@ from random import randint
 import numpy as np
 import urllib.request
 from more_itertools import unique_everseen
-from django.contrib.auth.models import User, Group 
-from .models import Student, Teacher, Subject, School, klass 
+from django.contrib.auth.models import User, Group
+from .models import Student, Teacher, Subject, School, klass
 from django.utils import timezone
 # from .marksprediction import predictionConvertion, readmarks, averageoftest, teacher_get_students_classwise
 from .marksprediction import *
@@ -21,8 +21,8 @@ def home(request):
             teacher_name = {}
             for sub in subjects:
                 teacher_name[sub.name] = sub.teacher
-                print('%s teaches --'%sub.teacher,sub.name)
-            #retrieve all marks from database
+                print('%s teaches --' % sub.teacher, sub.name)
+            # retrieve all marks from database
             mathst1, mathst2, mathst3, mathshy, \
             mathst4, mathspredhy = [], [], [], [], [], []
             hindit1, hindit2, hindit3, hindihy, hindit4, \
@@ -42,7 +42,7 @@ def home(request):
             englishpredhy = me.predictionConvertion(englishpredhy)
             sciencepredhy = me.predictionConvertion(sciencepredhy)
             # sending all values to template
-            
+
             context = {'profile': profile, 'subjects': subjects,
                        'hindihy_prediction': hindipredhy,
                        'mathshy_prediction': mathspredhy,
@@ -54,7 +54,7 @@ def home(request):
                        'english2': englisht2, 'english3': englisht3, 'english4': englisht4,
                        'science1': sciencet1, 'science2': sciencet2,
                        'science3': sciencet3, 'science4': sciencet4}
-                       
+
             return render(request, 'basicinformation/student.html', context)
 
         elif user.groups.filter(name='Teachers').exists():
@@ -64,10 +64,10 @@ def home(request):
             subjects = me.my_subjects_names()
             num_klasses = len(klasses)
             num_subjects = len(subjects)
-            
+
             context = {'profile': profile,
-                       'klasses':klasses,'subjects':subjects,'num_klasses':num_klasses,
-                       'isTeacher':True,'num_subjects':num_subjects}
+                       'klasses': klasses, 'subjects': subjects, 'num_klasses': num_klasses,
+                       'isTeacher': True, 'num_subjects': num_subjects}
             return render(request, 'basicinformation/teacher1.html', context)
         else:
 
@@ -84,9 +84,9 @@ def student_self_analysis(request):
         elif user.groups.filter(name='Students').exists():
             me = Studs(user)
             allSubjects = me.my_subjects_names()
-            analysis_types = ['School Tests Analysis','Online Test Analysis']
-            context = {'subjects':allSubjects}
-            return render(request,'basicinformation/selfStudentAnalysis.html',context)
+            analysis_types = ['School Tests Analysis', 'Online Test Analysis']
+            context = {'subjects': allSubjects}
+            return render(request, 'basicinformation/selfStudentAnalysis.html', context)
 
 
 def student_subject_analysis(request):
@@ -95,36 +95,34 @@ def student_subject_analysis(request):
         if 'studentwhichsub' in request.GET:
             which_sub = request.GET['studentwhichsub']
             print(which_sub)
-            ana_type = ['School Tests','Online Tests']
-            context = {'anatype':ana_type,'sub':which_sub}
+            ana_type = ['School Tests', 'Online Tests']
+            context = {'anatype': ana_type, 'sub': which_sub}
             return \
-        render(request,'basicinformation/student_analysis_subjects.html',context)
+                render(request, 'basicinformation/student_analysis_subjects.html', context)
         if 'studentwhichana' in request.GET:
             which_one = request.GET['studentwhichana']
             print(which_one)
             subject = which_one
-            tests = OnlineMarks.objects.filter(test__sub = subject, student = user.student)
-            context = {'tests':tests}
+            tests = OnlineMarks.objects.filter(test__sub=subject, student=user.student)
+            context = {'tests': tests}
             return \
-            render(request,'basicinformation/student_self_sub_tests.html',context)
+                render(request, 'basicinformation/student_self_sub_tests.html', context)
         if 'studentTestid' in request.GET:
             me = Studs(user)
             test_id = request.GET['studentTestid']
-            test = OnlineMarks.objects.get(student = user.student,test__id = test_id)
-            my_marks_percent = (test.marks/test.test.max_marks)*100
-            average,percent_average = \
-            me.online_findAverageofTest(test_id,percent='p')
-            percentile,all_marks = me.online_findPercentile(test_id)
-            all_marks = [((i/test.test.max_marks)*100) for i in all_marks]
+            test = OnlineMarks.objects.get(student=user.student, test__id=test_id)
+            my_marks_percent = (test.marks / test.test.max_marks) * 100
+            average, percent_average = \
+                me.online_findAverageofTest(test_id, percent='p')
+            percentile, all_marks = me.online_findPercentile(test_id)
+            all_marks = [((i / test.test.max_marks) * 100) for i in all_marks]
             freq = me.online_QuestionPercentage(test_id)
             context = \
-            {'test':test,'average':average,'percentAverage':percent_average,
-             'my_percent':my_marks_percent,'percentile':percentile,'allMarks':all_marks,
-             'freq':freq}
+                {'test': test, 'average': average, 'percentAverage': percent_average,
+                 'my_percent': my_marks_percent, 'percentile': percentile, 'allMarks': all_marks,
+                 'freq': freq}
             return \
-        render(request,'basicinformation/student_analyze_test.html',context)
-            
-                
+                render(request, 'basicinformation/student_analyze_test.html', context)
 
 
 def current_analysis(request, grade):
@@ -184,63 +182,63 @@ def teacher_update_page(request):
     if 'ajKlass' in request.GET:
         which_class = request.GET['ajKlass']
         return HttpResponse('nice')
-        
+
     elif 'schoolTestAnalysis' in request.GET:
         which_klass = request.GET['schoolTestAnalysis']
         me = Teach(user)
         which_class = which_klass.split(',')[0]
         subjects = me.my_subjects_names()
-        context = {'subjects':subjects,'which_class':which_class}
+        context = {'subjects': subjects, 'which_class': which_class}
         return \
-    render(request,'basicinformation/teacher_school_analysis1.html',context)
+            render(request, 'basicinformation/teacher_school_analysis1.html', context)
     elif 'schoolSubject' in request.GET:
         schoolSubject = request.GET['schoolSubject']
         me = Teach(user)
         sub = schoolSubject.split(',')[0]
         which_class = schoolSubject.split(',')[1]
-        marks_class_test1,marks_class_test2,marks_class_test3,marks_class_predictedHy=\
-        me.listofStudentsMarks(which_class)
+        marks_class_test1, marks_class_test2, marks_class_test3, marks_class_predictedHy = \
+            me.listofStudentsMarks(which_class)
         if not marks_class_test1:
-            noTest  = 'No Tests'
-            context = {'noTest':noTest,'which_class':which_class}
+            noTest = 'No Tests'
+            context = {'noTest': noTest, 'which_class': which_class}
             return \
-        render(request,'basicinformation/teacher_school_analysis2.html',context)
+                render(request, 'basicinformation/teacher_school_analysis2.html', context)
         if not marks_class_test2:
             Tests = ['Test1']
-            context ={'Tests':Tests,'which_class':which_class}
+            context = {'Tests': Tests, 'which_class': which_class}
             return \
-        render(request,'basicinformation/teacher_school_analysis2.html',context)
+                render(request, 'basicinformation/teacher_school_analysis2.html', context)
 
         if not marks_class_test3:
-            Tests = ['Test1','Test2']
-            context ={'Tests':Tests,'which_class':which_class}
+            Tests = ['Test1', 'Test2']
+            context = {'Tests': Tests, 'which_class': which_class}
             return \
-        render(request,'basicinformation/teacher_school_analysis2.html',context)
+                render(request, 'basicinformation/teacher_school_analysis2.html', context)
 
         if marks_class_test3:
-            Tests = ['Test1','Test2','Test3']
-            context ={'Tests':Tests}
+            Tests = ['Test1', 'Test2', 'Test3']
+            context = {'Tests': Tests}
             return \
-        render(request,'basicinformation/teacher_school_analysis2.html',context)
+                render(request, 'basicinformation/teacher_school_analysis2.html', context)
     elif 'schoolTestid' in request.GET:
         test_class = request.GET['schoolTestid']
         me = Teach(user)
         test = test_class.split(',')[0]
         which_class = test_class.split(',')[1]
-        print(test,which_class)
-        marks_class_test1,marks_class_test2,marks_class_test3,marks_class_predictedHy=\
-        me.listofStudentsMarks(which_class)
+        print(test, which_class)
+        marks_class_test1, marks_class_test2, marks_class_test3, marks_class_predictedHy = \
+            me.listofStudentsMarks(which_class)
 
         if test == 'Test1':
-            context = me.school_test_analysis(marks_class_test1)            
+            context = me.school_test_analysis(marks_class_test1)
             return render(request,
                           'basicinformation/teacher_school_analysis3.html', context)
         elif test == 'Test2':
-            context = me.school_test_analysis(marks_class_test2)            
+            context = me.school_test_analysis(marks_class_test2)
             return render(request,
                           'basicinformation/teacher_school_analysis3.html', context)
         elif test == 'Test3':
-            context = me.school_test_analysis(marks_class_test3)            
+            context = me.school_test_analysis(marks_class_test3)
             return render(request,
                           'basicinformation/teacher_school_analysis3.html', context)
     elif 'onlineTestAnalysis' in request.GET:
@@ -248,103 +246,117 @@ def teacher_update_page(request):
         me = Teach(user)
         which_class = which_klass.split(',')[0]
         subjects = me.my_subjects_names()
-        context = {'subs':subjects,'which_class':which_class}
+        context = {'subs': subjects, 'which_class': which_class}
         return \
-    render(request,'basicinformation/teacher_online_analysis.html',context)
+            render(request, 'basicinformation/teacher_online_analysis.html', context)
     elif 'onlineschoolSubject' in request.GET:
         onlineSubject = request.GET['onlineschoolSubject']
         sub = onlineSubject.split(',')[0]
         which_class = onlineSubject.split(',')[1]
-        online_tests = KlassTest.objects.filter(creator =
-                                                  user,klas__name=which_class,sub=
+        online_tests = KlassTest.objects.filter(creator=
+                                                user, klas__name=which_class, sub=
                                                 sub)
-        context = {'tests':online_tests}
-        return render(request,'basicinformation/teacher_online_analysis2.html',context)
+        context = {'tests': online_tests}
+        return render(request, 'basicinformation/teacher_online_analysis2.html', context)
     elif 'onlinetestid' in request.GET:
         test_id = request.GET['onlinetestid']
-        print(test_id)
-        online_marks = OnlineMarks.objects.filter(test__id = test_id)
-        context = {'tests':online_marks}
-        return render(request,'basicinformation/teacher_online_analysis3.html',context)
+        me = Teach(user)
+        online_marks = OnlineMarks.objects.filter(test__id=test_id)
+        test = KlassTest.objects.get(id = test_id)
+        max_marks = 0
+        for i in online_marks:
+            max_marks = i.test.max_marks
+        average,percent_average =\
+        me.online_findAverageofTest(test_id,percent='p')
+        grade_s,grade_a,grade_b,grade_c,grade_d,grade_e,grade_f= \
+        me.online_freqeucyGrades(test_id)
+        freq = me.online_QuestionPercentage(test_id)
+        print(freq)
+        sq = me.online_skippedQuestions(test_id)
+        print(sq)
+        context = {'om': online_marks,'test':test,'average':average
+                   ,'percentAverage':percent_average,'maxMarks':max_marks,
+                   'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
+                   'grade_d':grade_d,'grade_e':grade_e,'grade_f':grade_f,
+                   'freq':freq,'sq':sq}
+        return render(request, 'basicinformation/teacher_online_analysis3.html', context)
 
 
 
 
 
-    #elif urllib.request.unquote(str(ajKlass)) == urllib.request.unquote('9th a' + 'relativeaveragespredicted'):
-    #    nine_a_test1, nine_b_test1, nine_a_test2, \
-    #    nine_b_test2, nine_a_test3, nine_b_test3, \
-    #    nine_a_predictedHy, nine_b_predictedHy = teacher_listofStudentsMarks(profile)
-    #    t1 = find_grade_fromMark_predicted(nine_a_predictedHy)
-    #    print(t1)
-    #    print(nine_a_predictedHy)
+        # elif urllib.request.unquote(str(ajKlass)) == urllib.request.unquote('9th a' + 'relativeaveragespredicted'):
+        #    nine_a_test1, nine_b_test1, nine_a_test2, \
+        #    nine_b_test2, nine_a_test3, nine_b_test3, \
+        #    nine_a_predictedHy, nine_b_predictedHy = teacher_listofStudentsMarks(profile)
+        #    t1 = find_grade_fromMark_predicted(nine_a_predictedHy)
+        #    print(t1)
+        #    print(nine_a_predictedHy)
 
-    #    t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s = find_frequency_grades(t1)
-    #    context ={'t1_fg_a': t1_fg_a, 't1_fg_b': t1_fg_b, 't1_fg_c': t1_fg_c,
-    #               't1_fg_d': t1_fg_d,
-    #               't1_fg_e': t1_fg_e, 't1_fg_f': t1_fg_f, 't1_fg_s': t1_fg_s}
-    #    return render(request, 'basicinformation/teacher_relative_averages_predicted.html', context)
-    #elif urllib.request.unquote(str(ajKlass)) == urllib.request.unquote('9th b' + 'relativeaveragespredicted'):
-    #    nine_a_test1, nine_b_test1, nine_a_test2, \
-    #    nine_b_test2, nine_a_test3, nine_b_test3, \
-    #    nine_a_predictedHy, nine_b_predictedHy = teacher_listofStudentsMarks(profile)
-    #    t1 = find_grade_fromMark_predicted(nine_b_predictedHy)
-    #    print(t1)
-    #    print(nine_b_predictedHy)
+        #    t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s = find_frequency_grades(t1)
+        #    context ={'t1_fg_a': t1_fg_a, 't1_fg_b': t1_fg_b, 't1_fg_c': t1_fg_c,
+        #               't1_fg_d': t1_fg_d,
+        #               't1_fg_e': t1_fg_e, 't1_fg_f': t1_fg_f, 't1_fg_s': t1_fg_s}
+        #    return render(request, 'basicinformation/teacher_relative_averages_predicted.html', context)
+        # elif urllib.request.unquote(str(ajKlass)) == urllib.request.unquote('9th b' + 'relativeaveragespredicted'):
+        #    nine_a_test1, nine_b_test1, nine_a_test2, \
+        #    nine_b_test2, nine_a_test3, nine_b_test3, \
+        #    nine_a_predictedHy, nine_b_predictedHy = teacher_listofStudentsMarks(profile)
+        #    t1 = find_grade_fromMark_predicted(nine_b_predictedHy)
+        #    print(t1)
+        #    print(nine_b_predictedHy)
 
-    #    t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s = find_frequency_grades(t1)
-    #    context = {'t1_fg_a': t1_fg_a, 't1_fg_b': t1_fg_b, 't1_fg_c': t1_fg_c,
-    #               't1_fg_d': t1_fg_d,
-    #               't1_fg_e': t1_fg_e, 't1_fg_f': t1_fg_f, 't1_fg_s': t1_fg_s}
-    #    return render(request, 'basicinformation/teacher_relative_averages_predicted.html', context)
-    #else:
-    #    listofstudents = teacher_listofStudents(profile,ajKlass)
-    #    return render(request, 'basicinformation/teacher_update_page.html',
-    #                      {'klass': listofstudents})
+        #    t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s = find_frequency_grades(t1)
+        #    context = {'t1_fg_a': t1_fg_a, 't1_fg_b': t1_fg_b, 't1_fg_c': t1_fg_c,
+        #               't1_fg_d': t1_fg_d,
+        #               't1_fg_e': t1_fg_e, 't1_fg_f': t1_fg_f, 't1_fg_s': t1_fg_s}
+        #    return render(request, 'basicinformation/teacher_relative_averages_predicted.html', context)
+        # else:
+        #    listofstudents = teacher_listofStudents(profile,ajKlass)
+        #    return render(request, 'basicinformation/teacher_update_page.html',
+        #                      {'klass': listofstudents})
 
 
-def create_student(num,request):
-  user = request.user 
- 
-  for i in range(1, num):
-      try:
-          us = User.objects.create_user(username='student' + str(i),
-                                                       email='studentss' + str(i) + '@gmail.com',
-                                                       password='dnpandey')
-          us.save()
-          gr = Group.objects.get(name='Students')
-          gr.user_set.add(us)
-          cl = klass.objects.filter(school__name = 'First School')
-          classes = []
-          for cc in cl:
-              classes.append(cc)
-          for k in classes:
-              stu = Student(studentuser=us, klass=np.random.choice(classes), rollNumber=int(str(i) + '00'), name='stu' + str(i),
-                                       dob=timezone.now(), pincode=int(str(405060)))
-              stu.save()
-              sub = Subject(name='Maths', student=stu,teacher = user.teacher, test1
-                            =randint(3,10),test2 = randint(3,9),test3=
-                            randint(3,9))
-              sub.save()
-      except Exception as e:
-        print(str(e))
+def create_student(num, request):
+    user = request.user
+
+    for i in range(1, num):
+        try:
+            us = User.objects.create_user(username='student' + str(i),
+                                          email='studentss' + str(i) + '@gmail.com',
+                                          password='dnpandey')
+            us.save()
+            gr = Group.objects.get(name='Students')
+            gr.user_set.add(us)
+            cl = klass.objects.filter(school__name='First School')
+            classes = []
+            for cc in cl:
+                classes.append(cc)
+            for k in classes:
+                stu = Student(studentuser=us, klass=np.random.choice(classes), rollNumber=int(str(i) + '00'),
+                              name='stu' + str(i),
+                              dob=timezone.now(), pincode=int(str(405060)))
+                stu.save()
+                sub = Subject(name='Maths', student=stu, teacher=user.teacher, test1
+                =randint(3, 10), test2=randint(3, 9), test3=
+                              randint(3, 9))
+                sub.save()
+        except Exception as e:
+            print(str(e))
 
 
 def create_teacher(num):
-    school1 = School.objects.filter(name = 'First School')
-    school2 = School.objects.filter(name = 'Second School')
-    for i in range( num):
-         us = User.objects.create_user(username='teacher' + str(i),
-                                       email='teacher' + str(i) + '@gmail.com',
-                                       password='dnpandey')
-         us.save()
-         gr = Group.objects.get(name='Teachers')
-         gr.user_set.add(us)
-            
-         teache = Teacher(teacheruser=us,
-                          experience=randint(1,20),name=us.username,school =
-                          school1)
-         teache.save()
-        
-        
+    school1 = School.objects.filter(name='First School')
+    school2 = School.objects.filter(name='Second School')
+    for i in range(num):
+        us = User.objects.create_user(username='teacher' + str(i),
+                                      email='teacher' + str(i) + '@gmail.com',
+                                      password='dnpandey')
+        us.save()
+        gr = Group.objects.get(name='Teachers')
+        gr.user_set.add(us)
 
+        teache = Teacher(teacheruser=us,
+                         experience=randint(1, 20), name=us.username, school=
+                         school1)
+        teache.save()

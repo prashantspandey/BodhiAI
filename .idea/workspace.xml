@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0c223b7c-56a9-4ef1-a715-47251fcff07d" name="Default" comment="some minor changes in the way data is retrieved">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/basicinformation/templates/basicinformation/teacher_relative_averages_predicted.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/basicinformation/marksprediction.py" afterPath="$PROJECT_DIR$/basicinformation/marksprediction.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/basicinformation/templates/basicinformation/teacherHomePage.html" afterPath="$PROJECT_DIR$/basicinformation/templates/basicinformation/teacherHomePage.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/basicinformation/templates/basicinformation/teacher_relative_averages_current.html" afterPath="$PROJECT_DIR$/basicinformation/templates/basicinformation/teacher_relative_averages_current.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/basicinformation/views.py" afterPath="$PROJECT_DIR$/basicinformation/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,11 +15,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basicinformation/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="194" column="8" lean-forward="false" selection-start-line="194" selection-start-column="8" selection-end-line="194" selection-end-column="8" />
+            <state relative-caret-position="60">
+              <caret line="45" column="64" lean-forward="false" selection-start-line="45" selection-start-column="64" selection-end-line="45" selection-end-column="64" />
               <folding>
                 <element signature="e#0#76#0" expanded="true" />
               </folding>
@@ -34,7 +30,7 @@
       <file leaf-file-name="teacher_relative_averages_predicted.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/teacher_relative_averages_predicted.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
+            <state relative-caret-position="520">
               <caret line="26" column="32" lean-forward="false" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
               <folding>
                 <element signature="n#style#0;n#canvas#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -46,8 +42,8 @@
       <file leaf-file-name="teacher_update_page.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/teacher_update_page.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1533">
-              <caret line="76" column="46" lean-forward="false" selection-start-line="76" selection-start-column="46" selection-end-line="76" selection-end-column="46" />
+            <state relative-caret-position="1520">
+              <caret line="76" column="29" lean-forward="false" selection-start-line="76" selection-start-column="29" selection-end-line="76" selection-end-column="29" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#canvas#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -59,21 +55,20 @@
       <file leaf-file-name="teacher_relative_averages_current.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/teacher_relative_averages_current.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2247">
-              <caret line="107" column="29" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="122" selection-end-column="6" />
+            <state relative-caret-position="1580">
+              <caret line="82" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#canvas#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#canvas#0;n#div#1;n#div#1;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="marksprediction.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="marksprediction.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/basicinformation/marksprediction.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="11949">
-              <caret line="572" column="20" lean-forward="false" selection-start-line="572" selection-start-column="20" selection-end-line="572" selection-end-column="20" />
+            <state relative-caret-position="-1028">
+              <caret line="925" column="23" lean-forward="false" selection-start-line="925" selection-start-column="23" selection-end-line="925" selection-end-column="23" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -84,8 +79,8 @@
       <file leaf-file-name="teacherHomePage.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/teacherHomePage.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2373">
-              <caret line="113" column="68" lean-forward="false" selection-start-line="113" selection-start-column="68" selection-end-line="113" selection-end-column="68" />
+            <state relative-caret-position="2260">
+              <caret line="113" column="0" lean-forward="false" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -94,7 +89,7 @@
       <file leaf-file-name="analysis_current.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/analysis_current.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1491">
+            <state relative-caret-position="1420">
               <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -106,7 +101,7 @@
       <file leaf-file-name="teacher.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/teacher.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="693">
+            <state relative-caret-position="660">
               <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="91" selection-end-column="9" />
               <folding>
                 <element signature="n#style#0;n#canvas#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -118,7 +113,7 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basicinformation/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1260">
+            <state relative-caret-position="1200">
               <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
@@ -130,7 +125,7 @@
       <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
+            <state relative-caret-position="140">
               <caret line="7" column="87" lean-forward="false" selection-start-line="7" selection-start-column="87" selection-end-line="7" selection-end-column="87" />
               <folding />
             </state>
@@ -188,16 +183,15 @@
         <option value="$PROJECT_DIR$/basicinformation/templates/basicinformation/teacher_relative_averages_current.html" />
         <option value="$PROJECT_DIR$/basicinformation/templates/basicinformation/teacherHomePage.html" />
         <option value="$PROJECT_DIR$/basicinformation/templates/basicinformation/teacher_relative_averages_predicted.html" />
-        <option value="$PROJECT_DIR$/basicinformation/marksprediction.py" />
         <option value="$PROJECT_DIR$/basicinformation/views.py" />
+        <option value="$PROJECT_DIR$/basicinformation/marksprediction.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1060" />
+    <option name="y" value="-4" />
+    <option name="width" value="1920" />
+    <option name="height" value="1084" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -215,7 +209,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -266,6 +259,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -419,18 +413,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1060" extended-state="6" />
+    <frame x="0" y="-4" width="1920" height="1084" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1433942" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14514408" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32849163" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31511253" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32860824" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32860824" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31511253" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20782124" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20729166" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -762,13 +756,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/teacher.html___jb_old___" />
-    <entry file="file://$PROJECT_DIR$/../../bodhi extra code/code snippet for predicted marks in teachers html.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="12" column="40" lean-forward="true" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../bodhi extra code/code snippet for predicted marks in teachers html.txt" />
     <entry file="file://$PROJECT_DIR$/basicinformation/static/basicinformation/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="147">
@@ -792,7 +780,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/basicinformation/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1260">
+        <state relative-caret-position="1200">
           <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
@@ -802,7 +790,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
+        <state relative-caret-position="140">
           <caret line="7" column="87" lean-forward="false" selection-start-line="7" selection-start-column="87" selection-end-line="7" selection-end-column="87" />
           <folding />
         </state>
@@ -810,7 +798,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/analysis_current.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1491">
+        <state relative-caret-position="1420">
           <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -820,7 +808,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/teacher.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="693">
+        <state relative-caret-position="660">
           <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="91" selection-end-column="9" />
           <folding>
             <element signature="n#style#0;n#canvas#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -830,19 +818,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/teacher_relative_averages_current.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2247">
-          <caret line="107" column="29" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="122" selection-end-column="6" />
+        <state relative-caret-position="1580">
+          <caret line="82" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#canvas#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#canvas#0;n#div#1;n#div#1;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/teacher_update_page.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1533">
-          <caret line="76" column="46" lean-forward="false" selection-start-line="76" selection-start-column="46" selection-end-line="76" selection-end-column="46" />
+        <state relative-caret-position="1520">
+          <caret line="76" column="29" lean-forward="false" selection-start-line="76" selection-start-column="29" selection-end-line="76" selection-end-column="29" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#canvas#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -852,15 +839,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/teacherHomePage.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2373">
-          <caret line="113" column="68" lean-forward="false" selection-start-line="113" selection-start-column="68" selection-end-line="113" selection-end-column="68" />
+        <state relative-caret-position="2260">
+          <caret line="113" column="0" lean-forward="false" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/basicinformation/templates/basicinformation/teacher_relative_averages_predicted.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
+        <state relative-caret-position="520">
           <caret line="26" column="32" lean-forward="false" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
           <folding>
             <element signature="n#style#0;n#canvas#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -868,22 +855,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/basicinformation/marksprediction.py">
+    <entry file="file://$PROJECT_DIR$/basicinformation/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11949">
-          <caret line="572" column="20" lean-forward="false" selection-start-line="572" selection-start-column="20" selection-end-line="572" selection-end-column="20" />
+        <state relative-caret-position="60">
+          <caret line="45" column="64" lean-forward="false" selection-start-line="45" selection-start-column="64" selection-end-line="45" selection-end-column="64" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#76#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/basicinformation/views.py">
+    <entry file="file://$PROJECT_DIR$/basicinformation/marksprediction.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="194" column="8" lean-forward="false" selection-start-line="194" selection-start-column="8" selection-end-line="194" selection-end-column="8" />
+        <state relative-caret-position="-1028">
+          <caret line="925" column="23" lean-forward="false" selection-start-line="925" selection-start-column="23" selection-end-line="925" selection-end-column="23" />
           <folding>
-            <element signature="e#0#76#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>

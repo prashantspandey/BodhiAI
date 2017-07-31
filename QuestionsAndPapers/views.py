@@ -20,8 +20,10 @@ def home(request):
 
 def create_test(request):
     user = request.user
+    
     if user.is_authenticated:
         if user.groups.filter(name= 'Teachers').exists():
+            quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
             questions = Questions.objects.all()
             me = Teach(user)
             school = me.my_school()
@@ -30,8 +32,8 @@ def create_test(request):
             try:
                 if 'klass_test' in request.GET:
                     try:
-                        if os.path.exists('questions_list.pkl'):
-                            os.remove('questions_list.pkl')
+                        if os.path.exists(quest_file_name):
+                            os.remove(quest_file_name)
                     except:
                         pass
 
@@ -57,6 +59,7 @@ def create_test(request):
                         return
                     render(request,'questions/klass_available.html',context)
                 if 'chapter_test' in request.GET:
+                    quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
                     which_chap = request.GET['chapter_test']
                     splitChap = which_chap.split(",",1)[0]
                     splitClass = which_chap.split(",",1)[1]
@@ -65,8 +68,8 @@ def create_test(request):
                     for kass in klasses:
                         klass_level = kass.level
                     
-                    if os.path.exists('questions_list.pkl'):
-                        with open('questions_list.pkl','rb') as fi:
+                    if os.path.exists(quest_file_name):
+                        with open(quest_file_name,'rb') as fi:
                             questions_list = pickle.load(fi)
                         idlist = []
                         for qq in questions_list:
@@ -94,20 +97,22 @@ def create_test(request):
         else:
             raise Http404("You don't have necessary permissions.")
 def add_questions(request):
+    user = request.user
+    quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
     if 'question_id' in request.GET:
-        if os.path.exists('questions_list.pkl'):
-            with open('questions_list.pkl','rb') as lql:
+
+        if os.path.exists(quest_file_name):
+            with open(quest_file_name,'rb') as lql:
                 questions_list = pickle.load(lql)
         else:
             questions_list = []
         question_id = request.GET['question_id']
-        print(question_id)
         which_klass = question_id.split(',')[1]
         question_id = question_id.split(',')[0]
         
         questions_list.append(Questions.objects.get(id=question_id))
         questions_list = list(unique_everseen(questions_list))
-        with open('questions_list.pkl','wb') as ql:
+        with open(quest_file_name,'wb') as ql:
             pickle.dump(questions_list,ql)
         total_marks = []
         for l in questions_list:
@@ -120,8 +125,8 @@ def add_questions(request):
                 {'questions':questions_list,'total_marks':total,'num_questions':num_questions,'which_klass':which_klass }
         return render(request,'questions/addedQuestions.html',context)
     if 'remove_id' in request.GET:
-        if os.path.exists('questions_list.pkl'):
-            with open('questions_list.pkl','rb') as rid:
+        if os.path.exists(quest_file_name):
+            with open(quest_file_name,'rb') as rid:
                 questions_list = pickle.load(rid)
         else:
             questions_list = []
@@ -137,7 +142,7 @@ def add_questions(request):
                 questions.append(tbr)
         total_marks = []
         questions_list = questions
-        with open('questions_list.pkl','wb') as ql:
+        with open(quest_file_name,'wb') as ql:
             pickle.dump(questions_list,ql)
         for j in questions_list:
             total_marks.append(j.max_marks)
@@ -150,13 +155,12 @@ def add_questions(request):
          }
         return render(request,'questions/addedQuestions.html',context)
     if request.POST:
-        with open('questions_list.pkl','rb') as ql:
+        with open(quest_file_name,'rb') as ql:
             questions_list= pickle.load(ql)
         if len(questions_list)!=0:
             me = Teach(request.user)
             which_klass = request.POST['which_klass']
             klass = me.my_classes_objects(which_klass)
-            print(klass)
             tot = 0 
             for i in questions_list:
                 tot = tot + i.max_marks
@@ -184,8 +188,6 @@ def publish_test(request):
                 for i in students:
                     myTest.testTakers.add(i)
                 due_date = datetime.datetime.strptime(date, "%m/%d/%Y")
-                print(due_date)
-                print(type(due_date))
                 myTest.due_date = due_date
                 for sub in myTest.questions_set.all():
                     subject = sub.sub
@@ -222,7 +224,6 @@ def student_show_onlineTests(request):
             me = Studs(request.user)
             testid = request.GET['onlineTestid']
             old_test = me.is_onlineTestTaken(testid)
-            print(old_test)
             if old_test:
                 context = {'marks':old_test}
                 return render(request,'questions/student_evaluated_test.html',context)
@@ -248,7 +249,6 @@ def student_show_onlineTests(request):
                 try:
                     answerChoice = eval("'answerChoice'+str(i)")
                     ans = request.POST[answerChoice]
-                    print(ans)
                     all_answers.append(int(ans))
                 except:
                     pass
@@ -258,7 +258,6 @@ def student_show_onlineTests(request):
                     if not ch.id in all_answers:
                         skipped_answers.append(qu.id)
                     elif ch.id in all_answers and ch.predicament == "Correct":
-                        print('right_answers')
                         right_answers.append(qu.id)
                         right_answers2.append(ch.id)
                         test_marks += int(qu.max_marks)
@@ -280,8 +279,7 @@ def student_show_onlineTests(request):
             my_marks.testTaken = timezone.now()
             my_marks.save()
             context = {'marks':my_marks}
-            return
-        render(request,'questions/student_evaluated_test.html',context)
+            return render(request,'questions/student_answered_paper.html',context)
             
 
 
