@@ -4,8 +4,8 @@ from random import randint
 import numpy as np
 import urllib.request
 from more_itertools import unique_everseen
-from django.contrib.auth.models import User, Group
-from .models import Student, Teacher, Subject, School, klass
+from django.contrib.auth.models import User, Group 
+from .models import Student, Teacher, Subject, School, klass 
 from django.utils import timezone
 # from .marksprediction import predictionConvertion, readmarks, averageoftest, teacher_get_students_classwise
 from .marksprediction import *
@@ -82,26 +82,49 @@ def student_self_analysis(request):
         if user.groups.filter(name='Teachers').exists():
             raise Http404(" This page is only meant for student to see.")
         elif user.groups.filter(name='Students').exists():
+            me = Studs(user)
+            allSubjects = me.my_subjects_names()
             analysis_types = ['School Tests Analysis','Online Test Analysis']
-            context = {'analysisTypes':analysis_types}
+            context = {'subjects':allSubjects}
             return render(request,'basicinformation/selfStudentAnalysis.html',context)
 
 
 def student_subject_analysis(request):
     user = request.user
     if user.is_authenticated:
-        me = Studs(user)
-        if 'analysistype' in request.GET:
-            ana_type = request.GET['analysistype']
-            allSubjects = me.my_subjects_names()
-            if ana_type == 'School':
-                print('in school')
-                allSubjects = me.my_subjects_names()
-                context = {'subjects':allSubjects,'which_analysis':ana_type}
-                return render(request,'basicinformation/studentAverageCurrent.html',context)
-            elif ana_type == 'Online':
-                context = {'subjects':allSubjects}
-                return render(request,'basicinformation/studentAverageCurrent.html',context)
+        if 'studentwhichsub' in request.GET:
+            which_sub = request.GET['studentwhichsub']
+            print(which_sub)
+            ana_type = ['School Tests','Online Tests']
+            context = {'anatype':ana_type,'sub':which_sub}
+            return \
+        render(request,'basicinformation/student_analysis_subjects.html',context)
+        if 'studentwhichana' in request.GET:
+            which_one = request.GET['studentwhichana']
+            print(which_one)
+            subject = which_one
+            tests = OnlineMarks.objects.filter(test__sub = subject, student = user.student)
+            context = {'tests':tests}
+            return \
+            render(request,'basicinformation/student_self_sub_tests.html',context)
+        if 'studentTestid' in request.GET:
+            me = Studs(user)
+            test_id = request.GET['studentTestid']
+            test = OnlineMarks.objects.get(student = user.student,test__id = test_id)
+            my_marks_percent = (test.marks/test.test.max_marks)*100
+            average,percent_average = \
+            me.online_findAverageofTest(test_id,percent='p')
+            percentile,all_marks = me.online_findPercentile(test_id)
+            all_marks = [((i/test.test.max_marks)*100) for i in all_marks]
+            freq = me.online_QuestionPercentage(test_id)
+            context = \
+            {'test':test,'average':average,'percentAverage':percent_average,
+             'my_percent':my_marks_percent,'percentile':percentile,'allMarks':all_marks,
+             'freq':freq}
+            return \
+        render(request,'basicinformation/student_analyze_test.html',context)
+            
+                
 
 
 def current_analysis(request, grade):
@@ -220,6 +243,32 @@ def teacher_update_page(request):
             context = me.school_test_analysis(marks_class_test3)            
             return render(request,
                           'basicinformation/teacher_school_analysis3.html', context)
+    elif 'onlineTestAnalysis' in request.GET:
+        which_klass = request.GET['onlineTestAnalysis']
+        me = Teach(user)
+        which_class = which_klass.split(',')[0]
+        subjects = me.my_subjects_names()
+        context = {'subs':subjects,'which_class':which_class}
+        return \
+    render(request,'basicinformation/teacher_online_analysis.html',context)
+    elif 'onlineschoolSubject' in request.GET:
+        onlineSubject = request.GET['onlineschoolSubject']
+        sub = onlineSubject.split(',')[0]
+        which_class = onlineSubject.split(',')[1]
+        online_tests = KlassTest.objects.filter(creator =
+                                                  user,klas__name=which_class,sub=
+                                                sub)
+        context = {'tests':online_tests}
+        return render(request,'basicinformation/teacher_online_analysis2.html',context)
+    elif 'onlinetestid' in request.GET:
+        test_id = request.GET['onlinetestid']
+        print(test_id)
+        online_marks = OnlineMarks.objects.filter(test__id = test_id)
+        context = {'tests':online_marks}
+        return render(request,'basicinformation/teacher_online_analysis3.html',context)
+
+
+
 
 
     #elif urllib.request.unquote(str(ajKlass)) == urllib.request.unquote('9th a' + 'relativeaveragespredicted'):

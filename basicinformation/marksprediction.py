@@ -886,7 +886,56 @@ class Studs:
             return test
         except:
             return None
-        
+    
+    def online_findAverageofTest(self,test_id,percent=None):
+        if percent:
+            test = OnlineMarks.objects.filter(test__id = test_id)
+            all_marks = []
+            all_marks_percent = []
+            for te in test:
+                all_marks.append(int(te.marks))
+                all_marks_percent.append((te.marks/te.test.max_marks)*100)
+            average = np.mean(all_marks)
+            percent_average = np.mean(all_marks_percent)
+            return average,percent_average
+            
+            
+        else:
+            test = OnlineMarks.objects.filter(test__id = test_id)
+            all_marks = []
+            for te in test:
+               all_marks.append(int(te.marks))
+            average = np.mean(all_marks)
+
+            return average
+    def online_findPercentile(self,test_id):
+        test = OnlineMarks.objects.filter(test__id = test_id)
+        all_marks = []
+        for te in test:
+            all_marks.append(te.marks)
+        num_students = len(all_marks)
+        my_score = OnlineMarks.objects.get(test__id = test_id,student=
+                                           self.profile)
+        my_score = my_score.marks
+        same_marks = 0
+        less_marks = 0
+        for i in all_marks:
+            if i == my_score:
+                same_marks += 1
+            elif i< my_score:
+                less_marks += 1
+        percentile = ((less_marks + (0.5*same_marks)*100)/num_students)
+        return percentile,all_marks
+    def online_QuestionPercentage(self,test_id):
+        online_marks = OnlineMarks.objects.filter(test__id = test_id)
+        all_answers = []
+        for aa in online_marks:
+            all_answers.extend(aa.allAnswers)
+        unique,counts = np.unique(all_answers,return_counts=True)
+        freq = np.asarray((unique,counts)).T
+        return freq
+   
+
 
 class Teach:
 

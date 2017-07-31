@@ -1,0 +1,47 @@
+<script>
+
+         $(document).ready(function () {
+    var pr
+
+        for(i=1 ; i<=10; i++){
+         $(eval("'#onlineTestid'+i")).click(function(){
+          which_testid = $(this).attr('value');
+	  console.log(which_testid)
+         $(this).removeClass("btn btn-default").addClass("btn btn-success");
+         $('#onlinetestanalysis').removeClass("hidden");
+         $('#onlinetestanalysis').html('').load('{% url 'basic:teacher_update_page' %}?onlinetestid='+which_testid);
+
+
+            $(this).animate({
+            height: '40px',
+            width: '170px',
+        });
+
+          $(eval("'#'+pr")).animate({
+            height: '35px',
+            width: '160px',
+        });
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+
+
+
+
+    pr = $(this).attr('id');
+});
+};
+});
+    </script>
+
+<div class="panel panel-default">
+  <div class="panel-heading text-center">Choose a Test</div>
+  <div class="panel-body">
+{% for i in tests %}
+
+<div class="btn-group" role="group" aria-label="...">
+	<button type="button" class="btn btn-default text-center" value ="{{i.id}}" id="onlineTestid{{forloop.counter}}">{{i.published}}</button>
+</div>
+{%endfor%}
+        </div>
+<div class='hidden' id = 'onlinetestanalysis'>
+{%include 'basicinformation/teacher_online_analysis3.html' %}
+</div>

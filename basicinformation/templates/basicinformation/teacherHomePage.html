@@ -58,6 +58,15 @@
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?ajKlass='+encodeURIComponent(ajKl)+'relativeaveragespredicted');
 
     });
+ $('#onlineTestAnalysis').click(function(){
+    async: false
+     var analysisClass
+
+
+        $('.cont').removeClass("hidden");
+      $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?onlineTestAnalysis='+ajKl);
+
+    });
 
 
          });

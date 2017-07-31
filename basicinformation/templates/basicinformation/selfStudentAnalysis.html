@@ -3,22 +3,42 @@
 <html>
 	<head>
 		<title>
-			Analysis
+			{%block title%}
+			Self Analysis
+			{% endblock%}
 		</title>
 
 		{% block scripts %}
      <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 	<script>
          $(document).ready(function () {
-	for(i=1;i<=5;i++){
-         $(eval("'#analysistype'+i")).click(function(){
-		var ana_type = $(this).text()
-		console.log(ana_type)
-		$('#studentSubjects').removeClass('hidden')
-		$('#studentSubjects').html('').load('{% url 'basic:studentSubjectAnalysis' %}?analysistype='+ana_type);
+var pr
 
-	 });	
+        for(i=1 ; i<=10; i++){
+         $(eval("'#studentanasub'+i")).click(function(){
+          which_sub = $(this).text();
+         $(this).removeClass("btn btn-default").addClass("btn btn-success");
+         $('.studentselfSubjects').removeClass("hidden");
+         $('.studentselfSubjects').html('').load('{% url "basic:studentSubjectAnalysis" %}?studentwhichsub='+which_sub);
+
+
+            $(this).animate({
+            height: '40px',
+            width: '170px',
+        });
+
+          $(eval("'#'+pr")).animate({
+            height: '35px',
+            width: '160px',
+        });
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+
+
+
+
+    pr = $(this).attr('id');
+
+		 });	
 	 };
 	 });
 
@@ -32,20 +52,18 @@
 <div class="panel panel-default">
   <div class="panel-heading text-center">Choose an Analysis:</div>
   <div class="panel-body">
-{% for i in analysisTypes %}
+{% for sub in subjects %}
 
 <div class="btn-group" role="group" aria-label="...">
-	<button type="button" class="btn btn-default text-center" id="analysistype{{forloop.counter}}">{{i}}</button>
+	<button type="button" class="btn btn-default " id="studentanasub{{forloop.counter}}">{{sub}}</button>
 </div>
 
 {%endfor%}
         </div>
-	<div class="hidden" id="studentSubjects">
-		{% include 'basicinformation/studentAverageCurrent.html' %}
+	<div class="hidden studentselfSubjects">
+		{% include 'basicinformation/student_analysis_subjects.html' %}
 	</div>
-        </div>
-		{%endblock%}
+{%endblock%}
 
-	</body>
-
+</body>
 </html>

@@ -1,0 +1,36 @@
+<script>
+
+         $(document).ready(function () {
+
+
+         $("#OnlineAnalysis").click(function(){
+          which_ana = $(this).text();
+          which_sub = $('#this_sub2').text();
+	 });
+$("#SchoolAnalysis").click(function(){
+          which_ana = $(this).text();
+          which_sub = $('#this_sub2').text();
+         $('#studentshowTests').removeClass("hidden");
+         $('#studentshowTests').html('').load('{% url "basic:studentSubjectAnalysis" %}?studentwhichana='+which_sub);
+	 });
+
+});
+    </script>
+
+
+
+
+<div class="panel panel-default">
+  <div class="panel-heading text-center">Choose an Analysis Type:</div>
+  <div class="panel-body">
+	  <button type="button" class="btn btn-default text-center"  id="OnlineAnalysis">School Analysis</button>
+	<button type="button" class="btn btn-default text-center"  id="SchoolAnalysis">Online Analysis</button>
+	<button type="button" class="hidden btn btn-default text-center" value ="{{sub}}" id="this_sub2">{{sub}}</button>
+
+
+  </div>
+</div>
+
+<div class='hidden' id = 'studentshowTests'>
+	{% include 'basicinformation/student_self_sub_tests.html' %}
+</div>

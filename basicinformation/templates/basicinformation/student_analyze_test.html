@@ -1,0 +1,120 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<div class = 'col-md-offset-1 col-md-8'>
+	<h3 style='text-align:center;'> Average of Test: {{average}} out of {{test.test.max_marks}} or {{percentAverage}} %</h3>
+	<h3 style='text-align:center;'> Your score: {{test.marks}} out of {{test.test.max_marks}} </h3>
+</div>
+	<script>
+$(document).ready(function () {
+	    var ctx = document.getElementById("analysis");
+		var myChart1 = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["Test Average","Your Score"],
+                datasets: [{
+			label: 'Your performace vs Average Performance',
+			data: [{{percentAverage}},{{my_percent}}],
+			 backgroundColor: [
+                        'rgba(255, 99, 132, 0.4)',
+                        'rgba(54, 162, 235, 0.2)',
+                                      ],
+                    borderColor: [ 'rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)',
+                                            ],
+                    borderWidth: 3
+                }]
+            },
+            options: {   responsive: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+                            max: 100
+                        }
+                    }]
+                }
+            }
+        });
+    });
+	</script>
+	<script>
+	$(document).ready(function () {
+var pointBackgroundColors = [];
+	    var ctxper = document.getElementById("analysisPercentile");
+		var myChartper = new Chart(ctxper, {
+            type: 'line',
+            data: {
+		    labels: [{%for ma in allMarks%}"score", {%endfor%}],
+
+                datasets: [{
+			label: 'Student performance and predictions for Test',
+			data: [{%for ma in allMarks%} {{ma}},{%endfor%}],
+			pointBackgroundColor: pointBackgroundColors,
+			showLine: false,
+			pointRadius: 8,
+                                  borderWidth: 3
+                }]
+            },
+            options: {   responsive: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+                            max: 100
+                        }
+                    }]
+                }
+            }
+        });
+		{%for ma in allMarks %}
+		{% if ma == percentAverage %}
+		pointBackgroundColors.push("#90cd8a");					        
+		{%elif ma < percentAverage %}
+		pointBackgroundColors.push("#4A148C");					        
+		{%elif ma > percentAverage %}
+		pointBackgroundColors.push("#880E4F");					        
+		{%endif%}
+		{%endfor%}
+
+		
+
+		myChartper.update();
+    });
+
+
+</script>
+<div class='col-md-offset-1 col-md-6'>
+	<h2>Your performace vs Average Performace</h2>
+	<canvas  id="analysis" style="display: block; height: 300px; width: 400px; padding-left: 0;">
+</canvas>
+</div>
+	    <div class='col-md-4'>
+	<h2> Your percentile: {{percentile}} </h2>
+	<canvas  id="analysisPercentile" style="display: block; height: 300px; width: 400px; padding-left: 0;">
+</canvas>
+</div>
+	<div class='col-md-offset-1 col-md-10'>
+		{% for te in test.test.questions_set.all %}
+		<div class='well'>
+			<h3> {{te.text}}{% if te.id in test.skippedAnswers %}<span class="label label-warning" >You skipped this question</span>{%endif%}</h3>
+			{% for ch in te.choices_set.all %}
+			
+			<p > <span class='badge'>{{forloop.counter}}</span>---{{ch.text}} {%if ch.predicament == 'Correct' %} <span class="label label-primary">Correct Answer</span>{%endif%}
+			{%if ch.id in test.rightAnswers %}<span class="label label-success">Your Answer</span>{%endif%}
+			{% if ch.id in test.wrongAnswers %}<span class="label label-danger">Your Answer</span>{%endif%}</p>
+			{% for x,y in freq %}
+			{% if ch.id == x%}
+			<p >	<span class="badge">{{y}} people answered this choice </span></p>
+			{%endif%}
+			{%endfor%}
+
+			{%endfor%}
+				
+		</div>
+		
+		{%endfor%}
+	</div>
+

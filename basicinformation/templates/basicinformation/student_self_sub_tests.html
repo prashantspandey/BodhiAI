@@ -1,0 +1,30 @@
+<script>
+
+         $(document).ready(function () {
+	 for(i=1 ; i<=10; i++){
+
+         $(eval("'#studentTestids'+i")).click(function(){
+          which_test = $(this).attr('value');
+         $('#studentAnalyzeTest').removeClass("hidden");
+         $('#studentAnalyzeTest').html('').load('{% url "basic:studentSubjectAnalysis" %}?studentTestid='+which_test);
+	 });
+};
+});
+    </script>
+
+
+
+
+<div class="panel panel-default">
+  <div class="panel-heading text-center">Choose a Test:</div>
+  <div class="panel-body">
+	  {% for test in tests%}
+	  <button type="button" class="btn btn-default text-center" value='{{test.test.id}}'  id="studentTestids{{forloop.counter}}">{{test.test.published}}</button>
+
+	{%endfor%}
+  </div>
+</div>
+
+<div class='hidden' id = 'studentAnalyzeTest'>
+	{% include 'basicinformation/student_analyze_test.html' %}
+</div>
