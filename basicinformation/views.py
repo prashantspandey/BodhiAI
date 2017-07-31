@@ -37,13 +37,14 @@ def home(request):
             sciencet1, sciencet2, sciencet3, sciencehy, sciencet4,
             sciencepredhy = me.readmarks()
             # find the predicted marks
-            try:
-                hindipredhy = me.predictionConvertion(hindipredhy)
-                mathspredhy = me.predictionConvertion(mathspredhy)
-                englishpredhy = me.predictionConvertion(englishpredhy)
-                sciencepredhy = me.predictionConvertion(sciencepredhy)
-            except:
-                pass
+            #hindipredhy = me.predictionConvertion(hindipredhy)
+            #mathspredhy = me.predictionConvertion(mathspredhy)
+            #englishpredhy = me.predictionConvertion(englishpredhy)
+            #sciencepredhy = me.predictionConvertion(sciencepredhy)
+            hindipredhy = 0
+            mathspredhy = 0
+            englishpredhy = 0
+            sciencepredhy = 0
             # sending all values to template
 
             context = {'profile': profile, 'subjects': subjects,
