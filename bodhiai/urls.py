@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-
+from bodhiai import views
 urlpatterns = [
+    url(r'^$', views.index),
     url(r'^bodhi/', include('basicinformation.urls')),
     url(r'^membership/', include('membership.urls')),
     url(r'^questions/',include('QuestionsAndPapers.urls')),
