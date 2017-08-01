@@ -211,6 +211,16 @@
   <p>Date of Birth: {{profile.dob}}</p>
 
 </div>
+{%if announcements %}
+<h2 style= 'text-align:center;'> Announcements </h2>
+	<div class="alert alert-info">
+		{% for announcement in announcements %}
+		<strong>By: {{announcement.announcer}}  <h3>{{announcement.text}} </strong></h3>
+			<h4>on: {{announcement.date}}</h4>
+		{%endfor%}
+	</div>
+
+{%endif%}
 
 
 

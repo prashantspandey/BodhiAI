@@ -43,9 +43,9 @@
 	</head>
 	<body>
 		{% block content %}
-		<h2>Create Test</h2>
+		<h2 style='text-align:center;font-weight:bold;'>Create Test</h2>
 	<div class="panel panel-default" id='kclass'>
-  <div class="panel-heading text-center">Class you want to create the test for: </div>
+  <div class="panel-heading " style='text-align:center;font-weight:bold;' >Class you want to create the test for: </div>
   <div class="panel-body">
 {% for i in klasses %}
 
@@ -58,7 +58,7 @@
 </div>
 
 <div class="hidden panel panel-default" id="chapters" >
-  <div class="panel-heading text-center">Questions</div>
+	<div class="panel-heading text-center" style ='text-align:center;font-weight:bold;'  >Questions</div>
   <div class="panel-body" >
 {%include 'questions/klass_available.html' %}
 </div>

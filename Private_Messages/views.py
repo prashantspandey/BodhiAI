@@ -3,7 +3,9 @@ from django.http import Http404, HttpResponse
 from django.contrib.auth.models import User, Group
 from django.contrib import messages 
 from basicinformation.models import Subject,Teacher,Student
-from .models import PrivateMessage
+from .models import *
+from basicinformation.marksprediction import *
+from django.utils import timezone
 def inbox(request):
     user = request.user
     if user.is_authenticated:
@@ -132,4 +134,60 @@ def view_sent_messages(request):
         return render(request,'Private_Messages/sent_messages.html',context)
     else:
         raise Http404('Please login to see messages')
+
+
+# functions for Announcement
+
+def home_announcement(request):
+    user = request.user
+    if user.is_authenticated:
+        if user.groups.filter(name='Teachers').exists():
+            me = Teach(user)
+            klasses = me.my_classes_names()
+            annoucements = Announcement.objects.filter(announcer =
+                                                       user.teacher)
+            context = {'klasses':klasses,'announcements':annoucements}
+            return \
+        render(request,'Private_Messages/create_announcement.html',context)
+        else:
+            raise Http404('Wrong page kid')
+
+def create_annoucement(request):
+    user = request.user
+    if user.is_authenticated:
+        if request.POST:
+            kla = request.POST['which_class']
+            text = request.POST['announcement']
+            print(klass)
+            print(text)
+            print(user.teacher)
+            newAnnouncement = Announcement()
+            newAnnouncement.announcer = user.teacher
+            newAnnouncement.text = text
+            newAnnouncement.date = timezone.now()
+            newAnnouncement.save()
+            kl = klass.objects.get(name = kla, school =
+                                   user.teacher.school)
+            students = Student.objects.filter(klass = kl)
+            for st in students:
+                newAnnouncement.listener.add(st)
+            context = {'announcement':newAnnouncement}
+            return render(request,'Private_Messages/success_announced.html',context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

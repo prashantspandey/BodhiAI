@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse, redirect
 from django.http import Http404, HttpResponse
 from random import randint
+from datetime import timedelta
+from datetime import date
 import numpy as np
 import urllib.request
 from more_itertools import unique_everseen
@@ -9,6 +11,7 @@ from .models import Student, Teacher, Subject, School, klass
 from django.utils import timezone
 # from .marksprediction import predictionConvertion, readmarks, averageoftest, teacher_get_students_classwise
 from .marksprediction import *
+from Private_Messages.models import *
 
 
 def home(request):
@@ -21,7 +24,6 @@ def home(request):
             teacher_name = {}
             for sub in subjects:
                 teacher_name[sub.name] = sub.teacher
-                print('%s teaches --' % sub.teacher, sub.name)
             # retrieve all marks from database
             mathst1, mathst2, mathst3, mathshy, \
             mathst4, mathspredhy = [], [], [], [], [], []
@@ -36,6 +38,12 @@ def home(request):
             englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
             sciencet1, sciencet2, sciencet3, sciencehy, sciencet4,
             sciencepredhy = me.readmarks()
+            # check for announcements in past 48 hours
+            startdate = date.today()
+            enddate = startdate - timedelta(days=2)
+            my_announcements = Announcement.objects.filter(listener =
+                                                           profile,date__range=[enddate,startdate])
+
             # find the predicted marks
             #hindipredhy = me.predictionConvertion(hindipredhy)
             #mathspredhy = me.predictionConvertion(mathspredhy)
@@ -57,7 +65,8 @@ def home(request):
                        'hindi3': hindit3, 'hindi4': hindit4, 'english1': englisht1,
                        'english2': englisht2, 'english3': englisht3, 'english4': englisht4,
                        'science1': sciencet1, 'science2': sciencet2,
-                       'science3': sciencet3, 'science4': sciencet4}
+                       'science3': sciencet3, 'science4':
+                       sciencet4,'announcements':my_announcements}
 
             return render(request, 'basicinformation/student.html', context)
 
@@ -98,14 +107,12 @@ def student_subject_analysis(request):
     if user.is_authenticated:
         if 'studentwhichsub' in request.GET:
             which_sub = request.GET['studentwhichsub']
-            print(which_sub)
             ana_type = ['School Tests', 'Online Tests']
             context = {'anatype': ana_type, 'sub': which_sub}
             return \
                 render(request, 'basicinformation/student_analysis_subjects.html', context)
         if 'studentwhichana' in request.GET:
             which_one = request.GET['studentwhichana']
-            print(which_one)
             subject = which_one
             tests = OnlineMarks.objects.filter(test__sub=subject, student=user.student)
             context = {'tests': tests}
@@ -229,7 +236,6 @@ def teacher_update_page(request):
         me = Teach(user)
         test = test_class.split(',')[0]
         which_class = test_class.split(',')[1]
-        print(test, which_class)
         marks_class_test1, marks_class_test2, marks_class_test3, marks_class_predictedHy = \
             me.listofStudentsMarks(which_class)
 
@@ -275,9 +281,7 @@ def teacher_update_page(request):
         grade_s,grade_a,grade_b,grade_c,grade_d,grade_e,grade_f= \
         me.online_freqeucyGrades(test_id)
         freq = me.online_QuestionPercentage(test_id)
-        print(freq)
         sq = me.online_skippedQuestions(test_id)
-        print(sq)
         context = {'om': online_marks,'test':test,'average':average
                    ,'percentAverage':percent_average,'maxMarks':max_marks,
                    'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
@@ -287,80 +291,3 @@ def teacher_update_page(request):
 
 
 
-
-
-        # elif urllib.request.unquote(str(ajKlass)) == urllib.request.unquote('9th a' + 'relativeaveragespredicted'):
-        #    nine_a_test1, nine_b_test1, nine_a_test2, \
-        #    nine_b_test2, nine_a_test3, nine_b_test3, \
-        #    nine_a_predictedHy, nine_b_predictedHy = teacher_listofStudentsMarks(profile)
-        #    t1 = find_grade_fromMark_predicted(nine_a_predictedHy)
-        #    print(t1)
-        #    print(nine_a_predictedHy)
-
-        #    t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s = find_frequency_grades(t1)
-        #    context ={'t1_fg_a': t1_fg_a, 't1_fg_b': t1_fg_b, 't1_fg_c': t1_fg_c,
-        #               't1_fg_d': t1_fg_d,
-        #               't1_fg_e': t1_fg_e, 't1_fg_f': t1_fg_f, 't1_fg_s': t1_fg_s}
-        #    return render(request, 'basicinformation/teacher_relative_averages_predicted.html', context)
-        # elif urllib.request.unquote(str(ajKlass)) == urllib.request.unquote('9th b' + 'relativeaveragespredicted'):
-        #    nine_a_test1, nine_b_test1, nine_a_test2, \
-        #    nine_b_test2, nine_a_test3, nine_b_test3, \
-        #    nine_a_predictedHy, nine_b_predictedHy = teacher_listofStudentsMarks(profile)
-        #    t1 = find_grade_fromMark_predicted(nine_b_predictedHy)
-        #    print(t1)
-        #    print(nine_b_predictedHy)
-
-        #    t1_fg_a, t1_fg_b, t1_fg_c, t1_fg_d, t1_fg_e, t1_fg_f, t1_fg_s = find_frequency_grades(t1)
-        #    context = {'t1_fg_a': t1_fg_a, 't1_fg_b': t1_fg_b, 't1_fg_c': t1_fg_c,
-        #               't1_fg_d': t1_fg_d,
-        #               't1_fg_e': t1_fg_e, 't1_fg_f': t1_fg_f, 't1_fg_s': t1_fg_s}
-        #    return render(request, 'basicinformation/teacher_relative_averages_predicted.html', context)
-        # else:
-        #    listofstudents = teacher_listofStudents(profile,ajKlass)
-        #    return render(request, 'basicinformation/teacher_update_page.html',
-        #                      {'klass': listofstudents})
-
-
-def create_student(num, request):
-    user = request.user
-
-    for i in range(1, num):
-        try:
-            us = User.objects.create_user(username='student' + str(i),
-                                          email='studentss' + str(i) + '@gmail.com',
-                                          password='dnpandey')
-            us.save()
-            gr = Group.objects.get(name='Students')
-            gr.user_set.add(us)
-            cl = klass.objects.filter(school__name='First School')
-            classes = []
-            for cc in cl:
-                classes.append(cc)
-            for k in classes:
-                stu = Student(studentuser=us, klass=np.random.choice(classes), rollNumber=int(str(i) + '00'),
-                              name='stu' + str(i),
-                              dob=timezone.now(), pincode=int(str(405060)))
-                stu.save()
-                sub = Subject(name='Maths', student=stu, teacher=user.teacher, test1
-                =randint(3, 10), test2=randint(3, 9), test3=
-                              randint(3, 9))
-                sub.save()
-        except Exception as e:
-            print(str(e))
-
-
-def create_teacher(num):
-    school1 = School.objects.filter(name='First School')
-    school2 = School.objects.filter(name='Second School')
-    for i in range(num):
-        us = User.objects.create_user(username='teacher' + str(i),
-                                      email='teacher' + str(i) + '@gmail.com',
-                                      password='dnpandey')
-        us.save()
-        gr = Group.objects.get(name='Teachers')
-        gr.user_set.add(us)
-
-        teache = Teacher(teacheruser=us,
-                         experience=randint(1, 20), name=us.username, school=
-                         school1)
-        teache.save()

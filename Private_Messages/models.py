@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from basicinformation.models import *
 
 class PrivateMessage(models.Model):
     sender = models.ForeignKey(User,related_name = 'sender')
@@ -13,4 +14,13 @@ class PrivateMessage(models.Model):
             return self.subject
         else:
             return self.body[:50]
+
+class Announcement(models.Model):
+    announcer = models.ForeignKey(Teacher)
+    listener = models.ManyToManyField(Student)
+    text = models.CharField(max_length= 1000)
+    date = models.DateField()
+
+    def __str__(self):
+        return self.text
 
