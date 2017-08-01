@@ -26,7 +26,7 @@ SECRET_KEY = '$x7qlgtufkr7v#zzrn)9zq_trt+juze+86674$-&^ia5dj=%un'
 DEBUG = False
 
 ALLOWED_HOSTS =\
-['https://bodhiai.herokuapp.com/','https://bodhiai.herokuapp.com','https://bodhiai.herokuapp.com/bodhi','bodhiai.herokuapp.com']
+['https://bodhiai.herokuapp.com/','https://bodhiai.herokuapp.com','https://bodhiai.herokuapp.com/bodhi','bodhiai.herokuapp.com','bodhiai.in','www.bodhiai.in']
 
 
 # Application definition
