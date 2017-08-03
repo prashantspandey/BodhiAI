@@ -20,13 +20,19 @@
 <body>
 	<nav class="navbar navbar-default" style="background-color: #4A148C;
          border-color: #E1BEE7;"	>
-		<div class="container-fluid col-sm-12">
+		<div class="container-fluid">
   			<div class="navbar-header" style='padding:0px;'>
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+			   <span class="icon-bar"></span>
+			      <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>                        
+				</button>
 				<a class="navbar-brand" href="/">
 					<img src="{%static 'basicinformation/images/bodhiainavbar.png' %}" alt="Bodhi AI" style='height:150%;width:auto;padding:0px;'>
 				</a>
 		        </div>
-	   <ul class="nav navbar-nav" style='text-align:center;'>
+			 <div class="collapse navbar-collapse" id="myNavbar">
+	   <ul class="nav navbar-nav" style='text-align:center;' >
 		   {%if user.is_authenticated%}<li style='float:center;display:inline-block;'role="presentation"><a href="{%url 'basic:home' %}"><strong>Home</strong></a></li>{%endif%}
   {%if not user.is_authenticated %}  <li style='float:center;display:inline-block;'role="presentation"><a href="{%url 'membership:login' %}"><strong>Log In</strong></a></li>{%endif%}
   {%if user.is_authenticated%}  <li style='float:center;display:inline-block;'role="presentation"><a href="{%url 'pms:messages' %}"><strong>Messages</strong></a></li>{%endif%}
@@ -48,6 +54,7 @@
 
 
 		             </ul>
+			 </div>
 
 			  </div>
 	</nav>
