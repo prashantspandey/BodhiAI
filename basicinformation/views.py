@@ -13,18 +13,18 @@ from django.utils import timezone
 from .marksprediction import *
 from Private_Messages.models import *
 
-
 def home(request):
     user = request.user
     if user.is_authenticated:
+        if user.is_staff:
+            return render(request,'basicinformation/staffpage1.html')
         if user.groups.filter(name='Students').exists():
             profile = user.student
             me = Studs(request.user)
             subjects = user.student.subject_set.all()
             teacher_name = {}
             for sub in subjects:
-                teacher_name[sub.name] = sub.teacher
-            # retrieve all marks from database
+                teacher_name[sub.name] = sub.teacher # retrieve all marks from database
             mathst1, mathst2, mathst3, mathshy, \
             mathst4, mathspredhy = [], [], [], [], [], []
             hindit1, hindit2, hindit3, hindihy, hindit4, \
@@ -75,12 +75,18 @@ def home(request):
             profile = user.teacher
             klasses = me.my_classes_names()
             subjects = me.my_subjects_names()
+            weak_links = {}
+            for i in klasses:
+                weak_links[i]= me.online_problematicAreasNames(user,subjects[0],i)
+            for ke in weak_links.keys():
+                print(weak_links[ke])
             num_klasses = len(klasses)
             num_subjects = len(subjects)
 
             context = {'profile': profile,
                        'klasses': klasses, 'subjects': subjects, 'num_klasses': num_klasses,
-                       'isTeacher': True, 'num_subjects': num_subjects}
+                       'isTeacher': True, 'num_subjects':
+                       num_subjects,'weak_links':weak_links}
             return render(request, 'basicinformation/teacher1.html', context)
         else:
 
@@ -265,7 +271,7 @@ def teacher_update_page(request):
         which_class = onlineSubject.split(',')[1]
         online_tests = KlassTest.objects.filter(creator=
                                                 user, klas__name=which_class, sub=
-                                                sub)
+                                                sub,)
         context = {'tests': online_tests}
         return render(request, 'basicinformation/teacher_online_analysis2.html', context)
     elif 'onlinetestid' in request.GET:
@@ -273,6 +279,8 @@ def teacher_update_page(request):
         me = Teach(user)
         online_marks = OnlineMarks.objects.filter(test__id=test_id)
         test = KlassTest.objects.get(id = test_id)
+        me.online_problematicAreasperTest(test_id)
+        problem_quests = me.online_problematicAreasperTest(test_id)
         max_marks = 0
         for i in online_marks:
             max_marks = i.test.max_marks
@@ -286,8 +294,124 @@ def teacher_update_page(request):
                    ,'percentAverage':percent_average,'maxMarks':max_marks,
                    'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
                    'grade_d':grade_d,'grade_e':grade_e,'grade_f':grade_f,
-                   'freq':freq,'sq':sq}
+                   'freq':freq,'sq':sq,'problem_quests':problem_quests}
         return render(request, 'basicinformation/teacher_online_analysis3.html', context)
+    elif 'onlineIndividualPerformace' in request.GET:
+        which_klass = request.GET['onlineIndividualPerformace']
+        me = Teach(user)
+        subjects = me.my_subjects_names()
+        context = {'subs': subjects, 'which_class': which_klass}
+        return \
+            render(request,
+                   'basicinformation/teacher_online_individualPerformace.html', context)
+    elif 'individualonlineschoolSubject' in request.GET:
+        sub_class = request.GET['individualonlineschoolSubject']
+        sub = sub_class.split(',')[0]
+        klass = sub_class.split(',')[1]
+        online_tests = KlassTest.objects.filter(creator=
+                                                user, klas__name=klass, sub=
+                                                sub)
+        context = {'tests': online_tests}
+        return render(request,
+                      'basicinformation/teacher_online_individualPerformance2.html', context)
+    elif 'individualonlinetestid' in request.GET:
+        test_id = request.GET['individualonlinetestid']
+        every_marks = OnlineMarks.objects.filter(test__id = test_id)
+        studs = []
+        for stu in every_marks:
+            studs.append(stu.student)
+        context = {'students':studs,'test_id':test_id}
+        return \
+    render(request,'basicinformation/teacher_online_individualPerformance3.html',context)
+    elif 'individualStudentid' in request.GET:
+        stude_test = request.GET['individualStudentid']
+        print(stude_test)
+        test_id = stude_test.split(',')[1]
+        student_id = stude_test.split(',')[0]
 
+        his_marks = OnlineMarks.objects.get(student__id = student_id, test__id
+                                            = test_id)
+        print(his_marks)
+        context = {'test':his_marks}
+        return \
+    render(request,'basicinformation/teacher_online_individualPerformance4.html',context)
+        
+
+
+# functions for the admin
+
+
+def create_entities(request):
+    if request.POST:
+        who = request.POST['deed']
+        if who == 'teacher':
+            create_teacher(5)
+            return HttpResponse('done')
+        elif who == 'student':
+            create_student(100,request)
+            return HttpResponse('done')
+
+
+
+
+def create_student(num, request):
+
+    user = request.user
+    school = School.objects.get(name='Third School')
+    teachers = Teacher.objects.filter(school__name = 'Third School')
+    mathTeacher = Teacher.objects.get(name = 'teacher4')
+    scienceTeacher = Teacher.objects.get(name ='teacher3')
+    for i in range(1, num):
+        try:
+            us = User.objects.create_user(username='student' +
+                                          str(randint(1000,10000)),
+                                          email='studentss' + str(i) + '@gmail.com',
+                                          password='dnpandey')
+            us.save()
+            gr = Group.objects.get(name='Students')
+            gr.user_set.add(us)
+            cl = klass.objects.filter(school__name='Third School')
+            classes = []
+            for cc in cl:
+                classes.append(cc)
+            stu = Student(studentuser=us, klass=np.random.choice(classes),
+                              rollNumber=int(str(randint(7000,12000)) + '00'),
+                              name='stud' + str(randint(800,4500)),
+                              dob=timezone.now(),
+                          pincode=int(str(405060)),school= school)
+            stu.save()
+            sub = Subject(name='Maths', student=stu, teacher=mathTeacher, test1
+            =randint(3, 10), test2=randint(3, 9), test3=
+                          randint(3, 9))
+            sub1 = Subject(name='Science', student=stu, teacher=scienceTeacher, test1
+            =randint(3, 10), test2=randint(3, 9), test3=
+                          randint(3, 9))
+
+            sub.save()
+        except Exception as e:
+            print(str(e))
+
+
+def create_teacher(num):
+    
+    school1 = School.objects.get(name='First School')
+    school2 = School.objects.get(name='Second School')
+    school3 = School.objects.get(name='Third School')
+    schools = [school1,school2,school3]
+    for i in range(num):
+        try:
+            us = User.objects.create_user(username='teacher' + str(i),
+                                          email='teacher' + str(i) + '@gmail.com',
+                                          password='dnpandey')
+            us.save()
+            gr = Group.objects.get(name='Teachers')
+            gr.user_set.add(us)
+
+            teache = Teacher(teacheruser=us,
+                             experience=randint(1, 20), name=us.username,
+                             school=np.random.choice(schools))
+            teache.save()
+        except Exception as e:
+            print(str(e))
 
 

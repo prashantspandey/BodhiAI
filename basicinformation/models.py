@@ -22,12 +22,13 @@ class klass(models.Model):
 
 class Student(models.Model):
     studentuser = models.OneToOneField(User,blank=True,null=True)
-    klass = models.ForeignKey(klass)
+    klass = models.ForeignKey(klass,related_name='klass')
     rollNumber = models.BigIntegerField()
     name = models.CharField(max_length=200)
     dob = models.DateField()
     pincode = models.IntegerField()
-
+    school = \
+    models.ForeignKey(School,related_name='school',blank=True,null=True)
     def __str__(self):
         return self.name
 
@@ -59,7 +60,8 @@ class Subject(models.Model):
     prdicted_final = models.IntegerField(null= True, blank=True)
 
     def __str__(self):
-        return self.name
+        return \
+    '{}---{}----{}----{}'.format(self.name,self.student,self.teacher,self.student.school)
 
 
     

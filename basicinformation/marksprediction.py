@@ -5,6 +5,10 @@ from datetime import datetime, date
 from .models import Subject
 from more_itertools import unique_everseen
 from QuestionsAndPapers.models import *
+from xhtml2pdf import pisa
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
 try:
     ptp = '/home/prashant/Desktop/programming/projects/bod/src/bodhialgorithms/'
 
@@ -1375,6 +1379,95 @@ class Teach:
         sq = np.asarray((unique, counts)).T
         return sq
         
+    def online_problematicAreasperTest(self,test_id):
+        online_marks = OnlineMarks.objects.filter(test__id = test_id)
+        wrong_answers = []
+        for om in online_marks:
+            for wa in om.wrongAnswers:
+                wrong_answers.append(wa)
+        wq = []
+        for i in wrong_answers:
+            qu = Questions.objects.get(choices__id = i)
+            quid = qu.id
+            wq.append(quid)
+
+        unique, counts = np.unique(wq, return_counts=True)
+        waf = np.asarray((unique, counts)).T
+        nw_ind = []
+        kk = np.sort(waf,0)[::-1]
+        for u in kk[:,1]:
+            for z,w in waf:
+                if u == w:
+                    if z in nw_ind:
+                        continue
+                    else:
+                        nw_ind.append(z)
+                        break
+        final_freq = np.asarray((nw_ind,kk[:,1])).T
+        return final_freq
+
+    def online_problematicAreas(self,user,subject,klass):
+        online_marks = OnlineMarks.objects.filter(test__creator= user,test__sub=
+                                                  subject,test__klas__name = klass)
+        wrong_answers = []
+        for om in online_marks:
+            for wa in om.wrongAnswers:
+                wrong_answers.append(wa)
+            for sp in om.skippedAnswers:
+                wrong_answers.append(sp)
+        wq = []
+        for i in wrong_answers:
+            qu = Questions.objects.get(choices__id = i)
+            quid = qu.id
+            wq.append(quid)
+        unique, counts = np.unique(wq, return_counts=True)
+        waf = np.asarray((unique, counts)).T
+        nw_ind = []
+
+        kk = np.sort(waf,0)[::-1]
+        for u in kk[:,1]:
+            for z,w in waf:
+                if u == w:
+                    if z in nw_ind:
+                        continue
+                    else:
+                        nw_ind.append(z)
+                        break
+        final_freq = np.asarray((nw_ind,kk[:,1])).T
+        return final_freq
+        
+    def online_problematicAreasNames(self,user,subject,klass):
+        arr = self.online_problematicAreas(user,subject,klass)
+        how_many = 0
+        areas = []
+        for u,k in arr:
+            if how_many == 3:
+                break
+            qu = Questions.objects.get(id = u)
+            cat = qu.chapCategory
+            areas.append(cat)
+            how_many += 1
+        areas = list(unique_everseen(areas))
+        return areas
+
+
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")),result)
+    if not pdf.err:
+        return  HttpResponse(result.getvalue(),content_type='application/pdf')
+    return None
+
+
+
+
+
+
+
+
 
 
 

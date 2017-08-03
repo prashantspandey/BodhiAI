@@ -77,13 +77,13 @@ def create_test(request):
 
 
                         klass_question = Questions.objects.filter(level =
-                                                          klass_level,chapCategory=splitChap)
+                                                          klass_level,chapCategory=splitChap,school=school)
                         context = \
                         {'que':klass_question,'idlist':idlist,'which_class':splitClass }
                         return render(request,'questions/klass_questions.html',context)
                     else:
                         klass_question = Questions.objects.filter(level =
-                                                          klass_level,chapCategory=splitChap)
+                                                          klass_level,chapCategory=splitChap,school=school)
                         context = \
                         {'que':klass_question,'which_class':splitClass }
                         return render(request,'questions/klass_questions.html',context)
@@ -175,6 +175,8 @@ def add_questions(request):
                 zz.ktest.add(newClassTest)
             context = {'test':newClassTest}
             return render(request,'questions/publish_test.html',context)
+
+
 def publish_test(request):
     user = request.user
     if user.is_authenticated:
@@ -193,8 +195,23 @@ def publish_test(request):
                     subject = sub.sub
                     break
                 myTest.sub = subject
+                myTest.mode = 'BodhiOnline'
                 myTest.save()
                 return HttpResponse('nice')
+            if 'pdfTest' in request.POST:
+                testid = request.POST['testid']
+                myTest = KlassTest.objects.get(id = testid)
+                for sub in myTest.questions_set.all():
+                    subject = sub.sub
+                    break
+                myTest.sub = subject
+                myTest.mode = 'BodhiSchool'
+                myTest.save()
+                context = {'test':myTest}
+                pdf =\
+                render_to_pdf('questions/teacher_school_createdTest.html',context)
+                return HttpResponse(pdf,content_type= 'application/pdf')
+
 
 
 def see_Test(request):

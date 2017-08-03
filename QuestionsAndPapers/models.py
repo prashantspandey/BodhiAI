@@ -6,6 +6,8 @@ from django.contrib.postgres.fields import ArrayField
 
 
 class KlassTest(models.Model):
+    mode_choices =\
+    (('BodhiOnline','BodhiOnline'),('BodhiSchool','BodhiSchool'))
     name = models.CharField(max_length=100)
     subject_choices = \
         (('Maths','Maths'),('Science','Science'),('English','English'))
@@ -16,13 +18,14 @@ class KlassTest(models.Model):
     creator = models.ForeignKey(User,null=True,blank=True)
     sub = models.CharField(max_length=70,choices = subject_choices)
     due_date = models.DateField(null=True,blank=True)
+    mode = models.CharField(max_length=20,choices = mode_choices)
     def __str__(self):
         return self.name
 
 class Questions(models.Model):
     level_choices = (('9','Ninth'),('10','Tenth'),('11','Eleventh'),('12','Twelveth'))
     ktest = models.ManyToManyField(KlassTest,blank= True)
-    chapter_choices = (('1','Chapter 1'),('2','Chapter 2'),('3','Chapter 3'))
+    chapter_choices = (('Chapter 1','Chapter 1'),('Chapter 2','Chapter 2'),('Chapter 3','Chapter 3'))
     subject_choices = \
         (('Maths','Maths'),('Science','Science'),('English','English'))
     text = models.TextField()

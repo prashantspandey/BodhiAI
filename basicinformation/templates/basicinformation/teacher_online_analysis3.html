@@ -87,7 +87,7 @@ $(document).ready(function () {
 		<p> {{ch.text }} 
 		{%for a,b in freq %}
 		{% if ch.id == a %}
-		<span class="label label-info">{{b}} people chose this answer.</span>
+		<span class="label label-info">{{b}}{% if b == 1 %} student {%else%} students {%endif%} chose this answer.</span>
 		{%endif%}
 		{%endfor%}
 		{% if ch.predicament == 'Correct' %}
@@ -98,4 +98,27 @@ $(document).ready(function () {
 </div>
 {%endfor%}
 </div>
+<div class='col-md-offset-1 col-md-8'>
+	<h2 style='text-align:center;font-weight:bold;'> Problematic Questions(Most to Least) </h2>
+	{% for i,f in problem_quests %}
+	{%for qu in test.questions_set.all%}
+	{%if qu.id == i %}
+	<h3 style='font-weight:bold;'> {{f}} students got this question wrong or skipped it. </h3>
+	<div class ='well' >
+		<h3 style='font-weight:bold;'> {{qu.text}}</h3>
+		{% for ch in qu.choices_set.all%}
+		<p> {{ch.text}}
+		{%for a,b in freq %}
+		{% if ch.id == a and ch.predicament == 'Wrong' %}
+		<span class="label label-danger">{{b}} {% if b == 1 %} student {%else%} students {%endif%}chose this answer.</span></p>
+
+		{%endif%}
+		{%endfor%}
+
+		{%endfor%}
+	</div>
+	{%endif%}
+	{%endfor%}
+	{%endfor%}
+
 </div>

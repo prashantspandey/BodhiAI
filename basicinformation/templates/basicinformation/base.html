@@ -18,21 +18,23 @@
     <link rel="shortcut icon" href ="{%static 'basicinformation/images/favicon.ico' %}" />
 </head>
 <body>
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-default" style="background-color: #4A148C;
+         border-color: #E1BEE7;"	>
 		<div class="container-fluid">
   			<div class="navbar-header" style='padding:0px;'>
 				<a class="navbar-brand" href="/">
-		<img src="{%static 'basicinformation/images/bodhiainavbar.png' %}" alt="Bodhi AI" style='height:150%;width:auto;padding:0px;'>
-	         </a>
+					<img src="{%static 'basicinformation/images/bodhiainavbar.png' %}" alt="Bodhi AI" style='height:150%;width:auto;padding:0px;'>
+				</a>
 		        </div>
 	   <ul class="nav navbar-nav" style='text-align:center;'>
 		   {%if user.is_authenticated%}<li style='float:center;display:inline-block;'role="presentation"><a href="{%url 'basic:home' %}"><strong>Home</strong></a></li>{%endif%}
   {%if not user.is_authenticated %}  <li style='float:center;display:inline-block;'role="presentation"><a href="{%url 'membership:login' %}"><strong>Log In</strong></a></li>{%endif%}
   {%if user.is_authenticated%}  <li style='float:center;display:inline-block;'role="presentation"><a href="{%url 'pms:messages' %}"><strong>Messages</strong></a></li>{%endif%}
 	   </ul>
-	   <ul class="nav navbar-nav navbar-center" style='width:60%;text-align:center;'>
-<a class="navbar-brand" href="/">
-	<li style='float:none;display:inline-block;'> <img src="{%static 'basicinformation/images/bodhiaismalltransparent.png' %}" alt="Bodhi AI"  style='height:350%;'>
+	   <ul class="nav navbar-nav " style='width:35%;text-align:right;'>
+<li style='float:none;display:inline-block;'> 
+		   <a class="navbar-brand" href="/">
+	<img src="{%static 'basicinformation/images/bodhiaismalltransparent.png' %}" alt="Bodhi AI"  style='height:250%;'>
 </a></li>
 	   </ul>
 	   <ul class="nav navbar-nav navbar-right">
@@ -43,13 +45,6 @@
 
   {%if user.is_authenticated %}{%if user.student %}<li role="presentation"><a href="{%url 'QuestionsAndPapers:studentMyOnlineTests' %}"><strong>Homework/Tests</strong></a></li>{%endif%}{%endif%}
   {%if user.is_authenticated%}  <li role="presentation"><a href="{%url 'membership:logout' %}">Logout</a></li>{%endif%}
-
-
-
-
-
-
-
 
 
 		             </ul>

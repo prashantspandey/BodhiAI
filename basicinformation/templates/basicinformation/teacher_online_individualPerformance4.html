@@ -1,0 +1,37 @@
+<div>
+	<div class='col-md-offset-1 col-md-10'>
+<br>
+	<br>
+	<br>
+
+
+		<h2 style='text-align:center;font-weight:bold;'> {{test.student}} got {{test.marks}} marks </h2>
+	</div>
+
+
+
+
+
+<div class='col-md-offset-1 col-md-10'>
+		{% for te in test.test.questions_set.all %}
+		<div class='well'>
+			<h3> {{te.text}}{% if te.id in test.skippedAnswers %}<span class="label label-warning" >{{test.student}} skipped this question</span>{%endif%}</h3>
+			<h4 style="text-align:right"> Max-Marks{{te.max_marks}}</h4>
+			{% for ch in te.choices_set.all %}
+			
+			<p > <span class='badge'>{{forloop.counter}}</span>---{{ch.text}} {%if ch.predicament == 'Correct' %} <span class="label label-primary">Correct Answer</span>{%endif%}
+			{%if ch.id in test.rightAnswers %}<span class="label label-success">{{test.student}}'s  Answer</span>{%endif%}
+			{% if ch.id in test.wrongAnswers %}<span class="label label-danger">{{test.student}}'s  Answer</span>{%endif%}</p>
+			{% for x,y in freq %}
+			{% if ch.id == x%}
+			<p >	<span class="badge">{{y}} people answered this choice </span></p>
+			{%endif%}
+			{%endfor%}
+
+			{%endfor%}
+				
+		</div>
+		
+		{%endfor%}
+	</div>
+

@@ -1,0 +1,35 @@
+{%load staticfiles %}
+<html>
+	<head>
+		<title> BodhiAI Test </title>
+	</head>
+
+	<body>
+		<div>
+			<h1 style='text-align:center;font-weight:bold;'> {{test.creator.teacher.school.name}}</h1>
+			<h1 style='text-align:center;'>	{{test.sub}}</h1>
+			<h2 style='text-align:center;'> Max-Marks - {{test.max_marks}}</h2>
+			<h2 style='text-align:center;'> Teacher - {{test.creator}}</h2>
+			<h2 style='text-align:center;'> Class - {{test.klas}}</h2>
+			<h6 style='text-align:right;'> Test id(for official use)- {{test.id}}</h6>
+		</div>
+
+		<br>
+		<div class='col-md-offset-1 col-md-10'>
+			{% for qu in test.questions_set.all%}
+			<div class='well'>
+			<h2> {{forloop.counter}}. {{qu.text}} </h2>
+			<p style='text-align:right;'>Max-Marks-{{qu.max_marks}}</p>
+			{% for ch in qu.choices_set.all%}
+			<p>{{forloop.counter}} - {{ch.text}} </p>
+			{%endfor%}
+			</div>
+			{%endfor%}
+		</div>
+		<div style='position:fixed;bottom:0;width:100%;'>
+		 <img src="{%static 'basicinformation/images/bodhiainavbar.png' %}" alt="Bodhi AI" style='height:500%;width:auto;padding:5px;'>
+		</div>
+
+	</body>
+</html>
+		

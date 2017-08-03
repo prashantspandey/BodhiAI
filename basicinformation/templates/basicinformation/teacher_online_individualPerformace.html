@@ -4,12 +4,13 @@
     var pr
 
         for(i=1 ; i<=10; i++){
-         $(eval("'#subjectButton'+i")).click(function(){
-          which_sub = $(this).text(); which_klass = $('#which_class').text()
+         $(eval("'#individualsubjectButton'+i")).click(function(){
+          which_sub = $(this).text(); 
+	  which_klass = $('#which_class').text()
 		  console.log(which_sub,which_klass);
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
-         $('#onlinetestid').removeClass("hidden");
-         $('#onlinetestid').html('').load('{% url 'basic:teacher_update_page' %}?onlineschoolSubject='+which_sub+','+which_klass);
+         $('#individualonlinetestid').removeClass("hidden");
+         $('#individualonlinetestid').html('').load('{% url 'basic:teacher_update_page' %}?individualonlineschoolSubject='+which_sub+','+which_klass);
 
 
             $(this).animate({
@@ -38,11 +39,11 @@
 {% for i in subs %}
 
 <div class="btn-group" role="group" aria-label="...">
-	<button type="button" class="btn btn-default text-center" value ="{{i}}" id="subjectButton{{forloop.counter}}">{{i}}</button>
+	<button type="button" class="btn btn-default text-center" value ="{{i}}" id="individualsubjectButton{{forloop.counter}}">{{i}}</button>
 	<button type="button" class="hidden btn btn-default text-center" value ="{{i}}" id="which_class">{{which_class}}</button>
 </div>
 {%endfor%}
         </div>
-<div class='hidden' id = 'onlinetestid'>
-{%include 'basicinformation/teacher_online_analysis2.html' %}
+<div class='hidden' id = 'individualonlinetestid'>
+{%include 'basicinformation/teacher_online_individualPerformance2.html' %}
 </div>

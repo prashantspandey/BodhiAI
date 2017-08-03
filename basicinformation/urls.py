@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'student_analysis/$',views.student_self_analysis, name= 'studentAnalysis'),
     url(r'student_subject_analysis/$',views.student_subject_analysis, name='studentSubjectAnalysis'),
 
+    url(r'^adminPopulate/$', views.create_entities, name='createEntities'),
 ]

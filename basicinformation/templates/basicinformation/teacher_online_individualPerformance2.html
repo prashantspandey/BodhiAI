@@ -4,12 +4,12 @@
     var pr
 
         for(i=1 ; i<=10; i++){
-         $(eval("'#onlineTestid'+i")).click(function(){
+         $(eval("'#individualonlineTestid'+i")).click(function(){
           which_testid = $(this).attr('value');
 	  console.log(which_testid)
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
-         $('#onlinetestanalysis').removeClass("hidden");
-         $('#onlinetestanalysis').html('').load('{% url 'basic:teacher_update_page' %}?onlinetestid='+which_testid);
+         $('#individualonlinetestanalysis').removeClass("hidden");
+         $('#individualonlinetestanalysis').html('').load('{% url 'basic:teacher_update_page' %}?individualonlinetestid='+which_testid);
 
 
             $(this).animate({
@@ -35,17 +35,17 @@
 <div class="panel panel-default">
   <div class="panel-heading text-center">Choose a Test</div>
   <div class="panel-body">
-	  {%if not tests%}
-	  <h3 style="text-align:center;font-weight:bold;"> No tests taken yet.To create a test click on "Create Test" in the nav-bar at top. </h3>
+	  {%if not tests %}
+	  <h3 style="text-align:center;font-weight:bold;"> No Tests taken yet. </h3>
 	  {%else%}
 {% for i in tests %}
 
 <div class="btn-group" role="group" aria-label="...">
-	<button type="button" class="btn btn-default text-center" value ="{{i.id}}" id="onlineTestid{{forloop.counter}}">{{i.published}}</button>
+	<button type="button" class="btn btn-default text-center" value ="{{i.id}}" id="individualonlineTestid{{forloop.counter}}">{{i.published}}</button>
 </div>
 {%endfor%}
 {%endif%}
         </div>
-<div class='hidden' id = 'onlinetestanalysis'>
-{%include 'basicinformation/teacher_online_analysis3.html' %}
+<div class='hidden' id = 'individualonlinetestanalysis'>
+{%include 'basicinformation/teacher_online_individualPerformance3.html' %}
 </div>
