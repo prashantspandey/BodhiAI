@@ -6,10 +6,10 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <hr style='width:3px'>
-<div class="col-md-4 col-sm-12">
+<div class="col-md-4 col-xs-12">
 	<h2 style='text-align:center;font-weight:bold'>Average of test is : {{average}} out of {{maxMarks}} or {{percentAverage}} %</p>
 </div>
-<div  class="col-md-8 col-sm-12">
+<div  class="col-md-8  col-xs-12">
     <script>
 
 $(document).ready(function () {
@@ -57,7 +57,7 @@ $(document).ready(function () {
 
 </script>
 </div>
-<div class=' col-sm-12'>
+<div class=' col-xs-12'>
 	<h2 style='text-align:center;font-weight:bold;'>Student Grade wise</h2>
 	<canvas  id="analysis" style="display: block; height: 300px; width: 400px; padding-left: 0;
     padding-right: 0;
@@ -65,17 +65,17 @@ $(document).ready(function () {
     margin-right: auto;" width="400" height="370">
 </canvas>
 <div class='col-md-offset-2 col-sm-12'>
-<span class='badge col-sm-12' style='background-Color:rgba(103,58,183,0.9);'>{{grade_s}} students got 90 % - 100 %</span>
-<span class='badge col-sm-12' style='background-Color:rgba(118,255,3 ,0.7);'>{{grade_a}} students got 80 % - 90 %</span>
-<span class='badge col-sm-12' style='background-Color:rgba(174,234,0 ,0.6);'>{{grade_b}} students got 70 % - 80 %</span>
-<span class='badge col-sm-12' style='background-Color:rgba(255,214,0 ,0.6);'>{{grade_c}} students got 60 % - 70 %</span>
-<span class='badge col-sm-12' style='background-Color:rgba(255,171,0 ,0.7);'>{{grade_d}} students got 50 % - 60 %</span>
-<span class='badge col-sm-12' style='background-Color:rgba(255,109,0 ,0.7)'>{{grade_e}} students got 33 % - 50 %</span>
-<span class='badge col-sm-12' style='background-Color:rgba(221,44,0 ,0.6)'>{{grade_f}} students got less than 33 % </span>
+<span class='badge ' style='background-Color:rgba(103,58,183,0.9);'>{{grade_s}} students got 90 % - 100 %</span>
+<span class='badge ' style='background-Color:rgba(118,255,3 ,0.7);'>{{grade_a}} students got 80 % - 90 %</span>
+<span class='badge ' style='background-Color:rgba(174,234,0 ,0.6);'>{{grade_b}} students got 70 % - 80 %</span>
+<span class='badge ' style='background-Color:rgba(255,214,0 ,0.6);'>{{grade_c}} students got 60 % - 70 %</span>
+<span class='badge ' style='background-Color:rgba(255,171,0 ,0.7);'>{{grade_d}} students got 50 % - 60 %</span>
+<span class='badge ' style='background-Color:rgba(255,109,0 ,0.7)'>{{grade_e}} students got 33 % - 50 %</span>
+<span class='badge ' style='background-Color:rgba(221,44,0 ,0.6)'>{{grade_f}} students got less than 33 % </span>
 </div>
 <div>
 	{% for quest in test.questions_set.all %}
-	<div class = 'well col-md-offset-1 col-md-10 col-sm-12'>
+	<div class = 'well col-md-offset-1 col-md-10  col-xs-12'>
 		<h3> {{quest.text}} </h3>
 		{%for x,y in sq %}
 		{% if quest.id == x %}
@@ -98,13 +98,13 @@ $(document).ready(function () {
 </div>
 {%endfor%}
 </div>
-<div class='col-md-offset-1 col-md-8 col-sm-12'>
+<div class='col-md-offset-1 col-md-8 col-xs-12'>
 	<h2 style='text-align:center;font-weight:bold;'> Problematic Questions(Most to Least) </h2>
 	{% for i,f in problem_quests %}
 	{%for qu in test.questions_set.all%}
 	{%if qu.id == i %}
 	<h3 style='font-weight:bold;'> {{f}} students got this question wrong or skipped it. </h3>
-	<div class ='well' >
+	<div class ='well col-xs-12' >
 		<h3 style='font-weight:bold;'> {{qu.text}}</h3>
 		{% for ch in qu.choices_set.all%}
 		<p> {{ch.text}}

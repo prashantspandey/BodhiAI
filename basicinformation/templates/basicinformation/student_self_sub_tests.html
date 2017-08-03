@@ -19,7 +19,7 @@
   <div class="panel-heading text-center">Choose a Test:</div>
   <div class="panel-body ">
 	  {% for test in tests%}
-	  <button type="button" class="btn btn-default text-center col-sm-12" value='{{test.test.id}}'  id="studentTestids{{forloop.counter}}">{{test.test.published}}</button>
+	  <button type="button" class="btn btn-default text-center  col-xs-12" value='{{test.test.id}}'  id="studentTestids{{forloop.counter}}">{{test.test.published}}</button>
 
 	{%endfor%}
   </div>

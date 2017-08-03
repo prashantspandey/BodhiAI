@@ -15,14 +15,14 @@
 <h1>Teacher Page</h1>
 <h2>{{profile.name}}</h2>
 
-<div class='well col-sm-12'>
+<div class='well  col-xs-12'>
 	<h3> You teach {{num_klasses}} classes at {{profile.school}}</h3>
 	{% for kl in klasses %}
 	<h4> {{kl}} </h4>
 	{%endfor%}
 </div>
 
-<div class='well col-sm-12'>
+<div class='well  col-xs-12'>
 	<h3> You teach {{num_subjects}} subjects </h3>
 	{% for sub in subjects %}
 	<h4> {{sub}} </h4>
@@ -31,7 +31,7 @@
 <div >
 	<h2 style='text-align:center;'> Problematic areas (Most to Least) </h2>
 	{% for keys,values in weak_links.items %}
-	<div class='well col-sm-12'>
+	<div class='well  col-xs-12'>
 		<h3>	For Class: {{keys}} </h3>
 		<h3> Problematic chapters are: {{values}} </h3>
 </div>

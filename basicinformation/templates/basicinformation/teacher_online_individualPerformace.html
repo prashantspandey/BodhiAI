@@ -35,12 +35,12 @@
 
 <div class="panel panel-default">
   <div class="panel-heading text-center">Choose a Subject</div>
-  <div class="panel-body col-sm-12">
+  <div class="panel-body ">
 {% for i in subs %}
 
 <div class="btn-group" role="group" aria-label="...">
-	<button type="button" class="btn btn-default text-center col-sm-12" value ="{{i}}" id="individualsubjectButton{{forloop.counter}}">{{i}}</button>
-	<button type="button" class="hidden btn btn-default text-center col-sm-12" value ="{{i}}" id="which_class">{{which_class}}</button>
+	<button type="button" class="btn btn-default text-center col-xs-12" value ="{{i}}" id="individualsubjectButton{{forloop.counter}}">{{i}}</button>
+	<button type="button" class="hidden btn btn-default text-center  col-xs-12" value ="{{i}}" id="which_class">{{which_class}}</button>
 </div>
 {%endfor%}
         </div>

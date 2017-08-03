@@ -1,5 +1,5 @@
 <div>
-	<div class='col-md-offset-1 col-md-10 col-sm-12'>
+	<div class='col-md-offset-1 col-md-10  col-xs-12'>
 <br>
 	<br>
 	<br>
@@ -14,7 +14,7 @@
 
 <div class='col-md-offset-1 col-md-10 col-sm-12'>
 		{% for te in test.test.questions_set.all %}
-		<div class='well'>
+		<div class='well col-xs-12'>
 			<h3> {{te.text}}{% if te.id in test.skippedAnswers %}<span class="label label-warning" >{{test.student}} skipped this question</span>{%endif%}</h3>
 			<h4 style="text-align:right"> Max-Marks{{te.max_marks}}</h4>
 			{% for ch in te.choices_set.all %}

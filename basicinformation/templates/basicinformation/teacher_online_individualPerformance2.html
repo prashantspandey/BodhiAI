@@ -34,14 +34,14 @@
 
 <div class="panel panel-default">
   <div class="panel-heading text-center">Choose a Test</div>
-  <div class="panel-body col-sm-12">
+  <div class="panel-body col-xs-12">
 	  {%if not tests %}
 	  <h3 style="text-align:center;font-weight:bold;"> No Tests taken yet. </h3>
 	  {%else%}
 {% for i in tests %}
 
 <div class="btn-group " role="group" aria-label="...">
-	<button type="button" class="btn btn-default text-center col-sm-12" value ="{{i.id}}" id="individualonlineTestid{{forloop.counter}}">{{i.published}}</button>
+	<button type="button" class="btn btn-default text-center col-xs-12" value ="{{i.id}}" id="individualonlineTestid{{forloop.counter}}">{{i.published}}</button>
 </div>
 {%endfor%}
 {%endif%}
