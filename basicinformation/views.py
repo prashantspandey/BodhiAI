@@ -56,31 +56,31 @@ def home(request):
                                                            profile,date__range=[enddate,startdate])
 
             # find the predicted marks
-            try:
-                hindipredhy_raw = \
-                me.hindi_3testhyprediction(hindit1,hindit2,hindit3,me.get_dob(),me.get_section())
-                hindipredhy = me.predictionConvertion(hindipredhy_raw)
-            except:
-                pass
+            #try:
+            #    hindipredhy_raw = \
+            #    me.hindi_3testhyprediction(hindit1,hindit2,hindit3,me.get_dob(),me.get_section())
+            #    hindipredhy = me.predictionConvertion(hindipredhy_raw)
+            #except:
+            #    pass
 
-            try:
-                mathspredhy_raw = \
-                me.hindi_3testhyprediction(mathst1,mathst2,mathst3,me.get_dob(),me.get_section())
-                mathspredhy = me.predictionConvertion(mathspredhy_raw)
-            except:
-                pass
-            try:
-                englishpredhy_raw = \
-                me.english_3testhyprediction(englisht1,englisht2,englisht3,me.get_dob(),me.get_section())
-                englishpredhy = me.predictionConvertion(englishpredhy_raw)
-            except:
-                pass
-            try:
-                sciencepredhy_raw = \
-                me.science_3testhyprediction(sciencet1,sciencet2,sciencet3,me.get_dob(),me.get_section())
-                sciencepredhy = me.predictionConvertion(sciencepredhy_raw)
-            except:
-                pass
+            #try:
+            #    mathspredhy_raw = \
+            #    me.hindi_3testhyprediction(mathst1,mathst2,mathst3,me.get_dob(),me.get_section())
+            #    mathspredhy = me.predictionConvertion(mathspredhy_raw)
+            #except:
+            #    pass
+            #try:
+            #    englishpredhy_raw = \
+            #    me.english_3testhyprediction(englisht1,englisht2,englisht3,me.get_dob(),me.get_section())
+            #    englishpredhy = me.predictionConvertion(englishpredhy_raw)
+            #except:
+            #    pass
+            #try:
+            #    sciencepredhy_raw = \
+            #    me.science_3testhyprediction(sciencet1,sciencet2,sciencet3,me.get_dob(),me.get_section())
+            #    sciencepredhy = me.predictionConvertion(sciencepredhy_raw)
+            #except:
+            #    pass
             # sending all values to template
             context = {'profile': profile, 'subjects': subjects,
                        'hindihy_prediction': hindipredhy,
