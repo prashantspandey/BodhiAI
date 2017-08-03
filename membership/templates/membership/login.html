@@ -1,7 +1,8 @@
-<!--{%extends 'basicinformation/base.html' %}-->
+{%extends 'basicinformation/base.html' %}
+{%load staticfiles%}
 
 <html>
-<title>{%block title %}Login To Bodhi.AI{%endblock%}</title>
+<title>{%block title %}Login To BodhiAI{%endblock%}</title>
 
 {% block content %}
 
@@ -9,7 +10,11 @@
 	<br>
 	<br>
 	<br>
-<h1 style='text-align:center;font-weight:bold;'>Login To Bodhi.AI</h1>
+<div style='text-align:center; col-sm-12'>
+	<img src="{%static 'basicinformation/images/bodhiaitransparent.png' %}" alt="Bodhi AI"  style='height:25%;'>
+  </div>
+
+<h1 style='text-align:center;font-weight:bold;'>Login</h1>
 <div class="panel panel-default">
   <div class="panel-body">
 
@@ -26,7 +31,7 @@
     <!--{% endfor %}-->
 <!--</ul>-->
 <!--{% endif %}-->
-  <div class="form-group" style='text-align:center;'>
+  <div class="form-group col-sm-12" style='text-align:center;'>
   <div >
   <button type="submit" class="btn btn-success">Log In</button>
 
@@ -39,10 +44,9 @@
 
 
   </form>
-
-
-
+  
   </div>
+  <img src=
 </div>
 
 

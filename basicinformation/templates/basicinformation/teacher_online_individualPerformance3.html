@@ -13,9 +13,9 @@
      });
     </script>
 
-<div class="panel panel-default">
+<div class="panel panel-default col-sm-12">
   <div class="panel-heading text-center">Choose a Student</div>
-  <div class="panel-body">
+  <div class="panel-body col-sm-12">
 	  {%if not students %}
 	  <h3 style="text-align:center;font-weight:bold;"> No student has taken the test yet. </h3>
 	  {%else%}
@@ -33,6 +33,6 @@
 		</div>
 		{%endif%}
         </div>
-<div class='hidden' id = 'individualshowresult'>
+<div class='hidden col-sm-12' id = 'individualshowresult'>
 {%include 'basicinformation/teacher_online_individualPerformance4.html' %}
 </div>

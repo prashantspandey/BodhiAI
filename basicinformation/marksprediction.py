@@ -9,43 +9,38 @@ from xhtml2pdf import pisa
 from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template
-try:
-    ptp = '/home/prashant/Desktop/programming/projects/bod/src/bodhialgorithms/'
 
-    '''
-    load pickles for data transformation and prediction (hindi)
-    '''
-    pickle_in_hindi = open('/home/prashant/Desktop/programming/projects/bod/src/bodhialgorithms/preprocesshindihy.pickle',
-                           'rb')
-    svm_pickle_hindi = open('/home/prashant/Desktop/programming/projects/bod/src/bodhialgorithms/svmhindihhy.pickle', 'rb')
-    sca_hindi = pickle.load(pickle_in_hindi)
-    svmhindihhy = pickle.load(svm_pickle_hindi)
+'''
+load pickles for data transformation and prediction (hindi)
+'''
+pickle_in_hindi =  open('basicinformation/preprocesshindihy.pickle','rb')
+svm_pickle_hindi = open('basicinformation/svmhindihhy.pickle', 'rb')
+sca_hindi = pickle.load(pickle_in_hindi)
+svmhindihhy = pickle.load(svm_pickle_hindi)
 
-    '''
-    load pickles for data transformation and prediction (maths)
-    '''
-    pickle_in_maths = open(ptp + 'preprocesshindihy.pickle', 'rb')
-    knn7_pickle_maths = open(ptp + 'svmhindihhy.pickle', 'rb')
-    sca_maths = pickle.load(pickle_in_maths)
-    knn7mathshhy = pickle.load(knn7_pickle_maths)
+'''
+load pickles for data transformation and prediction (maths)
+'''
+pickle_in_maths = open('basicinformation/preprocesshindihy.pickle', 'rb')
+knn7_pickle_maths = open('basicinformation/svmhindihhy.pickle', 'rb')
+sca_maths = pickle.load(pickle_in_maths)
+knn7mathshhy = pickle.load(knn7_pickle_maths)
 
-    '''
-    load pickles for data transformation and prediction (english)
-    '''
-    pickle_in_english = open(ptp + 'preprocesshindihy.pickle', 'rb')
-    knn7_pickle_english = open(ptp + 'svmhindihhy.pickle', 'rb')
-    sca_english = pickle.load(pickle_in_english)
-    knn7englishhhy = pickle.load(knn7_pickle_english)
+'''
+load pickles for data transformation and prediction (english)
+'''
+pickle_in_english = open('basicinformation/preprocesshindihy.pickle', 'rb')
+knn7_pickle_english = open('basicinformation/svmhindihhy.pickle', 'rb')
+sca_english = pickle.load(pickle_in_english)
+knn7englishhhy = pickle.load(knn7_pickle_english)
 
-    '''
-    load pickles for data transformation and prediction (science)
-    '''
-    pickle_in_science = open(ptp + 'preprocesshindihy.pickle', 'rb')
-    knn7_pickle_science = open(ptp + 'svmhindihhy.pickle', 'rb')
-    sca_science = pickle.load(pickle_in_science)
-    knn7sciencehhy = pickle.load(knn7_pickle_science)
-except:
-    pass
+'''
+load pickles for data transformation and prediction (science)
+'''
+pickle_in_science = open('basicinformation/preprocesshindihy.pickle', 'rb')
+knn7_pickle_science = open('basicinformation/svmhindihhy.pickle', 'rb')
+sca_science = pickle.load(pickle_in_science)
+knn7sciencehhy = pickle.load(knn7_pickle_science)
 
 # test1,test2,test3,age,section
 # x = np.array([[9, 10, 10, 12, 1]])
@@ -191,7 +186,6 @@ def predictionConvertion(prediction):
     except:
         pass
 
-    print(prediction)
     if prediction == 0:
         conversion = 35
     elif prediction == 1:
@@ -742,60 +736,20 @@ def find_frequency_grades(test1, test2=None, test3=None):
         #         sub = Subject(name='Science', student=stu)
         #         sub.save()
 
-    # def readmarks(user):
-    #    profile = user.student
-    #    subjects = user.student.subject_set.all()
-    #    mathst1, mathst2, mathst3, mathshy, \
-    #    mathst4, mathspredhy = [], [], [], [], [], []
-    #    hindit1, hindit2, hindit3, hindihy, hindit4, \
-    #    hindipredhy = [], [], [], [], [], []
-    #    englisht1, englisht2, englisht3, englishhy, \
-    #    englisht4, englishpredhy = [], [], [], [], [], []
-    #    sciencet1, sciencet2, sciencet3, sciencehy, \
-    #    sciencet4, sciencepredhy = [], [], [], [], [], []
-    #
-    #    for i in subjects:
-    #        if i.name == 'Maths':
-    #            mathst1.append(i.test1)
-    #            mathst2.append(i.test2)
-    #            mathst3.append(i.test3)
-    #            mathshy.append(i.hy)
-    #            mathst4.append(i.test4)
-    #            mathspredhy.append(i.predicted_hy)
-    #        elif i.name == 'Hindi':
-    #            hindit1.append(i.test1)
-    #            hindit2.append(i.test2)
-    #            hindit3.append(i.test3)
-    #            hindihy.append(i.hy)
-    #            hindit4.append(i.test4)
-    #            hindipredhy.append(i.predicted_hy)
-    #        elif i.name == 'English':
-    #            englisht1.append(i.test1)
-    #            englisht2.append(i.test2)
-    #            englisht3.append(i.test3)
-    #            englishhy.append(i.hy)
-    #            englisht4.append(i.test4)
-    #            englishpredhy.append(i.predicted_hy)
-    #        elif i.name == 'Science':
-    #            sciencet1.append(i.test1)
-    #            sciencet2.append(i.test2)
-    #            sciencet3.append(i.test3)
-    #            sciencehy.append(i.hy)
-    #            sciencet4.append(i.test4)
-    #
-    #            sciencepredhy.append(i.predicted_hy)
-
-    return mathst1, mathst2, mathst3, mathshy, mathst4, mathspredhy, \
-           hindit1, hindit2, hindit3, hindihy, hindit4, hindipredhy, \
-           englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
-           sciencet1, sciencet2, sciencet3, sciencehy, sciencet4, sciencepredhy
-
 
 # class way
 
 class Studs:
     def __init__(self, user):
         self.profile = user.student
+
+    def get_dob(self):
+        return self.profile.dob
+
+
+    def get_section(self):
+        return self.profile.klass.name[-1]
+
 
     def my_subjects_objects(self):
         subs = self.profile.subject_set.all()
@@ -812,50 +766,147 @@ class Studs:
         subjects = list(unique_everseen(subjects))
         return subjects
 
-    def readmarks(self):
-        subjects = self.profile.subject_set.all()
-        mathst1, mathst2, mathst3, mathshy, \
-        mathst4, mathspredhy = [], [], [], [], [], []
-        hindit1, hindit2, hindit3, hindihy, hindit4, \
-        hindipredhy = [], [], [], [], [], []
-        englisht1, englisht2, englisht3, englishhy, \
-        englisht4, englishpredhy = [], [], [], [], [], []
-        sciencet1, sciencet2, sciencet3, sciencehy, \
-        sciencet4, sciencepredhy = [], [], [], [], [], []
 
-        for i in subjects:
-            if i.name == 'Maths':
-                mathst1.append(i.test1)
-                print(i.test1)
-                mathst2.append(i.test2)
-                mathst3.append(i.test3)
-                mathshy.append(i.hy)
-                mathst4.append(i.test4)
-                mathspredhy.append(i.predicted_hy)
-            elif i.name == 'Hindi':
-                hindit1.append(i.test1)
-                hindit2.append(i.test2)
-                hindit3.append(i.test3)
-                hindihy.append(i.hy)
-                hindit4.append(i.test4)
-                hindipredhy.append(i.predicted_hy)
-            elif i.name == 'English':
-                englisht1.append(i.test1)
-                englisht2.append(i.test2)
-                englisht3.append(i.test3)
-                englishhy.append(i.hy)
-                englisht4.append(i.test4)
-                englishpredhy.append(i.predicted_hy)
-            elif i.name == 'Science':
-                sciencet1.append(i.test1)
-                sciencet2.append(i.test2)
-                sciencet3.append(i.test3)
-                sciencehy.append(i.hy)
-                sciencet4.append(i.test4)
-            return mathst1, mathst2, mathst3, mathshy, mathst4, mathspredhy, \
-                   hindit1, hindit2, hindit3, hindihy, hindit4, hindipredhy, \
-                   englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
-                   sciencet1, sciencet2, sciencet3, sciencehy, sciencet4, sciencepredhy
+    def readmarks(self,subject):
+        subjects = self.profile.subject_set.get(name = subject)
+        test1 =test2 = test3 = testhy = test4 = testpredhy = -1
+        test1 = subjects.test1
+        test2 = subjects.test2
+        test3 = subjects.test3
+        testhy = subjects.hy
+        test4 = subjects.test4
+        testpredhhy = subjects.predicted_hy
+
+        return test1,test2,test3,testhy,test4,testpredhy        
+
+
+    def hindi_3testhyprediction(self,test1, test2, test3, DOB, section):
+        '''
+        convert test marks into numpy arrays
+        '''
+        t1 = int(test1)
+        t2 = int(test2)
+        t3 = int(test3)
+
+        if section == 'a':
+            section = 1
+        elif section == 'b':
+            section = 2
+
+        '''
+        calculate age using DOB (dd/mm/year)
+        '''
+        days_in_year = 365.2425
+        age = int((date(2018, 4, 1) - DOB).days / days_in_year)
+        # age = int((date.today() - DOB).days / days_in_year)
+
+        overall = np.array([[t1, t2, t3, age, section]])
+
+        '''
+            transform(scale) data to original data of school
+        '''
+        overall = sca_hindi.transform(overall)
+        '''
+            predict the hy marks using the trained ml algorithm
+        '''
+        prediction = svmhindihhy.predict(overall)
+        return prediction
+
+
+    def maths_3testhyprediction(self,test1, test2, test3, DOB, section):
+        '''
+        convert test marks into numpy arrays
+        '''
+        t1 = int(test1)
+        t2 = int(test2)
+        t3 = int(test3)
+
+        if section == 'a':
+            section = 1
+        elif section == 'b':
+            section = 2
+
+        '''
+            calculate age using DOB (dd/mm/year)
+        '''
+        days_in_year = 365.2425
+        age = int((date(2018, 4, 1) - DOB).days / days_in_year)
+
+        overall = np.array([[t1, t2, t3, age, section]])
+
+        '''
+            transform(scale) data to original data of school
+        '''
+        overall = sca_maths.transform(overall)
+        '''
+            predict the hy marks using the trained ml algorithm
+        '''
+        prediction = knn7mathshhy.predict(overall)
+        return prediction
+
+
+    def english_3testhyprediction(self,test1, test2, test3, DOB, section):
+        '''
+        convert test marks into numpy arrays
+        '''
+        t1 = int(test1)
+        t2 = int(test2)
+        t3 = int(test3)
+
+        if section == 'a':
+            section = 1
+        elif section == 'b':
+            section = 2
+
+        '''
+            calculate age using DOB (dd/mm/year)
+        '''
+        days_in_year = 365.2425
+        age = int((date(2018, 4, 1) - DOB).days / days_in_year)
+
+        overall = np.array([[t1, t2, t3, age, section]])
+
+        '''
+            transform(scale) data to original data of school
+        '''
+        overall = sca_english.transform(overall)
+        '''
+            predict the hy marks using the trained ml algorithm
+        '''
+        prediction = knn7englishhhy.predict(overall)
+        return prediction
+
+
+    def science_3testhyprediction(self,test1, test2, test3, DOB, section):
+        #convert test marks into numpy arrays
+        t1 = int(test1)
+        t2 = int(test2)
+        t3 = int(test3)
+
+        if section == 'a':
+            section = 1
+        elif section == 'b':
+            section = 2
+
+            '''
+                calculate age using DOB (dd/mm/year)
+            '''
+        days_in_year = 365.2425
+
+        age = int((date(2018, 4, 1) - DOB).days / days_in_year)
+
+        overall = np.array([[t1, t2, t3, age, section]])
+
+        '''
+            transform(scale) data to original data of school
+        '''
+        overall = sca_science.transform(overall)
+        '''
+            predict the hy marks using the trained ml algorithm
+        '''
+        prediction = knn7sciencehhy.predict(overall)
+        return prediction
+
 
     def predictionConvertion(self, prediction):
         try:
@@ -1010,7 +1061,6 @@ class Teach:
         marks_class_test3 = []
         marks_class_predictedHy = []
         sub_class = self.profile.subject_set.filter(student__klass__name=which_class)
-        print(sub_class)
         if not sub_class:
             pass
         else:

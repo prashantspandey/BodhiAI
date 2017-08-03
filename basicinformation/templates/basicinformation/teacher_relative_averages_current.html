@@ -6,11 +6,11 @@
 
 
 {% for i in averages %}
-<div class="rows col-md-4">
+<div class="rows col-md-4 col-sm-12">
 	<p>Average of test {{forloop.counter}}: {{i}}</p>
 </div>
 {%endfor%}
-<div  class="col-md-4">
+<div  class="col-md-4 col-sm-12">
     <script>
 {% for k in averages %}
 
@@ -71,7 +71,7 @@ $(document).ready(function () {
 </script>
 
 {% for j in averages %}
-<div>
+<div class=" col-sm-12">
 	<h2>Student grades Test {{forloop.counter}}</h2>
     <canvas  id="analysis{{forloop.counter}}" style="display: block; height: 300px; width: 400px; padding-left: 0;
     padding-right: 0;

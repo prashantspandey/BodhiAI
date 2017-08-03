@@ -25,19 +25,30 @@ def home(request):
             teacher_name = {}
             for sub in subjects:
                 teacher_name[sub.name] = sub.teacher # retrieve all marks from database
-            mathst1, mathst2, mathst3, mathshy, \
-            mathst4, mathspredhy = [], [], [], [], [], []
-            hindit1, hindit2, hindit3, hindihy, hindit4, \
-            hindipredhy = [], [], [], [], [], []
-            englisht1, englisht2, englisht3, englishhy, \
-            englisht4, englishpredhy = [], [], [], [], [], []
-            sciencet1, sciencet2, sciencet3, sciencehy, \
-            sciencet4, sciencepredhy = [], [], [], [], [], []
-            mathst1, mathst2, mathst3, mathshy, mathst4, mathspredhy, \
-            hindit1, hindit2, hindit3, hindihy, hindit4, hindipredhy, \
-            englisht1, englisht2, englisht3, englishhy, englisht4, englishpredhy, \
-            sciencet1, sciencet2, sciencet3, sciencehy, sciencet4,
-            sciencepredhy = me.readmarks()
+            # Get all the student marks
+            try:
+                mathst1,mathst2,mathst3,mathshy,mathst4,mathspredhy =\
+                me.readmarks('Maths')
+            except:
+                mathst1 = mathst2 = mathst3 = mathshy = mathst4 = mathspredhy=None
+            try:
+                hindit1,hindit2,hindit3,hindihy,hindit4,hindipredhy =\
+                me.readmarks('Hindi')
+            except:
+                hindit1 = hindit2 = hindit3 = hindihy = hindit4 = hindipredhy=None
+            try:
+                englisht1,englisht2,englisht3,englishhy,englisht4,englishpredhy =\
+                me.readmarks('English')
+            except:
+                englisht1 = englisht2 = englisht3 = englishhy = englisht4 =\
+                englishpredhy=None
+            try:
+                sciencet1,sciencet2,sciencet3,sciencehy,sciencet4,sciencepredhy =\
+                me.readmarks('Science')
+            except:
+                sciencet1 = sciencet2 = sciencet3 = sciencehy = sciencet4 =\
+                sciencepredhy=None
+
             # check for announcements in past 48 hours
             startdate = date.today()
             enddate = startdate - timedelta(days=2)
@@ -45,16 +56,32 @@ def home(request):
                                                            profile,date__range=[enddate,startdate])
 
             # find the predicted marks
-            #hindipredhy = me.predictionConvertion(hindipredhy)
-            #mathspredhy = me.predictionConvertion(mathspredhy)
-            #englishpredhy = me.predictionConvertion(englishpredhy)
-            #sciencepredhy = me.predictionConvertion(sciencepredhy)
-            hindipredhy = 0
-            mathspredhy = 0
-            englishpredhy = 0
-            sciencepredhy = 0
-            # sending all values to template
+            try:
+                hindipredhy_raw = \
+                me.hindi_3testhyprediction(hindit1,hindit2,hindit3,me.get_dob(),me.get_section())
+                hindipredhy = me.predictionConvertion(hindipredhy_raw)
+            except:
+                pass
 
+            try:
+                mathspredhy_raw = \
+                me.hindi_3testhyprediction(mathst1,mathst2,mathst3,me.get_dob(),me.get_section())
+                mathspredhy = me.predictionConvertion(mathspredhy_raw)
+            except:
+                pass
+            try:
+                englishpredhy_raw = \
+                me.english_3testhyprediction(englisht1,englisht2,englisht3,me.get_dob(),me.get_section())
+                englishpredhy = me.predictionConvertion(englishpredhy_raw)
+            except:
+                pass
+            try:
+                sciencepredhy_raw = \
+                me.science_3testhyprediction(sciencet1,sciencet2,sciencet3,me.get_dob(),me.get_section())
+                sciencepredhy = me.predictionConvertion(sciencepredhy_raw)
+            except:
+                pass
+            # sending all values to template
             context = {'profile': profile, 'subjects': subjects,
                        'hindihy_prediction': hindipredhy,
                        'mathshy_prediction': mathspredhy,
@@ -70,6 +97,7 @@ def home(request):
 
             return render(request, 'basicinformation/student.html', context)
 
+
         elif user.groups.filter(name='Teachers').exists():
             me = Teach(user)
             profile = user.teacher
@@ -78,8 +106,6 @@ def home(request):
             weak_links = {}
             for i in klasses:
                 weak_links[i]= me.online_problematicAreasNames(user,subjects[0],i)
-            for ke in weak_links.keys():
-                print(weak_links[ke])
             num_klasses = len(klasses)
             num_subjects = len(subjects)
 
@@ -325,13 +351,11 @@ def teacher_update_page(request):
     render(request,'basicinformation/teacher_online_individualPerformance3.html',context)
     elif 'individualStudentid' in request.GET:
         stude_test = request.GET['individualStudentid']
-        print(stude_test)
         test_id = stude_test.split(',')[1]
         student_id = stude_test.split(',')[0]
 
         his_marks = OnlineMarks.objects.get(student__id = student_id, test__id
                                             = test_id)
-        print(his_marks)
         context = {'test':his_marks}
         return \
     render(request,'basicinformation/teacher_online_individualPerformance4.html',context)

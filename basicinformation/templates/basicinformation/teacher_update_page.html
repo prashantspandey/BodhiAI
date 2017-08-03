@@ -87,15 +87,15 @@ $(document).ready(function () {
 			      {%endif%}
 </script>
 
-<div class="col-md-4" well>
-<div class="container col-md-4" style="height: 350px; width: 390px;">
+<div class="col-md-4 col-sm-12">
+<div class="container col-md-4 col-sm-12" style="height: 350px; width: 390px;">
 <canvas  id="myChart{{forloop.counter}}" style="display: block; height: 200px; width: 250px; padding-left: 0;
     padding-right: 0;
     margin-left: auto;
     margin-right: auto;" width="350" height="300">
 </canvas>
 </div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-sm-12">
     <h4 >{{students.student}}</h4>
     {%if students.test1 %}
       <p>{{students}} Test1:{{students.test1}}</p>

@@ -33,20 +33,20 @@
 });
     </script>
 
-<div class="panel panel-default">
+<div class="panel panel-default col-sm-12">
   <div class="panel-heading text-center">Choose a Test</div>
-  <div class="panel-body">
+  <div class="panel-body col-sm-12">
 	  {% if noTest %}
 	  <h3> No tests have been taken yet </h3>
 	  {%endif%}
 {% for i in Tests %}
 
-<div class="btn-group" role="group" aria-label="...">
+<div class="btn-group col-sm-12" role="group" aria-label="...">
 	<button type="button" class="btn btn-default text-center" value ="{{i}}" id="schoolTestButton{{forloop.counter}}">{{i}}</button>
 	<button type="button" class="hidden btn btn-default text-center" value ="{{i}}" id="which_class">{{which_class}}</button>
 </div>
 {%endfor%}
         </div>
-<div class='hidden' id = 'schooltestanalysis'>
+<div class='hidden col-sm-12' id = 'schooltestanalysis'>
 {%include 'basicinformation/teacher_school_analysis3.html' %}
 </div>

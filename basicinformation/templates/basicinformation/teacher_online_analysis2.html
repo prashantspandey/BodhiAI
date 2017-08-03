@@ -32,9 +32,9 @@
 });
     </script>
 
-<div class="panel panel-default">
+<div class="panel panel-default col-sm-12">
   <div class="panel-heading text-center">Choose a Test</div>
-  <div class="panel-body">
+  <div class="panel-body col-sm-12">
 	  {%if not tests%}
 	  <h3 style="text-align:center;font-weight:bold;"> No tests taken yet.To create a test click on "Create Test" in the nav-bar at top. </h3>
 	  {%else%}
@@ -46,6 +46,6 @@
 {%endfor%}
 {%endif%}
         </div>
-<div class='hidden' id = 'onlinetestanalysis'>
+<div class='hidden col-sm-12' id = 'onlinetestanalysis'>
 {%include 'basicinformation/teacher_online_analysis3.html' %}
 </div>

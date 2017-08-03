@@ -86,17 +86,17 @@ var pointBackgroundColors = [];
 
 
 </script>
-<div class='col-md-offset-1 col-md-6'>
+<div class='col-md-offset-1 col-md-6 col-sm-12'>
 	<h2>Your performace vs Average Performace</h2>
 	<canvas  id="analysis" style="display: block; height: 300px; width: 400px; padding-left: 0;">
 </canvas>
 </div>
-	    <div class='col-md-4'>
+	    <div class='col-md-4 col-sm-12'>
 	<h2> Your percentile: {{percentile}} </h2>
 	<canvas  id="analysisPercentile" style="display: block; height: 300px; width: 400px; padding-left: 0;">
 </canvas>
 </div>
-	<div class='col-md-offset-1 col-md-10'>
+	<div class='col-md-offset-1 col-md-10 col-sm-12'>
 		{% for te in test.test.questions_set.all %}
 		<div class='well'>
 			<h3> {{te.text}}{% if te.id in test.skippedAnswers %}<span class="label label-warning" >You skipped this question</span>{%endif%}</h3>
