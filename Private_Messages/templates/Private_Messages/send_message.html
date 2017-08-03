@@ -3,7 +3,7 @@
 		
 
 		{% if created %}
-		<div class='well'>
+		<div class='well col-sm-12'>
 		
 		<h3> To: {{mess.receiver}}</h3>
 		<h4> Subject: {{mess.subject}}</h4>
@@ -12,7 +12,7 @@
 		<a href="{%url 'pms:messages' %}"<button type="button" class="btn btn-default text-center" id="backButton">Go to Messages Home</button></a>
 		</div>	
 		{%else%}
-		<div class='well'>
+		<div class='well col-sm-12'>
 		
 			
 		<form action="{%url 'pms:sendMessage' %}" method='post'>

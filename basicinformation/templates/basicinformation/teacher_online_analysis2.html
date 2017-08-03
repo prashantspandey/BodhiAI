@@ -32,20 +32,20 @@
 });
     </script>
 
-<div class="panel panel-default col-sm-12">
+<div class="panel panel-default ">
   <div class="panel-heading text-center">Choose a Test</div>
-  <div class="panel-body col-sm-12">
+  <div class="panel-body">
 	  {%if not tests%}
 	  <h3 style="text-align:center;font-weight:bold;"> No tests taken yet.To create a test click on "Create Test" in the nav-bar at top. </h3>
 	  {%else%}
 {% for i in tests %}
 
 <div class="btn-group" role="group" aria-label="...">
-	<button type="button" class="btn btn-default text-center" value ="{{i.id}}" id="onlineTestid{{forloop.counter}}">{{i.published}}</button>
+	<button type="button" class="btn btn-default text-center col-sm-12" value ="{{i.id}}" id="onlineTestid{{forloop.counter}}">{{i.published}}</button>
 </div>
 {%endfor%}
 {%endif%}
         </div>
-<div class='hidden col-sm-12' id = 'onlinetestanalysis'>
+<div class='hidden' id = 'onlinetestanalysis'>
 {%include 'basicinformation/teacher_online_analysis3.html' %}
 </div>

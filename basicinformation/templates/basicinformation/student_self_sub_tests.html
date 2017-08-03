@@ -15,16 +15,16 @@
 
 
 
-<div class="panel panel-default col-sm-12">
+<div class="panel panel-default ">
   <div class="panel-heading text-center">Choose a Test:</div>
-  <div class="panel-body col-sm-12">
+  <div class="panel-body ">
 	  {% for test in tests%}
-	  <button type="button" class="btn btn-default text-center" value='{{test.test.id}}'  id="studentTestids{{forloop.counter}}">{{test.test.published}}</button>
+	  <button type="button" class="btn btn-default text-center col-sm-12" value='{{test.test.id}}'  id="studentTestids{{forloop.counter}}">{{test.test.published}}</button>
 
 	{%endfor%}
   </div>
 </div>
 
-<div class='hidden col-sm-12' id = 'studentAnalyzeTest'>
+<div class='hidden ' id = 'studentAnalyzeTest'>
 	{% include 'basicinformation/student_analyze_test.html' %}
 </div>

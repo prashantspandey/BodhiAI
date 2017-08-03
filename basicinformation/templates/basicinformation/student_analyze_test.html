@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-<div class = 'col-md-offset-1 col-md-8'>
+<div class = 'col-md-offset-1 col-md-8 col-sm-12'>
 	<h3 style='text-align:center;'> Average of Test: {{average}} out of {{test.test.max_marks}} or {{percentAverage}} %</h3>
 	<h3 style='text-align:center;'> Your score: {{test.marks}} out of {{test.test.max_marks}} </h3>
 </div>
@@ -87,18 +87,18 @@ var pointBackgroundColors = [];
 
 </script>
 <div class='col-md-offset-1 col-md-6 col-sm-12'>
-	<h2>Your performace vs Average Performace</h2>
+	<h2 style='text-align:center;'>Your performace vs Average Performace</h2>
 	<canvas  id="analysis" style="display: block; height: 300px; width: 400px; padding-left: 0;">
 </canvas>
 </div>
 	    <div class='col-md-4 col-sm-12'>
-	<h2> Your percentile: {{percentile}} </h2>
+	<h2 style="text-align:center;"> Your percentile: {{percentile}} </h2>
 	<canvas  id="analysisPercentile" style="display: block; height: 300px; width: 400px; padding-left: 0;">
 </canvas>
 </div>
 	<div class='col-md-offset-1 col-md-10 col-sm-12'>
 		{% for te in test.test.questions_set.all %}
-		<div class='well'>
+		<div class='well col-sm-12'>
 			<h3> {{te.text}}{% if te.id in test.skippedAnswers %}<span class="label label-warning" >You skipped this question</span>{%endif%}</h3>
 			{% for ch in te.choices_set.all %}
 			

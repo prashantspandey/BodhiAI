@@ -2,7 +2,7 @@
 	<body>	
 		{% if sent_messages %}
 		{% for m in sent_messages %}
-		<div class='well'>
+		<div class='well col-sm-12'>
 		
 		<h3> To: {{m.receiver}}</h3>
 		<h4> Subject: {{m.subject}}</h4>

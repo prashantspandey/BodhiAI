@@ -13,7 +13,7 @@
 		<h2 style='text-align:center;'> Your result </h2>
 		<h3 style='text-align:center;font-weight:bold;'> You scored {{marks.marks}} out of {{marks.test.max_marks}} </h3>
 
-		<div class= 'col-md-offset-1 col-md-10'>
+		<div class= 'col-md-offset-1 col-md-10 col-sm-12'>
 			{% for quest in marks.test.questions_set.all %}
 			<div class = 'well'>
 				<h3> {{quest.text}}</h3>

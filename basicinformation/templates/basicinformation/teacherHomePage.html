@@ -95,16 +95,16 @@ $('#onlineIndividualPerformance').click(function(){
   <div class="panel-body col-sm-12">
 {% for i in klasses %}
 
-<div class="btn-group col-sm-12" role="group" aria-label="...">
+<div class="btn-group " role="group" aria-label="...">
 	<button type="button" class="btn btn-default text-center" value ="{{i}}" id="classButton{{forloop.counter}}">{{i}}</button>
 </div>
 
 {%endfor%}
         </div>
 </div>
-<div class="hidden panel panel-default col-sm-12" id="analysisType" >
+<div class="hidden panel panel-default " id="analysisType" >
   <div class="panel-heading text-center">What kind of analysis would you like to see:</div>
-  <div class="panel-body col-sm-12">
+  <div class="panel-body ">
 
 
 <div class="btn-group col-sm-12" role="group" >
@@ -130,7 +130,7 @@ $('#onlineIndividualPerformance').click(function(){
         </div>
 </div>
 
-<div class="hidden cont col-sm-12">
+<div class="hidden cont ">
     {%include 'basicinformation/teacher_relative_averages_current.html' %}
     {%include 'basicinformation/teacher_update_page.html' %}
      {%include 'basicinformation/teacher_relative_averages_predicted.html' %}

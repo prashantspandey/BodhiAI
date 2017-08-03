@@ -2,7 +2,7 @@
 	<body>
 		{% if inbox %}
 		{% for m in inbox %}
-		<div class = 'well'>
+		<div class = 'well col-sm-12'>
 			<h3> From: {{m.sender}}</h3>
 			<p>Date: {{m.sent_date}}</p>
 			<h4>Subject: {{m.subject}}</h4>

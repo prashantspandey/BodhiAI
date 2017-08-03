@@ -42,7 +42,7 @@
   <div class="panel-heading text-center">Choose a Test (ordered by publish date)</div>
   <div class="panel-body">
 			{% for test in tests %}
-			<button type="button" class="btn btn-default text-center" value='{{test.id}}' id="whichTest{{forloop.counter}}">{{test.published}}</button>
+			<button type="button" class="btn btn-default text-center col-sm-12" value='{{test.id}}' id="whichTest{{forloop.counter}}">{{test.published}}</button>
 
 	{%endfor%}
 	</div>

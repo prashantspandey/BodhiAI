@@ -17,7 +17,7 @@
 		<h2 style='text-align:center;font-weight:bold;'> 
 			Create Announcement </h2>
 
-		<div class ='col-md-offset-1 col-md-10'>
+		<div class ='col-md-offset-1 col-md-10 col-sm-12'>
 			<form action='{%url "pms:Announce" %}' method='post'>
 				{%csrf_token%}
 				<div style='text-align:center;'>
@@ -42,7 +42,7 @@
 		</div>
 		<div>
 			{% for announcement in announcements %}
-			<div class='well'>
+			<div class='well col-sm-12'>
 				<h3 style='font-weight:bold;'>	{{announcement.text}}</h3>
 				<h4> {{announcement.date}}</h4>
 			</div>

@@ -1,7 +1,6 @@
 <html>
 	<body>
-
-<div >
+<div class= "col-sm-12">
 	{% for question in test.questions_set.all %}
 			<form action= '{% url "QuestionsAndPapers:studentShowOnlineTest" %}' method='post' id = 'answerForm'>
 	<div class='well col-md-offset-1 col-md-10'>

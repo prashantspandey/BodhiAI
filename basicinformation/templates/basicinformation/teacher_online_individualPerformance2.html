@@ -32,7 +32,7 @@
 });
     </script>
 
-<div class="panel panel-default col-sm-12">
+<div class="panel panel-default">
   <div class="panel-heading text-center">Choose a Test</div>
   <div class="panel-body col-sm-12">
 	  {%if not tests %}
@@ -40,12 +40,12 @@
 	  {%else%}
 {% for i in tests %}
 
-<div class="btn-group col-sm-12" role="group" aria-label="...">
-	<button type="button" class="btn btn-default text-center" value ="{{i.id}}" id="individualonlineTestid{{forloop.counter}}">{{i.published}}</button>
+<div class="btn-group " role="group" aria-label="...">
+	<button type="button" class="btn btn-default text-center col-sm-12" value ="{{i.id}}" id="individualonlineTestid{{forloop.counter}}">{{i.published}}</button>
 </div>
 {%endfor%}
 {%endif%}
         </div>
-<div class='hidden col-sm-12' id = 'individualonlinetestanalysis'>
+<div class='hidden' id = 'individualonlinetestanalysis'>
 {%include 'basicinformation/teacher_online_individualPerformance3.html' %}
 </div>

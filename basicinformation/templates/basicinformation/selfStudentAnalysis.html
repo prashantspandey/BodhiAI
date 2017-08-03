@@ -49,18 +49,18 @@ var pr
 	<body>
 		{% block content %}
 		<br>
-<div class="panel panel-default col-sm-12">
+<div class="panel panel-default ">
   <div class="panel-heading text-center">Choose an Analysis:</div>
   <div class="panel-body">
 {% for sub in subjects %}
 
 <div class="btn-group" role="group" aria-label="...">
-	<button type="button" class="btn btn-default " id="studentanasub{{forloop.counter}}">{{sub}}</button>
+	<button type="button" class="btn btn-default col-sm-12 " id="studentanasub{{forloop.counter}}">{{sub}}</button>
 </div>
 
 {%endfor%}
         </div>
-	<div class="hidden studentselfSubjects col-sm-12">
+	<div class="hidden studentselfSubjects ">
 		{% include 'basicinformation/student_analysis_subjects.html' %}
 	</div>
 {%endblock%}

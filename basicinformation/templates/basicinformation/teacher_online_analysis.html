@@ -32,17 +32,17 @@
 });
     </script>
 
-<div class="panel panel-default col-sm-12">
+<div class="panel panel-default">
   <div class="panel-heading text-center">Choose a Subject</div>
   <div class="panel-body">
 {% for i in subs %}
 
 <div class="btn-group col-sm-12" role="group" aria-label="...">
-	<button type="button" class="btn btn-default text-center" value ="{{i}}" id="subjectButton{{forloop.counter}}">{{i}}</button>
+	<button type="button" class="btn btn-default text-center col-sm-12" value ="{{i}}" id="subjectButton{{forloop.counter}}">{{i}}</button>
 	<button type="button" class="hidden btn btn-default text-center" value ="{{i}}" id="which_class">{{which_class}}</button>
 </div>
 {%endfor%}
         </div>
-<div class='hidden col-sm-12' id = 'onlinetestid'>
+<div class='hidden ' id = 'onlinetestid'>
 {%include 'basicinformation/teacher_online_analysis2.html' %}
 </div>

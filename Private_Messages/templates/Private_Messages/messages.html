@@ -44,9 +44,9 @@
 	<body style="width:500px;margin:0 auto;height=100%;">
 		{% block content %}
 		<div style="overflow:auto'">
-<div class="sidebar-nav well" style="float:left;width:300px;min-height:600px;">
+<div class="sidebar-nav well col-sm-12 col-md-12" style="float:top;">
 <ul class="nav nav-list"> 
-	<li class="nav-header">{% if isTeacher %}Select a Student to send a mail{%else%} Select a Teacher to send a mail {%endif%}</li>  
+	<li class="nav-header col-sm-12">{% if isTeacher %}Select a Student to send a mail{%else%} Select a Teacher to send a mail {%endif%}</li>  
 	<select name='teacherNames' size=1>
 		{% if isTeacher %}
 		<option disabled selected value> -- Choose a Student to send Mail to -- </option>
@@ -58,10 +58,10 @@
 	{%endfor%}
 	</select>
 	<hr>
-	<li><button type="button" class="btn btn-default text-center" id="inbox">Inbox</button>
+	<li class=' col-sm-12'><button type="button" class="btn btn-default text-center" id="inbox">Inbox</button>
 		<span class="badge badge-info">{{count}}</span></li>
 											<li class="divider"></li>
-	<li><button type="button" class="btn btn-default text-center" id="sentMessages">Sent Messages</button>
+	<li class=' col-sm-12'><button type="button" class="btn btn-default text-center" id="sentMessages">Sent Messages</button>
 </ul>
 										</div>
 				
