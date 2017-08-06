@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import School,klass,Student,Subject,Teacher
+from .models import *
 
 
 class TeacherInline(admin.StackedInline):
@@ -18,3 +18,4 @@ class KlassAdmin(admin.ModelAdmin):
 admin.site.register(School,SchoolAdmin)
 admin.site.register(klass,KlassAdmin)
 admin.site.register(Subject)
+admin.site.register(SchoolManagement)

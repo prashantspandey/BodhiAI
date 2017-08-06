@@ -16,6 +16,18 @@ from Private_Messages.models import *
 def home(request):
     user = request.user
     if user.is_authenticated:
+        if user.groups.filter(name='Management').exists():
+            all_students = Student.objects.filter(school =
+                                                  user.schoolmanagement.school)
+            all_studs_list = []
+            all_klasses = []
+            for i in all_students:
+                all_studs_list.append(i)
+                all_klasses.append(i.klass.name)
+            all_klasses = list(unique_everseen(all_klasses))
+            num_classes = len(all_klasses)
+            context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
+            return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
             return render(request,'basicinformation/staffpage1.html')
         if user.groups.filter(name='Students').exists():
@@ -56,31 +68,31 @@ def home(request):
                                                            profile,date__range=[enddate,startdate])
 
             # find the predicted marks
-            #try:
-            #    hindipredhy_raw = \
-            #    me.hindi_3testhyprediction(hindit1,hindit2,hindit3,me.get_dob(),me.get_section())
-            #    hindipredhy = me.predictionConvertion(hindipredhy_raw)
-            #except:
-            #    pass
+            try:
+                hindipredhy_raw = \
+                me.hindi_3testhyprediction(hindit1,hindit2,hindit3,me.get_dob(),me.get_section())
+                hindipredhy = me.predictionConvertion(hindipredhy_raw)
+            except:
+                pass
 
-            #try:
-            #    mathspredhy_raw = \
-            #    me.hindi_3testhyprediction(mathst1,mathst2,mathst3,me.get_dob(),me.get_section())
-            #    mathspredhy = me.predictionConvertion(mathspredhy_raw)
-            #except:
-            #    pass
-            #try:
-            #    englishpredhy_raw = \
-            #    me.english_3testhyprediction(englisht1,englisht2,englisht3,me.get_dob(),me.get_section())
-            #    englishpredhy = me.predictionConvertion(englishpredhy_raw)
-            #except:
-            #    pass
-            #try:
-            #    sciencepredhy_raw = \
-            #    me.science_3testhyprediction(sciencet1,sciencet2,sciencet3,me.get_dob(),me.get_section())
-            #    sciencepredhy = me.predictionConvertion(sciencepredhy_raw)
-            #except:
-            #    pass
+            try:
+                mathspredhy_raw = \
+                me.hindi_3testhyprediction(mathst1,mathst2,mathst3,me.get_dob(),me.get_section())
+                mathspredhy = me.predictionConvertion(mathspredhy_raw)
+            except:
+                pass
+            try:
+                englishpredhy_raw = \
+                me.english_3testhyprediction(englisht1,englisht2,englisht3,me.get_dob(),me.get_section())
+                englishpredhy = me.predictionConvertion(englishpredhy_raw)
+            except:
+                pass
+            try:
+                sciencepredhy_raw = \
+                me.science_3testhyprediction(sciencet1,sciencet2,sciencet3,me.get_dob(),me.get_section())
+                sciencepredhy = me.predictionConvertion(sciencepredhy_raw)
+            except:
+                pass
             # sending all values to template
             context = {'profile': profile, 'subjects': subjects,
                        'hindihy_prediction': hindipredhy,
@@ -119,6 +131,13 @@ def home(request):
             return render(request, 'basicinformation/home.html')
     else:
         return HttpResponseRedirect(reverse('membership:login'))
+
+#def student_profile_page(request):
+#    user = request.user
+#    if user.is_authenticated:
+#        if user.groups.filter(name='Students').exists():
+#            if user.student.address and user.student.phone:
+#                myProfile = StudentCustomProfile(
 
 
 def student_self_analysis(request):
@@ -360,6 +379,27 @@ def teacher_update_page(request):
         return \
     render(request,'basicinformation/teacher_online_individualPerformance4.html',context)
         
+# functions for school management
+
+def management_homePage(request):
+    user = request.user
+    if user.is_authenticated:
+        if user.groups.filter(name='Management').exists():
+            all_students = Student.objects.filter(school =
+                                                  user.schoolManagement.school)
+            all_studs_list = []
+            all_klasses = []
+            for i in all_students:
+                all_studs_list.append(i)
+                all_klasses.append(i.klass.name)
+            all_klasses = list(unique_everseen(all_klasses))
+            num_classes = len(all_klasses)
+
+            context =\
+            {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
+            return
+        render(request,'basicinformation/managementHomePage.html',context)
+
 
 
 # functions for the admin

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class School(models.Model):
     name = models.CharField(max_length=200)
@@ -63,6 +63,18 @@ class Subject(models.Model):
         return \
     '{}---{}----{}----{}'.format(self.name,self.student,self.teacher,self.student.school)
 
+class StudentCustomProfile(models.Model):
+    student = models.OneToOneField(Student)
+    address = models.CharField(max_length = 400)
+    phone = models.IntegerField(null=True, blank=True,
+                            validators=[MaxValueValidator(9999999999),MinValueValidator(1000000000)])
+   
+    def __str__(self):
+       return self.student.name
 
-    
+class SchoolManagement(models.Model):
+    management = models.OneToOneField(User)
+    school = models.ForeignKey(School)
 
+    def __str__(self):
+        return 'management of {}'.format(self.school.name)

@@ -41,6 +41,17 @@ def every_messages(request):
                 count = count + 1
             context = {'teachers':my_students,'count':count,'isTeacher':True}
             return render(request,'Private_Messages/messages.html',context) 
+        if user.groups.filter(name='Management').exists():
+            profile = user.schoolmanagement
+            teachers = Teacher.objects.filter(school = profile.school)
+            students = Student.objects.filter(school = profile.school)
+            all_entities = []
+            for i in teachers:
+                all_entities.append(i)
+            for i in students:
+                all_entities.append(i)
+            context = {'teachers':all_entities}
+            return render(request,'Private_Messages/messages.html',context)
 
 
 def send_messages(request):
@@ -125,6 +136,66 @@ def send_messages(request):
                     post_message.save()
                     context = {'mess':post_message,'created':True}
                     return render(request,'Private_Messages/send_message.html',context)
+        if user.groups.filter(name='Management').exists():
+            if 'teacher_name' in request.GET:
+                entity_id = request.GET['teacher_name']
+                entity_id = int(entity_id)
+                print('%s entity id' %entity_id)
+                new_Message = PrivateMessage()
+                new_Message.sender = user
+
+                try:
+                    student = Student.objects.get(id = entity_id)
+                    new_Message.receiver = student.studentuser
+                except:
+                    teacher = Teacher.objects.get(id = entity_id)
+                    new_Message.receiver = teacher.teacheruser
+                
+                context = {'message_info':new_Message,'sid':entity_id,
+                           }
+                return render(request,'Private_Messages/send_message.html',context)
+            if 'receiver' in request.POST and 'subject' in request.POST and 'body'  in  request.POST:
+                profile = user.schoolmanagement
+                teachers = Teacher.objects.filter(school = profile.school)
+                students = Student.objects.filter(school = profile.school)
+                all_entities = []
+                for i in teachers:
+                    all_entities.append(i)
+                for i in students:
+                    all_entities.append(i)
+
+                my_messages = PrivateMessage.objects.filter(receiver= user)
+                count = 0
+                for i in my_messages:
+                    count = count + 1
+                subject = request.POST['subject']
+                receiver = request.POST['receiver']
+                body = request.POST['body']
+                post_message = PrivateMessage()
+                post_message.sender = user
+                try:
+                    teacher = Teacher.objects.get(id = int(receiver))
+                    post_message.receiver = teacher.teacheruser
+                except:
+                    student = Student.objects.get(id = int(receiver))
+                    post_message.receiver = student.studentuser
+                post_message.subject = subject
+                if body == '':
+                    messages.error(request, 'Please fill the Message. ')
+                    try:
+                        context ={'messagain':teacher,'teachers':all_entities,
+                                'count':count}
+                    except:
+                        context ={'messagain':student,'teachers':all_entities,
+                                'count':count}
+
+                    return render(request,'Private_Messages/messages.html',context)
+                else:
+                    post_message.body = body
+                    post_message.save()
+                    context = {'mess':post_message,'created':True}
+                    return render(request,'Private_Messages/send_message.html',context)
+
 
 def view_sent_messages(request):
     user = request.user

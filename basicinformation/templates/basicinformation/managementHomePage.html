@@ -1,0 +1,24 @@
+{%extends 'basicinformation/base.html' %}
+<html>
+	<head>
+		<title>
+			{%block title%}
+			Management Home Page
+			{%endblock%}
+		</title>
+	</head>
+	<body>
+		{%block content %}
+
+		<div class='col-md-offset-1 col-md-10'>
+			<h2 style='text-align:center;'> Welcome to {{user.schoolmanagement.school}}'s Management page </h2>
+			<div class='well'>
+				<h3 > All the classes registered on BodhiAI </h3>
+				{% for kl in all_classes %}
+				<h4> {{kl}} </h4>
+				{%endfor%}
+			</div>
+		</div>
+		{%endblock%}
+	</body>
+</html>

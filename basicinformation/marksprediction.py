@@ -10,37 +10,37 @@ from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template
 
-#'''
-#load pickles for data transformation and prediction (hindi)
-#'''
-#pickle_in_hindi =  open('basicinformation/preprocesshindihy.pickle','rb')
-#svm_pickle_hindi = open('basicinformation/svmhindihhy.pickle', 'rb')
-#sca_hindi = pickle.load(pickle_in_hindi)
-#svmhindihhy = pickle.load(svm_pickle_hindi)
-#
-#'''
-#load pickles for data transformation and prediction (maths)
-#'''
-#pickle_in_maths = open('basicinformation/preprocesshindihy.pickle', 'rb')
-#knn7_pickle_maths = open('basicinformation/svmhindihhy.pickle', 'rb')
-#sca_maths = pickle.load(pickle_in_maths)
-#knn7mathshhy = pickle.load(knn7_pickle_maths)
-#
-#'''
-#load pickles for data transformation and prediction (english)
-#'''
-#pickle_in_english = open('basicinformation/preprocesshindihy.pickle', 'rb')
-#knn7_pickle_english = open('basicinformation/svmhindihhy.pickle', 'rb')
-#sca_english = pickle.load(pickle_in_english)
-#knn7englishhhy = pickle.load(knn7_pickle_english)
-#
-#'''
-#load pickles for data transformation and prediction (science)
-#'''
-#pickle_in_science = open('basicinformation/preprocesshindihy.pickle', 'rb')
-#knn7_pickle_science = open('basicinformation/svmhindihhy.pickle', 'rb')
-#sca_science = pickle.load(pickle_in_science)
-#knn7sciencehhy = pickle.load(knn7_pickle_science)
+'''
+load pickles for data transformation and prediction (hindi)
+'''
+pickle_in_hindi =  open('basicinformation/preprocesshindihy.pickle','rb')
+svm_pickle_hindi = open('basicinformation/svmhindihhy.pickle', 'rb')
+sca_hindi = pickle.load(pickle_in_hindi)
+svmhindihhy = pickle.load(svm_pickle_hindi)
+
+'''
+load pickles for data transformation and prediction (maths)
+'''
+pickle_in_maths = open('basicinformation/preprocesshindihy.pickle', 'rb')
+knn7_pickle_maths = open('basicinformation/svmhindihhy.pickle', 'rb')
+sca_maths = pickle.load(pickle_in_maths)
+knn7mathshhy = pickle.load(knn7_pickle_maths)
+
+'''
+load pickles for data transformation and prediction (english)
+'''
+pickle_in_english = open('basicinformation/preprocesshindihy.pickle', 'rb')
+knn7_pickle_english = open('basicinformation/svmhindihhy.pickle', 'rb')
+sca_english = pickle.load(pickle_in_english)
+knn7englishhhy = pickle.load(knn7_pickle_english)
+
+'''
+load pickles for data transformation and prediction (science)
+'''
+pickle_in_science = open('basicinformation/preprocesshindihy.pickle', 'rb')
+knn7_pickle_science = open('basicinformation/svmhindihhy.pickle', 'rb')
+sca_science = pickle.load(pickle_in_science)
+knn7sciencehhy = pickle.load(knn7_pickle_science)
 
 # test1,test2,test3,age,section
 # x = np.array([[9, 10, 10, 12, 1]])

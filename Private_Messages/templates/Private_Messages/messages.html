@@ -44,14 +44,16 @@
 	<body style="width:500px;margin:0 auto;height=100%;">
 		{% block content %}
 		<div style="overflow:auto'">
-<div class="sidebar-nav well col-sm-12 col-md-12" style="float:top;">
-<ul class="nav nav-list"> 
-	<li class="nav-header col-sm-12">{% if isTeacher %}Select a Student to send a mail{%else%} Select a Teacher to send a mail {%endif%}</li>  
-	<select name='teacherNames' size=1>
-		{% if isTeacher %}
+<div class="sidebar-nav well col-sm-12 col-md-12 form-group" style="float:top;">
+<ul class="nav nav-list" style='text-align:center;'> 
+	{% if user.teacher %}<h3 style='text-align:center;'>Select a Student to send a mail</h3>{%elif user.student%}<h3 style='text-align:center;'> Select a Teacher to send a mail</h3>{%elif user.schoolmanagement%}<h3 style='text-align:center;'> Select a Teacher or Student to send a mail </h3>{%endif%} 
+	<select name='teacherNames' class="form-control" style='border-color: #5cb85c;background-color:#D1C4E9;' >
+		{% if user.teacher %}
 		<option disabled selected value> -- Choose a Student to send Mail to -- </option>
-		{% else %}
+		{% elif user.student %}
 		<option disabled selected value> -- Choose a Teacher to send Mail to -- </option>
+		{%elif user.schoolmanagement %}
+		<option disabled selected value> -- Choose a Student or Teacher to send Mail to -- </option>
 		{% endif%}
 	{% for teach in teachers %}	
 	<option value="{{teach.id}}">{{teach.name}} </option>
