@@ -18,16 +18,16 @@
 		<form action="{%url 'pms:sendMessage' %}" method='post'>
 			{%csrf_token%}
 			{% if messagain %}
-			TO<br> <input type='text' disabled align='center' value="{{messagain}}" name="receiver"><br><br><br>
+			TO<br> <input type='text' disabled align='center' value="{{messagain}}" class='form-control' name="receiver"><br><br><br>
 			<input type='hidden' value="{{messagain.id}}" name="receiver">
 			{%else%}
-			TO<br> <input type='text' disabled align='center' value="{{message_info.receiver}}" name="receiver"><br><br><br>
+			TO<br> <input type='text' disabled align='center' class='form-control' value="{{message_info.receiver}}" name="receiver"><br><br><br>
 			<input type='hidden' value="{{sid}}" name="receiver">
 			{%endif%}
 		Subject <br>
-		<input type="text" name="subject"><br><br><br>
+		<input type="text"  class='form-control' name="subject"><br><br><br>
 		Message<br>	
-	<textarea name='body' cols = '80' rows="5"></textarea><br><br><br>
+	<textarea name='body' class='form-control' cols = '80' rows="5"></textarea><br><br><br>
 			<input type="submit" value="Submit">
 		</form>
 		</div>	
