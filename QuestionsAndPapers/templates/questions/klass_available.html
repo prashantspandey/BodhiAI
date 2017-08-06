@@ -13,8 +13,8 @@
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
 	  $('#loading-image').show();
  		  $('#allQuestions').removeClass("hidden");
-	  $('#loading-image').hide();
          $('#allQuestions').html('').load('{% url 'QuestionsAndPapers:createTest' %}?chapter_test='+encodeURIComponent(chap+','+which_klass));
+	  $('#loading-image').hide();
  $(this).animate({
             height: '40px',
             width: '60px',

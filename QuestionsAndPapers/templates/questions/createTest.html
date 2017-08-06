@@ -19,8 +19,8 @@
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
 	 $('#loading-image').show();
          $('#chapters').removeClass("hidden");
-	 $('#loading-image').hide();
          $('#chapters').html('').load('{% url 'QuestionsAndPapers:createTest' %}?klass_test='+encodeURIComponent(ajKl));
+	 $('#loading-image').hide();
 
               $(this).animate({
             height: '42px',
