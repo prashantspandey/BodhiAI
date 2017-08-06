@@ -1,3 +1,4 @@
+{%load staticfiles %}
 <script>
 
          $(document).ready(function () {
@@ -8,7 +9,9 @@
           which_testid = $(this).attr('value');
 	  console.log(which_testid)
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
+	$('#loading-image').show();
          $('#individualonlinetestanalysis').removeClass("hidden");
+	$('#loading-image').hide();
          $('#individualonlinetestanalysis').html('').load('{% url 'basic:teacher_update_page' %}?individualonlinetestid='+which_testid);
 
 
@@ -46,6 +49,7 @@
 {%endfor%}
 {%endif%}
         </div>
+	<div id ='loading-image'><img src="{%static 'basicinformation/images/loading.gif' %}" ></div>
 <div class='hidden' id = 'individualonlinetestanalysis'>
 {%include 'basicinformation/teacher_online_individualPerformance3.html' %}
 </div>

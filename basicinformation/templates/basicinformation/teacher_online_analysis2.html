@@ -8,7 +8,9 @@
           which_testid = $(this).attr('value');
 	  console.log(which_testid)
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
+	$('#loading-image').show();
          $('#onlinetestanalysis').removeClass("hidden");
+	$('#loading-image').hide();
          $('#onlinetestanalysis').html('').load('{% url 'basic:teacher_update_page' %}?onlinetestid='+which_testid);
 
 
@@ -46,6 +48,7 @@
 {%endfor%}
 {%endif%}
         </div>
+	<div id ='loading-image'><img src="{%static 'basicinformation/images/loading.gif' %}" ></div>
 <div class='hidden' id = 'onlinetestanalysis'>
 {%include 'basicinformation/teacher_online_analysis3.html' %}
 </div>

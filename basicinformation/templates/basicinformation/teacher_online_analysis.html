@@ -1,3 +1,4 @@
+{%load staticfiles %}
 <script>
 
          $(document).ready(function () {
@@ -8,7 +9,9 @@
           which_sub = $(this).text(); which_klass = $('#which_class').text()
 		  console.log(which_sub,which_klass);
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
+	$('#loading-image').show();
          $('#onlinetestid').removeClass("hidden");
+	$('#loading-image').hide();
          $('#onlinetestid').html('').load('{% url 'basic:teacher_update_page' %}?onlineschoolSubject='+which_sub+','+which_klass);
 
 
@@ -43,6 +46,7 @@
 </div>
 {%endfor%}
         </div>
+	<div id ='loading-image'><img src="{%static 'basicinformation/images/loading.gif' %}" ></div>
 <div class='hidden ' id = 'onlinetestid'>
 {%include 'basicinformation/teacher_online_analysis2.html' %}
 </div>

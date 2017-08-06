@@ -1,4 +1,5 @@
 {% extends 'basicinformation/base.html' %}
+{% load staticfiles %}
 <html>
 	<head>
 
@@ -16,7 +17,9 @@
 
           ajKl = $(this).text();
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
+	 $('#loading-image').show();
          $('#chapters').removeClass("hidden");
+	 $('#loading-image').hide();
          $('#chapters').html('').load('{% url 'QuestionsAndPapers:createTest' %}?klass_test='+encodeURIComponent(ajKl));
 
               $(this).animate({
@@ -56,7 +59,7 @@
 {%endfor%}
         </div>
 </div>
-
+<div id ='loading-image'><img src="{%static 'basicinformation/images/loading.gif' %}" ></div>
 <div class="hidden panel panel-default" id="chapters" >
 	<div class="panel-heading text-center" style ='text-align:center;font-weight:bold;'  >Questions</div>
   <div class="panel-body" >

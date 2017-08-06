@@ -1,11 +1,13 @@
+{%load staticfiles %}
 <script>
 
          $(document).ready(function () {
 	$('select[name="StudentNames"]').change(function(){
 			var val_id = $(this).val()
 			testid = $('#testid_teller').attr('value');
-			console.log(val_id,testid)
+	$('#loading-image').show();
 			$('#individualshowresult').removeClass("hidden");
+	$('#loading-image').hide();
 			$('#individualshowresult').html('').load('{% url 'basic:teacher_update_page' %}?individualStudentid='+val_id+','+testid);
              
 		});
@@ -33,6 +35,7 @@
 		</div>
 		{%endif%}
         </div>
+	<div id ='loading-image'><img src="{%static 'basicinformation/images/loading.gif' %}" ></div>
 <div class='hidden' id = 'individualshowresult'>
 {%include 'basicinformation/teacher_online_individualPerformance4.html' %}
 </div>

@@ -1,3 +1,4 @@
+{%load staticfiles %}
 <html>
 <body>
 <head>
@@ -10,7 +11,9 @@
           chap = $(this).text();
           which_klass = $('#which_klass').text()
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
+	  $('#loading-image').show();
  		  $('#allQuestions').removeClass("hidden");
+	  $('#loading-image').hide();
          $('#allQuestions').html('').load('{% url 'QuestionsAndPapers:createTest' %}?chapter_test='+encodeURIComponent(chap+','+which_klass));
  $(this).animate({
             height: '40px',
@@ -51,6 +54,7 @@
   {%endif%}
   <div class="hidden" id="which_klass">{{which_klass}}</div>
 </div>
+<div id ='loading-image'><img src="{%static 'basicinformation/images/loading.gif' %}" ></div>
 <div class="hidden panel panel-default" id="allQuestions" >
   <div class="panel-heading text-center">Questions</div>
   <div class="panel-body" >
