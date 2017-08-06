@@ -25,7 +25,7 @@ class KlassTest(models.Model):
 class Questions(models.Model):
     level_choices = (('9','Ninth'),('10','Tenth'),('11','Eleventh'),('12','Twelveth'))
     ktest = models.ManyToManyField(KlassTest,blank= True)
-    chapter_choices = (('Chapter 1','Chapter 1'),('Chapter 2','Chapter 2'),('Chapter 3','Chapter 3'))
+    chapter_choices = (('1','Chapter 1'),('2','Chapter 2'),('3','Chapter 3'))
     subject_choices = \
         (('Maths','Maths'),('Science','Science'),('English','English'))
     text = models.TextField()
