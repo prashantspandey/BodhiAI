@@ -185,6 +185,8 @@ def publish_test(request):
         if user.groups.filter(name= 'Teachers').exists():
             if 'publishTest' in request.POST:
                 date = request.POST['dueDate']
+                if date == '':
+                    date = timezone.now()
                 testid = request.POST['testid']
                 myTest = KlassTest.objects.get(id = testid)
                 kl = myTest.klas

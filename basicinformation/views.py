@@ -329,7 +329,7 @@ def teacher_update_page(request):
         which_class = onlineSubject.split(',')[1]
         online_tests = KlassTest.objects.filter(creator=
                                                 user, klas__name=which_class, sub=
-                                                sub,)
+                                                sub,mode = 'BodhiOnline')
         context = {'tests': online_tests}
         return render(request, 'basicinformation/teacher_online_analysis2.html', context)
     elif 'onlinetestid' in request.GET:
