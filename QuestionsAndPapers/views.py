@@ -201,7 +201,8 @@ def publish_test(request):
                 myTest.sub = subject
                 myTest.mode = 'BodhiOnline'
                 myTest.save()
-                return HttpResponse('nice')
+                return \
+            render(request,'questions/teacher_successfully_published.html')
             if 'pdfTest' in request.POST:
                 testid = request.POST['testid']
                 myTest = KlassTest.objects.get(id = testid)

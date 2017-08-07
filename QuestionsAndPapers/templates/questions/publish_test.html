@@ -48,7 +48,8 @@
 			<div class='col-md-offset-1 col-md-10'>
 				<form action='{% url "QuestionsAndPapers:publishTest" %}' method='POST'>
 					{%csrf_token%}
-				<h3>Select a Due Date: <input type="text" name = 'dueDate' id="datepicker"></h3>
+				<h3>Select a Due Date: <input type="text" name = 'dueDate' id="datepicker"  required
+					                data-fv-notempty-message="Due date is required"></h3>
 				<input type='text' class='hidden' value='{{test.id}}' name='testid'>
 				<input type='submit' class="btn btn-primary" value='Publish Test' name = 'publishTest'>
 				<input type='submit' class="btn btn-primary" value='Create PDF for class test' name = 'pdfTest'>
