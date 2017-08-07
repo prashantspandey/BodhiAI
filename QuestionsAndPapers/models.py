@@ -23,6 +23,16 @@ class KlassTest(models.Model):
         return self.name
 
 class Questions(models.Model):
+    ch = 1 
+    tp = 1 
+    topic_choice = []
+    topic_choice2 = []
+    for ch in range(1,20):
+        for tp in range(1,20):
+            topic_choice.append(str(ch)+'.'+str(tp))
+            topic_choice2.append(str(ch)+'.'+str(tp))
+    tp_choice = list(zip(topic_choice,topic_choice2))
+    topic_choice = tuple(tp_choice)
     level_choices = (('9','Ninth'),('10','Tenth'),('11','Eleventh'),('12','Twelveth'))
     ktest = models.ManyToManyField(KlassTest,blank= True)
     chapter_choices = (('1','Chapter 1'),('2','Chapter 2'),('3','Chapter 3'))
@@ -33,6 +43,7 @@ class Questions(models.Model):
     max_marks = models.IntegerField()
     sub  = models.CharField(max_length=70,choices = subject_choices)
     chapCategory = models.CharField(max_length=30,choices=chapter_choices)
+    topic_category = models.CharField(max_length=10,choices = topic_choice)
     school = models.ManyToManyField(School)
     picture = models.URLField(null=True,blank=True)
     def __str__(self):

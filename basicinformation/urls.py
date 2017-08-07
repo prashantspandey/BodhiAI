@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'teacher/update/$',views.teacher_update_page,name='teacher_update_page'),
     url(r'student_analysis/$',views.student_self_analysis, name= 'studentAnalysis'),
     url(r'student_subject_analysis/$',views.student_subject_analysis, name='studentSubjectAnalysis'),
-
+    url(r'teacher_weakAreasinDetail/$',views.teacher_weakAreasinDetail,
+        name='TeacherWeakAreas'),
     url(r'^adminPopulate/$', views.create_entities, name='createEntities'),
 ]

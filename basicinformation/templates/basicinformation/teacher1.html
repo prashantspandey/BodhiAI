@@ -34,6 +34,10 @@
 	<div class='well  col-xs-12'>
 		<h3>	For Class: {{keys}} </h3>
 		<h3> Problematic chapters are: {{values}} </h3>
+		<form action='{% url "basic:TeacherWeakAreas" %}' method='get'>
+			<input type='text' value='{{keys}}' name='weakAreasClass' class='hidden' >
+			<input type="submit" class="btn btn-info" name='weakAreasButton' value="See in Detail">
+		</form>
 </div>
 	{%endfor%}
 

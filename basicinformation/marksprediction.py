@@ -1494,12 +1494,35 @@ class Teach:
             if how_many == 3:
                 break
             qu = Questions.objects.get(id = u)
-            cat = qu.chapCategory
+            cat = qu.topic_category
             areas.append(cat)
             how_many += 1
         areas = list(unique_everseen(areas))
         return areas
+    
+    def online_problematicAreaswithIntensity(self,user,subject,klass):
+        arr = self.online_problematicAreas(user,subject,klass)
+        anal = []
+        num = []
+        for u,k in arr:
+            qu = Questions.objects.get(id = u)
+            category = qu.topic_category
+            anal.append(category)
+            num.append(k)
+        analysis = list(zip(anal,num))
+        final_analysis = []
+        final_num = []
+        for u,k in analysis:
+            if u in final_analysis:
+                ind = final_analysis.index(u)
+                temp = final_num[ind]
+                final_num[ind] = temp + k
+            else:
+                final_analysis.append(u)
+                final_num.append(k)
 
+        waf = list(zip(final_analysis,final_num))
+        return waf
 
 
 def render_to_pdf(template_src, context_dict={}):

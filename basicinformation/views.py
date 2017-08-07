@@ -221,6 +221,19 @@ def current_analysis(request, grade):
     else:
         raise Http404("You don't have the permissions to view this page.")
 
+def teacher_weakAreasinDetail(request):
+    user = request.user
+    if user.is_authenticated:
+        if 'weakAreasButton' in request.GET:
+            which_class = request.GET['weakAreasClass']
+            print(which_class)
+            me = Teach(user)
+            subjects = me.my_subjects_names()
+            res =  me.online_problematicAreaswithIntensity(user,subjects[0],which_class)
+
+            context = {'which_class':which_class,'probAreas':res}
+            return render(request,'basicinformation/teacher_weakAreasinDetail.html',context)
+
 
 def teacher_home_page(request):
     user = request.user
