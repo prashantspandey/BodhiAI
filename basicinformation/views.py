@@ -434,20 +434,20 @@ def create_entities(request):
 def create_student(num, request):
 
     user = request.user
-    school = School.objects.get(name='Third School')
-    teachers = Teacher.objects.filter(school__name = 'Third School')
+    school = School.objects.get(name='Not Dummy School')
+    #teachers = Teacher.objects.filter(school__name = 'Not Dummy School')
     mathTeacher = Teacher.objects.get(name = 'teacher4')
     scienceTeacher = Teacher.objects.get(name ='teacher3')
     for i in range(1, num):
         try:
             us = User.objects.create_user(username='student' +
-                                          str(randint(1000,10000)),
+                                          str(i),
                                           email='studentss' + str(i) + '@gmail.com',
-                                          password='dnpandey')
+                                          password='dummypassword')
             us.save()
             gr = Group.objects.get(name='Students')
             gr.user_set.add(us)
-            cl = klass.objects.filter(school__name='Third School')
+            cl = klass.objects.filter(school__name='Not Dummy School')
             classes = []
             for cc in cl:
                 classes.append(cc)
@@ -471,15 +471,14 @@ def create_student(num, request):
 
 def create_teacher(num):
     
-    school1 = School.objects.get(name='First School')
-    school2 = School.objects.get(name='Second School')
-    school3 = School.objects.get(name='Third School')
-    schools = [school1,school2,school3]
+    school1 = School.objects.get(name='Dummy School')
+    school2 = School.objects.get(name='Not Dummy School')
+    schools = [school1,school2]
     for i in range(num):
         try:
             us = User.objects.create_user(username='teacher' + str(i),
                                           email='teacher' + str(i) + '@gmail.com',
-                                          password='dnpandey')
+                                          password='dummypassword')
             us.save()
             gr = Group.objects.get(name='Teachers')
             gr.user_set.add(us)

@@ -18,4 +18,5 @@ class KlassAdmin(admin.ModelAdmin):
 admin.site.register(School,SchoolAdmin)
 admin.site.register(klass,KlassAdmin)
 admin.site.register(Subject)
+admin.site.register(Student)
 admin.site.register(SchoolManagement)
