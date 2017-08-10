@@ -226,7 +226,6 @@ def teacher_weakAreasinDetail(request):
     if user.is_authenticated:
         if 'weakAreasButton' in request.GET:
             which_class = request.GET['weakAreasClass']
-            print(which_class)
             me = Teach(user)
             subjects = me.my_subjects_names()
             res =  me.online_problematicAreaswithIntensity(user,subjects[0],which_class)
@@ -256,8 +255,12 @@ def teacher_update_page(request):
     klass_dict, all_klasses = teacher_get_students_classwise(request)
     if 'ajKlass' in request.GET:
         which_class = request.GET['ajKlass']
-        return HttpResponse('nice')
-
+        me = Teach(user)
+        t1,t2,t3,tphy = me.listofStudentsMarks(which_class)
+        marks = list(zip(t1,t2,t3))
+        context = {'marks':marks}
+        return \
+    render(request,'basicinformation/teacher_all_offlineMarks.html',context)
     elif 'schoolTestAnalysis' in request.GET:
         which_klass = request.GET['schoolTestAnalysis']
         me = Teach(user)
