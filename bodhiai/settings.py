@@ -86,8 +86,11 @@ DATABASES = {
         'HOST':'ec2-107-22-173-160.compute-1.amazonaws.com',        
         'USER':'rkmkradjwnldtv',
         'PASSWORD':'3a1ba0f9074ef7f90f2db3b52ae8a0168f6bdc9888c29cd8fe4c46a78979fe35',
+        'OPTIONS': {
+                'sslmode':'require',
+        },
         
-    }
+    },
 }
 
 
