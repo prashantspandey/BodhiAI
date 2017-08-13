@@ -80,7 +80,6 @@ def send_messages(request):
                     count = count + 1
                 subject = request.POST['subject']
                 receiver = request.POST['receiver']
-                print(receiver)
                 body = request.POST['body']
                 teacher = Teacher.objects.get(id = int(receiver))
                 post_message = PrivateMessage()
@@ -96,7 +95,7 @@ def send_messages(request):
                     post_message.body = body
                     post_message.save()
                     context = {'mess':post_message,'created':True}
-                    return render(request,'Private_Messages/send_message.html',context)
+                    return render(request,'Private_Messages/successfullySent.html',context)
         if user.groups.filter(name='Teachers').exists():
             if 'teacher_name' in request.GET:
                 student_id = request.GET['teacher_name']
@@ -135,7 +134,7 @@ def send_messages(request):
                     post_message.body = body
                     post_message.save()
                     context = {'mess':post_message,'created':True}
-                    return render(request,'Private_Messages/send_message.html',context)
+                    return render(request,'Private_Messages/successfullySent.html',context)
         if user.groups.filter(name='Management').exists():
             if 'teacher_name' in request.GET:
                 entity_id = request.GET['teacher_name']
@@ -194,7 +193,7 @@ def send_messages(request):
                     post_message.body = body
                     post_message.save()
                     context = {'mess':post_message,'created':True}
-                    return render(request,'Private_Messages/send_message.html',context)
+                    return render(request,'Private_Messages/successfullySent.html',context)
 
 
 def view_sent_messages(request):

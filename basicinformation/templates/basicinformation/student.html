@@ -102,7 +102,7 @@
         var myChartmaths = new Chart(ctxmaths, {
             type: 'bar',
             data: {
-		    {%if  maths3 %}
+		    {%if  maths3 and mathshy_prediction != -1%}
                 labels: ["Test1","Test2","Test3","Predicted Half Yearly"],
                 datasets: [{
                     label: 'Student performance and predictions',
@@ -128,6 +128,33 @@
                     ],
                     borderWidth: 1
                 }]
+		{%elif  maths3 and mathshy_prediction == -1 %}
+                labels: ["Test1","Test2","Test3"],
+                datasets: [{
+                    label: 'Student performance and predictions',
+                    data: [parseInt({{maths1}})*10,parseInt({{maths2}})*10,parseInt({{maths3}})*10],
+		    		    
+
+
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+
 		{%elif maths1 and maths2 and not maths3 %}
 	  labels: ["Test1","Test2",],
                 datasets: [{
@@ -263,7 +290,7 @@
 </head>
 <body>
 {%block content%}
-<h1>Student Page</h1>
+<h1 style='text-align:center;'>Student Page</h1>
 
 
 <div class="jumbotron col-md-offset-1 col-md-10 col-sm-12">

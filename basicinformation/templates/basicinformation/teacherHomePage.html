@@ -1,5 +1,5 @@
 {% extends 'basicinformation/base.html' %}
-
+{%load staticfiles%}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,10 +16,12 @@
          $(eval("'#classButton'+i")).click(function(){
           ajKl = $(this).text();
 	  console.log($(this).val())
+		  
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
          $('.cont').removeClass("hidden");
+	 $('#loading').show();
          $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?ajKlass='+encodeURIComponent(ajKl));
-
+	$('#loading').hide();
 
             $(this).animate({
             height: '40px',
@@ -134,6 +136,9 @@ $('#onlineIndividualPerformance').click(function(){
 </div>
 
 <div class="hidden cont ">
+	<div id = 'loading' style='display:none;'>
+		<img src="{%static 'basicinformation/images/ajax-loader.gif' %}" >
+	</div>	
     {%include 'basicinformation/teacher_relative_averages_current.html' %}
     {%include 'basicinformation/teacher_update_page.html' %}
      {%include 'basicinformation/teacher_relative_averages_predicted.html' %}

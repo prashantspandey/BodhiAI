@@ -24,13 +24,13 @@
   {% csrf_token %}
 
   {% include 'membership/form-template.html' %}
-    <!--{% if messages %}-->
-<!--<ul class="messages">-->
-    <!--{% for message in messages %}-->
-    <!--<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>-->
-    <!--{% endfor %}-->
-<!--</ul>-->
-<!--{% endif %}-->
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
   <div class="form-group col-sm-12" style='text-align:center;'>
   <div >
   <button type="submit" class="btn btn-success">Log In</button>
@@ -46,7 +46,6 @@
   </form>
   
   </div>
-  <img src=
 </div>
 
 
