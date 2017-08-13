@@ -49,6 +49,7 @@
 	 $('#loading').show();
         $('.cont').removeClass("hidden");
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?schoolTestAnalysis='+ajKl+','+'schoolTestAnalysis');
+	 $('#loading').hide();
 
     });
     $('#analysisAveragePredicted').click(function(){
