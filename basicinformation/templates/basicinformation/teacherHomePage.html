@@ -46,12 +46,11 @@
 });
 };
  $('#schoolTestAnalysis').click(function(){
-    async: false
      var analysisClass
 
 
-	 $('#loading').show();
         $('.cont').removeClass("hidden");
+	 $('#loading').show();
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?schoolTestAnalysis='+ajKl+','+'schoolTestAnalysis');
 
     });
@@ -64,23 +63,21 @@
         $('.cont').removeClass("hidden");
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?ajKlass='+encodeURIComponent(ajKl)+'relativeaveragespredicted');
 
-	 $('#loading').hide();
     });
  $('#onlineTestAnalysis').click(function(){
-    async: false
      var analysisClass
 
-	 $('#loading').show();
 
         $('.cont').removeClass("hidden");
+	 $('#loading').show();
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?onlineTestAnalysis='+ajKl);
 
     });
 $('#onlineIndividualPerformance').click(function(){
-    async: false
      var analysisClass
 
         $('.cont').removeClass("hidden");
+	 $('#loading').show();
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?onlineIndividualPerformace='+ajKl);
 
     });

@@ -9,6 +9,7 @@
          $(eval("'#onlineTestid'+i")).click(function(){
           which_testid = $(this).attr('value');
 	  console.log(which_testid)
+	  $('#loadinganalysis3').show();
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
          $('#onlinetestanalysis').removeClass("hidden");
          $('#onlinetestanalysis').html('').load('{% url 'basic:teacher_update_page' %}?onlinetestid='+which_testid);
@@ -48,6 +49,12 @@
 {%endfor%}
 {%endif%}
         </div>
+
+<div id = 'loadinganalysis3' style='text-align:center;display:none;'>
+ <h4 style='text-center;'>Please wait... </h4>
+         <img src="{%static 'basicinformation/images/ajax-loader.gif' %}" >
+  </div> 
+
 <div class='hidden' id = 'onlinetestanalysis'>
 {%include 'basicinformation/teacher_online_analysis3.html' %}
 </div>
