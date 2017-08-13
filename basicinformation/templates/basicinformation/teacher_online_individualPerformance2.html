@@ -2,16 +2,15 @@
 <script>
 
          $(document).ready(function () {
+	$('#loadingIndi2').hide();
     var pr
 
         for(i=1 ; i<=10; i++){
          $(eval("'#individualonlineTestid'+i")).click(function(){
           which_testid = $(this).attr('value');
-	  console.log(which_testid)
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
-	$('#loading-image').show();
+	$('#loadingIndi3').show();
          $('#individualonlinetestanalysis').removeClass("hidden");
-	$('#loading-image').hide();
          $('#individualonlinetestanalysis').html('').load('{% url 'basic:teacher_update_page' %}?individualonlinetestid='+which_testid);
 
 
@@ -49,7 +48,11 @@
 {%endfor%}
 {%endif%}
         </div>
-	<div id ='loading-image'  class='hidden'><img src="{%static 'basicinformation/images/loading.gif' %}" ></div>
+<div id = 'loadingIndi3' style='text-align:center;display:none;'>
+ <h4 style='text-center;'>Please wait... </h4>
+         <img src="{%static 'basicinformation/images/ajax-loader.gif' %}" >
+  </div> 
+
 <div class='hidden' id = 'individualonlinetestanalysis'>
 {%include 'basicinformation/teacher_online_individualPerformance3.html' %}
 </div>

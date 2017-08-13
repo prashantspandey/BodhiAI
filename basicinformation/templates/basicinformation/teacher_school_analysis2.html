@@ -1,14 +1,16 @@
+{%load staticfiles %}
 <script>
 
          $(document).ready(function () {
+	  $('#loadingSchoolAnalysis2').hide();
     var pr
 
         for(i=1 ; i<=20; i++){
          $(eval("'#schoolTestButton'+i")).click(function(){
           which_test = $(this).text();
 	  which_klass = $('#which_class').text()
-		  console.log(which_test,which_klass)
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
+	  $('#loadingSchoolAnalysis3').show();
          $('#schooltestanalysis').removeClass("hidden");
          $('#schooltestanalysis').html('').load('{% url 'basic:teacher_update_page' %}?schoolTestid='+which_test+','+which_klass);
 
@@ -47,6 +49,11 @@
 </div>
 {%endfor%}
         </div>
+<div id = 'loadingSchoolAnalysis3' style='text-align:center;display:none;'>
+	<h4 style='text-center;'>Please wait... </h4>
+		<img src="{%static 'basicinformation/images/ajax-loader.gif' %}" >
+	</div>	
+
 <div class='hidden' id = 'schooltestanalysis'>
 {%include 'basicinformation/teacher_school_analysis3.html' %}
 </div>

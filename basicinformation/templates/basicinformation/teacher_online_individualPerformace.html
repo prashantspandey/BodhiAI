@@ -10,11 +10,9 @@
          $(eval("'#individualsubjectButton'+i")).click(function(){
           which_sub = $(this).text(); 
 	  which_klass = $('#which_class').text()
-		  console.log(which_sub,which_klass);
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
-	$('#loading-image').show();
+	$('#loadingIndi2').show();
          $('#individualonlinetestid').removeClass("hidden");
-	$('#loading-image').hide();
 
          $('#individualonlinetestid').html('').load('{% url 'basic:teacher_update_page' %}?individualonlineschoolSubject='+which_sub+','+which_klass);
 
@@ -50,7 +48,11 @@
 </div>
 {%endfor%}
         </div>
-	<div id ='loading-image' class='hidden'><img src="{%static 'basicinformation/images/loading.gif' %}" ></div>
+<div id = 'loadingIndi2' style='text-align:center;display:none;'>
+ <h4 style='text-center;'>Please wait... </h4>
+         <img src="{%static 'basicinformation/images/ajax-loader.gif' %}" >
+  </div> 
+
 <div class='hidden' id = 'individualonlinetestid'>
 {%include 'basicinformation/teacher_online_individualPerformance2.html' %}
 </div>

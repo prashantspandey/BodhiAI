@@ -11,6 +11,7 @@
           which_sub = $(this).text();
 	  which_klass = $('#which_class').text()
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
+	  $('#loadingSchoolAnalysis2').show();
          $('#testid').removeClass("hidden");
          $('#testid').html('').load('{% url 'basic:teacher_update_page' %}?schoolSubject='+which_sub+','+which_klass);
 
@@ -46,6 +47,11 @@
 </div>
 {%endfor%}
         </div>
+<div id = 'loadingSchoolAnalysis2' style='text-align:center;display:none;'>
+	<h4 style='text-center;'>Please wait... </h4>
+		<img src="{%static 'basicinformation/images/ajax-loader.gif' %}" >
+	</div>	
+
 <div class='hidden' id = 'testid'>
 {%include 'basicinformation/teacher_school_analysis2.html' %}
 </div>

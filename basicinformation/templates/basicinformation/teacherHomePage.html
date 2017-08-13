@@ -20,11 +20,9 @@
         for(i=1 ; i<=10; i++){
          $(eval("'#classButton'+i")).click(function(){
           ajKl = $(this).text();
-	  console.log($(this).val())
 		  
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
          $('.cont').removeClass("hidden");
-	 $('#loading').show();
          $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?ajKlass='+encodeURIComponent(ajKl));
 
             $(this).animate({
