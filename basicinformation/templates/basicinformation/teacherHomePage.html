@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>
 	    {%block title %}
-	    Performaces
+	    BodhiAI|Performaces
 	    {%endblock%}
     </title>
     {%block scripts%}
@@ -111,7 +111,7 @@ $('#onlineIndividualPerformance').click(function(){
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?onlineIndividualPerformace='+ajKl);
             $(this).animate({
             height: '40px',
-            width: '200px',
+            width: '400px',
         });
 
           $(eval("'#'+pr")).animate({
