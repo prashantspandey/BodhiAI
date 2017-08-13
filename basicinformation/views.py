@@ -254,13 +254,13 @@ def teacher_update_page(request):
     profile = user.teacher
     klass_dict, all_klasses = teacher_get_students_classwise(request)
     if 'ajKlass' in request.GET:
-        which_class = request.GET['ajKlass']
-        me = Teach(user)
-        t1,t2,t3,tphy = me.listofStudentsMarks(which_class)
-        marks = list(zip(t1,t2,t3))
-        context = {'marks':marks}
-        return \
-    render(request,'basicinformation/teacher_all_offlineMarks.html',context)
+        return HttpResponse('Choose from Above')
+        #which_class = request.GET['ajKlass']
+        #me = Teach(user)
+        #t1,t2,t3,tphy = me.listofStudentsMarks(which_class)
+        #marks = list(zip(t1,t2,t3))
+        #context = {'marks':marks}
+        #return render(request,'basicinformation/teacher_all_offlineMarks.html',context)
     elif 'schoolTestAnalysis' in request.GET:
         which_klass = request.GET['schoolTestAnalysis']
         me = Teach(user)

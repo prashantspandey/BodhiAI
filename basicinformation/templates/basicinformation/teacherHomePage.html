@@ -7,7 +7,6 @@
 	    {%block title %}
 	    Performaces
 	    {%endblock%}
-    
     </title>
     {%block scripts%}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
@@ -50,6 +49,22 @@
         $('.cont').removeClass("hidden");
 	 $('#loading').show();
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?schoolTestAnalysis='+ajKl+','+'schoolTestAnalysis');
+            $(this).animate({
+            height: '40px',
+            width: '60px',
+        });
+
+          $(eval("'#'+pr")).animate({
+            height: '35px',
+            width: '55px',
+        });
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+
+
+
+
+    pr = $(this).attr('id');
+
 
     });
     $('#analysisAveragePredicted').click(function(){
@@ -69,6 +84,16 @@
         $('.cont').removeClass("hidden");
 	 $('#loading').show();
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?onlineTestAnalysis='+ajKl);
+            $(this).animate({
+            height: '40px',
+            width: '60px',
+        });
+
+          $(eval("'#'+pr")).animate({
+            height: '35px',
+            width: '55px',
+        });
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
     });
 $('#onlineIndividualPerformance').click(function(){
@@ -77,6 +102,16 @@ $('#onlineIndividualPerformance').click(function(){
         $('.cont').removeClass("hidden");
 	 $('#loading').show();
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?onlineIndividualPerformace='+ajKl);
+            $(this).animate({
+            height: '40px',
+            width: '60px',
+        });
+
+          $(eval("'#'+pr")).animate({
+            height: '35px',
+            width: '55px',
+        });
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
     });
 
@@ -123,13 +158,13 @@ $('#onlineIndividualPerformance').click(function(){
 
 
 
-      <div class="btn-group" role="group" aria-label="...">
-  <button type="button" class="btn btn-default text-center col-xs-12" id="changeInPerformace">Student Inprovements/Setbacks</button>
-</div>
+<!--      <div class="btn-group" role="group" aria-label="...">-->
+<!-- <button type="button" class="btn btn-default text-center col-xs-12" id="changeInPerformace">Student Inprovements/Setbacks</button>-->
+ <!--</div>-->
 
-      <div class="btn-group " role="group" aria-label="...">
-  <button type="button" class="btn btn-default text-center col-xs-12" id="analysisAveragePredicted">Relative Averages Predicted</button>
-</div>
+ <!--     <div class="btn-group " role="group" aria-label="..."> -->
+ <!-- <button type="button" class="btn btn-default text-center col-xs-12" id="analysisAveragePredicted">Relative Averages Predicted</button>-->
+   <!--   </div>-->
 
 
 
