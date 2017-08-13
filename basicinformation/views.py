@@ -186,6 +186,29 @@ def student_subject_analysis(request):
             return \
                 render(request, 'basicinformation/student_analyze_test.html', context)
 
+def student_weakAreasSubject(request):
+    user = request.user
+    if user.is_authenticated:
+        if user.groups.filter(name='Students').exists():
+           me = Studs(user)
+           subs = me.my_subjects_names()
+           context = {'subs':subs}
+           return render(request,'basicinformation/student_weakAreas_subject.html',context)
+
+
+def student_weakAreas(request):
+    if 'studWA' in request.GET:
+           me = Studs(request.user)
+           subject = request.GET['studWA']
+           freq = me.weakAreas_Intensity(subject)
+           context = {'freq':freq}
+           return render(request,'basicinformation/student_weakAreas.html',context)
+
+
+
+
+
+
 
 def current_analysis(request, grade):
     user = request.user

@@ -14,4 +14,8 @@ urlpatterns = [
     url(r'teacher_weakAreasinDetail/$',views.teacher_weakAreasinDetail,
         name='TeacherWeakAreas'),
     url(r'^adminPopulate/$', views.create_entities, name='createEntities'),
+    url(r'studentWeakAreas/$',views.student_weakAreasSubject, name= 'studentWeakAreas'),
+    url(r'studentWeakAreassub/$',views.student_weakAreas, name=
+        'studentWA'),
+
 ]

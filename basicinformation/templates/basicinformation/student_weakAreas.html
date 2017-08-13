@@ -1,0 +1,88 @@
+{%load staticfiles%}
+<html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script>$('#loadingStudentWeakAreas1').hide();</script>
+		{%if not freq %}
+		<h2 style='font-weight:bold;text-align:center;'> You have to take at-least one test to find your weaknesses </h2>
+		{%else%}
+    <script>
+$(document).ready(function () {
+
+var pointBackgroundColors = [];
+    var ctx = document.getElementById("myChart");
+    var myChart1 = new Chart(ctx, {
+            type: 'polarArea',
+            data: {
+		    labels: [{%for u,k in freq %}{{u}},{%endfor%}],
+                datasets: [{
+                    label: 'Weak Areas',
+
+
+
+		    data: [{%for u,k in freq%}{{k}},{%endfor%}],
+			 backgroundColor: [
+                        'rgba(255, 99, 132, 0.4)',
+			'rgba(54, 100, 11, 0.6)',
+			'rgba(64, 200, 46, 0.6)',                  
+			'rgba(94, 155, 89, 0.6)',                  
+			'rgba(104, 255, 55, 0.6)',                 
+			'rgba(10, 90, 35, 0.6)',                   
+			'rgba(24, 162, 255, 0.6)',                 
+			'rgba(94, 12, 25, 0.6)',                   
+                                      ],
+                    borderColor: [ 'rgba(255,99,132,1)',
+		   		 'rgba(54, 100, 11, 1)',
+		   		 'rgba(64, 200, 46, 1)',
+		   		 'rgba(94, 155, 89, 1)',
+		   		 'rgba(104, 255, 55, 1)',
+		   		 'rgba(10, 90, 35, 1)',
+		   		 'rgba(24, 162, 255, 1)',
+		   		 'rgba(94, 12, 25, 1)',
+                                            ],
+
+
+                                  borderWidth: 3
+
+
+
+		}]
+            },
+
+            options: {   responsive: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+
+                        }
+                    }]
+                }
+            }
+        });
+		{%for u,k in freq %}
+		{% if k <= 3 %}
+		pointBackgroundColors.push("#90cd8a");					        
+		{%else %}
+		pointBackgroundColors.push("#880E4F");					        
+		{%endif%}
+		{%endfor%}
+
+		
+
+		myChart1.update();
+
+    });
+</script>
+
+
+	    <div class='col-md-12  col-xs-12' style='text-align:center;'>
+	<h2 style="text-align:center;"> My Weak Areas </h2>
+	<canvas  id="myChart" style="text-align:center;display: block; height: 300px; width: 400px; padding-left: 0;">
+</canvas>
+
+	    </div>
+
+	    {%endif%}
+
+
+

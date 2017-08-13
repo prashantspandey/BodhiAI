@@ -1,5 +1,5 @@
 {% extends 'basicinformation/base.html' %}
-
+{%load staticfiles %}
 <html>
 	<head>
 		<title>
@@ -17,6 +17,7 @@ var pr
         for(i=1 ; i<=10; i++){
          $(eval("'#studentanasub'+i")).click(function(){
           which_sub = $(this).text();
+	  $('#loadingStudentAnalysis1').show();
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
          $('.studentselfSubjects').removeClass("hidden");
          $('.studentselfSubjects').html('').load('{% url "basic:studentSubjectAnalysis" %}?studentwhichsub='+which_sub);
@@ -60,6 +61,11 @@ var pr
 
 {%endfor%}
         </div>
+<div id = 'loadingStudentAnalysis1' style='text-align:center;display:none;'>
+ <h4 style='text-center;'>Please wait... </h4>
+         <img src="{%static 'basicinformation/images/ajax-loader.gif' %}" >
+  </div> 
+
 	<div class="hidden studentselfSubjects ">
 		{% include 'basicinformation/student_analysis_subjects.html' %}
 	</div>

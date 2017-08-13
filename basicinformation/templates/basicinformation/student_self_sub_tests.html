@@ -1,10 +1,14 @@
+{%load staticfiles %}
 <script>
 
          $(document).ready(function () {
+
+	  $('#loadingStudentAnalysis2').hide();
 	 for(i=1 ; i<=10; i++){
 
          $(eval("'#studentTestids'+i")).click(function(){
           which_test = $(this).attr('value');
+	  $('#loadingStudentAnalysis3').show();
          $('#studentAnalyzeTest').removeClass("hidden");
          $('#studentAnalyzeTest').html('').load('{% url "basic:studentSubjectAnalysis" %}?studentTestid='+which_test);
 	 });
@@ -24,6 +28,11 @@
 	{%endfor%}
   </div>
 </div>
+<div id = 'loadingStudentAnalysis3' style='text-align:center;display:none;'>
+ <h4 style='text-center;'>Please wait... </h4>
+         <img src="{%static 'basicinformation/images/ajax-loader.gif' %}" >
+  </div> 
+
 
 <div class='hidden ' id = 'studentAnalyzeTest'>
 	{% include 'basicinformation/student_analyze_test.html' %}

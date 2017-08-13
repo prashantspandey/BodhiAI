@@ -1,7 +1,9 @@
+{%load staticfiles %}
 <script>
 
          $(document).ready(function () {
 
+	  $('#loadingStudentAnalysis1').hide();
 
          $("#OnlineAnalysis").click(function(){
           which_ana = $(this).text();
@@ -10,6 +12,7 @@
 $("#SchoolAnalysis").click(function(){
           which_ana = $(this).text();
           which_sub = $('#this_sub2').text();
+	  $('#loadingStudentAnalysis2').show();
          $('#studentshowTests').removeClass("hidden");
          $('#studentshowTests').html('').load('{% url "basic:studentSubjectAnalysis" %}?studentwhichana='+which_sub);
 	 });
@@ -30,6 +33,11 @@ $("#SchoolAnalysis").click(function(){
 
   </div>
 </div>
+<div id = 'loadingStudentAnalysis2' style='text-align:center;display:none;'>
+ <h4 style='text-center;'>Please wait... </h4>
+         <img src="{%static 'basicinformation/images/ajax-loader.gif' %}" >
+  </div> 
+
 
 <div class='hidden ' id = 'studentshowTests'>
 	{% include 'basicinformation/student_self_sub_tests.html' %}

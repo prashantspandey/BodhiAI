@@ -998,6 +998,62 @@ class Studs:
         unique, counts = np.unique(all_answers, return_counts=True)
         freq = np.asarray((unique, counts)).T
         return freq
+    
+    def weakAreas(self,subject):
+        my_marks = OnlineMarks.objects.filter(student = self.profile,test__sub
+                                             = subject)
+        wrong_skippedAnswers = []
+        for om in my_marks:
+            for wa in om.wrongAnswers:
+                wrong_skippedAnswers.append(wa)
+            for sp in om.skippedAnswers:
+                wrong_skippedAnswers.append(sp)
+        wq = []
+        for i in wrong_skippedAnswers:
+            qu = Questions.objects.get(choices__id = i)
+            quid = qu.id
+            wq.append(quid)
+        unique, counts = np.unique(wq, return_counts=True)
+        waf = np.asarray((unique, counts)).T
+        nw_ind = []
+
+        kk = np.sort(waf,0)[::-1]
+        for u in kk[:,1]:
+            for z,w in waf:
+                if u == w:
+                    if z in nw_ind:
+                        continue
+                    else:
+                        nw_ind.append(z)
+                        break
+        final_freq = np.asarray((nw_ind,kk[:,1])).T
+        return final_freq
+    def weakAreas_Intensity(self,subject):
+        arr = self.weakAreas(subject)
+        anal = []
+        num = []
+        for u,k in arr:
+            qu = Questions.objects.get(id = u)
+            category = qu.topic_category
+            anal.append(category)
+            num.append(k)
+        analysis = list(zip(anal,num))
+        final_analysis = []
+        final_num = []
+        for u,k in analysis:
+            if u in final_analysis:
+                ind = final_analysis.index(u)
+                temp = final_num[ind]
+                final_num[ind] = temp + k
+            else:
+                final_analysis.append(u)
+                final_num.append(k)
+
+        waf = list(zip(final_analysis,final_num))
+        return waf
+
+
+
 
 
 class Teach:
