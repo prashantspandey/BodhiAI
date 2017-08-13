@@ -45,18 +45,19 @@
  $('#schoolTestAnalysis').click(function(){
      var analysisClass
 
+         $(this).removeClass("btn btn-default").addClass("btn btn-success");
 
         $('.cont').removeClass("hidden");
 	 $('#loading').show();
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?schoolTestAnalysis='+ajKl+','+'schoolTestAnalysis');
             $(this).animate({
             height: '40px',
-            width: '60px',
+            width: '200px',
         });
 
           $(eval("'#'+pr")).animate({
             height: '35px',
-            width: '55px',
+            width: '120px',
         });
         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
@@ -86,12 +87,12 @@
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?onlineTestAnalysis='+ajKl);
             $(this).animate({
             height: '40px',
-            width: '60px',
+            width: '200px',
         });
 
           $(eval("'#'+pr")).animate({
             height: '35px',
-            width: '55px',
+            width: '120px',
         });
         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
@@ -100,16 +101,18 @@ $('#onlineIndividualPerformance').click(function(){
      var analysisClass
 
         $('.cont').removeClass("hidden");
+
+         $(this).removeClass("btn btn-default").addClass("btn btn-success");
 	 $('#loading').show();
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?onlineIndividualPerformace='+ajKl);
             $(this).animate({
             height: '40px',
-            width: '60px',
+            width: '200px',
         });
 
           $(eval("'#'+pr")).animate({
             height: '35px',
-            width: '55px',
+            width: '120px',
         });
         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
