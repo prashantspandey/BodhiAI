@@ -20,7 +20,6 @@ def home(request):
 
 def create_test(request):
     user = request.user
-    
     if user.is_authenticated:
         if user.groups.filter(name= 'Teachers').exists():
             quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
