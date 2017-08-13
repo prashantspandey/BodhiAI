@@ -134,12 +134,12 @@ $('#onlineIndividualPerformance').click(function(){
 
         </div>
 </div>
-
-<div class="hidden cont ">
-	<div id = 'loading' style='display:none;'>
+<div id = 'loading' style='display:none;'>
 		<img src="{%static 'basicinformation/images/ajax-loader.gif' %}" >
 	</div>	
-    {%include 'basicinformation/teacher_relative_averages_current.html' %}
+
+<div class="hidden cont ">
+	    {%include 'basicinformation/teacher_relative_averages_current.html' %}
     {%include 'basicinformation/teacher_update_page.html' %}
      {%include 'basicinformation/teacher_relative_averages_predicted.html' %}
 
