@@ -11,10 +11,8 @@
           chap = $(this).text();
           which_klass = $('#which_klass').text()
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
-	  $('#loading-image').show();
  		  $('#allQuestions').removeClass("hidden");
          $('#allQuestions').html('').load('{% url 'QuestionsAndPapers:createTest' %}?chapter_test='+encodeURIComponent(chap+','+which_klass));
-	  $('#loading-image').hide();
  $(this).animate({
             height: '40px',
             width: '60px',
@@ -54,7 +52,6 @@
   {%endif%}
   <div class="hidden" id="which_klass">{{which_klass}}</div>
 </div>
-<div id ='loading-image'  class='hidden'><img src="{%static 'basicinformation/images/loading.gif' %}" ></div>
 <div class="hidden panel panel-default" id="allQuestions" >
   <div class="panel-heading text-center">Questions</div>
   <div class="panel-body" >
