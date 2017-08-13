@@ -6,7 +6,6 @@
 	$('select[name="StudentNames"]').change(function(){
 			var val_id = $(this).val()
 			testid = $('#testid_teller').attr('value');
-	$('#loadingIndi4').show();
 			$('#individualshowresult').removeClass("hidden");
 			$('#individualshowresult').html('').load('{% url 'basic:teacher_update_page' %}?individualStudentid='+val_id+','+testid);
              
@@ -35,10 +34,6 @@
 		</div>
 		{%endif%}
         </div>
-<div id = 'loadingIndi4' style='text-align:center;display:none;'>
- <h4 style='text-center;'>Please wait... </h4>
-         <img src="{%static 'basicinformation/images/ajax-loader.gif' %}" >
-  </div> 
 
 <div class='hidden' id = 'individualshowresult'>
 {%include 'basicinformation/teacher_online_individualPerformance4.html' %}
