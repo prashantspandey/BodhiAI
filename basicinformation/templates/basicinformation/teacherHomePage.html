@@ -53,7 +53,6 @@
 	 $('#loading').show();
         $('.cont').removeClass("hidden");
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?schoolTestAnalysis='+ajKl+','+'schoolTestAnalysis');
-	 $('#loading').hide();
 
     });
     $('#analysisAveragePredicted').click(function(){
@@ -75,7 +74,6 @@
 
         $('.cont').removeClass("hidden");
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?onlineTestAnalysis='+ajKl);
-	 $('#loading').hide();
 
     });
 $('#onlineIndividualPerformance').click(function(){
@@ -143,7 +141,8 @@ $('#onlineIndividualPerformance').click(function(){
 
         </div>
 </div>
-<div id = 'loading' style='display:none;'>
+<div id = 'loading' style='text-align:center;display:none;'>
+	<h4 style='text-center;'>Please wait... </h4>
 		<img src="{%static 'basicinformation/images/ajax-loader.gif' %}" >
 	</div>	
 
