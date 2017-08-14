@@ -14,9 +14,9 @@
 		 	var pr
 		 	for(i=1 ; i<=10; i++){
 		 	$(eval("'#classButton'+i")).click(function(){
-
-          ajKl = $(this).text();
+ajKl = $(this).text();
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
+	 $('#loadingCreateTest1').show();
          $('#chapters').removeClass("hidden");
          $('#chapters').html('').load('{% url 'QuestionsAndPapers:createTest' %}?klass_test='+encodeURIComponent(ajKl));
 
@@ -57,6 +57,11 @@
 {%endfor%}
         </div>
 </div>
+<div id = 'loadingCreateTest1' style='text-align:center;display:none;'>
+<h4 style='text-center;'>Please wait... </h4>
+        <img src="{%static 'basicinformation/images/ajax-loader.gif' %}" >
+ </div>
+
 <div class="hidden panel panel-default" id="chapters" >
 	<div class="panel-heading text-center" style ='text-align:center;font-weight:bold;'  >Questions</div>
   <div class="panel-body" >

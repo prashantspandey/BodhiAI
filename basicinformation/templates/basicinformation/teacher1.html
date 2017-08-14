@@ -12,34 +12,34 @@
 </head>
 <body>
 	{% block content %}
-<h1>Teacher Page</h1>
-<h2>{{profile.name}}</h2>
+<h1 style='text-align:center;'>Teacher Page</h1>
 
-<div class='well  col-xs-12'>
+<div class='well  col-xs-12 col-md-offset-1 col-md-10'>
+<h1 style='font-size:400%;'>Hello {{profile.name}}</h1>
 	<h3> You teach {{num_klasses}} classes at {{profile.school}}</h3>
 	{% for kl in klasses %}
 	<h4> {{kl}} </h4>
 	{%endfor%}
-</div>
 
-<div class='well  col-xs-12'>
 	<h3> You teach {{num_subjects}} subjects </h3>
 	{% for sub in subjects %}
 	<h4> {{sub}} </h4>
 	{%endfor%}
 </div>
-<div >
+
+<div class='col-md-offset-1 col-md-10 col-xs-12 col-sm-12' >
 	<h2 style='text-align:center;'> Problematic areas (Most to Least) </h2>
 	{% for keys,values in weak_links.items %}
 	<div class='well  col-xs-12'>
 		<h3>	For Class: {{keys}} </h3>
-		<h3> Problematic chapters are: {{values}} </h3>
+		<h3> Problematic chapters/sections are: {{values}} </h3>
 		<form action='{% url "basic:TeacherWeakAreas" %}' method='get'>
 			<input type='text' value='{{keys}}' name='weakAreasClass' class='hidden' >
 			<input type="submit" class="btn btn-info" name='weakAreasButton' value="See in Detail">
 		</form>
 </div>
 	{%endfor%}
+</div>
 
 	{%endblock%}
 </body>

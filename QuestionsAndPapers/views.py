@@ -47,7 +47,6 @@ def create_test(request):
                         unique_chapters = []
                         for i in quest:
                             unique_chapters.append(i.chapCategory)
-                            print(i.chapCategory)
                             #for j in i.chapCategory:
                             #    unique_chapters.append(j)
                         unique_chapters = list(unique_everseen(unique_chapters))
