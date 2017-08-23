@@ -8,21 +8,21 @@
 
         for(i=1 ; i<=10; i++){
          $(eval("'#subjectButton'+i")).click(function(){
-          which_sub = $(this).text(); which_klass = $('#which_class').text()
+          which_sub = $(this).text(); 
+	  which_klass = $('#which_class').text();
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
-	  $('#loadinganalysis2').show();
          $('#onlinetestid').removeClass("hidden");
-         $('#onlinetestid').html('').load('{% url 'basic:teacher_update_page' %}?onlineschoolSubject='+which_sub+','+which_klass);
+         $('#onlinetestid').html('').load('{% url 'basic:teacher_update_page' %}?onlineschoolSubject='+which_sub.replace(/\s+/g,'')+','+which_klass);
 
 
             $(this).animate({
             height: '40px',
-            width: '80px',
+            width: '150px',
         });
 
           $(eval("'#'+pr")).animate({
             height: '35px',
-            width: '75px',
+            width: '175px',
         });
         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
@@ -40,7 +40,7 @@
   <div class="panel-body">
 {% for i in subs %}
 
-<div class="btn-group  col-xs-12" role="group" aria-label="...">
+<div class="btn-group" role="group" aria-label="...">
 	<button type="button" class="btn btn-default text-center  col-xs-12" value ="{{i}}" id="subjectButton{{forloop.counter}}">{{i}}</button>
 	<button type="button" class="hidden btn btn-default text-center" value ="{{i}}" id="which_class">{{which_class}}</button>
 </div>

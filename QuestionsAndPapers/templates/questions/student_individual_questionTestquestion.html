@@ -1,0 +1,88 @@
+
+
+	<div class='well col-md-offset-1 col-md-10'>
+		<h2 style='font-weight:bold;'> {{question.text}} </h2>
+		<div class = 'col-md-offset-1'>
+			{% for choice in question.choices_set.all %}
+			{%csrf_token%}
+			<label class="radio">
+				{% if choice.id ==  sel %}
+				<input type="radio" id='ach{{forloop.counter}}' name="answerChoice" value = "{{choice.id}}" checked="checked">{{choice.text}}
+				{%else%}
+				<input type="radio" id='ach{{forloop.counter}}' name="answerChoice" value = "{{choice.id}}" >{{choice.text}}
+				{%endif%}
+			</label>
+			{%endfor%}
+		</div>
+	</div>
+	<div class='col-md-offset-2 col-md-8 col-sm-12'>
+<button  id='answerButton'  type="submit" name='submitTest' value='{{test.id}}' class="btn btn-info">Next</button>
+				<br>
+				<br>
+	</div>
+	
+<script>
+		$(document).ready(function () {
+	  $('#answerButton').click(function () {
+
+selec=	$('input[name=answerChoice]:checked').val();
+console.log(selec); 
+if (selec == 'undefined'){
+	selec=-1
+};
+quidid = {{question.id}}
+testid = {{testid}}
+$.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
+	   "questionid":quidid,
+	   "testid":testid,
+	   "csrfmiddlewaretoken":'{{ csrf_token }}'}),
+			function(data){
+	console.log(data)
+		quest_pos = parseInt(quest_pos);
+	if (data == quest_pos + 1){
+		$('#answerButton').text('Press the Submit Button');
+		$('#answerButton').prop("disabled",true);
+		console.log('equal')
+				}
+	else {	
+
+				
+				 quest_pos = quest_pos + 1
+	$('#showIndividualQuestions').html('').load('{% url 'QuestionsAndPapers:conductTest' %}?IndividualTestQuestPos='+encodeURIComponent(quest_pos)+','+teid);
+				 quest_pos = quest_pos + 1
+				 $(eval("'#num'+quest_pos")).animate({
+				  height: '40px',
+            				width: '90px',
+			
+				 });
+         $(eval("'#num'+quest_pos")).removeClass("btn btn-default").addClass("btn btn-success");
+				 quest_pos = quest_pos - 1
+
+         $(eval("'#num'+quest_pos")).removeClass("btn btn-success").addClass("btn btn-default");
+				 console.log('questpos',eval("'num'+quest_pos"))
+	};	
+			});
+
+		        });
+
+        for(i=1 ; i<=5; i++){
+$(eval("'#ach'+i")).on('click', function(e){ 
+	console.log('clicked');
+selec=	$('input[name=answerChoice]:checked').val();
+console.log(selec); 
+quidid = {{question.id}}
+testid = {{testid}}
+$.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
+	   "questionid":quidid,
+	   "testid":testid,
+	   "csrfmiddlewaretoken":'{{ csrf_token }}'}),
+			function(data){
+	console.log(data)
+			});
+
+
+});
+};
+		        });
+	</script>
+

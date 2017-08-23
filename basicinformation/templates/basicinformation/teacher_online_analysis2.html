@@ -2,14 +2,12 @@
 <script>
 
          $(document).ready(function () {
-
 	  $('#loadinganalysis2').hide();
     var pr
 
         for(i=1 ; i<=10; i++){
          $(eval("'#onlineTestid'+i")).click(function(){
           which_testid = $(this).attr('value');
-	  console.log(which_testid)
 	  $('#loadinganalysis3').show();
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
          $('#onlinetestanalysis').removeClass("hidden");

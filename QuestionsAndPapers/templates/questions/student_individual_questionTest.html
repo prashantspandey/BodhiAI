@@ -1,0 +1,96 @@
+{%extends 'basicinformation/base.html' %}
+{%load staticfiles %}
+
+<html>
+	<head>
+		<title>{%block title %}
+			Ongoing Test 
+			{%endblock%}
+		</title>
+		{%block scripts %}
+<script>
+         $(document).ready(function () {
+
+	 var pr
+		for(i=1 ; i<=50; i++){
+         $(eval("'#num'+i")).click(function(){
+          quest_pos = $(this).attr('value');
+	var  howmany = {{how_many}}	 
+	  teid = $('#teid').text();
+         $(this).removeClass("btn btn-default").addClass("btn btn-success");
+ 		  $('#showIndividualQuestions').removeClass("hidden");
+         $('#showIndividualQuestions').html('').load('{% url 'QuestionsAndPapers:conductTest' %}?IndividualTestQuestPos='+encodeURIComponent(quest_pos)+','+teid);
+ $(this).animate({
+            height: '40px',
+            width: '90px',
+        });
+
+          $(eval("'#'+pr")).animate({
+            height: '35px',
+            width: '80px',
+        });
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+
+
+
+
+    pr = $(this).attr('id');
+         });
+				};	
+
+       
+	  
+});
+setInterval("timer()",1000);
+
+function timer() {
+	if (sessionStorage.getItem("ct")){
+		counter = sessionStorage.getItem("ct");
+	} else {
+		counter = 100
+	};
+counter --;
+console.log(counter)
+$('#timeKeeper').text(counter);
+sessionStorage.setItem("ct",counter);
+
+if (counter == 0){
+	$('#testsub').trigger('click');
+};
+};
+
+
+
+
+    </script>
+
+
+		{%endblock%}
+	</head>
+	<body>
+		{%block content%}
+	<div style="overflow:auto'">
+<div class="sidebar-nav well col-sm-12" style="float:top">
+	<h2 style='text-align:center;font-weight:bold;'> Questions </h2>
+	<div id='timeKeeper'></div>
+	{% for questPos in questPosition %}
+	<button type="button" value = "{{questPos}}" class="btn btn-default text-center" id="num{{forloop.counter}}">{{questPos|add:1}}</button>
+	<button type="button" class="btn btn-default hidden" id="teid">{{te_id}}</button>
+
+	{%endfor%}
+	<div style='text-align:center;'>
+		<form action='{% url "QuestionsAndPapers:conductTest" %}' method='post' id ='finishForm'>
+		{%csrf_token%}
+		<button type="submit" id='testsub' value="{{te_id}}" class="btn btn-default text-center" name="testSub" >Submit Test</button>
+	</form>
+	</div>
+	<br>
+		</div>
+	<div class = 'hidden' id='showIndividualQuestions'>
+		{% include 'questions/student_individual_questionTestquestion.html' %}
+	</div>
+		</div>
+
+		{%endblock%}
+	</body>
+</html>

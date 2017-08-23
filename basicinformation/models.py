@@ -3,19 +3,23 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 class School(models.Model):
+    category_choices = (('School','School'),('SSC','SSC'))
     name = models.CharField(max_length=200)
     pincode = models.IntegerField()
-
+    category = models.CharField(max_length = 10, choices = category_choices)
+    
     def __str__(self):
         return self.name
 
 
 class klass(models.Model):
-    level_choices = (('9','Ninth'),('10','Tenth'),('11','Eleventh'),('12','Twelveth'))
+    level_choices =\
+    (('9','Ninth'),('10','Tenth'),('11','Eleventh'),('12','Twelveth'),('SSC','SSC'))
     school = models.ForeignKey(School)
     name = models.CharField(max_length=50)
     level = models.CharField(max_length=10, choices =
                              level_choices,null=True,blank=True)
+
     def __str__(self):
         return self.name
 

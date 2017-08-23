@@ -2,6 +2,7 @@
 <script>
 
          $(document).ready(function () {
+var pr
 
 	  $('#loadingStudentAnalysis2').hide();
 	 for(i=1 ; i<=10; i++){
@@ -9,8 +10,24 @@
          $(eval("'#studentTestids'+i")).click(function(){
           which_test = $(this).attr('value');
 	  $('#loadingStudentAnalysis3').show();
+        $(this).removeClass("btn btn-default").addClass("btn btn-success");
          $('#studentAnalyzeTest').removeClass("hidden");
          $('#studentAnalyzeTest').html('').load('{% url "basic:studentSubjectAnalysis" %}?studentTestid='+which_test);
+            $(this).animate({
+            height: '40px',
+            width: '170px',
+        });
+
+          $(eval("'#'+pr")).animate({
+            height: '35px',
+            width: '160px',
+        });
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+    pr = $(this).attr('id');
+
+
+
+
 	 });
 };
 });
@@ -23,7 +40,7 @@
   <div class="panel-heading text-center">Choose a Test:</div>
   <div class="panel-body ">
 	  {% for test in tests%}
-	  <button type="button" class="btn btn-default text-center  col-xs-12" value='{{test.test.id}}'  id="studentTestids{{forloop.counter}}">{{test.test.published}}</button>
+	  <button type="button" class="btn btn-default text-center " value='{{test.test.id}}'  id="studentTestids{{forloop.counter}}">{{test.test.published}}</button>
 
 	{%endfor%}
   </div>

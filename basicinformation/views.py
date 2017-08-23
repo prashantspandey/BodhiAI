@@ -1,5 +1,9 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse, redirect
+import os.path
 from django.http import Http404, HttpResponse
+from django.conf import settings
+from django.contrib.staticfiles.storage import staticfiles_storage
+import csv
 from random import randint
 from datetime import timedelta
 from datetime import date
@@ -9,6 +13,7 @@ from more_itertools import unique_everseen
 from django.contrib.auth.models import User, Group
 from .models import Student, Teacher, Subject, School, klass
 from django.utils import timezone
+from django.contrib.staticfiles.templatetags.staticfiles import static
 # from .marksprediction import predictionConvertion, readmarks, averageoftest, teacher_get_students_classwise
 from .marksprediction import *
 from Private_Messages.models import *
@@ -29,7 +34,20 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            return render(request,'basicinformation/staffpage1.html')
+            #fi =  os.path.join(settings.STATIC_ROOT,'QualitativeAnalysisQuestions.ods')
+            fi =staticfiles_storage.url('/basicinformation/QualitativeAnalysisQuestions.ods')
+            fi =\
+            'basicinformation/static/basicinformation/QualitativeAnalysisQuestions.xlsx'
+
+            if os.path.isfile(fi):
+                print('yes')
+            else:
+                print('no')
+            text = read_questions(fi)
+
+            print(text)
+            return HttpResponse(text)
+            #return render(request,'basicinformation/staffpage1.html')
         if user.groups.filter(name='Students').exists():
             profile = user.student
             me = Studs(request.user)
@@ -155,6 +173,7 @@ def student_self_analysis(request):
 
 def student_subject_analysis(request):
     user = request.user
+    me = Studs(user)
     if user.is_authenticated:
         if 'studentwhichsub' in request.GET:
             which_sub = request.GET['studentwhichsub']
@@ -165,14 +184,22 @@ def student_subject_analysis(request):
         if 'studentwhichana' in request.GET:
             which_one = request.GET['studentwhichana']
             subject = which_one
-            tests = OnlineMarks.objects.filter(test__sub=subject, student=user.student)
+            if me.institution == 'School':
+                tests = OnlineMarks.objects.filter(test__sub=subject, student=user.student)
+            elif me.institution == 'SSC':
+                tests = SSCOnlineMarks.objects.filter(test__sub=subject, student=user.student)
+
             context = {'tests': tests}
             return \
                 render(request, 'basicinformation/student_self_sub_tests.html', context)
         if 'studentTestid' in request.GET:
-            me = Studs(user)
             test_id = request.GET['studentTestid']
-            test = OnlineMarks.objects.get(student=user.student, test__id=test_id)
+            if me.institution == 'School':
+                test = OnlineMarks.objects.get(student=user.student, test__id=test_id)
+                student_type = 'School'
+            elif me.institution == 'SSC':
+                test = SSCOnlineMarks.objects.get(student=user.student, test__id=test_id)
+                student_type = 'SSC'
             my_marks_percent = (test.marks / test.test.max_marks) * 100
             average, percent_average = \
                 me.online_findAverageofTest(test_id, percent='p')
@@ -182,7 +209,7 @@ def student_subject_analysis(request):
             context = \
                 {'test': test, 'average': average, 'percentAverage': percent_average,
                  'my_percent': my_marks_percent, 'percentile': percentile, 'allMarks': all_marks,
-                 'freq': freq}
+                 'freq': freq,'student_type':student_type}
             return \
                 render(request, 'basicinformation/student_analyze_test.html', context)
 
@@ -275,6 +302,7 @@ def teacher_home_page(request):
 def teacher_update_page(request):
     user = request.user
     profile = user.teacher
+    institution = profile.school.category
     klass_dict, all_klasses = teacher_get_students_classwise(request)
     if 'ajKlass' in request.GET:
         return HttpResponse('Choose from Above')
@@ -343,43 +371,83 @@ def teacher_update_page(request):
                           'basicinformation/teacher_school_analysis3.html', context)
     elif 'onlineTestAnalysis' in request.GET:
         which_klass = request.GET['onlineTestAnalysis']
-        me = Teach(user)
-        which_class = which_klass.split(',')[0]
-        subjects = me.my_subjects_names()
-        context = {'subs': subjects, 'which_class': which_class}
-        return \
-            render(request, 'basicinformation/teacher_online_analysis.html', context)
+        if institution == 'School':
+            me = Teach(user)
+            which_class = which_klass.split(',')[0]
+            subjects = me.my_subjects_names()
+            context = {'subs': subjects, 'which_class': which_class}
+            return \
+                render(request, 'basicinformation/teacher_online_analysis.html', context)
+        elif institution == 'SSC':
+            me = Teach(user)
+            subjects = me.my_subjects_names()
+            context = {'subs': subjects, 'which_class': which_klass}
+            return \
+                render(request, 'basicinformation/teacher_online_analysis.html', context)
+
     elif 'onlineschoolSubject' in request.GET:
         onlineSubject = request.GET['onlineschoolSubject']
-        sub = onlineSubject.split(',')[0]
-        which_class = onlineSubject.split(',')[1]
-        online_tests = KlassTest.objects.filter(creator=
-                                                user, klas__name=which_class, sub=
-                                                sub)
-        context = {'tests': online_tests}
-        return render(request, 'basicinformation/teacher_online_analysis2.html', context)
+        if institution == 'School':
+            sub = onlineSubject.split(',')[0]
+            which_class = onlineSubject.split(',')[1]
+            online_tests = KlassTest.objects.filter(creator=
+                                                    user, klas__name=which_class, sub=
+                                                    sub)
+            context = {'tests': online_tests}
+            return render(request, 'basicinformation/teacher_online_analysis2.html', context)
+        elif institution == 'SSC':
+            sub = onlineSubject.split(',')[0]
+            which_class = onlineSubject.split(',')[1]
+            print('%s sub, %s class' %(sub,which_class))
+            online_tests = SSCKlassTest.objects.filter(creator=
+                                                    user,
+                                                       klas__name=which_class, sub=
+                                                    sub)
+            context = {'tests': online_tests}
+            return render(request, 'basicinformation/teacher_online_analysis2.html', context)
+
     elif 'onlinetestid' in request.GET:
         test_id = request.GET['onlinetestid']
         me = Teach(user)
-        online_marks = OnlineMarks.objects.filter(test__id=test_id)
-        test = KlassTest.objects.get(id = test_id)
-        me.online_problematicAreasperTest(test_id)
-        problem_quests = me.online_problematicAreasperTest(test_id)
-        max_marks = 0
-        for i in online_marks:
-            max_marks = i.test.max_marks
-        average,percent_average =\
-        me.online_findAverageofTest(test_id,percent='p')
-        grade_s,grade_a,grade_b,grade_c,grade_d,grade_e,grade_f= \
-        me.online_freqeucyGrades(test_id)
-        freq = me.online_QuestionPercentage(test_id)
-        sq = me.online_skippedQuestions(test_id)
-        context = {'om': online_marks,'test':test,'average':average
-                   ,'percentAverage':percent_average,'maxMarks':max_marks,
-                   'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
-                   'grade_d':grade_d,'grade_e':grade_e,'grade_f':grade_f,
-                   'freq':freq,'sq':sq,'problem_quests':problem_quests}
-        return render(request, 'basicinformation/teacher_online_analysis3.html', context)
+        if institution == 'School':
+            online_marks = OnlineMarks.objects.filter(test__id=test_id)
+            test = KlassTest.objects.get(id = test_id)
+            problem_quests = me.online_problematicAreasperTest(test_id)
+            max_marks = 0
+            for i in online_marks:
+                max_marks = i.test.max_marks
+            average,percent_average =\
+            me.online_findAverageofTest(test_id,percent='p')
+            grade_s,grade_a,grade_b,grade_c,grade_d,grade_e,grade_f= \
+            me.online_freqeucyGrades(test_id)
+            freq = me.online_QuestionPercentage(test_id)
+            sq = me.online_skippedQuestions(test_id)
+            context = {'om': online_marks,'test':test,'average':average
+                       ,'percentAverage':percent_average,'maxMarks':max_marks,
+                       'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
+                       'grade_d':grade_d,'grade_e':grade_e,'grade_f':grade_f,
+                       'freq':freq,'sq':sq,'problem_quests':problem_quests,'school':True}
+            return render(request, 'basicinformation/teacher_online_analysis3.html', context)
+        elif institution == 'SSC':
+            online_marks = SSCOnlineMarks.objects.filter(test__id=test_id)
+            test = SSCKlassTest.objects.get(id = test_id)
+            problem_quests = me.online_problematicAreasperTest(test_id)
+            max_marks = 0
+            for i in online_marks:
+                max_marks = i.test.max_marks
+            average,percent_average =\
+            me.online_findAverageofTest(test_id,percent='p')
+            grade_s,grade_a,grade_b,grade_c,grade_d,grade_e,grade_f= \
+            me.online_freqeucyGrades(test_id)
+            freq = me.online_QuestionPercentage(test_id)
+            sq = me.online_skippedQuestions(test_id)
+            context = {'om': online_marks,'test':test,'average':average
+                       ,'percentAverage':percent_average,'maxMarks':max_marks,
+                       'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
+                       'grade_d':grade_d,'grade_e':grade_e,'grade_f':grade_f,
+                       'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True}
+            return render(request, 'basicinformation/teacher_online_analysis3.html', context)
+
     elif 'onlineIndividualPerformace' in request.GET:
         which_klass = request.GET['onlineIndividualPerformace']
         me = Teach(user)
@@ -452,8 +520,7 @@ def create_entities(request):
             return HttpResponse('done')
         elif who == 'student':
             create_student(100,request)
-            return HttpResponse('done')
-
+            return HttpResponse('done') 
 
 
 
@@ -515,5 +582,25 @@ def create_teacher(num):
             teache.save()
         except Exception as e:
             print(str(e))
+
+def read_questions(fi):
+    with open(fi,encoding='latin-1') as questFile:
+        readcsv = csv.reader(questFile,delimiter=',')
+        questText = []
+        a = []
+        b = []
+        c = []
+        d = []
+        for row in questFile:
+            text = row[1]
+            questText.append(str(text))
+    return questText
+
+
+
+
+
+
+
 
 

@@ -2,6 +2,7 @@
 <script>
 
          $(document).ready(function () {
+var pr
 
 	  $('#loadingStudentAnalysis1').hide();
 
@@ -12,9 +13,26 @@
 $("#SchoolAnalysis").click(function(){
           which_ana = $(this).text();
           which_sub = $('#this_sub2').text();
+        $(this).removeClass("btn btn-default").addClass("btn btn-success");
 	  $('#loadingStudentAnalysis2').show();
          $('#studentshowTests').removeClass("hidden");
          $('#studentshowTests').html('').load('{% url "basic:studentSubjectAnalysis" %}?studentwhichana='+which_sub);
+            $(this).animate({
+            height: '40px',
+            width: '170px',
+        });
+
+          $(eval("'#'+pr")).animate({
+            height: '35px',
+            width: '160px',
+        });
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+
+
+
+
+    pr = $(this).attr('id');
+
 	 });
 
 });
@@ -26,9 +44,9 @@ $("#SchoolAnalysis").click(function(){
 <div class="panel panel-default ">
   <div class="panel-heading text-center">Choose an Analysis Type:</div>
   <div class="panel-body">
-	  <button type="button" class="btn btn-default text-center  col-xs-12"  id="OnlineAnalysis">School Analysis</button>
-	<button type="button" class="btn btn-default text-center  col-xs-12"  id="SchoolAnalysis">Online Analysis</button>
-	<button type="button" class="hidden btn btn-default text-center col-xs-12" value ="{{sub}}" id="this_sub2">{{sub}}</button>
+	  <button type="button" class="btn btn-default text-center "  id="OnlineAnalysis">School Analysis</button>
+	<button type="button" class="btn btn-default text-center "  id="SchoolAnalysis">Online Analysis</button>
+	<button type="button" class="hidden btn btn-default text-center" value ="{{sub}}" id="this_sub2">{{sub}}</button>
 
 
   </div>

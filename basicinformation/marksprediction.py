@@ -10,37 +10,37 @@ from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template
 
-#'''
-#load pickles for data transformation and prediction (hindi)
-#'''
-#pickle_in_hindi =  open('basicinformation/preprocesshindihy.pickle','rb')
-#svm_pickle_hindi = open('basicinformation/svmhindihhy.pickle', 'rb')
-#sca_hindi = pickle.load(pickle_in_hindi)
-#svmhindihhy = pickle.load(svm_pickle_hindi)
-#
-#'''
-#load pickles for data transformation and prediction (maths)
-#'''
-#pickle_in_maths = open('basicinformation/preprocesshindihy.pickle', 'rb')
-#knn7_pickle_maths = open('basicinformation/svmhindihhy.pickle', 'rb')
-#sca_maths = pickle.load(pickle_in_maths)
-#knn7mathshhy = pickle.load(knn7_pickle_maths)
-#
-#'''
-#load pickles for data transformation and prediction (english)
-#'''
-#pickle_in_english = open('basicinformation/preprocesshindihy.pickle', 'rb')
-#knn7_pickle_english = open('basicinformation/svmhindihhy.pickle', 'rb')
-#sca_english = pickle.load(pickle_in_english)
-#knn7englishhhy = pickle.load(knn7_pickle_english)
-#
-#'''
-#load pickles for data transformation and prediction (science)
-#'''
-#pickle_in_science = open('basicinformation/preprocesshindihy.pickle', 'rb')
-#knn7_pickle_science = open('basicinformation/svmhindihhy.pickle', 'rb')
-#sca_science = pickle.load(pickle_in_science)
-#knn7sciencehhy = pickle.load(knn7_pickle_science)
+'''
+load pickles for data transformation and prediction (hindi)
+'''
+pickle_in_hindi =  open('basicinformation/preprocesshindihy.pickle','rb')
+svm_pickle_hindi = open('basicinformation/svmhindihhy.pickle', 'rb')
+sca_hindi = pickle.load(pickle_in_hindi)
+svmhindihhy = pickle.load(svm_pickle_hindi)
+
+'''
+load pickles for data transformation and prediction (maths)
+'''
+pickle_in_maths = open('basicinformation/preprocesshindihy.pickle', 'rb')
+knn7_pickle_maths = open('basicinformation/svmhindihhy.pickle', 'rb')
+sca_maths = pickle.load(pickle_in_maths)
+knn7mathshhy = pickle.load(knn7_pickle_maths)
+
+'''
+load pickles for data transformation and prediction (english)
+'''
+pickle_in_english = open('basicinformation/preprocesshindihy.pickle', 'rb')
+knn7_pickle_english = open('basicinformation/svmhindihhy.pickle', 'rb')
+sca_english = pickle.load(pickle_in_english)
+knn7englishhhy = pickle.load(knn7_pickle_english)
+
+'''
+load pickles for data transformation and prediction (science)
+'''
+pickle_in_science = open('basicinformation/preprocesshindihy.pickle', 'rb')
+knn7_pickle_science = open('basicinformation/svmhindihhy.pickle', 'rb')
+sca_science = pickle.load(pickle_in_science)
+knn7sciencehhy = pickle.load(knn7_pickle_science)
 
 # test1,test2,test3,age,section
 # x = np.array([[9, 10, 10, 12, 1]])
@@ -742,7 +742,7 @@ def find_frequency_grades(test1, test2=None, test3=None):
 class Studs:
     def __init__(self, user):
         self.profile = user.student
-
+        self.institution = self.profile.school.category
     def get_dob(self):
         return self.profile.dob
 
@@ -933,25 +933,51 @@ class Studs:
         return conversion
 
     def allOnlinetests(self):
-        my_tests = KlassTest.objects.filter(testTakers=self.profile)
+        if self.profile.school.category == 'School':
+            my_tests = KlassTest.objects.filter(testTakers=self.profile)
+        elif self.profile.school.category == 'SSC':
+            my_tests = SSCKlassTest.objects.filter(testTakers = self.profile)
         return my_tests
 
+
+    def subjects_OnlineTest(self):
+        my_tests = self.allOnlinetests()
+        subs = []
+        for i in my_tests:
+            subs.append(i.sub)
+        subs = list(unique_everseen(subs))
+        return subs
+
+
     def OnlineTestsSubwise(self, subject):
-        my_tests = KlassTest.objects.filter(testTakers=self.profile, sub=
+        if self.profile.school.category == 'School':
+            my_tests = KlassTest.objects.filter(testTakers=self.profile, sub=
         subject)
+        elif self.profile.school.category == 'SSC':
+            my_tests = SSCKlassTest.objects.filter(testTakers =
+                                                   self.profile,sub = subject)
         return my_tests
 
     def is_onlineTestTaken(self, test_id):
         try:
-            test = OnlineMarks.objects.get(test__id=test_id, student=
+            if self.institution == 'School':
+                test = OnlineMarks.objects.get(test__id=test_id, student=
             self.profile)
-            return test
-        except:
+                return test
+            elif self.institution == 'SSC':
+                test = SSCOnlineMarks.objects.get(test__id = test_id ,student =
+                                                  self.profile)
+                return test
+        except Exception as e:
+            print(str(e))
             return None
 
     def online_findAverageofTest(self, test_id, percent=None):
         if percent:
-            test = OnlineMarks.objects.filter(test__id=test_id)
+            if self.institution == 'School':
+                test = OnlineMarks.objects.filter(test__id=test_id)
+            elif self.institution == 'SSC':
+                test = SSCOnlineMarks.objects.filter(test__id=test_id)
             all_marks = []
             all_marks_percent = []
             for te in test:
@@ -963,7 +989,10 @@ class Studs:
 
 
         else:
-            test = OnlineMarks.objects.filter(test__id=test_id)
+            if self.institution == 'School':
+                test = OnlineMarks.objects.filter(test__id=test_id)
+            elif self.institution == 'SSC':
+                test = SSCOnlineMarks.objects.filter(test__id=test_id)
             all_marks = []
             for te in test:
                 all_marks.append(int(te.marks))
@@ -972,13 +1001,16 @@ class Studs:
             return average
 
     def online_findPercentile(self, test_id):
-        test = OnlineMarks.objects.filter(test__id=test_id)
+        if self.institution == 'School':
+            test = OnlineMarks.objects.filter(test__id=test_id)
+            my_score = OnlineMarks.objects.get(test__id=test_id, student=self.profile)
+        elif self.institution == 'SSC':
+            test = SSCOnlineMarks.objects.filter(test__id=test_id)
+            my_score = SSCOnlineMarks.objects.get(test__id=test_id, student=self.profile)
         all_marks = []
         for te in test:
             all_marks.append(te.marks)
         num_students = len(all_marks)
-        my_score = OnlineMarks.objects.get(test__id=test_id, student=
-        self.profile)
         my_score = my_score.marks
         same_marks = -1
         less_marks = 0
@@ -991,7 +1023,10 @@ class Studs:
         return percentile, all_marks
 
     def online_QuestionPercentage(self, test_id):
-        online_marks = OnlineMarks.objects.filter(test__id=test_id)
+        if self.institution == 'School':
+            online_marks = OnlineMarks.objects.filter(test__id=test_id)
+        elif self.institution == 'SSC':
+            online_marks = SSCOnlineMarks.objects.filter(test__id=test_id)
         all_answers = []
         for aa in online_marks:
             all_answers.extend(aa.allAnswers)
@@ -1000,7 +1035,11 @@ class Studs:
         return freq
     
     def weakAreas(self,subject):
-        my_marks = OnlineMarks.objects.filter(student = self.profile,test__sub
+        if self.institution == 'School':
+            my_marks = OnlineMarks.objects.filter(student = self.profile,test__sub
+                                             = subject)
+        elif self.institution == 'SSC':
+            my_marks = SSCOnlineMarks.objects.filter(student = self.profile,test__sub
                                              = subject)
         wrong_skippedAnswers = []
         for om in my_marks:
@@ -1010,9 +1049,23 @@ class Studs:
                 wrong_skippedAnswers.append(sp)
         wq = []
         for i in wrong_skippedAnswers:
-            qu = Questions.objects.get(choices__id = i)
-            quid = qu.id
-            wq.append(quid)
+            if self.institution == 'School':
+                qu = Questions.objects.get(choices__id = i)
+            elif self.institution == 'SSC':
+                try:
+                    qu = SSCquestions.objects.get(choices__id = i)
+                except:
+                    qu = SSCquestions.objects.get(id = i)
+            try:
+                quid = qu.id
+                wq.append(quid)
+            except:
+                pass
+            try:
+                quidskipped = quskipped.id
+                wq.append(quidskipped)
+            except:
+                pass
         unique, counts = np.unique(wq, return_counts=True)
         waf = np.asarray((unique, counts)).T
         nw_ind = []
@@ -1033,7 +1086,10 @@ class Studs:
         anal = []
         num = []
         for u,k in arr:
-            qu = Questions.objects.get(id = u)
+            if self.institution == 'School':
+                qu = Questions.objects.get(id = u)
+            elif self.institution == 'SSC':
+                qu = SSCquestions.objects.get(id = u)
             category = qu.topic_category
             anal.append(category)
             num.append(k)
@@ -1059,7 +1115,7 @@ class Studs:
 class Teach:
     def __init__(self, user):
         self.profile = user.teacher
-
+        self.institution = self.profile.school.category
     def my_classes_objects(self, klass_name=None):
         if klass_name:
             subs = self.profile.subject_set.all()
@@ -1418,28 +1474,49 @@ class Teach:
              't1_fg_s': t1_fg_s}
         return context
     def online_findAverageofTest(self, test_id, percent=None):
-        if percent:
-            test = OnlineMarks.objects.filter(test__id=test_id)
-            all_marks = []
-            all_marks_percent = []
-            for te in test:
-                all_marks.append(int(te.marks))
-                all_marks_percent.append((te.marks / te.test.max_marks) * 100)
-            average = np.mean(all_marks)
-            percent_average = np.mean(all_marks_percent)
-            return average, percent_average
+        if self.institution == 'School':
+            if percent:
+                test = OnlineMarks.objects.filter(test__id=test_id)
+                all_marks = []
+                all_marks_percent = []
+                for te in test:
+                    all_marks.append(int(te.marks))
+                    all_marks_percent.append((te.marks / te.test.max_marks) * 100)
+                average = np.mean(all_marks)
+                percent_average = np.mean(all_marks_percent)
+                return average, percent_average
+            else:
+                test = OnlineMarks.objects.filter(test__id=test_id)
+                all_marks = []
+                for te in test:
+                    all_marks.append(int(te.marks))
+                average = np.mean(all_marks)
 
+                return average
+        elif self.institution == 'SSC':
+            if percent:
+                test = SSCOnlineMarks.objects.filter(test__id=test_id)
+                all_marks = []
+                all_marks_percent = []
+                for te in test:
+                    all_marks.append(int(te.marks))
+                    all_marks_percent.append((te.marks / te.test.max_marks) * 100)
+                average = np.mean(all_marks)
+                percent_average = np.mean(all_marks_percent)
+                return average, percent_average
+            else:
+                test = SSCOnlineMarks.objects.filter(test__id=test_id)
+                all_marks = []
+                for te in test:
+                    all_marks.append(int(te.marks))
+                average = np.mean(all_marks)
+                return average
 
-        else:
-            test = OnlineMarks.objects.filter(test__id=test_id)
-            all_marks = []
-            for te in test:
-                all_marks.append(int(te.marks))
-            average = np.mean(all_marks)
-
-            return average
     def online_freqeucyGrades(self,test_id):
-        test = OnlineMarks.objects.filter(test__id = test_id)
+        if self.institution == 'School':
+            test = OnlineMarks.objects.filter(test__id = test_id)
+        elif self.institution == 'SSC':
+            test = SSCOnlineMarks.objects.filter(test__id = test_id)
         all_marks = []
         for i in test:
             all_marks.append((i.marks/i.test.max_marks)*100)
@@ -1468,7 +1545,10 @@ class Teach:
         return grade_s,grade_a,grade_b,grade_c,grade_d,grade_e,grade_f 
 
     def online_QuestionPercentage(self, test_id):
-        online_marks = OnlineMarks.objects.filter(test__id=test_id)
+        if self.institution == 'School':
+            online_marks = OnlineMarks.objects.filter(test__id=test_id)
+        elif self.institution == 'SSC':
+            online_marks = SSCOnlineMarks.objects.filter(test__id=test_id)
         all_answers = []
         for aa in online_marks:
             all_answers.extend(aa.allAnswers)
@@ -1476,7 +1556,10 @@ class Teach:
         freq = np.asarray((unique, counts)).T
         return freq
     def online_skippedQuestions(self,test_id):
-        online_marks = OnlineMarks.objects.filter(test__id = test_id)
+        if self.institution == 'School':
+            online_marks = OnlineMarks.objects.filter(test__id=test_id)
+        elif self.institution == 'SSC':
+            online_marks = SSCOnlineMarks.objects.filter(test__id=test_id)
         skipped_questions = []
         for om in online_marks:
             for sq in om.skippedAnswers:
@@ -1486,35 +1569,68 @@ class Teach:
         return sq
         
     def online_problematicAreasperTest(self,test_id):
-        online_marks = OnlineMarks.objects.filter(test__id = test_id)
-        wrong_answers = []
-        for om in online_marks:
-            for wa in om.wrongAnswers:
-                wrong_answers.append(wa)
-        wq = []
-        for i in wrong_answers:
-            qu = Questions.objects.get(choices__id = i)
-            quid = qu.id
-            wq.append(quid)
+        if self.institution == 'School':
+            online_marks = OnlineMarks.objects.filter(test__id = test_id)
+            wrong_answers = []
+            for om in online_marks:
+                for wa in om.wrongAnswers:
+                    wrong_answers.append(wa)
+            wq = []
+            for i in wrong_answers:
+                qu = Questions.objects.get(choices__id = i)
+                quid = qu.id
+                wq.append(quid)
 
-        unique, counts = np.unique(wq, return_counts=True)
-        waf = np.asarray((unique, counts)).T
-        nw_ind = []
-        kk = np.sort(waf,0)[::-1]
-        for u in kk[:,1]:
-            for z,w in waf:
-                if u == w:
-                    if z in nw_ind:
-                        continue
-                    else:
-                        nw_ind.append(z)
-                        break
-        final_freq = np.asarray((nw_ind,kk[:,1])).T
-        return final_freq
+            unique, counts = np.unique(wq, return_counts=True)
+            waf = np.asarray((unique, counts)).T
+            nw_ind = []
+            kk = np.sort(waf,0)[::-1]
+            for u in kk[:,1]:
+                for z,w in waf:
+                    if u == w:
+                        if z in nw_ind:
+                            continue
+                        else:
+                            nw_ind.append(z)
+                            break
+            final_freq = np.asarray((nw_ind,kk[:,1])).T
+            return final_freq
+        elif self.institution == 'SSC':
+            online_marks = SSCOnlineMarks.objects.filter(test__id = test_id)
+            wrong_answers = []
+            for om in online_marks:
+                for wa in om.wrongAnswers:
+                    wrong_answers.append(wa)
+            wq = []
+            for i in wrong_answers:
+                qu = SSCquestions.objects.get(choices__id = i)
+                quid = qu.id
+                wq.append(quid)
+
+            unique, counts = np.unique(wq, return_counts=True)
+            waf = np.asarray((unique, counts)).T
+            nw_ind = []
+            kk = np.sort(waf,0)[::-1]
+            for u in kk[:,1]:
+                for z,w in waf:
+                    if u == w:
+                        if z in nw_ind:
+                            continue
+                        else:
+                            nw_ind.append(z)
+                            break
+            final_freq = np.asarray((nw_ind,kk[:,1])).T
+            return final_freq
+
 
     def online_problematicAreas(self,user,subject,klass):
-        online_marks = OnlineMarks.objects.filter(test__creator= user,test__sub=
+        if self.institution == 'School':
+            online_marks = OnlineMarks.objects.filter(test__creator= user,test__sub=
                                                   subject,test__klas__name = klass)
+        elif self.institution == 'SSC':
+            online_marks = SSCOnlineMarks.objects.filter(test__creator= user,test__sub=
+                                                  subject,test__klas__name = klass)
+
         wrong_answers = []
         for om in online_marks:
             for wa in om.wrongAnswers:
@@ -1523,7 +1639,10 @@ class Teach:
                 wrong_answers.append(sp)
         wq = []
         for i in wrong_answers:
-            qu = Questions.objects.get(choices__id = i)
+            if self.institution == 'School':
+                qu = Questions.objects.get(choices__id = i)
+            elif self.institution == 'SSC':
+                qu = SSCquestions.objects.get(choices__id = i)
             quid = qu.id
             wq.append(quid)
         unique, counts = np.unique(wq, return_counts=True)
@@ -1544,24 +1663,40 @@ class Teach:
         
     def online_problematicAreasNames(self,user,subject,klass):
         arr = self.online_problematicAreas(user,subject,klass)
-        how_many = 0
-        areas = []
-        for u,k in arr:
-            if how_many == 3:
-                break
-            qu = Questions.objects.get(id = u)
-            cat = qu.topic_category
-            areas.append(cat)
-            how_many += 1
-        areas = list(unique_everseen(areas))
-        return areas
-    
+        if self.institution == 'School':
+            how_many = 0
+            areas = []
+            for u,k in arr:
+                if how_many == 3:
+                    break
+                qu = Questions.objects.get(id = u)
+                cat = qu.topic_category
+                areas.append(cat)
+                how_many += 1
+            areas = list(unique_everseen(areas))
+            return areas
+        elif self.institution == 'SSC':
+            how_many = 0
+            areas = []
+            for u,k in arr:
+                if how_many == 3:
+                    break
+                qu = SSCquestions.objects.get(id = u)
+                cat = qu.topic_category
+                areas.append(cat)
+                how_many += 1
+            areas = list(unique_everseen(areas))
+            return areas
+
     def online_problematicAreaswithIntensity(self,user,subject,klass):
         arr = self.online_problematicAreas(user,subject,klass)
         anal = []
         num = []
         for u,k in arr:
-            qu = Questions.objects.get(id = u)
+            if self.institution == 'School':
+                qu = Questions.objects.get(id = u)
+            elif self.institution == 'SSC':
+                qu = SSCquestions.objects.get(id = u)
             category = qu.topic_category
             anal.append(category)
             num.append(k)

@@ -49,9 +49,13 @@
 		<div style="overflow:auto'">
 <div class="sidebar-nav well col-sm-12" style="float:top">
 	<h2 style='text-align:center;font-weight:bold;'> Subjects </h2>
+	{%if not subjects %}
+	<h2 style='text-align:center;'> No tests have been created for you yet.</h2>
+	{%else%}
 	{% for sub in subjects %}
 	<button type="button" class="btn btn-default text-center" id="subBox{{forloop.counter}}">{{sub}}</button>
 	{%endfor%}
+	{%endif%}
 	</div>
 	<div class = 'hidden' id='showOnlineTests'>
 		{% include 'questions/student_onlinetests_subjectwise.html' %}

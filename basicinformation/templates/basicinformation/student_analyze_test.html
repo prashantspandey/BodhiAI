@@ -96,6 +96,9 @@ var pointBackgroundColors = [];
 	<h2 style="text-align:center;"> Your percentile: {{percentile}} </h2>
 	<canvas  id="analysisPercentile" style="display: block; height: 300px; width: 400px; padding-left: 0;">
 </canvas> </div>
+
+
+{%if student_type == 'School' %}
 	<div class='col-md-offset-1 col-md-10  col-xs-12'>
 		{% for te in test.test.questions_set.all %}
 		<div class='well  col-xs-12'>
@@ -117,4 +120,32 @@ var pointBackgroundColors = [];
 		
 		{%endfor%}
 	</div>
+
+	{%elif student_type == 'SSC' %}
+
+
+
+<div class='col-md-offset-1 col-md-10  col-xs-12'>
+		{% for te in test.test.sscquestions_set.all %}
+		<div class='well  col-xs-12'>
+			<h3> {{te.text}}{% if te.id in test.skippedAnswers %}<span class="label label-warning" >You skipped this question</span>{%endif%}</h3>
+			{% for ch in te.choices_set.all %}
+			
+			<p > <span class='badge'>{{forloop.counter}}</span>---{{ch.text}} {%if ch.predicament == 'Correct' %} <span class="label label-primary">Correct Answer</span>{%endif%}
+			{%if ch.id in test.rightAnswers %}<span class="label label-success">Your Answer</span>{%endif%}
+			{% if ch.id in test.wrongAnswers %}<span class="label label-danger">Your Answer</span>{%endif%}</p>
+			{% for x,y in freq %}
+			{% if ch.id == x%}
+			<p >	<span class="badge">{{y}} people answered this choice </span></p>
+			{%endif%}
+			{%endfor%}
+
+			{%endfor%}
+				
+		</div>
+		{%endfor%}
+	</div>
+	{%endif%}
+
+
 

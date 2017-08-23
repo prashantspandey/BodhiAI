@@ -10,20 +10,19 @@
           which_test = $(this).attr('value');
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
          $('#homeTest').removeClass("hidden");
-         $('#homeTest').html('').load('{% url 'QuestionsAndPapers:studentShowOnlineTest' %}?onlineTestid='+which_test);
+         $('#homeTest').html('').load('{% url 'QuestionsAndPapers:conductTest' %}?onlineTestid='+which_test);
 
 
             $(this).animate({
             height: '40px',
-            width: '110px',
+            width: '120px',
         });
 
           $(eval("'#'+pr")).animate({
             height: '35px',
-            width: '100px',
+            width: '110px',
         });
         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
-
 
 
 
@@ -42,14 +41,15 @@
   <div class="panel-heading text-center">Choose a Test (ordered by publish date)</div>
   <div class="panel-body">
 			{% for test in tests %}
-			<button type="button" class="btn btn-default text-center col-sm-12" value='{{test.id}}' id="whichTest{{forloop.counter}}">{{test.published}}</button>
+
+<button type="button" class="btn btn-default text-center" value='{{test.id}}' id="whichTest{{forloop.counter}}">{{test.published}}</button>
 
 	{%endfor%}
 	</div>
 	</div>
-	<div class='hidden' id='homeTest'>
-		{%  include 'questions/student_OnlineTest.html' %}
-		{% include 'questions/student_evaluated_test.html' %}
-	</div>
+<div class='hidden' id='homeTest'> 
+  {%  include 'questions/student_OnlineTest.html' %}
+  {% include 'questions/student_evaluated_test.html' %}
+     </div>
 	</body>
 </html>

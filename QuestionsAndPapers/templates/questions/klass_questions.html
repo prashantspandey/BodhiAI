@@ -1,7 +1,7 @@
-<html>
-<head>
-<script>
+{% load staticfiles %}
 	
+
+<script>
 
 $(document).ready(function () {
 	 $('#loadingCreateTest2').hide();
@@ -38,26 +38,16 @@ $(eval("'#r'+i")).click(function(){
 };
 
 
-
 });
 </script>
-
-
-
-
-
-</head>
-<body>
 <div class="hidden" id="addedQuestions">
 </div>
-{%block content %}
 <h1 align='center'> Questions </h1>
 
 <form action="{%url 'QuestionsAndPapers:addQuestions'%}" method='post'>{%csrf_token%}
-
 		{%for i in que %}
-		<div class='well col-md-offset-1 col-md-10'>
-			<h3 class="col-md-offset-1">{{i.text}}</h3>
+		<div class='well col-md-offset-1 col-md-10' id = 'questBox'>
+			<p id = 'questP'>${{i.text}}$ </p>
 			<div class='hidden' id='tells_klass'>{{which_class}}</div>
 			<div class="col-md-offset-10">
 			<p>Maximum-Marks: {{i.max_marks}}</p>
@@ -89,8 +79,4 @@ $(eval("'#r'+i")).click(function(){
 				<br>
 						</div>
 </form>
-	{%endblock%}
-</body>
 
-
-</html>

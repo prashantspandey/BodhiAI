@@ -74,6 +74,7 @@ $(document).ready(function () {
 <span class='badge ' style='background-Color:rgba(255,109,0 ,0.7)'>{{grade_e}} students got 33 % - 50 %</span>
 <span class='badge ' style='background-Color:rgba(221,44,0 ,0.6)'>{{grade_f}} students got less than 33 % </span>
 </div>
+{% if  school %}
 <div>
 	{% for quest in test.questions_set.all %}
 	<div class = 'well col-md-offset-1 col-md-10  col-xs-12'>
@@ -123,3 +124,60 @@ $(document).ready(function () {
 	{%endfor%}
 
 </div>
+
+	{% elif ssc %}
+
+<div>
+	{% for quest in test.sscquestions_set.all %}
+	<div class = 'well col-md-offset-1 col-md-10  col-xs-12'>
+		<h3> {{quest.text}} </h3>
+		{%for x,y in sq %}
+		{% if quest.id == x %}
+		<p style='text-align:center;font-weight:bold;'>	<span class="label label-warning" >{{y}} people skipped this question.</span></p>
+		{%endif%}
+		{%endfor%}
+
+		{% for ch in quest.choices_set.all %}
+		<p> {{ch.text }} 
+		{%for a,b in freq %}
+		{% if ch.id == a %}
+		<span class="label label-info">{{b}}{% if b == 1 %} student {%else%} students {%endif%} chose this answer.</span>
+		{%endif%}
+		{%endfor%}
+		{% if ch.predicament == 'Correct' %}
+		<span class="label label-primary">Correct Answer</span>
+		{%endif%}
+		</p>
+		{%endfor%}
+</div>
+{%endfor%}
+</div>
+<div class='col-md-offset-1 col-md-8 col-xs-12'>
+	<h2 style='text-align:center;font-weight:bold;'> Problematic Questions(Most to Least) </h2>
+	{% for i,f in problem_quests %}
+	{%for qu in test.sscquestions_set.all%}
+	{%if qu.id == i %}
+	<h3 style='font-weight:bold;'> {{f}} students got this question wrong or skipped it. </h3>
+	<div class ='well col-xs-12' >
+		<h3 style='font-weight:bold;'> {{qu.text}}</h3>
+		{% for ch in qu.choices_set.all%}
+		<p> {{ch.text}}
+		{%for a,b in freq %}
+		{% if ch.id == a and ch.predicament == 'Wrong' %}
+		<span class="label label-danger">{{b}} {% if b == 1 %} student {%else%} students {%endif%}chose this answer.</span></p>
+
+		{%endif%}
+		{%endfor%}
+
+		{%endfor%}
+	</div>
+	{%endif%}
+	{%endfor%}
+	{%endfor%}
+
+</div>
+{%endif%}
+
+
+
+

@@ -1,5 +1,12 @@
+{%extends 'basicinformation/base.html' %}
+{%load staticfiles%}
+
+
 <html>
 	<head>
+		{%block title %}
+		Test Result
+		{%endblock%}
 	</head>
 	<body>
 	{%block content %}
@@ -42,6 +49,9 @@
 
 
 	{%endif%}
+	<div class='col-md-offset-1 col-md-10 col-sm-12'>
+	<h2 style='font-weigth:bold;text-align:center;'>Go to <a href='{% url "basic:studentAnalysis" %}'>Your Performace </a> tab to see the full analysis of this test. </h2>
+	</div>
 	{%endblock %}
 
 	</body>
