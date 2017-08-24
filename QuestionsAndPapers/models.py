@@ -14,11 +14,12 @@ class KlassTest(models.Model):
     max_marks = models.PositiveIntegerField() 
     testTakers = models.ManyToManyField(Student)
     published = models.DateField(auto_now_add= True)
-    klas = models.ForeignKey(klass,null=True,blank=True)
+    klas = models.ForeignKey(klass,null=True,blank=True) 
     creator = models.ForeignKey(User,null=True,blank=True)
     sub = models.CharField(max_length=70,choices = subject_choices)
     due_date = models.DateField(null=True,blank=True)
     mode = models.CharField(max_length=20,choices = mode_choices)
+    totalTime = models.IntegerField(blank=True,null=True)
     def __str__(self):
         return self.name
 class SSCKlassTest(models.Model):
@@ -39,6 +40,7 @@ class SSCKlassTest(models.Model):
     sub = models.CharField(max_length=70,choices = subject_choices)
     due_date = models.DateField(null=True,blank=True)
     mode = models.CharField(max_length=20,choices = mode_choices)
+    totalTime = models.IntegerField(blank=True,null=True)
     def __str__(self):
         return self.name
 
@@ -125,6 +127,7 @@ class OnlineMarks(models.Model):
     skippedAnswers = ArrayField(models.IntegerField(null=True,blank=True))
     marks = models.IntegerField()
     testTaken = models.DateField()
+    timeTaken = models.IntegerField()
     def __str__(self):
         return str(self.marks)
     
@@ -137,6 +140,7 @@ class SSCOnlineMarks(models.Model):
     skippedAnswers = ArrayField(models.IntegerField(null=True,blank=True))
     marks = models.DecimalField(max_digits=4,decimal_places=2)
     testTaken = models.DateField()
+    timeTaken = models.IntegerField()
     def __str__(self):
         return str(self.marks)
 
@@ -145,7 +149,17 @@ class TemporaryAnswerHolder(models.Model):
     test = models.ForeignKey(SSCKlassTest)
     quests = models.CharField(max_length=4)
     answers = models.CharField(max_length=4)
+    time = models.IntegerField(blank=True,null=True)
 
     def __str__(self):
         return str(self.stud)
+class SSCansweredQuestion(models.Model):
+    onlineMarks = models.ForeignKey(SSCOnlineMarks)
+    quest = models.ForeignKey(SSCquestions)
+    time = models.IntegerField()
 
+
+class AnsweredQuestion(models.Model):
+    onlineMarks = models.ForeignKey(OnlineMarks)
+    quest = models.ForeignKey(Questions)
+    time = models.IntegerField()

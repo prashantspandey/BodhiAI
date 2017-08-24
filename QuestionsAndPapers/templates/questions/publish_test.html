@@ -50,6 +50,8 @@
 					{%csrf_token%}
 				<h3>Select a Due Date: <input type="text" name = 'dueDate' id="datepicker"  required
 					                data-fv-notempty-message="Due date is required"></h3>
+				<h3> Select Time Duration in minutes (example: 1 hour = 60 minutes)
+					<input type='text' name='timePicker' id ='tPicker'> minutes</h3>
 				<input type='text' class='hidden' value='{{test.id}}' name='testid'>
 				<input type='submit' class="btn btn-primary" value='Publish Test' name = 'publishTest'>
 				<input type='submit' class="btn btn-primary" value='Create PDF for class test' name = 'pdfTest'>

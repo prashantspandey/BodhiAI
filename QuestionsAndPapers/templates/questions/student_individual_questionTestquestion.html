@@ -1,7 +1,9 @@
 
-
+<div id = 'teid' class='hidden'>{{testid}}</div>
 	<div class='well col-md-offset-1 col-md-10'>
 		<h2 style='font-weight:bold;'> {{question.text}} </h2>
+		<p style='text-align:right;font-weight:bold;' id = 'questTimerKeeper'></p>
+		<p style='text-align:right;font-weight:bold;' id = 'qtk' class='hidden'></p>
 		<div class = 'col-md-offset-1'>
 			{% for choice in question.choices_set.all %}
 			{%csrf_token%}
@@ -32,9 +34,12 @@ if (selec == 'undefined'){
 };
 quidid = {{question.id}}
 testid = {{testid}}
+questTimer = $('#qtk').text();
+
 $.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
 	   "questionid":quidid,
 	   "testid":testid,
+	"questTimer":String(questTimer),
 	   "csrfmiddlewaretoken":'{{ csrf_token }}'}),
 			function(data){
 	console.log(data)
@@ -65,16 +70,21 @@ $.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
 
 		        });
 
+
+
+
         for(i=1 ; i<=5; i++){
 $(eval("'#ach'+i")).on('click', function(e){ 
-	console.log('clicked');
 selec=	$('input[name=answerChoice]:checked').val();
-console.log(selec); 
 quidid = {{question.id}}
 testid = {{testid}}
+
+console.log(selec); 
+questTimer = $('#qtk').text();
 $.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
 	   "questionid":quidid,
 	   "testid":testid,
+	   "questTimer":String(questTimer),
 	   "csrfmiddlewaretoken":'{{ csrf_token }}'}),
 			function(data){
 	console.log(data)
@@ -84,5 +94,29 @@ $.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
 });
 };
 		        });
+
+
+tid = $('#teid').text();
+sI= setInterval("timer2()",1000);
+timerid = {{question.id}}
+function timer2() {
+finalid = timerid + tid
+	if (sessionStorage.getItem(finalid)){
+		questCounter = sessionStorage.getItem(finalid);
+		if (questCounter < 0){
+		var	questCounter = parseInt(0)
+		};
+	} else {
+		questCounter = parseInt(0)
+	};
+questCounter ++;
+$('#questTimerKeeper').text('You have spent ' + questCounter + ' seconds on this question.');
+$('#qtk').text(questCounter);
+sessionStorage.setItem(finalid,questCounter);
+clearInterval(sI);
+
+};
+
+
 	</script>
 

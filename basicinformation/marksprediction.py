@@ -1109,6 +1109,81 @@ class Studs:
         return waf
 
 
+    def weakAreas_timing(self,subject):
+        arr = self.weakAreas(subject)
+        print(arr)
+        anal = []
+        num = []
+        for u,k in arr:
+            if self.institution == 'School':
+                qu = Questions.objects.get(id = u)
+            elif self.institution == 'SSC':
+                qu = SSCquestions.objects.get(id = u)
+            
+            category = qu.topic_category
+            anal.append(category)
+            num.append(k)
+        analysis = list(zip(anal,num))
+        quest = []
+        time_list = []
+        if self.institution == 'SSC':
+            myMarks = SSCOnlineMarks.objects.filter(student =
+                                                    self.profile,test__sub = subject)
+            for t in myMarks:
+                for time in t.sscansweredquestion_set.all():
+                    if time.quest.id in arr[:,0]:
+                        quest.append(int(time.quest.id))
+                        time_list.append(int(time.time))
+
+
+        timer = list(zip(quest,time_list))
+        print(timer)
+
+    def areawise_timing(self,subject):
+        all_questions = []
+        all_timing = []
+        if self.institution == 'School':
+            marks = OnlineMarks.objects.filter(test__sub = subject,student =
+                                            self.profile)
+            for om in marks:
+                for aq in om.sscansweredquestion_set.all():
+                    all_questions.append(aq.quest.topic_category)
+                    all_timing.append(aq.time)
+
+        elif self.institution == 'SSC':
+            marks = SSCOnlineMarks.objects.filter(test__sub = subject, student =
+                                                  self.profile)
+            for om in marks:
+                for aq in om.sscansweredquestion_set.all():
+                    all_questions.append(aq.quest.topic_category)
+                    all_timing.append(aq.time)
+        areawise_timing = list(zip(all_questions,all_timing))
+        dim1 = list(unique_everseen(all_questions))
+        dim3 = []
+        dim4 = []
+        freq = []
+        for j in dim1:
+            k_val = 0 
+            n = 0
+            for x,y in areawise_timing:
+                if j == x and y != -1:
+                    k_val += y
+                    n += 1
+            dim3.append(j)
+            average_time = float(k_val/n)
+            dim4.append(average_time)
+            freq.append(n)
+        timing = list(zip(dim3,dim4))
+        freq_list = list(zip(dim3,freq))
+        return timing,freq_list
+
+
+
+
+
+
+
+
 
 
 
@@ -1640,9 +1715,16 @@ class Teach:
         wq = []
         for i in wrong_answers:
             if self.institution == 'School':
-                qu = Questions.objects.get(choices__id = i)
+                try:
+                    qu = Questions.objects.get(choices__id = i)
+                except:
+                    qu = Questions.objects.get(id = i)
+
             elif self.institution == 'SSC':
-                qu = SSCquestions.objects.get(choices__id = i)
+                try:
+                    qu = SSCquestions.objects.get(choices__id = i)
+                except:
+                    qu = SSCquestions.objects.get(id=i)
             quid = qu.id
             wq.append(quid)
         unique, counts = np.unique(wq, return_counts=True)

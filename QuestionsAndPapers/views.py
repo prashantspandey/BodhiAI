@@ -1,11 +1,12 @@
 from django.shortcuts import render
+from django.core.urlresolvers import reverse
 from .models import Questions,Choices,KlassTest
 from basicinformation.models import *
 from basicinformation.marksprediction import *
 import datetime
 import os.path
 from django.utils import timezone
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse,HttpResponseRedirect
 from django.contrib.auth.models import User,Group
 import re
 import pickle
@@ -13,10 +14,6 @@ import urllib.request
 from more_itertools import unique_everseen
 # Create your views here.
 
-#def home(request):
-#    question = Questions.objects.all()
-#    context = {'question':question}
-#    return render(request,'questions/home.html',context) 
 def create_test(request):
     user = request.user
     if user.is_authenticated:
@@ -29,7 +26,6 @@ def create_test(request):
                 questions = SSCquestions.objects.all()
             school = me.my_school()
             all_klasses = me.my_classes_names()
-            #klass_reg = re.compile(r'^(.*?)th')
             try:
                 if 'klass_test' in request.GET:
                     try:
@@ -230,6 +226,7 @@ def publish_test(request):
             me = Teach(user)
             if 'publishTest' in request.POST:
                 date = request.POST['dueDate']
+                time = request.POST['timePicker']
                 school = user.teacher.school
                 if not date:
                     date = timezone.now()
@@ -244,12 +241,16 @@ def publish_test(request):
                     myTest.testTakers.add(i)
                 due_date = datetime.datetime.strptime(date, "%m/%d/%Y")
                 myTest.due_date = due_date
-                if user.teacher.school.category == 'School':
+                if time:
+                    myTest.totalTime = time
+                else:
+                    myTest.totalTime = 10000
+                if me.institution == 'School':
                     for sub in myTest.questions_set.all():
                         subject = sub.sub
                         break
                     myTest.sub = subject
-                elif user.teacher.school.category == 'SSC':
+                elif me.institution == 'SSC':
                     subs = []
                     for sub in myTest.sscquestions_set.all():
                         subs.append(sub.section_category)
@@ -266,12 +267,12 @@ def publish_test(request):
             if 'pdfTest' in request.POST:
                 testid = request.POST['testid']
                 myTest = KlassTest.objects.get(id = testid)
-                if user.teacher.school.category == 'School':
+                if me.institution == 'School':
                     for sub in myTest.questions_set.all():
                         subject = sub.sub
                         break
                     myTest.sub = subject
-                elif user.teacher.school.category == 'SSC':
+                elif me.institution == 'SSC':
                     subs = []
                     for sub in myTest.sscquestions_set.all():
                         subs.append(sub.section_category)
@@ -434,6 +435,7 @@ def conduct_Test(request):
     user = request.user
     if user.is_authenticated:
         me = Studs(user)
+        
         if 'onlineTestid' in request.GET:
             testid = request.GET['onlineTestid']
             TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=testid).delete()
@@ -443,7 +445,21 @@ def conduct_Test(request):
                     student_type = 'School'
                 elif me.institution == 'SSC':
                     student_type = 'SSC'
-                context = {'marks':taken,'student_type':student_type}
+                total_time = taken.timeTaken
+                hours = int(total_time/3600)
+                t = int(total_time%3600)
+                mins = int(t/60)
+                seconds =int(t%60)
+                if hours == 0:
+                    tt = '{} minutes and {} seconds'.format(mins,seconds)
+                if hours == 0 and mins == 0:
+                    tt = '{} seconds'.format(seconds)
+                if hours > 0:
+                    tt = '{} hours {} minutes and {}\
+                    seconds'.format(hours,mins,seconds)
+            
+                context = \
+                {'marks':taken,'student_type':student_type,'timetaken':tt}
                 return render(request,'questions/student_evaluated_test.html',context)
             else:
                 if me.institution == 'School':
@@ -457,12 +473,28 @@ def conduct_Test(request):
                 render(request,'questions/student_startoftest.html',context)
                 elif me.institution == 'SSC':
                     test = SSCKlassTest.objects.get(id=testid)
+                    if test.totalTime:
+                        timeTest = test.totalTime
+                    else:
+                        timeTest = 10000
+                    mins = timeTest %60
+                    hours = int(timeTest /60)
+                    if hours ==1:
+                        timer = '{} hour and {} minutes'.format(hours,mins)
+                    elif hours == 0:
+                        timer = '{} minutes'.format(mins)
+                    else:
+                        timer = '{} hours and {} minutes'.format(hours,mins)
+                    if hours >4:
+                        timer = 'Unlimited (no time boundation)'
+
+                    print(timer)
                     quest = []
                     for q in test.sscquestions_set.all():
                         quest.append(q)
                     num_questions = len(quest)
                     context = \
-                    {'num_questions':num_questions,'testid':testid,'student_type':'SSC'}
+                            {'num_questions':num_questions,'testid':testid,'student_type':'SSC','timer':timer}
                     return \
                 render(request,'questions/student_startoftest.html',context)
 
@@ -481,11 +513,15 @@ def conduct_Test(request):
                     quest.append(q.topic_category)
 
             lenquest = len(quest)
+            if test.totalTime:
+                timeTest = test.totalTime
+            else:
+                timeTest = 1000
             nums = []
             for i in range(lenquest):
                 nums.append(i)
             context =\
-                {'questPosition':nums,'te_id':testid,'how_many':lenquest}
+                    {'questPosition':nums,'te_id':testid,'how_many':lenquest,'testTime':timeTest}
             return \
             render(request,'questions/student_individual_questionTest.html',context)
         if 'IndividualTestQuestPos' in request.GET:
@@ -521,6 +557,7 @@ def conduct_Test(request):
         if 'questionid'  in  request.POST:
             try:
                 choice_id = request.POST['choiceid']
+                questTime = request.POST['questTimer']
                 print('%s choice' %choice_id)
             except Exception as e:
                 print(str(e))
@@ -550,6 +587,7 @@ def conduct_Test(request):
                 my_marks.test = test
                 my_marks.quests= question_id
                 my_marks.answers = choice_id
+                my_marks.time = int(questTime)
                 my_marks.save()
                 all_quests = []
                 for i in temp_marks:
@@ -557,16 +595,18 @@ def conduct_Test(request):
                 return HttpResponse(how_many)
         if 'testSub' in request.POST:
             test_id = request.POST['testSub']
+            time_taken = request.POST['timeTaken']
             if me.institution == 'School':
                 student_type = 'School'
                 test = KlassTest.objects.get(id = test_id)
+                online_marks = OnlineMarks()
             elif me.institution == 'SSC':
                 student_type = 'SSC'
                 test = SSCKlassTest.objects.get(id = test_id)
+                online_marks = SSCOnlineMarks()
             quest_ids = []
             skipped_ids = []
             quest_ans_dict = {}
-            online_marks = SSCOnlineMarks()
             online_marks.test = test
             online_marks.testTaken = timezone.now()
             online_marks.student = user.student
@@ -576,13 +616,17 @@ def conduct_Test(request):
             for i in quest_ids:
                 try:
                     answers_ids = []
+                    time_ids = []
                     temp_marks =\
                     TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=test_id,quests
                                                          = str(i))
                     
                     for j in temp_marks:
                         answers_ids.append(int(j.answers))
-                    qad = {i:answers_ids}
+                        time_ids.append(j.time)
+                    
+                    qad = {'answers':answers_ids,'time':time_ids}
+                    print('%s qad' %qad)
                     quest_ans_dict[i] = qad
                     
                 except:
@@ -593,17 +637,32 @@ def conduct_Test(request):
             final_wrong = []
             ra = []
             wa = []
+            all_time = []
+            num = 0
             for k in quest_ans_dict.keys():
+                print('%s keys' %k)
                 for j in quest_ans_dict[k]:
+                    print('%s j' %j)
+                    num = num +1
                     try:
                         final_ans = quest_ans_dict[k][j][-1] 
-                        all_answers.append(final_ans)
+                        if j == 'answers':
+                            all_answers.append(final_ans)
+                        elif j == 'time':
+                            all_time.append(final_ans)
+
                     except:
                         final_ans = quest_ans_dict[k][j]
                         if len(final_ans) == 0:
                             pass
                         else:
-                            all_answers.append(final_ans)
+                            if num %2 == 0:
+                                all_answers.append(final_ans)
+                            else:
+                                all_time.append(final_ans)
+                    
+
+            print('%s -- allanswers,%s --- alltime' %(all_answers,all_time))
             test_marks = 0
             for question in test.sscquestions_set.all():
                 for choice in question.choices_set.all():
@@ -624,15 +683,49 @@ def conduct_Test(request):
             for an in final_skipped:
                 if not an in ra and not an in wa:
                     final_skipped2.append(an)
+            total_time = (test.totalTime * 60)- (int(time_taken))
             online_marks.rightAnswers = final_correct
             online_marks.wrongAnswers = final_wrong
             online_marks.skippedAnswers = final_skipped2
             online_marks.allAnswers = all_answers
             online_marks.marks = test_marks
+            online_marks.timeTaken = total_time
             online_marks.save()
+            num = 0
+            for q in test.sscquestions_set.all():
+                times = 0
+                online_marks_quests = SSCansweredQuestion()
+                online_marks_quests.onlineMarks = online_marks
+                online_marks_quests.quest = q
+                for ch in q.choices_set.all():
+                    if ch.id in all_answers:
+                        online_marks_quests.time = all_time[num]
+                        num = num +1
+                    else:
+                        times = times +1
+                        if times >3:
+                            online_marks_quests.time = -1
+                online_marks_quests.save()
+            hours = int(total_time/3600)
+            t = int(total_time%3600)
+            mins = int(t/60)
+            seconds =int(t%60)
+            if hours == 0:
+                tt = '{} minutes and {} seconds'.format(mins,seconds)
+            if hours == 0 and mins == 0:
+                tt = '{} seconds'.format(seconds)
+            if hours > 0:
+                tt = '{} hours {} minutes and {}\
+                seconds'.format(hours,mins,seconds)
+
+
             TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=test_id).delete()
-            context = {'student_type':student_type,'marks':online_marks}
-            return render(request,'questions/student_finished_test.html',context)
+            context = \
+            {'student_type':student_type,'marks':online_marks,'timetaken':tt}
+            url = \
+                    reverse('QuestionsAndPapers:studentMyOnlineTests')
+            return HttpResponseRedirect(url)
+            #return render(request,'questions/student_finished_test.html',context)
 
 
            

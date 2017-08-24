@@ -34,19 +34,14 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            #fi =  os.path.join(settings.STATIC_ROOT,'QualitativeAnalysisQuestions.ods')
-            fi =staticfiles_storage.url('/basicinformation/QualitativeAnalysisQuestions.ods')
-            fi =\
-            'basicinformation/static/basicinformation/QualitativeAnalysisQuestions.xlsx'
+            with open('basicinformation/tetest.csv') as csvfile:
+                readcsv = csv.reader(csvfile,delimiter = ',')
+                quest = []
+                for row in readcsv:
+                    rn = row[0]
+                    quest.append(rn)
+            print(quest)
 
-            if os.path.isfile(fi):
-                print('yes')
-            else:
-                print('no')
-            text = read_questions(fi)
-
-            print(text)
-            return HttpResponse(text)
             #return render(request,'basicinformation/staffpage1.html')
         if user.groups.filter(name='Students').exists():
             profile = user.student
@@ -206,6 +201,7 @@ def student_subject_analysis(request):
             percentile, all_marks = me.online_findPercentile(test_id)
             all_marks = [((i / test.test.max_marks) * 100) for i in all_marks]
             freq = me.online_QuestionPercentage(test_id)
+            
             context = \
                 {'test': test, 'average': average, 'percentAverage': percent_average,
                  'my_percent': my_marks_percent, 'percentile': percentile, 'allMarks': all_marks,
@@ -227,8 +223,10 @@ def student_weakAreas(request):
     if 'studWA' in request.GET:
            me = Studs(request.user)
            subject = request.GET['studWA']
+           timing_areawise,freq_timer = me.areawise_timing(subject)
            freq = me.weakAreas_Intensity(subject)
-           context = {'freq':freq}
+           context = \
+           {'freq':freq,'timing':timing_areawise,'time_freq':freq_timer}
            return render(request,'basicinformation/student_weakAreas.html',context)
 
 

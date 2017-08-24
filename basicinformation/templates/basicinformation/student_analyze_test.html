@@ -128,7 +128,15 @@ var pointBackgroundColors = [];
 <div class='col-md-offset-1 col-md-10  col-xs-12'>
 		{% for te in test.test.sscquestions_set.all %}
 		<div class='well  col-xs-12'>
-			<h3> {{te.text}}{% if te.id in test.skippedAnswers %}<span class="label label-warning" >You skipped this question</span>{%endif%}</h3>
+			<h3> {{te.text}}
+				{% if te.id in test.skippedAnswers %}<span class="label label-warning" >You skipped this question</span></h3>{%endif%}
+			{% for time in test.sscansweredquestion_set.all %}
+			{%if time.quest.id == te.id and time.time != -1 %}	
+			
+			<span class="label label-info" style='background-Color:#AA00FF;'>You took {{time.time}} seconds to solve this question.</span></h3>
+			{%endif%}
+			{%endfor%}
+
 			{% for ch in te.choices_set.all %}
 			
 			<p > <span class='badge'>{{forloop.counter}}</span>---{{ch.text}} {%if ch.predicament == 'Correct' %} <span class="label label-primary">Correct Answer</span>{%endif%}

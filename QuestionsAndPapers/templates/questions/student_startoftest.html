@@ -2,7 +2,7 @@
 	<h2 style='font-weight:bold;'>Your haven't answered this test yet.</h2>
 
 	<h3> This test consists of {{num_questions}} questions </h3>
-	<h3> You have x minutes to answer this test. </h3>
+	<h3> You have <strong><p style='color:red;'>{{timer}}</p></strong> to answer this test. </h3>
 	<h3> Click on button below to start the test </h3>
 
 	<form action='{% url "QuestionsAndPapers:conductTest" %}' method = 'post'>
