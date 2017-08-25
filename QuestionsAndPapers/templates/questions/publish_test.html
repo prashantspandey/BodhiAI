@@ -33,7 +33,12 @@
 
 			<div class='questionsContainer col-md-offset-1 col-md-10 col-sm-12'>
 				<h2 style='text-align:center;'> Questions in Test </h2>
+				{%if teacher_type == 'School' %}
 				{% for question in test.questions_set.all %}
+				{%elif teacher_type == 'SSC' %}
+				{% for question in test.sscquestions_set.all %}
+				{%endif%}
+
 				<div class='well quest'>
 					<h3 style= 'font-weight:bold;'> {{question.text}} </h3>
 					{% for choice in question.choices_set.all %}

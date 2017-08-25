@@ -47,7 +47,7 @@ $(eval("'#r'+i")).click(function(){
 <form action="{%url 'QuestionsAndPapers:addQuestions'%}" method='post'>{%csrf_token%}
 		{%for i in que %}
 		<div class='well col-md-offset-1 col-md-10' id = 'questBox'>
-			<p id = 'questP'>${{i.text}}$ </p>
+			<p id = 'questP'>{{i.text}} </p>
 			<div class='hidden' id='tells_klass'>{{which_class}}</div>
 			<div class="col-md-offset-10">
 			<p>Maximum-Marks: {{i.max_marks}}</p>

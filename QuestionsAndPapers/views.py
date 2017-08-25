@@ -205,8 +205,10 @@ def add_questions(request):
                 tot = tot + i.max_marks
             if user.teacher.school.category == 'School':
                 newClassTest = KlassTest()
+                teacher_type = 'School'
             elif user.teacher.school.category == 'SSC':
                 newClassTest = SSCKlassTest()
+                teacher_type = 'SSC'
             newClassTest.max_marks = tot
             newClassTest.published = timezone.now()
             newClassTest.name = str(request.user.teacher) + str(timezone.now())
@@ -215,7 +217,7 @@ def add_questions(request):
             newClassTest.save()
             for zz in questions_list:
                 zz.ktest.add(newClassTest)
-            context = {'test':newClassTest}
+            context = {'test':newClassTest,'teacher_type':teacher_type}
             return render(request,'questions/publish_test.html',context)
 
 
