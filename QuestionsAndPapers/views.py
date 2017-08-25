@@ -268,13 +268,16 @@ def publish_test(request):
             render(request,'questions/teacher_successfully_published.html')
             if 'pdfTest' in request.POST:
                 testid = request.POST['testid']
-                myTest = KlassTest.objects.get(id = testid)
                 if me.institution == 'School':
+                    teacher_type = 'School'
+                    myTest = KlassTest.objects.get(id = testid)
                     for sub in myTest.questions_set.all():
                         subject = sub.sub
                         break
                     myTest.sub = subject
                 elif me.institution == 'SSC':
+                    teacher_type = 'SSC'
+                    myTest = SSCKlassTest.objects.get(id = testid)
                     subs = []
                     for sub in myTest.sscquestions_set.all():
                         subs.append(sub.section_category)
@@ -286,7 +289,7 @@ def publish_test(request):
 
                 myTest.mode = 'BodhiSchool'
                 myTest.save()
-                context = {'test':myTest}
+                context = {'test':myTest,'teacher_type':teacher_type}
                 pdf =\
                 render_to_pdf('questions/teacher_school_createdTest.html',context)
                 return HttpResponse(pdf,content_type= 'application/pdf')

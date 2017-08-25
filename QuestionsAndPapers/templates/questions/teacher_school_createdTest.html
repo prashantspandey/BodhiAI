@@ -15,6 +15,7 @@
 		</div>
 
 		<br>
+		{%if teacher_type == "School" %}
 		<div class='col-md-offset-1 col-md-10 col-sm-12'>
 			{% for qu in test.questions_set.all%}
 			<div class='well'>
@@ -26,6 +27,29 @@
 			</div>
 			{%endfor%}
 		</div>
+		{%elif teacher_type == "SSC" %}
+	<div class='col-md-offset-1 col-md-10 col-sm-12'>
+			{% for qu in test.sscquestions_set.all%}
+			<div class='well'>
+			<h2> {{forloop.counter}}. {{qu.text}} </h2>
+			<p style='text-align:right;'>Max-Marks-{{qu.max_marks}}</p>
+			{% for ch in qu.choices_set.all%}
+			<p>{{forloop.counter}} - {{ch.text}} </p>
+			{%endfor%}
+			</div>
+			{%endfor%}
+		</div>
+		{%endif%}
+
+
+
+
+
+
+
+
+
+
 		<div style='position:fixed;bottom:0;width:100%;'>
 		 <img src="{%static 'basicinformation/images/bodhiainavbar.png' %}" alt="Bodhi AI" style='height:500%;width:auto;padding:5px;'>
 		</div>
