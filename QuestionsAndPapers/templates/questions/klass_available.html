@@ -44,11 +44,13 @@
 
 
 </head>
-<div class="btn-group" role="group" aria-label="...">
-	<div class="panel-heading text-center">{%if test_type == 'School' %}Chapters Available:
+
+<div class="panel-heading" style="text-align:center;">{%if test_type == 'School' %}Chapters Available:
 		{%elif test_type == 'SSC' %} Subject/Section type:{%endif%}	</div>
-  {% if noTest %}
-  <h3> No Questions available </h3>
+
+<div class="btn-group" role="group" aria-label="...">
+	  {% if noTest %}
+  <h3 style='font-weight:bold;text-align:center;'> No Questions available </h3>
   {%else%}
     <div class="panel-body" >
   {% for i in fin %}

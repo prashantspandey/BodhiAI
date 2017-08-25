@@ -12,6 +12,7 @@ import re
 import pickle
 import urllib.request
 from more_itertools import unique_everseen
+from random import randint
 # Create your views here.
 
 def create_test(request):
@@ -61,10 +62,10 @@ def create_test(request):
                                       {'fin':
                                        unique_chapters,'which_klass':ttt,'test_type':test_type})
                         else:
+                            test_type = 'School'
                             noTest = 'Not Questions for this class'
-                            context = {'noTest':noTest}
-                            return
-                        render(request,'questions/klass_available.html',context)
+                            context = {'noTest':noTest,'test_type':test_type}
+                            return render(request,'questions/klass_available.html',context)
                     elif me.institution == "SSC":
                         if quest:
                             unique_chapters = []
