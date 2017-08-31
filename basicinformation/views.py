@@ -3,11 +3,11 @@ import os.path
 from django.http import Http404, HttpResponse
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
-import csv
 from random import randint
 from datetime import timedelta
 from datetime import date
 import numpy as np
+import pandas as pd
 import urllib.request
 from more_itertools import unique_everseen
 from django.contrib.auth.models import User, Group
@@ -34,17 +34,11 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            #with open('basicinformation/tetest.csv') as csvfile:
-            #    readcsv = csv.reader(csvfile,delimiter = ',')
-            #    quest = []
-            #    for row in readcsv:
-            #        rn = row[0]
-            #        quest.append(rn)
-            #print(quest)
-            all_quests = []
+            #df = \
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/english.csv')
             with \
-            open('/home/prashant/Desktop/programming/random/tesseract/englishpassages.pkl','rb')\
-            as fi:
+                    open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
+                         ,'rb') as fi:
                 all_passages = pickle.load(fi)
             #quests = []
             #optA = []
@@ -53,13 +47,13 @@ def home(request):
             #optD = []
             #right_answer = []
             #quest_category = []
-            #quests = all_quests[:,0]
-            #optA = all_quests[:,1]
-            #optB = all_quests[:,2]
-            #optC = all_quests[:,3]
-            #optD = all_quests[:,4]
-            #quest_category = all_quests[:,6]
-            #for i in all_quests[:,5]:
+            #quests = df['questions']
+            #optA = df['optionA']
+            #optB = df['optionB']
+            #optC = df['optionC']
+            #optD = df['optionD']
+            #quest_category = df['category']
+            #for i in df['correctOption']:
             #    if i == 'a':
             #        right_answer.append(1)
             #    elif i == 'b':
@@ -71,8 +65,7 @@ def home(request):
             #for ind in range(len(optA)):
             #    write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],quest_category[ind])
             write_passages(all_passages)
-
-            return HttpResponse(all_passages)
+            return HttpResponse('hello')
             #return render(request,'basicinformation/staffpage1.html')
         if user.groups.filter(name='Students').exists():
             profile = user.student
@@ -605,7 +598,6 @@ def create_student(num, request):
 
 
 def create_teacher(num):
-    
     school1 = School.objects.get(name='Dummy School')
     school2 = School.objects.get(name='Not Dummy School')
     schools = [school1,school2]
@@ -646,23 +638,24 @@ def write_questions(question,optA,optB,optC,optD,correctOpt,questCategory):
     new_questions.tier_category = '1'
     new_questions.section_category = 'English'
     new_questions.text = str(question)
-    if str(questCategory) == '1':
+    print(questCategory)
+    if str(questCategory) == '1.0':
         new_questions.topic_category = '1.1'
-    elif str(questCategory) == '2':
+    elif str(questCategory) == '2.0':
         new_questions.topic_category = '2.1'
-    elif str(questCategory) == '3':
+    elif str(questCategory) == '3.0':
         new_questions.topic_category = '3.1'
-    elif str(questCategory) == '4':
+    elif str(questCategory) == '4.0':
         new_questions.topic_category = '4.1'
-    elif str(questCategory) == '5':
+    elif str(questCategory) == '5.0':
         new_questions.topic_category = '5.1'
-    elif str(questCategory) == '6':
+    elif str(questCategory) == '6.0':
         new_questions.topic_category = '6.1'
-    elif str(questCategory) == '7':
+    elif str(questCategory) == '7.0':
         new_questions.topic_category = '7.1'
-    elif str(questCategory) == '8':
+    elif str(questCategory) == '8.0':
         new_questions.topic_category = '8.1'
-    elif str(questCategory) == '9':
+    elif str(questCategory) == '9.0':
         new_questions.topic_category = '9.1'
     else:
         new_questions.topic_category = str(questCategory)

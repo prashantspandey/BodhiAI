@@ -17,6 +17,8 @@ class SSCOnlineMarksAdmin(admin.ModelAdmin):
     inlines = [SscQuestInline]
 
 class SSCQuestionAdmin(admin.ModelAdmin):
+    list_display= ["text","section_category","topic_category"]
+    list_filter = ["topic_category"]
     inlines = [ChoiceInline]
 
 class SSCcomprehensionQuestions(admin.StackedInline):

@@ -49,7 +49,7 @@ def create_test(request):
                                                      =school)
                     elif me.institution == "SSC":
                         quest = SSCquestions.objects.filter(school= school)
-                        
+
                     if me.institution == "School":
                         if quest:
                             unique_chapters = []
