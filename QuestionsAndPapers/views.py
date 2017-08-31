@@ -38,6 +38,7 @@ def create_test(request):
                     ttt = request.GET['klass_test']
                     klasses = klass.objects.filter(name=ttt)
                     klass_level = 'aa'
+                    
                     for kass in klasses:
                         if me.institution == 'School':
                             klass_level = kass.level
@@ -73,6 +74,7 @@ def create_test(request):
                                 unique_chapters.append(i.section_category)
                             unique_chapters = list(unique_everseen(unique_chapters))
                             test_type = 'SSC'
+                            print(unique_chapters)
                             return render(request, 'questions/klass_available.html',
                                       {'fin':
                                        unique_chapters,'which_klass':ttt,'test_type':test_type})
@@ -81,13 +83,34 @@ def create_test(request):
                             context = {'noTest':noTest}
                             return
                         render(request,'questions/klass_available.html',context)
+                if 'category_test' in request.GET:
+                    category_klass = request.GET['category_test']
+                    split_category = category_klass.split(',')[0]
+                    split_klass = category_klass.split(',')[1]
+                    if me.institution == 'School':
+                        pass
+                    elif me.institution == 'SSC':
+                        quest = SSCquestions.objects.filter(section_category =
+                                                            split_category,school
+                                                            =school)
+                        all_categories = []
+                        for i in quest:
+                            all_categories.append(i.topic_category)
+                        all_categories = list(unique_everseen(all_categories))
+                        all_categories.sort()
+                        all_categories = \
+                        me.change_topicNumbersNames(all_categories,split_category)
+                        context = \
+                        {'categories':all_categories,'which_klass':split_klass}
+                        return \
+                    render(request,'questions/klass_categories.html',context)
+                    
 
                 if 'chapter_test' in request.GET:
                     quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
                     which_chap = request.GET['chapter_test']
                     splitChap = which_chap.split(",",1)[0]
                     splitClass = which_chap.split(",",1)[1]
-                    print('%s chap, %s class' %(splitChap,splitClass))
                     klasses = klass.objects.filter(name=splitClass)
                     klass_level = 'aa'
                     for kass in klasses:
@@ -108,7 +131,7 @@ def create_test(request):
                                                           klass_level,chapCategory=splitChap,school=school)
                         elif me.institution == "SSC":
                             klass_question = \
-                            SSCquestions.objects.filter(section_category = splitChap,school =
+                            SSCquestions.objects.filter(topic_category = splitChap,school =
                                                         school)
                         context = \
                         {'que':klass_question,'idlist':idlist,'which_class':splitClass }
@@ -119,7 +142,7 @@ def create_test(request):
                                                           klass_level,chapCategory=splitChap,school=school)
                         elif me.institution == 'SSC':
                             klass_question =\
-                            SSCquestions.objects.filter(section_category =
+                            SSCquestions.objects.filter(topic_category =
                                                         splitChap,school =
                                                         school)
                         context = \
@@ -170,7 +193,6 @@ def add_questions(request):
                 questions_list = pickle.load(rid)
         else:
             questions_list = []
-
         questions = []
         rem_id = request.GET['remove_id']
         which_klass = rem_id.split(',')[1]
@@ -494,7 +516,6 @@ def conduct_Test(request):
                     if hours >4:
                         timer = 'Unlimited (no time boundation)'
 
-                    print(timer)
                     quest = []
                     for q in test.sscquestions_set.all():
                         quest.append(q)
@@ -531,50 +552,56 @@ def conduct_Test(request):
             return \
             render(request,'questions/student_individual_questionTest.html',context)
         if 'IndividualTestQuestPos' in request.GET:
+            # this method gets the value of button pressed and sends the
+            # question that is in that place
             questPos = request.GET['IndividualTestQuestPos']
             pos = questPos.split(',')[0]
             testid = questPos.split(',')[1]
             test = SSCKlassTest.objects.get(id = testid)
             quest = []
+            # gets the number of questions in the test
             for q in test.sscquestions_set.all():
                 quest.append(q)
             tosend = quest[int(pos)]
             qu = str(tosend.id)
-            print('%s quest' %quest)
             how_many = len(quest)
             try:
+            # if this question was already answered then send the selected
+            # choice to template
                 temp_marks = TemporaryAnswerHolder.objects.filter(stud =
                                                               user.student,test__id
-                                                              =testid,quests=qu)
-                print('in temp_marks')
+                                                              =testid,quests=qu).order_by('time')
                 Quests = []
                 for i in temp_marks:
                     Quests.append(int(i.answers))
-                print(Quests)
                 answer_sel = Quests[-1]
                 context = \
                 {'question':tosend,'testid':testid,'sel':answer_sel}
             except Exception as e:
-                print('not in temp_marks')
+            # if question has not been answered then just send the question
                 hom_many = len(quest)
                 context = {'question':tosend,'testid':testid,'how_many':how_many}
             return \
         render(request,'questions/student_individual_questionTestquestion.html',context)
         if 'questionid'  in  request.POST:
+            # gets the values of choice id and time taken to choose that value
             try:
                 choice_id = request.POST['choiceid']
                 questTime = request.POST['questTimer']
-                print('%s choice' %choice_id)
             except Exception as e:
-                print(str(e))
+            # runs when next button is pressed rather than selecting a
+            # choice(skipped)
                 choice_id = -1
             question_id = request.POST['questionid']
             test_id = request.POST['testid']
+            if choice_id == -1:
+                questTime = -1
             if me.institution == 'School':
                 pass
             elif me.institution == 'SSC':
                 test = SSCKlassTest.objects.get(id = test_id)
                 questnum = []
+            # get the number of questions in the test
                 for q in test.sscquestions_set.all():
                     questnum.append(q)
                 how_many = len(questnum)
@@ -582,11 +609,10 @@ def conduct_Test(request):
                 try:
                     temp_marks = TemporaryAnswerHolder.objects.filter(stud =
                                                                   user.student,test__id=test_id)
-                    print('got temp')
+                   
                 except:
-                    print('not got')
                     pass
-
+            # saves choice to temporary holder 
                 test = SSCKlassTest.objects.get(id = test_id)
                 my_marks = TemporaryAnswerHolder()
                 my_marks.stud = user.student
@@ -600,6 +626,7 @@ def conduct_Test(request):
                    all_quests.append(i.quests)
                 return HttpResponse(how_many)
         if 'testSub' in request.POST:
+            # get values of test id and total test time
             test_id = request.POST['testSub']
             time_taken = request.POST['timeTaken']
             if me.institution == 'School':
@@ -616,24 +643,27 @@ def conduct_Test(request):
             online_marks.test = test
             online_marks.testTaken = timezone.now()
             online_marks.student = user.student
-            
             for q in test.sscquestions_set.all():
                 quest_ids.append(q.id)
+            # iterate over all the questions in the test
             for i in quest_ids:
                 try:
                     answers_ids = []
                     time_ids = []
+                    # get all the temporary holders and put the answer and time
+                    # in a dictionary and add skipped questions to a list
                     temp_marks =\
                     TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=test_id,quests
-                                                         = str(i))
-                    
+                                                         =
+                                                         str(i)).order_by('time')
                     for j in temp_marks:
                         answers_ids.append(int(j.answers))
                         time_ids.append(j.time)
+                   
                     
                     qad = {'answers':answers_ids,'time':time_ids}
-                    print('%s qad' %qad)
                     quest_ans_dict[i] = qad
+            
                     
                 except:
                     skipped_ids.append(i)
@@ -645,40 +675,56 @@ def conduct_Test(request):
             wa = []
             all_time = []
             num = 0
+            # iterate over all the answer and time holding dictionary
             for k in quest_ans_dict.keys():
-                print('%s keys' %k)
                 for j in quest_ans_dict[k]:
-                    print('%s j' %j)
                     num = num +1
                     try:
+                        #final answer when more than one questions answered
                         final_ans = quest_ans_dict[k][j][-1] 
-                        if j == 'answers':
-                            all_answers.append(final_ans)
-                        elif j == 'time':
-                            all_time.append(final_ans)
-
-                    except:
-                        final_ans = quest_ans_dict[k][j]
-                        if len(final_ans) == 0:
+                        # if statement for weeding out the skipped(cleared
+                        # selection) questions
+                        if int(final_ans) == -1:
                             pass
                         else:
-                            if num %2 == 0:
+                            # add time and answer ids to respective lists
+                            # according to the keys of quest_ans_dict
+                            if j == 'answers':
                                 all_answers.append(final_ans)
-                            else:
+                            elif j == 'time':
                                 all_time.append(final_ans)
+
+                    except:
+                        # same as above but runs only when one or none
+                        # questions are answered
+                        final_ans = quest_ans_dict[k][j]
+                        print(final_ans)
+                        if int(final_ans) == -1:
+                            pass
+                        else:
+                            if len(final_ans) == 0:
+                                pass
+                            else:
+                                if num %2 == 0:
+                                    all_answers.append(final_ans)
+                                else:
+                                    all_time.append(final_ans)
                     
 
-            print('%s -- allanswers,%s --- alltime' %(all_answers,all_time))
             test_marks = 0
+            # evaluate the test
             for question in test.sscquestions_set.all():
                 for choice in question.choices_set.all():
+            # identify the skipped questions
                     if not choice.id in all_answers:
                         final_skipped.append(question.id)
+            # identify the correct answers and add marks to total marks
                     elif choice.id in all_answers and choice.predicament == \
                     "Correct":
                         final_correct.append(choice.id)
                         ra.append(question.id)
                         test_marks += question.max_marks
+            # identify the wrong answers and subtract marks from total marks
                     elif choice.id in all_answers and choice.predicament == \
                     "Wrong":
                         final_wrong.append(choice.id)
@@ -689,7 +735,9 @@ def conduct_Test(request):
             for an in final_skipped:
                 if not an in ra and not an in wa:
                     final_skipped2.append(an)
+            # calculate the total time taken for the test
             total_time = (test.totalTime * 60)- (int(time_taken))
+            # save to SSCOnlinemarks
             online_marks.rightAnswers = final_correct
             online_marks.wrongAnswers = final_wrong
             online_marks.skippedAnswers = final_skipped2
@@ -698,6 +746,7 @@ def conduct_Test(request):
             online_marks.timeTaken = total_time
             online_marks.save()
             num = 0
+            # save question and time taken to solve the question
             for q in test.sscquestions_set.all():
                 times = 0
                 online_marks_quests = SSCansweredQuestion()
@@ -712,6 +761,7 @@ def conduct_Test(request):
                         if times >3:
                             online_marks_quests.time = -1
                 online_marks_quests.save()
+            # calculate time to send to template
             hours = int(total_time/3600)
             t = int(total_time%3600)
             mins = int(t/60)
@@ -724,7 +774,7 @@ def conduct_Test(request):
                 tt = '{} hours {} minutes and {}\
                 seconds'.format(hours,mins,seconds)
 
-
+            # delete the temporary holders
             TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=test_id).delete()
             context = \
             {'student_type':student_type,'marks':online_marks,'timetaken':tt}

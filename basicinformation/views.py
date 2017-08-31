@@ -34,14 +34,45 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            with open('basicinformation/tetest.csv') as csvfile:
-                readcsv = csv.reader(csvfile,delimiter = ',')
-                quest = []
-                for row in readcsv:
-                    rn = row[0]
-                    quest.append(rn)
-            print(quest)
+            #with open('basicinformation/tetest.csv') as csvfile:
+            #    readcsv = csv.reader(csvfile,delimiter = ',')
+            #    quest = []
+            #    for row in readcsv:
+            #        rn = row[0]
+            #        quest.append(rn)
+            #print(quest)
+            all_quests = []
+            with \
+            open('/home/prashant/Desktop/programming/random/tesseract/englishpassages.pkl','rb')\
+            as fi:
+                all_passages = pickle.load(fi)
+            #quests = []
+            #optA = []
+            #optB = []
+            #optC = []
+            #optD = []
+            #right_answer = []
+            #quest_category = []
+            #quests = all_quests[:,0]
+            #optA = all_quests[:,1]
+            #optB = all_quests[:,2]
+            #optC = all_quests[:,3]
+            #optD = all_quests[:,4]
+            #quest_category = all_quests[:,6]
+            #for i in all_quests[:,5]:
+            #    if i == 'a':
+            #        right_answer.append(1)
+            #    elif i == 'b':
+            #        right_answer.append(2)
+            #    elif i == 'c':
+            #        right_answer.append(3)
+            #    elif i == 'd':
+            #        right_answer.append(4)
+            #for ind in range(len(optA)):
+            #    write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],quest_category[ind])
+            write_passages(all_passages)
 
+            return HttpResponse(all_passages)
             #return render(request,'basicinformation/staffpage1.html')
         if user.groups.filter(name='Students').exists():
             profile = user.student
@@ -221,13 +252,18 @@ def student_weakAreasSubject(request):
 
 def student_weakAreas(request):
     if 'studWA' in request.GET:
-           me = Studs(request.user)
-           subject = request.GET['studWA']
-           timing_areawise,freq_timer = me.areawise_timing(subject)
-           freq = me.weakAreas_Intensity(subject)
-           context = \
-           {'freq':freq,'timing':timing_areawise,'time_freq':freq_timer}
-           return render(request,'basicinformation/student_weakAreas.html',context)
+       me = Studs(request.user)
+       subject = request.GET['studWA']
+       timing_areawise,freq_timer = me.areawise_timing(subject)
+       freq = me.weakAreas_IntensityAverage(subject)
+       me.improvement(subject)
+        # changing topic categories numbers to names
+       timing_areawiseNames =\
+        me.changeTopicNumbersNames(timing_areawise,subject)
+       freq_Names = me.changeTopicNumbersNames(freq,subject)
+       context = \
+       {'freq':freq_Names,'timing':timing_areawiseNames,'time_freq':freq_timer}
+       return render(request,'basicinformation/student_weakAreas.html',context)
 
 
 
@@ -302,6 +338,7 @@ def teacher_update_page(request):
     profile = user.teacher
     institution = profile.school.category
     klass_dict, all_klasses = teacher_get_students_classwise(request)
+    me = Teach(user)
     if 'ajKlass' in request.GET:
         return HttpResponse('Choose from Above')
         #which_class = request.GET['ajKlass']
@@ -312,7 +349,6 @@ def teacher_update_page(request):
         #return render(request,'basicinformation/teacher_all_offlineMarks.html',context)
     elif 'schoolTestAnalysis' in request.GET:
         which_klass = request.GET['schoolTestAnalysis']
-        me = Teach(user)
         which_class = which_klass.split(',')[0]
         subjects = me.my_subjects_names()
         context = {'subjects': subjects, 'which_class': which_class}
@@ -320,7 +356,6 @@ def teacher_update_page(request):
             render(request, 'basicinformation/teacher_school_analysis1.html', context)
     elif 'schoolSubject' in request.GET:
         schoolSubject = request.GET['schoolSubject']
-        me = Teach(user)
         sub = schoolSubject.split(',')[0]
         which_class = schoolSubject.split(',')[1]
         marks_class_test1, marks_class_test2, marks_class_test3, marks_class_predictedHy = \
@@ -349,7 +384,6 @@ def teacher_update_page(request):
                 render(request, 'basicinformation/teacher_school_analysis2.html', context)
     elif 'schoolTestid' in request.GET:
         test_class = request.GET['schoolTestid']
-        me = Teach(user)
         test = test_class.split(',')[0]
         which_class = test_class.split(',')[1]
         marks_class_test1, marks_class_test2, marks_class_test3, marks_class_predictedHy = \
@@ -370,14 +404,12 @@ def teacher_update_page(request):
     elif 'onlineTestAnalysis' in request.GET:
         which_klass = request.GET['onlineTestAnalysis']
         if institution == 'School':
-            me = Teach(user)
             which_class = which_klass.split(',')[0]
             subjects = me.my_subjects_names()
             context = {'subs': subjects, 'which_class': which_class}
             return \
                 render(request, 'basicinformation/teacher_online_analysis.html', context)
         elif institution == 'SSC':
-            me = Teach(user)
             subjects = me.my_subjects_names()
             context = {'subs': subjects, 'which_class': which_klass}
             return \
@@ -396,7 +428,6 @@ def teacher_update_page(request):
         elif institution == 'SSC':
             sub = onlineSubject.split(',')[0]
             which_class = onlineSubject.split(',')[1]
-            print('%s sub, %s class' %(sub,which_class))
             online_tests = SSCKlassTest.objects.filter(creator=
                                                     user,
                                                        klas__name=which_class, sub=
@@ -406,7 +437,6 @@ def teacher_update_page(request):
 
     elif 'onlinetestid' in request.GET:
         test_id = request.GET['onlinetestid']
-        me = Teach(user)
         if institution == 'School':
             online_marks = OnlineMarks.objects.filter(test__id=test_id)
             test = KlassTest.objects.get(id = test_id)
@@ -448,7 +478,6 @@ def teacher_update_page(request):
 
     elif 'onlineIndividualPerformace' in request.GET:
         which_klass = request.GET['onlineIndividualPerformace']
-        me = Teach(user)
         subjects = me.my_subjects_names()
         context = {'subs': subjects, 'which_class': which_klass}
         return \
@@ -458,15 +487,24 @@ def teacher_update_page(request):
         sub_class = request.GET['individualonlineschoolSubject']
         sub = sub_class.split(',')[0]
         klass = sub_class.split(',')[1]
-        online_tests = KlassTest.objects.filter(creator=
+        if me.institution == 'School':
+            online_tests = KlassTest.objects.filter(creator=
                                                 user, klas__name=klass, sub=
                                                 sub)
+        elif me.institution == 'SSC':
+            online_tests = SSCKlassTest.objects.filter(creator =
+                                                       user,klas__name =
+                                                       klass,sub=sub)
         context = {'tests': online_tests}
         return render(request,
                       'basicinformation/teacher_online_individualPerformance2.html', context)
     elif 'individualonlinetestid' in request.GET:
         test_id = request.GET['individualonlinetestid']
-        every_marks = OnlineMarks.objects.filter(test__id = test_id)
+        if me.institution == 'School':
+            every_marks = OnlineMarks.objects.filter(test__id = test_id)
+        elif me.institution == 'SSC':
+            every_marks = SSCOnlineMarks.objects.filter(test__id =
+                                                             test_id)
         studs = []
         for stu in every_marks:
             studs.append(stu.student)
@@ -477,10 +515,16 @@ def teacher_update_page(request):
         stude_test = request.GET['individualStudentid']
         test_id = stude_test.split(',')[1]
         student_id = stude_test.split(',')[0]
-
-        his_marks = OnlineMarks.objects.get(student__id = student_id, test__id
+        if me.institution == 'School':
+            his_marks = OnlineMarks.objects.get(student__id = student_id, test__id
                                             = test_id)
-        context = {'test':his_marks}
+            student_type = 'School'
+        elif me.institution == 'SSC':
+            his_marks = SSCOnlineMarks.objects.get(student__id = student_id,
+                                                test__id = test_id)
+            student_type = 'SSC'
+
+        context = {'test':his_marks,'student_type':student_type}
         return \
     render(request,'basicinformation/teacher_online_individualPerformance4.html',context)
         
@@ -595,6 +639,62 @@ def read_questions(fi):
     return questText
 
 
+def write_questions(question,optA,optB,optC,optD,correctOpt,questCategory):
+    school = School.objects.filter(category = 'SSC')
+    all_options = [optA,optB,optC,optD]
+    new_questions = SSCquestions()
+    new_questions.tier_category = '1'
+    new_questions.section_category = 'English'
+    new_questions.text = str(question)
+    if str(questCategory) == '1':
+        new_questions.topic_category = '1.1'
+    elif str(questCategory) == '2':
+        new_questions.topic_category = '2.1'
+    elif str(questCategory) == '3':
+        new_questions.topic_category = '3.1'
+    elif str(questCategory) == '4':
+        new_questions.topic_category = '4.1'
+    elif str(questCategory) == '5':
+        new_questions.topic_category = '5.1'
+    elif str(questCategory) == '6':
+        new_questions.topic_category = '6.1'
+    elif str(questCategory) == '7':
+        new_questions.topic_category = '7.1'
+    elif str(questCategory) == '8':
+        new_questions.topic_category = '8.1'
+    elif str(questCategory) == '9':
+        new_questions.topic_category = '9.1'
+    else:
+        new_questions.topic_category = str(questCategory)
+    new_questions.save()
+    for sch in school:
+        new_questions.school.add(sch)
+    #for j in range(1,9):
+    #    if questCategory == str(j):
+    #        mn = questCategory + '.'+'1'
+    #        print(mn)
+    #        new_questions.topic_category = str(mn)
+    #        new_questions.topic_category = str(mn)
+    #        new_questions.save()
+    #    else:
+    #        new_questions.topic_category = str(questCategory)
+    #        new_questions.save()
+    #print(new_questions.topic_category)
+    for n,i in enumerate(all_options):
+        new_choices = Choices()
+        new_choices.sscquest = new_questions
+        new_choices.text = str(i)
+        if correctOpt == n+1:
+            new_choices.predicament = 'Correct'
+        else:
+            new_choices.predicament = 'Wrong'
+        new_choices.save()
+
+def write_passages(passages):
+    for i in passages:
+        new_passage = Comprehension()
+        new_passage.text = str(i)
+        new_passage.save()
 
 
 

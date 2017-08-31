@@ -18,10 +18,19 @@ class SSCOnlineMarksAdmin(admin.ModelAdmin):
 
 class SSCQuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
+
+class SSCcomprehensionQuestions(admin.StackedInline):
+    model = SSCquestions
+
+class SSCComprehensionAdmin(admin.ModelAdmin):
+    inlines = [SSCcomprehensionQuestions]
+
 admin.site.register(Questions,QuestionAdmin)
 admin.site.register(SSCquestions,SSCQuestionAdmin)
 admin.site.register(SSCOnlineMarks,SSCOnlineMarksAdmin)
+admin.site.register(Comprehension,SSCComprehensionAdmin)
 admin.site.register(KlassTest)
 admin.site.register(SSCKlassTest)
 admin.site.register(OnlineMarks)
+#admin.site.register(Comprehension)
 admin.site.register(TemporaryAnswerHolder)

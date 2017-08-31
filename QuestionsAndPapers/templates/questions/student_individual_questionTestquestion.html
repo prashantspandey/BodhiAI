@@ -1,6 +1,9 @@
 
 <div id = 'teid' class='hidden'>{{testid}}</div>
 	<div class='well col-md-offset-1 col-md-10'>
+		{% if question.comprehension %}
+		<h2> {{question.comprehension.text}} </h2>
+		{%endif %}
 		<h2 style='font-weight:bold;'> {{question.text}} </h2>
 		<p style='text-align:right;font-weight:bold;' id = 'questTimerKeeper'></p>
 		<p style='text-align:right;font-weight:bold;' id = 'qtk' class='hidden'></p>
@@ -18,6 +21,7 @@
 		</div>
 	</div>
 	<div class='col-md-offset-2 col-md-8 col-sm-12'>
+<button  id='clearButton'  type="submit" name='submitTest' value='{{test.id}}' class="btn btn-info">Clear Selection</button>
 <button  id='answerButton'  type="submit" name='submitTest' value='{{test.id}}' class="btn btn-info">Next</button>
 				<br>
 				<br>
@@ -70,9 +74,6 @@ $.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
 
 		        });
 
-
-
-
         for(i=1 ; i<=5; i++){
 $(eval("'#ach'+i")).on('click', function(e){ 
 selec=	$('input[name=answerChoice]:checked').val();
@@ -93,6 +94,26 @@ $.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
 
 });
 };
+
+	  $('#clearButton').click(function () {
+quidid = {{question.id}}
+testid = {{testid}}
+selec = -1
+console.log(selec); 
+questTimer = $('#qtk').text();
+$.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
+	   "questionid":quidid,
+	   "testid":testid,
+	   "questTimer":String(questTimer),
+	   "csrfmiddlewaretoken":'{{ csrf_token }}'}),
+			function(data){
+$('input[name=answerChoice]').attr('checked',false);
+	console.log(data)
+			});
+
+
+	  });
+
 		        });
 
 

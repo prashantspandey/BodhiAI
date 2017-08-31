@@ -14,8 +14,8 @@
           which_klass = $('#which_klass').text()
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
 	 $('#loadingCreateTest2').show();
- 		  $('#allQuestions').removeClass("hidden");
-         $('#allQuestions').html('').load('{% url 'QuestionsAndPapers:createTest' %}?chapter_test='+encodeURIComponent(chap+','+which_klass));
+ 		  $('#allCategories').removeClass("hidden");
+         $('#allCategories').html('').load('{% url 'QuestionsAndPapers:createTest' %}?category_test='+encodeURIComponent(chap+','+which_klass));
  $(this).animate({
             height: '40px',
             width: '100px',
@@ -65,10 +65,10 @@
         <img src="{%static 'basicinformation/images/ajax-loader.gif' %}" >
  </div>
 
-<div class="hidden panel panel-default" id="allQuestions" >
-  <div class="panel-heading text-center">Questions</div>
+<div class="hidden panel panel-default" id="allCategories" >
+  <div class="panel-heading text-center">Categories</div>
   <div class="panel-body" >
-{%include 'questions/klass_questions.html' %}
+{%include 'questions/klass_categories.html' %}
 </div>
 </div>
   
