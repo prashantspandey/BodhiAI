@@ -667,6 +667,7 @@ def conduct_Test(request):
                     
                 except:
                     skipped_ids.append(i)
+            print(quest_ans_dict)
             all_answers = []
             final_skipped = []
             final_correct = []
@@ -677,14 +678,17 @@ def conduct_Test(request):
             num = 0
             # iterate over all the answer and time holding dictionary
             for k in quest_ans_dict.keys():
+                print('%s k' %k)
                 for j in quest_ans_dict[k]:
+                    print('%s j' %j)
                     num = num +1
                     try:
                         #final answer when more than one questions answered
                         final_ans = quest_ans_dict[k][j][-1] 
                         # if statement for weeding out the skipped(cleared
                         # selection) questions
-                        if int(final_ans) == -1:
+                        print('%s in try' %final_ans)
+                        if final_ans == -1:
                             pass
                         else:
                             # add time and answer ids to respective lists
@@ -698,8 +702,8 @@ def conduct_Test(request):
                         # same as above but runs only when one or none
                         # questions are answered
                         final_ans = quest_ans_dict[k][j]
-                        print(final_ans)
-                        if int(final_ans) == -1:
+                        print('%s in except' %final_ans)
+                        if final_ans == -1:
                             pass
                         else:
                             if len(final_ans) == 0:
