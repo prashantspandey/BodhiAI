@@ -35,7 +35,7 @@ def home(request):
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
             df = \
-            pd.read_csv('english.csv')
+            pd.read_csv('/basicinformation/english.csv')
             #with \
             #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
             #             ,'rb') as fi:
