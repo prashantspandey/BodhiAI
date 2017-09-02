@@ -100,7 +100,7 @@ class SSCquestions(models.Model):
         General Awareness','General Knowledge & General Awareness')
          ,('Quantitatie Analysis','Quantitatie Analysis'),('English','English'))
     diffculty_choices = (('easy','easy'),('medium','medium'),('hard','hard'))
-    text = models.TextField()
+    text = models.TextField(blank=True,null=True)
     tier_category = models.CharField(max_length=20,choices = tier_choices)
     section_category  = models.CharField(max_length=70,choices = section_choices)
     diffculty_category = models.CharField(max_length = 10,choices =
