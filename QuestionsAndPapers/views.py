@@ -685,6 +685,7 @@ def conduct_Test(request):
                     try:
                         #final answer when more than one questions answered
                         final_ans = quest_ans_dict[k][j][-1] 
+                        print(final_ans)
                         # if statement for weeding out the skipped(cleared
                         # selection) questions
                         print('%s in try' %final_ans)

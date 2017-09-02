@@ -1121,11 +1121,12 @@ class Studs:
                 for total in mark.allAnswers:
                     quest = SSCquestions.objects.get(choices__id = total)
                     all_ids.append(quest.topic_category) 
+                for sk in mark.skippedAnswers:
+                    quest = SSCquestions.objects.get(id = sk)
+                    all_ids.append(quest.topic_category)
             unique, counts = np.unique(all_ids, return_counts=True)
             cat_quests = np.asarray((unique, counts)).T
             arr = np.array(arr)
-            print(arr)
-            print(cat_quests)
             average_cat = []
             average_percent = []
             for i,j in cat_quests:
