@@ -26,9 +26,9 @@ class SSCKlassTest(models.Model):
     (('BodhiOnline','BodhiOnline'),('BodhiSchool','BodhiSchool'))
     name = models.CharField(max_length=100)
     subject_choices = \
-        (('General Intelligence','General Intelligence'),('General Knowledge &\
-        General Awareness','General Knowledge & General Awareness')
-         ,('Quantitatie Analysis','Quantitatie Analysis'),('English','English'),
+        (('General-Intelligence','General-Intelligence'),('General-Knowledge &\
+        General-Awareness','General-Knowledge&General-Awareness')
+         ,('Quantitatie-Analysis','Quantitatie-Analysis'),('English','English'),
         ('SSCMultipleSections','SSCMultipleSections'))
 
     max_marks = models.DecimalField(max_digits=4,decimal_places=2)
@@ -96,9 +96,9 @@ class SSCquestions(models.Model):
     models.DecimalField(max_digits=2,decimal_places=2,default=0.25)
     tier_choices = (('1','Tier1'),('2','Tier2'),('3','Tier3'))
     section_choices = \
-        (('General Intelligence','General Intelligence'),('General Knowledge &\
-        General Awareness','General Knowledge & General Awareness')
-         ,('Quantitatie Analysis','Quantitatie Analysis'),('English','English'))
+        (('General-Intelligence','General-Intelligence'),('General-Knowledge &\
+        General-Awareness','General-Knowledge&General-Awareness')
+         ,('Quantitatie-Analysis','Quantitatie-Analysis'),('English','English'))
     diffculty_choices = (('easy','easy'),('medium','medium'),('hard','hard'))
     text = models.TextField(blank=True,null=True)
     tier_category = models.CharField(max_length=20,choices = tier_choices)
@@ -119,7 +119,7 @@ class Choices(models.Model):
     predicament = models.CharField(max_length= 30, choices = res_choice)    
     quest = models.ForeignKey(Questions,blank=True,null=True)
     sscquest = models.ForeignKey(SSCquestions,blank=True,null=True)
-    text = models.TextField()
+    text = models.TextField(blank=True,null=True)
     picture = models.URLField(null=True,blank=True)
     explanation = models.TextField(null=True,blank=True)
 

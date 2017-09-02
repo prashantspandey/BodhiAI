@@ -38,8 +38,9 @@
 
 				<div class='well quest'>
 					<h3 style= 'font-weight:bold;'> {{question.text}} </h3>
-					{% for choice in question.choices_set.all %}
+						{% for choice in question.choices_set.all %}
 						<p> {{choice.text}} 
+				
 						{% if choice.predicament == 'Correct' %}
 						<span class="label label-success">Correct Answer</span></p>
 						{%endif%}
@@ -54,8 +55,16 @@
 
 				<div class='well quest'>
 					<h3 style= 'font-weight:bold;'> {{question.text}} </h3>
+					{%if question.picture %}
+					<img src='{{question.picture}}'>
+					{%endif%}
+
 					{% for choice in question.choices_set.all %}
 						<p> {{choice.text}} 
+				{%if choice.picture %}
+					<img src='{{choice.picture}}'>
+					{%endif%}
+
 						{% if choice.predicament == 'Correct' %}
 						<span class="label label-success">Correct Answer</span></p>
 						{%endif%}

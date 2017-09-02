@@ -1244,9 +1244,29 @@ class Studs:
                     namedarr.append('Passage')
                     timing.append(j)
             return list(zip(namedarr,timing))
+        if subject == 'General-Intelligence':
+            for i,j in arr:
+                if i == '1.1':
+                    namedarr.append('Paper Cutting and Folding')
+                    timing.append(j)
+                elif i == '1.2':
+                    namedarr.append('Mirror and Water Image')
+                    timing.append(j)
+                elif i == '1.3':
+                    namedarr.append('Embedded Figures')
+                    timing.append(j)
+                elif i == '1.4':
+                    namedarr.append('Figure Completion')
+                    timing.append(j)
+                elif i == '1.5':
+                    namedarr.append('Counting Embedded Figures')
+                    timing.append(j)
+                elif i == '1.6':
+                    namedarr.append('Counting in figures')
+                    timing.append(j)
+            return list(zip(namedarr,timing))
+
         
-        else:
-            return arr
 
         
 
@@ -1292,12 +1312,15 @@ class Teach:
 
     def my_classes_objects(self, klass_name=None):
         if klass_name:
+            print(klass_name)
             subs = self.profile.subject_set.all()
+            print(subs)
             if subs:
                 klasses = []
                 for sub in subs:
                     if sub.student.klass.name == klass_name:
                         klasses.append(sub.student.klass)
+                print(len(klasses))
                 return klasses[0]
             else:
                 return None
@@ -2003,6 +2026,30 @@ class Teach:
                 elif i == '9.1':
                     names.append('Passage')
                     numbers.append(i)
+            changed = list(zip(names,numbers))
+            return changed
+        if subject == 'General-Intelligence':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Paper cutting and Folding')
+                    numbers.append(i)
+                elif i == '1.2':
+                    names.append('Mirror and Water Image')
+                    numbers.append(i)
+                elif i == '1.3':
+                    names.append('Embedded Figures')
+                    numbers.append(i)
+                elif i == '1.4':
+                    names.append('Figure Completion')
+                    numbers.append(i)
+                elif i == '1.5':
+                    names.append('Counting of embedded figures')
+                    numbers.append(i)
+                elif i == '1.6':
+                    names.append('Counting of figures')
+                    numbers.append(i)
+
+
             changed = list(zip(names,numbers))
             return changed
     def change_topicNumbersNamesWeakAreas(self,arr,subject):

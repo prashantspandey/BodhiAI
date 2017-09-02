@@ -5,6 +5,9 @@
 		<h2> {{question.comprehension.text}} </h2>
 		{%endif %}
 		<h2 style='font-weight:bold;'> {{question.text}} </h2>
+		{% if question.picture %}
+		<img src='{{question.picture}}' >
+		{%endif%}
 		<p style='text-align:right;font-weight:bold;' id = 'questTimerKeeper'></p>
 		<p style='text-align:right;font-weight:bold;' id = 'qtk' class='hidden'></p>
 		<div class = 'col-md-offset-1'>
@@ -12,9 +15,18 @@
 			{%csrf_token%}
 			<label class="radio">
 				{% if choice.id ==  sel %}
-				<input type="radio" id='ach{{forloop.counter}}' name="answerChoice" value = "{{choice.id}}" checked="checked">{{choice.text}}
+				<input type="radio" id='ach{{forloop.counter}}' name="answerChoice" value = "{{choice.id}}" checked="checked">
+			{{choice.text}}
+		{% if choice.picture %}
+		<img src='{{choice.picture}}' >
+			{%endif%}
+
 				{%else%}
 				<input type="radio" id='ach{{forloop.counter}}' name="answerChoice" value = "{{choice.id}}" >{{choice.text}}
+{% if choice.picture %}
+		<img src='{{choice.picture}}' >
+			{%endif%}
+
 				{%endif%}
 			</label>
 			{%endfor%}

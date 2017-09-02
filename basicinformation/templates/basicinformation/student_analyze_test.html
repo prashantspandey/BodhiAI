@@ -129,6 +129,9 @@ var pointBackgroundColors = [];
 		{% for te in test.test.sscquestions_set.all %}
 		<div class='well  col-xs-12'>
 			<h3> {{te.text}}
+				{%if te.picture %}
+				<img src='{{te.picture}}'>
+				{%endif%}
 				{% if te.id in test.skippedAnswers %}<span class="label label-warning" >You skipped this question</span></h3>{%endif%}
 			{% for time in test.sscansweredquestion_set.all %}
 			{%if time.quest.id == te.id and time.time != -1 %}	
@@ -139,7 +142,13 @@ var pointBackgroundColors = [];
 
 			{% for ch in te.choices_set.all %}
 			
-			<p > <span class='badge'>{{forloop.counter}}</span>---{{ch.text}} {%if ch.predicament == 'Correct' %} <span class="label label-primary">Correct Answer</span>{%endif%}
+			<p > <span class='badge'>{{forloop.counter}}</span>---{{ch.text}}
+			{%if ch.picture %}
+				<img src='{{ch.picture}}'>
+				{%endif%}
+       
+		
+			{%if ch.predicament == 'Correct' %} <span class="label label-primary">Correct Answer</span>{%endif%}
 			{%if ch.id in test.rightAnswers %}<span class="label label-success">Your Answer</span>{%endif%}
 			{% if ch.id in test.wrongAnswers %}<span class="label label-danger">Your Answer</span>{%endif%}</p>
 			{% for x,y in freq %}

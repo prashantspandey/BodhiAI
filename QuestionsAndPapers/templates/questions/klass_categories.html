@@ -13,10 +13,11 @@
           category = $(this).attr('value');
 	  console.log(category)
           which_klass = $('#which_klass').text()
+          which_section = $('#which_section').text()
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
 	 $('#loadingCreateTest2').show();
  		  $('#allQuestions').removeClass("hidden");
-         $('#allQuestions').html('').load('{% url 'QuestionsAndPapers:createTest' %}?chapter_test='+encodeURIComponent(category+','+which_klass));
+         $('#allQuestions').html('').load('{% url 'QuestionsAndPapers:createTest' %}?chapter_test='+encodeURIComponent(category+','+which_klass+','+which_section));
        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
         $('#analysisType').removeClass('hidden');
@@ -50,6 +51,7 @@
   </div>
   {%endif%}
   <div class="hidden" id="which_klass">{{which_klass}}</div>
+  <div class="hidden" id="which_section">{{section_category}}</div>
 </div>
 <div id = 'loadingCreateTest2' style='text-align:center;display:none;'>
 <h4 style='text-center;'>Please wait... </h4>

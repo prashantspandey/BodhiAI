@@ -50,7 +50,12 @@ $(eval("'#r'+i")).click(function(){
 			{%if i.comprehension %}
 			<p> {{i.comprehension.text}} </p>
 			{%endif%}
+			
 			<p id = 'questP'>{{i.text}} </p>
+			{% if i.picture %}
+
+			<img src='{{i.picture}}' >
+			{%endif%}
 			<div class='hidden' id='tells_klass'>{{which_class}}</div>
 			<div class="col-md-offset-10">
 			<p>Maximum-Marks: {{i.max_marks}}</p>
@@ -65,6 +70,9 @@ $(eval("'#r'+i")).click(function(){
 			{% for j in i.choices_set.all %}
 			<div class="radio col-md-offset-1">
  			 <label><input type="radio" name="optradio" value="{{j.predicament}}"> {{j.text}}
+				 {%if j.picture %}
+		<img src='{{j.picture}}' >
+		{%endif%}
 				 {%if j.predicament == 'Correct' %}
 				 <span class="label label-success">Correct Answer</span> </label>
 				{%endif%}

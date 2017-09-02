@@ -30,14 +30,25 @@
 
 		{% for quest in marks.test.sscquestions_set.all %}
 	<div class = 'well col-md-offset-1 col-md-10 col-sm-12'>
-		<h2 style='font-weight:bold;'> {{quest.text}} </h2>{% if quest.id in marks.skippedAnswers %}<p style='text-align:center;font-weight:bold;'> <span class="label label-warning">You skipped this question</span></p>{%endif%}
+		<h2 style='font-weight:bold;'> {{quest.text}} </h2>
+		{%if quest.picture %}
+		<img src='{{quest.picture}}'>
+		{%endif%}	
+		
+		{% if quest.id in marks.skippedAnswers %}<p style='text-align:center;font-weight:bold;'> <span class="label label-warning">You skipped this question</span></p>{%endif%}
 {% for time  in marks.sscansweredquestion_set.all %}
 		{%if time.quest.id == quest.id %}
 		<span class="label label-info" style='background-color: #AA00FF;'> You took {{time.time}} seconds to answer this question </span></p> {%endif%}
 		{%endfor%}
 	
 		{% for choice in quest.choices_set.all %}
-		<p> {{choice.text }} {% if choice.predicament == 'Correct' %} <span class="label label-primary">Correct Answer</span>{%endif%}
+		<p> {{choice.text }}
+	{%if choice.picture %}
+		<img src='{{choice.picture}}'>
+		{%endif%}	
+       
+	
+		{% if choice.predicament == 'Correct' %} <span class="label label-primary">Correct Answer</span>{%endif%}
 		{% if choice.id in marks.allAnswers and choice.predicament == 'Correct'%}<span class="label label-success">Your Answer</span> {%endif%}
 	{% if choice.id in marks.allAnswers and choice.predicament == 'Wrong'%}<span class="label label-danger">Your Answer</span> {%endif%}	
 		</p>	

@@ -101,7 +101,7 @@ def create_test(request):
                         all_categories = \
                         me.change_topicNumbersNames(all_categories,split_category)
                         context = \
-                        {'categories':all_categories,'which_klass':split_klass}
+                                {'categories':all_categories,'which_klass':split_klass,'section_category':split_category}
                         return \
                     render(request,'questions/klass_categories.html',context)
                     
@@ -109,9 +109,11 @@ def create_test(request):
                 if 'chapter_test' in request.GET:
                     quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
                     which_chap = request.GET['chapter_test']
-                    splitChap = which_chap.split(",",1)[0]
-                    splitClass = which_chap.split(",",1)[1]
+                    splitChap = which_chap.split(",")[0]
+                    splitClass = which_chap.split(",")[1]
+                    splitSection = which_chap.split(",")[2]
                     klasses = klass.objects.filter(name=splitClass)
+                    print('%s--%s--%s' %(splitChap,splitClass,splitSection))
                     klass_level = 'aa'
                     for kass in klasses:
                         if me.institution == 'School':
@@ -132,7 +134,7 @@ def create_test(request):
                         elif me.institution == "SSC":
                             klass_question = \
                             SSCquestions.objects.filter(topic_category = splitChap,school =
-                                                        school)
+                                                        school,section_category=splitSection)
                         context = \
                         {'que':klass_question,'idlist':idlist,'which_class':splitClass }
                         return render(request,'questions/klass_questions.html',context)
@@ -144,7 +146,7 @@ def create_test(request):
                             klass_question =\
                             SSCquestions.objects.filter(topic_category =
                                                         splitChap,school =
-                                                        school)
+                                                        school,section_category=splitSection)
                         context = \
                         {'que':klass_question,'which_class':splitClass }
                         return render(request,'questions/klass_questions.html',context)
@@ -222,6 +224,7 @@ def add_questions(request):
         if len(questions_list)!=0:
             me = Teach(request.user)
             which_klass = request.POST['which_klass']
+            print(which_klass)
             klass = me.my_classes_objects(which_klass)
             tot = 0 
             for i in questions_list:
