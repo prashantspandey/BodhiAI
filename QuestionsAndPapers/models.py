@@ -93,7 +93,7 @@ class SSCquestions(models.Model):
     ktest = models.ManyToManyField(SSCKlassTest,blank= True)
     max_marks = models.IntegerField(default= 2)
     negative_marks =\
-    models.DecimalField(max_digits=2,decimal_places=1,default=0.25)
+    models.DecimalField(max_digits=2,decimal_places=2,default=0.25)
     tier_choices = (('1','Tier1'),('2','Tier2'),('3','Tier3'))
     section_choices = \
         (('General Intelligence','General Intelligence'),('General Knowledge &\
