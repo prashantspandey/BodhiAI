@@ -109,7 +109,10 @@ class SSCquestions(models.Model):
     school = models.ManyToManyField(School)
     picture = models.URLField(null=True,blank=True)
     def __str__(self):
-        return self.text[:50]
+        if self.text:
+            return self.text[:50]
+        else:
+            return self.picture
 
 class Choices(models.Model):
     res_choice = (('Correct','Correct'),('Wrong','Wrong'),('Not decided','Not decided'))
