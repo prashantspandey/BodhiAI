@@ -32,10 +32,10 @@ def home(request):
             all_klasses = list(unique_everseen(all_klasses))
             num_classes = len(all_klasses)
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
-            return render(request,'/app/basicinformation/managementHomePage.html',context)
+            return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
             df = \
-            pd.read_csv('/basicinformation/english.csv')
+            pd.read_csv('/app/basicinformation/english.csv')
             #with \
             #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
             #             ,'rb') as fi:
