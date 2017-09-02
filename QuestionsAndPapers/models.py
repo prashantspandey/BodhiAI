@@ -112,7 +112,7 @@ class SSCquestions(models.Model):
         if self.text:
             return self.text[:50]
         else:
-            return self.picture
+            return self.section_category
 
 class Choices(models.Model):
     res_choice = (('Correct','Correct'),('Wrong','Wrong'),('Not decided','Not decided'))
