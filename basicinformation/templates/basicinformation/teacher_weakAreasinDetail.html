@@ -21,7 +21,7 @@ var pointBackgroundColors = [];
     var myChart1 = new Chart(ctx, {
             type: 'polarArea',
             data: {
-		    labels: [{%for u,k in probAreas %}{{u}},{%endfor%}],
+		    labels: [{%for u,k in probAreas %}'{{u}}',{%endfor%}],
                 datasets: [{
                     label: 'Weak Areas',
 
@@ -79,6 +79,81 @@ var pointBackgroundColors = [];
 
 		myChart1.update();
 
+var pointBackgroundColorsTiming = [];
+    var ctx1 = document.getElementById("myChartTiming");
+    var myChart2 = new Chart(ctx1, {
+            type: 'doughnut',
+            data: {
+		    labels: [{%for u,k in timing %}'{{u}}',{%endfor%}],
+                datasets: [{
+
+		    data: [{%for u,k in timing%}{{k}},{%endfor%}],
+			 backgroundColor: [
+                        'rgba(255, 99, 132, 0.4)',
+			'rgba(54, 100, 11, 0.6)',
+			'rgba(64, 200, 46, 0.6)',                  
+			'rgba(94, 155, 89, 0.6)',                  
+			'rgba(104, 255, 55, 0.6)',                 
+			'rgba(10, 90, 35, 0.6)',                   
+			'rgba(24, 162, 255, 0.6)',                 
+			'rgba(94, 12, 25, 0.6)',                   
+                                      ],
+                    borderColor: [ 'rgba(255,99,132,1)',
+		   		 'rgba(54, 100, 11, 1)',
+		   		 'rgba(64, 200, 46, 1)',
+		   		 'rgba(94, 155, 89, 1)',
+		   		 'rgba(104, 255, 55, 1)',
+		   		 'rgba(10, 90, 35, 1)',
+		   		 'rgba(24, 162, 255, 1)',
+		   		 'rgba(94, 12, 25, 1)',
+                                            ],
+
+
+                                  borderWidth: 3
+
+
+
+		}]
+            },
+
+            options: {   responsive: false,
+
+              			    title: {
+				display: true,
+				text: "Average timing (topic wise) in seconds"
+			    },
+			    animation:{
+				animateScale: true,
+				animateRotate: true,
+			    },
+
+                        }
+                   
+                
+            
+        });
+		{%for u,k in timing %}
+		{% if k <= 60 %}
+		pointBackgroundColorsTiming.push("#33691E");					        
+		{%else %}
+		pointBackgroundColorsTiming.push("#E65100");					        
+		{%endif%}
+		{%endfor%}
+
+		
+
+		myChart2.update();
+
+
+
+
+
+
+
+
+
+
+
     });
 </script>
 
@@ -89,7 +164,13 @@ var pointBackgroundColors = [];
 </canvas>
 
 	    </div>
+	    <div class='col-md-7 col-xs-12' >
+	<h2 style="text-align:left;"> Average time taken per area (in seconds) </h2>
+<canvas  id="myChartTiming" width="500" height="500" >
+	</canvas>
 
+	    </div>
+	
 
 		{%endblock%}
 	</body>

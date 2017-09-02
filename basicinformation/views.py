@@ -34,37 +34,37 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            #df = \
-            #pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/english.csv')
-            with \
-                    open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
-                         ,'rb') as fi:
-                all_passages = pickle.load(fi)
-            #quests = []
-            #optA = []
-            #optB = []
-            #optC = []
-            #optD = []
-            #right_answer = []
-            #quest_category = []
-            #quests = df['questions']
-            #optA = df['optionA']
-            #optB = df['optionB']
-            #optC = df['optionC']
-            #optD = df['optionD']
-            #quest_category = df['category']
-            #for i in df['correctOption']:
-            #    if i == 'a':
-            #        right_answer.append(1)
-            #    elif i == 'b':
-            #        right_answer.append(2)
-            #    elif i == 'c':
-            #        right_answer.append(3)
-            #    elif i == 'd':
-            #        right_answer.append(4)
-            #for ind in range(len(optA)):
-            #    write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],quest_category[ind])
-            write_passages(all_passages)
+            df = \
+            pd.read_csv('english.csv')
+            #with \
+            #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
+            #             ,'rb') as fi:
+            #    all_passages = pickle.load(fi)
+            quests = []
+            optA = []
+            optB = []
+            optC = []
+            optD = []
+            right_answer = []
+            quest_category = []
+            quests = df['questions']
+            optA = df['optionA']
+            optB = df['optionB']
+            optC = df['optionC']
+            optD = df['optionD']
+            quest_category = df['category']
+            for i in df['correctOption']:
+                if i == 'a':
+                    right_answer.append(1)
+                elif i == 'b':
+                    right_answer.append(2)
+                elif i == 'c':
+                    right_answer.append(3)
+                elif i == 'd':
+                    right_answer.append(4)
+            for ind in range(len(optA)):
+                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],quest_category[ind])
+            #write_passages(all_passages)
             return HttpResponse('hello')
             #return render(request,'basicinformation/staffpage1.html')
         if user.groups.filter(name='Students').exists():
@@ -157,7 +157,6 @@ def home(request):
                 weak_links[i]= me.online_problematicAreasNames(user,subjects[0],i)
             num_klasses = len(klasses)
             num_subjects = len(subjects)
-
             context = {'profile': profile,
                        'klasses': klasses, 'subjects': subjects, 'num_klasses': num_klasses,
                        'isTeacher': True, 'num_subjects':
@@ -305,9 +304,12 @@ def teacher_weakAreasinDetail(request):
             which_class = request.GET['weakAreasClass']
             me = Teach(user)
             subjects = me.my_subjects_names()
-            res =  me.online_problematicAreaswithIntensity(user,subjects[0],which_class)
-
-            context = {'which_class':which_class,'probAreas':res}
+            res = me.online_problematicAreaswithIntensityAverage(user,subjects[0],which_class)
+            res = me.change_topicNumbersNamesWeakAreas(res,subjects[0])
+            timing,freq_timing = me.weakAreas_timing(user,subjects[0],which_class)
+            timing = me.change_topicNumbersNamesWeakAreas(timing,subjects[0])
+            context =\
+            {'which_class':which_class,'probAreas':res,'timing':timing}
             return render(request,'basicinformation/teacher_weakAreasinDetail.html',context)
 
 

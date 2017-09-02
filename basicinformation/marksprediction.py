@@ -1894,6 +1894,74 @@ class Teach:
 
         waf = list(zip(final_analysis,final_num))
         return waf
+    def online_problematicAreaswithIntensityAverage(self,user,subject,klass):
+        if self.institution  == 'School':
+            pass
+        elif self.institution == 'SSC':
+            arr = self.online_problematicAreaswithIntensity(user,subject,klass)
+            total_arr = SSCOnlineMarks.objects.filter(test__creator =
+                                                      user,test__sub = subject) 
+
+            quest_categories = []
+            for ta in total_arr:
+                for quest in ta.test.sscquestions_set.all():
+                    quest_categories.append(quest.topic_category)
+            unique, counts = np.unique(quest_categories, return_counts=True)
+            waf = np.asarray((unique, counts)).T
+            arr = np.array(arr)
+            average_cat = []
+            average_percent = []
+            for i,j in waf:
+                if i in arr[:,0]:
+                    ind = np.where(arr==i)
+                    now_arr = arr[ind[0],1]
+                    average =(int(now_arr[0])/int(j)*100)
+                    average_cat.append(i)
+                    average_percent.append(average)
+            weak_average = list(zip(average_cat,average_percent))
+            return weak_average
+
+    def weakAreas_timing(self,user,subject,klass):
+        all_questions = []
+        all_timing = []
+        if self.institution == 'School':
+            marks = OnlineMarks.objects.filter(test__sub =
+                                               subject,test__creator =
+                                            user)
+            for om in marks:
+                for aq in om.sscansweredquestion_set.all():
+                    all_questions.append(aq.quest.topic_category)
+                    all_timing.append(aq.time)
+
+        elif self.institution == 'SSC':
+            marks = SSCOnlineMarks.objects.filter(test__sub = subject,
+                                                  test__creator =
+                                                  user)
+            for om in marks:
+                for aq in om.sscansweredquestion_set.all():
+                    all_questions.append(aq.quest.topic_category)
+                    all_timing.append(aq.time)
+        areawise_timing = list(zip(all_questions,all_timing))
+        dim1 = list(unique_everseen(all_questions))
+        dim3 = []
+        dim4 = []
+        freq = []
+
+        for j in dim1:
+            k_val = 0
+            n = 0
+            for x,y in areawise_timing:
+                if j == x and y != -1:
+                    k_val += y
+                    n += 1
+            dim3.append(j)
+            average_time = float(k_val/n)
+            dim4.append(average_time)
+            freq.append(n)
+        timing = list(zip(dim3,dim4))
+        freq_list = list(zip(dim3,freq))
+        return timing,freq_list
+
 
 
     def change_topicNumbersNames(self,arr,subject):
@@ -1936,6 +2004,47 @@ class Teach:
                     numbers.append(i)
             changed = list(zip(names,numbers))
             return changed
+    def change_topicNumbersNamesWeakAreas(self,arr,subject):
+        names = []
+        numbers = []
+        if subject == 'English':
+            for i,j in arr:
+                if i == '1.1':
+                    names.append('Word Meanings')
+                    numbers.append(j)
+                elif i == '1.2':
+                    names.append('Idiom/Phrase Meaning')
+                    numbers.append(j)
+                elif i == '2.1':
+                    names.append('Antonyms')
+                    numbers.append(j)
+                elif i == '3.1':
+                    names.append('Alternate Phrases/Underlined')
+                    numbers.append(j)
+                elif i == '3.2':
+                    names.append('Alternate words/Fill in the blanks')
+                    numbers.append(j)
+                elif i == '4.1':
+                    names.append('Re-Arrangement')
+                    numbers.append(j)
+                elif i == '5.1':
+                    names.append('Spelling')
+                    numbers.append(j)
+                elif i == '6.1':
+                    names.append('Substitution')
+                    numbers.append(j)
+                elif i == '7.1':
+                    names.append('Random')
+                    numbers.append(j)
+                elif i == '8.1':
+                    names.append('Spot the Error')
+                    numbers.append(j)
+                elif i == '9.1':
+                    names.append('Passage')
+                    numbers.append(j)
+            changed = list(zip(names,numbers))
+            return changed
+
 
 def render_to_pdf(template_src, context_dict={}):
     template = get_template(template_src)
