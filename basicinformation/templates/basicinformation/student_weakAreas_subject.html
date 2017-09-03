@@ -22,17 +22,7 @@
          $('#weakAreasStudent').removeClass("hidden");
          $('#weakAreasStudent').html('').load('{% url "basic:studentWA" %}?studWA='+which_sub);
 
-
-            $(this).animate({
-            height: '40px',
-            width: '80px',
-        });
-
-          $(eval("'#'+pr")).animate({
-            height: '35px',
-            width: '75px',
-        });
-        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+     $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
 
 
