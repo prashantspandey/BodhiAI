@@ -100,6 +100,7 @@ def create_test(request):
                         all_categories.sort()
                         all_categories = \
                         me.change_topicNumbersNames(all_categories,split_category)
+                        print(all_categories)
                         context = \
                                 {'categories':all_categories,'which_klass':split_klass,'section_category':split_category}
                         return \

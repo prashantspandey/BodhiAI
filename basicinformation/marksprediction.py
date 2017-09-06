@@ -1189,18 +1189,23 @@ class Studs:
         dim3 = []
         dim4 = []
         freq = []
-
+        print('%s - dim1' %dim1)
+        print('%s - areawise timing' %areawise_timing)
         for j in dim1:
             k_val = 0
             n = 0
             for x,y in areawise_timing:
+                print('%s - x, %s - j,%s - y' %(x,j,y))
                 if j == x and y != -1:
                     k_val += y
                     n += 1
             dim3.append(j)
-            average_time = float(k_val/n)
-            dim4.append(average_time)
-            freq.append(n)
+            try:
+                average_time = float(k_val/n)
+                dim4.append(average_time)
+                freq.append(n)
+            except:
+                pass
         timing = list(zip(dim3,dim4))
         freq_list = list(zip(dim3,freq))
         return timing,freq_list
@@ -1263,6 +1268,24 @@ class Studs:
                     timing.append(j)
                 elif i == '1.6':
                     namedarr.append('Counting in figures')
+                    timing.append(j)
+                elif i == '2.1':
+                    namedarr.append('Analogous pair')
+                    timing.append(j)
+                elif i == '2.2':
+                    namedarr.append('Simple Analogy')
+                    timing.append(j)
+                elif i == '2.3':
+                    namedarr.append('Choosing the analogous pair')
+                    timing.append(j)
+                elif i == '2.4':
+                    namedarr.append('Multiple word analogy')
+                    timing.append(j)
+                elif i == '2.5':
+                    namedarr.append('Alphabet based analogy')
+                    timing.append(j)
+                elif i == '2.6':
+                    namedarr.append('Mixed analogy')
                     timing.append(j)
             return list(zip(namedarr,timing))
 
@@ -2048,6 +2071,27 @@ class Teach:
                 elif i == '1.6':
                     names.append('Counting of figures')
                     numbers.append(i)
+                elif i == '2.1':
+                    names.append('Analogous pair')
+                    numbers.append(i)
+                elif i == '2.2':
+                    names.append('Multiple Analogy')
+                    numbers.append(i)
+                elif i == '2.3':
+                    names.append('Choosing the analogous pair')
+                    numbers.append(i)
+                elif i == '2.4':
+                    names.append('Number analogy (series pattern)')
+                    numbers.append(i)
+                elif i =='2.5':
+                    names.append('Number analogy (missing)')
+                    numbers.append(i)
+                elif i == '2.6':
+                    names.append('Alphabet based analogy')
+                    numbers.append(i)
+                elif i == '2.7':
+                    names.append('Mixed analogy')
+                    numbers.append(i)
 
 
             changed = list(zip(names,numbers))
@@ -2092,6 +2136,50 @@ class Teach:
                     numbers.append(j)
             changed = list(zip(names,numbers))
             return changed
+        if subject == 'General-Intelligence':
+            for i,j in arr:
+                if i == '1.1':
+                    names.append('Paper cutting and Folding')
+                    numbers.append(j)
+                elif i == '1.2':
+                    names.append('Mirror and Water Image')
+                    numbers.append(j)
+                elif i == '1.3':
+                    names.append('Embedded Figures')
+                    numbers.append(j)
+                elif i == '1.4':
+                    names.append('Figure Completion')
+                    numbers.append(j)
+                elif i == '1.5':
+                    names.append('Counting of embedded figures')
+                    numbers.append(j)
+                elif i == '1.6':
+                    names.append('Counting of figures')
+                    numbers.append(j)
+                elif i == '2.1':
+                    names.append('Analogous pair')
+                    numbers.append(j)
+                elif i == '2.2':
+                    names.append('Multiple Analogy')
+                    numbers.append(j)
+                elif i == '2.3':
+                    names.append('Choosing the analogous pair')
+                    numbers.append(j)
+                elif i == '2.4':
+                    names.append('Number analogy (series pattern)')
+                    numbers.append(j)
+                elif i =='2.5':
+                    names.append('Number analogy (missing)')
+                    numbers.append(j)
+                elif i == '2.6':
+                    names.append('Alphabet based analogy')
+                    timing.append(j)
+                elif i == '2.7':
+                    names.append('Mixed analogy')
+                    numbers.append(j)
+            changed = list(zip(names,numbers))
+            return changed
+
 
 
 def render_to_pdf(template_src, context_dict={}):

@@ -17,18 +17,24 @@ def inbox(request):
 def every_messages(request):
     user = request.user
     if user.is_authenticated:
+        # shows all teachers that a student can send message to 
         if user.groups.filter(name='Students').exists():
             profile = user.student
             sub = profile.subject_set.all()
             my_teachers = []
             for su in sub:
                 my_teachers.append(su.teacher)
+            # deletes identicle entries
+            my_teachers = list(unique_everseen(my_teachers))
+            # all messages that student has received(just for counting)
             my_messages = PrivateMessage.objects.filter(receiver= user)
+            # count number of messages student has received
             count = 0
             for i in my_messages:
                 count = count + 1
             context = {'teachers':my_teachers,'count':count,'isTeacher':False}
             return render(request,'Private_Messages/messages.html',context) 
+        # exactly same as the student above
         if user.groups.filter(name='Teachers').exists():
             profile = user.teacher
             sub = profile.subject_set.all()
@@ -41,6 +47,7 @@ def every_messages(request):
                 count = count + 1
             context = {'teachers':my_students,'count':count,'isTeacher':True}
             return render(request,'Private_Messages/messages.html',context) 
+        # shows all the teachers and students management can send messages to
         if user.groups.filter(name='Management').exists():
             profile = user.schoolmanagement
             teachers = Teacher.objects.filter(school = profile.school)
@@ -50,6 +57,7 @@ def every_messages(request):
                 all_entities.append(i)
             for i in students:
                 all_entities.append(i)
+            all_entities = list(unique_everseen(all_entities))
             context = {'teachers':all_entities}
             return render(request,'Private_Messages/messages.html',context)
 
@@ -59,21 +67,26 @@ def send_messages(request):
     if user.is_authenticated:
         if user.groups.filter(name='Students').exists():
             if 'teacher_name' in request.GET:
+                # gets teachername(id) from the get method 
                 teacher_name = request.GET['teacher_name']
                 teacher_id = int(teacher_name)
                 s_id = teacher_id
                 teacher = Teacher.objects.get(id = teacher_id)
+                # creates a new PrivateMessage in teacher's name and sends to
+                # template
                 new_Message = PrivateMessage()
                 new_Message.sender = user
                 new_Message.receiver = teacher.teacheruser
                 context = {'message_info':new_Message,'who':'student','sid':s_id}
                 return render(request,'Private_Messages/send_message.html',context)
+            # fires when student puts in all the fields (subject and body)
             if 'receiver' in request.POST and 'subject' in request.POST and 'body'  in  request.POST:
                 profile = user.student
                 sub = profile.subject_set.all()
                 my_teachers = []
                 for su in sub:
                     my_teachers.append(su.teacher)
+                my_teachers = list(unique_everseen(my_teachers))
                 my_messages = PrivateMessage.objects.filter(receiver= user)
                 count = 0
                 for i in my_messages:
@@ -86,6 +99,7 @@ def send_messages(request):
                 post_message.sender = user
                 post_message.receiver = teacher.teacheruser
                 post_message.subject = subject
+                # runs when body is empty(creates an error message)
                 if body == '':
                     messages.error(request, 'Please fill the Message. ')
                     context ={'messagain':teacher,'teachers':my_teachers,
@@ -97,6 +111,7 @@ def send_messages(request):
                     context = {'mess':post_message,'created':True}
                     return render(request,'Private_Messages/successfullySent.html',context)
         if user.groups.filter(name='Teachers').exists():
+            # same as above
             if 'teacher_name' in request.GET:
                 student_id = request.GET['teacher_name']
                 s_id = int(student_id)

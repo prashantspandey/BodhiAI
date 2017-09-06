@@ -112,7 +112,7 @@ class SSCquestions(models.Model):
         if self.text:
             return self.text[:50]
         else:
-            return self.section_category
+            return str(self.section_category)
 
 class Choices(models.Model):
     res_choice = (('Correct','Correct'),('Wrong','Wrong'),('Not decided','Not decided'))
@@ -122,7 +122,7 @@ class Choices(models.Model):
     text = models.TextField(blank=True,null=True)
     picture = models.URLField(null=True,blank=True)
     explanation = models.TextField(null=True,blank=True)
-
+    explanationPicture= models.URLField(null=True,blank=True)
     def __str__(self):
         if self.text:
             return self.text[:50]

@@ -21,6 +21,7 @@ from Private_Messages.models import *
 def home(request):
     user = request.user
     if user.is_authenticated:
+        # if user is from management this code fires up
         if user.groups.filter(name='Management').exists():
             all_students = Student.objects.filter(school =
                                                   user.schoolmanagement.school)
@@ -34,12 +35,16 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            df = \
-            pd.read_csv('/app/basicinformation/english.csv')
+            #df = \
+            #pd.read_csv('/app/basicinformation/english.csv')
             #with \
             #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
+            #df =\
+            #pd.read_csv('/home/prashant/Desktop/programming/random/tesseract/resoningAnalogy.csv')
+            df=\
+            pd.read_csv('/app/basicinformation/analogy1000sheet.csv')
             quests = []
             optA = []
             optB = []
@@ -47,25 +52,26 @@ def home(request):
             optD = []
             right_answer = []
             quest_category = []
-            quests = df['questions']
-            optA = df['optionA']
-            optB = df['optionB']
-            optC = df['optionC']
-            optD = df['optionD']
-            quest_category = df['category']
-            for i in df['correctOption']:
-                if i == 'a':
+            quests = df['Questions']
+            optA = df['OptionA']
+            optB = df['OptionB']
+            optC = df['OptionC']
+            optD = df['OptionD']
+            quest_category = df['Category']
+            for i in df['Correct']:
+                if 'a' in i:
                     right_answer.append(1)
-                elif i == 'b':
+                elif 'b' in i:
                     right_answer.append(2)
-                elif i == 'c':
+                elif 'c' in i:
                     right_answer.append(3)
-                elif i == 'd':
+                elif 'd' in i:
                     right_answer.append(4)
             for ind in range(len(optA)):
-                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],quest_category[ind])
+                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],quest_category[ind],sectionType='Resoning')
             #write_passages(all_passages)
-            return HttpResponse('hello')
+
+            #return HttpResponse('hello')
             #return render(request,'basicinformation/staffpage1.html')
         if user.groups.filter(name='Students').exists():
             profile = user.student
@@ -633,41 +639,45 @@ def read_questions(fi):
     return questText
 
 
-def write_questions(question,optA,optB,optC,optD,correctOpt,questCategory):
+def write_questions(question,optA,optB,optC,optD,correctOpt,questCategory,sectionType):
     school = School.objects.filter(category = 'SSC')
     all_options = [optA,optB,optC,optD]
     new_questions = SSCquestions()
     new_questions.tier_category = '1'
-    new_questions.section_category = 'English'
-    new_questions.text = str(question)
+    if sectionType == 'English':
+        new_questions.section_category = 'English'
+    elif sectionType == 'Resoning':
+        new_questions.section_category = 'General-Intelligence'
+    new_questions.text = 'Select the related word from given alternatives.\n'+'\n'+str(question)
     print(questCategory)
-    if str(questCategory) == '1.0':
-        new_questions.topic_category = '1.1'
-    elif str(questCategory) == '2.0':
-        new_questions.topic_category = '2.1'
-    elif str(questCategory) == '3.0':
-        new_questions.topic_category = '3.1'
-    elif str(questCategory) == '4.0':
-        new_questions.topic_category = '4.1'
-    elif str(questCategory) == '5.0':
-        new_questions.topic_category = '5.1'
-    elif str(questCategory) == '6.0':
-        new_questions.topic_category = '6.1'
-    elif str(questCategory) == '7.0':
-        new_questions.topic_category = '7.1'
-    elif str(questCategory) == '8.0':
-        new_questions.topic_category = '8.1'
-    elif str(questCategory) == '9.0':
-        new_questions.topic_category = '9.1'
-    else:
-        new_questions.topic_category = str(questCategory)
+    #if str(questCategory) == '1.0':
+    #    new_questions.topic_category = '1.1'
+    #elif str(questCategory) == '2.0':
+    #    new_questions.topic_category = '2.1'
+    #elif str(questCategory) == '3.0':
+    #    new_questions.topic_category = '3.1'
+    #elif str(questCategory) == '4.0':
+    #    new_questions.topic_category = '4.1'
+    #elif str(questCategory) == '5.0':
+    #    new_questions.topic_category = '5.1'
+    #elif str(questCategory) == '6.0':
+    #    new_questions.topic_category = '6.1'
+    #elif str(questCategory) == '7.0':
+    #    new_questions.topic_category = '7.1'
+    #elif str(questCategory) == '8.0':
+    #    new_questions.topic_category = '8.1'
+    #elif str(questCategory) == '9.0':
+    #    new_questions.topic_category = '9.1'
+    #else:
+    #    new_questions.topic_category = str(questCategory)
+    #new_questions.save()
+    new_questions.topic_category = str(questCategory)
     new_questions.save()
     for sch in school:
         new_questions.school.add(sch)
     #for j in range(1,9):
     #    if questCategory == str(j):
     #        mn = questCategory + '.'+'1'
-    #        print(mn)
     #        new_questions.topic_category = str(mn)
     #        new_questions.topic_category = str(mn)
     #        new_questions.save()

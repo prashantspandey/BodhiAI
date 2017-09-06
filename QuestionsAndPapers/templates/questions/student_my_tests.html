@@ -18,12 +18,12 @@
          $('#showOnlineTests').html('').load('{% url 'QuestionsAndPapers:studentShowOnlineTest' %}?onlineTestSubject='+encodeURIComponent(my_sub));
  $(this).animate({
             height: '40px',
-            width: '90px',
+            width: '150px',
         });
 
           $(eval("'#'+pr")).animate({
             height: '35px',
-            width: '80px',
+            width: '140px',
         });
         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
