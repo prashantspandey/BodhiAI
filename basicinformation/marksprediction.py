@@ -1041,6 +1041,13 @@ class Studs:
         elif self.institution == 'SSC':
             my_marks = SSCOnlineMarks.objects.filter(student = self.profile,test__sub
                                              = subject)
+            try:
+                all_marks = SSCOnlineMarks.objects.filter(student= self.profile,
+                                                    test__sub =
+                                                    'SSCMultipleSections')
+            except Exception as e:
+                print(str(e))
+                all_marks = None
         wrong_skippedAnswers = []
         for om in my_marks:
             for wa in om.wrongAnswers:
@@ -1066,6 +1073,35 @@ class Studs:
                 wq.append(quidskipped)
             except:
                 pass
+        # finds question ids from mixed category tests
+        if all_marks:
+            for om in all_marks:
+                for wa in om.wrongAnswers:
+                    wrong_skippedAnswers.append(wa)
+                for sp in om.skippedAnswers:
+                    wrong_skippedAnswers.append(sp)
+            wq = []
+            for i in wrong_skippedAnswers:
+                if self.institution == 'School':
+                    qu = Questions.objects.get(choices__id = i)
+                elif self.institution == 'SSC':
+                    try:
+                        qu = SSCquestions.objects.get(choices__id = i)
+                    except:
+                        qu = SSCquestions.objects.get(id = i)
+                try:
+                    if qu.section_category == subject:
+                        quid = qu.id
+                        wq.append(quid)
+                except:
+                    pass
+                try:
+                    if qu.section_category == subject:
+                        quidskipped = quskipped.id
+                        wq.append(quidskipped)
+                except:
+                    pass
+
         unique, counts = np.unique(wq, return_counts=True)
         waf = np.asarray((unique, counts)).T
         nw_ind = []
@@ -1116,6 +1152,12 @@ class Studs:
             marks = SSCOnlineMarks.objects.filter(student =
                                                   self.profile,test__sub =
                                                   subject)
+            try:
+                all_marks = SSCOnlineMarks.objects.filter(student=
+                                                      self.profile,test__sub='SSCMultipleSections')
+            except Exception as e:
+                print(str(e))
+                all_marks = None
             all_ids = []
             for mark in marks:
                 for total in mark.allAnswers:
@@ -1124,6 +1166,16 @@ class Studs:
                 for sk in mark.skippedAnswers:
                     quest = SSCquestions.objects.get(id = sk)
                     all_ids.append(quest.topic_category)
+            # finds question ids from mixed category tests
+            if all_marks:
+                for mark in all_marks:
+                    for total in mark.allAnswers:
+                        quest = SSCquestions.objects.get(choices__id = total)
+                        all_ids.append(quest.topic_category) 
+                    for sk in mark.skippedAnswers:
+                        quest = SSCquestions.objects.get(id = sk)
+                        all_ids.append(quest.topic_category)
+
             unique, counts = np.unique(all_ids, return_counts=True)
             cat_quests = np.asarray((unique, counts)).T
             arr = np.array(arr)
@@ -1157,15 +1209,25 @@ class Studs:
         if self.institution == 'SSC':
             myMarks = SSCOnlineMarks.objects.filter(student =
                                                     self.profile,test__sub = subject)
+            try:
+                allMyMarks =\
+                SSCOnlineMarks.objects.filter(student=self.profile,test__sub=
+                                              'SSCMultipleSections')
+            except:
+                allMyMarks = None
             for t in myMarks:
                 for time in t.sscansweredquestion_set.all():
                     if time.quest.id in arr[:,0]:
                         quest.append(int(time.quest.id))
                         time_list.append(int(time.time))
-
+            if allMyMarks:
+                for t in myMarks:
+                    for time in t.sscansweredquestion_set.all():
+                        if time.quest.id in arr[:,0] and time.quest.section_category == subject:
+                            quest.append(int(time.quest.id))
+                            time_list.append(int(time.time))
 
         timer = list(zip(quest,time_list))
-
     def areawise_timing(self,subject):
         all_questions = []
         all_timing = []
@@ -1178,24 +1240,37 @@ class Studs:
                     all_timing.append(aq.time)
 
         elif self.institution == 'SSC':
+            
             marks = SSCOnlineMarks.objects.filter(test__sub = subject, student =
                                                   self.profile)
-            for om in marks:
-                for aq in om.sscansweredquestion_set.all():
-                    all_questions.append(aq.quest.topic_category)
-                    all_timing.append(aq.time)
+            if marks:
+                for om in marks:
+                    for aq in om.sscansweredquestion_set.all():
+                        print('at for')
+                        all_questions.append(aq.quest.topic_category)
+                        all_timing.append(aq.time)
+
+
+            all_marks =\
+            SSCOnlineMarks.objects.filter(student=self.profile,test__sub=
+                                          'SSCMultipleSections')
+            if all_marks:
+                print('at allmarks')
+                for om in all_marks:
+                    for aq in om.sscansweredquestion_set.all():
+                        if aq.quest.section_category == subject:
+                            all_questions.append(aq.quest.topic_category)
+                            all_timing.append(aq.time)
+
         areawise_timing = list(zip(all_questions,all_timing))
         dim1 = list(unique_everseen(all_questions))
         dim3 = []
         dim4 = []
         freq = []
-        print('%s - dim1' %dim1)
-        print('%s - areawise timing' %areawise_timing)
         for j in dim1:
             k_val = 0
             n = 0
             for x,y in areawise_timing:
-                print('%s - x, %s - j,%s - y' %(x,j,y))
                 if j == x and y != -1:
                     k_val += y
                     n += 1
@@ -1208,6 +1283,7 @@ class Studs:
                 pass
         timing = list(zip(dim3,dim4))
         freq_list = list(zip(dim3,freq))
+        print('%s- timing, %s - freq' %(timing,freq_list))
         return timing,freq_list
 
     def changeTopicNumbersNames(self,arr,subject):
