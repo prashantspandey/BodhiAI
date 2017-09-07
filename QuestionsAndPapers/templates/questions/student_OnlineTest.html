@@ -1,4 +1,11 @@
 <html>
+	<head>
+	<script>
+		$('#loadingstudentonlinetestssubjectwise').hide();
+
+	</script>
+	</head>
+
 	<body>
 <div class= "col-sm-12">
 	{% for question in test.questions_set.all %}
@@ -24,7 +31,6 @@
 </div>
 <script>
 $(document).ready(function () {
-	$('loadingstudentonlinetestssubjectwise').hide();
 	  $("#answerButton").click(function () {
 		      $("#answerForm").submit();
 		        });
