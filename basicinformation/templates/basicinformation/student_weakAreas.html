@@ -161,7 +161,7 @@ var pointBackgroundColorsTiming = [];
 	    <div >
 		    <h2> Wrong/Skipped questions  areawise.</h2>
 		{% for u,k in freq %}
-		<h3>	<span class="label label-Primary" >You got {{k}}% of '{{u|floatformat:2}}' wrong.</span></h3>
+		<h3>	<span class="label label-Primary" >You got {{k|floatformat:1}}% of '{{u}}' wrong.</span></h3>
 		{%endfor%}
 		    </div>
 
