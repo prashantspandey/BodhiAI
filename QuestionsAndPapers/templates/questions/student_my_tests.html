@@ -14,6 +14,7 @@
           my_sub = $(this).text();
 	  console.log(my_sub);
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
+	 $('#loadingstudentmytests').show();
  		  $('#showOnlineTests').removeClass("hidden");
          $('#showOnlineTests').html('').load('{% url 'QuestionsAndPapers:studentShowOnlineTest' %}?onlineTestSubject='+encodeURIComponent(my_sub));
  $(this).animate({
@@ -57,6 +58,11 @@
 	{%endfor%}
 	{%endif%}
 	</div>
+<div id = 'loadingstudentmytests' style='text-align:center;display:none;'>
+<h4 style='text-center;'>Please wait... </h4>
+        <img src="{%static 'basicinformation/images/bodhigif.gif' %}" >
+ </div>
+
 	<div class = 'hidden' id='showOnlineTests'>
 		{% include 'questions/student_onlinetests_subjectwise.html' %}
 	</div>
