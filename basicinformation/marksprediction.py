@@ -1156,7 +1156,6 @@ class Studs:
                 all_marks = SSCOnlineMarks.objects.filter(student=
                                                       self.profile,test__sub='SSCMultipleSections')
             except Exception as e:
-                print(str(e))
                 all_marks = None
             all_ids = []
             for mark in marks:
@@ -2042,7 +2041,7 @@ class Teach:
             else:
                 final_analysis.append(u)
                 final_num.append(k)
-
+        # weak areas frequency
         waf = list(zip(final_analysis,final_num))
         return waf
     def online_problematicAreaswithIntensityAverage(self,user,subject,klass):
@@ -2055,7 +2054,7 @@ class Teach:
             all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
                                                           user,test__sub=
                                                           'SSCMultipleSections')
-
+        # edit this part , add skipped questions
             quest_categories = []
             for ta in total_arr:
                 for quest in ta.test.sscquestions_set.all():
