@@ -310,7 +310,9 @@ def teacher_weakAreasinDetail(request):
             which_class = request.GET['weakAreasClass']
             me = Teach(user)
             subjects = me.my_subjects_names()
+            print(subjects)
             res = me.online_problematicAreaswithIntensityAverage(user,subjects[0],which_class)
+            print(res)
             res = me.change_topicNumbersNamesWeakAreas(res,subjects[0])
             timing,freq_timing = me.weakAreas_timing(user,subjects[0],which_class)
             timing = me.change_topicNumbersNamesWeakAreas(timing,subjects[0])

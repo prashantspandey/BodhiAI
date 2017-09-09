@@ -1926,28 +1926,56 @@ class Teach:
         elif self.institution == 'SSC':
             online_marks = SSCOnlineMarks.objects.filter(test__creator= user,test__sub=
                                                   subject,test__klas__name = klass)
+            all_onlineMarks = SSCOnlineMarks.objects.filter(test__creator =
+                                                            user,test__sub =
+                                                            'SSCMultipleSections',test__klas__name=
+                                                            klass)
 
         wrong_answers = []
-        for om in online_marks:
-            for wa in om.wrongAnswers:
-                wrong_answers.append(wa)
-            for sp in om.skippedAnswers:
-                wrong_answers.append(sp)
         wq = []
-        for i in wrong_answers:
-            if self.institution == 'School':
-                try:
-                    qu = Questions.objects.get(choices__id = i)
-                except:
-                    qu = Questions.objects.get(id = i)
+        if online_marks:
+            for om in online_marks:
+                for wa in om.wrongAnswers:
+                    wrong_answers.append(wa)
+                for sp in om.skippedAnswers:
+                    wrong_answers.append(sp)
+            for i in wrong_answers:
+                if self.institution == 'School':
+                    try:
+                        qu = Questions.objects.get(choices__id = i)
+                    except:
+                        qu = Questions.objects.get(id = i)
 
-            elif self.institution == 'SSC':
-                try:
-                    qu = SSCquestions.objects.get(choices__id = i)
-                except:
-                    qu = SSCquestions.objects.get(id=i)
-            quid = qu.id
-            wq.append(quid)
+                elif self.institution == 'SSC':
+                    try:
+                        qu = SSCquestions.objects.get(choices__id = i)
+                    except:
+                        qu = SSCquestions.objects.get(id=i)
+                quid = qu.id
+                wq.append(quid)
+        if all_onlineMarks:
+            for om in all_onlineMarks:
+                for wa in om.wrongAnswers:
+                    wrong_answers.append(wa)
+                for sp in om.skippedAnswers:
+                    wrong_answers.append(sp)
+
+            for i in wrong_answers:
+                if self.institution == 'School':
+                    try:
+                        qu = Questions.objects.get(choices__id = i)
+                    except:
+                        qu = Questions.objects.get(id = i)
+
+                elif self.institution == 'SSC':
+                    try:
+                        qu = SSCquestions.objects.get(choices__id = i)
+                    except:
+                        qu = SSCquestions.objects.get(id=i)
+                if qu.section_category == subject:
+                    quid = qu.id
+                    wq.append(quid)
+
         unique, counts = np.unique(wq, return_counts=True)
         waf = np.asarray((unique, counts)).T
         nw_ind = []
@@ -2024,11 +2052,20 @@ class Teach:
             arr = self.online_problematicAreaswithIntensity(user,subject,klass)
             total_arr = SSCOnlineMarks.objects.filter(test__creator =
                                                       user,test__sub = subject) 
+            all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
+                                                          user,test__sub=
+                                                          'SSCMultipleSections')
 
             quest_categories = []
             for ta in total_arr:
                 for quest in ta.test.sscquestions_set.all():
                     quest_categories.append(quest.topic_category)
+            if all_total_arr:
+                for ta in all_total_arr:
+                    for quest in ta.test.sscquestions_set.all():
+                        if quest.section_category == subject:
+                            quest_categories.append(quest.topic_category)
+
             unique, counts = np.unique(quest_categories, return_counts=True)
             waf = np.asarray((unique, counts)).T
             arr = np.array(arr)
