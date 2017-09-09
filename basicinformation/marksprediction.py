@@ -2114,8 +2114,8 @@ class Teach:
                 if j == x and y != -1:
                     k_val += y
                     n += 1
+            dim3.append(j)
             try:
-                dim3.append(j)
                 average_time = float(k_val/n)
                 dim4.append(average_time)
                 freq.append(n)
