@@ -2114,10 +2114,13 @@ class Teach:
                 if j == x and y != -1:
                     k_val += y
                     n += 1
-            dim3.append(j)
-            average_time = float(k_val/n)
-            dim4.append(average_time)
-            freq.append(n)
+            try:
+                dim3.append(j)
+                average_time = float(k_val/n)
+                dim4.append(average_time)
+                freq.append(n)
+            except:
+                pass
         timing = list(zip(dim3,dim4))
         freq_list = list(zip(dim3,freq))
         return timing,freq_list
