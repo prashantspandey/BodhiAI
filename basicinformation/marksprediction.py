@@ -1142,7 +1142,6 @@ class Studs:
                 final_num.append(k)
 
         waf = list(zip(final_analysis,final_num))
-        
         return waf
     def weakAreas_IntensityAverage(self,subject):
         arr = self.weakAreas_Intensity(subject)
@@ -1170,10 +1169,12 @@ class Studs:
                 for mark in all_marks:
                     for total in mark.allAnswers:
                         quest = SSCquestions.objects.get(choices__id = total)
-                        all_ids.append(quest.topic_category) 
+                        if quest.section_category == subject:
+                            all_ids.append(quest.topic_category) 
                     for sk in mark.skippedAnswers:
                         quest = SSCquestions.objects.get(id = sk)
-                        all_ids.append(quest.topic_category)
+                        if quest.section_category == subject:
+                            all_ids.append(quest.topic_category)
 
             unique, counts = np.unique(all_ids, return_counts=True)
             cat_quests = np.asarray((unique, counts)).T
@@ -1181,13 +1182,14 @@ class Studs:
             average_cat = []
             average_percent = []
             print('%s - arr' %arr)
+            print('%s - waf' %cat_quests)
+
             if len(arr)>0:
                 for i,j in cat_quests:
                     if i in arr[:,0]:
                         ind = np.where(arr==i)
                         now_arr = arr[ind[0],1]
                         average =(int(now_arr[0])/int(j)*100)
-                        print('%s--indi average' %average)
                         average_cat.append(i)
                         average_percent.append(average)
                 weak_average = list(zip(average_cat,average_percent))
@@ -1250,7 +1252,6 @@ class Studs:
             if marks:
                 for om in marks:
                     for aq in om.sscansweredquestion_set.all():
-                        print('at for')
                         all_questions.append(aq.quest.topic_category)
                         all_timing.append(aq.time)
 
@@ -1259,7 +1260,6 @@ class Studs:
             SSCOnlineMarks.objects.filter(student=self.profile,test__sub=
                                           'SSCMultipleSections')
             if all_marks:
-                print('at allmarks')
                 for om in all_marks:
                     for aq in om.sscansweredquestion_set.all():
                         if aq.quest.section_category == subject:
@@ -1287,7 +1287,6 @@ class Studs:
                 pass
         timing = list(zip(dim3,dim4))
         freq_list = list(zip(dim3,freq))
-        print('%s- timing, %s - freq' %(timing,freq_list))
         return timing,freq_list
 
     def changeTopicNumbersNames(self,arr,subject):
@@ -1353,25 +1352,26 @@ class Studs:
                     namedarr.append('Analogous pair')
                     timing.append(j)
                 elif i == '2.2':
-                    namedarr.append('Simple Analogy')
+                    namedarr.append('Multiple Analogy')
                     timing.append(j)
                 elif i == '2.3':
                     namedarr.append('Choosing the analogous pair')
                     timing.append(j)
                 elif i == '2.4':
-                    namedarr.append('Multiple word analogy')
+                    namedarr.append('Number analogy (series pattern)')
                     timing.append(j)
-                elif i == '2.5':
-                    namedarr.append('Alphabet based analogy')
+                elif i =='2.5':
+                    namedarr.append('Number analogy (missing)')
                     timing.append(j)
                 elif i == '2.6':
+                    namedarr.append('Alphabet based analogy')
+                    timing.append(j)
+                elif i == '2.7':
                     namedarr.append('Mixed analogy')
                     timing.append(j)
+
             return list(zip(namedarr,timing))
 
-        
-
-        
 
     def improvement(self,subject):
         if self.institution == 'School':
@@ -1395,16 +1395,6 @@ class Studs:
                 return diff
             else:
                 return 'more than one needed'
-            
-                 
-                
-                
-
-
-
-
-
-
 
 
 class Teach:
@@ -2008,6 +1998,7 @@ class Teach:
                 areas.append(cat)
                 how_many += 1
             areas = list(unique_everseen(areas))
+            area_names=  self.change_topicNumbersNames(arr,subject)
             return areas
         elif self.institution == 'SSC':
             how_many = 0
@@ -2020,7 +2011,9 @@ class Teach:
                 areas.append(cat)
                 how_many += 1
             areas = list(unique_everseen(areas))
-            return areas
+            area_names=  self.change_topicNumbersNames(areas,subject)
+            area_names = np.array(area_names)
+            return area_names[:,0]
 
     def online_problematicAreaswithIntensity(self,user,subject,klass):
         arr = self.online_problematicAreas(user,subject,klass)
@@ -2088,6 +2081,8 @@ class Teach:
                     average_cat.append(i)
                     average_percent.append(average)
             weak_average = list(zip(average_cat,average_percent))
+            print('%s - arr' %arr)
+            print('%s - waf' %waf)
             return weak_average
 
     def weakAreas_timing(self,user,subject,klass):
@@ -2121,7 +2116,6 @@ class Teach:
                             all_timing.append(al.time)
 
         areawise_timing = list(zip(all_questions,all_timing))
-        print('%s-- areawise' %areawise_timing)
         dim1 = list(unique_everseen(all_questions))
         dim3 = []
         dim4 = []
@@ -2142,7 +2136,6 @@ class Teach:
                 pass
         timing = list(zip(dim3,dim4))
         freq_list = list(zip(dim3,freq))
-        print('%s-- timing,%s -- freq' %(timing,freq_list))
         return timing,freq_list
 
 
@@ -2309,7 +2302,7 @@ class Teach:
                     numbers.append(j)
                 elif i == '2.6':
                     names.append('Alphabet based analogy')
-                    timing.append(j)
+                    numbers.append(j)
                 elif i == '2.7':
                     names.append('Mixed analogy')
                     numbers.append(j)

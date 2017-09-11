@@ -41,6 +41,7 @@ def every_messages(request):
             my_students = []
             for su in sub:
                 my_students.append(su.student)
+            my_students = list(unique_everseen(my_students))
             my_messages = PrivateMessage.objects.filter(receiver= user)
             count = 0
             for i in my_messages:

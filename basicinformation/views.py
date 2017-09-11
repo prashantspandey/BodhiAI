@@ -44,7 +44,7 @@ def home(request):
             #df =\
             #pd.read_csv('/home/prashant/Desktop/programming/random/tesseract/resoningAnalogy.csv')
             df=\
-            pd.read_csv('/app/basicinformation/analogy1000sheet.csv')
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/analogy1000sheet.csv')
             quests = []
             optA = []
             optB = []
@@ -159,14 +159,24 @@ def home(request):
             klasses = me.my_classes_names()
             subjects = me.my_subjects_names()
             weak_links = {}
-            for i in klasses:
-                weak_links[i]= me.online_problematicAreasNames(user,subjects[1],i)
+            weak_klass = []
+            weak_subs = []
+            subs = []
+            for sub in subjects:
+                for i in klasses:
+                    weak_links[i]= \
+                    me.online_problematicAreasNames(user,sub,i)
+                    weak_subs.append(weak_links[i])
+                    weak_klass.append(i)
+                    subs.append(sub)
+
             num_klasses = len(klasses)
+            weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
             num_subjects = len(subjects)
             context = {'profile': profile,
                        'klasses': klasses, 'subjects': subjects, 'num_klasses': num_klasses,
                        'isTeacher': True, 'num_subjects':
-                       num_subjects,'weak_links':weak_links}
+                       num_subjects,'weak_links':weak_subs_areas}
             return render(request, 'basicinformation/teacher1.html', context)
         else:
 
@@ -257,13 +267,11 @@ def student_weakAreas(request):
        if freq == 0:
            context = {'noMistake':'noMistake'}
            return render(request,'basicinformation/student_weakAreas.html',context)
-           
        me.improvement(subject)
         # changing topic categories numbers to names
        timing_areawiseNames =\
         me.changeTopicNumbersNames(timing_areawise,subject)
        freq_Names = me.changeTopicNumbersNames(freq,subject)
-
        context = \
        {'freq':freq_Names,'timing':timing_areawiseNames,'time_freq':freq_timer}
        return render(request,'basicinformation/student_weakAreas.html',context)
@@ -313,14 +321,13 @@ def teacher_weakAreasinDetail(request):
     if user.is_authenticated:
         if 'weakAreasButton' in request.GET:
             which_class = request.GET['weakAreasClass']
+            which_sub = request.GET['weakAreasSub']
             me = Teach(user)
-            subjects = me.my_subjects_names()
             res = \
-            me.online_problematicAreaswithIntensityAverage(user,subjects[1],which_class)
-            print('%s-- res' %res)
-            res = me.change_topicNumbersNamesWeakAreas(res,subjects[1])
-            timing,freq_timing = me.weakAreas_timing(user,subjects[1],which_class)
-            timing = me.change_topicNumbersNamesWeakAreas(timing,subjects[1])
+            me.online_problematicAreaswithIntensityAverage(user,which_sub,which_class)
+            res = me.change_topicNumbersNamesWeakAreas(res,which_sub)
+            timing,freq_timing = me.weakAreas_timing(user,which_sub,which_class)
+            timing = me.change_topicNumbersNamesWeakAreas(timing,which_sub)
             context =\
             {'which_class':which_class,'probAreas':res,'timing':timing}
             return render(request,'basicinformation/teacher_weakAreasinDetail.html',context)
