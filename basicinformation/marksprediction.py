@@ -2054,14 +2054,22 @@ class Teach:
             all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
                                                           user,test__sub=
                                                           'SSCMultipleSections')
-        # edit this part , add skipped questions
             quest_categories = []
             for ta in total_arr:
-                for quest in ta.test.sscquestions_set.all():
+                for al in ta.allAnswers:
+                    quest = SSCquestions.objects.get(choices__id = al)
+                    quest_categories.append(quest.topic_category)
+                for sk in ta.skippedAnswers:
+                    quest = SSCquestions.objects.get(id = sk)
                     quest_categories.append(quest.topic_category)
             if all_total_arr:
                 for ta in all_total_arr:
-                    for quest in ta.test.sscquestions_set.all():
+                    for al in ta.allAnswers:
+                        quest = SSCquestions.objects.get(choices__id = al)
+                        if quest.section_category == subject:
+                            quest_categories.append(quest.topic_category)
+                    for sk in ta.skippedAnswers:
+                        quest = SSCquestions.objects.get(id = sk)
                         if quest.section_category == subject:
                             quest_categories.append(quest.topic_category)
 
@@ -2096,16 +2104,26 @@ class Teach:
             marks = SSCOnlineMarks.objects.filter(test__sub = subject,
                                                   test__creator =
                                                   user)
+            every_marks = SSCOnlineMarks.objects.filter(test__sub =
+                                                        'SSCMultipleSections',test__creator
+                                                        = user)
             for om in marks:
                 for aq in om.sscansweredquestion_set.all():
                     all_questions.append(aq.quest.topic_category)
                     all_timing.append(aq.time)
+            if every_marks:
+                for om in every_marks:
+                    for al in om.sscansweredquestion_set.all():
+                        if al.quest.section_category == subject:
+                            all_questions.append(al.quest.topic_category)
+                            all_timing.append(al.time)
+
         areawise_timing = list(zip(all_questions,all_timing))
+        print('%s-- areawise' %areawise_timing)
         dim1 = list(unique_everseen(all_questions))
         dim3 = []
         dim4 = []
         freq = []
-
         for j in dim1:
             k_val = 0
             n = 0
@@ -2122,6 +2140,7 @@ class Teach:
                 pass
         timing = list(zip(dim3,dim4))
         freq_list = list(zip(dim3,freq))
+        print('%s-- timing,%s -- freq' %(timing,freq_list))
         return timing,freq_list
 
 
