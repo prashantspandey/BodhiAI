@@ -160,7 +160,7 @@ def home(request):
             subjects = me.my_subjects_names()
             weak_links = {}
             for i in klasses:
-                weak_links[i]= me.online_problematicAreasNames(user,subjects[0],i)
+                weak_links[i]= me.online_problematicAreasNames(user,subjects[1],i)
             num_klasses = len(klasses)
             num_subjects = len(subjects)
             context = {'profile': profile,
@@ -254,11 +254,16 @@ def student_weakAreas(request):
        subject = request.GET['studWA']
        timing_areawise,freq_timer = me.areawise_timing(subject)
        freq = me.weakAreas_IntensityAverage(subject)
+       if freq == 0:
+           context = {'noMistake':'noMistake'}
+           return render(request,'basicinformation/student_weakAreas.html',context)
+           
        me.improvement(subject)
         # changing topic categories numbers to names
        timing_areawiseNames =\
         me.changeTopicNumbersNames(timing_areawise,subject)
        freq_Names = me.changeTopicNumbersNames(freq,subject)
+
        context = \
        {'freq':freq_Names,'timing':timing_areawiseNames,'time_freq':freq_timer}
        return render(request,'basicinformation/student_weakAreas.html',context)
@@ -310,12 +315,12 @@ def teacher_weakAreasinDetail(request):
             which_class = request.GET['weakAreasClass']
             me = Teach(user)
             subjects = me.my_subjects_names()
-            print(subjects)
-            res = me.online_problematicAreaswithIntensityAverage(user,subjects[0],which_class)
-            print(res)
-            res = me.change_topicNumbersNamesWeakAreas(res,subjects[0])
-            timing,freq_timing = me.weakAreas_timing(user,subjects[0],which_class)
-            timing = me.change_topicNumbersNamesWeakAreas(timing,subjects[0])
+            res = \
+            me.online_problematicAreaswithIntensityAverage(user,subjects[1],which_class)
+            print('%s-- res' %res)
+            res = me.change_topicNumbersNamesWeakAreas(res,subjects[1])
+            timing,freq_timing = me.weakAreas_timing(user,subjects[1],which_class)
+            timing = me.change_topicNumbersNamesWeakAreas(timing,subjects[1])
             context =\
             {'which_class':which_class,'probAreas':res,'timing':timing}
             return render(request,'basicinformation/teacher_weakAreasinDetail.html',context)

@@ -1180,19 +1180,20 @@ class Studs:
             arr = np.array(arr)
             average_cat = []
             average_percent = []
-            for i,j in cat_quests:
-                if i in arr[:,0]:
-                    ind = np.where(arr==i)
-                    now_arr = arr[ind[0],1]
-                    average =(int(now_arr[0])/int(j)*100)
-                    print('%s--indi average' %average)
-                    average_cat.append(i)
-                    average_percent.append(average)
-            weak_average = list(zip(average_cat,average_percent))
-            print('%s -- arr' %arr)
-            print('%s -- cat quests' %cat_quests)
-            print('%s -- average' %weak_average)
-            return weak_average
+            print('%s - arr' %arr)
+            if len(arr)>0:
+                for i,j in cat_quests:
+                    if i in arr[:,0]:
+                        ind = np.where(arr==i)
+                        now_arr = arr[ind[0],1]
+                        average =(int(now_arr[0])/int(j)*100)
+                        print('%s--indi average' %average)
+                        average_cat.append(i)
+                        average_percent.append(average)
+                weak_average = list(zip(average_cat,average_percent))
+                return weak_average
+            else:
+                return 0
     def weakAreas_timing(self,subject):
         arr = self.weakAreas(subject)
         anal = []
@@ -1933,7 +1934,6 @@ class Teach:
                                                             user,test__sub =
                                                             'SSCMultipleSections',test__klas__name=
                                                             klass)
-
         wrong_answers = []
         wq = []
         if online_marks:

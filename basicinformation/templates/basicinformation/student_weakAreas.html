@@ -2,8 +2,12 @@
 <html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script>$('#loadingStudentWeakAreas1').hide();</script>
+{% if noMistakes %}
+
+<h1 style='font-weight:bold;,text-align:center;'> Congrats ! You haven't made a mistake yet. </h1>
+{%endif%}
 		{%if not freq %}
-		<h2 style='font-weight:bold;text-align:center;'> You have to take at-least one test to find your weaknesses </h2>
+		<h2 style='font-weight:bold;text-align:center;'> You have to take at-least one test to find your weaknesses or you haven't made any mistakes yet. </h2>
 		{%else%}
     <script>
 $(document).ready(function () {
