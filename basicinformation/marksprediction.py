@@ -1185,9 +1185,13 @@ class Studs:
                     ind = np.where(arr==i)
                     now_arr = arr[ind[0],1]
                     average =(int(now_arr[0])/int(j)*100)
+                    print('%s--indi average' %average)
                     average_cat.append(i)
                     average_percent.append(average)
             weak_average = list(zip(average_cat,average_percent))
+            print('%s -- arr' %arr)
+            print('%s -- cat quests' %cat_quests)
+            print('%s -- average' %weak_average)
             return weak_average
     def weakAreas_timing(self,subject):
         arr = self.weakAreas(subject)
@@ -2066,12 +2070,10 @@ class Teach:
                 for ta in all_total_arr:
                     for al in ta.allAnswers:
                         quest = SSCquestions.objects.get(choices__id = al)
-                        if quest.section_category == subject:
-                            quest_categories.append(quest.topic_category)
+                        quest_categories.append(quest.topic_category)
                     for sk in ta.skippedAnswers:
                         quest = SSCquestions.objects.get(id = sk)
-                        if quest.section_category == subject:
-                            quest_categories.append(quest.topic_category)
+                        quest_categories.append(quest.topic_category)
 
             unique, counts = np.unique(quest_categories, return_counts=True)
             waf = np.asarray((unique, counts)).T
