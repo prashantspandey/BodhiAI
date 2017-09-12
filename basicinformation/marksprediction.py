@@ -1932,20 +1932,20 @@ class Teach:
                     wrong_answers.append(wa)
                 for sp in om.skippedAnswers:
                     wrong_answers.append(sp)
-            for i in wrong_answers:
-                if self.institution == 'School':
-                    try:
-                        qu = Questions.objects.get(choices__id = i)
-                    except:
-                        qu = Questions.objects.get(id = i)
+            #for i in wrong_answers:
+            #    if self.institution == 'School':
+            #        try:
+            #            qu = Questions.objects.get(choices__id = i)
+            #        except:
+            #            qu = Questions.objects.get(id = i)
 
-                elif self.institution == 'SSC':
-                    try:
-                        qu = SSCquestions.objects.get(choices__id = i)
-                    except:
-                        qu = SSCquestions.objects.get(id=i)
-                quid = qu.id
-                wq.append(quid)
+            #    elif self.institution == 'SSC':
+            #        try:
+            #            qu = SSCquestions.objects.get(choices__id = i)
+            #        except:
+            #            qu = SSCquestions.objects.get(id=i)
+            #    quid = qu.id
+            #    wq.append(quid)
         if all_onlineMarks:
             for om in all_onlineMarks:
                 for wa in om.wrongAnswers:
@@ -2047,19 +2047,25 @@ class Teach:
         elif self.institution == 'SSC':
             arr = self.online_problematicAreaswithIntensity(user,subject,klass)
             total_arr = SSCOnlineMarks.objects.filter(test__creator =
-                                                      user,test__sub = subject) 
+                                                      user,test__sub =
+                                                      subject,test__klas__name
+                                                     = klass) 
             all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
                                                           user,test__sub=
-                                                          'SSCMultipleSections')
+                                                          'SSCMultipleSections',test__klas__name
+                                                     = klass)
             quest_categories = []
-            for ta in total_arr:
-                for al in ta.allAnswers:
-                    quest = SSCquestions.objects.get(choices__id = al)
-                    quest_categories.append(quest.topic_category)
-                for sk in ta.skippedAnswers:
-                    quest = SSCquestions.objects.get(id = sk)
-                    quest_categories.append(quest.topic_category)
+            if total_arr:
+                print(len(total_arr))
+                for ta in total_arr:
+                    for al in ta.allAnswers:
+                        quest = SSCquestions.objects.get(choices__id = al)
+                        quest_categories.append(quest.topic_category)
+                    for sk in ta.skippedAnswers:
+                        quest = SSCquestions.objects.get(id = sk)
+                        quest_categories.append(quest.topic_category)
             if all_total_arr:
+                print(len(all_total_arr))
                 for ta in all_total_arr:
                     for al in ta.allAnswers:
                         quest = SSCquestions.objects.get(choices__id = al)
@@ -2081,8 +2087,6 @@ class Teach:
                     average_cat.append(i)
                     average_percent.append(average)
             weak_average = list(zip(average_cat,average_percent))
-            print('%s - arr' %arr)
-            print('%s - waf' %waf)
             return weak_average
 
     def weakAreas_timing(self,user,subject,klass):
