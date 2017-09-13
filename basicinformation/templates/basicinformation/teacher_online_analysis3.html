@@ -131,6 +131,10 @@ $(document).ready(function () {
 	{% for quest in test.sscquestions_set.all %}
 	<div class = 'well col-md-offset-1 col-md-10  col-xs-12'>
 		<h3> {{quest.text}} </h3>
+		{%if quest.picture %}
+		<img src='{{quest.picture}}'>
+		{%endif%}	
+
 		{%for x,y in sq %}
 		{% if quest.id == x %}
 		<p style='text-align:center;font-weight:bold;'>	<span class="label label-warning" >{{y}} people skipped this question.</span></p>
@@ -139,6 +143,10 @@ $(document).ready(function () {
 
 		{% for ch in quest.choices_set.all %}
 		<p> {{ch.text }} 
+		{%if ch.picture %}
+		<img src='{{ch.picture}}'>
+		{%endif%}	
+
 		{%for a,b in freq %}
 		{% if ch.id == a %}
 		<span class="label label-info">{{b}}{% if b == 1 %} student {%else%} students {%endif%} chose this answer.</span>
@@ -160,8 +168,16 @@ $(document).ready(function () {
 	<h3 style='font-weight:bold;'> {{f}} students got this question wrong or skipped it. </h3>
 	<div class ='well col-xs-12' >
 		<h3 style='font-weight:bold;'> {{qu.text}}</h3>
+		{%if qu.picture %}
+		<img src='{{qu.picture}}'>
+		{%endif%}	
+
 		{% for ch in qu.choices_set.all%}
 		<p> {{ch.text}}
+		{%if ch.picture %}
+		<img src='{{ch.picture}}'>
+		{%endif%}	
+
 		{%for a,b in freq %}
 		{% if ch.id == a and ch.predicament == 'Wrong' %}
 		<span class="label label-danger">{{b}} {% if b == 1 %} student {%else%} students {%endif%}chose this answer.</span></p>

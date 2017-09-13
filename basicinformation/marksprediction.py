@@ -1932,6 +1932,7 @@ class Teach:
                     wrong_answers.append(wa)
                 for sp in om.skippedAnswers:
                     wrong_answers.append(sp)
+            
             #for i in wrong_answers:
             #    if self.institution == 'School':
             #        try:
@@ -1953,26 +1954,25 @@ class Teach:
                 for sp in om.skippedAnswers:
                     wrong_answers.append(sp)
 
-            for i in wrong_answers:
-                if self.institution == 'School':
-                    try:
-                        qu = Questions.objects.get(choices__id = i)
-                    except:
-                        qu = Questions.objects.get(id = i)
+        for i in wrong_answers:
+            if self.institution == 'School':
+                try:
+                    qu = Questions.objects.get(choices__id = i)
+                except:
+                    qu = Questions.objects.get(id = i)
 
-                elif self.institution == 'SSC':
-                    try:
-                        qu = SSCquestions.objects.get(choices__id = i)
-                    except:
-                        qu = SSCquestions.objects.get(id=i)
-                if qu.section_category == subject:
-                    quid = qu.id
-                    wq.append(quid)
-
+            elif self.institution == 'SSC':
+                try:
+                    qu = SSCquestions.objects.get(choices__id = i)
+                except:
+                    qu = SSCquestions.objects.get(id=i)
+            if qu.section_category == subject:
+                quid = qu.id
+                wq.append(quid)
         unique, counts = np.unique(wq, return_counts=True)
         waf = np.asarray((unique, counts)).T
         nw_ind = []
-
+        print('%s--waf' %waf)
         kk = np.sort(waf,0)[::-1]
         for u in kk[:,1]:
             for z,w in waf:
