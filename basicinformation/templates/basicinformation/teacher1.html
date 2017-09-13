@@ -33,7 +33,8 @@
 	<div class='well  col-xs-12'>
 		<h3>	For Class: {{klass}} </h3>
 		<h3>	For Subject: {{sub}} </h3>
-		<h3> Problematic chapters/sections are: {{oall}} </h3>
+		<h3> Problematic chapters/sections are:{%for i in oall %}<span class="label label-warning">{{i}}</span>{%endfor%}
+		       	 </h3>
 		<form action='{% url "basic:TeacherWeakAreas" %}' method='get'>
 			<input type='text' value='{{klass}}' name='weakAreasClass' class='hidden' >
 			<input type='text' value='{{sub}}' name='weakAreasSub' class='hidden' >
