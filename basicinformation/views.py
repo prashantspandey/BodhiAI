@@ -162,13 +162,17 @@ def home(request):
             weak_klass = []
             weak_subs = []
             subs = []
-            for sub in subjects:
-                for i in klasses:
-                    weak_links[i]= \
-                    me.online_problematicAreasNames(user,sub,i)
-                    weak_subs.append(weak_links[i])
-                    weak_klass.append(i)
-                    subs.append(sub)
+            try:
+                for sub in subjects:
+                    for i in klasses:
+                        weak_links[i]= \
+                        me.online_problematicAreasNames(user,sub,i)
+                        weak_subs.append(weak_links[i])
+                        weak_klass.append(i)
+                        subs.append(sub)
+                weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
+            except:
+                weak_subs_areas = None
 
             num_klasses = len(klasses)
             weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
