@@ -1,0 +1,75 @@
+{% extends 'basicinformation/base.html' %}
+{%load staticfiles %}
+
+<html>
+	<head>
+		{%block title %}
+		Instant test creation 
+		{%endblock%}
+	{%block scripts %}
+	<script>
+		 $(document).ready(function () {
+		var pr
+		 	for(i=1 ; i<=10; i++){
+		 	$(eval("'#numQuestsButton'+i")).click(function(){
+
+	ajKl = $(this).html();
+	console.log(ajKl)
+         $(this).removeClass("btn btn-primary").addClass("btn btn-success");
+         $('#includeAreas').removeClass("hidden");
+         $('#includeAreas').html('').load('{% url 'QuestionsAndPapers:oneClickTest2' %}?subquestions='+encodeURIComponent(ajKl));
+        $(this).animate({
+            height: '42px',
+            width: '60px',
+        });
+
+               $(eval("'#'+pr")).animate({
+            height: '42px',
+            width: '52px',
+        });
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+
+        $('#analysisType').removeClass('hidden');
+
+
+
+    pr = $(this).attr('id');
+
+     		    });
+			};
+     		    });
+	</script>
+	{%endblock%}
+	</head>
+	<body>
+		{%block content %}
+
+		<div class='col-md-offset-1 col-md-10 col-sm-12' >
+		<h2 style='text-align:center;font-weight:bold;'>Create Test</h2>
+	<div class="panel panel-default" id='numQuests'>
+  <div class="panel-heading " style='text-align:center;font-weight:bold;' >Number of questions you want in Test: </div>
+  <div class="panel-body">
+{% for i in numberofquestions %}
+
+<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-default text-center" id="numQuestsButton{{forloop.counter}}">{{i}}</button>
+</div>
+
+{%endfor%}
+
+
+        </div>
+
+		</div>
+	<div class="hidden panel panel-default" id="includeAreas" >
+	<div class="panel-heading text-center" style ='text-align:center;font-weight:bold;'  >Areas to include</div>
+  <div class="panel-body" >
+	 {% include 'questions/oneclick_test2.html' %} </div>
+</div>
+
+
+		{%endblock%}
+
+	</body>
+</html>
+

@@ -14,6 +14,8 @@ urlpatterns = [
     url(r'^show_online_tests/$',views.student_show_onlineTests,name=
         'studentShowOnlineTest'),
     url(r'^conduct_Test/$',views.conduct_Test,name= 'conductTest'),
+    url(r'^create_instant_test/$',views.create_oneclick_test,name='oneClickTest'),
+    url(r'^one_click_test/$',views.oneclick_test,name='oneClickTest2'),
     #url(r'^teacher/(?P<grade>\d+)/$', views.current_analysis,
         #name='current_analysis'),
     #url(r'teach/$',views.teacher_home_page, name= 'teacherHomePage'),

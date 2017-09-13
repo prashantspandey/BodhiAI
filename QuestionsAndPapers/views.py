@@ -321,6 +321,24 @@ def publish_test(request):
                 render_to_pdf('questions/teacher_school_createdTest.html',context)
                 return HttpResponse(pdf,content_type= 'application/pdf')
 
+# create a one click test
+def create_oneclick_test(request):
+    user = request.user
+    if user.is_authenticated:
+        if user.groups.filter(name= 'Teachers').exists():
+            num_quests = [25,30,35,40,45,50]
+            context = {'numberofquestions':num_quests}
+            return render(request,'questions/oneclick_test1.html',context)
+def oneclick_test(request):
+    user = request.user
+    me = Teach(user)
+    if user.is_authenticated:
+        if 'subquestions' in request.GET:
+            numQuests = request.GET['subquestions']
+            my_subs = me.my_subjects_names()
+            print(my_subs)
+            context = {'subjects': my_subs,'numquests':numQuests}
+            return render(request,'questions/oneclick_test2.html',context)
 
 
 def see_Test(request):

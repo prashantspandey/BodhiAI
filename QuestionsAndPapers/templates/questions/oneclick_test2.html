@@ -1,0 +1,67 @@
+{%load staticfiles %}
+<html>
+	<head>
+<script>
+		 $(document).ready(function () {
+		var pr
+		 	for(i=1 ; i<=10; i++){
+		 	$(eval("'#testSubsButton'+i")).click(function(){
+
+	ajKl = $(this).html();
+	console.log(ajKl)
+         $(this).removeClass("btn btn-primary").addClass("btn btn-success");
+         $('#includeSubs').removeClass("hidden");
+         $('#includeSubs').html('').load('{% url 'QuestionsAndPapers:oneClickTest2' %}?subquestions='+encodeURIComponent(ajKl));
+        $(this).animate({
+            height: '42px',
+            width: '60px',
+        });
+
+               $(eval("'#'+pr")).animate({
+            height: '42px',
+            width: '52px',
+        });
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+
+        $('#analysisType').removeClass('hidden');
+
+
+
+    pr = $(this).attr('id');
+
+     		    });
+			};
+     		    });
+
+
+
+</script>
+	</head>
+<body>
+	<div class="panel panel-default" >
+  <div class="panel-heading " style='text-align:center;font-weight:bold;' >Subjects you want to include </div>
+  <div class="panel-body">
+{% for i in subjects %}
+
+<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-default text-center" id="testSubsButton{{forloop.counter}}">{{i}}</button>
+</div>
+
+{%endfor%}
+
+
+        </div>
+
+		</div>
+	<div class="hidden panel panel-default" id="includeSubs" >
+	<div class="panel-heading text-center" style ='text-align:center;font-weight:bold;'  >Areas to include</div>
+  <div class="panel-body" >
+</div>
+</div>
+
+
+
+
+</body>
+
+</html>
