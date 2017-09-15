@@ -336,9 +336,29 @@ def oneclick_test(request):
         if 'subquestions' in request.GET:
             numQuests = request.GET['subquestions']
             my_subs = me.my_subjects_names()
-            print(my_subs)
             context = {'subjects': my_subs,'numquests':numQuests}
             return render(request,'questions/oneclick_test2.html',context)
+        if 'questionsubjects' in request.GET:
+            subs = request.GET['questionsubjects']
+            all_topics = []
+            sub_topics = SSCquestions.objects.filter(section_category = subs)
+            for i in sub_topics:
+                all_topics.append(i.topic_category)
+            all_topics = list(unique_everseen(all_topics))
+            topics = me.change_topicNumbersNames(all_topics,subs)
+            topics = np.array(topics)
+            context = {'topics':topics[:,0],'subject':subs}
+            return render(request,'questions/oneclick_test3.html',context)
+        if 'createTest' in request.GET:
+            topics = request.GET.getlist('alltopics')
+            sub = request.GET['subtest']
+            all_questions = []
+            for topic in topics:
+                questions = SSCquestions.objects.filter(section_category = sub,
+                                                    topic_category = topic)
+
+
+            return HttpResponse(topics)
 
 
 def see_Test(request):

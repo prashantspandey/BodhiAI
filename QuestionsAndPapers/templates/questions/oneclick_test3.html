@@ -1,0 +1,30 @@
+{%load staticfiles %}
+<html>
+	<head>
+	</head>
+<body>
+	<div class="panel panel-default" >
+  <div class="panel-heading " style='text-align:center;font-weight:bold;' >Topics you want to include </div>
+  <form method='get' action="{%url 'QuestionsAndPapers:oneClickTest2' %}">
+  <div class="panel-body">
+
+<div class="btn-group" role="group" aria-label="...">
+	<select id = 'topicspicker' name = 'alltopics' class="selectpicker" multiple>
+		{% for i in topics%}
+		<option>{{i}}</option>
+		{%endfor%}
+	</select>
+</div>
+
+  <button type="submit" class="btn btn-info text-center" id="createTestButton" name="createTest" value='Create Test'>Create Test</button>
+<input type='text' value='{{subject}}' name='subtest' class='hidden' >
+<form>
+
+        </div>
+
+	</div>
+
+
+</body>
+
+</html>

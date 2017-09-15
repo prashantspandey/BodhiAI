@@ -5,23 +5,13 @@
 		 $(document).ready(function () {
 		var pr
 		 	for(i=1 ; i<=10; i++){
-		 	$(eval("'#testSubsButton'+i")).click(function(){
+		 	$(eval("'#clicksubs'+i")).click(function(){
 
-	ajKl = $(this).html();
+	ajKl = $(this).attr('value');
 	console.log(ajKl)
-         $(this).removeClass("btn btn-primary").addClass("btn btn-success");
          $('#includeSubs').removeClass("hidden");
-         $('#includeSubs').html('').load('{% url 'QuestionsAndPapers:oneClickTest2' %}?subquestions='+encodeURIComponent(ajKl));
-        $(this).animate({
-            height: '42px',
-            width: '60px',
-        });
-
-               $(eval("'#'+pr")).animate({
-            height: '42px',
-            width: '52px',
-        });
-        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+         $('#includeSubs').html('').load('{% url 'QuestionsAndPapers:oneClickTest2' %}?questionsubjects='+encodeURIComponent(ajKl));
+             $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
         $('#analysisType').removeClass('hidden');
 
@@ -44,7 +34,7 @@
 {% for i in subjects %}
 
 <div class="btn-group" role="group" aria-label="...">
-  <button type="button" class="btn btn-default text-center" id="testSubsButton{{forloop.counter}}">{{i}}</button>
+	<label class="radio-inline"><input type="radio" id = 'clicksubs{{forloop.counter}}' name="clicksubs" value='{{i}}'>{{i}}</label>
 </div>
 
 {%endfor%}
