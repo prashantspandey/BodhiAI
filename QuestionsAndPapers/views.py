@@ -351,14 +351,39 @@ def oneclick_test(request):
             return render(request,'questions/oneclick_test3.html',context)
         if 'createTest' in request.GET:
             topics = request.GET.getlist('alltopics')
+            if len(topics)==0:
+                context = {'noneselected':'none'}
+                return render(request,'questions/oneclick_test3.html',context)
             sub = request.GET['subtest']
             all_questions = []
-            for topic in topics:
+            tp = me.change_topicNamesNumber(topics,sub)
+            print('%s-tp' %tp)
+            for topic in tp:
                 questions = SSCquestions.objects.filter(section_category = sub,
                                                     topic_category = topic)
+                for quest in questions:
+                    all_questions.append(quest)
+            old_questions = SSCKlassTest.objects.filter(creator = user)
+            oldquestions_list = []
+            for oq in old_questions:
+                for quest in oq.sscquestions_set.all():
+                    oldquestions_list.append(quest)
+            quest_freq = []
+            quest_f = []
+            for quest in all_questions:
+                freq = 0
+                for oq in oldquestions_list:
+                    if quest ==  oq:
+                        freq += 1
+                quest_freq.append(quest.id)
+                quest_f.append(freq)
+            total_freq = list(zip(quest_freq,quest_f))
+            print('%s -- total freq' %total_freq)
 
+            print(len(oldquestions_list))
+            print(len(all_questions))
 
-            return HttpResponse(topics)
+            return HttpResponse(topics, len(all_questions))
 
 
 def see_Test(request):

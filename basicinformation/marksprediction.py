@@ -2312,6 +2312,63 @@ class Teach:
                     numbers.append(j)
             changed = list(zip(names,numbers))
             return changed
+    def change_topicNamesNumber(self,arr,subject):
+        numbers = []
+        if subject == 'English':
+            for i in arr:
+                print('%s--i' %i)
+                if i == 'Word Meanings':
+                    numbers.append('1.1')
+                elif i == 'Idiom/Phrase Meaning':
+                    numbers.append('1.2')
+                elif i == 'Antonyms':
+                    numbers.append('2.1')
+                elif i == 'Alternate Phrases/Underlined':
+                    numbers.append('3.1')
+                elif i == 'Alternate words/Fill in the blanks':
+                    numbers.append('3.2')
+                elif i == 'Re-Arrangement':
+                    numbers.append('4.1')
+                elif i == 'Spelling':
+                    numbers.append('5.1')
+                elif i == 'Substitution':
+                    numbers.append('6.1')
+                elif i == 'Random':
+                    numbers.append('7.1')
+                elif i == 'Spot the Error':
+                    numbers.append('8.1')
+                elif i == 'Passage':
+                    numbers.append('9.1')
+            return numbers
+        if subject == 'General-Intelligence':
+            for i in arr:
+                if i == 'Paper cutting and Folding':
+                    numbers.append('1.1')
+                elif i == 'Mirror and Water Image':
+                    numbers.append('1.2')
+                elif i == 'Embedded Figures':
+                    numbers.append('1.3')
+                elif i == 'Figure Completion':
+                    numbers.append('1.4')
+                elif i == 'Counting of embedded figures':
+                    numbers.append('1.5')
+                elif i == 'Counting of figures':
+                    numbers.append('1.6')
+                elif i == 'Analogous pair':
+                    numbers.append('2.1')
+                elif i == 'Multiple Analogy':
+                    numbers.append('2.2')
+                elif i == 'Choosing the analogous pair':
+                    numbers.append('2.3')
+                elif i == 'Number analogy (series pattern)':
+                    numbers.append('2.4')
+                elif i =='Number analogy (missing)':
+                    numbers.append('2.5')
+                elif i == 'Alphabet based analogy':
+                    numbers.append('2.6')
+                elif i == 'Mixed analogy':
+                    numbers.append('2.7')
+            return numbers
 
 
 
