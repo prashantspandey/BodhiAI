@@ -1,0 +1,23 @@
+{%load staticfiles %}
+<html>
+<body>
+	<div class="panel panel-default" >
+  <div class="panel-heading " style='text-align:center;font-weight:bold;' >Click the button to create test </div>
+  <div class="panel-body">
+</div>
+<br>
+{% if notpossible %}
+<p>{{notpossible}} </p>
+{%else%}
+<form action= '{%url "QuestionsAndPapers:oneClickTest2" %}' method='get'>
+  <button type="submit" class="btn btn-info text-center" id="finalTestButton" name="finalTest" value='Create Test'>Create Test</button>
+<input type='text' value='{{subject}}' id = 'subtest'  class='hidden' >
+<input type='text' value='{{numquests}}' id = 'numquests'  class='hidden' >
+</form>
+{%endif%}
+        </div>
+	</div>
+
+</body>
+
+</html>

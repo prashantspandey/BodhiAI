@@ -335,6 +335,9 @@ def oneclick_test(request):
     me = Teach(user)
     if user.is_authenticated:
         if 'subquestions' in request.GET:
+            testholder = TemporaryOneClickTestHolder.objects.filter(teacher= me.profile)
+            if testholder:
+                testholder.delete()
             numQuests = request.GET['subquestions']
             my_subs = me.my_subjects_names()
             context = {'subjects': my_subs,'numquests':numQuests}
@@ -354,8 +357,9 @@ def oneclick_test(request):
             {'topics':topics[:,0],'subject':subs,'numquests':numquests}
             return render(request,'questions/oneclick_test3.html',context)
         if 'createTest' in request.GET:
-            # get topics in string format
             topics = request.GET['createTest']
+            # get topics in string format
+            print('%s -- topics' %topics)
             # count commas to know how many topics are selected
             # last two commas are for subject and number of questions
             commacounter = 0
@@ -371,19 +375,15 @@ def oneclick_test(request):
             numquests = topics.split(',')[-1]  #get number of questions
             print('%s- sub,%s - numquests' %(sub,numquests))
             print(len(tps))
-            print(tps)
             if len(tps)==0:
                 context = {'noneselected':'none'}
                 return render(request,'questions/oneclick_test3.html',context)
             all_questions = []
-<<<<<<< Updated upstream
             # change topics names to topics numbers
             tp = me.change_topicNamesNumber(tps,sub)
+            print('%s -- tp' %tp)
             all_topics = []
             # get questions topic wise and put them in lists
-=======
-            tp = me.change_topicNamesNumber(topics,sub)
->>>>>>> Stashed changes
             for topic in tp:
                 name = eval("'cat'+topic")
                 questions = SSCquestions.objects.filter(section_category = sub,
@@ -418,33 +418,64 @@ def oneclick_test(request):
             possible = True
             if (len(all_questions) < int(numquests)):
                 possible = False
-                return HttpResponse("Sorry choose more categories to have " +
-                                    numquests + " questions. Currently only " +
-                                    str(len(all_questions)) + ' questions can be added.')
+                text = "Sorry choose more categories to have " +\
+                                    numquests + " questions. Currently only " +\
+                                    str(len(all_questions)) + ' questions can\
+                           be added.'
+                context = {'notpossible':text}
+                return render(request,'questions/oneclick_test4.html',context)
             else:
                 meannumber = int(int(numquests)/len(all_topics))
+                print('%s -- meannumber ' %meannumber)
                 final_list = []
                 for i in range(len(tp)):
                     print('%s- topics' %len(all_topics[i]))
                     for j in range(meannumber):
-                        print('%s- j ' %j)
                         try:
+                            if len(all_topics[i])==0:
+                                break
                             topicquestion = random.choice(all_topics[i])
+                            all_topics[i].remove(topicquestion)
                             if topicquestion in final_list:
-                                j = j-1 
-                                print(j)
-                                continue
+                                print('yes')
                             else:
                                 final_list.append(topicquestion)
+                                print('%s- j ' %j)
                         except Exception as e:
                             topicquestion = random.choice(all_topics[i])
                             final_list.append(topicquestion)
                             print(str(e))
+                final_list = list(unique_everseen(final_list))
+                if len(final_list) < int(numquests):
+                    meannumber = int(numquests)
+                    for i in range(len(tp)):
+                        for j in range(meannumber):
+                            try:
+                                if len(final_list) == int(numquests):
+                                    break
+                                if len(all_topics[i])==0:
+                                    break
+                                topicquestion = random.choice(all_topics[i])
+                                all_topics[i].remove(topicquestion)
+                                if topicquestion in final_list:
+                                    print('yes')
+                                else:
+                                    final_list.append(topicquestion)
+                                    print('%s- j ' %j)
+                            except Exception as e:
+                                topicquestion = random.choice(all_topics[i])
+                                final_list.append(topicquestion)
+                                print(str(e))
 
-                print('%s - allquests' %len(final_list))
+                final_list = list(unique_everseen(final_list))
+                final_id_list = []
                 for i in final_list:
-                    print(i.topic_category)
-                return HttpResponse('Can be made' )
+                    final_id_list.append(i.id)
+                testholder = TemporaryOneClickTestHolder()
+                testholder.teacher = me.profile
+                testholder.quests = final_id_list
+                testholder.save()
+                return render(request,'questions/oneclick_test4.html')
 
 
 def see_Test(request):

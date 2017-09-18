@@ -184,4 +184,6 @@ class SSCTemporaryQuestionsHolder(models.Model):
 class TemporaryQuestionsHolder(models.Model):
     quests = ArrayField(models.IntegerField())
     teacher = models.ForeignKey(Teacher)
-
+class TemporaryOneClickTestHolder(models.Model):
+    quests = ArrayField(models.IntegerField())
+    teacher = models.ForeignKey(Teacher)
