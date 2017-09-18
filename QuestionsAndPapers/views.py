@@ -376,10 +376,14 @@ def oneclick_test(request):
                 context = {'noneselected':'none'}
                 return render(request,'questions/oneclick_test3.html',context)
             all_questions = []
+<<<<<<< Updated upstream
             # change topics names to topics numbers
             tp = me.change_topicNamesNumber(tps,sub)
             all_topics = []
             # get questions topic wise and put them in lists
+=======
+            tp = me.change_topicNamesNumber(topics,sub)
+>>>>>>> Stashed changes
             for topic in tp:
                 name = eval("'cat'+topic")
                 questions = SSCquestions.objects.filter(section_category = sub,
