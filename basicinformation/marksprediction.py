@@ -1193,7 +1193,7 @@ class Studs:
                         average_cat.append(i)
                         average_percent.append(average)
                 weak_average = list(zip(average_cat,average_percent))
-                pritn('%s average' %weak_average)
+                print('%s average' %weak_average)
                 return weak_average
             else:
                 return 0
