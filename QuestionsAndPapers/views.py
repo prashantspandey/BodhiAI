@@ -10,6 +10,7 @@ from django.http import Http404, HttpResponse,HttpResponseRedirect
 from django.contrib.auth.models import User,Group
 import re
 import pickle
+import random
 import urllib.request
 from more_itertools import unique_everseen
 from random import randint
@@ -339,7 +340,9 @@ def oneclick_test(request):
             context = {'subjects': my_subs,'numquests':numQuests}
             return render(request,'questions/oneclick_test2.html',context)
         if 'questionsubjects' in request.GET:
-            subs = request.GET['questionsubjects']
+            subsandnumquests = request.GET['questionsubjects']
+            subs = subsandnumquests.split(',')[0]
+            numquests = subsandnumquests.split(',')[1]
             all_topics = []
             sub_topics = SSCquestions.objects.filter(section_category = subs)
             for i in sub_topics:
@@ -347,27 +350,54 @@ def oneclick_test(request):
             all_topics = list(unique_everseen(all_topics))
             topics = me.change_topicNumbersNames(all_topics,subs)
             topics = np.array(topics)
-            context = {'topics':topics[:,0],'subject':subs}
+            context =\
+            {'topics':topics[:,0],'subject':subs,'numquests':numquests}
             return render(request,'questions/oneclick_test3.html',context)
         if 'createTest' in request.GET:
-            topics = request.GET.getlist('alltopics')
-            if len(topics)==0:
+            # get topics in string format
+            topics = request.GET['createTest']
+            # count commas to know how many topics are selected
+            # last two commas are for subject and number of questions
+            commacounter = 0
+            for tp in topics:
+                if ',' == str(tp):
+                    commacounter += 1
+            # add topics to separate list (splitting by the commas)
+            tps = []
+            for i in range(commacounter-1):
+                top = topics.split(',')[i]
+                tps.append(top)
+            sub = topics.split(',')[-2]  # get subject
+            numquests = topics.split(',')[-1]  #get number of questions
+            print('%s- sub,%s - numquests' %(sub,numquests))
+            print(len(tps))
+            print(tps)
+            if len(tps)==0:
                 context = {'noneselected':'none'}
                 return render(request,'questions/oneclick_test3.html',context)
-            sub = request.GET['subtest']
             all_questions = []
-            tp = me.change_topicNamesNumber(topics,sub)
-            print('%s-tp' %tp)
+            # change topics names to topics numbers
+            tp = me.change_topicNamesNumber(tps,sub)
+            all_topics = []
+            # get questions topic wise and put them in lists
             for topic in tp:
+                name = eval("'cat'+topic")
                 questions = SSCquestions.objects.filter(section_category = sub,
                                                     topic_category = topic)
+                name = []
                 for quest in questions:
                     all_questions.append(quest)
+                    name.append(quest)
+                all_topics.append(name)
+            all_topics = np.array(all_topics)
+            # get old questions created by the users
             old_questions = SSCKlassTest.objects.filter(creator = user)
             oldquestions_list = []
             for oq in old_questions:
                 for quest in oq.sscquestions_set.all():
                     oldquestions_list.append(quest)
+            # count number of times questions have been repeated in the past by
+            # the teacher
             quest_freq = []
             quest_f = []
             for quest in all_questions:
@@ -379,11 +409,38 @@ def oneclick_test(request):
                 quest_f.append(freq)
             total_freq = list(zip(quest_freq,quest_f))
             print('%s -- total freq' %total_freq)
-
             print(len(oldquestions_list))
             print(len(all_questions))
+            possible = True
+            if (len(all_questions) < int(numquests)):
+                possible = False
+                return HttpResponse("Sorry choose more categories to have " +
+                                    numquests + " questions. Currently only " +
+                                    str(len(all_questions)) + ' questions can be added.')
+            else:
+                meannumber = int(int(numquests)/len(all_topics))
+                final_list = []
+                for i in range(len(tp)):
+                    print('%s- topics' %len(all_topics[i]))
+                    for j in range(meannumber):
+                        print('%s- j ' %j)
+                        try:
+                            topicquestion = random.choice(all_topics[i])
+                            if topicquestion in final_list:
+                                j = j-1 
+                                print(j)
+                                continue
+                            else:
+                                final_list.append(topicquestion)
+                        except Exception as e:
+                            topicquestion = random.choice(all_topics[i])
+                            final_list.append(topicquestion)
+                            print(str(e))
 
-            return HttpResponse(topics, len(all_questions))
+                print('%s - allquests' %len(final_list))
+                for i in final_list:
+                    print(i.topic_category)
+                return HttpResponse('Can be made' )
 
 
 def see_Test(request):
