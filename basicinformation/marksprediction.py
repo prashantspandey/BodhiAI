@@ -1049,12 +1049,40 @@ class Studs:
                 print(str(e))
                 all_marks = None
         wrong_skippedAnswers = []
-        for om in my_marks:
-            for wa in om.wrongAnswers:
-                wrong_skippedAnswers.append(wa)
-            for sp in om.skippedAnswers:
-                wrong_skippedAnswers.append(sp)
         wq = []
+        if my_marks:
+            for om in my_marks:
+                for wa in om.wrongAnswers:
+                    wrong_skippedAnswers.append(wa)
+                for sp in om.skippedAnswers:
+                    wrong_skippedAnswers.append(sp)
+
+            #for i in wrong_skippedAnswers:
+            #    if self.institution == 'School':
+            #        qu = Questions.objects.get(choices__id = i)
+            #    elif self.institution == 'SSC':
+            #        try:
+            #            qu = SSCquestions.objects.get(choices__id = i)
+            #        except:
+            #            qu = SSCquestions.objects.get(id = i)
+            #    try:
+            #        quid = qu.id
+            #        wq.append(quid)
+            #    except:
+            #        pass
+            #    try:
+            #        quidskipped = quskipped.id
+            #        wq.append(quidskipped)
+            #    except:
+            #        pass
+        # finds question ids from mixed category tests
+        if all_marks:
+            for om in all_marks:
+                for wa in om.wrongAnswers:
+                    wrong_skippedAnswers.append(wa)
+                for sp in om.skippedAnswers:
+                    wrong_skippedAnswers.append(sp)
+            wq = []
         for i in wrong_skippedAnswers:
             if self.institution == 'School':
                 qu = Questions.objects.get(choices__id = i)
@@ -1064,43 +1092,17 @@ class Studs:
                 except:
                     qu = SSCquestions.objects.get(id = i)
             try:
-                quid = qu.id
-                wq.append(quid)
+                if qu.section_category == subject:
+                    quid = qu.id
+                    wq.append(quid)
             except:
                 pass
             try:
-                quidskipped = quskipped.id
-                wq.append(quidskipped)
+                if qu.section_category == subject:
+                    quidskipped = quskipped.id
+                    wq.append(quidskipped)
             except:
                 pass
-        # finds question ids from mixed category tests
-        if all_marks:
-            for om in all_marks:
-                for wa in om.wrongAnswers:
-                    wrong_skippedAnswers.append(wa)
-                for sp in om.skippedAnswers:
-                    wrong_skippedAnswers.append(sp)
-            wq = []
-            for i in wrong_skippedAnswers:
-                if self.institution == 'School':
-                    qu = Questions.objects.get(choices__id = i)
-                elif self.institution == 'SSC':
-                    try:
-                        qu = SSCquestions.objects.get(choices__id = i)
-                    except:
-                        qu = SSCquestions.objects.get(id = i)
-                try:
-                    if qu.section_category == subject:
-                        quid = qu.id
-                        wq.append(quid)
-                except:
-                    pass
-                try:
-                    if qu.section_category == subject:
-                        quidskipped = quskipped.id
-                        wq.append(quidskipped)
-                except:
-                    pass
 
         unique, counts = np.unique(wq, return_counts=True)
         waf = np.asarray((unique, counts)).T
