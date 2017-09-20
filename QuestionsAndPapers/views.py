@@ -326,7 +326,12 @@ def publish_test(request):
 def create_oneclick_test(request):
     user = request.user
     if user.is_authenticated:
+        me = Teach(user)
         if user.groups.filter(name= 'Teachers').exists():
+            testholder = TemporaryOneClickTestHolder.objects.filter(teacher= me.profile)
+            if testholder:
+                testholder.delete()
+
             num_quests = [25,30,35,40,45,50]
             context = {'numberofquestions':num_quests}
             return render(request,'questions/oneclick_test1.html',context)
@@ -475,8 +480,46 @@ def oneclick_test(request):
                 testholder.teacher = me.profile
                 testholder.quests = final_id_list
                 testholder.save()
-                return render(request,'questions/oneclick_test4.html')
+                batches = me.my_classes_names()
+                context =\
+                {'batches':batches,'subject':sub,'numquests':numquests}
+                return render(request,'questions/oneclick_test4.html',context)
+        if 'finalTest' in request.GET:
+            numquests = request.GET['numquests']
+            subject = request.GET['whichsubject']
+            kl = request.GET['classoneclicktest']
+            myTest = TemporaryOneClickTestHolder.objects.get(teacher= me.profile)
+            oneClickTest = SSCKlassTest()
+            oneClickTest.mode = 'BodhiOnline'
+            quest_list = myTest.quests
+            maxMarks = 0
+            for quest in quest_list:
+                question = SSCquestions.objects.get(id = quest)
+                maxMarks += question.max_marks
+            print('%s marks' %maxMarks)
 
+            kla = klass.objects.get(name = kl, level= 'SSC', school =
+                                   user.teacher.school)
+
+            kla = me.my_classes_objects(kl)
+            print('%s - kla,%s -marks' %(kla,maxMarks))
+            print('%s -- subject' %subject)
+            oneClickTest.max_marks = float(maxMarks)
+            oneClickTest.klas = kla
+            oneClickTest.creator = user
+            oneClickTest.totalTime = int(float(0.6)*int(numquests))
+            oneClickTest.published = timezone.now()
+            oneClickTest.name = str(request.user.teacher) + str(timezone.now())
+            oneClickTest.sub = subject
+            oneClickTest.save()
+            for zz in quest_list:
+                q = SSCquestions.objects.get(id = zz)
+                q.ktest.add(oneClickTest)
+            students = Student.objects.filter(klass = kla)
+            for i in students:
+                oneClickTest.testTakers.add(i)
+            oneClickTest.save()
+            return render(request,'questions/teacher_successfully_published.html')
 
 def see_Test(request):
     user = request.user
