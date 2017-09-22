@@ -26,7 +26,7 @@ SECRET_KEY = '$x7qlgtufkr7v#zzrn)9zq_trt+juze+86674$-&^ia5dj=%un'
 DEBUG = False
 
 ALLOWED_HOSTS =\
-        ['https://bodhiai.herokuapp.com/','https://bodhiai.herokuapp.com','https://bodhiai.herokuapp.com/bodhi','bodhiai.herokuapp.com','bodhiai.in','www.bodhiai.in','http://bodhiai.in','bodhiai.in/']
+        ['https://bodhiai.herokuapp.com/','https://bodhiai.herokuapp.com','https://bodhiai.herokuapp.com/bodhi','bodhiai.herokuapp.com','bodhiai.in','www.bodhiai.in','http://bodhiai.in','bodhiai.in/','https://bodhiai.in','https://www.bodhiai.in']
 
 
 # Application definition
@@ -82,10 +82,10 @@ WSGI_APPLICATION = 'bodhiai.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd1lliukd1kgdb4',
-        'HOST':'ec2-107-22-173-160.compute-1.amazonaws.com',        
-        'USER':'rkmkradjwnldtv',
-        'PASSWORD':'3a1ba0f9074ef7f90f2db3b52ae8a0168f6bdc9888c29cd8fe4c46a78979fe35',
+        'NAME': 'd8pul6emrt8f43',
+        'HOST':'ec2-107-21-108-204.compute-1.amazonaws.com',        
+        'USER':'ekbdxvoiwyyfyz',
+        'PASSWORD':'f6f07d23ae886e4a7395b1e345b7561653caa7dc2849dced51f8069359325a3a',
         
     }
 }
