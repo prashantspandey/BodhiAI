@@ -165,11 +165,14 @@ def home(request):
             try:
                 for sub in subjects:
                     for i in klasses:
-                        weak_links[i]= \
-                        me.online_problematicAreasNames(user,sub,i)
-                        weak_subs.append(weak_links[i])
-                        weak_klass.append(i)
-                        subs.append(sub)
+                        try:
+                            weak_links[i]= \
+                            me.online_problematicAreasNames(user,sub,i)
+                            weak_subs.append(weak_links[i])
+                            weak_klass.append(i)
+                            subs.append(sub)
+                        except Exception as e:
+                            print(str(e))
                 weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
             except:
                 weak_subs_areas = None

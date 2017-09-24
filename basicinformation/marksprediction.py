@@ -1060,7 +1060,6 @@ class Studs:
                 for sp in om.skippedAnswers:
                     skipped_Answers.append(sp)
         wq=[]
-        countsubject = 0
         for i in wrong_Answers:
             if self.institution == 'School':
                 qu = Questions.objects.get(choices__id = i)
@@ -1889,50 +1888,39 @@ class Teach:
                                                             'SSCMultipleSections',test__klas__name=
                                                             klass)
         wrong_answers = []
+        skipped_answers = []
         wq = []
         if online_marks:
             for om in online_marks:
                 for wa in om.wrongAnswers:
                     wrong_answers.append(wa)
                 for sp in om.skippedAnswers:
-                    wrong_answers.append(sp)
+                    skipped_answers.append(sp) 
             
-            #for i in wrong_answers:
-            #    if self.institution == 'School':
-            #        try:
-            #            qu = Questions.objects.get(choices__id = i)
-            #        except:
-            #            qu = Questions.objects.get(id = i)
-
-            #    elif self.institution == 'SSC':
-            #        try:
-            #            qu = SSCquestions.objects.get(choices__id = i)
-            #        except:
-            #            qu = SSCquestions.objects.get(id=i)
-            #    quid = qu.id
-            #    wq.append(quid)
+            
         if all_onlineMarks:
             for om in all_onlineMarks:
                 for wa in om.wrongAnswers:
                     wrong_answers.append(wa)
                 for sp in om.skippedAnswers:
-                    wrong_answers.append(sp)
-
+                    skipped_answers.append(sp)
         for i in wrong_answers:
             if self.institution == 'School':
-                try:
-                    qu = Questions.objects.get(choices__id = i)
-                except:
-                    qu = Questions.objects.get(id = i)
-
+                qu = Questions.objects.get(choices__id = i)
             elif self.institution == 'SSC':
-                try:
-                    qu = SSCquestions.objects.get(choices__id = i)
-                except:
-                    qu = SSCquestions.objects.get(id=i)
+                qu = SSCquestions.objects.get(choices__id = i)
             if qu.section_category == subject:
                 quid = qu.id
                 wq.append(quid)
+        for i in skipped_answers:
+            if self.institution == 'School':
+                qu = Questions.objects.get(id = i)
+            elif self.institution == 'SSC':
+                qu = SSCquestions.objects.get(id = i)
+            if qu.section_category == subject:
+                quid = qu.id
+                wq.append(quid)
+
         unique, counts = np.unique(wq, return_counts=True)
         waf = np.asarray((unique, counts)).T
         nw_ind = []
