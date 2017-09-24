@@ -75,7 +75,6 @@ def create_test(request):
                                 unique_chapters.append(i.section_category)
                             unique_chapters = list(unique_everseen(unique_chapters))
                             test_type = 'SSC'
-                            print(unique_chapters)
                             return render(request, 'questions/klass_available.html',
                                       {'fin':
                                        unique_chapters,'which_klass':ttt,'test_type':test_type})
@@ -101,7 +100,6 @@ def create_test(request):
                         all_categories.sort()
                         all_categories = \
                         me.change_topicNumbersNames(all_categories,split_category)
-                        print(all_categories)
                         context = \
                                 {'categories':all_categories,'which_klass':split_klass,'section_category':split_category}
                         return \
@@ -115,7 +113,6 @@ def create_test(request):
                     splitClass = which_chap.split(",")[1]
                     splitSection = which_chap.split(",")[2]
                     klasses = klass.objects.filter(name=splitClass)
-                    print('%s--%s--%s' %(splitChap,splitClass,splitSection))
                     klass_level = 'aa'
                     for kass in klasses:
                         if me.institution == 'School':
@@ -226,7 +223,6 @@ def add_questions(request):
         if len(questions_list)!=0:
             me = Teach(request.user)
             which_klass = request.POST['which_klass']
-            print(which_klass)
             klass = me.my_classes_objects(which_klass)
             tot = 0 
             for i in questions_list:
@@ -364,7 +360,6 @@ def oneclick_test(request):
         if 'createTest' in request.GET:
             topics = request.GET['createTest']
             # get topics in string format
-            print('%s -- topics' %topics)
             # count commas to know how many topics are selected
             # last two commas are for subject and number of questions
             commacounter = 0
@@ -378,15 +373,12 @@ def oneclick_test(request):
                 tps.append(top)
             sub = topics.split(',')[-2]  # get subject
             numquests = topics.split(',')[-1]  #get number of questions
-            print('%s- sub,%s - numquests' %(sub,numquests))
-            print(len(tps))
             if len(tps)==0:
                 context = {'noneselected':'none'}
                 return render(request,'questions/oneclick_test3.html',context)
             all_questions = []
             # change topics names to topics numbers
             tp = me.change_topicNamesNumber(tps,sub)
-            print('%s -- tp' %tp)
             all_topics = []
             # get questions topic wise and put them in lists
             for topic in tp:
@@ -417,9 +409,6 @@ def oneclick_test(request):
                 quest_freq.append(quest.id)
                 quest_f.append(freq)
             total_freq = list(zip(quest_freq,quest_f))
-            print('%s -- total freq' %total_freq)
-            print(len(oldquestions_list))
-            print(len(all_questions))
             possible = True
             if (len(all_questions) < int(numquests)):
                 possible = False
@@ -431,10 +420,8 @@ def oneclick_test(request):
                 return render(request,'questions/oneclick_test4.html',context)
             else:
                 meannumber = int(int(numquests)/len(all_topics))
-                print('%s -- meannumber ' %meannumber)
                 final_list = []
                 for i in range(len(tp)):
-                    print('%s- topics' %len(all_topics[i]))
                     for j in range(meannumber):
                         try:
                             if len(all_topics[i])==0:
@@ -442,10 +429,9 @@ def oneclick_test(request):
                             topicquestion = random.choice(all_topics[i])
                             all_topics[i].remove(topicquestion)
                             if topicquestion in final_list:
-                                print('yes')
+                                pass
                             else:
                                 final_list.append(topicquestion)
-                                print('%s- j ' %j)
                         except Exception as e:
                             topicquestion = random.choice(all_topics[i])
                             final_list.append(topicquestion)
@@ -463,10 +449,9 @@ def oneclick_test(request):
                                 topicquestion = random.choice(all_topics[i])
                                 all_topics[i].remove(topicquestion)
                                 if topicquestion in final_list:
-                                    print('yes')
+                                    pass
                                 else:
                                     final_list.append(topicquestion)
-                                    print('%s- j ' %j)
                             except Exception as e:
                                 topicquestion = random.choice(all_topics[i])
                                 final_list.append(topicquestion)
@@ -496,14 +481,11 @@ def oneclick_test(request):
             for quest in quest_list:
                 question = SSCquestions.objects.get(id = quest)
                 maxMarks += question.max_marks
-            print('%s marks' %maxMarks)
 
             kla = klass.objects.get(name = kl, level= 'SSC', school =
                                    user.teacher.school)
 
             kla = me.my_classes_objects(kl)
-            print('%s - kla,%s -marks' %(kla,maxMarks))
-            print('%s -- subject' %subject)
             oneClickTest.max_marks = float(maxMarks)
             oneClickTest.klas = kla
             oneClickTest.creator = user
@@ -775,7 +757,12 @@ def conduct_Test(request):
                                                               =testid,quests=qu).order_by('time')
                 Quests = []
                 for i in temp_marks:
-                    Quests.append(int(i.answers))
+                    # try except block to get attempted answer of already
+                    # skipped answers (otherwise throws an error)
+                    try:
+                        Quests.append(int(i.answers))
+                    except Exception as e:
+                        print(str(e))
                 answer_sel = Quests[-1]
                 context = \
                 {'question':tosend,'testid':testid,'sel':answer_sel}
@@ -791,9 +778,9 @@ def conduct_Test(request):
                 choice_id = request.POST['choiceid']
                 questTime = request.POST['questTimer']
             except Exception as e:
+                choice_id = -1
             # runs when next button is pressed rather than selecting a
             # choice(skipped)
-                choice_id = -1
             question_id = request.POST['questionid']
             test_id = request.POST['testid']
             if choice_id == -1:
@@ -859,8 +846,11 @@ def conduct_Test(request):
                                                          =
                                                          str(i)).order_by('time')
                     for j in temp_marks:
-                        answers_ids.append(int(j.answers))
-                        time_ids.append(j.time)
+                        try:
+                            answers_ids.append(int(j.answers))
+                            time_ids.append(j.time)
+                        except Exception as e:
+                            print(str(e))
                    
                     
                     qad = {'answers':answers_ids,'time':time_ids}
@@ -869,7 +859,6 @@ def conduct_Test(request):
                     
                 except:
                     skipped_ids.append(i)
-            print(quest_ans_dict)
             all_answers = []
             final_skipped = []
             final_correct = []
@@ -880,17 +869,13 @@ def conduct_Test(request):
             num = 0
             # iterate over all the answer and time holding dictionary
             for k in quest_ans_dict.keys():
-                print('%s k' %k)
                 for j in quest_ans_dict[k]:
-                    print('%s j' %j)
                     num = num +1
                     try:
                         #final answer when more than one questions answered
                         final_ans = quest_ans_dict[k][j][-1] 
-                        print(final_ans)
                         # if statement for weeding out the skipped(cleared
                         # selection) questions
-                        print('%s in try' %final_ans)
                         if final_ans == -1:
                             pass
                         else:
@@ -905,7 +890,6 @@ def conduct_Test(request):
                         # same as above but runs only when one or none
                         # questions are answered
                         final_ans = quest_ans_dict[k][j]
-                        print('%s in except' %final_ans)
                         if final_ans == -1:
                             pass
                         else:
@@ -985,10 +969,10 @@ def conduct_Test(request):
             TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=test_id).delete()
             context = \
             {'student_type':student_type,'marks':online_marks,'timetaken':tt}
-            url = \
-                    reverse('QuestionsAndPapers:studentMyOnlineTests')
-            return HttpResponseRedirect(url)
-            #return render(request,'questions/student_finished_test.html',context)
+            #url = \
+                    #reverse('QuestionsAndPapers:studentMyOnlineTests')
+            #return HttpResponseRedirect(url)
+            return render(request,'questions/student_finished_test.html',context)
 
 
            
