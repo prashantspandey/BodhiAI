@@ -1339,7 +1339,63 @@ class Studs:
                     timing.append(j)
 
             return list(zip(namedarr,timing))
+    def convertTopicNumbersNames(self,arr,subject):
+        namedarr = []
+        if subject == 'English':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('Word Meanings')
+                elif i == '1.2':
+                    namedarr.append('Idiom/Phrase Meaning')
+                elif i == '2.1':
+                    namedarr.append('Antonyms')
+                elif i == '3.1':
+                    namedarr.append('Alternate Phrases/Underlined')
+                elif i == '3.2':
+                    namedarr.append('Alternate words/Fill in the blanks')
+                elif i == '4.1':
+                    namedarr.append('Re-Arrangement')
+                elif i == '5.1':
+                    namedarr.append('Spelling')
+                elif i == '6.1':
+                    namedarr.append('Substitution')
+                elif i == '7.1':
+                    namedarr.append('Random')
+                elif i == '8.1':
+                    namedarr.append('Spot the Error')
+                elif i == '9.1':
+                    namedarr.append('Passage')
+            return namedarr
+        if subject == 'General-Intelligence':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('Paper Cutting and Folding')
+                elif i == '1.2':
+                    namedarr.append('Mirror and Water Image')
+                elif i == '1.3':
+                    namedarr.append('Embedded Figures')
+                elif i == '1.4':
+                    namedarr.append('Figure Completion')
+                elif i == '1.5':
+                    namedarr.append('Counting Embedded Figures')
+                elif i == '1.6':
+                    namedarr.append('Counting in figures')
+                elif i == '2.1':
+                    namedarr.append('Analogous pair')
+                elif i == '2.2':
+                    namedarr.append('Multiple Analogy')
+                elif i == '2.3':
+                    namedarr.append('Choosing the analogous pair')
+                elif i == '2.4':
+                    namedarr.append('Number analogy (series pattern)')
+                elif i =='2.5':
+                    namedarr.append('Number analogy (missing)')
+                elif i == '2.6':
+                    namedarr.append('Alphabet based analogy')
+                elif i == '2.7':
+                    namedarr.append('Mixed analogy')
 
+            return namedarr
 
     def improvement(self,subject):
         if self.institution == 'School':
@@ -1348,19 +1404,116 @@ class Studs:
             marks = SSCOnlineMarks.objects.filter(student =
                                                   self.profile,test__sub =
                                                   subject)
-            if len(marks)>1:
-                change = []
-                for j,k in enumerate(marks):
-                    if j == len(marks)-1:
-                        break
-                    this = (k.marks/k.test.max_marks)*100 
-                    that = marks[j+1]
-                    that = (that.marks/that.test.max_marks)*100
-                    diff = that-this
-                    change.append(diff)
-                return diff
-            else:
-                return 'more than one needed'
+            mixed_marks =\
+            SSCOnlineMarks.objects.filter(student=self.profile,test__sub =
+                                          'SSCMultipleSections')
+            if marks:
+                if len(marks)>1:
+                    change = []
+                    for j,k in enumerate(marks):
+                        if j == len(marks)-1:
+                            break
+                        this = (k.marks/k.test.max_marks)*100 
+                        that = marks[j+1]
+                        that = (that.marks/that.test.max_marks)*100
+                        diff = that-this
+                        change.append(diff)
+                    return diff
+                else:
+                    return 'more than one needed'
+            #if mixed_marks:
+            #    if len(mixed_marks)>1:
+            #        change = []
+            #        for j,k in enumerate(mixed_marks):
+            #            if j == len(mixed_marks)-1:
+            #                break
+            #            this = (k.marks/k.test.max_marks)*100 
+            #            that = marks[j+1]
+            #            that = (that.marks/that.test.max_marks)*100
+            #            diff = that-this
+            #            change.append(diff)
+            #        return diff
+            #    else:
+            #        return 'more than one needed'
+
+    def sectionwise_improvement(self,subject):
+        if self.institution == 'School':
+            pass
+        elif self.institution == 'SSC':
+            marks = SSCOnlineMarks.objects.filter(student =
+                                                  self.profile,test__sub=
+                                                  subject)
+            mixed_marks = SSCOnlineMarks.objects.filter(student=
+                                                        self.profile,test__sub
+                                                        = subject)
+            all_categories = []
+            if len(marks) > 1:
+                all_answers = []
+                quests = []
+                skipped_answers = []
+                for i in marks:
+                    for aa in i.allAnswers:
+                        all_answers.append(aa)
+                    for sp in i.skippedAnswers:
+                        skipped_answers.append(sp)
+                for quest_id in all_answers:
+                    quests.append(SSCquestions.objects.get(choices__id =
+                                                           quest_id))
+                for quest_id in skipped_answers:
+                    quests.append(SSCquestions.objects.get(id = quest_id))
+                for q in quests:
+                    all_categories.append(q.topic_category)
+                #allcat = \
+                #self.convertTopicNumbersNames(all_categories,subject)
+                #allcat = list(unique_everseen(allcat))
+                all_categories = list(unique_everseen(all_categories))
+                num_tests = len(marks)
+                changes = {}
+                for tp in all_categories:
+                    test_count = 0
+                    for i in marks:
+                        test_count += 1
+                        rightCount = 0
+                        allCount = 0
+                        wCount = 0
+                        for ra in i.rightAnswers:
+                            quest = SSCquestions.objects.get(choices__id = ra)
+                            if quest.topic_category == tp:
+                                rightCount += 1
+                                allCount += 1
+                        for wa in i.wrongAnswers:
+                            quest = SSCquestions.objects.get(choices__id = wa)
+                            if quest.topic_category == tp:
+                                wCount += 1
+                                allCount += 1
+                        for sp in i.skippedAnswers:
+                            quest = SSCquestions.objects.get(id = sp)
+                            if quest.topic_category == tp:
+                                wCount += 1
+                                allCount += 1
+                        print('%s- right,%s- wrong,%s- allcount,%s-- tp'
+                              %(rightCount,wCount,allCount,tp))
+                        try:
+                            total = ((rightCount - wCount)/allCount)
+                            changes[tp] = {'index': test_count,'percent':total}
+                        except Exception as e:
+                            print(str(e))
+                print('%s- changes' %changes)
+
+
+
+
+
+                
+
+
+
+
+
+
+
+
+
 
 
 class Teach:

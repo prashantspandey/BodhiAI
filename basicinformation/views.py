@@ -44,7 +44,7 @@ def home(request):
             #df =\
             #pd.read_csv('/home/prashant/Desktop/programming/random/tesseract/resoningAnalogy.csv')
             df=\
-            pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/analogy1000sheet.csv')
+            pd.read_csv('/home/prashant/Desktop/programming/sscquestions/scraper/fillintheblanks2.csv')
             quests = []
             optA = []
             optB = []
@@ -52,30 +52,45 @@ def home(request):
             optD = []
             right_answer = []
             quest_category = []
-            quests = df['Questions']
-            optA = df['OptionA']
-            optB = df['OptionB']
-            optC = df['OptionC']
-            optD = df['OptionD']
-            quest_category = df['Category']
-            for i in df['Correct']:
-                if 'a' in i:
+            quests = df['questions']
+            optA = df['optionA']
+            optB = df['optionB']
+            optC = df['optionC']
+            optD = df['optionD']
+            optE = df['optionE']
+            exp = df['ans']
+            #quest_category = df['Category']
+            quest_category = '3.2' # for fill in the blanks
+            for i in df['FinalAnswer']:
+                ichanged = str(i).replace(u'\\xa0',u' ')
+                if 'a' in ichanged or '1' in ichanged:
                     right_answer.append(1)
-                elif 'b' in i:
+                elif 'b' in ichanged or '2' in ichanged:
                     right_answer.append(2)
-                elif 'c' in i:
+                elif 'c' in ichanged or '3' in ichanged:
                     right_answer.append(3)
-                elif 'd' in i:
+                elif 'd' in ichanged or '4' in ichanged:
                     right_answer.append(4)
+                elif 'e' in ichanged or '5' in ichanged:
+                    right_answer.append(5)
             for ind in range(len(optA)):
-                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],quest_category[ind],sectionType='Resoning')
-            #write_passages(all_passages)
+                print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s --\
+                      opte,%s\
+                  -- right_answer,%s -- explanation'
+                  %(optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],right_answer[ind],exp[ind]))
 
-            #return HttpResponse('hello')
+                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],right_answer[ind],quest_category,exp[ind],sectionType='English')
+            #write_passages(all_passages)
+            print(quests)
+            print(right_answer)
+            print(optE)
+            return HttpResponse('hello')
             #return render(request,'basicinformation/staffpage1.html')
         if user.groups.filter(name='Students').exists():
             profile = user.student
             me = Studs(request.user)
+            print('hello there')
+            me.sectionwise_improvement('General-Intelligence')
             subjects = user.student.subject_set.all()
             teacher_name = {}
             for sub in subjects:
@@ -660,16 +675,19 @@ def read_questions(fi):
     return questText
 
 
-def write_questions(question,optA,optB,optC,optD,correctOpt,questCategory,sectionType):
+def write_questions(question,optA,optB,optC,optD,optE,correctOpt,questCategory,exp,sectionType):
     school = School.objects.filter(category = 'SSC')
-    all_options = [optA,optB,optC,optD]
+    if optE == None:
+        all_options = [optA,optB,optC,optD]
+    else:
+        all_options = [optA,optB,optC,optD,optE]
     new_questions = SSCquestions()
     new_questions.tier_category = '1'
     if sectionType == 'English':
         new_questions.section_category = 'English'
     elif sectionType == 'Resoning':
         new_questions.section_category = 'General-Intelligence'
-    new_questions.text = 'Select the related word from given alternatives.\n'+'\n'+str(question)
+    new_questions.text = 'Fill in the blanks\n'+'\n'+str(question)
     print(questCategory)
     #if str(questCategory) == '1.0':
     #    new_questions.topic_category = '1.1'
@@ -709,9 +727,20 @@ def write_questions(question,optA,optB,optC,optD,correctOpt,questCategory,sectio
     for n,i in enumerate(all_options):
         new_choices = Choices()
         new_choices.sscquest = new_questions
-        new_choices.text = str(i)
+        itext = str(i).replace('[','')
+        itext2 = itext.replace(']','')
+        itext3 = itext2.replace(')','')
+        itext4 = itext3.replace(u'\\xa0',u' ')
+        itext5 = itext4.replace('\"','')
+        exptext = str(exp).replace('[','')
+        exptext2 = exptext.replace(']','')
+        exptext3 = exptext2.replace(u'\\xa0',u' ')
+        exptext4 = exptext3.replace('\"','')
+        new_choices.text = itext5
         if correctOpt == n+1:
+            print('%s -- correctopt' %correctOpt)
             new_choices.predicament = 'Correct'
+            new_choices.explanation = exptext4
         else:
             new_choices.predicament = 'Wrong'
         new_choices.save()
