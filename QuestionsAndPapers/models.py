@@ -108,11 +108,18 @@ class SSCquestions(models.Model):
     topic_category = models.CharField(max_length=5,choices = topic_choice)
     school = models.ManyToManyField(School)
     picture = models.URLField(null=True,blank=True)
-    def __str__(self):
-        if self.text:
-            return self.text[:50]
-        else:
-            return str(self.section_category)
+    #def __str__(self):
+    #    try:
+    #        if str(self.text) != None:
+    #            if len(self.text) > 50:
+    #                return str(self.text[:50])
+    #            else:
+    #                return str(self.text)
+
+    #        elif str(self.text) == None:
+    #            return str(self.topic_category)
+    #    except:
+    #        return 'question'
 
 class Choices(models.Model):
     res_choice = (('Correct','Correct'),('Wrong','Wrong'),('Not decided','Not decided'))
@@ -124,7 +131,7 @@ class Choices(models.Model):
     explanation = models.TextField(null=True,blank=True)
     explanationPicture= models.URLField(null=True,blank=True)
     def __str__(self):
-        if self.text:
+        if self.text != None:
             return self.text[:50]
         else:
             return self.picture

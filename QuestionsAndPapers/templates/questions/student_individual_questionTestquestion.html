@@ -42,7 +42,6 @@
 <script>
 		$(document).ready(function () {
 	  $('#answerButton').click(function () {
-
 selec=	$('input[name=answerChoice]:checked').val();
 console.log(selec); 
 if (selec == 'undefined'){
@@ -78,9 +77,13 @@ $.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
 				 });
          $(eval("'#num'+quest_pos")).removeClass("btn btn-default").addClass("btn btn-success");
 				 quest_pos = quest_pos - 1
-
-         $(eval("'#num'+quest_pos")).removeClass("btn btn-success").addClass("btn btn-default");
+	if (selec == undefined){
+         $(eval("'#num'+quest_pos")).removeClass("btn btn-success").addClass("btn btn-warning");
+	} 
+	else{
+         $(eval("'#num'+quest_pos")).removeClass("btn btn-success").addClass("btn btn-primary");
 				 console.log('questpos',eval("'num'+quest_pos"))
+	};
 	};	
 			});
 

@@ -1041,67 +1041,41 @@ class Studs:
         elif self.institution == 'SSC':
             my_marks = SSCOnlineMarks.objects.filter(student = self.profile,test__sub
                                              = subject)
-            try:
-                all_marks = SSCOnlineMarks.objects.filter(student= self.profile,
+            all_marks = SSCOnlineMarks.objects.filter(student= self.profile,
                                                     test__sub =
                                                     'SSCMultipleSections')
-            except Exception as e:
-                print(str(e))
-                all_marks = None
-        wrong_skippedAnswers = []
-        for om in my_marks:
-            for wa in om.wrongAnswers:
-                wrong_skippedAnswers.append(wa)
-            for sp in om.skippedAnswers:
-                wrong_skippedAnswers.append(sp)
-        wq = []
-        for i in wrong_skippedAnswers:
-            if self.institution == 'School':
-                qu = Questions.objects.get(choices__id = i)
-            elif self.institution == 'SSC':
-                try:
-                    qu = SSCquestions.objects.get(choices__id = i)
-                except:
-                    qu = SSCquestions.objects.get(id = i)
-            try:
-                quid = qu.id
-                wq.append(quid)
-            except:
-                pass
-            try:
-                quidskipped = quskipped.id
-                wq.append(quidskipped)
-            except:
-                pass
-        # finds question ids from mixed category tests
+        wrong_Answers = []
+        skipped_Answers = []
+        if my_marks:
+            for om in my_marks:
+                for wa in om.wrongAnswers:
+                    wrong_Answers.append(wa)
+                for sp in om.skippedAnswers:
+                    skipped_Answers.append(sp)
+
         if all_marks:
             for om in all_marks:
                 for wa in om.wrongAnswers:
-                    wrong_skippedAnswers.append(wa)
+                    wrong_Answers.append(wa)
                 for sp in om.skippedAnswers:
-                    wrong_skippedAnswers.append(sp)
-            wq = []
-            for i in wrong_skippedAnswers:
-                if self.institution == 'School':
-                    qu = Questions.objects.get(choices__id = i)
-                elif self.institution == 'SSC':
-                    try:
-                        qu = SSCquestions.objects.get(choices__id = i)
-                    except:
-                        qu = SSCquestions.objects.get(id = i)
-                try:
-                    if qu.section_category == subject:
-                        quid = qu.id
-                        wq.append(quid)
-                except:
-                    pass
-                try:
-                    if qu.section_category == subject:
-                        quidskipped = quskipped.id
-                        wq.append(quidskipped)
-                except:
-                    pass
-
+                    skipped_Answers.append(sp)
+        wq=[]
+        for i in wrong_Answers:
+            if self.institution == 'School':
+                qu = Questions.objects.get(choices__id = i)
+            elif self.institution == 'SSC':
+                qu = SSCquestions.objects.get(choices__id = i)
+                if qu.section_category == subject:
+                    quid = qu.id
+                    wq.append(quid)
+        for i in skipped_Answers:
+            if self.institution == 'School':
+                qu = Questions.objects.get(id = i)
+            elif self.institution == 'SSC':
+                qu = SSCquestions.objects.get(id = i)
+                if qu.section_category == subject:
+                    quid = qu.id
+                    wq.append(quid)
         unique, counts = np.unique(wq, return_counts=True)
         waf = np.asarray((unique, counts)).T
         nw_ind = []
@@ -1121,7 +1095,7 @@ class Studs:
         arr = self.weakAreas(subject)
         anal = []
         num = []
-        for u,k in arr:
+        for u,k in arr: 
             if self.institution == 'School':
                 qu = Questions.objects.get(id = u)
             elif self.institution == 'SSC':
@@ -1151,11 +1125,8 @@ class Studs:
             marks = SSCOnlineMarks.objects.filter(student =
                                                   self.profile,test__sub =
                                                   subject)
-            try:
-                all_marks = SSCOnlineMarks.objects.filter(student=
+            all_marks = SSCOnlineMarks.objects.filter(student=
                                                       self.profile,test__sub='SSCMultipleSections')
-            except Exception as e:
-                all_marks = None
             all_ids = []
             for mark in marks:
                 for total in mark.allAnswers:
@@ -1181,8 +1152,6 @@ class Studs:
             arr = np.array(arr)
             average_cat = []
             average_percent = []
-            print('%s - arr' %arr)
-            print('%s - waf' %cat_quests)
 
             if len(arr)>0:
                 for i,j in cat_quests:
@@ -1215,17 +1184,15 @@ class Studs:
         if self.institution == 'SSC':
             myMarks = SSCOnlineMarks.objects.filter(student =
                                                     self.profile,test__sub = subject)
-            try:
-                allMyMarks =\
+            allMyMarks =\
                 SSCOnlineMarks.objects.filter(student=self.profile,test__sub=
                                               'SSCMultipleSections')
-            except:
-                allMyMarks = None
-            for t in myMarks:
-                for time in t.sscansweredquestion_set.all():
-                    if time.quest.id in arr[:,0]:
-                        quest.append(int(time.quest.id))
-                        time_list.append(int(time.time))
+            if myMarks:
+                for t in myMarks:
+                    for time in t.sscansweredquestion_set.all():
+                        if time.quest.id in arr[:,0]:
+                            quest.append(int(time.quest.id))
+                            time_list.append(int(time.time))
             if allMyMarks:
                 for t in myMarks:
                     for time in t.sscansweredquestion_set.all():
@@ -1234,6 +1201,7 @@ class Studs:
                             time_list.append(int(time.time))
 
         timer = list(zip(quest,time_list))
+
     def areawise_timing(self,subject):
         all_questions = []
         all_timing = []
@@ -1371,7 +1339,63 @@ class Studs:
                     timing.append(j)
 
             return list(zip(namedarr,timing))
+    def convertTopicNumbersNames(self,arr,subject):
+        namedarr = []
+        if subject == 'English':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('Word Meanings')
+                elif i == '1.2':
+                    namedarr.append('Idiom/Phrase Meaning')
+                elif i == '2.1':
+                    namedarr.append('Antonyms')
+                elif i == '3.1':
+                    namedarr.append('Alternate Phrases/Underlined')
+                elif i == '3.2':
+                    namedarr.append('Alternate words/Fill in the blanks')
+                elif i == '4.1':
+                    namedarr.append('Re-Arrangement')
+                elif i == '5.1':
+                    namedarr.append('Spelling')
+                elif i == '6.1':
+                    namedarr.append('Substitution')
+                elif i == '7.1':
+                    namedarr.append('Random')
+                elif i == '8.1':
+                    namedarr.append('Spot the Error')
+                elif i == '9.1':
+                    namedarr.append('Passage')
+            return namedarr
+        if subject == 'General-Intelligence':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('Paper Cutting and Folding')
+                elif i == '1.2':
+                    namedarr.append('Mirror and Water Image')
+                elif i == '1.3':
+                    namedarr.append('Embedded Figures')
+                elif i == '1.4':
+                    namedarr.append('Figure Completion')
+                elif i == '1.5':
+                    namedarr.append('Counting Embedded Figures')
+                elif i == '1.6':
+                    namedarr.append('Counting in figures')
+                elif i == '2.1':
+                    namedarr.append('Analogous pair')
+                elif i == '2.2':
+                    namedarr.append('Multiple Analogy')
+                elif i == '2.3':
+                    namedarr.append('Choosing the analogous pair')
+                elif i == '2.4':
+                    namedarr.append('Number analogy (series pattern)')
+                elif i =='2.5':
+                    namedarr.append('Number analogy (missing)')
+                elif i == '2.6':
+                    namedarr.append('Alphabet based analogy')
+                elif i == '2.7':
+                    namedarr.append('Mixed analogy')
 
+            return namedarr
 
     def improvement(self,subject):
         if self.institution == 'School':
@@ -1380,21 +1404,116 @@ class Studs:
             marks = SSCOnlineMarks.objects.filter(student =
                                                   self.profile,test__sub =
                                                   subject)
-            if len(marks)>1:
+            mixed_marks =\
+            SSCOnlineMarks.objects.filter(student=self.profile,test__sub =
+                                          'SSCMultipleSections')
+            if marks:
+                if len(marks)>1:
+                    change = []
+                    for j,k in enumerate(marks):
+                        if j == len(marks)-1:
+                            break
+                        this = (k.marks/k.test.max_marks)*100 
+                        that = marks[j+1]
+                        that = (that.marks/that.test.max_marks)*100
+                        diff = that-this
+                        change.append(diff)
+                    return diff
+                else:
+                    return 'more than one needed'
+            #if mixed_marks:
+            #    if len(mixed_marks)>1:
+            #        change = []
+            #        for j,k in enumerate(mixed_marks):
+            #            if j == len(mixed_marks)-1:
+            #                break
+            #            this = (k.marks/k.test.max_marks)*100 
+            #            that = marks[j+1]
+            #            that = (that.marks/that.test.max_marks)*100
+            #            diff = that-this
+            #            change.append(diff)
+            #        return diff
+            #    else:
+            #        return 'more than one needed'
+
+    def sectionwise_improvement(self,subject):
+        if self.institution == 'School':
+            pass
+        elif self.institution == 'SSC':
+            marks = SSCOnlineMarks.objects.filter(student =
+                                                  self.profile,test__sub=
+                                                  subject)
+            mixed_marks = SSCOnlineMarks.objects.filter(student=
+                                                        self.profile,test__sub
+                                                        = subject)
+            all_categories = []
+            if len(marks) > 1:
+                all_answers = []
+                quests = []
+                skipped_answers = []
                 for i in marks:
-                    print((i.marks/i.test.max_marks)*100)
-                change = []
-                for j,k in enumerate(marks):
-                    if j == len(marks)-1:
-                        break
-                    this = (k.marks/k.test.max_marks)*100 
-                    that = marks[j+1]
-                    that = (that.marks/that.test.max_marks)*100
-                    diff = that-this
-                    change.append(diff)
-                return diff
-            else:
-                return 'more than one needed'
+                    for aa in i.allAnswers:
+                        all_answers.append(aa)
+                    for sp in i.skippedAnswers:
+                        skipped_answers.append(sp)
+                for quest_id in all_answers:
+                    quests.append(SSCquestions.objects.get(choices__id =
+                                                           quest_id))
+                for quest_id in skipped_answers:
+                    quests.append(SSCquestions.objects.get(id = quest_id))
+                for q in quests:
+                    all_categories.append(q.topic_category)
+                #allcat = \
+                #self.convertTopicNumbersNames(all_categories,subject)
+                #allcat = list(unique_everseen(allcat))
+                all_categories = list(unique_everseen(all_categories))
+                num_tests = len(marks)
+                changes = {}
+                for tp in all_categories:
+                    test_count = 0
+                    for i in marks:
+                        test_count += 1
+                        rightCount = 0
+                        allCount = 0
+                        wCount = 0
+                        for ra in i.rightAnswers:
+                            quest = SSCquestions.objects.get(choices__id = ra)
+                            if quest.topic_category == tp:
+                                rightCount += 1
+                                allCount += 1
+                        for wa in i.wrongAnswers:
+                            quest = SSCquestions.objects.get(choices__id = wa)
+                            if quest.topic_category == tp:
+                                wCount += 1
+                                allCount += 1
+                        for sp in i.skippedAnswers:
+                            quest = SSCquestions.objects.get(id = sp)
+                            if quest.topic_category == tp:
+                                wCount += 1
+                                allCount += 1
+                        print('%s- right,%s- wrong,%s- allcount,%s-- tp'
+                              %(rightCount,wCount,allCount,tp))
+                        try:
+                            total = ((rightCount - wCount)/allCount)
+                            changes[tp] = {'index': test_count,'percent':total}
+                        except Exception as e:
+                            print(str(e))
+                print('%s- changes' %changes)
+
+
+
+
+
+                
+
+
+
+
+
+
+
+
+
 
 
 class Teach:
@@ -1405,15 +1524,12 @@ class Teach:
 
     def my_classes_objects(self, klass_name=None):
         if klass_name:
-            print(klass_name)
             subs = self.profile.subject_set.all()
-            print(subs)
             if subs:
                 klasses = []
                 for sub in subs:
                     if sub.student.klass.name == klass_name:
                         klasses.append(sub.student.klass)
-                print(len(klasses))
                 return klasses[0]
             else:
                 return None
@@ -1925,54 +2041,42 @@ class Teach:
                                                             'SSCMultipleSections',test__klas__name=
                                                             klass)
         wrong_answers = []
+        skipped_answers = []
         wq = []
         if online_marks:
             for om in online_marks:
                 for wa in om.wrongAnswers:
                     wrong_answers.append(wa)
                 for sp in om.skippedAnswers:
-                    wrong_answers.append(sp)
+                    skipped_answers.append(sp) 
             
-            #for i in wrong_answers:
-            #    if self.institution == 'School':
-            #        try:
-            #            qu = Questions.objects.get(choices__id = i)
-            #        except:
-            #            qu = Questions.objects.get(id = i)
-
-            #    elif self.institution == 'SSC':
-            #        try:
-            #            qu = SSCquestions.objects.get(choices__id = i)
-            #        except:
-            #            qu = SSCquestions.objects.get(id=i)
-            #    quid = qu.id
-            #    wq.append(quid)
+            
         if all_onlineMarks:
             for om in all_onlineMarks:
                 for wa in om.wrongAnswers:
                     wrong_answers.append(wa)
                 for sp in om.skippedAnswers:
-                    wrong_answers.append(sp)
-
+                    skipped_answers.append(sp)
         for i in wrong_answers:
             if self.institution == 'School':
-                try:
-                    qu = Questions.objects.get(choices__id = i)
-                except:
-                    qu = Questions.objects.get(id = i)
-
+                qu = Questions.objects.get(choices__id = i)
             elif self.institution == 'SSC':
-                try:
-                    qu = SSCquestions.objects.get(choices__id = i)
-                except:
-                    qu = SSCquestions.objects.get(id=i)
+                qu = SSCquestions.objects.get(choices__id = i)
             if qu.section_category == subject:
                 quid = qu.id
                 wq.append(quid)
+        for i in skipped_answers:
+            if self.institution == 'School':
+                qu = Questions.objects.get(id = i)
+            elif self.institution == 'SSC':
+                qu = SSCquestions.objects.get(id = i)
+            if qu.section_category == subject:
+                quid = qu.id
+                wq.append(quid)
+
         unique, counts = np.unique(wq, return_counts=True)
         waf = np.asarray((unique, counts)).T
         nw_ind = []
-        print('%s--waf' %waf)
         kk = np.sort(waf,0)[::-1]
         for u in kk[:,1]:
             for z,w in waf:
@@ -2056,7 +2160,6 @@ class Teach:
                                                      = klass)
             quest_categories = []
             if total_arr:
-                print(len(total_arr))
                 for ta in total_arr:
                     for al in ta.allAnswers:
                         quest = SSCquestions.objects.get(choices__id = al)
@@ -2065,7 +2168,6 @@ class Teach:
                         quest = SSCquestions.objects.get(id = sk)
                         quest_categories.append(quest.topic_category)
             if all_total_arr:
-                print(len(all_total_arr))
                 for ta in all_total_arr:
                     for al in ta.allAnswers:
                         quest = SSCquestions.objects.get(choices__id = al)
@@ -2316,7 +2418,6 @@ class Teach:
         numbers = []
         if subject == 'English':
             for i in arr:
-                print('%s--i' %i)
                 if i == 'Word Meanings':
                     numbers.append('1.1')
                 elif i == 'Idiom/Phrase Meaning':
