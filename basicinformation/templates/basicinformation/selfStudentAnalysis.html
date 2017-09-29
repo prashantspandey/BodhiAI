@@ -23,16 +23,7 @@ var pr
          $('.studentselfSubjects').html('').load('{% url "basic:studentSubjectAnalysis" %}?studentwhichsub='+which_sub);
 
 
-            $(this).animate({
-            height: '40px',
-            width: '170px',
-        });
-
-          $(eval("'#'+pr")).animate({
-            height: '35px',
-            width: '160px',
-        });
-        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+                $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
 
 

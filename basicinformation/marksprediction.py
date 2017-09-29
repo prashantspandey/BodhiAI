@@ -9,7 +9,6 @@ from xhtml2pdf import pisa
 from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template
-
 #'''
 #load pickles for data transformation and prediction (hindi)
 #'''
@@ -1033,8 +1032,10 @@ class Studs:
         unique, counts = np.unique(all_answers, return_counts=True)
         freq = np.asarray((unique, counts)).T
         return freq
-    
+
+        
     def weakAreas(self,subject,singleTest = None):
+        print('%s -- test for subject' %subject)
         if self.institution == 'School':
             my_marks = OnlineMarks.objects.filter(student = self.profile,test__sub
                                              = subject)
@@ -1079,17 +1080,25 @@ class Studs:
                 qu = Questions.objects.get(choices__id = i)
             elif self.institution == 'SSC':
                 qu = SSCquestions.objects.get(choices__id = i)
-                if qu.section_category == subject:
+                if subject == 'SSCMultipleSections':
                     quid = qu.id
                     wq.append(quid)
+                else:
+                    if qu.section_category == subject:
+                        quid = qu.id
+                        wq.append(quid)
         for i in skipped_Answers:
             if self.institution == 'School':
                 qu = Questions.objects.get(id = i)
             elif self.institution == 'SSC':
                 qu = SSCquestions.objects.get(id = i)
-                if qu.section_category == subject:
+                if subject == 'SSCMultipleSections':
                     quid = qu.id
                     wq.append(quid)
+                else:
+                    if qu.section_category == subject:
+                        quid = qu.id
+                        wq.append(quid)
         unique, counts = np.unique(wq, return_counts=True)
         waf = np.asarray((unique, counts)).T
         nw_ind = []
@@ -1105,11 +1114,20 @@ class Studs:
                         break
         final_freq = np.asarray((nw_ind,kk[:,1])).T
         return final_freq
+
+
+    #def singleSubject_weakAreas(self,tesid):
+    #    if self.institution == 'SSC':
+    #        marks = SSCOnlineMarks.objects.filter
+        
+
     def weakAreas_Intensity(self,subject,singleTest = None):
         if singleTest == None:
             arr = self.weakAreas(subject)
         else:
             arr = self.weakAreas(subject,singleTest = singleTest)
+            catSubject = []
+            catCategory = []
         anal = []
         num = []
         for u,k in arr: 
@@ -1117,9 +1135,16 @@ class Studs:
                 qu = Questions.objects.get(id = u)
             elif self.institution == 'SSC':
                 qu = SSCquestions.objects.get(id = u)
-            category = qu.topic_category
-            anal.append(category)
-            num.append(k)
+            if subject == 'SSCMultipleSections':
+                quest_cat = qu.topic_category
+                quest_sub = qu.section_category
+                name_cat = self.changeIndividualNames(quest_cat,quest_sub)
+                anal.append(name_cat)
+                num.append(k)
+            else:
+                category = qu.topic_category
+                anal.append(category)
+                num.append(k)
         analysis = list(zip(anal,num))
         final_analysis = []
         final_num = []
@@ -1258,9 +1283,16 @@ class Studs:
 
                 if indi_marks:
                     for aq in indi_marks.sscansweredquestion_set.all():
-                        if aq.quest.section_category == subject:
-                            all_questions.append(aq.quest.topic_category)
+                        if subject == 'SSCMultipleSections':
+                            category =\
+                                self.changeIndividualNames(aq.quest.topic_category,aq.quest.section_category)
+                            all_questions.append(category)
                             all_timing.append(aq.time)
+
+                        else:
+                            if aq.quest.section_category == subject:
+                                all_questions.append(aq.quest.topic_category)
+                                all_timing.append(aq.time)
 
 
         areawise_timing = list(zip(all_questions,all_timing))

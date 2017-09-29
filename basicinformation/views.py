@@ -224,7 +224,9 @@ def student_self_analysis(request):
             raise Http404(" This page is only meant for student to see.")
         elif user.groups.filter(name='Students').exists():
             me = Studs(user)
-            allSubjects = me.my_subjects_names()
+            #allSubjects = me.my_subjects_names()
+            allSubjects = me.subjects_OnlineTest() 
+            #print('%s -- online test subejcts' %subs)
             analysis_types = ['School Tests Analysis', 'Online Test Analysis']
             context = {'subjects': allSubjects}
             return render(request, 'basicinformation/selfStudentAnalysis.html', context)
@@ -268,9 +270,13 @@ def student_subject_analysis(request):
             all_marks = [((i / test.test.max_marks) * 100) for i in all_marks]
             freq = me.online_QuestionPercentage(test_id)
             weak_areas = me.weakAreas_Intensity(sub,singleTest = test_id)
-            weak_names = me.changeTopicNumbersNames(weak_areas,sub)
             area_timing,freq = me.areawise_timing(sub,test_id)
-            timing = me.changeTopicNumbersNames(area_timing,sub)
+            if sub == 'SSCMultipleSections':
+                weak_names = weak_areas
+                timing = area_timing
+            else:
+                weak_names = me.changeTopicNumbersNames(weak_areas,sub)
+                timing = me.changeTopicNumbersNames(area_timing,sub)
             context = \
                 {'test': test, 'average': average, 'percentAverage': percent_average,
                  'my_percent': my_marks_percent, 'percentile': percentile, 'allMarks': all_marks,
