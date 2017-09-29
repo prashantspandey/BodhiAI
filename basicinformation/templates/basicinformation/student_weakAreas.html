@@ -54,7 +54,8 @@ var pointBackgroundColors = [];
 		}]
             },
 
-            options: {   responsive: false,
+            options: {   responsive: true,
+		    maintainAspectRatio: false,
 		    
                 scales: {
                     yAxes: [{
@@ -116,7 +117,8 @@ var pointBackgroundColorsTiming = [];
 		}]
             },
 
-            options: {   responsive: false,
+            options: {   responsive: true,
+		    maintainAspectRatio: false,
 
               			    title: {
 				display: true,
@@ -155,10 +157,11 @@ var pointBackgroundColorsTiming = [];
 
 
 	    <div class='col-md-6 col-xs-12' >
-	<h2 style="text-align:left;"> My Weak Areas </h2>
-	<canvas  id="myChart"  width="300" height="400" >
+	<h2 style="text-align:center;"> My Weak Areas </h2>
+	<div>
+	<canvas  id="myChart"   height="400" >
 </canvas>
-	
+	</div>	
 	    </div>
 	    <br>
 	    <br>
@@ -171,9 +174,11 @@ var pointBackgroundColorsTiming = [];
 
 
 	    <div class='col-md-7 col-xs-12' >
-	<h2 style="text-align:left;"> Average time taken per area (in seconds) </h2>
-<canvas  id="myChartTiming" width="350" height="400" >
+	<h2 style="text-align:center;"> Average time taken per topic (in seconds) </h2>
+	<div>
+<canvas  id="myChartTiming"  height="400" >
 	</canvas>
+	</div>
 
 	    </div>
 			<br>
