@@ -1396,6 +1396,59 @@ class Studs:
                     namedarr.append('Mixed analogy')
 
             return namedarr
+    def changeIndividualNames(self,i,subject):
+        if subject == 'English':
+            if i == '1.1':
+                return 'Word Meanings'
+            elif i == '1.2':
+                return 'Idiom/Phrase Meaning'
+            elif i == '2.1':
+                return 'Antonyms'
+            elif i == '3.1':
+                return 'Alternate Phrases/Underlined'
+            elif i == '3.2':
+                return 'Alternate words/Fill in the blanks'
+            elif i == '4.1':
+                return 'Re-Arrangement'
+            elif i == '5.1':
+                return 'Spelling'
+            elif i == '6.1':
+                return 'Substitution'
+            elif i == '7.1':
+                return 'Random'
+            elif i == '8.1':
+                return 'Spot the Error'
+            elif i == '9.1':
+                return 'Passage'
+        if subject == 'General-Intelligence':
+            if i == '1.1':
+                return 'Paper Cutting and Folding'
+            elif i == '1.2':
+                return 'Mirror and Water Image'
+            elif i == '1.3':
+                return 'Embedded Figures'
+            elif i == '1.4':
+                return 'Figure Completion'
+            elif i == '1.5':
+                return 'Counting Embedded Figures'
+            elif i == '1.6':
+                return 'Counting in figures'
+            elif i == '2.1':
+                return 'Analogous pair'
+            elif i == '2.2':
+                return 'Multiple Analogy'
+            elif i == '2.3':
+                return 'Choosing the analogous pair'
+            elif i == '2.4':
+                return 'Number analogy (series pattern)'
+            elif i =='2.5':
+                return 'Number analogy (missing)'
+            elif i == '2.6':
+                return 'Alphabet based analogy'
+            elif i == '2.7':
+                return 'Mixed analogy'
+
+
 
     def improvement(self,subject):
         if self.institution == 'School':
@@ -1442,10 +1495,11 @@ class Studs:
         elif self.institution == 'SSC':
             marks = SSCOnlineMarks.objects.filter(student =
                                                   self.profile,test__sub=
-                                                  subject)
+                                                  subject).order_by('id')
             mixed_marks = SSCOnlineMarks.objects.filter(student=
                                                         self.profile,test__sub
-                                                        = subject)
+                                                        ='SSCMultipleSections').order_by('id')
+            # get all the categories of questions that student has taken 
             all_categories = []
             if len(marks) > 1:
                 all_answers = []
@@ -1463,57 +1517,128 @@ class Studs:
                     quests.append(SSCquestions.objects.get(id = quest_id))
                 for q in quests:
                     all_categories.append(q.topic_category)
-                #allcat = \
-                #self.convertTopicNumbersNames(all_categories,subject)
-                #allcat = list(unique_everseen(allcat))
-                all_categories = list(unique_everseen(all_categories))
-                num_tests = len(marks)
-                changes = {}
-                for tp in all_categories:
-                    test_count = 0
-                    for i in marks:
-                        test_count += 1
-                        rightCount = 0
-                        allCount = 0
-                        wCount = 0
-                        for ra in i.rightAnswers:
-                            quest = SSCquestions.objects.get(choices__id = ra)
-                            if quest.topic_category == tp:
-                                rightCount += 1
-                                allCount += 1
-                        for wa in i.wrongAnswers:
-                            quest = SSCquestions.objects.get(choices__id = wa)
-                            if quest.topic_category == tp:
-                                wCount += 1
-                                allCount += 1
-                        for sp in i.skippedAnswers:
-                            quest = SSCquestions.objects.get(id = sp)
-                            if quest.topic_category == tp:
-                                wCount += 1
-                                allCount += 1
-                        print('%s- right,%s- wrong,%s- allcount,%s-- tp'
-                              %(rightCount,wCount,allCount,tp))
-                        try:
-                            total = ((rightCount - wCount)/allCount)
-                            changes[tp] = {'index': test_count,'percent':total}
-                        except Exception as e:
-                            print(str(e))
-                print('%s- changes' %changes)
 
+            if mixed_marks:
+                all_answers = []
+                quests = []
+                skipped_answers = []
+                for i in mixed_marks:
+                    for aa in i.allAnswers:
+                        all_answers.append(aa)
+                    for sp in i.skippedAnswers:
+                        skipped_answers.append(sp)
+                for quest_id in all_answers:
+                    quests.append(SSCquestions.objects.get(choices__id =
+                                                           quest_id))
+                for quest_id in skipped_answers:
+                    quests.append(SSCquestions.objects.get(id = quest_id))
+                for q in quests:
+                    all_categories.append(q.topic_category)
+            all_categories = list(unique_everseen(all_categories))
+            changes = {}
+            changes_mixed = {}
 
+            # get changes in accuracy topic wise (all questions answered or
+            # skipped)
+            for tp in all_categories:
+                test_count = 0
+                for i in marks:
+                    test_count += 1
+                    rightCount = 0
+                    allCount = 0
+                    wCount = 0
+                    for ra in i.rightAnswers:
+                        quest = SSCquestions.objects.get(choices__id = ra)
+                        if quest.topic_category == tp:
+                            rightCount += 1
+                            allCount += 1
+                    for wa in i.wrongAnswers:
+                        quest = SSCquestions.objects.get(choices__id = wa)
+                        if quest.topic_category == tp:
+                            wCount += 1
+                            allCount += 1
+                    for sp in i.skippedAnswers:
+                        quest = SSCquestions.objects.get(id = sp)
+                        if quest.topic_category == tp:
+                            wCount += 1
+                            allCount += 1
+                    try:
+                        total = (((rightCount - wCount)/allCount)*100)
+                        tpp = self.changeIndividualNames(tp,subject)
+                        changes[str(tp)+','+str(test_count)] = {'topic':
+                                                                tpp,'index':
+                                                                test_count,'percent':total,'time':i.testTaken,'test_id':i.id}
+                    except Exception as e:
+                        print(str(e))
+                test_count_mixed = 0
+                for i in mixed_marks:
+                    test_count_mixed += 1
+                    rightCount = 0
+                    allCount = 0
+                    wCount = 0
+                    for ra in i.rightAnswers:
+                        quest = SSCquestions.objects.get(choices__id = ra)
+                        if quest.topic_category == tp:
+                            rightCount += 1
+                            allCount += 1
+                    for wa in i.wrongAnswers:
+                        quest = SSCquestions.objects.get(choices__id = wa)
+                        if quest.topic_category == tp:
+                            wCount += 1
+                            allCount += 1
+                    for sp in i.skippedAnswers:
+                        quest = SSCquestions.objects.get(id = sp)
+                        if quest.topic_category == tp:
+                            wCount += 1
+                            allCount += 1
+                    try:
+                        total = (((rightCount - wCount)/allCount)*100)
+                        tpp = self.changeIndividualNames(tp, subject)
+                        changes_mixed[str(tp)+','+str(test_count)] = {'topic':
+                                                                tpp,'index':
+                                                                test_count_mixed,'percent':total,'time':i.testTaken,
+                                                                      'test_id':i.id}
+                    except Exception as e:
+                        print(str(e))
+            names_categories =\
+            self.convertTopicNumbersNames(all_categories,subject)
+            return changes,changes_mixed,names_categories
 
+    def plot_improvement(self,subject):
+        changes,mixed_changes,all_categories = self.sectionwise_improvement(subject)
+        print('%s -- changes' %all_categories)
+        all_ids = []
+        for key,value in changes.items():
+            all_ids.append(value['test_id'])
+        all_ids = list(unique_everseen(all_ids))
+        all_ids.sort()
 
+        #for i in all_ids:
+        #    for k,v in changes.items():
+        #        if v['test_id'] == i:
+        #          time.append(v['time'])
+        #          topic.append(v['topic'])
+        #          percent.append(v['percent'])
+        #          ind.append(i)
+        #    overall = list(zip(ind,topic,percent,time))
+        overall = {}
+        for i in all_categories:
+            time = []
+            testid = []
+            ind = []
+            percent = []
 
-                
-
-
-
-
-
-
-
-
-
+            for k,v in changes.items():
+                if changes[k]['topic'] == i:
+                    time.append(changes[k]['time'])
+                    testid.append(changes[k]['test_id'])
+                    percent.append(changes[k]['percent'])
+            overall[i] =\
+                    {'time':time,'testid':testid,'percent':percent}
+        if overall:
+            return overall
+        else:
+            return None
 
 
 class Teach:

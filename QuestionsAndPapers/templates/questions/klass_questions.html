@@ -48,10 +48,10 @@ $(eval("'#r'+i")).click(function(){
 		{%for i in que %}
 		<div class='well col-md-offset-1 col-md-10' id = 'questBox'>
 			{%if i.comprehension %}
-			<p> {{i.comprehension.text}} </p>
+			<p> <pre>{{i.comprehension.text}}</pre> </p>
 			{%endif%}
 			
-			<p id = 'questP'>{{i.text}} </p>
+			<p id = 'questP'>{{i.text|linebreaks}} </p>
 			{% if i.picture %}
 
 			<img src='{{i.picture}}' >

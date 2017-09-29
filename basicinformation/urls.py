@@ -17,5 +17,9 @@ urlpatterns = [
     url(r'studentWeakAreas/$',views.student_weakAreasSubject, name= 'studentWeakAreas'),
     url(r'studentWeakAreassub/$',views.student_weakAreas, name=
         'studentWA'),
+    url(r'studentImprovement/$',views.student_improvement, name=
+        'studentImprovement'),
+    url(r'studentImprovement_sub/$',views.student_improvement_sub,
+        name='studentImprovementsub'),
 
 ]

@@ -53,6 +53,7 @@
 	   </ul>
 	  	   <ul class="nav navbar-nav navbar-right">
 {% if user.is_authenticated %} {%if user.student %}<li role="presentation"><a href="{%url 'basic:studentWeakAreas' %}"><strong>My Weak Areas</strong></a></li>{%endif%}{%endif%} 
+{% if user.is_authenticated %} {% if user.student %} <li role='presentation'><a href="{%url 'basic:studentImprovement' %}"><strong> Improvement</strong></a></li>{%endif%}{%endif%}
   {%if user.is_authenticated%}  <li role="presentation"><a href="{% if user.teacher %} {% url 'basic:teacherHomePage' %}{%else%}{%url 'basic:studentAnalysis' %}{%endif%}">{%if user.teacher %} <strong>Student Performance </strong>{%elif user.student%} <strong>My Performance </strong>{%endif%}</a></li>{%endif%}
   {%if user.is_authenticated %}  {%if user.teacher %}  <li role="presentation"><a href="{%url 'QuestionsAndPapers:createTest' %}"><strong>Create Test</strong></a></li> {%endif%}{%endif%}
   {%if user.is_authenticated %} {% if user.teacher %}<li role="presentation"><a href="{%url 'QuestionsAndPapers:oneClickTest' %}"><strong>One Click Test</strong></a></li>{%endif%}

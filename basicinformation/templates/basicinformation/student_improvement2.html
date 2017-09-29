@@ -1,0 +1,80 @@
+{%load staticfiles%}
+{%load improvementTag%}
+<html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script>$('#loadingstudentImprovement1').hide();</script>
+{%if overall == None %}
+<h2 style='text-align:center;'> Not enough data to show you progress chart, please take a few more tests. </h2>
+{%endif%}
+    <script>
+$(document).ready(function () {
+	{% for k,v in overall.items|sort %}
+	var ctx{{forloop.counter}} = document.getElementById("myChart{{forloop.counter}}");
+	var myChart = new Chart(ctx{{forloop.counter}}, {
+            type: 'bar',
+            data: {
+		    labels: [{%for date in v.time%}'{{date}}',{%endfor%}],
+                datasets: [{
+			label:'Accuracy in category - {{k}} ' ,
+
+
+
+			data: [{%for percent in v.percent%}{{percent}},{%endfor%}],
+			backgroundColor: [
+                        'rgba(255, 99, 132, 0.4)',
+			'rgba(54, 100, 11, 0.6)',
+			'rgba(64, 200, 46, 0.6)',                  
+			'rgba(94, 155, 89, 0.6)',                  
+			'rgba(104, 255, 55, 0.6)',                 
+			'rgba(10, 90, 35, 0.6)',                   
+			'rgba(24, 162, 255, 0.6)',                 
+			'rgba(94, 12, 25, 0.6)',                   
+                                      ],
+                    borderColor: [ 'rgba(255,99,132,1)',
+		   		 'rgba(54, 100, 11, 1)',
+		   		 'rgba(64, 200, 46, 1)',
+		   		 'rgba(94, 155, 89, 1)',
+		   		 'rgba(104, 255, 55, 1)',
+		   		 'rgba(10, 90, 35, 1)',
+		   		 'rgba(24, 162, 255, 1)',
+		   		 'rgba(94, 12, 25, 1)',
+                                            ],
+
+
+
+
+                                  borderWidth: 3
+
+
+
+		}]
+            },
+
+            options: {   responsive: false,
+		    
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+
+                        }
+                    }]
+                }
+            }
+        });
+{%endfor%}
+        });
+
+
+
+</script>
+
+
+	{% for k,v in overall.items %}
+	    <div class='col-md-6 col-xs-12' >
+		    <h4 style="text-align:left;"> Improvement/Setbacks according to accuracy for topic-  {{k}} </h4>
+	<canvas  id="myChart{{forloop.counter}}"  width="250" height="300" >
+</canvas>
+	
+	    </div>
+		{%endfor%}

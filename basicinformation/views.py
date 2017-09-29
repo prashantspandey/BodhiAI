@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from random import randint
 from datetime import timedelta
+import math
 from datetime import date
 import numpy as np
 import pandas as pd
@@ -17,6 +18,8 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 # from .marksprediction import predictionConvertion, readmarks, averageoftest, teacher_get_students_classwise
 from .marksprediction import *
 from Private_Messages.models import *
+from operator import itemgetter
+
 
 def home(request):
     user = request.user
@@ -44,7 +47,7 @@ def home(request):
             #df =\
             #pd.read_csv('/home/prashant/Desktop/programming/random/tesseract/resoningAnalogy.csv')
             df=\
-            pd.read_csv('/home/prashant/Desktop/programming/sscquestions/scraper/fillintheblanks2.csv')
+            pd.read_csv('/home/prashant/Desktop/ssc_questions/questionsscraper/spottheerror1.csv')
             quests = []
             optA = []
             optB = []
@@ -60,7 +63,7 @@ def home(request):
             optE = df['optionE']
             exp = df['ans']
             #quest_category = df['Category']
-            quest_category = '3.2' # for fill in the blanks
+            quest_category = '8.1' # spot the error
             for i in df['FinalAnswer']:
                 ichanged = str(i).replace(u'\\xa0',u' ')
                 if 'a' in ichanged or '1' in ichanged:
@@ -90,7 +93,8 @@ def home(request):
             profile = user.student
             me = Studs(request.user)
             print('hello there')
-            me.sectionwise_improvement('General-Intelligence')
+            #me.sectionwise_improvement('English')
+            me.plot_improvement('English')
             subjects = user.student.subject_set.all()
             teacher_name = {}
             for sub in subjects:
@@ -153,8 +157,7 @@ def home(request):
                 pass
             # sending all values to template
             context = {'profile': profile, 'subjects': subjects,
-                       'hindihy_prediction': hindipredhy,
-                       'mathshy_prediction': mathspredhy,
+                       'hindihy_prediction': hindipredhy, 'mathshy_prediction': mathspredhy,
                        'englishhy_prediction': englishpredhy,
                        'sciencehy_prediction': sciencepredhy,
                        'maths1': mathst1, 'maths2': mathst2, 'maths3': mathst3,
@@ -299,7 +302,37 @@ def student_weakAreas(request):
        return render(request,'basicinformation/student_weakAreas.html',context)
 
 
+def student_improvement(request):
+    user = request.user
+    if user.is_authenticated:
+        if user.groups.filter(name='Students').exists():
+           me = Studs(user)
+           subjects = me.my_subjects_names()
+           context = {'subjects':subjects}
+           return \
+       render(request,'basicinformation/student_improvement1.html',context)
 
+def student_improvement_sub(request):
+    user = request.user
+    if 'improvementSub' in request.GET:
+        sub = request.GET['improvementSub']
+        me = Studs(user)
+        overall = me.plot_improvement(sub)
+        outer = []
+        innerid = []
+        innertime = []
+        innerpercent = []
+        for k,v in overall.items():
+            outer.append(k)
+            innerpercent.append(overall[k]['percent'])
+            innerid.append(overall[k]['testid'])
+            innertime.append(overall[k]['time'])
+
+
+        print('%s -- %s--%s --- %s' %(outer,innerpercent,innerid,innertime))
+        context = {'overall':overall}
+        return\
+    render(request,'basicinformation/student_improvement2.html',context)
 
 
 
@@ -677,9 +710,16 @@ def read_questions(fi):
 
 def write_questions(question,optA,optB,optC,optD,optE,correctOpt,questCategory,exp,sectionType):
     school = School.objects.filter(category = 'SSC')
-    if optE == None:
-        all_options = [optA,optB,optC,optD]
-    else:
+    try:
+        if optE:
+            if math.isnan(optE):
+                all_options = [optA,optB,optC,optD]
+            else:
+                all_options = [optA,optB,optC,optD,optE]
+        else:
+                all_options = [optA,optB,optC,optD,optE]
+    except Exception as e:
+        print(str(e))
         all_options = [optA,optB,optC,optD,optE]
     new_questions = SSCquestions()
     new_questions.tier_category = '1'
@@ -687,7 +727,7 @@ def write_questions(question,optA,optB,optC,optD,optE,correctOpt,questCategory,e
         new_questions.section_category = 'English'
     elif sectionType == 'Resoning':
         new_questions.section_category = 'General-Intelligence'
-    new_questions.text = 'Fill in the blanks\n'+'\n'+str(question)
+    new_questions.text = 'Spot the error \n' + str(question)
     print(questCategory)
     #if str(questCategory) == '1.0':
     #    new_questions.topic_category = '1.1'

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.postgres.fields import ArrayField
 
 class School(models.Model):
     category_choices = (('School','School'),('SSC','SSC'))
@@ -82,3 +83,13 @@ class SchoolManagement(models.Model):
 
     def __str__(self):
         return 'management of {}'.format(self.school.name)
+
+
+#class ImprovementStudent(models.Model):
+#    testid = ArrayField(models.IntegerField())
+#    percent = ArrayField(models.CharField(max_length=10))
+#    date = ArrayField(models.CharField(max_length = 10))
+#    topic = ArrayField(models.CharField(max_length = 10))
+#
+#    def __str__(self):
+#        return str(self.topic)
