@@ -9,10 +9,12 @@ var pr
 
          $(eval("'#studentTestids'+i")).click(function(){
           which_test = $(this).attr('value');
+	  which_subject = $('#which_subject').attr('value')
+	console.log(which_subject)
 	  $('#loadingStudentAnalysis3').show();
         $(this).removeClass("btn btn-default").addClass("btn btn-success");
          $('#studentAnalyzeTest').removeClass("hidden");
-         $('#studentAnalyzeTest').html('').load('{% url "basic:studentSubjectAnalysis" %}?studentTestid='+which_test);
+         $('#studentAnalyzeTest').html('').load('{% url "basic:studentSubjectAnalysis" %}?studentTestid='+which_test+','+which_subject);
             $(this).animate({
             height: '40px',
             width: '170px',
@@ -43,6 +45,7 @@ var pr
 	  <button type="button" class="btn btn-default text-center " value='{{test.test.id}}'  id="studentTestids{{forloop.counter}}">{{test.test.published}}</button>
 
 	{%endfor%}
+	  <button type="button" class="hidden " value='{{subject}}'  id="which_subject">{{subject}}</button>
   </div>
 </div>
 <div id = 'loadingStudentAnalysis3' style='text-align:center;display:none;'>

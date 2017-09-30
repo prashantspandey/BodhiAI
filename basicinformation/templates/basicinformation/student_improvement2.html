@@ -1,4 +1,4 @@
-{%load staticfiles%}
+{%load staticfiles%
 {%load improvementTag%}
 <html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
@@ -50,7 +50,8 @@ $(document).ready(function () {
 		}]
             },
 
-            options: {   responsive: false,
+            options: {   responsive: true,
+		    maintainAspectRatio: false,
 		    
                 scales: {
                     yAxes: [{
@@ -71,10 +72,12 @@ $(document).ready(function () {
 
 
 	{% for k,v in overall.items %}
-	    <div class='col-md-6 col-xs-12' >
+	    <div class='col-md-3 col-xs-12' >
 		    <h4 style="text-align:left;"> Improvement/Setbacks according to accuracy for topic-  {{k}} </h4>
+		    <div>
 	<canvas  id="myChart{{forloop.counter}}"  width="250" height="300" >
 </canvas>
+		    </div>
 	
 	    </div>
 		{%endfor%}

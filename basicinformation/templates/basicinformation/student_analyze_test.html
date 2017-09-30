@@ -5,14 +5,15 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>	  $('#loadingStudentAnalysis3').hide(); </script>
-<div class = 'col-md-offset-1 col-md-8  col-xs-12'>
-	<h3 style='text-align:center;'> Average of Test: {{average}} out of {{test.test.max_marks}} or {{percentAverage}} %</h3>
-	<h3 style='text-align:center;'> Your score: {{test.marks}} out of {{test.test.max_marks}} </h3>
-</div>
-	<script>
-$(document).ready(function () {
-	    var ctx = document.getElementById("analysis");
-		var myChart1 = new Chart(ctx, {
+<div class = 'col-xs-12'>
+	<h3 style='text-align:center;font-weight:bold;'> Average of Test: {{average}}/{{test.test.max_marks}} or {{percentAverage|floatformat:2}} %</h3>
+	<h3 style='text-align:center;font-weight:bold;'> Your score: {{test.marks}}/{{test.test.max_marks}} </h3>
+
+
+
+<!-- comaprison with average of test here -->
+</div> <script> $(document).ready(function () {
+	    var ctx = document.getElementById("analysis"); var myChart1 = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: ["Test Average","Your Score"],
@@ -28,7 +29,8 @@ $(document).ready(function () {
                     borderWidth: 3
                 }]
             },
-            options: {   responsive: false,
+            options: {   responsive: true,
+		    maintainAspectRatio: false,
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -41,7 +43,12 @@ $(document).ready(function () {
         });
     });
 	</script>
-	<script>
+
+
+<!-- percentile here -->
+	
+
+<script>
 	$(document).ready(function () {
 var pointBackgroundColors = [];
 	    var ctxper = document.getElementById("analysisPercentile");
@@ -59,7 +66,8 @@ var pointBackgroundColors = [];
                                   borderWidth: 3
                 }]
             },
-            options: {   responsive: false,
+            options: {   responsive: true,
+		    maintainAspectRatio: false,
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -87,15 +95,113 @@ var pointBackgroundColors = [];
 
 
 </script>
-<div class='col-md-offset-1 col-md-6  col-xs-12'>
-	<h2 style='text-align:center;'>Your performace vs Average Performace</h2>
-	<canvas  id="analysis" style="display: block; height: 300px; width: 400px; padding-left: 0;">
+<!--  weak areas here -->
+
+<script> 
+$(document).ready(function () {
+	    var ctxtopic = document.getElementById("topicAreasAnalysis");
+		var myChartt = new Chart(ctxtopic, {
+            type: 'bar',
+            data: {
+		    labels: [{%for n,w in topicWeakness %} '{{n}}',{%endfor%}],
+                datasets: [{
+			label: 'Number of wrong questions in each topic',
+			data: [{%for n,w in topicWeakness %} {{w}},{%endfor%}],
+			 backgroundColor: [
+                        'rgba(255, 99, 132, 0.4)',
+                        'rgba(54, 162, 235, 0.2)',
+                                      ],
+                    borderColor: [ 'rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)',
+                                            ],
+                    borderWidth: 3
+                }]
+            },
+            options: {   responsive: true,
+		    maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+                        }
+                    }]
+                }
+            }
+        });
+    });
+	</script>
+
+<!-- topic wise timing here here -->
+
+</script>
+
+<script> 
+$(document).ready(function () {
+	    var ctxtiming = document.getElementById("topicAreasTiming");
+		var myCharttiming = new Chart(ctxtiming, {
+            type: 'bar',
+            data: {
+		    labels: [{%for n,t in topicTiming %} '{{n}}',{%endfor%}],
+                datasets: [{
+			label: 'Timing taken to solve one question per topic (average)',
+			data: [{%for n,t in topicTiming %} {{t}},{%endfor%}],
+			 backgroundColor: [
+                        'rgba(255, 99, 132, 0.4)',
+                        'rgba(54, 162, 235, 0.2)',
+                                      ],
+                    borderColor: [ 'rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)',
+                                            ],
+                    borderWidth: 3
+                }]
+            },
+            options: {   responsive: true,
+		    maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+                        }
+                    }]
+                }
+            }
+        });
+    });
+	</script>
+
+
+
+<!-- question wise result here -->
+
+
+<div class='col-md-offset-1 col-md-5  col-xs-12'>
+	<h3 style='text-align:center;font-weight:bold;'>Your performace vs Average Performace</h2>
+	<div>
+	<canvas  id="analysis" height='400'>
 </canvas>
+	</div>
 </div>
-	    <div class='col-md-4  col-xs-12'>
-	<h2 style="text-align:center;"> Your percentile: {{percentile}} </h2>
-	<canvas  id="analysisPercentile" style="display: block; height: 300px; width: 400px; padding-left: 0;">
-</canvas> </div>
+	    <div class=' col-md-5  col-xs-12'>
+	<h3 style="text-align:center;font-weight:bold;"> Your percentile: {{percentile}} </h2>
+	<div>
+	<canvas  id="analysisPercentile" height='400'>
+</canvas> 
+	</div>
+	</div>
+
+<div class='col-md-offset-1 col-md-5  col-xs-12'>
+	<h3 style='text-align:center;font-weight:bold;'>Topic wise mistakes</h2>
+	<div>
+	<canvas  id="topicAreasAnalysis" height='400'>
+</canvas>
+	</div>
+</div>
+<div class=' col-md-5  col-xs-12'>
+	<h3 style='text-align:center;font-weight:bold;'>Timing - per topic</h2>
+	<div>
+	<canvas  id="topicAreasTiming" height='400'>
+</canvas>
+	</div>
+</div>
+
 
 
 {%if student_type == 'School' %}
@@ -124,19 +230,18 @@ var pointBackgroundColors = [];
 	{%elif student_type == 'SSC' %}
 
 
-
 <div class='col-md-offset-1 col-md-10  col-xs-12'>
 		{% for te in test.test.sscquestions_set.all %}
 		<div class='well  col-xs-12'>
-			<h3> {{te.text}}
+			<h5 style='font-weight:bold;'> {{te.text}}
 				{%if te.picture %}
 				<img src='{{te.picture}}'>
 				{%endif%}
-				{% if te.id in test.skippedAnswers %}<span class="label label-warning" >You skipped this question</span></h3>{%endif%}
+				{% if te.id in test.skippedAnswers %}<span class="label label-warning" >You skipped this question</span></h5>{%endif%}
 			{% for time in test.sscansweredquestion_set.all %}
 			{%if time.quest.id == te.id and time.time != -1 %}	
 			
-			<span class="label label-info" style='background-Color:#AA00FF;'>You took {{time.time}} seconds to solve this question.</span></h3>
+			<span class="label label-info" style='background-Color:#AA00FF;'>You took {{time.time}} seconds to solve this question.</span></h5>
 			{%endif%}
 			{%endfor%}
 

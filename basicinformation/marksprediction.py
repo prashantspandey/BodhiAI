@@ -1034,18 +1034,32 @@ class Studs:
         freq = np.asarray((unique, counts)).T
         return freq
     
-    def weakAreas(self,subject):
+    def weakAreas(self,subject,singleTest = None):
         if self.institution == 'School':
             my_marks = OnlineMarks.objects.filter(student = self.profile,test__sub
                                              = subject)
         elif self.institution == 'SSC':
-            my_marks = SSCOnlineMarks.objects.filter(student = self.profile,test__sub
-                                             = subject)
-            all_marks = SSCOnlineMarks.objects.filter(student= self.profile,
+            if singleTest == None:
+                my_marks = SSCOnlineMarks.objects.filter(student = self.profile,test__sub
+                                                 = subject)
+                all_marks = SSCOnlineMarks.objects.filter(student= self.profile,
                                                     test__sub =
                                                     'SSCMultipleSections')
+                indi_my_marks = None
+            else:
+                indi_my_marks = SSCOnlineMarks.objects.get(student=
+                                                         self.profile,test__id =
+                                                         singleTest)
+                my_marks = None
+                all_marks = None
+
         wrong_Answers = []
         skipped_Answers = []
+        if indi_my_marks:
+            for wa in indi_my_marks.wrongAnswers:
+                wrong_Answers.append(wa)
+            for sp in indi_my_marks.skippedAnswers:
+                skipped_Answers.append(sp)
         if my_marks:
             for om in my_marks:
                 for wa in om.wrongAnswers:
@@ -1091,8 +1105,11 @@ class Studs:
                         break
         final_freq = np.asarray((nw_ind,kk[:,1])).T
         return final_freq
-    def weakAreas_Intensity(self,subject):
-        arr = self.weakAreas(subject)
+    def weakAreas_Intensity(self,subject,singleTest = None):
+        if singleTest == None:
+            arr = self.weakAreas(subject)
+        else:
+            arr = self.weakAreas(subject,singleTest = singleTest)
         anal = []
         num = []
         for u,k in arr: 
@@ -1202,37 +1219,49 @@ class Studs:
 
         timer = list(zip(quest,time_list))
 
-    def areawise_timing(self,subject):
+    def areawise_timing(self,subject,singleTest = None):
         all_questions = []
         all_timing = []
-        if self.institution == 'School':
-            marks = OnlineMarks.objects.filter(test__sub = subject,student =
-                                            self.profile)
-            for om in marks:
-                for aq in om.sscansweredquestion_set.all():
-                    all_questions.append(aq.quest.topic_category)
-                    all_timing.append(aq.time)
-
-        elif self.institution == 'SSC':
-            
-            marks = SSCOnlineMarks.objects.filter(test__sub = subject, student =
-                                                  self.profile)
-            if marks:
+        if singleTest == None:
+            if self.institution == 'School':
+                marks = OnlineMarks.objects.filter(test__sub = subject,student =
+                                                self.profile)
                 for om in marks:
                     for aq in om.sscansweredquestion_set.all():
                         all_questions.append(aq.quest.topic_category)
                         all_timing.append(aq.time)
 
+            elif self.institution == 'SSC':
+                marks = SSCOnlineMarks.objects.filter(test__sub = subject, student =
+                                                      self.profile)
+                if marks:
+                    for om in marks:
+                        for aq in om.sscansweredquestion_set.all():
+                            all_questions.append(aq.quest.topic_category)
+                            all_timing.append(aq.time)
 
-            all_marks =\
-            SSCOnlineMarks.objects.filter(student=self.profile,test__sub=
-                                          'SSCMultipleSections')
-            if all_marks:
-                for om in all_marks:
-                    for aq in om.sscansweredquestion_set.all():
+
+                all_marks =\
+                SSCOnlineMarks.objects.filter(student=self.profile,test__sub=
+                                              'SSCMultipleSections')
+                if all_marks:
+                    for om in all_marks:
+                        for aq in om.sscansweredquestion_set.all():
+                            if aq.quest.section_category == subject:
+                                all_questions.append(aq.quest.topic_category)
+                                all_timing.append(aq.time)
+        else:
+            if self.institution == 'SSC':
+                indi_marks = SSCOnlineMarks.objects.get(student = self.profile,test__id =
+                                                        singleTest)
+                print(indi_marks)
+
+                if indi_marks:
+                    for aq in indi_marks.sscansweredquestion_set.all():
                         if aq.quest.section_category == subject:
                             all_questions.append(aq.quest.topic_category)
                             all_timing.append(aq.time)
+
 
         areawise_timing = list(zip(all_questions,all_timing))
         dim1 = list(unique_everseen(all_questions))

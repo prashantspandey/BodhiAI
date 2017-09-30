@@ -248,11 +248,13 @@ def student_subject_analysis(request):
             elif me.institution == 'SSC':
                 tests = SSCOnlineMarks.objects.filter(test__sub=subject, student=user.student)
 
-            context = {'tests': tests}
+            context = {'tests': tests,'subject':subject}
             return \
                 render(request, 'basicinformation/student_self_sub_tests.html', context)
         if 'studentTestid' in request.GET:
-            test_id = request.GET['studentTestid']
+            idandsubject = request.GET['studentTestid']
+            test_id = idandsubject.split(',')[0]
+            sub = idandsubject.split(',')[1]
             if me.institution == 'School':
                 test = OnlineMarks.objects.get(student=user.student, test__id=test_id)
                 student_type = 'School'
@@ -265,11 +267,15 @@ def student_subject_analysis(request):
             percentile, all_marks = me.online_findPercentile(test_id)
             all_marks = [((i / test.test.max_marks) * 100) for i in all_marks]
             freq = me.online_QuestionPercentage(test_id)
-            
+            weak_areas = me.weakAreas_Intensity(sub,singleTest = test_id)
+            weak_names = me.changeTopicNumbersNames(weak_areas,sub)
+            area_timing,freq = me.areawise_timing(sub,test_id)
+            timing = me.changeTopicNumbersNames(area_timing,sub)
             context = \
                 {'test': test, 'average': average, 'percentAverage': percent_average,
                  'my_percent': my_marks_percent, 'percentile': percentile, 'allMarks': all_marks,
-                 'freq': freq,'student_type':student_type}
+                 'freq':
+                 freq,'student_type':student_type,'topicWeakness':weak_names,'topicTiming':timing}
             return \
                 render(request, 'basicinformation/student_analyze_test.html', context)
 
