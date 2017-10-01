@@ -269,8 +269,10 @@ def student_subject_analysis(request):
             percentile, all_marks = me.online_findPercentile(test_id)
             all_marks = [((i / test.test.max_marks) * 100) for i in all_marks]
             freq = me.online_QuestionPercentage(test_id)
+            ra,wa,sp,accuracy = me.test_statistics(test_id)
             weak_areas = me.weakAreas_Intensity(sub,singleTest = test_id)
             area_timing,freq = me.areawise_timing(sub,test_id)
+            subjectwise_accuracy = me.test_SubjectAccuracy(test_id)
             if sub == 'SSCMultipleSections':
                 weak_names = weak_areas
                 timing = area_timing
@@ -281,7 +283,8 @@ def student_subject_analysis(request):
                 {'test': test, 'average': average, 'percentAverage': percent_average,
                  'my_percent': my_marks_percent, 'percentile': percentile, 'allMarks': all_marks,
                  'freq':
-                 freq,'student_type':student_type,'topicWeakness':weak_names,'topicTiming':timing}
+                 freq,'student_type':student_type,'topicWeakness':weak_names,'topicTiming':timing,
+                 'numberRight':ra,'numberWrong':wa,'numberSkipped':sp,'accuracy':accuracy,'subjectwise_accuracy':subjectwise_accuracy}
             return \
                 render(request, 'basicinformation/student_analyze_test.html', context)
 
@@ -300,6 +303,7 @@ def student_weakAreas(request):
        me = Studs(request.user)
        subject = request.GET['studWA']
        timing_areawise,freq_timer = me.areawise_timing(subject)
+       freq_timer = me.changeTopicNumbersNames(freq_timer,subject)
        freq = me.weakAreas_IntensityAverage(subject)
        if freq == 0:
            context = {'noMistake':'noMistake'}
@@ -330,6 +334,7 @@ def student_improvement_sub(request):
         sub = request.GET['improvementSub']
         me = Studs(user)
         overall = me.plot_improvement(sub)
+        print(overall)
         outer = []
         innerid = []
         innertime = []
@@ -341,7 +346,7 @@ def student_improvement_sub(request):
             innertime.append(overall[k]['time'])
 
 
-        print('%s -- %s--%s --- %s' %(outer,innerpercent,innerid,innertime))
+        #print('%s -- %s--%s --- %s' %(outer,innerpercent,innerid,innertime))
         context = {'overall':overall}
         return\
     render(request,'basicinformation/student_improvement2.html',context)

@@ -1032,10 +1032,88 @@ class Studs:
         unique, counts = np.unique(all_answers, return_counts=True)
         freq = np.asarray((unique, counts)).T
         return freq
+    
+    def test_statistics(self,testid):
+        if self.institution == 'Schoool':
+            pass
+        elif self.institution == 'SSC':
+            marks = SSCOnlineMarks.objects.get(student = self.profile,test__id
+                                               = testid)
+            if marks:
+                right_answers = 0
+                wrong_answers = 0
+                skipped_answers = 0
+                for ra in marks.rightAnswers:
+                    right_answers += 1
+                for wa in marks.wrongAnswers:
+                    wrong_answers += 1
+                for sp in marks.skippedAnswers:
+                    skipped_answers += 1
+                accuracy = ((right_answers -
+                            wrong_answers)/(right_answers+wrong_answers))*100
+                return right_answers,wrong_answers,skipped_answers,accuracy
+
+
+    def test_SubjectAccuracy(self,testid):
+        if self.institution == 'School':
+            pass
+        elif self.institution == 'SSC':
+            marks = SSCOnlineMarks.objects.get(student = self.profile,test__id
+                                               = testid)
+            right_answers = []
+            wrong_answers = []
+            skipped_answers = []
+            subjectra = []
+            subjectwa = []
+            subjectsa = []
+
+            for ra in marks.rightAnswers:
+                question = SSCquestions.objects.get(choices__id = ra)
+                sub = question.section_category
+                right_answers.append(question.id)
+                subjectra.append(sub)
+            for wa in marks.wrongAnswers:
+                question = SSCquestions.objects.get(choices__id = wa)
+                sub = question.section_category
+                wrong_answers.append(question.id)
+                subjectwa.append(sub)
+            for sa in marks.skippedAnswers:
+                question = SSCquestions.objects.get(id = sa)
+                sub = question.section_category
+                skipped_answers.append(question.id)
+                subjectsa.append(sub)
+            ra = list(zip(subjectra,right_answers))
+            wa = list(zip(subjectwa,wrong_answers))
+            sp= list(zip(subjectsa,skipped_answers))
+            unique, counts = np.unique(ra, return_counts=True)
+            raf = np.asarray((unique, counts)).T
+            unique, counts = np.unique(wa, return_counts=True)
+            waf = np.asarray((unique, counts)).T
+            unique, counts = np.unique(sp, return_counts=True)
+            spf = np.asarray((unique, counts)).T
+            new_ra = {}
+            for i,j in raf:
+                if  i in self.my_subjects_names():
+                    new_ra[i] = j
+            new_wa = {}
+            for i,j in waf:
+                if  i in self.my_subjects_names():
+                    new_wa[i] = j
+            new_sa = {}
+            for i,j in spf:
+                if  i in self.my_subjects_names():
+                    new_sa[i] = j
+            sub_accuracy = {}
+            for rk,rv in new_ra.items():
+                for wk,wv in new_wa.items():
+                    if rk == wk:
+                        accuracy =\
+                        ((int(new_ra[wk])-int(new_wa[wk]))/((int(new_ra[wk])+int(new_wa[wk])))*100)
+                        sub_accuracy[wk] = accuracy
+            return sub_accuracy
 
         
     def weakAreas(self,subject,singleTest = None):
-        print('%s -- test for subject' %subject)
         if self.institution == 'School':
             my_marks = OnlineMarks.objects.filter(student = self.profile,test__sub
                                              = subject)
@@ -1159,6 +1237,8 @@ class Studs:
 
         waf = list(zip(final_analysis,final_num))
         return waf
+
+
     def weakAreas_IntensityAverage(self,subject):
         arr = self.weakAreas_Intensity(subject)
         if self.institution  == 'School':
@@ -1599,8 +1679,8 @@ class Studs:
             changes = {}
             changes_mixed = {}
 
-            # get changes in accuracy topic wise (all questions answered or
-            # skipped)
+            # get changes in accuracy topic wise (all questions answered
+            # excluding not attempted questions)
             for tp in all_categories:
                 test_count = 0
                 for i in marks:
@@ -1624,7 +1704,7 @@ class Studs:
                             wCount += 1
                             allCount += 1
                     try:
-                        total = (((rightCount - wCount)/allCount)*100)
+                        total = (((rightCount - wCount)/(rightCount+wCount))*100)
                         tpp = self.changeIndividualNames(tp,subject)
                         changes[str(tp)+','+str(test_count)] = {'topic':
                                                                 tpp,'index':
@@ -1653,7 +1733,7 @@ class Studs:
                             wCount += 1
                             allCount += 1
                     try:
-                        total = (((rightCount - wCount)/allCount)*100)
+                        total = (((rightCount - wCount)/(rightCount + wCount))*100)
                         tpp = self.changeIndividualNames(tp, subject)
                         changes_mixed[str(tp)+','+str(test_count)] = {'topic':
                                                                 tpp,'index':

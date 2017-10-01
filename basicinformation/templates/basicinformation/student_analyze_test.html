@@ -5,14 +5,27 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>	  $('#loadingStudentAnalysis3').hide(); </script>
-<div class = 'col-xs-12'>
-	<h3 style='text-align:center;font-weight:bold;'> Average of Test: {{average}}/{{test.test.max_marks}} or {{percentAverage|floatformat:2}} %</h3>
-	<h3 style='text-align:center;font-weight:bold;'> Your score: {{test.marks}}/{{test.test.max_marks}} </h3>
+
+
+	<div class="jumbotron" style="background:transparent !important" >
+	<h2 style='text-align:center;font-weight:bold;'> Your score: {{test.marks}}/{{test.test.max_marks}} </h2>
+<h3 style='text-align:center;font-weight:bold;'> Average of Test: {{average}}/{{test.test.max_marks}} or {{percentAverage|floatformat:2}} %</h3>
+
+  <hr class="my-4">
+<h4 style='text-align:center;font-weight:bold;'> Right Answers: {{numberRight}}, 
+	Wrong Answers: {{numberWrong}},
+	Not-Attempted : {{numberSkipped}},
+	Accuracy : {{accuracy|floatformat:2}}%</h4>
+<h3 style='text-align:center;font-weight:bold;'> Subject wise accuracy: </h4>
+{%for s,acc in subjectwise_accuracy.items %}
+<h4 style='text-align:center;font-weight:bold;'> Accuracy in {{s}}: {{acc|floatformat:2}}% </h4>
+{%endfor%}
+</div>  
 
 
 
 <!-- comaprison with average of test here -->
-</div> <script> $(document).ready(function () {
+ <script> $(document).ready(function () {
 	    var ctx = document.getElementById("analysis"); var myChart1 = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -21,10 +34,10 @@
 			label: 'Your performace vs Average Performance',
 			data: [{{percentAverage}},{{my_percent}}],
 			 backgroundColor: [
-                        'rgba(255, 99, 132, 0.4)',
-                        'rgba(54, 162, 235, 0.2)',
+                        '#BA68C8',
+                        '#64B5F6',
                                       ],
-                    borderColor: [ 'rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)',
+                    borderColor: [ '#BA68C8', '#64B5F6',
                                             ],
                     borderWidth: 3
                 }]
@@ -108,10 +121,18 @@ $(document).ready(function () {
 			label: 'Number of wrong questions in each topic',
 			data: [{%for n,w in topicWeakness %} {{w}},{%endfor%}],
 			 backgroundColor: [
-                        'rgba(255, 99, 132, 0.4)',
-                        'rgba(54, 162, 235, 0.2)',
+                        '#FFB74D',
+                        '#FFCA28',
+                        '#FFEE58',
+                        '#FFD600',
+                        '#FFAB00',
+                        '#FF6D00',
+                        '#FF8A65',
+                        '#A5D6A7',
+                        '#C5E1A5',
+                        '#E6EE9C',
                                       ],
-                    borderColor: [ 'rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)',
+                    borderColor: [ '#E6EE9C', '#FFCA28','#FFEE58','#FFD600','#FFAB00','#FF6D00','#E6EE9C','#E6EE9C','#E6EE9C','#E6EE9C',
                                             ],
                     borderWidth: 3
                 }]
