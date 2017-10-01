@@ -1049,8 +1049,7 @@ class Studs:
                     wrong_answers += 1
                 for sp in marks.skippedAnswers:
                     skipped_answers += 1
-                accuracy = ((right_answers -
-                            wrong_answers)/(right_answers+wrong_answers))*100
+                accuracy = ((right_answers)/(right_answers+wrong_answers))*100
                 return right_answers,wrong_answers,skipped_answers,accuracy
 
 
@@ -1108,7 +1107,7 @@ class Studs:
                 for wk,wv in new_wa.items():
                     if rk == wk:
                         accuracy =\
-                        ((int(new_ra[wk])-int(new_wa[wk]))/((int(new_ra[wk])+int(new_wa[wk])))*100)
+                        ((int(new_ra[wk]))/((int(new_ra[wk])+int(new_wa[wk])))*100)
                         sub_accuracy[wk] = accuracy
             return sub_accuracy
 
