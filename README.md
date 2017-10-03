@@ -3,7 +3,7 @@
 - basicInformation
 - membership
 - Questions and papers
-- MessagesandAnnouncements
+- Private_Messages
 - bodhiai
 
 
