@@ -3,8 +3,12 @@
 <html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script>$('#loadingstudentImprovement1').hide();</script>
+<br>
+<br>
 {%if overall == None %}
-<h2 style='text-align:center;'> Not enough data to show you progress chart, please take a few more tests. </h2>
+<div class="alert alert-warning">
+<h2 style='text-align:center;'> Not enough data to show your progress chart, please take a few more tests. </h2>
+</div>
 {%endif%}
     <script>
 $(document).ready(function () {
@@ -67,13 +71,12 @@ $(document).ready(function () {
         });
 
 
-
 </script>
 
 
 	{% for k,v in overall.items %}
 	    <div class='col-md-3 col-xs-12' >
-		    <h4 style="text-align:left;"> Improvement/Setbacks according to accuracy for topic-  {{k}} </h4>
+		    <h4 style="text-align:left;"> Progress according to accuracy-<strong> {{k}}</strong> </h4>
 		    <div>
 	<canvas  id="myChart{{forloop.counter}}"  width="250" height="300" >
 </canvas>

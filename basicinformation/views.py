@@ -92,83 +92,95 @@ def home(request):
         if user.groups.filter(name='Students').exists():
             profile = user.student
             me = Studs(request.user)
-            print('hello there')
-            #me.sectionwise_improvement('English')
-            me.plot_improvement('English')
+            subjects = me.my_subjects_names()
             subjects = user.student.subject_set.all()
             teacher_name = {}
+            subject_marks = {}
             for sub in subjects:
                 teacher_name[sub.name] = sub.teacher # retrieve all marks from database
+                marks = SSCOnlineMarks.objects.filter(test__sub = sub.name,student =
+                                                     profile)
+                if marks:
+                    one_marks = []
+                    time = []
+                    for i in marks:
+                        one_marks.append(float(i.marks)/float(i.test.max_marks)*100)
+                        time.append(i.testTaken)
+                        subject_marks[sub.name] = {'marks':one_marks,'time':time}
+            
+            
             # Get all the student marks
-            try:
-                mathst1,mathst2,mathst3,mathshy,mathst4,mathspredhy =\
-                me.readmarks('Maths')
-            except:
-                mathst1 = mathst2 = mathst3 = mathshy = mathst4 = mathspredhy=None
-            try:
-                hindit1,hindit2,hindit3,hindihy,hindit4,hindipredhy =\
-                me.readmarks('Hindi')
-            except:
-                hindit1 = hindit2 = hindit3 = hindihy = hindit4 = hindipredhy=None
-            try:
-                englisht1,englisht2,englisht3,englishhy,englisht4,englishpredhy =\
-                me.readmarks('English')
-            except:
-                englisht1 = englisht2 = englisht3 = englishhy = englisht4 =\
-                englishpredhy=None
-            try:
-                sciencet1,sciencet2,sciencet3,sciencehy,sciencet4,sciencepredhy =\
-                me.readmarks('Science')
-            except:
-                sciencet1 = sciencet2 = sciencet3 = sciencehy = sciencet4 =\
-                sciencepredhy=None
+            #try:
+            #    mathst1,mathst2,mathst3,mathshy,mathst4,mathspredhy =\
+            #    me.readmarks('Maths')
+            #except:
+            #    mathst1 = mathst2 = mathst3 = mathshy = mathst4 = mathspredhy=None
+            #try:
+            #    hindit1,hindit2,hindit3,hindihy,hindit4,hindipredhy =\
+            #    me.readmarks('Hindi')
+            #except:
+            #    hindit1 = hindit2 = hindit3 = hindihy = hindit4 = hindipredhy=None
+            #try:
+            #    englisht1,englisht2,englisht3,englishhy,englisht4,englishpredhy =\
+            #    me.readmarks('English')
+            #except:
+            #    englisht1 = englisht2 = englisht3 = englishhy = englisht4 =\
+            #    englishpredhy=None
+            #try:
+            #    sciencet1,sciencet2,sciencet3,sciencehy,sciencet4,sciencepredhy =\
+            #    me.readmarks('Science')
+            #except:
+            #    sciencet1 = sciencet2 = sciencet3 = sciencehy = sciencet4 =\
+            #    sciencepredhy=None
 
-            # check for announcements in past 48 hours
-            startdate = date.today()
-            enddate = startdate - timedelta(days=2)
-            my_announcements = Announcement.objects.filter(listener =
-                                                           profile,date__range=[enddate,startdate])
+            ## check for announcements in past 48 hours
+            #startdate = date.today()
+            #enddate = startdate - timedelta(days=2)
+            #my_announcements = Announcement.objects.filter(listener =
+            #                                               profile,date__range=[enddate,startdate])
 
-            # find the predicted marks
-            try:
-                hindipredhy_raw = \
-                me.hindi_3testhyprediction(hindit1,hindit2,hindit3,me.get_dob(),me.get_section())
-                hindipredhy = me.predictionConvertion(hindipredhy_raw)
-            except:
-                pass
+            ## find the predicted marks
+            #try:
+            #    hindipredhy_raw = \
+            #    me.hindi_3testhyprediction(hindit1,hindit2,hindit3,me.get_dob(),me.get_section())
+            #    hindipredhy = me.predictionConvertion(hindipredhy_raw)
+            #except:
+            #    pass
 
-            try:
-                mathspredhy_raw = \
-                me.hindi_3testhyprediction(mathst1,mathst2,mathst3,me.get_dob(),me.get_section())
-                mathspredhy = me.predictionConvertion(mathspredhy_raw)
-            except:
-                pass
-            try:
-                englishpredhy_raw = \
-                me.english_3testhyprediction(englisht1,englisht2,englisht3,me.get_dob(),me.get_section())
-                englishpredhy = me.predictionConvertion(englishpredhy_raw)
-            except:
-                pass
-            try:
-                sciencepredhy_raw = \
-                me.science_3testhyprediction(sciencet1,sciencet2,sciencet3,me.get_dob(),me.get_section())
-                sciencepredhy = me.predictionConvertion(sciencepredhy_raw)
-            except:
-                pass
-            # sending all values to template
-            context = {'profile': profile, 'subjects': subjects,
-                       'hindihy_prediction': hindipredhy, 'mathshy_prediction': mathspredhy,
-                       'englishhy_prediction': englishpredhy,
-                       'sciencehy_prediction': sciencepredhy,
-                       'maths1': mathst1, 'maths2': mathst2, 'maths3': mathst3,
-                       'maths4': mathst4, 'hindi1': hindit1, 'hindi2': hindit2,
-                       'hindi3': hindit3, 'hindi4': hindit4, 'english1': englisht1,
-                       'english2': englisht2, 'english3': englisht3, 'english4': englisht4,
-                       'science1': sciencet1, 'science2': sciencet2,
-                       'science3': sciencet3, 'science4':
-                       sciencet4,'announcements':my_announcements}
+            #try:
+            #    mathspredhy_raw = \
+            #    me.hindi_3testhyprediction(mathst1,mathst2,mathst3,me.get_dob(),me.get_section())
+            #    mathspredhy = me.predictionConvertion(mathspredhy_raw)
+            #except:
+            #    pass
+            #try:
+            #    englishpredhy_raw = \
+            #    me.english_3testhyprediction(englisht1,englisht2,englisht3,me.get_dob(),me.get_section())
+            #    englishpredhy = me.predictionConvertion(englishpredhy_raw)
+            #except:
+            #    pass
+            #try:
+            #    sciencepredhy_raw = \
+            #    me.science_3testhyprediction(sciencet1,sciencet2,sciencet3,me.get_dob(),me.get_section())
+            #    sciencepredhy = me.predictionConvertion(sciencepredhy_raw)
+            #except:
+            #    pass
+            ## sending all values to template
+            #context = {'profile': profile, 'subjects': subjects,
+            #           'hindihy_prediction': hindipredhy, 'mathshy_prediction': mathspredhy,
+            #           'englishhy_prediction': englishpredhy,
+            #           'sciencehy_prediction': sciencepredhy,
+            #           'maths1': mathst1, 'maths2': mathst2, 'maths3': mathst3,
+            #           'maths4': mathst4, 'hindi1': hindit1, 'hindi2': hindit2,
+            #           'hindi3': hindit3, 'hindi4': hindit4, 'english1': englisht1,
+            #           'english2': englisht2, 'english3': englisht3, 'english4': englisht4,
+            #           'science1': sciencet1, 'science2': sciencet2,
+            #           'science3': sciencet3, 'science4':
+            #           sciencet4,'announcements':my_announcements}
+            context = \
+            {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks}
 
-            return render(request, 'basicinformation/student.html', context)
+            return render(request, 'basicinformation/studentInstitute.html', context)
 
 
         elif user.groups.filter(name='Teachers').exists():
@@ -308,7 +320,7 @@ def student_weakAreas(request):
        if freq == 0:
            context = {'noMistake':'noMistake'}
            return render(request,'basicinformation/student_weakAreas.html',context)
-       me.improvement(subject)
+       #me.improvement(subject)
         # changing topic categories numbers to names
        timing_areawiseNames =\
         me.changeTopicNumbersNames(timing_areawise,subject)
@@ -334,19 +346,18 @@ def student_improvement_sub(request):
         sub = request.GET['improvementSub']
         me = Studs(user)
         overall = me.plot_improvement(sub)
-        print(overall)
         outer = []
         innerid = []
         innertime = []
         innerpercent = []
-        for k,v in overall.items():
-            outer.append(k)
-            innerpercent.append(overall[k]['percent'])
-            innerid.append(overall[k]['testid'])
-            innertime.append(overall[k]['time'])
-
-
-        #print('%s -- %s--%s --- %s' %(outer,innerpercent,innerid,innertime))
+        try:
+            for k,v in overall.items():
+                outer.append(k)
+                innerpercent.append(overall[k]['percent'])
+                innerid.append(overall[k]['testid'])
+                innertime.append(overall[k]['time'])
+        except:
+            pass
         context = {'overall':overall}
         return\
     render(request,'basicinformation/student_improvement2.html',context)

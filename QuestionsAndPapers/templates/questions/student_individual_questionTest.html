@@ -12,7 +12,8 @@
          $(document).ready(function () {
 
 	 var pr
-		for(i=1 ; i<=50; i++){
+	
+		for(i=1 ; i<=100; i++){
          $(eval("'#num'+i")).click(function(){
           quest_pos = $(this).attr('value');
 	var  howmany = {{how_many}}	 
@@ -20,16 +21,7 @@
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
  		  $('#showIndividualQuestions').removeClass("hidden");
          $('#showIndividualQuestions').html('').load('{% url 'QuestionsAndPapers:conductTest' %}?IndividualTestQuestPos='+encodeURIComponent(quest_pos)+','+teid);
- $(this).animate({
-            height: '40px',
-            width: '25px',
-        });
-
-          $(eval("'#'+pr")).animate({
-            height: '35px',
-            width: '25px',
-        });
-        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
 
 
@@ -61,15 +53,21 @@ $('#timeKeeper').text(hours + ' hours ' + mins + ' minutes and ' + seconds + ' s
 sessionStorage.setItem({{te_id}},counter);
 
 if (counter == 0){
+	sessionStorage.clear();
 	$('#testsub').trigger('click');
 };
+if (counter == (parseInt({{testTime}}) * 60)-1){
+	console.log('dont click')
+	$('#num1').trigger('click');
+};
+
 };
 
 function formClick(){
 var timer = counter
 var formInfo = document.forms['finishForm']
 formInfo.elements["timeTaken"].value = timer;
-console.log(timer)
+sessionStorage.clear();
 formInfo.submit()
 };
 

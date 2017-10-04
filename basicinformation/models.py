@@ -28,10 +28,10 @@ class klass(models.Model):
 class Student(models.Model):
     studentuser = models.OneToOneField(User,blank=True,null=True)
     klass = models.ForeignKey(klass,related_name='klass')
-    rollNumber = models.BigIntegerField()
+    rollNumber = models.BigIntegerField(null=True,blank=True)
     name = models.CharField(max_length=200)
-    dob = models.DateField()
-    pincode = models.IntegerField()
+    dob = models.DateField(null=True,blank=True)
+    pincode = models.IntegerField(null=True,blank=True)
     school = \
     models.ForeignKey(School,related_name='school',blank=True,null=True)
     def __str__(self):
