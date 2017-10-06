@@ -781,6 +781,7 @@ def conduct_Test(request):
                 choice_id = -1
             # runs when next button is pressed rather than selecting a
             # choice(skipped)
+            print('%s -- questimer' %questTime)
             question_id = request.POST['questionid']
             test_id = request.POST['testid']
             if choice_id == -1:
@@ -859,6 +860,7 @@ def conduct_Test(request):
                     
                 except:
                     skipped_ids.append(i)
+
             all_answers = []
             final_skipped = []
             final_correct = []
@@ -868,6 +870,7 @@ def conduct_Test(request):
             all_time = []
             num = 0
             # iterate over all the answer and time holding dictionary
+            print('%s -- all_time' %all_time)
             for k in quest_ans_dict.keys():
                 for j in quest_ans_dict[k]:
                     num = num +1
@@ -944,14 +947,20 @@ def conduct_Test(request):
                 online_marks_quests.onlineMarks = online_marks
                 online_marks_quests.quest = q
                 for ch in q.choices_set.all():
+                    print('%s how many' %len(q.choices_set.all()))
                     if ch.id in all_answers:
                         online_marks_quests.time = all_time[num]
+                        print('%s-- chid %s -- alltime[num]'
+                              %(ch.id,all_time[num]))
                         num = num +1
                     else:
                         times = times +1
-                        if times >3:
+                        if times == len(q.choices_set.all()):
                             online_marks_quests.time = -1
-                online_marks_quests.save()
+                try:
+                    online_marks_quests.save()
+                except Exception as e:
+                    print(str(e))
             # calculate time to send to template
             hours = int(total_time/3600)
             t = int(total_time%3600)

@@ -50,6 +50,7 @@ if (selec == 'undefined'){
 quidid = {{question.id}}
 testid = {{testid}}
 questTimer = $('#qtk').text();
+console.log(questTimer); 
 
 $.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
 	   "questionid":quidid,
@@ -90,8 +91,8 @@ selec=	$('input[name=answerChoice]:checked').val();
 quidid = {{question.id}}
 testid = {{testid}}
 
-console.log(selec); 
 questTimer = $('#qtk').text();
+console.log(questTimer);
 $.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
 	   "questionid":quidid,
 	   "testid":testid,

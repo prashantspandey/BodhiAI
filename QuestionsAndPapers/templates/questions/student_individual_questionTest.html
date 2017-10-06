@@ -57,7 +57,6 @@ if (counter == 0){
 	$('#testsub').trigger('click');
 };
 if (counter == (parseInt({{testTime}}) * 60)-1){
-	console.log('dont click')
 	$('#num1').trigger('click');
 };
 
@@ -67,8 +66,8 @@ function formClick(){
 var timer = counter
 var formInfo = document.forms['finishForm']
 formInfo.elements["timeTaken"].value = timer;
-sessionStorage.clear();
 formInfo.submit()
+sessionStorage.clear();
 };
 
 
@@ -90,6 +89,9 @@ formInfo.submit()
 	<button type="button" class="btn btn-default hidden" id="teid">{{te_id}}</button>
 
 	{%endfor%}
+	<br>
+	<br>
+	<br>
 	<div style='text-align:center;'>
 		<form action='{% url "QuestionsAndPapers:conductTest" %}' method='post' id ='finishForm'>
 		{%csrf_token%}

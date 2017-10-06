@@ -46,49 +46,50 @@ def home(request):
             #    all_passages = pickle.load(fi)
             #df =\
             #pd.read_csv('/home/prashant/Desktop/programming/random/tesseract/resoningAnalogy.csv')
-            df=\
-            pd.read_csv('/home/prashant/Desktop/ssc_questions/questionsscraper/spottheerror1.csv')
-            quests = []
-            optA = []
-            optB = []
-            optC = []
-            optD = []
-            right_answer = []
-            quest_category = []
-            quests = df['questions']
-            optA = df['optionA']
-            optB = df['optionB']
-            optC = df['optionC']
-            optD = df['optionD']
-            optE = df['optionE']
-            exp = df['ans']
-            #quest_category = df['Category']
-            quest_category = '8.1' # spot the error
-            for i in df['FinalAnswer']:
-                ichanged = str(i).replace(u'\\xa0',u' ')
-                if 'a' in ichanged or '1' in ichanged:
-                    right_answer.append(1)
-                elif 'b' in ichanged or '2' in ichanged:
-                    right_answer.append(2)
-                elif 'c' in ichanged or '3' in ichanged:
-                    right_answer.append(3)
-                elif 'd' in ichanged or '4' in ichanged:
-                    right_answer.append(4)
-                elif 'e' in ichanged or '5' in ichanged:
-                    right_answer.append(5)
-            for ind in range(len(optA)):
-                print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s --\
-                      opte,%s\
-                  -- right_answer,%s -- explanation'
-                  %(optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],right_answer[ind],exp[ind]))
+            #df=\
+            #pd.read_csv('/home/prashant/Desktop/ssc_questions/questionsscraper/spottheerror1.csv')
+            #quests = []
+            #optA = []
+            #optB = []
+            #optC = []
+            #optD = []
+            #right_answer = []
+            #quest_category = []
+            #quests = df['questions']
+            #optA = df['optionA']
+            #optB = df['optionB']
+            #optC = df['optionC']
+            #optD = df['optionD']
+            #optE = df['optionE']
+            #exp = df['ans']
+            ##quest_category = df['Category']
+            #quest_category = '8.1' # spot the error
+            #for i in df['FinalAnswer']:
+            #    ichanged = str(i).replace(u'\\xa0',u' ')
+            #    if 'a' in ichanged or '1' in ichanged:
+            #        right_answer.append(1)
+            #    elif 'b' in ichanged or '2' in ichanged:
+            #        right_answer.append(2)
+            #    elif 'c' in ichanged or '3' in ichanged:
+            #        right_answer.append(3)
+            #    elif 'd' in ichanged or '4' in ichanged:
+            #        right_answer.append(4)
+            #    elif 'e' in ichanged or '5' in ichanged:
+            #        right_answer.append(5)
+            #for ind in range(len(optA)):
+            #    print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s --\
+            #          opte,%s\
+            #      -- right_answer,%s -- explanation'
+            #      %(optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],right_answer[ind],exp[ind]))
 
-                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],right_answer[ind],quest_category,exp[ind],sectionType='English')
-            #write_passages(all_passages)
-            print(quests)
-            print(right_answer)
-            print(optE)
+            #    write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],right_answer[ind],quest_category,exp[ind],sectionType='English')
+            ##write_passages(all_passages)
+            #print(quests)
+            #print(right_answer)
+            #print(optE)
+            #return HttpResponse('hello')
+            ##return render(request,'basicinformation/staffpage1.html')
             return HttpResponse('hello')
-            #return render(request,'basicinformation/staffpage1.html')
         if user.groups.filter(name='Students').exists():
             profile = user.student
             me = Studs(request.user)
@@ -109,78 +110,84 @@ def home(request):
                         subject_marks[sub.name] = {'marks':one_marks,'time':time}
             
             
-            # Get all the student marks
-            #try:
-            #    mathst1,mathst2,mathst3,mathshy,mathst4,mathspredhy =\
-            #    me.readmarks('Maths')
-            #except:
-            #    mathst1 = mathst2 = mathst3 = mathshy = mathst4 = mathspredhy=None
-            #try:
-            #    hindit1,hindit2,hindit3,hindihy,hindit4,hindipredhy =\
-            #    me.readmarks('Hindi')
-            #except:
-            #    hindit1 = hindit2 = hindit3 = hindihy = hindit4 = hindipredhy=None
-            #try:
-            #    englisht1,englisht2,englisht3,englishhy,englisht4,englishpredhy =\
-            #    me.readmarks('English')
-            #except:
-            #    englisht1 = englisht2 = englisht3 = englishhy = englisht4 =\
-            #    englishpredhy=None
-            #try:
-            #    sciencet1,sciencet2,sciencet3,sciencehy,sciencet4,sciencepredhy =\
-            #    me.readmarks('Science')
-            #except:
-            #    sciencet1 = sciencet2 = sciencet3 = sciencehy = sciencet4 =\
-            #    sciencepredhy=None
+             #Get all the student marks
+            try:
+                mathst1,mathst2,mathst3,mathshy,mathst4,mathspredhy =\
+                me.readmarks('Maths')
+            except:
+                mathst1 = mathst2 = mathst3 = mathshy = mathst4 = mathspredhy=None
+            try:
+                hindit1,hindit2,hindit3,hindihy,hindit4,hindipredhy =\
+                me.readmarks('Hindi')
+            except:
+                hindit1 = hindit2 = hindit3 = hindihy = hindit4 = hindipredhy=None
+            try:
+                englisht1,englisht2,englisht3,englishhy,englisht4,englishpredhy =\
+                me.readmarks('English')
+            except:
+                englisht1 = englisht2 = englisht3 = englishhy = englisht4 =\
+                englishpredhy=None
+            try:
+                sciencet1,sciencet2,sciencet3,sciencehy,sciencet4,sciencepredhy =\
+                me.readmarks('Science')
+            except:
+                sciencet1 = sciencet2 = sciencet3 = sciencehy = sciencet4 =\
+                sciencepredhy=None
 
-            ## check for announcements in past 48 hours
-            #startdate = date.today()
-            #enddate = startdate - timedelta(days=2)
-            #my_announcements = Announcement.objects.filter(listener =
-            #                                               profile,date__range=[enddate,startdate])
+            # check for announcements in past 48 hours
+            startdate = date.today()
+            enddate = startdate - timedelta(days=2)
+            my_announcements = Announcement.objects.filter(listener =
+                                                           profile,date__range=[enddate,startdate])
 
-            ## find the predicted marks
-            #try:
-            #    hindipredhy_raw = \
-            #    me.hindi_3testhyprediction(hindit1,hindit2,hindit3,me.get_dob(),me.get_section())
-            #    hindipredhy = me.predictionConvertion(hindipredhy_raw)
-            #except:
-            #    pass
+            # find the predicted marks
+            try:
+                hindipredhy_raw = \
+                me.hindi_3testhyprediction(hindit1,hindit2,hindit3,me.get_dob(),me.get_section())
+                hindipredhy = me.predictionConvertion(hindipredhy_raw)
+            except:
+                pass
 
-            #try:
-            #    mathspredhy_raw = \
-            #    me.hindi_3testhyprediction(mathst1,mathst2,mathst3,me.get_dob(),me.get_section())
-            #    mathspredhy = me.predictionConvertion(mathspredhy_raw)
-            #except:
-            #    pass
-            #try:
-            #    englishpredhy_raw = \
-            #    me.english_3testhyprediction(englisht1,englisht2,englisht3,me.get_dob(),me.get_section())
-            #    englishpredhy = me.predictionConvertion(englishpredhy_raw)
-            #except:
-            #    pass
-            #try:
-            #    sciencepredhy_raw = \
-            #    me.science_3testhyprediction(sciencet1,sciencet2,sciencet3,me.get_dob(),me.get_section())
-            #    sciencepredhy = me.predictionConvertion(sciencepredhy_raw)
-            #except:
-            #    pass
-            ## sending all values to template
-            #context = {'profile': profile, 'subjects': subjects,
-            #           'hindihy_prediction': hindipredhy, 'mathshy_prediction': mathspredhy,
-            #           'englishhy_prediction': englishpredhy,
-            #           'sciencehy_prediction': sciencepredhy,
-            #           'maths1': mathst1, 'maths2': mathst2, 'maths3': mathst3,
-            #           'maths4': mathst4, 'hindi1': hindit1, 'hindi2': hindit2,
-            #           'hindi3': hindit3, 'hindi4': hindit4, 'english1': englisht1,
-            #           'english2': englisht2, 'english3': englisht3, 'english4': englisht4,
-            #           'science1': sciencet1, 'science2': sciencet2,
-            #           'science3': sciencet3, 'science4':
-            #           sciencet4,'announcements':my_announcements}
+            try:
+                mathspredhy_raw = \
+                me.hindi_3testhyprediction(mathst1,mathst2,mathst3,me.get_dob(),me.get_section())
+                mathspredhy = me.predictionConvertion(mathspredhy_raw)
+            except:
+                pass
+            try:
+                englishpredhy_raw = \
+                me.english_3testhyprediction(englisht1,englisht2,englisht3,me.get_dob(),me.get_section())
+                englishpredhy = me.predictionConvertion(englishpredhy_raw)
+            except:
+                pass
+            try:
+                sciencepredhy_raw = \
+                me.science_3testhyprediction(sciencet1,sciencet2,sciencet3,me.get_dob(),me.get_section())
+                sciencepredhy = me.predictionConvertion(sciencepredhy_raw)
+            except:
+                pass
+            # sending all values to template
+            context = {'profile': profile, 'subjects': subjects,
+                       'hindihy_prediction': hindipredhy, 'mathshy_prediction': mathspredhy,
+                       'englishhy_prediction': englishpredhy,
+                       'sciencehy_prediction': sciencepredhy,
+                       'maths1': mathst1, 'maths2': mathst2, 'maths3': mathst3,
+                       'maths4': mathst4, 'hindi1': hindit1, 'hindi2': hindit2,
+                       'hindi3': hindit3, 'hindi4': hindit4, 'english1': englisht1,
+                       'english2': englisht2, 'english3': englisht3, 'english4': englisht4,
+                       'science1': sciencet1, 'science2': sciencet2,
+                       'science3': sciencet3, 'science4':
+                       sciencet4,'announcements':my_announcements}
             context = \
             {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks}
 
             return render(request, 'basicinformation/studentInstitute.html', context)
+            ssccoaching = School.objects.get(name='BodhiAI')
+            quests = SSCquestions.objects.all()
+            for i in quests:
+                i.school.add(ssccoaching)
+
+            return HttpResponse(ssccoaching)
 
 
         elif user.groups.filter(name='Teachers').exists():
