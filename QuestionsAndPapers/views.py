@@ -947,11 +947,8 @@ def conduct_Test(request):
                 online_marks_quests.onlineMarks = online_marks
                 online_marks_quests.quest = q
                 for ch in q.choices_set.all():
-                    print('%s how many' %len(q.choices_set.all()))
                     if ch.id in all_answers:
                         online_marks_quests.time = all_time[num]
-                        print('%s-- chid %s -- alltime[num]'
-                              %(ch.id,all_time[num]))
                         num = num +1
                     else:
                         times = times +1

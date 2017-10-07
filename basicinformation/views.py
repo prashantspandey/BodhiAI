@@ -46,43 +46,44 @@ def home(request):
             #    all_passages = pickle.load(fi)
             #df =\
             #pd.read_csv('/home/prashant/Desktop/programming/random/tesseract/resoningAnalogy.csv')
-            #df=\
-            #pd.read_csv('/home/prashant/Desktop/ssc_questions/questionsscraper/spottheerror1.csv')
-            #quests = []
-            #optA = []
-            #optB = []
-            #optC = []
-            #optD = []
-            #right_answer = []
-            #quest_category = []
-            #quests = df['questions']
-            #optA = df['optionA']
-            #optB = df['optionB']
-            #optC = df['optionC']
-            #optD = df['optionD']
-            #optE = df['optionE']
-            #exp = df['ans']
-            ##quest_category = df['Category']
-            #quest_category = '8.1' # spot the error
-            #for i in df['FinalAnswer']:
-            #    ichanged = str(i).replace(u'\\xa0',u' ')
-            #    if 'a' in ichanged or '1' in ichanged:
-            #        right_answer.append(1)
-            #    elif 'b' in ichanged or '2' in ichanged:
-            #        right_answer.append(2)
-            #    elif 'c' in ichanged or '3' in ichanged:
-            #        right_answer.append(3)
-            #    elif 'd' in ichanged or '4' in ichanged:
-            #        right_answer.append(4)
-            #    elif 'e' in ichanged or '5' in ichanged:
-            #        right_answer.append(5)
-            #for ind in range(len(optA)):
-            #    print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s --\
-            #          opte,%s\
-            #      -- right_answer,%s -- explanation'
-            #      %(optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],right_answer[ind],exp[ind]))
+            df=\
+            pd.read_csv('/home/prashant/Desktop/programming/sscquestions/scraper/maths_probability/probability_alllinks.csv' )
+            quests = []
+            optA = []
+            optB = []
+            optC = []
+            optD = []
+            right_answer = []
+            quest_category = []
+            quests = df['questions']
+            optA = df['optionA']
+            optB = df['optionB']
+            optC = df['optionC']
+            optD = df['optionD']
+            optE = df['optionE']
+            exp = df['ans']
+            #quest_category = df['Category']
+            quest_category = '1.1' # spot the error
+            print(df['FinalAnswer'])
+            for i in df['FinalAnswer']:
+                ichanged = str(i).replace(u'\\xa0',u' ')
+                if 'a' in ichanged :
+                    right_answer.append(1)
+                elif 'b' in ichanged :
+                    right_answer.append(2)
+                elif 'c' in ichanged :
+                    right_answer.append(3)
+                elif 'd' in ichanged :
+                    right_answer.append(4)
+                elif 'e' in ichanged :
+                    right_answer.append(5)
+            for ind in range(len(optA)):
+                #print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s --\
+                #     opte,%s\
+                # -- right_answer,%s -- explanation'
+                # %(optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],right_answer[ind],exp[ind]))
 
-            #    write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],right_answer[ind],quest_category,exp[ind],sectionType='English')
+                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],right_answer[ind],quest_category,exp[ind],sectionType='Maths')
             ##write_passages(all_passages)
             #print(quests)
             #print(right_answer)
@@ -744,7 +745,7 @@ def read_questions(fi):
 
 
 def write_questions(question,optA,optB,optC,optD,optE,correctOpt,questCategory,exp,sectionType):
-    school = School.objects.filter(category = 'SSC')
+    school = School.objects.filter(category = 'SSC',name = 'BodhiAI')
     try:
         if optE:
             if math.isnan(optE):
@@ -762,29 +763,9 @@ def write_questions(question,optA,optB,optC,optD,optE,correctOpt,questCategory,e
         new_questions.section_category = 'English'
     elif sectionType == 'Resoning':
         new_questions.section_category = 'General-Intelligence'
-    new_questions.text = 'Spot the error \n' + str(question)
-    print(questCategory)
-    #if str(questCategory) == '1.0':
-    #    new_questions.topic_category = '1.1'
-    #elif str(questCategory) == '2.0':
-    #    new_questions.topic_category = '2.1'
-    #elif str(questCategory) == '3.0':
-    #    new_questions.topic_category = '3.1'
-    #elif str(questCategory) == '4.0':
-    #    new_questions.topic_category = '4.1'
-    #elif str(questCategory) == '5.0':
-    #    new_questions.topic_category = '5.1'
-    #elif str(questCategory) == '6.0':
-    #    new_questions.topic_category = '6.1'
-    #elif str(questCategory) == '7.0':
-    #    new_questions.topic_category = '7.1'
-    #elif str(questCategory) == '8.0':
-    #    new_questions.topic_category = '8.1'
-    #elif str(questCategory) == '9.0':
-    #    new_questions.topic_category = '9.1'
-    #else:
-    #    new_questions.topic_category = str(questCategory)
-    #new_questions.save()
+    elif sectionType == 'Maths':
+        new_questions.section_category = 'Quantitative-Analysis'
+    new_questions.text = str(question)
     new_questions.topic_category = str(questCategory)
     new_questions.save()
     for sch in school:

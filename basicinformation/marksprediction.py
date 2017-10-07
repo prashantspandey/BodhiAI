@@ -1477,7 +1477,12 @@ class Studs:
                 elif i == '2.7':
                     namedarr.append('Mixed analogy')
                     timing.append(j)
-
+            return list(zip(namedarr,timing))
+        if subject == 'Quantitative-Analysis':
+            for i,j in arr:
+                if i == '1.1':
+                    namedarr.append('Probability')
+                    timing.append(j)
             return list(zip(namedarr,timing))
     def convertTopicNumbersNames(self,arr,subject):
         namedarr = []
@@ -1587,7 +1592,9 @@ class Studs:
                 return 'Alphabet based analogy'
             elif i == '2.7':
                 return 'Mixed analogy'
-
+        if subject == 'Quantitative-Analysis':
+            if i == '1.1':
+                return 'Probability'
 
 
     def improvement(self,subject):
@@ -2592,10 +2599,16 @@ class Teach:
                 elif i == '2.7':
                     names.append('Mixed analogy')
                     numbers.append(i)
-
-
             changed = list(zip(names,numbers))
             return changed
+        if subject == 'Quantitative-Analysis':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Probability')
+                    numbers.append(i)
+            changed = list(zip(names,numbers))
+            return changed
+
     def change_topicNumbersNamesWeakAreas(self,arr,subject):
         names = []
         numbers = []
@@ -2679,6 +2692,14 @@ class Teach:
                     numbers.append(j)
             changed = list(zip(names,numbers))
             return changed
+        if subject == 'Quantitative-Analysis':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Probability')
+                    numbers.append(i)
+            changed = list(zip(names,numbers))
+            return changed
+
     def change_topicNamesNumber(self,arr,subject):
         numbers = []
         if subject == 'English':
@@ -2734,6 +2755,11 @@ class Teach:
                     numbers.append('2.6')
                 elif i == 'Mixed analogy':
                     numbers.append('2.7')
+            return numbers
+        if subject == 'Quantitative-Analysis':
+            for i in arr:
+                if i == 'Probability':
+                    numbers.append('1.1')
             return numbers
 
 
