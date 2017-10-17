@@ -935,6 +935,13 @@ class Studs:
         if self.profile.school.category == 'School':
             my_tests = KlassTest.objects.filter(testTakers=self.profile)
         elif self.profile.school.category == 'SSC':
+            #  adding all tests papers created by BodhiAI 
+            #for all the students who register 
+            if self.profile.school.name== 'BodhiAI':
+                all_tests = SSCKlassTest.objects.filter(creator__username =
+                                                        'BodhiAI')
+                for t in all_tests:
+                    t.testTakers.add(self.profile)
             my_tests = SSCKlassTest.objects.filter(testTakers = self.profile)
         return my_tests
 
@@ -1358,7 +1365,6 @@ class Studs:
             if self.institution == 'SSC':
                 indi_marks = SSCOnlineMarks.objects.get(student = self.profile,test__id =
                                                         singleTest)
-                print(indi_marks)
 
                 if indi_marks:
                     for aq in indi_marks.sscansweredquestion_set.all():
@@ -1483,6 +1489,70 @@ class Studs:
                 if i == '1.1':
                     namedarr.append('Probability')
                     timing.append(j)
+                elif i == '2.1':
+                    namedarr.append('Percentage')
+                    timing.append(j)
+                elif i == '3.1':
+                    namedarr.append('Pipes & Cisterns')
+                    timing.append(j)
+                elif i == '4.1':
+                    namedarr.append('Simplification')
+                    timing.append(j)
+                elif i == '5.1':
+                    namedarr.append('Permutations')
+                    timing.append(j)
+                elif i == '6.1':
+                    namedarr.append('Simple Interest')
+                    timing.append(j)
+                elif i == '7.1':
+                    namedarr.append('Partnership')
+                    timing.append(j)
+                elif i == '8.1':
+                    namedarr.append('Averages')
+                    timing.append(j)
+                elif i == '9.1':
+                    namedarr.append('Compound Interest')
+                    timing.append(j)
+                elif i == '11.1':
+                    namedarr.append('Mixture and Alligations')
+                    timing.append(j)
+                elif i == '12.1':
+                    namedarr.append('LCM & HCF')
+                    timing.append(j)
+                elif i == '13.1':
+                    namedarr.append('Inequalities')
+                    timing.append(j)
+                elif i == '14.1':
+                    namedarr.append('Ages')
+                    timing.append(j)
+                elif i == '15.1':
+                    namedarr.append('Chain Rule')
+                    timing.append(j)
+                elif i == '16.1':
+                    namedarr.append('Mensuration')
+                    timing.append(j)
+                elif i == '17.1':
+                    namedarr.append('Ratio & Proportions')
+                    timing.append(j)
+                elif i == '18.1':
+                    namedarr.append('Time & Distance')
+                    timing.append(j)
+                elif i == '19.1':
+                    namedarr.append('Time & Work')
+                    timing.append(j)
+                elif i == '20.1':
+                    namedarr.append('Number Series')
+                    timing.append(j)
+                elif i == '21.1':
+                    namedarr.append('Number System')
+                    timing.append(j)
+                elif i == '22.1':
+                    namedarr.append('Quadratic Equations')
+                    timing.append(j)
+                elif i == '23.1':
+                    namedarr.append('Data Sufficiency')
+                    timing.append(j)
+ 
             return list(zip(namedarr,timing))
     def convertTopicNumbersNames(self,arr,subject):
         namedarr = []
@@ -1541,6 +1611,53 @@ class Studs:
                     namedarr.append('Mixed analogy')
 
             return namedarr
+        if subject == 'Qualitative-Analysis':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('Probability')
+                elif i == '2.1':
+                    namedarr.append('Percentage')
+                elif i == '3.1':
+                    namedarr.append('Pipes & Cisterns')
+                elif i == '4.1':
+                    namedarr.append('Simplification')
+                elif i == '5.1':
+                    namedarr.append('Permutations')
+                elif i == '6.1':
+                    namedarr.append('Simple Interest')
+                elif i == '7.1':
+                    namedarr.append('Partnership')
+                elif i == '8.1':
+                    namedarr.append('Averages')
+                elif i == '9.1':
+                    namedarr.append('Compound Interest')
+                elif i == '11.1':
+                    namedarr.append('Mixture and Alligations')
+                elif i == '12.1':
+                    namedarr.append('LCM & HCF')
+                elif i == '13.1':
+                    namedarr.append('Inequalities')
+                elif i == '14.1':
+                    namedarr.append('Ages')
+                elif i == '15.1':
+                    namedarr.append('Chain Rule')
+                elif i == '16.1':
+                    namedarr.append('Mensuration')
+                elif i == '17.1':
+                    namedarr.append('Ratio & Proportions')
+                elif i == '18.1':
+                    namedarr.append('Time & Distance')
+                elif i == '19.1':
+                    namedarr.append('Time & Work')
+                elif i == '20.1':
+                    namedarr.append('Number Series')
+                elif i == '21.1':
+                    namedarr.append('Number System')
+                elif i == '22.1':
+                    namedarr.append('Quadratic Equations')
+                elif i == '23.1':
+                    namedarr.append('Data Sufficiency')
+            return namedarr
     def changeIndividualNames(self,i,subject):
         if subject == 'English':
             if i == '1.1':
@@ -1593,8 +1710,53 @@ class Studs:
             elif i == '2.7':
                 return 'Mixed analogy'
         if subject == 'Quantitative-Analysis':
-            if i == '1.1':
-                return 'Probability'
+                if i == '1.1':
+                    return 'Probability'
+                elif i == '2.1':
+                    return 'Percentage'
+                elif i == '3.1':
+                    return 'Pipes & Cisterns'
+                elif i == '4.1':
+                    return 'Simplification'
+                elif i == '5.1':
+                    return 'Permutations'
+                elif i == '6.1':
+                    return 'Simple Interest'
+                elif i == '7.1':
+                    return 'Partnership'
+                elif i == '8.1':
+                    return 'Averages'
+                elif i == '9.1':
+                    return 'Compound Interest'
+                elif i == '11.1':
+                    return 'Mixture and Alligations'
+                elif i == '12.1':
+                    return 'LCM & HCF'
+                elif i == '13.1':
+                    return 'Inequalities'
+                elif i == '14.1':
+                    return 'Ages'
+                elif i == '15.1':
+                    return 'Chain Rule'
+                elif i == '16.1':
+                    return 'Mensuration'
+                elif i == '17.1':
+                    return 'Ratio & Proportions'
+                elif i == '18.1':
+                    return 'Time & Distance'
+                elif i == '19.1':
+                    return 'Time & Work'
+                elif i == '20.1':
+                    return 'Number Series'
+                elif i == '21.1':
+                    return 'Number System'
+                elif i == '22.1':
+                    return 'Quadratic Equations'
+                elif i == '23.1':
+                    return 'Data Sufficiency'
+
+
+
 
 
     def improvement(self,subject):
@@ -2606,9 +2768,75 @@ class Teach:
                 if i == '1.1':
                     names.append('Probability')
                     numbers.append(i)
+                elif i == '2.1':
+                    names.append('Percentage')
+                    numbers.append(i)
+                elif i == '3.1':
+                    names.append('Pipes & Cisterns')
+                    numbers.append(i)
+                elif i == '4.1':
+                    names.append('Simplification')
+                    numbers.append(i)
+                elif i == '5.1':
+                    names.append('Permutations')
+                    numbers.append(i)
+                elif i == '6.1':
+                    names.append('Simple Interest')
+                    numbers.append(i)
+                elif i == '7.1':
+                    names.append('Partnership')
+                    numbers.append(i)
+                elif i == '8.1':
+                    names.append('Averages')
+                    numbers.append(i)
+                elif i == '9.1':
+                    names.append('Compound Interest')
+                    numbers.append(i)
+                elif i == '11.1':
+                    names.append('Mixture and Alligations')
+                    numbers.append(i)
+                elif i == '12.1':
+                    names.append('LCM & HCF')
+                    numbers.append(i)
+                elif i == '13.1':
+                    names.append('Inequalities')
+                    numbers.append(i)
+                elif i == '14.1':
+                    names.append('Ages')
+                    numbers.append(i)
+                elif i == '15.1':
+                    names.append('Chain Rule')
+                    numbers.append(i)
+                elif i == '16.1':
+                    names.append('Mensuration')
+                    numbers.append(i)
+                elif i == '17.1':
+                    names.append('Ratio & Proportions')
+                    numbers.append(i)
+                elif i == '18.1':
+                    names.append('Time & Distance')
+                    numbers.append(i)
+                elif i == '19.1':
+                    names.append('Time & Work')
+                    numbers.append(i)
+                elif i == '20.1':
+                    names.append('Number Series')
+                    numbers.append(i)
+                elif i == '21.1':
+                    names.append('Number System')
+                    numbers.append(i)
+                elif i == '22.1':
+                    names.append('Quadratic Equations')
+                    numbers.append(i)
+                elif i == '23.1':
+                    names.append('Data Sufficiency')
+                    numbers.append(i)
+ 
             changed = list(zip(names,numbers))
             return changed
 
+    
+    
     def change_topicNumbersNamesWeakAreas(self,arr,subject):
         names = []
         numbers = []
@@ -2693,9 +2921,72 @@ class Teach:
             changed = list(zip(names,numbers))
             return changed
         if subject == 'Quantitative-Analysis':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     names.append('Probability')
+                    numbers.append(j)
+                elif i == '2.1':
+                    names.append('Percentage')
+                    numbers.append(j)
+                elif i == '3.1':
+                    names.append('Pipes & Cisterns')
+                    numbers.append(j)
+                elif i == '4.1':
+                    names.append('Simplification')
+                    numbers.append(j)
+                elif i == '5.1':
+                    names.append('Permutations')
+                    numbers.append(j)
+                elif i == '6.1':
+                    names.append('Simple Interest')
+                    numbers.append(j)
+                elif i == '7.1':
+                    names.append('Partnership')
+                    numbers.append(j)
+                elif i == '8.1':
+                    names.append('Averages')
+                    numbers.append(j)
+                elif i == '9.1':
+                    names.append('Compound Interest')
+                    numbers.append(j)
+                elif i == '11.1':
+                    names.append('Mixture and Alligations')
+                    numbers.append(j)
+                elif i == '12.1':
+                    names.append('LCM & HCF')
+                    numbers.append(j)
+                elif i == '13.1':
+                    names.append('Inequalities')
+                    numbers.append(j)
+                elif i == '14.1':
+                    names.append('Ages')
+                    numbers.append(j)
+                elif i == '15.1':
+                    names.append('Chain Rule')
+                    numbers.append(j)
+                elif i == '16.1':
+                    names.append('Mensuration')
+                    numbers.append(j)
+                elif i == '17.1':
+                    names.append('Ratio & Proportions')
+                    numbers.append(j)
+                elif i == '18.1':
+                    names.append('Time & Distance')
+                    numbers.append(j)
+                elif i == '19.1':
+                    names.append('Time & Work')
+                    numbers.append(j)
+                elif i == '20.1':
+                    names.append('Number Series')
+                    numbers.append(j)
+                elif i == '21.1':
+                    names.append('Number System')
+                    numbers.append(i)
+                elif i == '22.1':
+                    names.append('Quadratic Equation')
+                    numbers.append(i)
+                elif i == '23.1':
+                    names.append('Data Sufficiency')
                     numbers.append(i)
             changed = list(zip(names,numbers))
             return changed
@@ -2760,6 +3051,48 @@ class Teach:
             for i in arr:
                 if i == 'Probability':
                     numbers.append('1.1')
+                elif i == 'Percentage':
+                    numbers.append('2.1')
+                elif i == 'Pipes & Cisterns':
+                    numbers.append('3.1')
+                elif i == 'Simplification':
+                    numbers.append('4.1')
+                elif i == 'Permutations':
+                    numbers.append('5.1')
+                elif i == 'Simple Interest':
+                    numbers.append('6.1')
+                elif i == 'Partnership':
+                    numbers.append('7.1')
+                elif i == 'Averages':
+                    numbers.append('8.1')
+                elif i == 'Compound Interest':
+                    numbers.append('9.1')
+                elif i == 'Mixture and Alligations':
+                    numbers.append('11.1')
+                elif i == 'LCM & HCF':
+                    numbers.append('12.1')
+                elif i == 'Inequalities':
+                    numbers.append('13.1')
+                elif i == 'Ages':
+                    numbers.append('14.1')
+                elif i == 'Chain Rule':
+                    numbers.append('15.1')
+                elif i == 'Mensuration':
+                    numbers.append('16.1')
+                elif i == 'Ratio & Proportions':
+                    numbers.append('17.1')
+                elif i == 'Time & Distance':
+                    numbers.append('18.1')
+                elif i == 'Time & Work':
+                    numbers.append('19.1')
+                elif i == 'Number Series':
+                    numbers.append('20.1')
+                elif i == 'Number System':
+                    numbers.append('21.1')
+                elif i == 'Quadratic Equations':
+                    numbers.append('22.1')
+                elif i == 'Data Sufficiency':
+                    numbers.append('23.1')
             return numbers
 
 

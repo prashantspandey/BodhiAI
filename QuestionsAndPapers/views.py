@@ -98,6 +98,7 @@ def create_test(request):
                             all_categories.append(i.topic_category)
                         all_categories = list(unique_everseen(all_categories))
                         all_categories.sort()
+                        print(all_categories)
                         all_categories = \
                         me.change_topicNumbersNames(all_categories,split_category)
                         context = \

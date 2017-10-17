@@ -21,16 +21,7 @@ console.log(ajKl)
          $('#chapters').removeClass("hidden");
          $('#chapters').html('').load('{% url 'QuestionsAndPapers:createTest' %}?klass_test='+encodeURIComponent(ajKl));
 
-              $(this).animate({
-            height: '42px',
-            width: '60px',
-        });
-
-               $(eval("'#'+pr")).animate({
-            height: '42px',
-            width: '52px',
-        });
-        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+       $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
         $('#analysisType').removeClass('hidden');
 

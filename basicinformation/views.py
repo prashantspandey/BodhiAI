@@ -47,7 +47,7 @@ def home(request):
             #df =\
             #pd.read_csv('/home/prashant/Desktop/programming/random/tesseract/resoningAnalogy.csv')
             df=\
-            pd.read_csv('/home/prashant/Desktop/programming/sscquestions/scraper/maths_probability/probability_alllinks.csv' )
+            pd.read_csv('/home/prashant/Desktop/ssc_questions/maths/maths_final/percentage140.csv' )
             quests = []
             optA = []
             optB = []
@@ -55,33 +55,33 @@ def home(request):
             optD = []
             right_answer = []
             quest_category = []
-            quests = df['questions']
-            optA = df['optionA']
-            optB = df['optionB']
-            optC = df['optionC']
-            optD = df['optionD']
-            optE = df['optionE']
-            exp = df['ans']
+            quests = df['Questions']
+            optA = df['OptionA']
+            optB = df['OptionB']
+            optC = df['OptionC']
+            optD = df['OptionD']
+            optE = df['OptionE']
+            exp = df['Explanation']
             #quest_category = df['Category']
-            quest_category = '1.1' # spot the error
-            print(df['FinalAnswer'])
-            for i in df['FinalAnswer']:
+            quest_category = '2.1' # spot the error
+            for i in df['Answer']:
                 ichanged = str(i).replace(u'\\xa0',u' ')
-                if 'a' in ichanged :
+                ichanged2 = ichanged.replace('Answer',' ')
+                ichanged3 = ichanged2.replace('Explanation',' ')
+                if 'A)' in ichanged :
                     right_answer.append(1)
-                elif 'b' in ichanged :
+                elif 'B)' in ichanged :
                     right_answer.append(2)
-                elif 'c' in ichanged :
+                elif 'C)' in ichanged :
                     right_answer.append(3)
-                elif 'd' in ichanged :
+                elif 'D)' in ichanged :
                     right_answer.append(4)
-                elif 'e' in ichanged :
+                elif 'E)' in ichanged :
                     right_answer.append(5)
             for ind in range(len(optA)):
-                #print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s --\
-                #     opte,%s\
+                #print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
                 # -- right_answer,%s -- explanation'
-                # %(optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],right_answer[ind],exp[ind]))
+                # %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
                 write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],right_answer[ind],quest_category,exp[ind],sectionType='Maths')
             ##write_passages(all_passages)
@@ -97,7 +97,7 @@ def home(request):
             subjects = me.my_subjects_names()
             subjects = user.student.subject_set.all()
             teacher_name = {}
-            subject_marks = {}
+            subject_marks = {} 
             for sub in subjects:
                 teacher_name[sub.name] = sub.teacher # retrieve all marks from database
                 marks = SSCOnlineMarks.objects.filter(test__sub = sub.name,student =
@@ -744,19 +744,22 @@ def read_questions(fi):
     return questText
 
 
-def write_questions(question,optA,optB,optC,optD,optE,correctOpt,questCategory,exp,sectionType):
+def write_questions(question,optA,optB,optC,optD,optE,correctOpt,questCategory,exp,sectionType,fouroptions=False):
     school = School.objects.filter(category = 'SSC',name = 'BodhiAI')
-    try:
-        if optE:
-            if math.isnan(optE):
-                all_options = [optA,optB,optC,optD]
+    if fouroptions == True:
+        all_options = [optA,optB,optC,optD]
+    else:
+        try:
+            if optE:
+                if math.isnan(optE):
+                    all_options = [optA,optB,optC,optD]
+                else:
+                    all_options = [optA,optB,optC,optD,optE]
             else:
-                all_options = [optA,optB,optC,optD,optE]
-        else:
-                all_options = [optA,optB,optC,optD,optE]
-    except Exception as e:
-        print(str(e))
-        all_options = [optA,optB,optC,optD,optE]
+                    all_options = [optA,optB,optC,optD,optE]
+        except Exception as e:
+            print(str(e))
+            all_options = [optA,optB,optC,optD,optE]
     new_questions = SSCquestions()
     new_questions.tier_category = '1'
     if sectionType == 'English':
