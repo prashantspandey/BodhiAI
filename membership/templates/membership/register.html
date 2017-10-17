@@ -1,13 +1,33 @@
 {% extends 'basicinformation/base.html' %}
 {%load staticfiles %}
-
+<html>
+    <title> {%block title %} Register at BodhiAI {%endblock%} </title>
 {% block content %}
-<div class = "containter">
-<form method='post'>
-    {%csrf_token%}
-    {{form.as_p}}
-    <button type="submit"> Register </button>
-</form>
-</div>
+<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+	<div class="form-group" style='text-align:center;'>
+  {% include 'membership/register-form-template.html' %}
+    </div>
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+  <div class="form-group col-sm-12" style='text-align:center;'>
+  <div >
+  <button type="submit" class="btn btn-primary">Register</button>
+
+  </div>
+  </div>
+
+
+  </div>
+
+
+
+  </form>
 
 {%endblock%}
+</html>

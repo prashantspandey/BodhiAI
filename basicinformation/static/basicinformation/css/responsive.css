@@ -1,0 +1,739 @@
+/*==================================================
+=           Media Queries             	=
+==================================================*/
+
+/*==========  Mobile First Method  ==========*/
+
+/* Custom, iPhone Retina */
+@media screen and  (max-width: 320px) and (min-width: 0px) {
+    /*navbar*/
+    .navbar-toggle {
+        margin-top: 5px;
+        margin-right: 10px;
+        padding: 5px;
+    }
+    /*slider text*/
+
+    .cd-headline.clip .cd-words-wrapper::after {
+        top: 27%;
+        width: 2px;
+        height: 50%;
+    }
+    .pt-150{
+        padding-top: 100px;
+    }
+    .ptb-60{
+        padding: 20px;
+    }
+    .appio-slider-text h1 .highlight-text{
+        font-size: 25px;
+    }
+
+    .shadow{
+        height: 0;
+    }
+    .appio-slider-text h1{
+        font-size: 20px;
+        line-height: 20px;
+    }
+    .appio-slider-text p {
+        font-size: 15px;
+        line-height: 28px;
+    }
+
+    .pb-60 {
+        padding-bottom: 40px;
+    }
+    .pt-220 {
+        padding-top: 120px;
+    }
+
+    .appio-slider-text .appio-slider-btn a{
+        margin-bottom: 22px;
+    }
+
+
+    /*top promo box*/
+
+    .appio-appio-promo-text-wrap{
+        padding: 20px;
+        margin: 20px 0;
+    }
+
+
+    /*about section*/
+    .appio-about-features li{
+        width: 100%;
+    }
+
+
+
+    /*features*/
+    .appio-feature-wrap .pl-30{
+        padding-left: 15px;
+    }
+
+    /*download and update*/
+
+    .appio-download-heading{
+        width: 90%;
+    }
+
+
+    /*counter section*/
+
+
+    .counter-info span i, .counter-info span.timer{
+        font-size: 26px;
+    }
+
+    /*pricing section*/
+
+    .appio-pricing-wrap .pt-50{
+        padding-top: 0;
+    }
+
+
+    /*subscribe section*/
+    .subscribe-form .submit-btn{
+        margin-top: 20px;
+    }
+
+    /*footer section*/
+    .social-link.pull-right{
+        float: left !important;
+    }
+
+
+
+}
+
+/* Custom, iPhone Retina */
+@media screen and (max-width: 360px) and (min-width: 321px) {
+    /*navbar*/
+    .navbar-toggle {
+        margin-top: 5px;
+        margin-right: 10px;
+        padding: 5px;
+    }
+    /*slider text*/
+    .cd-headline.clip .cd-words-wrapper::after {
+        top: 27%;
+        width: 2px;
+        height: 50%;
+    }
+    .pt-150{
+        padding-top: 100px;
+    }
+    .ptb-60{
+        padding: 20px;
+    }
+    .appio-slider-text h1 .highlight-text{
+        font-size: 25px;
+    }
+
+    .shadow{
+        height: 0;
+    }
+    .appio-slider-text h1{
+        font-size: 20px;
+        line-height: 20px;
+    }
+    .appio-slider-text p {
+        font-size: 15px;
+        line-height: 28px;
+    }
+
+    .pb-60 {
+        padding-bottom: 40px;
+    }
+    .pt-220 {
+        padding-top: 120px;
+    }
+
+    .appio-slider-text .appio-slider-btn a{
+        margin-bottom: 22px;
+    }
+
+
+    /*top promo box*/
+
+    .appio-appio-promo-text-wrap{
+        padding: 20px;
+        margin: 20px 0;
+    }
+
+
+    /*about section*/
+    .appio-about-features li{
+        width: 100%;
+    }
+
+
+
+    /*features*/
+    .appio-feature-wrap .pl-30{
+        padding-left: 15px;
+    }
+
+    /*download and update*/
+
+    .appio-download-heading{
+        width: 90%;
+    }
+
+
+    /*counter section*/
+    .counter-info span i, .counter-info span.timer{
+        font-size: 26px;
+    }
+
+    /*pricing section*/
+
+    .appio-pricing-wrap .pt-50{
+        padding-top: 0;
+    }
+
+
+    /*subscribe section*/
+    .subscribe-form .submit-btn{
+        margin-top: 20px;
+    }
+
+    /*footer section*/
+    .social-link.pull-right{
+        float: left !important;
+    }
+
+}
+
+/* Custom, iPhone Retina */
+@media screen and (max-width: 375px) and (min-width: 361px) {
+    /*navbar*/
+    .navbar-toggle {
+        margin-top: 5px;
+        margin-right: 10px;
+        padding: 5px;
+    }
+    /*slider text*/
+    .cd-headline.clip .cd-words-wrapper::after {
+        top: 27%;
+        width: 2px;
+        height: 50%;
+    }
+    .pt-150{
+        padding-top: 100px;
+    }
+    .ptb-60{
+        padding: 20px;
+    }
+    .appio-slider-text h1 .highlight-text{
+        font-size: 30px;
+    }
+
+    .shadow{
+        height: 0;
+    }
+    .appio-slider-text h1{
+        font-size: 20px;
+        line-height: 20px;
+    }
+    .appio-slider-text p {
+        font-size: 15px;
+        line-height: 28px;
+    }
+
+    .pb-60 {
+        padding-bottom: 40px;
+    }
+    .pt-220 {
+        padding-top: 120px;
+    }
+
+    .appio-slider-text .appio-slider-btn a{
+        margin-bottom: 22px;
+    }
+
+
+    /*top promo box*/
+
+    .appio-appio-promo-text-wrap{
+        padding: 20px;
+        margin: 20px 0;
+    }
+
+
+    /*about section*/
+    .appio-about-features li{
+        width: 100%;
+    }
+
+
+
+    /*features*/
+    .appio-feature-wrap .pl-30{
+        padding-left: 15px;
+    }
+
+    /*download and update*/
+
+    .appio-download-heading{
+        width: 90%;
+    }
+
+
+    /*counter section*/
+    .counter-info span i, .counter-info span.timer{
+        font-size: 26px;
+    }
+
+    /*pricing section*/
+
+    .appio-pricing-wrap .pt-50{
+        padding-top: 0;
+    }
+
+
+    /*subscribe section*/
+    .subscribe-form .submit-btn{
+        margin-top: 20px;
+    }
+
+    /*footer section*/
+    .social-link.pull-right{
+        float: left !important;
+    }
+
+}
+
+/* Extra Small Devices, Phones */
+@media screen and (max-width: 414px) and (min-width: 376px) {
+    /*navbar*/
+    .navbar-toggle {
+        margin-top: 5px;
+        margin-right: 10px;
+        padding: 5px;
+    }
+    /*slider text*/
+    .cd-headline.clip .cd-words-wrapper::after {
+        top: 27%;
+        width: 2px;
+        height: 50%;
+    }
+    .pt-150{
+        padding-top: 100px;
+    }
+    .ptb-60{
+        padding: 20px;
+    }
+    .appio-slider-text h1 .highlight-text{
+        font-size: 35px;
+    }
+
+    .shadow{
+        height: 0;
+    }
+
+    .appio-slider-text h1{
+        font-size: 20px;
+        line-height: 20px;
+    }
+    .appio-slider-text p {
+        font-size: 15px;
+        line-height: 28px;
+    }
+
+    .pb-60 {
+        padding-bottom: 40px;
+    }
+    .pt-220 {
+        padding-top: 120px;
+    }
+
+    .appio-slider-text .appio-slider-btn a{
+        margin-bottom: 22px;
+    }
+
+
+    /*top promo box*/
+
+    .appio-appio-promo-text-wrap{
+        padding: 20px;
+        margin: 20px 0;
+    }
+
+
+    /*about section*/
+    .appio-about-features li{
+        width: 100%;
+    }
+
+
+
+    /*features*/
+    .appio-feature-wrap .pl-30{
+        padding-left: 15px;
+    }
+
+    /*download and update*/
+
+    .appio-download-heading{
+        width: 90%;
+    }
+
+
+    /*counter section*/
+    .counter-info span i, .counter-info span.timer{
+        font-size: 26px;
+    }
+
+    /*pricing section*/
+
+    .appio-pricing-wrap .pt-50{
+        padding-top: 0;
+    }
+
+
+    /*subscribe section*/
+    .subscribe-form .submit-btn{
+        margin-top: 20px;
+    }
+
+    /*footer section*/
+    .social-link.pull-right{
+        float: left !important;
+    }
+}
+
+/* Extra Small Devices, Phones */
+@media screen and (max-width: 480px) and (min-width: 415px) {
+    /*navbar*/
+    .navbar-toggle {
+        margin-top: 5px;
+        margin-right: 10px;
+        padding: 5px;
+    }
+    /*slider text*/
+    .cd-headline.clip .cd-words-wrapper::after {
+        top: 19%;
+        width: 2px;
+        height: 65%;
+    }
+    .pt-150{
+        padding-top: 100px;
+    }
+    .ptb-60{
+        padding: 20px;
+    }
+    .appio-slider-text h1 .highlight-text{
+        font-size: 45px;
+    }
+    .appio-slider-btn{
+        margin-bottom: 50px;
+    }
+
+    .shadow{
+        height: 0;
+    }
+
+    /*features*/
+    .appio-feature-wrap .pl-30{
+        padding-left: 15px;
+    }
+
+    /*download and update*/
+
+    .appio-download-heading{
+        width: 90%;
+    }
+
+
+    /*pricing section*/
+
+    .appio-pricing-wrap .pt-50{
+        padding-top: 0;
+    }
+
+
+
+}
+
+/* Extra Small Devices, Phones */
+@media screen and (max-width: 568px) and (min-width: 481px) {
+    /*navbar*/
+    .navbar-toggle {
+        margin-top: 5px;
+        margin-right: 10px;
+        padding: 5px;
+    }
+    .pt-150{
+        padding-top: 120px;
+    }
+    .ptb-60{
+        padding: 20px;
+    }
+    .appio-slider-btn{
+        margin-bottom: 50px;
+    }
+    .shadow{
+        height: 0;
+    }
+    /*features*/
+    .appio-feature-wrap .pl-30{
+        padding-left: 15px;
+    }
+
+    /*pricing section*/
+
+    .appio-pricing-wrap .pt-50{
+        padding-top: 0;
+    }
+    /*download and update*/
+
+    .appio-download-heading{
+        width: 90%;
+    }
+}
+
+/* Extra Small Devices, Phones */
+@media screen and (max-width: 640px) and (min-width: 569px) {
+    /*navbar*/
+    .navbar-toggle {
+        margin-top: 5px;
+        margin-right: 10px;
+        padding: 5px;
+    }
+    .pt-150{
+        padding-top: 120px;
+    }
+    .ptb-60{
+        padding: 0;
+    }
+    .appio-slider-btn{
+        margin-bottom: 50px;
+    }
+    .shadow{
+        height: 0;
+    }
+    /*features*/
+    .appio-feature-wrap .pl-30{
+        padding-left: 15px;
+    }
+
+    /*pricing section*/
+
+    .appio-pricing-wrap .pt-50{
+        padding-top: 0;
+    }
+    /*download and update*/
+
+    .appio-download-heading{
+        width: 90%;
+    }
+}
+
+/* Small Devices, Tablets */
+@media screen and (max-width: 720px) and (min-width: 641px) {
+    /*navbar*/
+    .navbar-toggle {
+        margin-top: 5px;
+        margin-right: 10px;
+        padding: 5px;
+    }
+    .pt-150{
+        padding-top: 120px;
+    }
+    .ptb-60{
+        padding: 30px 0;
+    }
+    .appio-slider-btn{
+        margin-bottom: 50px;
+    }
+    .shadow{
+        height: 0;
+    }
+    /*features*/
+    .appio-feature-wrap .pl-30{
+        padding-left: 15px;
+    }
+
+    /*pricing section*/
+
+    .appio-pricing-wrap .pt-50{
+        padding-top: 0;
+    }
+    /*download and update*/
+
+    .appio-download-heading{
+        width: 90%;
+    }
+}
+
+/* Small Devices, Tablets */
+@media screen and (max-width: 768px) and (min-width: 721px) {
+    /*navbar*/
+    .navbar-toggle {
+        margin-top: 5px;
+        margin-right: 10px;
+        padding: 5px;
+    }
+    .pt-150{
+        padding-top: 120px;
+    }
+}
+
+
+/*navbar-collapse brack point*/
+
+@media (max-width: 991px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-left,.navbar-right {
+        float: none !important;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-fixed-top {
+        top: 0;
+        border-width: 0 0 1px;
+    }
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+        margin-top: 7.5px;
+    }
+    .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .collapse.in{
+        display:block !important;
+    }
+    .navbar-nav .open .dropdown-menu {
+        position: static;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        background-color: transparent;
+        border: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
+
+/* Medium Devices, Desktops */
+@media screen and (max-width: 992px) and (min-width: 769px) {
+    .header .navbar-nav li a{
+        font-size: 12px;
+        padding: 2px 8px;
+        font-weight: normal;
+    }
+}
+
+/* Large Devices, Wide Screens */
+@media screen and (max-width: 1024px) and (min-width: 993px) {
+    .header .navbar-nav li a{
+        font-size: 12px;
+        padding: 2px 8px;
+        font-weight: normal;
+    }
+}
+
+/* Large Devices, Wide Screens */
+@media screen and (max-width: 1080px) and (min-width: 1025px) {
+    .header .navbar-nav li a{
+        font-size: 12px;
+        padding: 2px 8px;
+        font-weight: normal;
+    }
+}
+
+/* Large Devices, Wide Screens */
+@media screen and (max-width: 1152px) and (min-width: 1081px) {
+    .header .navbar-nav li a{
+        font-size: 12px;
+        padding: 2px 8px;
+        font-weight: normal;
+    }
+
+}
+
+
+/* Large Devices, Wide Screens */
+@media screen and (max-width: 1280px) and (min-width: 1153px) {
+
+}
+
+/* Large Devices, Wide Screens */
+@media screen and (max-width: 1366px) and (min-width: 1281px) {
+
+
+}
+
+/* Large Devices, Wide Screens */
+@media screen and (max-width: 1440px) and (min-width: 1367px) {
+
+}
+
+/* Large Devices, Wide Screens */
+@media screen and (max-width: 1600px) and (min-width: 1441px) {
+
+}
+
+/* Large Devices, Wide Screens */
+@media screen and (max-width: 1680px) and (min-width: 1601px) {
+
+}
+
+/* Large Devices, Wide Screens */
+@media screen and (max-width: 1920px) and (min-width: 1681px) {
+
+}
+
+/* Large Devices, Wide Screens */
+@media screen and (max-width: 2560px) and (min-width: 1921px) {
+
+}
+
+/* Large Devices, Wide Screens */
+@media screen and (max-width: 3840px) and (min-width: 2561px) {
+
+}
+
+/* Large Devices, Wide Screens */
+@media screen and (max-width: 7680px) and (min-width: 3841px) {
+
+}
+
+
+
+/* Devices below 600px screen size */
+@media screen and (max-width: 782px) {
+
+
+
+
+}
+
+/* Devices below 767px screen size */
+@media screen and (max-width: 767px) {
+
+}
+
+
+/* Devices below 600px screen size */
+@media screen and (max-width: 600px) {
+
+}

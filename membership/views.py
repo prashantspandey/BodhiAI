@@ -37,10 +37,12 @@ def user_logout(request):
 
 def user_register(request):
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST or None)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('basic:home'))
+        else:
+            return HttpResponseRedirect(reverse('membership:register'))
     else:
         form = RegisterForm()
         context = {'form':form}
