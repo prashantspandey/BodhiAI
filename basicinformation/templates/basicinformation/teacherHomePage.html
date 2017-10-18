@@ -24,16 +24,7 @@
          $('.cont').removeClass("hidden");
          $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?ajKlass='+encodeURIComponent(ajKl));
 
-            $(this).animate({
-            height: '40px',
-            width: '60px',
-        });
-
-          $(eval("'#'+pr")).animate({
-            height: '35px',
-            width: '55px',
-        });
-        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+                 $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
         $('#analysisType').removeClass('hidden');
 
@@ -51,15 +42,6 @@
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
 	 $('#loading').show();
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?schoolTestAnalysis='+ajKl+','+'schoolTestAnalysis');
-            $(this).animate({
-            height: '40px',
-            width: '200px',
-        });
-
-          $(eval("'#'+pr")).animate({
-            height: '35px',
-            width: '120px',
-        });
         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
 
@@ -88,15 +70,6 @@
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
 	 $('#loading').show();
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?onlineTestAnalysis='+ajKl);
-            $(this).animate({
-            height: '40px',
-            width: '200px',
-        });
-
-          $(eval("'#'+pr")).animate({
-            height: '35px',
-            width: '120px',
-        });
         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
     pr = $(this).attr('id');
 
@@ -109,15 +82,6 @@ $('#onlineIndividualPerformance').click(function(){
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
 	 $('#loading').show();
       $('.cont').html('').load('{% url 'basic:teacher_update_page' %}?onlineIndividualPerformace='+ajKl);
-            $(this).animate({
-            height: '40px',
-            width: '400px',
-        });
-
-          $(eval("'#'+pr")).animate({
-            height: '35px',
-            width: '120px',
-        });
         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
     pr = $(this).attr('id');
@@ -161,7 +125,7 @@ $('#onlineIndividualPerformance').click(function(){
   <button type="button" class="btn btn-default text-center col-xs-12" id="onlineTestAnalysis">Online Test Analysis</button>
 </div>
    <div class="btn-group " role="group" aria-label="...">
-  <button type="button" class="btn btn-default text-center col-xs-12" id="onlineIndividualPerformance">Online Individual Student Performaces</button>
+  <button type="button" class="btn btn-default text-center col-xs-12" id="onlineIndividualPerformance"> Individual Student Performaces</button>
 </div>
 
 

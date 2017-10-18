@@ -19,7 +19,7 @@ $(document).ready(function () {
 var pointBackgroundColors = [];
     var ctx = document.getElementById("myChart");
     var myChart1 = new Chart(ctx, {
-            type: 'polarArea',
+            type: 'bar',
             data: {
 		    labels: [{%for u,k in probAreas %}'{{u}}',{%endfor%}],
                 datasets: [{
@@ -56,7 +56,8 @@ var pointBackgroundColors = [];
 		}]
             },
 
-            options: {   responsive: false,
+            options: {   responsive: true,
+		    maintainAspectRatio: false,
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -82,7 +83,7 @@ var pointBackgroundColors = [];
 var pointBackgroundColorsTiming = [];
     var ctx1 = document.getElementById("myChartTiming");
     var myChart2 = new Chart(ctx1, {
-            type: 'doughnut',
+            type: 'bar',
             data: {
 		    labels: [{%for u,k in timing %}'{{u}}',{%endfor%}],
                 datasets: [{
@@ -116,7 +117,8 @@ var pointBackgroundColorsTiming = [];
 		}]
             },
 
-            options: {   responsive: false,
+            options: {   responsive: true,
+		    maintainAspectRatio: false,
 
               			    title: {
 				display: true,
@@ -157,19 +159,23 @@ var pointBackgroundColorsTiming = [];
     });
 </script>
 
-
-	    <div class='col-md-4  col-xs-12'>
-	<h2 style="text-align:center;"> Weak Areas </h2>
-	<canvas  id="myChart" style="display: block; height: 300px; width: 400px; padding-left: 0;">
+<div class='container col-md-12'>
+	<div class='col-md-5'>
+	<h3 class='text-center' style='font-weight:bold;'> Weak Topics (wrong and skipped questions) </h3>
+	<div >
+	<canvas  id="myChart" height='400'>
 </canvas>
-
-	    </div>
-	    <div class='col-md-7 col-xs-12' >
-	<h2 style="text-align:left;"> Average time taken per area (in seconds) </h2>
-<canvas  id="myChartTiming" width="500" height="500" >
+	</div>
+	</div>
+	<div class='col-md-5'>
+	<h3 class='text-center' style='font-weight:bold;'> Timing </h3>
+	<div>
+<canvas  id="myChartTiming"  height="400" >
 	</canvas>
+	</div>
+	</div>
+	</div>
 
-	    </div>
 	
 
 		{%endblock%}

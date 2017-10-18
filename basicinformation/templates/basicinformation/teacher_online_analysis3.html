@@ -6,8 +6,19 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <hr style='width:3px'>
-<div class="col-md-10 col-xs-12">
-	<h2 style='text-align:center;font-weight:bold'>Average of test is : {{average}} out of {{maxMarks}} or {{percentAverage|floatformat:2}} %</p>
+<div class="container">
+	<h2 class='text-center' style='font-weight:bold;'> Test Analysis </h2>
+	<hr>
+		<table class='table table-striped table-bordered table-hover'>
+			<tr>
+				<th class='primary'> Average Marks</th>
+				<th> Average Marks Percentage</th>
+			</tr>
+			<tr>
+				<th>{{average|floatformat:2}}/{{maxMarks}}</th>
+				<th> {{percentAverage|floatformat:2}}% </th>
+			</tr>
+		</table>
 </div>
 <div  class="col-md-8  col-xs-12">
     <script>
@@ -16,7 +27,7 @@ $(document).ready(function () {
 	  $('#loadinganalysis3').hide();
 	    var ctx = document.getElementById("analysis");
 		var myChart1 = new Chart(ctx, {
-            type: 'polarArea',
+            type: 'bar',
             data: {
                 labels: ["S","A","B","C","D","E","F"],
                 datasets: [{
@@ -43,12 +54,12 @@ $(document).ready(function () {
                     borderWidth: 3
                 }]
             },
-            options: {   responsive: false,
+            options: {   responsive: true,
+		    maintainAspectRatio: false,
                 scales: {
                     yAxes: [{
                         ticks: {
                             beginAtZero:true,
-                            max: 100
                         }
                     }]
                 }
@@ -59,21 +70,50 @@ $(document).ready(function () {
 </script>
 </div>
 <div class='col-md-offset-1 col-md-10 col-xs-12'>
-	<h2 style='text-align:center;font-weight:bold;'>Student Grade wise</h2>
-	<canvas  id="analysis" style="display: block; height: 300px; width: 400px; padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;" width="400" height="370">
+	<h2 style='text-align:center;font-weight:bold;'>Students Grade wise</h2>
+	<div>
+	<canvas  id="analysis" height='400'>
 </canvas>
-<div class='col-md-offset-2 col-sm-12'>
-<span class='badge ' style='background-Color:rgba(103,58,183,0.9);'>{{grade_s}} students got 90 % - 100 %</span>
-<span class='badge ' style='background-Color:rgba(118,255,3 ,0.7);'>{{grade_a}} students got 80 % - 90 %</span>
-<span class='badge ' style='background-Color:rgba(174,234,0 ,0.6);'>{{grade_b}} students got 70 % - 80 %</span>
-<span class='badge ' style='background-Color:rgba(255,214,0 ,0.6);'>{{grade_c}} students got 60 % - 70 %</span>
-<span class='badge ' style='background-Color:rgba(255,171,0 ,0.7);'>{{grade_d}} students got 50 % - 60 %</span>
-<span class='badge ' style='background-Color:rgba(255,109,0 ,0.7)'>{{grade_e}} students got 33 % - 50 %</span>
-<span class='badge ' style='background-Color:rgba(221,44,0 ,0.6)'>{{grade_f}} students got less than 33 % </span>
-</div>
+	</div>
+<table class='table  table-bordered table-hover'>
+			<tr>
+				<th > Percentage </th>
+				<th> Number of students</th>
+			</tr>
+			<tr class='success'>
+				<th>90% - 100% (S)</th>
+				<th> {{grade_s}} </th>
+			</tr>
+			<tr class='success'>
+				<th>80% - 90% (A)</th>
+				<th> {{grade_a}} </th>
+			</tr>
+			<tr class='primary'>
+				<th>70% - 80% (B)</th>
+				<th> {{grade_b}} </th>
+			</tr>
+			<tr class='primary'>
+				<th>60% - 70% (C)</th>
+				<th> {{grade_c}} </th>
+			</tr>
+			<tr class='warning'>
+				<th>50% - 60% (D)</th>
+				<th> {{grade_d}} </th>
+			</tr>
+			<tr class='warning'>
+				<th>33% - 50% (E)</th>
+				<th> {{grade_e}} </th>
+			</tr>
+			<tr class='danger'>
+				<th>Less than 33% (F)</th>
+				<th> {{grade_f}} </th>
+			</tr>
+
+
+
+		</table>
+
+<hr>
 {% if  school %}
 <div>
 	{% for quest in test.questions_set.all %}

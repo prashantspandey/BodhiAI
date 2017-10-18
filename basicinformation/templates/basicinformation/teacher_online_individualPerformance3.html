@@ -21,8 +21,8 @@
 	  <h3 style="text-align:center;font-weight:bold;"> No student has taken the test yet. </h3>
 	  {%else%}
 		<h3 style='text-align:center;font-weight:bold;'> Choose a student </h3>
-		<div style='text-align:center;'>
-	<select name='StudentNames' size=1 style='text-align:center;'>
+		<div class='container' style='text-align:center;'>
+	<select class='form-control' name='StudentNames' size=1 style='text-align:center;'>
 		<option disabled selected value> -- Choose a Student to see his/her performance -- </option>
 		<li class="divider"></li>
 	{% for student in students %}	

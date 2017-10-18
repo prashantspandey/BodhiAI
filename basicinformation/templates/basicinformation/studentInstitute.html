@@ -85,6 +85,7 @@
   <p>Date of Birth: {{profile.dob}}</p>
 
 </div>
+<hr>
 {%if announcements %}
 <h2 style= 'text-align:center;'> Announcements </h2>
 	<div class="alert alert-info col-md-offset-1 col-md-10  col-xs-12">
@@ -97,11 +98,14 @@
 {%endif%}
 
 
-
 {%for sub in subjects %}
-<div class="well col-md-4 col-md-offset-1  col-xs-12"   style="border-style: solid;  border-width: 5px; border-color:#424242; background:rgba(244, 255, 250,0.5) ; ">
+<div class=" col-md-4 col-md-offset-1  col-xs-12"   style="border-style: solid;  border-width: 5px; border-color:#424242; background:rgba(244, 255, 250,0.5) ; ">
 <h2 id='subjectName' class="text-center">{{sub.name}}</h2>
+{% if sub.teacher == BodhiAI %}
+<h4><del> Taught By: {{sub.teacher}}</del></h4>
+{%else%}
 <h4> Taught By: {{sub.teacher}}</h4>
+{%endif%}
 
 <div>
 <canvas  id="myChart{{sub.name|slice:":5"}}"   height="400"></canvas>

@@ -14,15 +14,6 @@
          $('#onlinetestanalysis').html('').load('{% url 'basic:teacher_update_page' %}?onlinetestid='+which_testid);
 
 
-            $(this).animate({
-            height: '40px',
-            width: '170px',
-        });
-
-          $(eval("'#'+pr")).animate({
-            height: '35px',
-            width: '160px',
-        });
         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
 
