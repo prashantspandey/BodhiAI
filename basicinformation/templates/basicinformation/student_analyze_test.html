@@ -5,22 +5,62 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>	  $('#loadingStudentAnalysis3').hide(); </script>
+<style type='text/css' >
+.quests{
+	border-style:dotted;
+	padding:30px;
+}
 
-
+.tables{
+	padding:10px;
+	overflow-x:auto;
+}
+.tables th{
+	padding:10px;
+	color:blue;
+}
+.graphs{
+	padding:20px;
+	border-style:none;
+}
+</style>
+<div class='container'>
 	<div class="jumbotron" style="background:transparent !important" >
 	<h2 style='text-align:center;font-weight:bold;'> Your score: {{test.marks}}/{{test.test.max_marks}} </h2>
 <h3 style='text-align:center;font-weight:bold;'> Average of Test: {{average}}/{{test.test.max_marks}} or {{percentAverage|floatformat:2}} %</h3>
 
-  <hr class="my-4">
-<h4 style='text-align:center;font-weight:bold;'> Right Answers: {{numberRight}}, 
-	Wrong Answers: {{numberWrong}},
-	Not-Attempted : {{numberSkipped}},
-	Accuracy : {{accuracy|floatformat:2}}%</h4>
-<h3 style='text-align:center;font-weight:bold;'> Subject wise accuracy: </h4>
-{%for s,acc in subjectwise_accuracy.items %}
-<h4 style='text-align:center;font-weight:bold;'> Accuracy in {{s}}: {{acc|floatformat:2}}% </h4>
-{%endfor%}
 </div>  
+<div class='tables ' >
+	<table class='table table-striped table-bordered table-hover'>
+		<caption>Test Details: </caption>
+			<tr>
+				<th class='primary'> Right Answers</th>
+				<th> Wrong Answers</th>
+				<th> Not Attempted</th>
+				<th> Accuracy</th>
+			</tr>
+			<tr>
+				<th>{{numberRight}}</th>
+				<th> {{numberWrong}} </th>
+				<th>{{numberSkipped}}</th>
+				<th>{{accuracy|floatformat:2}}%</th>
+			</tr>
+		</table>
+	<table class='table table-striped table-bordered table-hover'>
+		<caption> Subjectwise Accuracy </caption>
+		<tr>
+			{%for s,acc in subjectwise_accuracy.items %}
+			<th>{{s}}</th>
+			{%endfor%}
+		</tr>
+		<tr>
+			{%for s,acc in subjectwise_accuracy.items %}
+			<th> {{acc|floatformat:2}}% </th>
+			{%endfor%}
+		</tr>
+	</table>
+</div>
+</div>
 
 
 
@@ -193,14 +233,14 @@ $(document).ready(function () {
 <!-- question wise result here -->
 
 
-<div class='col-md-offset-1 col-md-5  col-xs-12'>
+<div class='graphs col-md-offset-1 col-md-5  col-xs-12'>
 	<h3 style='text-align:center;font-weight:bold;'>Your performace vs Average Performace</h2>
 	<div>
 	<canvas  id="analysis" height='400'>
 </canvas>
 	</div>
 </div>
-	    <div class=' col-md-5  col-xs-12'>
+	    <div class='graphs col-md-5  col-xs-12'>
 	<h3 style="text-align:center;font-weight:bold;"> Your percentile: {{percentile}} </h2>
 	<div>
 	<canvas  id="analysisPercentile" height='400'>
@@ -208,7 +248,7 @@ $(document).ready(function () {
 	</div>
 	</div>
 
-<div class='col-md-offset-1 col-md-5  col-xs-12'>
+<div class='graphs col-md-offset-1 col-md-5  col-xs-12'>
 	<h3 style='text-align:center;font-weight:bold;'>Topic wise mistakes/not-attempted questions</h2>
 	<div>
 	<canvas  id="topicAreasAnalysis" height='400'>
@@ -251,9 +291,9 @@ $(document).ready(function () {
 	{%elif student_type == 'SSC' %}
 
 
-<div class='col-md-offset-1 col-md-10  col-xs-12'>
+<div class=' col-md-offset-1 col-md-10  col-xs-12'>
 		{% for te in test.test.sscquestions_set.all %}
-		<div class='well  col-xs-12'>
+		<div class='quests well  col-xs-12'>
 			<h5 style='font-weight:bold;'> {{te.text}}
 				{%if te.picture %}
 				<img src='{{te.picture}}'>
@@ -262,7 +302,7 @@ $(document).ready(function () {
 			{% for time in test.sscansweredquestion_set.all %}
 			{%if time.quest.id == te.id and time.time != -1 %}	
 			
-			<span class="label label-info" style='background-Color:#AA00FF;'>You took {{time.time}} seconds to solve this question.</span></h5>
+			<span class="label label-info" style='background-Color:#AA00FF;'>{{time.time}} seconds </span></h5>
 			{%endif%}
 			{%endfor%}
 

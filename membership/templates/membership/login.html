@@ -1,9 +1,18 @@
 {%extends 'basicinformation/base.html' %}
 {%load staticfiles%}
+{%load crispy_forms_tags%}
 
 <html>
+<head>
 <title>{%block title %}Login To BodhiAI{%endblock%}</title>
-
+{%block scripts %}
+	<style type="text/css">
+	.container{
+		padding:50px;
+	}	
+	</style>
+{%endblock%}
+</head>
 {% block content %}
 
 <body>
@@ -14,35 +23,18 @@
 	<img src="{%static 'basicinformation/images/bodhiaitransparent.png' %}" alt="Bodhi AI"  style='height:25%;'>
   </div>
 <h1 style='text-align:center;font-weight:bold;'>Login</h1>
-<div class="panel panel-default col-sm-12">
-  <div class="panel-body col-sm-12">
+  <div class="container">
 
 
 
   <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
   {% csrf_token %}
-
-  {% include 'membership/form-template.html' %}
-    {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-  <div class="form-group col-sm-12" style='text-align:center;'>
-  <div >
+  {{form|crispy}}
+  <div style='text-align:center;'>
   <button type="submit" class="btn btn-primary">Log In</button>
-
-  </div>
   </div>
 
-
-  </div>
-
-
-
-  </form>
+   </form>
   
 </div>
 

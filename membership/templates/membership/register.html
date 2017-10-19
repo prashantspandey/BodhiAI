@@ -1,33 +1,32 @@
 {% extends 'basicinformation/base.html' %}
 {%load staticfiles %}
+{%load crispy_forms_tags%}
 <html>
+	<head>
     <title> {%block title %} Register at BodhiAI {%endblock%} </title>
+    {%block scripts %}
+	<style type="text/css">
+	.container{
+		padding:50px;
+	}
+	</style>
+    {%endblock%}
+	</head>
 {% block content %}
-<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+<div class='container'>
+<form  action="" method="post" enctype="multipart/form-data">
   {% csrf_token %}
-	<div class="form-group" style='text-align:center;'>
-  {% include 'membership/register-form-template.html' %}
-    </div>
-    {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-  <div class="form-group col-sm-12" style='text-align:center;'>
-  <div >
+  {{form|crispy}}
+  <div style='text-align:center;'>
   <button type="submit" class="btn btn-primary">Register</button>
-
-  </div>
   </div>
 
 
-  </div>
+
 
 
 
   </form>
-
+</div>
 {%endblock%}
 </html>

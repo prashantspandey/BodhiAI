@@ -73,7 +73,7 @@
                                     <i class="fa fa-bars"></i>
                                 </button>
                                 <!-- offcanvas-trigger-effects -->
-				<a class="navbar-brand" href="basicinformation/index.html"><img src="{%static 'basicinformation/img/logo.png' %}" alt="BodhiAI"></a>
+				<a class="navbar-brand" href="basicinformation/index.html"><img src="{%static 'basicinformation/img/logo.png' %}" alt="BodhiAI" ></a>
                             </div>
 
                             <!--main menu-->
@@ -87,7 +87,7 @@
                                     <li><a class="appio-scroll" href="#testimonial">Testimonial</a></li>
                                     <li><a class="appio-scroll" href="#team">Team</a></li>
                                     <li><a class="appio-scroll" href="#blog">Blog</a></li>
-                                    <li><a class="appio-scroll" href="#contact">Contact Us</a></li>
+                                    <li><a class="appio-scroll" href="#contact">Contact </a></li>
 				    {%if user.is_authenticated %}     <li><a class="appio-scroll" href="{%url 'membership:logout' %}">Logout</a></li>{%endif%}
                                 </ul>
                             </div><!-- /.navbar-collapse -->
@@ -122,25 +122,26 @@
                         <div class="appio-slider-wrap pt-150 pb-90">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-md-8 mb-20">
-                                        <div class="appio-slider-text ptb-60">
-                                            <h1 class="cd-headline clip is-full-width"><font color='#000000'>BODHI AI </font><small><font color='#ffffff'> A Personal Assistant for every Student and Teacher</font></small><br>
+                                    <div class="col-md-8 mb-150">
+                                        <div class="appio-slider-text ptb-90">
+                                            <h1 class="cd-headline clip is-full-width"><font color='#fff'>BODHI AI </font><small><font color='#000'> A Personal Assistant for every Student and Teacher</font></small><br>
                                                 <span class="highlight-text cd-words-wrapper">
                                                 
-                                                    <b class="is-visible">Understands You</b>
-                                                    <b>Performance Predictions</b>
-                                                    <b>Based on 20+ factors </b>
-                                                    <b>Makes optimal strategies for you </b>
+							<b class="is-visible">Bodhi AI deeply Understands You</b>
+                                                    <b>Performance Predictions based on 20+ factors </b>
+                                                    <b>Makes optimal strategies for you based on predictions. </b>
                                                     <b>Handholds you to success.</b>
-                                                    
                                                     
                                                 </span>
                                             </h1>
-                                            <p style='font-weight: bold;'><font color='#000000' >Bodhi AI is personal assistant
-                                            that starts by understanding you. Based on it's understanding, it makes future
-                                            performance predictions that includes more than 20 indicators such as (weak areas,timing,understanding of concepts etc...). Then it makes unique optimal strategies for you that will lead you to maximum understanding and performance. At the end it handholds you through every step of that strategy that will lead you to success. Your job is to just sit back and let Bodhi AI guide you. 
-                                               </font></p>
-                                            <div class="appio-slider-btn mt-30">
+					    <br> 
+					    <br> 
+					    <br> 
+					                                            </div>
+                                    </div>
+                                 
+                                </div>
+<div class="appio-slider-btn mt-30">
 						    <a class="btn btn-primary mb-15" href="{% url 'membership:login' %}">
                                                     <span class="btn-text">Login</span>
                                                 </a>
@@ -148,10 +149,7 @@
                                                     <span class="btn-text">Register</span>
                                                 </a>
                                             </div>
-                                        </div>
-                                    </div>
-                                 
-                                </div>
+
                             </div>
                             <!--end container-->
                         </div>
