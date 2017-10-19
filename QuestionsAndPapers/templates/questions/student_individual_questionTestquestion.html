@@ -2,9 +2,9 @@
 <div id = 'teid' class='hidden'>{{testid}}</div>
 	<div class='well col-md-offset-1 col-md-10'>
 		{% if question.comprehension %}
-		<h2> {{question.comprehension.text}} </h2>
+		<h4> {{question.comprehension.text}} </h4>
 		{%endif %}
-		<h2 style='font-weight:bold;'> {{question.text}} </h2>
+		<h4 style='font-weight:bold;'> {{question.text}} </h4>
 		{% if question.picture %}
 		<img src='{{question.picture}}' >
 		{%endif%}

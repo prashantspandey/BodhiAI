@@ -964,6 +964,7 @@ class Studs:
                                                    self.profile,sub = subject)
         return my_tests
 
+# Finds if student has already taken the test
     def is_onlineTestTaken(self, test_id):
         try:
             if self.institution == 'School':
@@ -978,6 +979,7 @@ class Studs:
             print(str(e))
             return None
 
+# Finds average of a test
     def online_findAverageofTest(self, test_id, percent=None):
         if percent:
             if self.institution == 'School':
@@ -1006,6 +1008,7 @@ class Studs:
 
             return average
 
+# Finds student's percentile in a particular test
     def online_findPercentile(self, test_id):
         if self.institution == 'School':
             test = OnlineMarks.objects.filter(test__id=test_id)
@@ -1039,31 +1042,37 @@ class Studs:
         unique, counts = np.unique(all_answers, return_counts=True)
         freq = np.asarray((unique, counts)).T
         return freq
-    
+
+# Finds number of right, wrong and skipped answers, also finds accuracy in a
+# test    
     def test_statistics(self,testid):
         if self.institution == 'Schoool':
             pass
         elif self.institution == 'SSC':
+            # get instance of onlinemarks with testid
             marks = SSCOnlineMarks.objects.get(student = self.profile,test__id
                                                = testid)
             if marks:
                 right_answers = 0
                 wrong_answers = 0
                 skipped_answers = 0
+            # counts number of right,wrong and skipped answers
                 for ra in marks.rightAnswers:
                     right_answers += 1
                 for wa in marks.wrongAnswers:
                     wrong_answers += 1
                 for sp in marks.skippedAnswers:
                     skipped_answers += 1
+            # finds accuracy on the basis of counting done above
                 accuracy = ((right_answers)/(right_answers+wrong_answers))*100
                 return right_answers,wrong_answers,skipped_answers,accuracy
 
-
+# Finds the subjectwise accuracy (eg. SSCMultipleSections) of a test
     def test_SubjectAccuracy(self,testid):
         if self.institution == 'School':
             pass
         elif self.institution == 'SSC':
+            # get onlinemarks object of a particular test
             marks = SSCOnlineMarks.objects.get(student = self.profile,test__id
                                                = testid)
             right_answers = []
@@ -1072,25 +1081,29 @@ class Studs:
             subjectra = []
             subjectwa = []
             subjectsa = []
-
+            # find all the right answers with their subjects
             for ra in marks.rightAnswers:
                 question = SSCquestions.objects.get(choices__id = ra)
                 sub = question.section_category
                 right_answers.append(question.id)
                 subjectra.append(sub)
+            # find all the wrong answers with their subjects
             for wa in marks.wrongAnswers:
                 question = SSCquestions.objects.get(choices__id = wa)
                 sub = question.section_category
                 wrong_answers.append(question.id)
                 subjectwa.append(sub)
+            # find all the skipped answers with their subjects
             for sa in marks.skippedAnswers:
                 question = SSCquestions.objects.get(id = sa)
                 sub = question.section_category
                 skipped_answers.append(question.id)
                 subjectsa.append(sub)
+            # zip answers with their subjects
             ra = list(zip(subjectra,right_answers))
             wa = list(zip(subjectwa,wrong_answers))
             sp= list(zip(subjectsa,skipped_answers))
+            # find unique questions ids and thier counts
             unique, counts = np.unique(ra, return_counts=True)
             raf = np.asarray((unique, counts)).T
             unique, counts = np.unique(wa, return_counts=True)
@@ -1098,6 +1111,8 @@ class Studs:
             unique, counts = np.unique(sp, return_counts=True)
             spf = np.asarray((unique, counts)).T
             new_ra = {}
+            # if subject is in student's subject then add subject count to a
+            # dictionary
             for i,j in raf:
                 if  i in self.my_subjects_names():
                     new_ra[i] = j
@@ -1109,6 +1124,19 @@ class Studs:
             for i,j in spf:
                 if  i in self.my_subjects_names():
                     new_sa[i] = j
+            # if length of right or wrong answer dictionaries are not same then
+            # add the missing subject to the shorter dictionary (works when
+            # accuracy of one of the subjects is 100%)
+            if len(new_ra) > len(new_wa):
+                for i in new_ra.keys():
+                    if not i in new_wa.keys():
+                        new_wa[i] = 0
+            elif len(new_ra) < len(new_wa):
+                for i in new_wa.keys():
+                    if not i in new_ra.keys():
+                        new_ra[i] = 0
+            # find subject accuracy by comparing number of right and wrong  answers per
+            # subject
             sub_accuracy = {}
             for rk,rv in new_ra.items():
                 for wk,wv in new_wa.items():
@@ -1118,7 +1146,8 @@ class Studs:
                         sub_accuracy[wk] = accuracy
             return sub_accuracy
 
-        
+# Finds the overall weak topics of a student,else if singleTest is true then
+# finds weak topics of single  test 
     def weakAreas(self,subject,singleTest = None):
         if self.institution == 'School':
             my_marks = OnlineMarks.objects.filter(student = self.profile,test__sub
@@ -1140,11 +1169,14 @@ class Studs:
 
         wrong_Answers = []
         skipped_Answers = []
+        # if onetest object is present then adds all the wrong and skipped
+        # answers to separate lists
         if indi_my_marks:
             for wa in indi_my_marks.wrongAnswers:
                 wrong_Answers.append(wa)
             for sp in indi_my_marks.skippedAnswers:
                 skipped_Answers.append(sp)
+        # same as above, but when single subject tests are present
         if my_marks:
             for om in my_marks:
                 for wa in om.wrongAnswers:
@@ -1152,6 +1184,7 @@ class Studs:
                 for sp in om.skippedAnswers:
                     skipped_Answers.append(sp)
 
+        # same as above, but when multiple subject tests are present
         if all_marks:
             for om in all_marks:
                 for wa in om.wrongAnswers:
@@ -1163,6 +1196,7 @@ class Studs:
             if self.institution == 'School':
                 qu = Questions.objects.get(choices__id = i)
             elif self.institution == 'SSC':
+            # finds the questions objects of wrong questions
                 qu = SSCquestions.objects.get(choices__id = i)
                 if subject == 'SSCMultipleSections':
                     quid = qu.id
@@ -1175,6 +1209,7 @@ class Studs:
             if self.institution == 'School':
                 qu = Questions.objects.get(id = i)
             elif self.institution == 'SSC':
+            # finds the questions objects of skipped questions
                 qu = SSCquestions.objects.get(id = i)
                 if subject == 'SSCMultipleSections':
                     quid = qu.id
@@ -1183,10 +1218,11 @@ class Studs:
                     if qu.section_category == subject:
                         quid = qu.id
                         wq.append(quid)
+        # finds unique questions with thier frequency
         unique, counts = np.unique(wq, return_counts=True)
         waf = np.asarray((unique, counts)).T
         nw_ind = []
-
+        # sorts the list 
         kk = np.sort(waf,0)[::-1]
         for u in kk[:,1]:
             for z,w in waf:
@@ -1200,11 +1236,9 @@ class Studs:
         return final_freq
 
 
-    #def singleSubject_weakAreas(self,tesid):
-    #    if self.institution == 'SSC':
-    #        marks = SSCOnlineMarks.objects.filter
         
-
+# Finds the weak topic intensity, i.e. returns a list with topic name and
+# number of wrong questions
     def weakAreas_Intensity(self,subject,singleTest = None):
         if singleTest == None:
             arr = self.weakAreas(subject)
