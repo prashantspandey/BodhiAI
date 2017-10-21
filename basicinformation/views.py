@@ -98,19 +98,37 @@ def home(request):
             subjects = user.student.subject_set.all()
             teacher_name = {}
             subject_marks = {} 
+            # check for marks objects of multiple sections
+            multiple_marks = SSCOnlineMarks.objects.filter(test__sub =
+                                                           'SSCMultipleSections',student=profile)
+            
             for sub in subjects:
-                teacher_name[sub.name] = sub.teacher # retrieve all marks from database
+                teacher_name[sub.name] = sub.teacher
+                # get all the marks objects subjectwise
                 marks = SSCOnlineMarks.objects.filter(test__sub = sub.name,student =
                                                      profile)
                 if marks:
                     one_marks = []
                     time = []
+                    # add date and marks to a dictionary with index subject
                     for i in marks:
                         one_marks.append(float(i.marks)/float(i.test.max_marks)*100)
                         time.append(i.testTaken)
                         subject_marks[sub.name] = {'marks':one_marks,'time':time}
+                if multiple_marks:
+                    multiple_one_marks = []
+                    multiple_time = []
+                    # add date and marks to a dictionary with index
+                    # subject(multiple sections)
+                    for i in multiple_marks:
+                        multiple_one_marks.append(float(i.marks)/float(i.test.max_marks)*100)
+                        multiple_time.append(i.testTaken)
+                        subject_marks['SSCMultipleSections'] =\
+                        {'marks':multiple_one_marks,'time':multiple_time}
+
+
             
-            
+            new_tests = me.toTake_Tests()
              #Get all the student marks
             try:
                 mathst1,mathst2,mathst3,mathshy,mathst4,mathspredhy =\
@@ -180,15 +198,15 @@ def home(request):
                        'science3': sciencet3, 'science4':
                        sciencet4,'announcements':my_announcements}
             context = \
-            {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks}
+                    {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
 
             return render(request, 'basicinformation/studentInstitute.html', context)
-            ssccoaching = School.objects.get(name='BodhiAI')
-            quests = SSCquestions.objects.all()
-            for i in quests:
-                i.school.add(ssccoaching)
+            #ssccoaching = School.objects.get(name='BodhiAI')
+            #quests = SSCquestions.objects.all()
+            #for i in quests:
+            #    i.school.add(ssccoaching)
 
-            return HttpResponse(ssccoaching)
+            #return HttpResponse(ssccoaching)
 
 
         elif user.groups.filter(name='Teachers').exists():

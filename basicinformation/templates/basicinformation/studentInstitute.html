@@ -7,9 +7,9 @@
     <title>{%block title %}BodhiAI|Student Page{%endblock %}</title>
     {%block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'basicinformation/css/studentInstitute.css' %}">
      <script>
-
-    {% for key,value in subjectwiseMarks.items %}
+{% for key,value in subjectwiseMarks.items %}
      $(document).ready(function () {
 	     var ctx{{key|slice:":5"}} = document.getElementById("myChart{{key|slice:":5"}}");
 	      myChart = new Chart(ctx{{key|slice:":5"}}, {
@@ -67,20 +67,24 @@
         });
         });
 
+
+
      
     {%endfor%}		
+     </script>
     {%endblock%}
 </head>
 <body>
 {%block content%}
-<h1 style='text-align:center;'>Student Page</h1>
 
 
 <div class="jumbotron col-md-offset-1 col-md-10 col-sm-12">
   <h1 id="name">Hello {{profile.name}}</h1>
   <p>Class: {{profile.klass}}</p>
+  {% if profile.rollNumber != None %}
   <p>Rollnumber: {{profile.rollNumber}}</p>
   <p>Date of Birth: {{profile.dob}}</p>
+  {%endif%}
 
 </div>
 <hr>
@@ -94,23 +98,52 @@
 	</div>
 
 {%endif%}
+<div class='col-md-12' id='testContainer'>
+	<h2 class='text-center' style='font-weight:bold;'>Practice Tests </h2>
+{% for key,value in newTests.items %}
+
+	  <div class="col-sm-6 col-md-4 col-md-offset-1" id ='newTests'>
+	<div class="thumbnail">
+		{% if value.subject == 'Quantitative-Analysis' %}
+	 <img src="{% static 'basicinformation/images/mathstest.jpg' %}" alt="...">
+	 {%elif value.subject == 'English' %}
+	 <img src="{% static 'basicinformation/images/englishtest.jpg' %}" alt="...">
+	 {%elif value.subject == 'SSCMultipleSections' %}
+	 {%endif%}
 
 
-{%for sub in subjects %}
-<div class=" col-md-4 col-md-offset-1  col-xs-12"   style="border-style: solid;  border-width: 5px; border-color:#424242; background:rgba(244, 255, 250,0.5) ; ">
-<h2 id='subjectName' class="text-center">{{sub.name}}</h2>
-{% if sub.teacher == BodhiAI %}
-<h4><del> Taught By: {{sub.teacher}}</del></h4>
-{%else%}
-<h4> Taught By: {{sub.teacher}}</h4>
-{%endif%}
-
+		<div class="caption">
+			<h3 class='text-center' style='font-weight:bold;'>{% if value.subject == 'SSCMultipleSections'%}Multiple Subjects {%else%}{{value.subject}} {%endif%}</h3>
+				<h4 class='text-center'>{{value.num_questions}} questions </h4>
+			<h4> Topics </h4>
+			<ul>
+				{% for i in value.topics %}
+				<li>{{i}}</li>
+				{%endfor%}
+			</ul>
+			<div class='text-center'>
+				<form action = "{% url 'QuestionsAndPapers:conductTest' %}" method='get'>
+					<button type="submit" name='onlineTestid' class="btn btn-primary" value="{{key}}">Take Test</button>
+				</form>
+			</div>
+	</div>
+		</div>
+		</div>
+	{%endfor%}
+</div>
+</div>
+<br>
+<div class='col-md-12'>
+	<h2 class='text-center' style='font-weight:bold' >Previous Performance </h2>
+   {% for key,value in subjectwiseMarks.items %}
+ <div class=" col-md-4 col-md-offset-1  col-xs-12" id='graphContainer'   >
+	 <h2 id='subjectName' class="text-center">{%if key == 'SSCMultipleSections' %} Complete Test {%else%} {{key}} {%endif%}</h2>
 <div>
-<canvas  id="myChart{{sub.name|slice:":5"}}"   height="400"></canvas>
+<canvas  id="myChart{{key|slice:":5"}}"   height="400"></canvas>
 </div>
 </div>
 {%endfor%}
-
+</div>
 
 {%endblock%}
 

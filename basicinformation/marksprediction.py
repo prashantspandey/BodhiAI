@@ -979,6 +979,36 @@ class Studs:
             print(str(e))
             return None
 
+# Tests that are not taken 
+    def toTake_Tests(self):
+        if self.institution == 'School':
+           pass
+        elif self.institution == 'SSC':
+            all_tests = SSCKlassTest.objects.filter(testTakers = self.profile)
+            new_tests = {}
+            for i in all_tests:
+                topics = []
+                try:
+                    already_taken = SSCOnlineMarks.objects.get(student =
+                                                               self.profile,test__id
+                                                               =i.id)
+                    pass
+                except:
+                    count_quest = 0
+                    for j in i.sscquestions_set.all():
+                        count_quest += 1
+                        cat =\
+                        self.changeIndividualNames(j.topic_category,j.section_category)
+                        topics.append(cat)
+                    topics = list(unique_everseen(topics))
+                    new_tests[i.id] =\
+                    {'subject':i.sub,'topics':topics,'num_questions':count_quest}
+            return new_tests
+
+            
+            
+
+       
 # Finds average of a test
     def online_findAverageofTest(self, test_id, percent=None):
         if percent:
