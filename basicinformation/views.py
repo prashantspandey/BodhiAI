@@ -95,6 +95,7 @@ def home(request):
             profile = user.student
             me = Studs(request.user)
             subjects = me.my_subjects_names()
+            me.subjects_OnlineTest()
             subjects = user.student.subject_set.all()
             teacher_name = {}
             subject_marks = {} 
