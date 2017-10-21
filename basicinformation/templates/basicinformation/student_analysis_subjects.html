@@ -1,4 +1,5 @@
 {%load staticfiles %}
+<link rel='stylesheet' href="{%static 'basicinformation/css/animate.css' %}">
 <script>
 
          $(document).ready(function () {
@@ -35,8 +36,10 @@ $("#SchoolAnalysis").click(function(){
 <div class="panel panel-default ">
   <div class="panel-heading text-center">Choose an Analysis Type:</div>
   <div class="panel-body">
-	  <button type="button" class="btn btn-default text-center "  id="OnlineAnalysis">School Analysis</button>
-	<button type="button" class="btn btn-default text-center "  id="SchoolAnalysis">Online Analysis</button>
+	  {%if user.student.school.name != 'BodhiAI' %}	  
+	  <button type="button" class="btn btn-default animated zoomIn"  id="OnlineAnalysis">Institute Analysis</button>
+	  {%endif%}
+	<button type="button" class="btn btn-default text-center animated zoomIn"  id="SchoolAnalysis">Online Analysis</button>
 	<button type="button" class="hidden btn btn-default text-center" value ="{{sub}}" id="this_sub2">{{sub}}</button>
 
 

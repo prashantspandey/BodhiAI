@@ -8,9 +8,24 @@
     {%block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'basicinformation/css/studentInstitute.css' %}">
+<link rel="stylesheet"  href="{% static 'basicinformation/css/animate.css' %}">
+     <script>
+     $(document).ready(function () {
+$('.thumbnail').on('click',function(){
+			console.log('clicked')
+		$(this).addClass('animated bounce').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+				function(){
+					$(this).removeClass('animated bounce');
+
+				});
+	      });
+	      });
+     </script>
      <script>
 {% for key,value in subjectwiseMarks.items %}
      $(document).ready(function () {
+		
+
 	     var ctx{{key|slice:":5"}} = document.getElementById("myChart{{key|slice:":5"}}");
 	      myChart = new Chart(ctx{{key|slice:":5"}}, {
             type: 'bar',
@@ -65,6 +80,12 @@
                 }
             }
         });
+
+
+	      
+
+
+
         });
 
 
@@ -78,7 +99,7 @@
 {%block content%}
 
 
-<div class="jumbotron col-md-offset-1 col-md-10 col-sm-12">
+<div class="jumbotron col-md-offset-1 col-md-10 col-sm-12 animated flipInX">
   <h1 id="name">Hello {{profile.name}}</h1>
   <p>Class: {{profile.klass}}</p>
   {% if profile.rollNumber != None %}
@@ -98,18 +119,20 @@
 	</div>
 
 {%endif%}
-<div class='col-md-12' id='testContainer'>
+<div class='col-md-10 col-md-offset-1' id='testContainer'>
 	<h2 class='text-center' style='font-weight:bold;'>Practice Tests </h2>
 {% for key,value in newTests.items %}
 
-	  <div class="col-sm-6 col-md-4 col-md-offset-1" id ='newTests'>
-	<div class="thumbnail">
+	  <div class="col-sm-3 col-md-3 animated zoomIn" id ='newTests'>
+	<div class="thumbnail ">
+		<!--
 		{% if value.subject == 'Quantitative-Analysis' %}
 	 <img src="{% static 'basicinformation/images/mathstest.jpg' %}" alt="...">
 	 {%elif value.subject == 'English' %}
 	 <img src="{% static 'basicinformation/images/englishtest.jpg' %}" alt="...">
 	 {%elif value.subject == 'SSCMultipleSections' %}
 	 {%endif%}
+	 //-->
 
 
 		<div class="caption">
@@ -132,6 +155,7 @@
 	{%endfor%}
 </div>
 </div>
+<hr>
 <br>
 <div class='col-md-12'>
 	<h2 class='text-center' style='font-weight:bold' >Previous Performance </h2>

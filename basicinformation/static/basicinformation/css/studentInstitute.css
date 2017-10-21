@@ -16,6 +16,11 @@ padding:10px;
 }
 #newtests {
 background:#24e47508 ; 
+padding:10px;
+  min-height:300px;
+ -webkit-animation-delay:0.5s;
+  
+  
 
 }
 

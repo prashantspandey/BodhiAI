@@ -17,7 +17,7 @@
 }
 .tables th{
 	padding:10px;
-	color:blue;
+	color:black;
 }
 .graphs{
 	padding:20px;
@@ -318,7 +318,7 @@ $(document).ready(function () {
 			{%if ch.id in test.rightAnswers %}<span class="label label-success">Your Answer</span>{%endif%}
 			{% if ch.id in test.wrongAnswers %}<span class="label label-danger">Your Answer</span>{%endif%}</p>
 			{% for x,y in freq %}
-			{% if ch.id == x%}
+			{% if ch.id == x %}
 			<p >	<span class="badge">{{y}} people answered this choice </span></p>
 			{%endif%}
 			{%endfor%}
