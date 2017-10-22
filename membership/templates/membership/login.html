@@ -6,6 +6,7 @@
 <head>
 <title>{%block title %}Login To BodhiAI{%endblock%}</title>
 {%block scripts %}
+<link rel='stylesheet' href="{%static 'basicinformation/css/animate.css'%}">
 	<style type="text/css">
 	.container{
 		padding:50px;
@@ -19,23 +20,32 @@
 	<br>
 	<br>
 	<br>
-<div style='text-align:center; col-sm-12'>
-	<img src="{%static 'basicinformation/images/bodhiaitransparent.png' %}" alt="Bodhi AI"  style='height:25%;'>
+<div class='animated flash'style='text-align:center; col-sm-12 '>
+	<img src="{%static 'basicinformation/img/bodhiaigif.gif' %}" alt="Bodhi AI"  style='height:25%;'>
   </div>
 <h1 style='text-align:center;font-weight:bold;'>Login</h1>
   <div class="container">
 
 
 
-  <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+  <form class="form-horizontal animated pulse" action="" method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{form|crispy}}
   <div style='text-align:center;'>
-  <button type="submit" class="btn btn-primary">Log In</button>
+  <button type="submit" class="btn btn-primary btn-lg">Log In</button>
   </div>
 
    </form>
+ 	<div class='text-center'>
+		<div class="alert alert-info">
+			<strong>Register!</strong><font color='black'>  If you don't have an account, Sign up !</font>		</div>
+<a class="btn btn-default mb-15" href="{% url 'membership:register' %}">
+                                                    <span class="btn-text">Register</span>
+                                                </a>
+
   
+	</div>
+ 
 </div>
 
 
