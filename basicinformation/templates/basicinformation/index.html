@@ -2,13 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from www.aminuldev.com/appio/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 16 Oct 2017 08:37:15 GMT -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="APPIO is a powerful 100% Responsive App Landing page HTML template">
-    <meta name="keyword" content="app, app landing, app landing page, app landing template, App Showcase, app store, Simple App Landing">
+    <meta name="description" content="BodhiAI , A personal assistant for every student and teacher.">
+    <meta name="keyword" content="BodhiAI , SSC preparation, SSC Test series, Strategist">
     <!--title-->
     <title>Bodhi AI </title>
 
@@ -112,6 +111,7 @@
                             <li><a class="appio-scroll" href="#team">Team</a></li>
                             <li><a class="appio-scroll" href="#blog">Blog</a></li>
                             <li><a class="appio-scroll" href="#contact">Contact</a></li>
+		{%if user.is_authenticated %}     <li><a class="appio-scroll" href="{%url 'membership:logout' %}">Logout</a></li>{%endif%}
                         </ul>
                     </nav>
                     <!--end sidenav menu-->
@@ -145,10 +145,13 @@
 						    <a class="btn btn-primary mb-15" href="{% url 'membership:login' %}">
                                                     <span class="btn-text">Login</span>
                                                 </a>
-						<a class="btn btn-info mb-15" href="{% url 'membership:register' %}">
+						{%if not user.is_authenticated %}<a class="btn btn-info mb-15" href="{% url 'membership:register' %}">
                                                     <span class="btn-text">Register</span>
+						    {%endif%}
                                                 </a>
-                                            </div>
+                      </div>
+
+
 
                             </div>
                             <!--end container-->
@@ -991,5 +994,4 @@
 <script src="{%static 'basicinformation/js/scripts.js' %}"></script>
 </body>
 
-<!-- Mirrored from www.aminuldev.com/appio/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 16 Oct 2017 08:38:25 GMT -->
 </html>

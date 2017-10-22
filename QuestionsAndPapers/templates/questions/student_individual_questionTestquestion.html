@@ -1,6 +1,9 @@
+{%load staticfiles %}
+<link rel='stylesheet' href="{% static 'basicinformation/css/animate.css' %}">
+<link rel='stylesheet' type="text/css" href="{% static 'questions/css/studentTestQuestions.css' %}">
 
 <div id = 'teid' class='hidden'>{{testid}}</div>
-	<div class='well col-md-offset-1 col-md-10'>
+	<div class='well col-md-offset-1 col-md-10 animated fadeInDown' id='questionContainer'>
 		{% if question.comprehension %}
 		<h4> {{question.comprehension.text}} </h4>
 		{%endif %}

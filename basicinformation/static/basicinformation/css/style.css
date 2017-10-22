@@ -1057,13 +1057,13 @@ SECTION MARGIN
 
 .cd-words-wrapper {
 	display: inline-block;
-	position: relative;
+	position: absolute;
 	text-align: left;
 }
 .cd-words-wrapper b {
 	display: inline-block;
 	position: absolute;
-	white-space: normal;
+	white-space: appio-promo-text-wrap;
 	left: 0;
 	top: 0;
 }
@@ -2706,7 +2706,7 @@ SECTION MARGIN
 #status,
 .appio-preloader {
     background-image: url("../img/bodhiaigif.gif");
-    background-position: center;
+    background-position: cover;
     background-repeat: no-repeat;
     height: 200px;
     left: 50%;
@@ -2717,7 +2717,7 @@ SECTION MARGIN
 }
 
 .appio-preloader {
-    background: none;
+    background: url("../img/bodhiaigif.gif");
     left: 0;
     margin: 0;
     text-align: center;

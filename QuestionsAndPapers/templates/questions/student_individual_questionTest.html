@@ -8,6 +8,7 @@
 			{%endblock%}
 		</title>
 		{%block scripts %}
+<link rel='stylesheet' type='text/css' href="{%static 'questions/css/studentTestQuestions.css' %}">
 <script>
          $(document).ready(function () {
 
@@ -80,8 +81,8 @@ sessionStorage.clear();
 	<body>
 		{%block content%}
 	<div style="overflow:auto'">
-<div class="sidebar-nav well col-sm-12" style="float:top">
-	<h2 style='text-align:center;font-weight:bold;'> Questions </h2>
+<div class="sidebar-nav well col-sm-12" style="float:top" id='infoContainer'>
+	<h2 style='text-align:center;font-weight:bold;color:000;'> Questions </h2>
 	<div id='timeKeeper' style='font-weight:bold;color:red;text-align:center;'></div>
 	<div id='tk' style='font-weight:bold;color:red;text-align:center;'></div>
 	{% for questPos in questPosition %}
