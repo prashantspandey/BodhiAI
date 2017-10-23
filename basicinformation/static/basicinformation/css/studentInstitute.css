@@ -3,6 +3,7 @@
 	}
 .jumbotron {
 	padding:10px;
+	background-color: #337ab717;
 }
 #graphContainer {
 border-style: solid;  

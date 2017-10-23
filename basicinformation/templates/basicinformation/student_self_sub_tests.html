@@ -15,16 +15,7 @@ var pr
         $(this).removeClass("btn btn-default").addClass("btn btn-success");
          $('#studentAnalyzeTest').removeClass("hidden");
          $('#studentAnalyzeTest').html('').load('{% url "basic:studentSubjectAnalysis" %}?studentTestid='+which_test+','+which_subject);
-            $(this).animate({
-            height: '40px',
-            width: '170px',
-        });
-
-          $(eval("'#'+pr")).animate({
-            height: '35px',
-            width: '160px',
-        });
-        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+               $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
     pr = $(this).attr('id');
 
 
@@ -36,7 +27,11 @@ var pr
     </script>
 
 
-
+    {% if not test %}
+    <div class='container'>
+    <div class="alert alert-info" role="alert"><h3 class='text-center'>No test taken yet.</h3></div>
+    </div>
+    {%else%}
 
 <div class="panel panel-default ">
   <div class="panel-heading text-center">Choose a Test:</div>
@@ -57,3 +52,4 @@ var pr
 <div class='hidden ' id = 'studentAnalyzeTest'>
 	{% include 'basicinformation/student_analyze_test.html' %}
 </div>
+{%endif%}

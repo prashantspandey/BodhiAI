@@ -34,7 +34,7 @@
 
 		{% for quest in marks.test.sscquestions_set.all %}
 	<div class = 'well col-md-offset-1 col-md-10 col-sm-12'>
-		<h2 style='font-weight:bold;'> {{quest.text}} </h2>{% if quest.id in marks.skippedAnswers %}<p style='text-align:center;font-weight:bold;'> <span class="label label-warning">You skipped this question</span></p>{%endif%}
+		<h4 style='font-weight:bold;'> {{quest.text}} </h4>{% if quest.id in marks.skippedAnswers %}<p style='text-align:center;font-weight:bold;'> <span class="label label-warning">You skipped this question</span></p>{%endif%}
 		{% for time  in marks.sscansweredquestion_set.all %}
 		{%if time.quest.id == quest.id %}
 		<span class="label label-info" style='background-color: #AA00FF;'> You took {{time.time}} seconds to answer this question </span></p>{%endif%}

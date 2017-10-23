@@ -101,14 +101,20 @@ $('.thumbnail').on('click',function(){
 
 <div class="jumbotron col-md-offset-1 col-md-10 col-sm-12 animated flipInX">
   <h1 id="name">Hello {{profile.name}}</h1>
-  <p>Class: {{profile.klass}}</p>
+  <p>{%if user.student.school.name == 'BodhiAI' %}Course: {{profile.klass}}{%else%}Class: {{profile.klass}}{%endif%}</p>
   {% if profile.rollNumber != None %}
   <p>Rollnumber: {{profile.rollNumber}}</p>
   <p>Date of Birth: {{profile.dob}}</p>
   {%endif%}
 
-</div>
 <hr>
+	<ul>
+		<li>	<h5><strong>Step 1.</strong> Take a test.</h5></li>
+		<li>	<h5><strong>Step 2.</strong> See you performance in My Performance tab.</h5></li>
+		<li>	<h5><strong>Step 3.</strong> See your weak areas and progress in respective tabs.</h5></li>
+	</ul>
+</div>
+
 {%if announcements %}
 <h2 style= 'text-align:center;'> Announcements </h2>
 	<div class="alert alert-info col-md-offset-1 col-md-10  col-xs-12">
@@ -119,6 +125,7 @@ $('.thumbnail').on('click',function(){
 	</div>
 
 {%endif%}
+
 <div class='col-md-10 col-md-offset-1' id='testContainer'>
 	<h2 class='text-center' style='font-weight:bold;'>Practice Tests </h2>
 {% for key,value in newTests.items %}
@@ -158,6 +165,7 @@ $('.thumbnail').on('click',function(){
 <hr>
 <br>
 <div class='col-md-12'>
+{% if subjectwiseMarks %}
 	<h2 class='text-center' style='font-weight:bold' >Previous Performance </h2>
    {% for key,value in subjectwiseMarks.items %}
  <div class=" col-md-4 col-md-offset-1  col-xs-12" id='graphContainer'   >
@@ -168,6 +176,15 @@ $('.thumbnail').on('click',function(){
 </div>
 {%endfor%}
 </div>
+{%else%}
+<div class='container'>
+<div class="alert alert-success animated fadeIn">
+	<h2><strong>Performance!</strong> Take at-least one test to see performace.</h2>
+</div>
+</div>
+{%endif%}
+</div>
+
 
 {%endblock%}
 

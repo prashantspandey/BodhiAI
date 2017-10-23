@@ -16,7 +16,7 @@
 		<div class= 'col-md-offset-1 col-md-10 col-sm-12'>
 			{% for quest in marks.test.questions_set.all %}
 			<div class = 'well'>
-				<h3> {{quest.text}}</h3>
+				<h4> {{quest.text}}</h4>
 				{% if quest.id in marks.skippedAnswers %}
 				<span class='badge' > You skipped this question. </span>
 				{%endif%}
