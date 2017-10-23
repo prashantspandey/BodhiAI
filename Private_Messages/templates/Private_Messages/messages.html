@@ -12,14 +12,20 @@
     <script>
 
          $(document).ready(function () {
+		 {%if user.student.school.name == 'BodhiAI' %}
+		 {%for teach in teachers %}
+		 $('.cont').html('').load('{% url 'pms:sendMessage' %}?teacher_name='+{{teach.id}});
+				{%endfor%}
+$('.cont').removeClass("hidden");
+
+		{%endif%}
+      
 		$('select[name="teacherNames"]').change(function(){
 			var val_id = $(this).val()
 			$('.cont').removeClass("hidden");
-			$('.cont').html('').load('{% url 'pms:sendMessage' %}?teacher_name='+val_id);
-             
+				$('.cont').html('').load('{% url 'pms:sendMessage' %}?teacher_name='+val_id);
 		});
         if ($('.cont').hasClass("hidden") == false){
-            console.log('visible')
         }
         else {
         
@@ -37,6 +43,7 @@
 
 		});
 
+
 	});
     </script>
 			{%endblock%}
@@ -46,17 +53,24 @@
 		<div style="overflow:auto'">
 <div class="sidebar-nav well col-sm-12 col-md-12 form-group" style="float:top;">
 <ul class="nav nav-list" style='text-align:center;'> 
-	{% if user.teacher %}<h3 style='text-align:center;'>Select a Student to send a mail</h3>{%elif user.student%}<h3 style='text-align:center;'> Select a Teacher to send a mail</h3>{%elif user.schoolmanagement%}<h3 style='text-align:center;'> Select a Teacher or Student to send a mail </h3>{%endif%} 
+	{% if user.teacher %}<h3 style='text-align:center;'>Select a Student to send a mail</h3>{%elif user.student and user.student.school.name != 'BodhiAI' %}<h3 style='text-align:center;'> Select a Teacher to send a mail</h3>{%elif user.student and user.student.school.name == 'BodhiAI' %} <h3 style='text-align:center;'> Please give us your feedback </h3> {%elif user.schoolmanagement%}<h3 style='text-align:center;'> Select a Teacher or Student to send a mail </h3>{%endif%} 
 	<select name='teacherNames' class="form-control" style='border-color: #5cb85c;background-color:#D1C4E9;' >
 		{% if user.teacher %}
 		<option disabled selected value> -- Choose a Student to send Mail to -- </option>
-		{% elif user.student %}
+		
+		{% elif user.student  %}
 		<option disabled selected value> -- Choose a Teacher to send Mail to -- </option>
-		{%elif user.schoolmanagement %}
+		{% endif%}
+
+		{%if user.schoolmanagement %}
 		<option disabled selected value> -- Choose a Student or Teacher to send Mail to -- </option>
 		{% endif%}
 	{% for teach in teachers %}	
+	{% if user.student.school.name == 'BodhiAI' %}
+	<option selected value="{{teach.id}}">{{teach.name}} </option>
+	{%else%}
 	<option value="{{teach.id}}">{{teach.name}} </option>
+	{%endif%}
 	{%endfor%}
 	</select>
 	<hr>

@@ -14,6 +14,7 @@ import random
 import urllib.request
 from more_itertools import unique_everseen 
 from random import randint
+from decimal import *
 # Create your views here.
 
 def create_test(request):
@@ -329,7 +330,7 @@ def create_oneclick_test(request):
             if testholder:
                 testholder.delete()
 
-            num_quests = [25,30,35,40,45,50]
+            num_quests = [10,25,30,35,40,45,50]
             context = {'numberofquestions':num_quests}
             return render(request,'questions/oneclick_test1.html',context)
 def oneclick_test(request):
@@ -485,9 +486,11 @@ def oneclick_test(request):
 
             kla = klass.objects.get(name = kl, level= 'SSC', school =
                                    user.teacher.school)
+            print(type(maxMarks))
+            print('%s max marks' %maxMarks)
 
             kla = me.my_classes_objects(kl)
-            oneClickTest.max_marks = float(maxMarks)
+            oneClickTest.max_marks =maxMarks
             oneClickTest.klas = kla
             oneClickTest.creator = user
             oneClickTest.totalTime = int(float(0.6)*int(numquests))
@@ -740,9 +743,11 @@ def conduct_Test(request):
             # this method gets the value of button pressed and sends the
             # question that is in that place
             questPos = request.GET['IndividualTestQuestPos']
+            print(questPos)
             pos = questPos.split(',')[0]
             testid = questPos.split(',')[1]
-            test = SSCKlassTest.objects.get(id = testid)
+            print('%s type,id %s' %(type(testid),testid))
+            test = SSCKlassTest.objects.get(id = int(testid))
             quest = []
             # gets the number of questions in the test
             for q in test.sscquestions_set.all():

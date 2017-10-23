@@ -18,7 +18,7 @@
          $(eval("'#num'+i")).click(function(){
           quest_pos = $(this).attr('value');
 	var  howmany = {{how_many}}	 
-	  teid = $('#teid').text();
+	 teid = {{te_id}}
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
  		  $('#showIndividualQuestions').removeClass("hidden");
          $('#showIndividualQuestions').html('').load('{% url 'QuestionsAndPapers:conductTest' %}?IndividualTestQuestPos='+encodeURIComponent(quest_pos)+','+teid);
@@ -59,6 +59,7 @@ if (counter == 0){
 };
 if (counter == (parseInt({{testTime}}) * 60)-1){
 	$('#num1').trigger('click');
+
 };
 
 };
@@ -67,6 +68,8 @@ function formClick(){
 var timer = counter
 var formInfo = document.forms['finishForm']
 formInfo.elements["timeTaken"].value = timer;
+$('#checkingWaiter').removeClass('hidden');
+$('#mainContainer').addClass('hidden');
 formInfo.submit()
 sessionStorage.clear();
 };
@@ -80,8 +83,16 @@ sessionStorage.clear();
 	</head>
 	<body>
 		{%block content%}
-	<div style="overflow:auto'">
-<div class="sidebar-nav well col-sm-12" style="float:top" id='infoContainer'>
+		<div id='mainContainer'>
+	<div >
+
+
+	<div class = 'hidden' id='showIndividualQuestions'>
+		{% include 'questions/student_individual_questionTestquestion.html' %}
+	</div>
+	</div>
+
+<div class="well"  id='infoContainer'>
 	<h2 style='text-align:center;font-weight:bold;color:000;'> Questions </h2>
 	<div id='timeKeeper' style='font-weight:bold;color:red;text-align:center;'></div>
 	<div id='tk' style='font-weight:bold;color:red;text-align:center;'></div>
@@ -91,8 +102,6 @@ sessionStorage.clear();
 
 	{%endfor%}
 	<br>
-	<br>
-	<br>
 	<div style='text-align:center;'>
 		<form action='{% url "QuestionsAndPapers:conductTest" %}' method='post' id ='finishForm'>
 		{%csrf_token%}
@@ -100,12 +109,7 @@ sessionStorage.clear();
 		<button type="submit" id='testsub' value="{{te_id}}" class="btn btn-default text-center" name="testSub" onclick="formClick()" >Submit Test</button>
 	</form>
 	</div>
-	<br>
-		</div>
-	<div class = 'hidden' id='showIndividualQuestions'>
-		{% include 'questions/student_individual_questionTestquestion.html' %}
 	</div>
-		</div>
 
 		{%endblock%}
 	</body>

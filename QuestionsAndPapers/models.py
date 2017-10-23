@@ -30,7 +30,8 @@ class SSCKlassTest(models.Model):
          ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English'),
         ('SSCMultipleSections','SSCMultipleSections'))
 
-    max_marks = models.DecimalField(max_digits=4,decimal_places=2)
+    #max_marks = models.DecimalField(max_digits=4,decimal_places=2)
+    max_marks = models.IntegerField()
     testTakers = models.ManyToManyField(Student)
     published = models.DateField(auto_now_add= True)
     klas = models.ForeignKey(klass,null=True,blank=True)

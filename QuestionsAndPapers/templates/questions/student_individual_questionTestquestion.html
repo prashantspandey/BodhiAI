@@ -64,7 +64,7 @@ $.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
 	console.log(data)
 		quest_pos = parseInt(quest_pos);
 	if (data == quest_pos + 1){
-		$('#answerButton').text('Press the Submit Button above to submit the test');
+		$('#answerButton').text('Press the Submit Button to submit the test');
 		$('#answerButton').prop("disabled",true);
 		console.log('equal')
 				}
