@@ -54,7 +54,7 @@ $(eval("'#r'+i")).click(function(){
 			<p id = 'questP'>{{i.text|linebreaks}} </p>
 			{% if i.picture %}
 
-			<img src='{{i.picture}}' >
+			<img src='{{i.picture}}' class="img-responsive" >
 			{%endif%}
 			<div class='hidden' id='tells_klass'>{{which_class}}</div>
 			<div class="col-md-offset-10">
@@ -69,9 +69,9 @@ $(eval("'#r'+i")).click(function(){
 {%endif%}
 			{% for j in i.choices_set.all %}
 			<div class="radio col-md-offset-1">
- 			 <label><input type="radio" name="optradio" value="{{j.predicament}}"> {{j.text}}
+				<label><input type="radio" name="optradio" value="{{j.predicament}}">{% if j.text %} {{j.text}}{%endif%}
 				 {%if j.picture %}
-		<img src='{{j.picture}}' >
+		<img src='{{j.picture}}' class="img-responsive" >
 		{%endif%}
 				 {%if j.predicament == 'Correct' %}
 				 <span class="label label-success">Correct Answer</span> </label>

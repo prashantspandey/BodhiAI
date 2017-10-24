@@ -1547,6 +1547,17 @@ class Studs:
                 elif i == '2.7':
                     namedarr.append('Mixed analogy')
                     timing.append(j)
+                elif i == '3.1':
+                    namedarr.append('Series Completion (Diagram)')
+                    timing.append(j)
+                elif i == '3.2':
+                    namedarr.append('Analogy (Diagram)')
+                    timing.append(j)
+                elif i == '3.3':
+                    namedarr.append('Classification (Diagram)')
+                    timing.append(j)
+
+
             return list(zip(namedarr,timing))
         if subject == 'Quantitative-Analysis':
             for i,j in arr:
@@ -1616,7 +1627,96 @@ class Studs:
                 elif i == '23.1':
                     namedarr.append('Data Sufficiency')
                     timing.append(j)
- 
+                elif i == '24.1':
+                    namedarr.append('Profit & Loss')
+                    timing.append(j)
+            return list(zip(namedarr,timing))
+        if subject == 'General-Knowledge':
+            for i,j in arr:
+                if i == '1.1':
+                    namedarr.append('Inventions & Innovators')
+                    timing.append(j)
+                if i == '2.1':
+                   namedarr.append('Bird Sanctuary')
+                   timing.append(j)
+                if i == '3.1':
+                   namedarr.append('Books & Authors')
+                   timing.append(j)
+                if i == '4.1':
+                   namedarr.append('Countries, Capitals & Currencies')
+                   timing.append(j)
+                if i == '5.1':
+                   namedarr.append('Current Affairs')
+                   timing.append(j)
+                if i == '6.1':
+                   namedarr.append('Economics')
+                   timing.append(j)
+                if i == '7.1':
+                   namedarr.append('General Science')
+                   timing.append(j)
+                if i == '8.1':
+                   namedarr.append('Biology')
+                   timing.append(j)
+                if i == '9.1':
+                   namedarr.append('Chemistry')
+                   timing.append(j)
+                if i == '10.1':
+                   namedarr.append('Science & Technology')
+                   timing.append(j)
+                if i == '11.1':
+                   namedarr.append('Physics')
+                   timing.append(j)
+                if i == '12.1':
+                   namedarr.append('Geography')
+                   timing.append(j)
+                if i == '13.1':
+                   namedarr.append('National Organizations')
+                   timing.append(j)
+                if i == '14.1':
+                   namedarr.append('History')
+                   timing.append(j)
+                if i == '15.1':
+                   namedarr.append('Honors & Awards')
+                   timing.append(j)
+                if i == '16.1':
+                   namedarr.append('Important Dates')
+                   timing.append(j)
+                if i == '17.1':
+                   namedarr.append('Indian Agriculture')
+                   timing.append(j)
+                if i == '18.1':
+                   namedarr.append('Indian Constitution')
+                   timing.append(j)
+                if i == '19.1':
+                   namedarr.append('Indian Culture')
+                   timing.append(j)
+                if i == '20.1':
+                   namedarr.append('Indian Museums')
+                   timing.append(j)
+                if i == '21.1':
+                   namedarr.append('Polity (India)')
+                   timing.append(j)
+                if i == '22.1':
+                   namedarr.append('Sports')
+                   timing.append(j)
+                if i == '23.1':
+                   namedarr.append('Superlatives(India)')
+                   timing.append(j)
+                if i == '24.1':
+                   namedarr.append('Symbols of States (India)')
+                   timing.append(j)
+                if i == '25.1':
+                   namedarr.append('Tiger Reserve')
+                   timing.append(j)
+                if i == '26.1':
+                   namedarr.append('UNESCO Word Heritage Sites(India)')
+                   timing.append(j)
+                if i == '27.1':
+                   namedarr.append('World Organizations')
+                   timing.append(j)
+                if i == '28.1':
+                   namedarr.append('Polity (World)')
+                   timing.append(j)
             return list(zip(namedarr,timing))
     def convertTopicNumbersNames(self,arr,subject):
         namedarr = []
@@ -1673,6 +1773,12 @@ class Studs:
                     namedarr.append('Alphabet based analogy')
                 elif i == '2.7':
                     namedarr.append('Mixed analogy')
+                elif i == '3.1':
+                    namedarr.append('Series Completion (Diagram)')
+                elif i == '3.2':
+                    namedarr.append('Analogy (Diagram)')
+                elif i == '3.3':
+                    namedarr.append('Classification (Diagram)')
 
             return namedarr
         if subject == 'Qualitative-Analysis':
@@ -1721,6 +1827,65 @@ class Studs:
                     namedarr.append('Quadratic Equations')
                 elif i == '23.1':
                     namedarr.append('Data Sufficiency')
+            return namedarr 
+        if subject == 'General-Knowledge':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('Inventions & Innovators')
+                if i == '2.1':
+                   namedarr.append('Bird Sanctuary')
+                if i == '3.1':
+                   namedarr.append('Books & Authors')
+                if i == '4.1':
+                   namedarr.append('Countries, Capitals & Currencies')
+                if i == '5.1':
+                   namedarr.append('Current Affairs')
+                if i == '6.1':
+                   namedarr.append('Economics')
+                if i == '7.1':
+                   namedarr.append('General Science')
+                if i == '8.1':
+                   namedarr.append('Biology')
+                if i == '9.1':
+                   namedarr.append('Chemistry')
+                if i == '10.1':
+                   namedarr.append('Science & Technology')
+                if i == '11.1':
+                   namedarr.append('Physics')
+                if i == '12.1':
+                   namedarr.append('Geography')
+                if i == '13.1':
+                   namedarr.append('National Organizations')
+                if i == '14.1':
+                   namedarr.append('History')
+                if i == '15.1':
+                   namedarr.append('Honors & Awards')
+                if i == '16.1':
+                   namedarr.append('Important Dates')
+                if i == '17.1':
+                   namedarr.append('Indian Agriculture')
+                if i == '18.1':
+                   namedarr.append('Indian Constitution')
+                if i == '19.1':
+                   namedarr.append('Indian Culture')
+                if i == '20.1':
+                   namedarr.append('Indian Museums')
+                if i == '21.1':
+                   namedarr.append('Polity (India)')
+                if i == '22.1':
+                   namedarr.append('Sports')
+                if i == '23.1':
+                   namedarr.append('Superlatives(India)')
+                if i == '24.1':
+                   namedarr.append('Symbols of States (India)')
+                if i == '25.1':
+                   namedarr.append('Tiger Reserve')
+                if i == '26.1':
+                   namedarr.append('UNESCO Word Heritage Sites(India)')
+                if i == '27.1':
+                   namedarr.append('World Organizations')
+                if i == '28.1':
+                   namedarr.append('Polity (World)')
             return namedarr
     def changeIndividualNames(self,i,subject):
         if subject == 'English':
@@ -1773,6 +1938,14 @@ class Studs:
                 return 'Alphabet based analogy'
             elif i == '2.7':
                 return 'Mixed analogy'
+            elif i == '3.1':
+                return 'Series Completion (Diagram)'
+            elif i == '3.2':
+                return 'Analogy (Diagram)'
+            elif i == '3.3':
+                return 'Classification (Diagram)'
+
+
         if subject == 'Quantitative-Analysis':
                 if i == '1.1':
                     return 'Probability'
@@ -1818,6 +1991,63 @@ class Studs:
                     return 'Quadratic Equations'
                 elif i == '23.1':
                     return 'Data Sufficiency'
+        if subject == 'General-Knowledge':
+                if i == '1.1':
+                    return 'Inventions & Innovators'
+                if i == '2.1':
+                   return 'Bird Sanctuary'
+                if i == '3.1':
+                   return 'Books & Authors'
+                if i == '4.1':
+                   return 'Countries, Capitals & Currencies'
+                if i == '5.1':
+                   return 'Current Affairs'
+                if i == '6.1':
+                   return 'Economics'
+                if i == '7.1':
+                   return 'General Science'
+                if i == '8.1':
+                   return 'Biology'
+                if i == '9.1':
+                   return 'Chemistry'
+                if i == '10.1':
+                   return 'Science & Technology'
+                if i == '11.1':
+                   return 'Physics'
+                if i == '12.1':
+                   return 'Geography'
+                if i == '13.1':
+                   return 'National Organizations'
+                if i == '14.1':
+                   return 'History'
+                if i == '15.1':
+                   return 'Honors & Awards'
+                if i == '16.1':
+                   return 'Important Dates'
+                if i == '17.1':
+                   return 'Indian Agriculture'
+                if i == '18.1':
+                   return 'Indian Constitution'
+                if i == '19.1':
+                   return 'Indian Culture'
+                if i == '20.1':
+                   return 'Indian Museums'
+                if i == '21.1':
+                   return 'Polity (India)'
+                if i == '22.1':
+                   return 'Sports'
+                if i == '23.1':
+                   return 'Superlatives(India)'
+                if i == '24.1':
+                   return 'Symbols of States (India)'
+                if i == '25.1':
+                   return 'Tiger Reserve'
+                if i == '26.1':
+                   return 'UNESCO Word Heritage Sites(India)'
+                if i == '27.1':
+                   return 'World Organizations'
+                if i == '28.1':
+                   return 'Polity (World)'
 
 
 
@@ -2825,6 +3055,17 @@ class Teach:
                 elif i == '2.7':
                     names.append('Mixed analogy')
                     numbers.append(i)
+                elif i == '3.1':
+                    names.append('Series Completion (Diagram)')
+                    numbers.append(i)
+                elif i == '3.2':
+                    names.append('Analogy (Diagram)')
+                    numbers.append(i)
+                elif i == '3.3':
+                    names.append('Classification (Diagram)')
+                    numbers.append(i)
+
+
             changed = list(zip(names,numbers))
             return changed
         if subject == 'Quantitative-Analysis':
@@ -2896,6 +3137,93 @@ class Teach:
                     names.append('Data Sufficiency')
                     numbers.append(i)
  
+            changed = list(zip(names,numbers))
+            return changed
+        if subject == 'General-Knowledge':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Inventions & Innovators')
+                if i == '2.1':
+                    names.append('Bird Sanctuary')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Books & Authors')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Countries, Capitals & Currencies')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('Current Affairs')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('Economics')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('General Science')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('Biology')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('Chemistry')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('Science & Technology')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Physics')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Geography')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('National Organizations')
+                    numbers.append(i)
+                if i == '14.1':
+                    names.append('History')
+                    numbers.append(i)
+                if i == '15.1':
+                    names.append('Honors & Awards')
+                    numbers.append(i)
+                if i == '16.1':
+                    names.append('Important Dates')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Indian Agriculture')
+                    numbers.append(i)
+                if i == '18.1':
+                    names.append('Indian Constitution')
+                    numbers.append(i)
+                if i == '19.1':
+                    names.append('Indian Culture')
+                    numbers.append(i)
+                if i == '20.1':
+                    names.append('Indian Museums')
+                    numbers.append(i)
+                if i == '21.1':
+                    names.append('Polity (India)')
+                    numbers.append(i)
+                if i == '22.1':
+                    names.append('Sports')
+                    numbers.append(i)
+                if i == '23.1':
+                    names.append('Superlatives(India)')
+                    numbers.append(i)
+                if i == '24.1':
+                    names.append('Symbols of States (India)')
+                    numbers.append(i)
+                if i == '25.1':
+                    names.append('Tiger Reserve')
+                    numbers.append(i)
+                if i == '26.1':
+                    names.append('UNESCO Word Heritage Sites(India)')
+                    numbers.append(i)
+                if i == '27.1':
+                    names.append('World Organizations')
+                    numbers.append(i)
+                if i == '28.1':
+                    names.append('Polity (World)')
+                    numbers.append(i)
             changed = list(zip(names,numbers))
             return changed
 
@@ -2982,6 +3310,16 @@ class Teach:
                 elif i == '2.7':
                     names.append('Mixed analogy')
                     numbers.append(j)
+                elif i == '3.1':
+                    names.append('Series Completion (Diagram)')
+                    numbers.append(i)
+                elif i == '3.2':
+                    names.append('Analogy (Diagram)')
+                    numbers.append(i)
+                elif i == '3.3':
+                    names.append('Classification (Diagram)')
+                    numbers.append(i)
+
             changed = list(zip(names,numbers))
             return changed
         if subject == 'Quantitative-Analysis':
@@ -3054,6 +3392,92 @@ class Teach:
                     numbers.append(i)
             changed = list(zip(names,numbers))
             return changed
+        if subject == 'General-Knowledge':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Inventions & Innovators')
+                if i == '2.1':
+                    names.append('Bird Sanctuary')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Books & Authors')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Countries, Capitals & Currencies')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('Current Affairs')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('Economics')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('General Science')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('Biology')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('Chemistry')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('Science & Technology')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Physics')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Geography')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('National Organizations')
+                    numbers.append(i)
+                if i == '14.1':
+                    names.append('History')
+                    numbers.append(i)
+                if i == '15.1':
+                    names.append('Honors & Awards')
+                    numbers.append(i)
+                if i == '16.1':
+                    names.append('Important Dates')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Indian Agriculture')
+                    numbers.append(i)
+                if i == '18.1':
+                    names.append('Indian Constitution')
+                    numbers.append(i)
+                if i == '19.1':
+                    names.append('Indian Culture')
+                    numbers.append(i)
+                if i == '20.1':
+                    names.append('Indian Museums')
+                    numbers.append(i)
+                if i == '21.1':
+                    names.append('Polity (India)')
+                    numbers.append(i)
+                if i == '22.1':
+                    names.append('Sports')
+                    numbers.append(i)
+                if i == '23.1':
+                    names.append('Superlatives(India)')
+                    numbers.append(i)
+                if i == '24.1':
+                    names.append('Symbols of States (India)')
+                    numbers.append(i)
+                if i == '25.1':
+                    names.append('Tiger Reserve')
+                    numbers.append(i)
+                if i == '26.1':
+                    names.append('UNESCO Word Heritage Sites(India)')
+                    numbers.append(i)
+                if i == '27.1':
+                    names.append('World Organizations')
+                    numbers.append(i)
+                if i == '28.1':
+                    names.append('Polity (World)')
+                    numbers.append(i)
+            changed = list(zip(names,numbers))
 
     def change_topicNamesNumber(self,arr,subject):
         numbers = []
@@ -3110,6 +3534,13 @@ class Teach:
                     numbers.append('2.6')
                 elif i == 'Mixed analogy':
                     numbers.append('2.7')
+                elif i == 'Series Completion (Diagram)':
+                    numbers.append('3.1')
+                elif i == 'Analogy (Diagram)':
+                    numbers.append('3.2')
+                elif i == 'Classification (Diagram)':
+                    numbers.append('3.3')
+
             return numbers
         if subject == 'Quantitative-Analysis':
             for i in arr:
@@ -3157,6 +3588,65 @@ class Teach:
                     numbers.append('22.1')
                 elif i == 'Data Sufficiency':
                     numbers.append('23.1')
+            return numbers
+        if subject == 'General-Knowledge':
+            for i in arr:
+                if i == 'Inventions & Innovators':
+                    numbers.append('1.1')
+                if i == 'Bird Sanctuary':
+                    numbers.append('2.1')
+                if i == 'Books & Authors':
+                    numbers.append('3.1')
+                if i == 'Countries, Capitals & Currencies':
+                    numbers.append('4.1')
+                if i == 'Current Affairs':
+                    numbers.append('5.1')
+                if i == 'Economics':
+                    numbers.append('6.1')
+                if i == 'General Science':
+                    numbers.append('7.1')
+                if i == 'Biology':
+                    numbers.append('8.1')
+                if i == 'Chemistry':
+                    numbers.append('9.1')
+                if i == 'Science & Technology':
+                    numbers.append('10.1')
+                if i == 'Physics':
+                    numbers.append('11.1')
+                if i == 'Geography':
+                    numbers.append('12.1')
+                if i == 'National Organizations':
+                    numbers.append('13.1')
+                if i == 'History':
+                    numbers.append('14.1')
+                if i == 'Honors & Awards':
+                    numbers.append('15.1')
+                if i == 'Important Dates':
+                    numbers.append('16.1')
+                if i == 'Indian Agriculture':
+                    numbers.append('17.1')
+                if i == 'Indian Constitution':
+                    numbers.append('18.1')
+                if i == 'Indian Culture':
+                    numbers.append('19.1')
+                if i == 'Indian Museums':
+                    numbers.append('20.1')
+                if i == 'Polity (India)':
+                    numbers.append('21.1')
+                if i == 'Sports':
+                    numbers.append('22.1')
+                if i == 'Superlatives(India)':
+                    numbers.append('23.1')
+                if i == 'Symbols of States (India)':
+                    numbers.append('24.1')
+                if i == 'Tiger Reserve':
+                    numbers.append('25.1')
+                if i == 'UNESCO Word Heritage Sites(India)':
+                    numbers.append('26.1')
+                if i == 'World Organizations':
+                    numbers.append('27.1')
+                if i == 'Polity (World)':
+                    numbers.append('28.1')
             return numbers
 
 

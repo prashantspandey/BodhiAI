@@ -47,7 +47,7 @@ def home(request):
             #df =\
             #pd.read_csv('/home/prashant/Desktop/programming/random/tesseract/resoningAnalogy.csv')
             df=\
-            pd.read_csv('/home/prashant/Desktop/ssc_questions/maths/maths_final/percentage140.csv' )
+            pd.read_csv('/home/prashant/Desktop/ssc_questions/gk/gk_dishaDiagram/61links.csv',error_bad_lines=False )
             quests = []
             optA = []
             optB = []
@@ -55,35 +55,37 @@ def home(request):
             optD = []
             right_answer = []
             quest_category = []
-            quests = df['Questions']
-            optA = df['OptionA']
-            optB = df['OptionB']
-            optC = df['OptionC']
-            optD = df['OptionD']
-            optE = df['OptionE']
-            exp = df['Explanation']
-            #quest_category = df['Category']
-            quest_category = '2.1' # spot the error
-            for i in df['Answer']:
+            quests = df['direction']
+            images = df['link']
+            #images = None
+            optA = df['a']
+            optB = df['b']
+            optC = df['c']
+            optD = df['d']
+            #optE = df['e'] 
+            exp = df['explanation']
+            #quest_category = df['category']
+            quest_category = '1.6' # spot the error
+            for i in df['ans']:
                 ichanged = str(i).replace(u'\\xa0',u' ')
                 ichanged2 = ichanged.replace('Answer',' ')
                 ichanged3 = ichanged2.replace('Explanation',' ')
-                if 'A)' in ichanged :
+                if 'a' in ichanged :
                     right_answer.append(1)
-                elif 'B)' in ichanged :
+                elif 'b' in ichanged :
                     right_answer.append(2)
-                elif 'C)' in ichanged :
+                elif 'c' in ichanged :
                     right_answer.append(3)
-                elif 'D)' in ichanged :
+                elif 'd' in ichanged :
                     right_answer.append(4)
-                elif 'E)' in ichanged :
+                elif 'e' in ichanged :
                     right_answer.append(5)
             for ind in range(len(optA)):
                 #print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
                 # -- right_answer,%s -- explanation'
                 # %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
-                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],right_answer[ind],quest_category,exp[ind],sectionType='Maths')
+                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category,exp[ind],sectionType='Resoning',fouroptions=True)
             ##write_passages(all_passages)
             #print(quests)
             #print(right_answer)
@@ -763,7 +765,8 @@ def read_questions(fi):
     return questText
 
 
-def write_questions(question,optA,optB,optC,optD,optE,correctOpt,questCategory,exp,sectionType,fouroptions=False):
+def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCategory,exp,sectionType,fouroptions=False):
+    print(question,optA,image,correctOpt)
     school = School.objects.filter(category = 'SSC',name = 'BodhiAI')
     if fouroptions == True:
         all_options = [optA,optB,optC,optD]
@@ -787,8 +790,12 @@ def write_questions(question,optA,optB,optC,optD,optE,correctOpt,questCategory,e
         new_questions.section_category = 'General-Intelligence'
     elif sectionType == 'Maths':
         new_questions.section_category = 'Quantitative-Analysis'
+    elif sectionType == 'GK':
+        new_questions.section_category = 'General-Knowledge'
     new_questions.text = str(question)
     new_questions.topic_category = str(questCategory)
+    if image:
+        new_questions.picture = image
     new_questions.save()
     for sch in school:
         new_questions.school.add(sch)
@@ -805,20 +812,29 @@ def write_questions(question,optA,optB,optC,optD,optE,correctOpt,questCategory,e
     for n,i in enumerate(all_options):
         new_choices = Choices()
         new_choices.sscquest = new_questions
-        itext = str(i).replace('[','')
-        itext2 = itext.replace(']','')
-        itext3 = itext2.replace(')','')
-        itext4 = itext3.replace(u'\\xa0',u' ')
-        itext5 = itext4.replace('\"','')
-        exptext = str(exp).replace('[','')
-        exptext2 = exptext.replace(']','')
-        exptext3 = exptext2.replace(u'\\xa0',u' ')
-        exptext4 = exptext3.replace('\"','')
-        new_choices.text = itext5
+        if 'https:' in i:
+            new_choices.picture = i
+        else:
+            itext = str(i).replace('[','')
+            itext2 = itext.replace(']','')
+            itext3 = itext2.replace(')','')
+            itext4 = itext3.replace(u'\\xa0',u' ')
+            itext5 = itext4.replace('\"','')
+            new_choices.text = itext5
+        if 'https:' in exp:
+            pass
+        else:
+            exptext = str(exp).replace('[','')
+            exptext2 = exptext.replace(']','')
+            exptext3 = exptext2.replace(u'\\xa0',u' ')
+            exptext4 = exptext3.replace('\"','')
         if correctOpt == n+1:
             print('%s -- correctopt' %correctOpt)
             new_choices.predicament = 'Correct'
-            new_choices.explanation = exptext4
+            if 'https:' in exp:
+                new_choices.explanationPicture = exp
+            else:
+                new_choices.explanation = exptext4
         else:
             new_choices.predicament = 'Wrong'
         new_choices.save()

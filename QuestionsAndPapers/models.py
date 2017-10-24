@@ -106,7 +106,7 @@ class SSCquestions(models.Model):
                                           diffculty_choices,null=True,blank=True)
     topic_category = models.CharField(max_length=5,choices = topic_choice)
     school = models.ManyToManyField(School)
-    picture = models.URLField(null=True,blank=True)
+    picture = models.URLField(max_length=500,null=True,blank=True)
     #def __str__(self):
     #    try:
     #        if str(self.text) != None:
