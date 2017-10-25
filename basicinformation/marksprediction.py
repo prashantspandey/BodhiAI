@@ -1556,6 +1556,9 @@ class Studs:
                 elif i == '3.3':
                     namedarr.append('Classification (Diagram)')
                     timing.append(j)
+                elif i == '3.4':
+                    namedarr.append('Dice & Boxes')
+                    timing.append(j)
 
 
             return list(zip(namedarr,timing))
@@ -1779,6 +1782,8 @@ class Studs:
                     namedarr.append('Analogy (Diagram)')
                 elif i == '3.3':
                     namedarr.append('Classification (Diagram)')
+                elif i == '3.4':
+                    namedarr.append('Dice & Boxes')
 
             return namedarr
         if subject == 'Qualitative-Analysis':
@@ -1944,6 +1949,8 @@ class Studs:
                 return 'Analogy (Diagram)'
             elif i == '3.3':
                 return 'Classification (Diagram)'
+            elif i == '3.4':
+                return 'Dice & Boxes'
 
 
         if subject == 'Quantitative-Analysis':
@@ -3064,7 +3071,9 @@ class Teach:
                 elif i == '3.3':
                     names.append('Classification (Diagram)')
                     numbers.append(i)
-
+                elif i == '3.4':
+                    names.append('Dice & Boxes')
+                    numbers.append(i)
 
             changed = list(zip(names,numbers))
             return changed
@@ -3319,6 +3328,9 @@ class Teach:
                 elif i == '3.3':
                     names.append('Classification (Diagram)')
                     numbers.append(i)
+                elif i == '3.4':
+                    names.append('Dice & Boxes')
+                    numbers.append(i)
 
             changed = list(zip(names,numbers))
             return changed
@@ -3540,6 +3552,8 @@ class Teach:
                     numbers.append('3.2')
                 elif i == 'Classification (Diagram)':
                     numbers.append('3.3')
+                elif i == 'Dice & Boxes':
+                    numbers.append('3.4')
 
             return numbers
         if subject == 'Quantitative-Analysis':

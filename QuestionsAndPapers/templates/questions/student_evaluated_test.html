@@ -33,9 +33,9 @@
 
 		{% for quest in marks.test.sscquestions_set.all %}
 	<div class = 'well col-md-offset-1 col-md-10 col-sm-12'>
-		<h4 style='font-weight:bold;'> {{quest.text}} </h4>
+		<h4 style='font-weight:bold;'> {{quest.text|linebreaks}} </h4>
 		{%if quest.picture %}
-		<img src='{{quest.picture}}'>
+		<img src='{{quest.picture}}' class='img-responsive'>
 		{%endif%}	
 		
 		{% if quest.id in marks.skippedAnswers %}<p style='text-align:center;font-weight:bold;'> <span class="label label-warning">You skipped this question</span></p>{%endif%}
@@ -47,7 +47,7 @@
 		{% for choice in quest.choices_set.all %}
 		<p> {{choice.text }}
 	{%if choice.picture %}
-		<img src='{{choice.picture}}'>
+		<img src='{{choice.picture}}' class='img-responsive'>
 		{%endif%}	
        
 	
@@ -56,6 +56,18 @@
 	{% if choice.id in marks.allAnswers and choice.predicament == 'Wrong'%}<span class="label label-danger">Your Answer</span> {%endif%}	
 		</p>	
 		</p>
+		{% for ch in quest.choices_set.all %}
+		{% if ch.predicament == 'Correct' %}
+		<div class='container well'>
+			{% if ch.explanation %}
+			<p> {{ch.explanation}} </p>
+			{%endif%}
+			{%if ch.explanationpicture %}
+			<img src='{{ch.explanationpicture}}' class='img-responsive' >
+			{%endif%}
+		</div>
+			{%endif%}
+			{%endfor%}
 		{%endfor%}
 	</div>
 	{%endfor%}

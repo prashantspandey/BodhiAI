@@ -1,14 +1,14 @@
 {%load staticfiles %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>	  $('#loadingStudentAnalysis3').hide(); </script>
 <style type='text/css' >
 .quests{
 	border-style:dotted;
 	padding:30px;
+	border-color:#1526d242;
+}
+.well {
+	background-color:#337ab712;
 }
 
 .tables{
@@ -294,9 +294,9 @@ $(document).ready(function () {
 <div class=' col-md-offset-1 col-md-10  col-xs-12'>
 		{% for te in test.test.sscquestions_set.all %}
 		<div class='quests well  col-xs-12'>
-			<h5 style='font-weight:bold;'> {{te.text}}
+			<h5 style='font-weight:bold;'> {{te.text|linebreaks}}
 				{%if te.picture %}
-				<img src='{{te.picture}}'>
+				<img src='{{te.picture}}' class='img-responsive'>
 				{%endif%}
 				{% if te.id in test.skippedAnswers %}<span class="label label-warning" >You skipped this question</span></h5>{%endif%}
 			{% for time in test.sscansweredquestion_set.all %}
@@ -310,7 +310,7 @@ $(document).ready(function () {
 			
 			<p > <span class='badge'>{{forloop.counter}}</span>---{{ch.text}}
 			{%if ch.picture %}
-				<img src='{{ch.picture}}'>
+				<img src='{{ch.picture}}' class='img-responsive'>
 				{%endif%}
        
 		
@@ -322,10 +322,23 @@ $(document).ready(function () {
 			<p >	<span class="badge">{{y}} people answered this choice </span></p>
 			{%endif%}
 			{%endfor%}
-
+			
 			{%endfor%}
+							
 				
 		</div>
+		{% for ch in te.choices_set.all %}
+		{% if ch.predicament == 'Correct'%}
+		<div class='container well'>
+		{%if ch.explanation %}
+		<p>Explanation: {{ch.explanation|linebreaks}} </p>
+		{%endif%}
+		{%if ch.explanationpicture %}
+		<img src='{{ch.explanationpicture}}' class='img-responsive' >
+		{%endif%}
+		</div>
+		{%endif%}
+		{%endfor%}
 		{%endfor%}
 	</div>
 	{%endif%}

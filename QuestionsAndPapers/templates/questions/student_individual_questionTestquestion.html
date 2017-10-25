@@ -7,9 +7,9 @@
 		{% if question.comprehension %}
 		<h4> {{question.comprehension.text}} </h4>
 		{%endif %}
-		<h4 style='font-weight:bold;'> {{question.text}} </h4>
+		<h4 style='font-weight:bold;'> {{question.text|linebreaks}} </h4>
 		{% if question.picture %}
-		<img src='{{question.picture}}' >
+		<img src='{{question.picture}}' class="img-responsive" >
 		{%endif%}
 		<p style='text-align:right;font-weight:bold;' id = 'questTimerKeeper'></p>
 		<p style='text-align:right;font-weight:bold;' id = 'qtk' class='hidden'></p>
@@ -19,15 +19,15 @@
 			<label class="radio">
 				{% if choice.id ==  sel %}
 				<input type="radio" id='ach{{forloop.counter}}' name="answerChoice" value = "{{choice.id}}" checked="checked">
-			{{choice.text}}
+			{{choice.text|linebreaks}}
 		{% if choice.picture %}
-		<img src='{{choice.picture}}' >
+		<img src='{{choice.picture}}' class="img-responsive" >
 			{%endif%}
 
 				{%else%}
 				<input type="radio" id='ach{{forloop.counter}}' name="answerChoice" value = "{{choice.id}}" >{{choice.text}}
 {% if choice.picture %}
-		<img src='{{choice.picture}}' >
+		<img src='{{choice.picture}}' class="img-responsive" >
 			{%endif%}
 
 				{%endif%}

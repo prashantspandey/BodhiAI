@@ -47,7 +47,7 @@ def home(request):
             #df =\
             #pd.read_csv('/home/prashant/Desktop/programming/random/tesseract/resoningAnalogy.csv')
             df=\
-            pd.read_csv('/home/prashant/Desktop/ssc_questions/gk/gk_dishaDiagram/61links.csv',error_bad_lines=False )
+            pd.read_csv('/home/prashant/Desktop/ssc_questions/gk/gk_dishaDiagram/62links.csv',error_bad_lines=False )
             quests = []
             optA = []
             optB = []
@@ -65,7 +65,7 @@ def home(request):
             #optE = df['e'] 
             exp = df['explanation']
             #quest_category = df['category']
-            quest_category = '1.6' # spot the error
+            quest_category = '1.3' # spot the error
             for i in df['ans']:
                 ichanged = str(i).replace(u'\\xa0',u' ')
                 ichanged2 = ichanged.replace('Answer',' ')
@@ -812,8 +812,8 @@ def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCate
     for n,i in enumerate(all_options):
         new_choices = Choices()
         new_choices.sscquest = new_questions
-        if 'https:' in i:
-            new_choices.picture = i
+        if 'https:' in str(i):
+            new_choices.picture = str(i)
         else:
             itext = str(i).replace('[','')
             itext2 = itext.replace(']','')
@@ -821,7 +821,7 @@ def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCate
             itext4 = itext3.replace(u'\\xa0',u' ')
             itext5 = itext4.replace('\"','')
             new_choices.text = itext5
-        if 'https:' in exp:
+        if 'https:' in str(exp):
             pass
         else:
             exptext = str(exp).replace('[','')
@@ -831,7 +831,7 @@ def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCate
         if correctOpt == n+1:
             print('%s -- correctopt' %correctOpt)
             new_choices.predicament = 'Correct'
-            if 'https:' in exp:
+            if 'https:' in str(exp):
                 new_choices.explanationPicture = exp
             else:
                 new_choices.explanation = exptext4
