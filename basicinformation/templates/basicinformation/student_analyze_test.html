@@ -308,7 +308,7 @@ $(document).ready(function () {
 
 			{% for ch in te.choices_set.all %}
 			
-			<p > <span class='badge'>{{forloop.counter}}</span>---{{ch.text}}
+			<p > <span class='badge'>{{forloop.counter}}</span>---{%if ch.text %}{{ch.text}}{%endif%}
 			{%if ch.picture %}
 				<img src='{{ch.picture}}' class='img-responsive'>
 				{%endif%}

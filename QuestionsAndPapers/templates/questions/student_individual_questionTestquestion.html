@@ -5,7 +5,7 @@
 <div id = 'teid' class='hidden'>{{testid}}</div>
 	<div class='well col-md-offset-1 col-md-10 animated fadeInDown' id='questionContainer'>
 		{% if question.comprehension %}
-		<h4> {{question.comprehension.text}} </h4>
+		<h4> {{question.comprehension.text|linebreaks}} </h4>
 		{%endif %}
 		<h4 style='font-weight:bold;'> {{question.text|linebreaks}} </h4>
 		{% if question.picture %}
@@ -25,7 +25,7 @@
 			{%endif%}
 
 				{%else%}
-				<input type="radio" id='ach{{forloop.counter}}' name="answerChoice" value = "{{choice.id}}" >{{choice.text}}
+				<input type="radio" id='ach{{forloop.counter}}' name="answerChoice" value = "{{choice.id}}" >{%if choice.text %}{{choice.text}}{%endif%}
 {% if choice.picture %}
 		<img src='{{choice.picture}}' class="img-responsive" >
 			{%endif%}
