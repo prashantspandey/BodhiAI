@@ -28,7 +28,7 @@ $('.thumbnail').on('click',function(){
 
 	     var ctx{{key|slice:":5"}} = document.getElementById("myChart{{key|slice:":5"}}");
 	      myChart = new Chart(ctx{{key|slice:":5"}}, {
-            type: 'bar',
+            type: 'line',
             data: {
 		    labels: [{% for da in value.time%}'{{da}}',{%endfor%}],
                 datasets: [{
@@ -38,24 +38,10 @@ $('.thumbnail').on('click',function(){
 
 		    data: [{%for ma in value.marks %}{{ma}},{%endfor%}],
 			backgroundColor: [
-                        'rgba(255, 99, 132, 0.4)',
-			'rgba(54, 100, 11, 0.6)',
-			'rgba(64, 200, 46, 0.6)',                  
-			'rgba(94, 155, 89, 0.6)',                  
-			'rgba(104, 255, 55, 0.6)',                 
-			'rgba(10, 90, 35, 0.6)',                   
-			'rgba(24, 162, 255, 0.6)',                 
-			'rgba(94, 12, 25, 0.6)',                   
-                                      ],
+                        '#CE93D8',
+			                                      ],
                     borderColor: [ 'rgba(255,99,132,1)',
-		   		 'rgba(54, 100, 11, 1)',
-		   		 'rgba(64, 200, 46, 1)',
-		   		 'rgba(94, 155, 89, 1)',
-		   		 'rgba(104, 255, 55, 1)',
-		   		 'rgba(10, 90, 35, 1)',
-		   		 'rgba(24, 162, 255, 1)',
-		   		 'rgba(94, 12, 25, 1)',
-                                            ],
+		   	                                            ],
 
 
 

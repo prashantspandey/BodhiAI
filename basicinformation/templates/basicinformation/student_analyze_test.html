@@ -11,6 +11,10 @@
 	background-color:#337ab712;
 }
 
+.container {
+	background-color:#337ab712;
+
+}
 .tables{
 	padding:10px;
 	overflow-x:auto;
@@ -154,35 +158,41 @@ var pointBackgroundColors = [];
 $(document).ready(function () {
 	    var ctxtopic = document.getElementById("topicAreasAnalysis");
 		var myChartt = new Chart(ctxtopic, {
-            type: 'bar',
+            type: 'horizontalBar',
             data: {
 		    labels: [{%for n,w in topicWeakness %} '{{n}}',{%endfor%}],
                 datasets: [{
 			label: 'Number of wrong questions in each topic',
 			data: [{%for n,w in topicWeakness %} {{w}},{%endfor%}],
 			 backgroundColor: [
-                        '#FFB74D',
-                        '#FFCA28',
-                        '#FFEE58',
-                        '#FFD600',
-                        '#FFAB00',
-                        '#FF6D00',
-                        '#FF8A65',
-                        '#A5D6A7',
-                        '#C5E1A5',
-                        '#E6EE9C',
-                                      ],
-                    borderColor: [ '#E6EE9C', '#FFCA28','#FFEE58','#FFD600','#FFAB00','#FF6D00','#E6EE9C','#E6EE9C','#E6EE9C','#E6EE9C',
+                        'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)',			 ],
+                    borderColor: [  'rgba(255,99,132,1)',
+		                    'rgba(54, 162, 235, 1)',
+				    'rgba(255, 206, 86, 1)',
+				    'rgba(75, 192, 192, 1)',
+		  		   'rgba(153, 102, 255, 1)',
+				'rgba(255, 159, 64, 1)',
                                             ],
-                    borderWidth: 3
+                    borderWidth: 1
                 }]
             },
             options: {   responsive: true,
 		    maintainAspectRatio: false,
                 scales: {
-                    yAxes: [{
+		xAxes: [{
                         ticks: {
                             beginAtZero:true,
+			     fixedStepSize: 1,
+                        }
+                    }],
+
+                    yAxes: [{
+                        ticks: {
                         }
                     }]
                 }
@@ -199,19 +209,27 @@ $(document).ready(function () {
 $(document).ready(function () {
 	    var ctxtiming = document.getElementById("topicAreasTiming");
 		var myCharttiming = new Chart(ctxtiming, {
-            type: 'bar',
+            type: 'horizontalBar',
             data: {
 		    labels: [{%for n,t in topicTiming %} '{{n}}',{%endfor%}],
                 datasets: [{
 			label: 'Timing taken to solve one question per topic (average)',
 			data: [{%for n,t in topicTiming %} {{t}},{%endfor%}],
 			 backgroundColor: [
-                        'rgba(255, 99, 132, 0.4)',
-                        'rgba(54, 162, 235, 0.2)',
-                                      ],
-                    borderColor: [ 'rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)',
+                          'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)',			 ],
+                    borderColor: [ 'rgba(255,99,132,1)',
+		                    'rgba(54, 162, 235, 1)',
+				    'rgba(255, 206, 86, 1)',
+				   'rgba(75, 192, 192, 1)',
+ 				   'rgba(153, 102, 255, 1)',
+				   'rgba(255, 159, 64, 1)',
                                             ],
-                    borderWidth: 3
+                    borderWidth: 1
                 }]
             },
             options: {   responsive: true,
@@ -251,14 +269,14 @@ $(document).ready(function () {
 <div class='graphs col-md-offset-1 col-md-5  col-xs-12'>
 	<h3 style='text-align:center;font-weight:bold;'>Topic wise mistakes/not-attempted questions</h2>
 	<div>
-	<canvas  id="topicAreasAnalysis" height='400'>
+	<canvas  id="topicAreasAnalysis" height='500'>
 </canvas>
 	</div>
 </div>
 <div class=' col-md-5  col-xs-12'>
 	<h3 style='text-align:center;font-weight:bold;'>Timing - per topic</h2>
 	<div>
-	<canvas  id="topicAreasTiming" height='400'>
+	<canvas  id="topicAreasTiming" height='500'>
 </canvas>
 	</div>
 </div>

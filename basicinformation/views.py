@@ -351,19 +351,19 @@ def student_weakAreas(request):
        for i,j in freq:
             strongAreas.append(i)
             strongFreq.append(float(100-j))
-       skills = list(zip(strongAreas,strongFreq))
 
 
        if freq == 0:
            context = {'noMistake':'noMistake'}
            return render(request,'basicinformation/student_weakAreas.html',context)
-       #me.improvement(subject)
         # changing topic categories numbers to names
        timing_areawiseNames =\
         me.changeTopicNumbersNames(timing_areawise,subject)
        freq_Names = me.changeTopicNumbersNames(freq,subject)
+       skills = list(zip(strongAreas,strongFreq))
+       skills_names = me.changeTopicNumbersNames(skills,subject)
        context = \
-               {'freq':freq_Names,'timing':timing_areawiseNames,'time_freq':freq_timer,'skills':skills}
+               {'freq':freq_Names,'timing':timing_areawiseNames,'time_freq':freq_timer,'skills':skills_names}
        return render(request,'basicinformation/student_weakAreas.html',context)
 
 

@@ -12,11 +12,10 @@
 		{%else%}
     <script>
 $(document).ready(function () {
-
 var pointBackgroundColors = [];
     var ctx = document.getElementById("myChart");
     var myChart1 = new Chart(ctx, {
-            type: 'radar',
+            type: 'horizontalBar',
             data: {
 		    labels: [{%for u,k in freq %}'{{u}}',{%endfor%}],
                 datasets: [{
@@ -47,7 +46,7 @@ var pointBackgroundColors = [];
 
 
 
-                                  borderWidth: 3
+                                  borderWidth: .5
 
 
 
@@ -60,15 +59,14 @@ var pointBackgroundColors = [];
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero:true,
+                            beginAtZero:false,
 
                         }
                     }]
                 }
             }
         });
-		{%for u,k in freq %}
-		{% if k <= 3 %}
+		{%for u,k in freq %} {% if k <= 3 %}
 		pointBackgroundColors.push("#90cd8a");					        
 		{%else %}
 		pointBackgroundColors.push("#880E4F");					        
@@ -83,7 +81,7 @@ var pointBackgroundColors = [];
 var pointBackgroundColorsTiming = [];
     var ctx1 = document.getElementById("myChartTiming");
     var myChart2 = new Chart(ctx1, {
-            type: 'bar',
+            type: 'horizontalBar',
             data: {
 		    labels: [{%for u,k in timing %}'{{u}}',{%endfor%}],
                 datasets: [{
@@ -110,7 +108,7 @@ var pointBackgroundColorsTiming = [];
                                             ],
 
 
-                                  borderWidth: 3
+                                  borderWidth: 0.5
 
 
 
@@ -165,62 +163,68 @@ var pointBackgroundColorsTiming = [];
 
     });
 </script>
-
-
-	    <div class='col-md-6 col-xs-12' >
+<br>
+<br>
+<hr>
+<div class='container'>
+	    <div class='weakAreasContainer' >
 	<h2 style="text-align:center;"> My Weak Areas </h2>
 	<div>
-	<canvas  id="myChart"   height="400" >
+	<canvas  id="myChart"  height='600'  >
 </canvas>
 	</div>	
-	    </div>
 	    <br>
 	    <br>
-	    
+	<div >
+		    <h3 class='text-center'> Wrong/Skipped questions  topic-wise.</h3>
+		{% for u,k in freq %}
+		<p class="bg-warning"> {{k|floatformat:1}}% of '{{u}}' questions were either wrong or not-attempted .</p>
+		{%endfor%}
+		    </div>
+</div>
 
-	    <div class='col-md-6 col-xs-12' >
+<br>
+<hr>
+	    <div class='timingContainer' >
 	<h2 style="text-align:center;"> Average time taken per topic (in seconds) </h2>
 	<div>
-<canvas  id="myChartTiming"  height="400" >
+<canvas  id="myChartTiming"  height="600" >
 	</canvas>
 	</div>
 
-	    </div>
 			<br>
-<div class='col-md-6'>
-		    <h3> Wrong/Skipped questions  topic-wise.</h3>
-		{% for u,k in freq %}
-		<span class="badge badge-primary"> {{k|floatformat:1}}% of '{{u}}' questions were either wrong or not-attempted .</span>
-		{%endfor%}
-		    </div>
 
-	<div class='col-md-6'>
-		    <h3> Average timing Data based on:</h3>
+	<div >
+		    <h3 class='text-center'> Average timing Data based on:</h3>
 		{% for u,k in time_freq %}
-		<span class="badge badge-info"> {{k}} questions of  '{{u}}'</span>
+		<p class="bg-warning"> {{k}} questions of  '{{u}}'</p>
 		{%endfor%}
 		    </div>
+	    </div>
+	    </div>
 
 
 		<br>
-	    {%endif%}
 
-
-
-		<div class='container'>
-			<h2 class='text-center'> My weak topics</h2>
+</div>
+	    <div class='strongTopics'>
+			<h2 class='text-center'> My Strong topics</h2>
 
 		{%for u,k in skills %}
-		<p>{{k|floatformat:1}}% of '{{u}}' questions were either wrong or not-attempted .</p>
+		{% if k != 0 %}
+		<p>{{k|floatformat:1}}% of '{{u}}' were correct..</p>
 	<div class="progress">
-			<div class="progress-bar {%if k > 80 %}progress-bar-danger progress-bar-striped active{%elif 60 < k < 80 %}progress-bar-warning progress-bar-striped active{%elif 40 < k < 60%}progress-bar-info progress-bar-striped active{%elif k < 40 %}progress-bar-success progress-bar-striped active{%endif%}" role="progressbar" aria-valuenow="{{k}}"
+			<div class="progress-bar {%if k > 80 %}progress-bar-success progress-bar-striped active{%elif 60 < k < 80 %}progress-bar-info progress-bar-striped active{%elif 40 < k < 60%}progress-bar-warning progress-bar-striped active{%elif k < 40 %}progress-bar-danger progress-bar-striped active{%endif%}" role="progressbar" aria-valuenow="{{k}}"
 								     aria-valuemin="0" aria-valuemax="100" style="width:{{k}}%;color:#000;">
 			{{u}}- {{k|floatformat:2}}%
 				        </div>
 					
 		</div>
 
+		</div>
+		{%endif%}
 		{%endfor%}
 		</div>
 
+	    {%endif%}
 
