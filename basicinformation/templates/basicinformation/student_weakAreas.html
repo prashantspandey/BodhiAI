@@ -1,6 +1,7 @@
 {%load staticfiles%}
 <html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<link rel='stylesheet' type='text/css' href='{% static "basicinformation/css/student_weakAreas.css" %}'>
 <script>$('#loadingStudentWeakAreas1').hide();</script>
 {% if noMistakes %}
 
@@ -15,7 +16,7 @@ $(document).ready(function () {
 var pointBackgroundColors = [];
     var ctx = document.getElementById("myChart");
     var myChart1 = new Chart(ctx, {
-            type: 'bar',
+            type: 'radar',
             data: {
 		    labels: [{%for u,k in freq %}'{{u}}',{%endfor%}],
                 datasets: [{
@@ -26,8 +27,7 @@ var pointBackgroundColors = [];
 		    data: [{%for u,k in freq%}{{k}},{%endfor%}],
 			backgroundColor: [
                         'rgba(255, 99, 132, 0.4)',
-			'rgba(54, 100, 11, 0.6)',
-			'rgba(64, 200, 46, 0.6)',                  
+			'rgba(54, 100, 11, 0.6)', 'rgba(64, 200, 46, 0.6)',                  
 			'rgba(94, 155, 89, 0.6)',                  
 			'rgba(104, 255, 55, 0.6)',                 
 			'rgba(10, 90, 35, 0.6)',                   
@@ -203,8 +203,24 @@ var pointBackgroundColorsTiming = [];
 
 
 		<br>
-	    
 	    {%endif%}
 
+
+
+		<div class='container'>
+			<h2 class='text-center'> My weak topics</h2>
+
+		{%for u,k in skills %}
+		<p>{{k|floatformat:1}}% of '{{u}}' questions were either wrong or not-attempted .</p>
+	<div class="progress">
+			<div class="progress-bar {%if k > 80 %}progress-bar-danger progress-bar-striped active{%elif 60 < k < 80 %}progress-bar-warning progress-bar-striped active{%elif 40 < k < 60%}progress-bar-info progress-bar-striped active{%elif k < 40 %}progress-bar-success progress-bar-striped active{%endif%}" role="progressbar" aria-valuenow="{{k}}"
+								     aria-valuemin="0" aria-valuemax="100" style="width:{{k}}%;color:#000;">
+			{{u}}- {{k|floatformat:2}}%
+				        </div>
+					
+		</div>
+
+		{%endfor%}
+		</div>
 
 

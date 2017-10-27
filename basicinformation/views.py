@@ -346,6 +346,14 @@ def student_weakAreas(request):
        timing_areawise,freq_timer = me.areawise_timing(subject)
        freq_timer = me.changeTopicNumbersNames(freq_timer,subject)
        freq = me.weakAreas_IntensityAverage(subject)
+       strongAreas = []
+       strongFreq = []
+       for i,j in freq:
+            strongAreas.append(i)
+            strongFreq.append(float(100-j))
+       skills = list(zip(strongAreas,strongFreq))
+
+
        if freq == 0:
            context = {'noMistake':'noMistake'}
            return render(request,'basicinformation/student_weakAreas.html',context)
@@ -355,7 +363,7 @@ def student_weakAreas(request):
         me.changeTopicNumbersNames(timing_areawise,subject)
        freq_Names = me.changeTopicNumbersNames(freq,subject)
        context = \
-       {'freq':freq_Names,'timing':timing_areawiseNames,'time_freq':freq_timer}
+               {'freq':freq_Names,'timing':timing_areawiseNames,'time_freq':freq_timer,'skills':skills}
        return render(request,'basicinformation/student_weakAreas.html',context)
 
 
