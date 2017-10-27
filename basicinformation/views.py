@@ -302,13 +302,16 @@ def student_subject_analysis(request):
                 test = OnlineMarks.objects.get(student=user.student, test__id=test_id)
                 student_type = 'School'
             elif me.institution == 'SSC':
+                print(test_id)
                 test = SSCOnlineMarks.objects.get(student=user.student, test__id=test_id)
                 student_type = 'SSC'
             my_marks_percent = (test.marks / test.test.max_marks) * 100
             average, percent_average = \
                 me.online_findAverageofTest(test_id, percent='p')
             percentile, all_marks = me.online_findPercentile(test_id)
+            print('%s all amrks' %all_marks)
             all_marks = [((i / test.test.max_marks) * 100) for i in all_marks]
+            print('%s all amrks' %all_marks)
             freq = me.online_QuestionPercentage(test_id)
             ra,wa,sp,accuracy = me.test_statistics(test_id)
             weak_areas = me.weakAreas_Intensity(sub,singleTest = test_id)

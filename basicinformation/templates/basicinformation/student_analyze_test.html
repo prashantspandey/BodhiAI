@@ -112,10 +112,10 @@ var pointBackgroundColors = [];
 		var myChartper = new Chart(ctxper, {
             type: 'line',
             data: {
-		    labels: [{%for ma in allMarks%}"score", {%endfor%}],
+		    labels: [{%for ma in allMarks%}{%if my_percent == ma %}"Equal",{%elif my_percent < ma %}"Higher",{%elif my_percent > ma %}"Lower",{%endif%} {%endfor%}],
 
                 datasets: [{
-			label: 'Student performance and predictions for Test',
+			label: 'Number of students that scored higher,lower or equal to your score.',
 			data: [{%for ma in allMarks%} {{ma}},{%endfor%}],
 			pointBackgroundColor: pointBackgroundColors,
 			showLine: false,
@@ -128,7 +128,7 @@ var pointBackgroundColors = [];
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero:true,
+                            beginAtZero:false,
                             max: 100
                         }
                     }]
@@ -136,12 +136,12 @@ var pointBackgroundColors = [];
             }
         });
 		{%for ma in allMarks %}
-		{% if ma == percentAverage %}
-		pointBackgroundColors.push("#90cd8a");					        
-		{%elif ma < percentAverage %}
-		pointBackgroundColors.push("#4A148C");					        
-		{%elif ma > percentAverage %}
-		pointBackgroundColors.push("#880E4F");					        
+		{% if ma == my_percent %}
+		pointBackgroundColors.push("#2962FF");					        
+		{%elif ma < my_percent %}
+		pointBackgroundColors.push("#E65100");					        
+		{%elif ma > my_percent %}
+		pointBackgroundColors.push("#64DD17");					        
 		{%endif%}
 		{%endfor%}
 
@@ -162,7 +162,7 @@ $(document).ready(function () {
             data: {
 		    labels: [{%for n,w in topicWeakness %} '{{n}}',{%endfor%}],
                 datasets: [{
-			label: 'Number of wrong questions in each topic',
+			label: 'Number of wrong/skipped questions in each topic',
 			data: [{%for n,w in topicWeakness %} {{w}},{%endfor%}],
 			 backgroundColor: [
                         'rgba(255, 99, 132, 0.6)',
@@ -213,7 +213,7 @@ $(document).ready(function () {
             data: {
 		    labels: [{%for n,t in topicTiming %} '{{n}}',{%endfor%}],
                 datasets: [{
-			label: 'Timing taken to solve one question per topic (average)',
+			label: 'Time (seconds) taken to solve one question per topic (average)',
 			data: [{%for n,t in topicTiming %} {{t}},{%endfor%}],
 			 backgroundColor: [
                           'rgba(255, 99, 132, 0.6)',

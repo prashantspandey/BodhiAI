@@ -25,7 +25,7 @@ $(document).ready(function () {
 
 			data: [{%for percent in v.percent%}{{percent}},{%endfor%}],
 			backgroundColor: [
-                        'rgba(255, 99, 132, 0.4)',
+                        'rgba(255, 99, 132, 1)',
 		                                      ],
                     borderColor: [ 'rgba(255,99,132,1)',
 		                                            ],
@@ -59,14 +59,18 @@ $(document).ready(function () {
 
 </script>
 
-
+<div class='container'>
+		    <h2 class='text-center'> <strong>Accuracy Topic wise over time.</strong> </h4>
 	{% for k,v in overall.items %}
-	    <div class='col-md-3 col-xs-12' >
-		    <h4 style="text-align:left;"> Progress according to accuracy-<strong> {{k}}</strong> </h4>
+	<div class='thumbnail'>
+	<div class='caption'>
+		    <h4 class='text-center'> <strong> {{k}}</strong> </h4>
 		    <div>
-	<canvas  id="myChart{{forloop.counter}}"  width="250" height="300" >
+	<canvas  id="myChart{{forloop.counter}}"   height="300" >
 </canvas>
 		    </div>
 	
 	    </div>
+	    </div>
 		{%endfor%}
+	    </div>

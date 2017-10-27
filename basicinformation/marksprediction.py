@@ -2167,11 +2167,11 @@ class Studs:
                         if quest.topic_category == tp:
                             wCount += 1
                             allCount += 1
-                    for sp in i.skippedAnswers:
-                        quest = SSCquestions.objects.get(id = sp)
-                        if quest.topic_category == tp:
-                            wCount += 1
-                            allCount += 1
+                    #for sp in i.skippedAnswers:
+                    #    quest = SSCquestions.objects.get(id = sp)
+                    #    if quest.topic_category == tp:
+                    #        wCount += 1
+                    #        allCount += 1
                     try:
                         total = (((rightCount - wCount)/(rightCount+wCount))*100)
                         tpp = self.changeIndividualNames(tp,subject)
@@ -2232,19 +2232,20 @@ class Studs:
         #          ind.append(i)
         #    overall = list(zip(ind,topic,percent,time))
         overall = {}
-        for i in all_categories:
-            time = []
-            testid = []
-            ind = []
-            percent = []
+        if all_categories:
+            for i in all_categories:
+                time = []
+                testid = []
+                ind = []
+                percent = []
 
-            for k,v in changes.items():
-                if changes[k]['topic'] == i:
-                    time.append(changes[k]['time'])
-                    testid.append(changes[k]['test_id'])
-                    percent.append(changes[k]['percent'])
-            overall[i] =\
-                    {'time':time,'testid':testid,'percent':percent}
+                for k,v in changes.items():
+                    if changes[k]['topic'] == i:
+                        time.append(changes[k]['time'])
+                        testid.append(changes[k]['test_id'])
+                        percent.append(changes[k]['percent'])
+                overall[i] =\
+                        {'time':time,'testid':testid,'percent':percent}
         if overall:
             return overall
         else:
