@@ -38,33 +38,34 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            idom_text = 'Choose the option which best explains the given phrase/idiom \n'
-            underlined_text = 'Choose the option which improves the sentence. \n'
-            substitution_text = 'Choose the option which can be substituted in place of given sentence.\n'
-            quests_idoms =\
-            SSCquestions.objects.filter(section_category='English',topic_category
-                                        = 1.2)
-            quests_underlined =\
-            SSCquestions.objects.filter(section_category='English',topic_category
-                                        = 3.1)
-            quests_substitution = \
-            SSCquestions.objects.filter(section_category='English',topic_category
-                                        = 6.1)
-            for i in quests_idoms:
-                final_text = idom_text + i.text
-                i.text = final_text
-                i.save()
-                print(i.text)
-            for i in quests_underlined:
-                final_text = underlined_text + i.text
-                i.text = final_text
-                i.save()
-                print(i.text)
-            for i in quests_substitution:
-                final_text = substitution_text + i.text
-                i.text = final_text
-                i.save()
-                print(i.text)
+            print('wesome')
+            #idom_text = 'Choose the option which best explains the given phrase/idiom \n'
+            #underlined_text = 'Choose the option which improves the sentence. \n'
+            #substitution_text = 'Choose the option which can be substituted in place of given sentence.\n'
+            #quests_idoms =\
+            #SSCquestions.objects.filter(section_category='English',topic_category
+            #                            = 1.2)
+            #quests_underlined =\
+            #SSCquestions.objects.filter(section_category='English',topic_category
+            #                            = 3.1)
+            #quests_substitution = \
+            #SSCquestions.objects.filter(section_category='English',topic_category
+            #                            = 6.1)
+            #for i in quests_idoms:
+            #    final_text = idom_text + i.text
+            #    i.text = final_text
+            #    i.save()
+            #    print(i.text)
+            #for i in quests_underlined:
+            #    final_text = underlined_text + i.text
+            #    i.text = final_text
+            #    i.save()
+            #    print(i.text)
+            #for i in quests_substitution:
+            #    final_text = substitution_text + i.text
+            #    i.text = final_text
+            #    i.save()
+            #    print(i.text)
 
             #df = \
             #pd.read_csv('/app/basicinformation/english.csv')
