@@ -38,6 +38,34 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
+            idom_text = 'Choose the option which best explains the given phrase/idiom \n'
+            underlined_text = 'Choose the option which improves the sentence. \n'
+            substitution_text = 'Choose the option which can be substituted in place of given sentence.\n'
+            quests_idoms =\
+            SSCquestions.objects.filter(section_category='English',topic_category
+                                        = 1.2)
+            quests_underlined =\
+            SSCquestions.objects.filter(section_category='English',topic_category
+                                        = 3.1)
+            quests_substitution = \
+            SSCquestions.objects.filter(section_category='English',topic_category
+                                        = 6.1)
+            for i in quests_idoms:
+                final_text = idom_text + i.text
+                i.text = final_text
+                i.save()
+                print(i.text)
+            for i in quests_underlined:
+                final_text = underlined_text + i.text
+                i.text = final_text
+                i.save()
+                print(i.text)
+            for i in quests_substitution:
+                final_text = substitution_text + i.text
+                i.text = final_text
+                i.save()
+                print(i.text)
+
             #df = \
             #pd.read_csv('/app/basicinformation/english.csv')
             #with \
@@ -46,46 +74,46 @@ def home(request):
             #    all_passages = pickle.load(fi)
             #df =\
             #pd.read_csv('/home/prashant/Desktop/programming/random/tesseract/resoningAnalogy.csv')
-            df=\
-            pd.read_csv('/home/prashant/Desktop/ssc_questions/gk/gk_dishaDiagram/62links.csv',error_bad_lines=False )
-            quests = []
-            optA = []
-            optB = []
-            optC = []
-            optD = []
-            right_answer = []
-            quest_category = []
-            quests = df['direction']
-            images = df['link']
-            #images = None
-            optA = df['a']
-            optB = df['b']
-            optC = df['c']
-            optD = df['d']
-            #optE = df['e'] 
-            exp = df['explanation']
-            #quest_category = df['category']
-            quest_category = '1.3' # spot the error
-            for i in df['ans']:
-                ichanged = str(i).replace(u'\\xa0',u' ')
-                ichanged2 = ichanged.replace('Answer',' ')
-                ichanged3 = ichanged2.replace('Explanation',' ')
-                if 'a' in ichanged :
-                    right_answer.append(1)
-                elif 'b' in ichanged :
-                    right_answer.append(2)
-                elif 'c' in ichanged :
-                    right_answer.append(3)
-                elif 'd' in ichanged :
-                    right_answer.append(4)
-                elif 'e' in ichanged :
-                    right_answer.append(5)
-            for ind in range(len(optA)):
-                #print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
-                # -- right_answer,%s -- explanation'
-                # %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
+            #df=\
+            #pd.read_csv('/home/prashant/Desktop/ssc_questions/gk/gk_dishaDiagram/62links.csv',error_bad_lines=False )
+            #quests = []
+            #optA = []
+            #optB = []
+            #optC = []
+            #optD = []
+            #right_answer = []
+            #quest_category = []
+            #quests = df['direction']
+            #images = df['link']
+            ##images = None
+            #optA = df['a']
+            #optB = df['b']
+            #optC = df['c']
+            #optD = df['d']
+            ##optE = df['e'] 
+            #exp = df['explanation']
+            ##quest_category = df['category']
+            #quest_category = '1.3' # spot the error
+            #for i in df['ans']:
+            #    ichanged = str(i).replace(u'\\xa0',u' ')
+            #    ichanged2 = ichanged.replace('Answer',' ')
+            #    ichanged3 = ichanged2.replace('Explanation',' ')
+            #    if 'a' in ichanged :
+            #        right_answer.append(1)
+            #    elif 'b' in ichanged :
+            #        right_answer.append(2)
+            #    elif 'c' in ichanged :
+            #        right_answer.append(3)
+            #    elif 'd' in ichanged :
+            #        right_answer.append(4)
+            #    elif 'e' in ichanged :
+            #        right_answer.append(5)
+            #for ind in range(len(optA)):
+            #    #print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
+            #    # -- right_answer,%s -- explanation'
+            #    # %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
-                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category,exp[ind],sectionType='Resoning',fouroptions=True)
+            #    write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category,exp[ind],sectionType='Resoning',fouroptions=True)
             ##write_passages(all_passages)
             #print(quests)
             #print(right_answer)
