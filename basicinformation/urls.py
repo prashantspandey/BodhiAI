@@ -21,5 +21,7 @@ urlpatterns = [
         'studentImprovement'),
     url(r'studentImprovement_sub/$',views.student_improvement_sub,
         name='studentImprovementsub'),
+    url(r'studentTopicWiseTest/$',views.student_select_topicTest,
+        name='studentTopicWiseTest')
 
 ]

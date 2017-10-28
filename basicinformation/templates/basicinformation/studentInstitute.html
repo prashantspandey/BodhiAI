@@ -12,19 +12,29 @@
      <script>
      $(document).ready(function () {
 $('.thumbnail').on('click',function(){
-			console.log('clicked')
 		$(this).addClass('animated bounce').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
 				function(){
 					$(this).removeClass('animated bounce');
 
 				});
+
 	      });
+		$('select[name="topicwiseTest"]').change(function(){
+			var val_id = $(this).val()
+			$('.thumbnail').addClass('hidden');
+			$('#newTests').addClass('hidden');
+			$('#topicTests').removeClass('hidden');
+			$('#topicTests').html('').load('{% url 'basic:studentTopicWiseTest' %}?topicwisetest='+encodeURIComponent(val_id));
+             
+		});
+
 	      });
      </script>
      <script>
 {% for key,value in subjectwiseMarks.items %}
      $(document).ready(function () {
-		
+
+	
 
 	     var ctx{{key|slice:":5"}} = document.getElementById("myChart{{key|slice:":5"}}");
 	      myChart = new Chart(ctx{{key|slice:":5"}}, {
@@ -113,21 +123,27 @@ $('.thumbnail').on('click',function(){
 {%endif%}
 
 <div class='col-md-10 col-md-offset-1' id='testContainer'>
-	<h2 class='text-center' style='font-weight:bold;'>Practice Tests </h2>
-{% for key,value in newTests.items %}
+	<h2 class='text-center' style='font-weight:bold;'>Practise Tests </h2>
+	<select class='form-control' name='topicwiseTest' size=1 style='text-align:center;'>
+		<option disabled selected value> -- Choose a topic for test -- </option>
+		<li class="divider"></li>
+	{% for key,value in newTests.items %}	
+	{% for topic in value.topics %}
+	<option value="{{topic}}">{{topic}} </option>
+	{%endfor%}
+	{%endfor%}
+	
+	</select>
 
+
+<div class = 'hidden' id = 'topicTests' >
+	{% include 'basicinformation/studentInstituteTopicTests.html' %}
+</div>
+{% for key,value in newTests.items %}
+{%if forloop.counter == 5 %}
+<!--
 	  <div class="col-sm-3 col-md-3 animated zoomIn" id ='newTests'>
 	<div class="thumbnail ">
-		<!--
-		{% if value.subject == 'Quantitative-Analysis' %}
-	 <img src="{% static 'basicinformation/images/mathstest.jpg' %}" alt="...">
-	 {%elif value.subject == 'English' %}
-	 <img src="{% static 'basicinformation/images/englishtest.jpg' %}" alt="...">
-	 {%elif value.subject == 'SSCMultipleSections' %}
-	 {%endif%}
-	 //-->
-
-
 		<div class="caption">
 			<h3 class='text-center' style='font-weight:bold;'>{% if value.subject == 'SSCMultipleSections'%}Multiple Subjects {%else%}{{value.subject}} {%endif%}</h3>
 				<h4 class='text-center'>{{value.num_questions}} questions </h4>
@@ -145,7 +161,31 @@ $('.thumbnail').on('click',function(){
 	</div>
 		</div>
 		</div>
+		//-->
+		{%else%}
+	  <div class="col-sm-3 col-md-3 animated zoomIn" id ='newTests'>
+	<div class="thumbnail ">
+		<div class="caption">
+			<h3 class='text-center' style='font-weight:bold;'>{% if value.subject == 'SSCMultipleSections'%}Multiple Subjects {%else%}{{value.subject}} {%endif%}</h3>
+				<h4 class='text-center'>{{value.num_questions}} questions </h4>
+			<h4> Topics </h4>
+			<ul>
+				{% for i in value.topics %}
+				<li>{{i}}</li>
+				{%endfor%}
+			</ul>
+			<div class='text-center'>
+				<form action = "{% url 'QuestionsAndPapers:conductTest' %}" method='get'>
+					<button type="submit" name='onlineTestid' class="btn btn-primary" value="{{key}}">Take Test</button>
+				</form>
+			</div>
+	</div>
+		</div>
+		</div>
+		{%endif%}
+
 	{%endfor%}
+
 </div>
 </div>
 <hr>

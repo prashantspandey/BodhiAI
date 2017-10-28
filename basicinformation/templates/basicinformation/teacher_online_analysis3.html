@@ -1,9 +1,5 @@
 {%load staticfiles %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <hr style='width:3px'>
 <div class="container">
@@ -170,7 +166,7 @@ $(document).ready(function () {
 <div>
 	{% for quest in test.sscquestions_set.all %}
 	<div class = 'well col-md-offset-1 col-md-10  col-xs-12'>
-		<h3> {{quest.text}} </h3>
+		<h3> {{quest.text|linebreaks}} </h3>
 		{%if quest.picture %}
 		<img src='{{quest.picture}}'>
 		{%endif%}	
@@ -182,7 +178,7 @@ $(document).ready(function () {
 		{%endfor%}
 
 		{% for ch in quest.choices_set.all %}
-		<p> {{ch.text }} 
+		<p> {%if ch.text %}{{ch.text|linebreaks }} {%endif%}
 		{%if ch.picture %}
 		<img src='{{ch.picture}}'>
 		{%endif%}	
@@ -207,13 +203,13 @@ $(document).ready(function () {
 	{%if qu.id == i %}
 	<h3 style='font-weight:bold;'> {{f}} students got this question wrong or skipped it. </h3>
 	<div class ='well col-xs-12' >
-		<h3 style='font-weight:bold;'> {{qu.text}}</h3>
+		<h3 style='font-weight:bold;'> {{qu.text|linebreaks}}</h3>
 		{%if qu.picture %}
 		<img src='{{qu.picture}}'>
 		{%endif%}	
 
 		{% for ch in qu.choices_set.all%}
-		<p> {{ch.text}}
+		<p> {%if ch.text %}{{ch.text}}{%endif%}
 		{%if ch.picture %}
 		<img src='{{ch.picture}}'>
 		{%endif%}	

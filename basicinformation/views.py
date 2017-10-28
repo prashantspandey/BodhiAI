@@ -15,7 +15,7 @@ from django.contrib.auth.models import User, Group
 from .models import Student, Teacher, Subject, School, klass
 from django.utils import timezone
 from django.contrib.staticfiles.templatetags.staticfiles import static
-# from .marksprediction import predictionConvertion, readmarks, averageoftest, teacher_get_students_classwise
+# from .marksprediction import predictionConvertion, readmarks, averageoftest, teacher_get_students_classwise 
 from .marksprediction import *
 from Private_Messages.models import *
 from operator import itemgetter
@@ -256,6 +256,40 @@ def home(request):
 #        if user.groups.filter(name='Students').exists():
 #            if user.student.address and user.student.phone:
 #                myProfile = StudentCustomProfile(
+
+
+def student_select_topicTest(request):
+    user = request.user
+    if user.is_authenticated:
+        if 'topicwisetest' in request.GET:
+            topic = request.GET['topicwisetest']
+            me = Studs(user)
+            new_tests = me.toTake_Tests()
+            topic_tests_id = []
+
+            for k,v in new_tests.items():
+                if topic in new_tests[k]['topics']:
+                    topic_tests_id.append(k)
+            newer_tests = []
+            for i in topic_tests_id:
+                topic_test = SSCKlassTest.objects.get(id = i)
+                newer_tests.append(topic_test)
+            ntest = {}
+            for test in newer_tests:
+                all_tp = []
+                count = 0
+                for quest in test.sscquestions_set.all():
+                    count += 1
+                    cat =\
+                    me.changeIndividualNames(quest.topic_category,quest.section_category)
+                    all_tp.append(cat)
+                all_tp_unique = list(unique_everseen(all_tp))
+                ntest[test.id] =\
+                {'subject':test.sub,'topics':all_tp_unique,'num_questions':count}
+            context = {'newTests':ntest}
+            return render(request,'basicinformation/studentInstituteTopicTests.html',context)
+
+
 
 
 def student_self_analysis(request):

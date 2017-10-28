@@ -986,7 +986,7 @@ class Studs:
         elif self.institution == 'SSC':
             all_tests = SSCKlassTest.objects.filter(testTakers = self.profile)
             new_tests = {}
-            for i in all_tests:
+            for n,i in enumerate(all_tests):
                 topics = []
                 try:
                     already_taken = SSCOnlineMarks.objects.get(student =
@@ -2778,7 +2778,6 @@ class Teach:
                                                             klass)
         wrong_answers = []
         skipped_answers = []
-        wq = []
         if online_marks:
             for om in online_marks:
                 for wa in om.wrongAnswers:
@@ -2793,6 +2792,7 @@ class Teach:
                     wrong_answers.append(wa)
                 for sp in om.skippedAnswers:
                     skipped_answers.append(sp)
+        wq = []
         for i in wrong_answers:
             if self.institution == 'School':
                 qu = Questions.objects.get(choices__id = i)
