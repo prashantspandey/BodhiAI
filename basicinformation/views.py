@@ -38,7 +38,29 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            print('wesome')
+            quad_questions = SSCquestions.objects.filter(section_category =\
+                                                         'Quantitative-Analysis',topic_category=22.1)
+            ch_list = []
+            for quest in quad_questions:
+                kk = "none"
+                for ch in quest.choices_set.all():
+                    if ch.text == kk:
+                        ch_list.append(ch.id)
+                    kk = ch.text
+            print(ch_list)
+            for c in ch_list:
+                ch = Choices.objects.get(id = c)
+                if ch.predicament == 'Correct':
+                   print(ch.text)
+                   rch = Choices.objects.get(id = c-1)
+                   rch.predicament = 'Correct'
+                   rch.save()
+                   ch.delete()
+                ch.delete()
+
+               
+               
+                    
             #idom_text = 'Choose the option which best explains the given phrase/idiom \n'
             #underlined_text = 'Choose the option which improves the sentence. \n'
             #substitution_text = 'Choose the option which can be substituted in place of given sentence.\n'
@@ -128,6 +150,7 @@ def home(request):
             subjects = me.my_subjects_names()
             me.subjects_OnlineTest()
             subjects = user.student.subject_set.all()
+            
             teacher_name = {}
             subject_marks = {} 
             # check for marks objects of multiple sections
@@ -461,7 +484,8 @@ def student_improvement_sub(request):
                 innertime.append(overall[k]['time'])
         except:
             pass
-        context = {'overall':overall}
+        subject_progress = me.improvement(sub)
+        context = {'overall':overall,'subjectProgress':subject_progress}
         return\
     render(request,'basicinformation/student_improvement2.html',context)
 
@@ -840,7 +864,6 @@ def read_questions(fi):
 
 
 def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCategory,exp,sectionType,fouroptions=False):
-    print(question,optA,image,correctOpt)
     school = School.objects.filter(category = 'SSC',name = 'BodhiAI')
     if fouroptions == True:
         all_options = [optA,optB,optC,optD]

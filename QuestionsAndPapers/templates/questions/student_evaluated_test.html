@@ -45,7 +45,7 @@
 		{%endfor%}
 	
 		{% for choice in quest.choices_set.all %}
-		<p> {{choice.text }}
+		<p> {%if choice.text %}{{choice.text }}{%endif%}
 	{%if choice.picture %}
 		<img src='{{choice.picture}}' class='img-responsive'>
 		{%endif%}	

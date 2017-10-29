@@ -1,6 +1,7 @@
 import numpy as np
 import pickle
 import math
+import itertools
 from datetime import datetime, date
 from .models import Subject
 from more_itertools import unique_everseen
@@ -2073,6 +2074,7 @@ class Studs:
             if marks:
                 if len(marks)>1:
                     change = []
+                    when = []
                     for j,k in enumerate(marks):
                         if j == len(marks)-1:
                             break
@@ -2080,8 +2082,14 @@ class Studs:
                         that = marks[j+1]
                         that = (that.marks/that.test.max_marks)*100
                         diff = that-this
+                        this_time = k.testTaken 
+                        that_time = marks[j+1]
+                        that_time = that_time.testTaken
+                        time_diff = that_time - this_time
+                        when.append(time_diff)
                         change.append(diff)
-                    return diff
+                    total_diff = list(zip(when,change))
+                    return total_diff
                 else:
                     return 'more than one needed'
             #if mixed_marks:
@@ -2123,8 +2131,8 @@ class Studs:
                 for quest_id in all_answers:
                     quests.append(SSCquestions.objects.get(choices__id =
                                                            quest_id))
-                for quest_id in skipped_answers:
-                    quests.append(SSCquestions.objects.get(id = quest_id))
+                #for quest_id in skipped_answers:
+                #    quests.append(SSCquestions.objects.get(id = quest_id))
                 for q in quests:
                     all_categories.append(q.topic_category)
 
@@ -2140,8 +2148,8 @@ class Studs:
                 for quest_id in all_answers:
                     quests.append(SSCquestions.objects.get(choices__id =
                                                            quest_id))
-                for quest_id in skipped_answers:
-                    quests.append(SSCquestions.objects.get(id = quest_id))
+                #for quest_id in skipped_answers:
+                #    quests.append(SSCquestions.objects.get(id = quest_id))
                 for q in quests:
                     all_categories.append(q.topic_category)
             all_categories = list(unique_everseen(all_categories))
@@ -2175,6 +2183,7 @@ class Studs:
                     try:
                         total = (((rightCount - wCount)/(rightCount+wCount))*100)
                         tpp = self.changeIndividualNames(tp,subject)
+
                         changes[str(tp)+','+str(test_count)] = {'topic':
                                                                 tpp,'index':
                                                                 test_count,'percent':total,'time':i.testTaken,'test_id':i.id}
@@ -2216,7 +2225,6 @@ class Studs:
 
     def plot_improvement(self,subject):
         changes,mixed_changes,all_categories = self.sectionwise_improvement(subject)
-        print('%s -- changes' %all_categories)
         all_ids = []
         for key,value in changes.items():
             all_ids.append(value['test_id'])
@@ -2232,6 +2240,7 @@ class Studs:
         #          ind.append(i)
         #    overall = list(zip(ind,topic,percent,time))
         overall = {}
+        final_list = []
         if all_categories:
             for i in all_categories:
                 time = []

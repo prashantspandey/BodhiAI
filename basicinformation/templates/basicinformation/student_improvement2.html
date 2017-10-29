@@ -58,6 +58,66 @@ $(document).ready(function () {
 
 
 </script>
+    <script>
+$(document).ready(function () {
+	var ctxsubjectChart = document.getElementById("subjectChart");
+	var myChart = new Chart(ctxsubjectChart, {
+            type: 'line',
+            data: {
+		    labels: [{%for tdiff,mdiff in subjectProgress%}'{{tdiff}} days',{%endfor%}],
+                datasets: [{
+			label:'Marks difference with days' ,
+
+
+
+			data: [{%for tdiff,mdiff in subjectProgress%}{{mdiff}},{%endfor%}],
+			backgroundColor: [
+                        'rgba(255, 99, 132, 1)',
+		                                      ],
+                    borderColor: [ 'rgba(255,99,132,1)',
+		                                            ],
+
+
+
+
+                                  borderWidth: 3
+
+
+
+		}]
+            },
+
+            options: {   responsive: true,
+		    maintainAspectRatio: false,
+		    
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+
+                        }
+                    }]
+                }
+            }
+        });
+        });
+
+
+</script>
+
+<div class='container'>
+	<h2 class='text-center'> <strong>Progress in overall subject</strong> </h4>
+	<div class='thumbnail'>
+	<div class='caption'>
+		    <h4 class='text-center'> <strong> {{k}}</strong> </h4>
+		    <div>
+	<canvas  id="subjectChart"   height="300" >
+</canvas>
+		    </div>
+	
+	    </div>
+	    </div>
+</div>
 
 <div class='container'>
 		    <h2 class='text-center'> <strong>Accuracy Topic wise over time.</strong> </h4>
