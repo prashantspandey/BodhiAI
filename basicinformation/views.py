@@ -56,7 +56,10 @@ def home(request):
                    rch.predicament = 'Correct'
                    rch.save()
                    ch.delete()
-                ch.delete()
+                try:
+                    ch.delete()
+                except Exception as e:
+                    print(str(e))
 
                
                
