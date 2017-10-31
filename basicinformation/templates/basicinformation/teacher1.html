@@ -1,4 +1,5 @@
 {%extends 'basicinformation/base.html' %}
+{% load staticfiles %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,41 +7,53 @@
 {%block scripts %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-
+<link rel='stylesheet'  href="{%static 'basicinformation/css/institueTeacher.css' %}">
+<link rel="stylesheet"  href="{% static 'basicinformation/css/animate.css' %}">
 {%endblock%}
 
 </head>
 <body>
 	{% block content %}
-	<h1 style='text-align:center;'>{{profile.school}}</h1>
-
-<div class='well  col-xs-12 col-md-offset-1 col-md-10'>
-<h1 style='font-size:400%;'>Hello {{profile.name}}</h1>
-	<h3> You teach {{num_klasses}} classes at {{profile.school}}</h3>
+<div class='jumbotron col-md-offset-1 col-md-10 col-sm-12 animated flipInX'>
+<h1 >Hello {{profile.name}}</h1>
+<h3> You teach {{num_klasses}}{%if num_klasses == 1 %} class {%else%} classes {%endif%} at {{profile.school}}</h3>
+	<ul>
 	{% for kl in klasses %}
-	<h4> <mark>{{kl}}</mark> </h4>
+	<li> {{kl}} </li>
 	{%endfor%}
-
+	</ul>
+       	<hr>
 	<h3> You teach {{num_subjects}} subjects </h3>
+	<ul>
 	{% for sub in subjects %}
-	<h4> <mark>{{sub}}</mark> </h4>
+	<li>	{{sub}} </li>
 	{%endfor%}
+	</ul>
 </div>
-
-<div class='col-md-offset-1 col-md-10 col-xs-12 col-sm-12' >
+	<div class='container'>
 	<h2 style='text-align:center;'> Problematic areas (Most to Least) </h2>
 	{% for sub,klass,oall in weak_links %}
-	<div class='well  col-xs-12'>
-		<h3>	For Class: {{klass}} </h3>
-		<h3>	For Subject: {{sub}} </h3>
-		<h3> Problematic chapters/sections are:
-		       	 </h3>
-{%for i in oall %}<p class="bg-danger">{{i}}</p>{%endfor%}
+<div class='col-sm-3 col-md-3 animated zoomIn' id='problemContainer' >
+	<div class='thumbnail' id='thumbnailContainer'>
+		<div class='caption'>
+	<h4 class='text-center'>{{klass}} </h4>
+	<h5 class='text-center' style='font-weight:bold;'> {{sub}} </h5>
+		<h5> Problematic Topics:
+		       	 </h5>
+<ul>
+{%for i in oall %}
+<li>{{i}}</li>
+{%endfor%}
+</ul>
+<div class='text-center'>
 		<form action='{% url "basic:TeacherWeakAreas" %}' method='get'>
 			<input type='text' value='{{klass}}' name='weakAreasClass' class='hidden' >
 			<input type='text' value='{{sub}}' name='weakAreasSub' class='hidden' >
-			<input type="submit" class="btn btn-info" name='weakAreasButton' value="See in Detail">
+			<input type="submit" class="btn btn-warning" name='weakAreasButton' value="See in Detail">
 		</form>
+</div>
+</div>
+</div>
 </div>
 	{%endfor%}
 </div>

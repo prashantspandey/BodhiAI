@@ -1,5 +1,16 @@
+.container-fluid {
+	    padding-right: 0px;
+	    padding-left: 0px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+
+
 .navbar {
-width: 100% ;
+position: fixed !important;
+top: 0px;
+width: 940px;
 }
 
 .navbar-default {
