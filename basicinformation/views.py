@@ -185,7 +185,7 @@ def home(request):
                         {'marks':multiple_one_marks,'time':multiple_time}
 
 
-            
+           # get new tests to take (practise tests on the student page) 
             new_tests = me.toTake_Tests()
              #Get all the student marks
             try:

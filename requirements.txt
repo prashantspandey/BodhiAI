@@ -1,5 +1,6 @@
 Django==1.11.1
 django-crispy-forms==1.7.0
+django-mathjax==0.0.8
 gunicorn==19.7.1
 html5lib==1.0b10
 httplib2==0.10.3
@@ -8,7 +9,7 @@ numpy==1.12.1
 olefile==0.44
 pandas==0.20.3
 Pillow==4.2.1
-psycopg2==2.7.1
+psycopg2==2.7.3.2
 PyPDF2==1.26.0
 python-dateutil==2.6.1
 pytz==2017.2

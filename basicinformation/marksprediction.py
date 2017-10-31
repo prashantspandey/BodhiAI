@@ -941,9 +941,22 @@ class Studs:
             if self.profile.school.name== 'BodhiAI':
                 all_tests = SSCKlassTest.objects.filter(creator__username =
                                                         'BodhiAI')
-                for t in all_tests:
+                already_taken_marks = SSCOnlineMarks.objects.filter(test__testTakers
+                                                              = self.profile)
+                already_taken_tests = []
+                for i in already_taken_marks:
+                    already_taken_tests.append(i.test)
+                new_tests = []
+                for at in all_tests:
+                    if at in already_taken_tests:
+                        pass
+                    else:
+                        new_tests.append(at)
+                    
+                for t in new_tests:
                     t.testTakers.add(self.profile)
             my_tests = SSCKlassTest.objects.filter(testTakers = self.profile)
+            print(my_tests)
         return my_tests
 
 

@@ -39,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'django_mathjax',
     'basicinformation',
     'membership',
     'QuestionsAndPapers',
     'Private_Messages'
 ]
 
+MATHJAX_ENABLED=True
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

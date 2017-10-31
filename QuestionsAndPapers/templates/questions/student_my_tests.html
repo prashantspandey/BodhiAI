@@ -1,10 +1,12 @@
 {% extends 'basicinformation/base.html' %}
+{% load mathjax %}
 {%load staticfiles %}
 <html>
 	<head>
 		<title> {%block title %} Tests/Homework {%endblock%} </title>
 {%block scripts%}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+		      {% mathjax_scripts %}
     <script>
 
          $(document).ready(function () {
@@ -17,15 +19,6 @@
 	 $('#loadingstudentmytests').show();
  		  $('#showOnlineTests').removeClass("hidden");
          $('#showOnlineTests').html('').load('{% url 'QuestionsAndPapers:studentShowOnlineTest' %}?onlineTestSubject='+encodeURIComponent(my_sub));
- $(this).animate({
-            height: '40px',
-            width: '150px',
-        });
-
-          $(eval("'#'+pr")).animate({
-            height: '35px',
-            width: '140px',
-        });
         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
 
