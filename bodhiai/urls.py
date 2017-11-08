@@ -20,9 +20,8 @@ from bodhiai import views
 admin.site.site_header = "Bodhi AI Administration"
 admin.site.site_title = "Bodhi AI"
 admin.site.index_title = "Bodhi AI"
-
 urlpatterns = [
-    url(r'^$', views.index),
+    url(r'^$', views.index, ),
     url(r'^bodhi/', include('basicinformation.urls')),
     url(r'^membership/', include('membership.urls')),
     url(r'^questions/',include('QuestionsAndPapers.urls')),
