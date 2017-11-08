@@ -12,18 +12,18 @@
 {%endif%}
     <script>
 $(document).ready(function () {
-	{% for k,v in overall.items|sort %}
+	{% for k,v in overall.items %}
+	
 	var ctx{{forloop.counter}} = document.getElementById("myChart{{forloop.counter}}");
 	var myChart = new Chart(ctx{{forloop.counter}}, {
             type: 'line',
             data: {
-		    labels: [{%for date in v.time%}'{{date}}',{%endfor%}],
+		    
+		    labels: [{%for i in v.dic %}{% for j in i%}{%if forloop.counter == 3 %}'{{j}}',{%endif%}{%endfor%}{%endfor%}],
                 datasets: [{
 			label:'Accuracy in category - {{k}} ' ,
 
-
-
-			data: [{%for percent in v.percent%}{{percent}},{%endfor%}],
+			data: [{%for i in v.dic %}{% for j in i%}{%if forloop.counter == 2 %}{{j}},{%endif%}{%endfor%}{%endfor%}],
 			backgroundColor: [
                         'rgba(255, 99, 132, 1)',
 		                                      ],

@@ -37,8 +37,8 @@ $('.thumbnail').on('click',function(){
 
 	
 
-	     var ctx{{key|slice:":5"}} = document.getElementById("myChart{{key|slice:":5"}}");
-	      myChart = new Chart(ctx{{key|slice:":5"}}, {
+	     var ctx{{key|slice:"-4:-1"}} = document.getElementById("myChart{{key|slice:"-4:-1"}}");
+	      myChart = new Chart(ctx{{key|slice:"-4:-1"}}, {
             type: 'line',
             data: {
 		    labels: [{% for da in value.time%}'{{da}}',{%endfor%}],
@@ -174,7 +174,7 @@ $('.thumbnail').on('click',function(){
  <div class=" col-md-4 col-md-offset-1  col-xs-12" id='graphContainer'   >
 	 <h2 id='subjectName' class="text-center">{%if key == 'SSCMultipleSections' %} Complete Test {%else%} {{key}} {%endif%}</h2>
 <div>
-<canvas  id="myChart{{key|slice:":5"}}"   height="400"></canvas>
+<canvas  id="myChart{{key|slice:"-4:-1"}}"   height="400"></canvas>
 </div>
 </div>
 {%endfor%}

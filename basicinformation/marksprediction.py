@@ -968,7 +968,6 @@ class Studs:
         subs = []
         for i in taken_tests:
             if i.test.sub != '':
-                print('%s sub' %(i.test.sub))
                 subs.append(i.test.sub)
         return list(unique_everseen(subs))
     def subjects_NotTakenTests(self):
@@ -1352,7 +1351,6 @@ class Studs:
 
 
     def weakAreas_IntensityAverage(self,subject):
-        print('%s subject' %subject)
         arr = self.weakAreas_Intensity(subject)
         if self.institution  == 'School':
             pass
@@ -2149,6 +2147,88 @@ class Studs:
             #        return diff
             #    else:
             #        return 'more than one needed'
+
+
+    def section_improvement(self,subject):
+        if self.institution == 'School':
+            pass
+        elif self.institution == 'SSC':
+            marks =\
+            SSCOnlineMarks.objects.filter(student=self.profile,test__sub=subject).order_by('testTaken')
+            mixed_marks =\
+            SSCOnlineMarks.objects.filter(student=self.profile,test__sub='SSCMultipleSections').order_by('testTaken')
+            total = []
+            if marks:
+                for i in marks:
+                    total.append(i)
+            if mixed_marks:
+                for j in mixed_marks:
+                    total.append(j)
+            total.sort(key=lambda r:r.testTaken)
+
+            topics = []
+            day = []
+            ra = []
+            wa = []
+            overall_accuracy = []
+            for i in total:
+                for r in i.rightAnswers:
+                    rq = SSCquestions.objects.get(choices__id = r)
+                    if rq.section_category == subject:
+                        ra.append(rq)
+                        cat = rq.topic_category
+                        topics.append(cat)
+                for w in i.wrongAnswers:
+                    wq = SSCquestions.objects.get(choices__id = w)
+                    if wq.section_category == subject:
+                        wa.append(wq)
+                        cat = wq.topic_category
+                        topics.append(cat)
+                topics = list(unique_everseen(topics))
+                accuracy_dict = {}
+                for j in topics:
+                    right = 0
+                    wrong = 0
+                    for r in ra:
+                        if r.topic_category == j:
+                            right += 1
+                    for w in wa:
+                        if w.topic_category == j:
+                            wrong += 1
+                    total = right + wrong
+                    accuracy = ((right-wrong)/total)*100
+                    tp_j = self.changeIndividualNames(j,subject)
+                    topic_accuracy = np.array([tp_j,accuracy,i.testTaken])
+                    overall_accuracy.append(topic_accuracy)
+            overall_accuracy = np.array(overall_accuracy)
+            tp = []
+            final_accuracy = []
+            another_dict = {}
+            try:
+                for i in overall_accuracy[:,0]:
+                    tp.append(i)
+            except:
+                return 0
+            tp = list(unique_everseen(tp))
+            for i in tp:
+                name = eval("'topic'+str(i)")
+                name_d = name
+                name = []
+                for n,j in enumerate(overall_accuracy[:,0]):
+                    if j == i:
+                        name.append(overall_accuracy[n])
+                final_accuracy.append(name)
+                another_dict[i] = {'dic':name}
+            final_accuracy = np.array(final_accuracy)
+            return another_dict
+                   
+
+            
+
+                  
+
+
+
 
     def sectionwise_improvement(self,subject):
         if self.institution == 'School':

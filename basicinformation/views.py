@@ -492,21 +492,25 @@ def student_improvement_sub(request):
     if 'improvementSub' in request.GET:
         sub = request.GET['improvementSub']
         me = Studs(user)
-        overall = me.plot_improvement(sub)
-        outer = []
-        innerid = []
-        innertime = []
-        innerpercent = []
-        try:
-            for k,v in overall.items():
-                outer.append(k)
-                innerpercent.append(overall[k]['percent'])
-                innerid.append(overall[k]['testid'])
-                innertime.append(overall[k]['time'])
-        except:
-            pass
-        subject_progress = me.improvement(sub)
-        context = {'overall':overall,'subjectProgress':subject_progress}
+        #overall = me.plot_improvement(sub)
+        #outer = []
+        #innerid = []
+        #innertime = []
+        #innerpercent = []
+        #try:
+        #    for k,v in overall.items():
+        #        outer.append(k)
+        #        innerpercent.append(overall[k]['percent'])
+        #        innerid.append(overall[k]['testid'])
+        #        innertime.append(overall[k]['time'])
+        #except:
+        #    pass
+        #subject_progress = me.improvement(sub)
+        overall = me.section_improvement(sub)
+        if overall == 0:
+            context = {'overall':None}
+        else:
+            context = {'overall':overall,}
         return\
     render(request,'basicinformation/student_improvement2.html',context)
 
