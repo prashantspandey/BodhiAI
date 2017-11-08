@@ -98,48 +98,46 @@ def home(request):
             #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
-            #df =\
-            #pd.read_csv('/home/prashant/Desktop/programming/random/tesseract/resoningAnalogy.csv')
-            #df=\
-            #pd.read_csv('/home/prashant/Desktop/ssc_questions/gk/gk_dishaDiagram/62links.csv',error_bad_lines=False )
-            #quests = []
-            #optA = []
-            #optB = []
-            #optC = []
-            #optD = []
-            #right_answer = []
-            #quest_category = []
-            #quests = df['direction']
+            df=\
+            pd.read_csv('/app/question_data/gk7nov.csv',error_bad_lines=False )
+            quests = []
+            optA = []
+            optB = []
+            optC = []
+            optD = []
+            right_answer = []
+            quest_category = []
+            quests = df['Questions']
             #images = df['link']
-            ##images = None
-            #optA = df['a']
-            #optB = df['b']
-            #optC = df['c']
-            #optD = df['d']
-            ##optE = df['e'] 
-            #exp = df['explanation']
-            ##quest_category = df['category']
-            #quest_category = '1.3' # spot the error
-            #for i in df['ans']:
-            #    ichanged = str(i).replace(u'\\xa0',u' ')
-            #    ichanged2 = ichanged.replace('Answer',' ')
-            #    ichanged3 = ichanged2.replace('Explanation',' ')
-            #    if 'a' in ichanged :
-            #        right_answer.append(1)
-            #    elif 'b' in ichanged :
-            #        right_answer.append(2)
-            #    elif 'c' in ichanged :
-            #        right_answer.append(3)
-            #    elif 'd' in ichanged :
-            #        right_answer.append(4)
-            #    elif 'e' in ichanged :
-            #        right_answer.append(5)
-            #for ind in range(len(optA)):
-            #    #print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
-            #    # -- right_answer,%s -- explanation'
-            #    # %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
+            #images = None
+            optA = df['OptionA']
+            optB = df['OptionB']
+            optC = df['OptionC']
+            optD = df['OptionD']
+            optE = df['OptionE'] 
+            exp = df['solution']
+            quest_category = df['Category']
+            #quest_category = '11.1' # indian museams
+            for i in df['Correct']:
+                ichanged = str(i).replace(u'\\xa0',u' ')
+                ichanged2 = ichanged.replace('Answer',' ')
+                ichanged3 = ichanged2.replace('Explanation',' ')
+                if 'A)' in ichanged :
+                    right_answer.append(1)
+                elif 'B)' in ichanged :
+                    right_answer.append(2)
+                elif 'C)' in ichanged :
+                    right_answer.append(3)
+                elif 'D)' in ichanged :
+                    right_answer.append(4)
+                elif 'E)' in ichanged :
+                    right_answer.append(5)
+            for ind in range(len(optA)):
+                #print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
+                # -- right_answer,%s -- explanation'
+                # %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
-            #    write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category,exp[ind],sectionType='Resoning',fouroptions=True)
+                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],3,right_answer[ind],quest_category[ind],exp[ind],sectionType='GK')
             ##write_passages(all_passages)
             #print(quests)
             #print(right_answer)
@@ -151,7 +149,9 @@ def home(request):
             profile = user.student
             me = Studs(request.user)
             subjects = me.my_subjects_names()
-            me.subjects_OnlineTest()
+            # if B2C customer then add tests  to profile
+            if profile.school.name == 'BodhiAI':
+                me.subjects_OnlineTest()
             subjects = user.student.subject_set.all()
             
             teacher_name = {}
@@ -186,7 +186,10 @@ def home(request):
 
 
            # get new tests to take (practise tests on the student page) 
-            new_tests = me.toTake_Tests()
+            if profile.school.name == 'BodhiAI':
+                new_tests = me.toTake_Tests()
+            else:
+                pass
              #Get all the student marks
             try:
                 mathst1,mathst2,mathst3,mathshy,mathst4,mathspredhy =\
@@ -356,6 +359,8 @@ def student_self_analysis(request):
             me = Studs(user)
             #allSubjects = me.my_subjects_names()
             allSubjects = me.subjects_OnlineTest() 
+            allSubjects = me.already_takenTests_Subjects()
+            print('%s allsubs' %allSubjects)
             #print('%s -- online test subejcts' %subs)
             analysis_types = ['School Tests Analysis', 'Online Test Analysis']
             context = {'subjects': allSubjects}
@@ -391,17 +396,29 @@ def student_subject_analysis(request):
                 test = OnlineMarks.objects.get(student=user.student, test__id=test_id)
                 student_type = 'School'
             elif me.institution == 'SSC':
-                print(test_id)
                 test = SSCOnlineMarks.objects.get(student=user.student, test__id=test_id)
                 student_type = 'SSC'
             my_marks_percent = (test.marks / test.test.max_marks) * 100
             average, percent_average = \
                 me.online_findAverageofTest(test_id, percent='p')
             percentile, all_marks = me.online_findPercentile(test_id)
-            print('%s all amrks' %all_marks)
+            percentile = percentile * 100
             all_marks = [((i / test.test.max_marks) * 100) for i in all_marks]
-            print('%s all amrks' %all_marks)
             freq = me.online_QuestionPercentage(test_id)
+            # converting test time seconds to hours and minutes
+            test_totalTime = test.timeTaken
+            hours = int(test_totalTime/3600)
+            t = int(test_totalTime%3600)
+            mins = int(t/60)
+            seconds =int(t%60)
+            if hours == 0:
+                tt = '{} minutes and {} seconds'.format(mins,seconds)
+            if hours == 0 and mins == 0:
+                tt = '{} seconds'.format(seconds)
+            if hours > 0:
+                tt = '{} hours {} minutes and {}\
+                seconds'.format(hours,mins,seconds)
+
             ra,wa,sp,accuracy = me.test_statistics(test_id)
             weak_areas = me.weakAreas_Intensity(sub,singleTest = test_id)
             area_timing,freq = me.areawise_timing(sub,test_id)
@@ -417,7 +434,7 @@ def student_subject_analysis(request):
                  'my_percent': my_marks_percent, 'percentile': percentile, 'allMarks': all_marks,
                  'freq':
                  freq,'student_type':student_type,'topicWeakness':weak_names,'topicTiming':timing,
-                 'numberRight':ra,'numberWrong':wa,'numberSkipped':sp,'accuracy':accuracy,'subjectwise_accuracy':subjectwise_accuracy}
+                 'numberRight':ra,'numberWrong':wa,'numberSkipped':sp,'accuracy':accuracy,'subjectwise_accuracy':subjectwise_accuracy,'tt':tt}
             return \
                 render(request, 'basicinformation/student_analyze_test.html', context)
 
@@ -433,30 +450,31 @@ def student_weakAreasSubject(request):
 
 def student_weakAreas(request):
     if 'studWA' in request.GET:
-       me = Studs(request.user)
-       subject = request.GET['studWA']
-       timing_areawise,freq_timer = me.areawise_timing(subject)
-       freq_timer = me.changeTopicNumbersNames(freq_timer,subject)
-       freq = me.weakAreas_IntensityAverage(subject)
-       strongAreas = []
-       strongFreq = []
-       for i,j in freq:
-            strongAreas.append(i)
-            strongFreq.append(float(100-j))
-
-
-       if freq == 0:
+        me = Studs(request.user)
+        subject = request.GET['studWA']
+        timing_areawise,freq_timer = me.areawise_timing(subject)
+        freq_timer = me.changeTopicNumbersNames(freq_timer,subject)
+        freq = me.weakAreas_IntensityAverage(subject)
+        strongAreas = []
+        strongFreq = []
+        try:
+           for i,j in freq:
+                strongAreas.append(i)
+                strongFreq.append(float(100-j))
+        except Exception as e:
+            print(str(e))
+        if freq == 0:
            context = {'noMistake':'noMistake'}
            return render(request,'basicinformation/student_weakAreas.html',context)
         # changing topic categories numbers to names
-       timing_areawiseNames =\
+        timing_areawiseNames =\
         me.changeTopicNumbersNames(timing_areawise,subject)
-       freq_Names = me.changeTopicNumbersNames(freq,subject)
-       skills = list(zip(strongAreas,strongFreq))
-       skills_names = me.changeTopicNumbersNames(skills,subject)
-       context = \
+        freq_Names = me.changeTopicNumbersNames(freq,subject)
+        skills = list(zip(strongAreas,strongFreq))
+        skills_names = me.changeTopicNumbersNames(skills,subject)
+        context = \
                {'freq':freq_Names,'timing':timing_areawiseNames,'time_freq':freq_timer,'skills':skills_names}
-       return render(request,'basicinformation/student_weakAreas.html',context)
+        return render(request,'basicinformation/student_weakAreas.html',context)
 
 
 def student_improvement(request):
@@ -894,7 +912,7 @@ def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCate
         new_questions.section_category = 'General-Knowledge'
     new_questions.text = str(question)
     new_questions.topic_category = str(questCategory)
-    if image:
+    if image == 5:
         new_questions.picture = image
     new_questions.save()
     for sch in school:

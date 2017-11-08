@@ -944,6 +944,7 @@ class Studs:
                 already_taken_marks = SSCOnlineMarks.objects.filter(test__testTakers
                                                               = self.profile)
                 already_taken_tests = []
+                takeable_tests = []
                 for i in already_taken_marks:
                     already_taken_tests.append(i.test)
                 new_tests = []
@@ -952,14 +953,31 @@ class Studs:
                         pass
                     else:
                         new_tests.append(at)
+                for i in new_tests:
+                    if i.sub != None or i.sub != '':
+                        takeable_tests.append(i)
+                    else:
+                        pass
                     
-                for t in new_tests:
+                for t in takeable_tests:
                     t.testTakers.add(self.profile)
-            my_tests = SSCKlassTest.objects.filter(testTakers = self.profile)
-            print(my_tests)
-        return my_tests
-
-
+        return takeable_tests
+    def already_takenTests_Subjects(self):
+        taken_tests = SSCOnlineMarks.objects.filter(test__testTakers =
+                                                    self.profile)
+        subs = []
+        for i in taken_tests:
+            if i.test.sub != '':
+                print('%s sub' %(i.test.sub))
+                subs.append(i.test.sub)
+        return list(unique_everseen(subs))
+    def subjects_NotTakenTests(self):
+        tests = SSCKlassTest.objects.filter(testTakers=self.profile)
+        sub_list = []
+        for i in tests:
+            if i.sub != None or i.sub != '':
+                sub_list.append(i.sub)
+        return list(unique_everseen(sub_list))
     def subjects_OnlineTest(self):
         my_tests = self.allOnlinetests()
         subs = []
@@ -999,8 +1017,12 @@ class Studs:
            pass
         elif self.institution == 'SSC':
             all_tests = SSCKlassTest.objects.filter(testTakers = self.profile)
+            takeable_tests = []
+            for i in all_tests:
+                if i.sub != None:
+                    takeable_tests.append(i)
             new_tests = {}
-            for n,i in enumerate(all_tests):
+            for n,i in enumerate(takeable_tests):
                 topics = []
                 try:
                     already_taken = SSCOnlineMarks.objects.get(student =
@@ -1072,7 +1094,10 @@ class Studs:
                 same_marks += 1
             elif i < my_score:
                 less_marks += 1
-        percentile = ((less_marks + (0.5 * same_marks) * 100) / num_students)
+        if same_marks == -1:
+            percentile = ((less_marks-same_marks) / num_students)
+        else:
+            percentile = ((less_marks + (0.5 * same_marks)) / num_students)
         return percentile, all_marks
 
     def online_QuestionPercentage(self, test_id):
@@ -1108,7 +1133,10 @@ class Studs:
                 for sp in marks.skippedAnswers:
                     skipped_answers += 1
             # finds accuracy on the basis of counting done above
-                accuracy = ((right_answers)/(right_answers+wrong_answers))*100
+                try: 
+                    accuracy = ((right_answers)/(right_answers+wrong_answers))*100
+                except Exception as e:
+                    accuracy = 0
                 return right_answers,wrong_answers,skipped_answers,accuracy
 
 # Finds the subjectwise accuracy (eg. SSCMultipleSections) of a test
@@ -1324,6 +1352,7 @@ class Studs:
 
 
     def weakAreas_IntensityAverage(self,subject):
+        print('%s subject' %subject)
         arr = self.weakAreas_Intensity(subject)
         if self.institution  == 'School':
             pass
@@ -1735,6 +1764,7 @@ class Studs:
                    namedarr.append('Polity (World)')
                    timing.append(j)
             return list(zip(namedarr,timing))
+
     def convertTopicNumbersNames(self,arr,subject):
         namedarr = []
         if subject == 'English':

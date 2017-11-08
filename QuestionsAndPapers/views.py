@@ -99,7 +99,6 @@ def create_test(request):
                             all_categories.append(i.topic_category)
                         all_categories = list(unique_everseen(all_categories))
                         all_categories.sort()
-                        print(all_categories)
                         all_categories = \
                         me.change_topicNumbersNames(all_categories,split_category)
                         context = \
@@ -165,6 +164,7 @@ def add_questions(request):
     me = Teach(user)
     quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
     if 'question_id' in request.GET:
+        print('here')
         if os.path.exists(quest_file_name):
             with open(quest_file_name,'rb') as lql:
                 questions_list = pickle.load(lql)
@@ -220,31 +220,34 @@ def add_questions(request):
          }
         return render(request,'questions/addedQuestions.html',context)
     if request.POST:
-        with open(quest_file_name,'rb') as ql:
-            questions_list= pickle.load(ql)
-        if len(questions_list)!=0:
-            me = Teach(request.user)
-            which_klass = request.POST['which_klass']
-            klass = me.my_classes_objects(which_klass)
-            tot = 0 
-            for i in questions_list:
-                tot = tot + i.max_marks
-            if user.teacher.school.category == 'School':
-                newClassTest = KlassTest()
-                teacher_type = 'School'
-            elif user.teacher.school.category == 'SSC':
-                newClassTest = SSCKlassTest()
-                teacher_type = 'SSC'
-            newClassTest.max_marks = tot
-            newClassTest.published = timezone.now()
-            newClassTest.name = str(request.user.teacher) + str(timezone.now())
-            newClassTest.klas = klass
-            newClassTest.creator = request.user
-            newClassTest.save()
-            for zz in questions_list:
-                zz.ktest.add(newClassTest)
-            context = {'test':newClassTest,'teacher_type':teacher_type}
-            return render(request,'questions/publish_test.html',context)
+        if os.path.exists(quest_file_name):
+            with open(quest_file_name,'rb') as ql:
+                questions_list= pickle.load(ql)
+            if len(questions_list)!=0:
+                me = Teach(request.user)
+                which_klass = request.POST['which_klass']
+                klass = me.my_classes_objects(which_klass)
+                tot = 0 
+                for i in questions_list:
+                    tot = tot + i.max_marks
+                if user.teacher.school.category == 'School':
+                    newClassTest = KlassTest()
+                    teacher_type = 'School'
+                elif user.teacher.school.category == 'SSC':
+                    newClassTest = SSCKlassTest()
+                    teacher_type = 'SSC'
+                newClassTest.max_marks = tot
+                newClassTest.published = timezone.now()
+                newClassTest.name = str(request.user.teacher) + str(timezone.now())
+                newClassTest.klas = klass
+                newClassTest.creator = request.user
+                newClassTest.save()
+                for zz in questions_list:
+                    zz.ktest.add(newClassTest)
+                context = {'test':newClassTest,'teacher_type':teacher_type}
+                return render(request,'questions/publish_test.html',context)
+        else:
+            return HttpResponse('Please select at-least one question')
 
 
 def publish_test(request):
@@ -519,6 +522,7 @@ def student_my_tests(request):
         if user.groups.filter(name= 'Students').exists():
             me = Studs(user)
             subjects = me.subjects_OnlineTest()
+            subjects = me.subjects_NotTakenTests()
             context = {'subjects':subjects}
             return render(request,'questions/student_my_tests.html',context)
 
@@ -936,7 +940,11 @@ def conduct_Test(request):
                 if not an in ra and not an in wa:
                     final_skipped2.append(an)
             # calculate the total time taken for the test
-            total_time = (test.totalTime * 60)- (int(time_taken))
+            try:
+                total_time = (test.totalTime * 60)- (int(time_taken))
+            except Exception as e:
+                print(str(e))
+                total_time = int(1000) - int(time_taken)
             # save to SSCOnlinemarks
             online_marks.rightAnswers = final_correct
             online_marks.wrongAnswers = final_wrong

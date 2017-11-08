@@ -1,10 +1,8 @@
-{% load mathjax %}
 <html>
 	<head>
 		      
 	<script>
 		$('#loadingstudentonlinetestssubjectwise').hide();
-		MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 	</script>
 	</head>
 	<body>
@@ -13,7 +11,7 @@
 	<div class="col-md-offset-1 col-sm-6 col-md-10 ">
 		<div class="thumbnail">
 			<div class="caption">
-				<h2 style='text-align:center;'> Marks:$${{marks}}/{{marks.test.max_marks}}$$</h2>
+				<h2 style='text-align:center;'> Marks:{{marks}}/{{marks.test.max_marks}}</h2>
 <h3 style='text-align:center;'> You took <strong> {{timetaken}}</strong> to complete the test. </h3>
 
 	<h3 style='text-align:center;'> Test Taken on: {{marks.testTaken}} </h3>

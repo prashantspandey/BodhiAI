@@ -141,8 +141,6 @@ $('.thumbnail').on('click',function(){
 	{% include 'basicinformation/studentInstituteTopicTests.html' %}
 </div>
 {% for key,value in newTests.items %}
-{%if forloop.counter == 5 %}
-<!--
 	  <div class="col-sm-3 col-md-3 animated zoomIn" id ='newTests'>
 	<div class="thumbnail ">
 		<div class="caption">
@@ -162,28 +160,6 @@ $('.thumbnail').on('click',function(){
 	</div>
 		</div>
 		</div>
-		//-->
-		{%else%}
-	  <div class="col-sm-3 col-md-3 animated zoomIn" id ='newTests'>
-	<div class="thumbnail ">
-		<div class="caption">
-			<h3 class='text-center' style='font-weight:bold;'>{% if value.subject == 'SSCMultipleSections'%}Multiple Subjects {%else%}{{value.subject}} {%endif%}</h3>
-				<h4 class='text-center'>{{value.num_questions}} questions </h4>
-			<h4> Topics </h4>
-			<ul>
-				{% for i in value.topics %}
-				<li>{{i}}</li>
-				{%endfor%}
-			</ul>
-			<div class='text-center'>
-				<form action = "{% url 'QuestionsAndPapers:conductTest' %}" method='get'>
-					<button type="submit" name='onlineTestid' class="btn btn-primary" value="{{key}}">Take Test</button>
-				</form>
-			</div>
-	</div>
-		</div>
-		</div>
-		{%endif%}
 
 	{%endfor%}
 

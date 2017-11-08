@@ -7,22 +7,16 @@ $(document).ready(function () {
 	 $('#loadingCreateTest2').hide();
 	var removedquests = 'ids';
     var  clicked_id = 0
-        for(i=0 ; i<=10000; i++){
-	var now = eval("'#'+i")
-        $(now).click(function(){
-          ajKl = $(this).attr('id')
-              console.log(ajKl)
+	    $(".addbutton").click(function(){
+	var now = this.id
 	    which_klass = $('#tells_klass').text()
-         $(this).removeClass("btn btn-primary").addClass("btn btn-success");
-         $(this).addClass('hidden');
-		 $(eval("'#r'+ajKl")).removeClass("hidden");
+         $(eval("'#'+now")).removeClass("btn btn-primary").addClass("btn btn-success");
+         $(eval("'#'+now")).addClass('hidden');
+		 $(eval("'#r'+now")).removeClass("hidden");
          $('#addedQuestions').removeClass("hidden");
-	 $('#addedQuestions').html('').load('{% url 'QuestionsAndPapers:addQuestions' %}?question_id='+encodeURIComponent(ajKl)+','+which_klass);
+	 $('#addedQuestions').html('').load('{% url 'QuestionsAndPapers:addQuestions' %}?question_id='+encodeURIComponent(now)+','+which_klass);
 
-
-          
-});
-$(eval("'#r'+i")).click(function(){
+$(eval("'#r'+now")).click(function(){
     rem_id = $(this).attr('id')
         rem_id = rem_id.replace('r','')
         console.log(rem_id)
@@ -35,7 +29,9 @@ $(eval("'#r'+i")).click(function(){
 	 $('#addedQuestions').html('').load('{% url 'QuestionsAndPapers:addQuestions' %}?remove_id='+encodeURIComponent(rem_id)+','+which_klass);
 });
 
-};
+          
+});
+
 
 
 });
@@ -44,8 +40,7 @@ $(eval("'#r'+i")).click(function(){
 </div>
 <h1 align='center'> Questions </h1>
 
-<form action="{%url 'QuestionsAndPapers:addQuestions'%}" method='post'>{%csrf_token%}
-		{%for i in que %}
+<form action="{%url 'QuestionsAndPapers:addQuestions'%}" method='post'>{%csrf_token%} {%for i in que %}
 		<div class='well col-md-offset-1 col-md-10' id = 'questBox'>
 			{%if i.comprehension %}
 			<p> <pre>{{i.comprehension.text}}</pre> </p>
@@ -63,7 +58,7 @@ $(eval("'#r'+i")).click(function(){
 <button type="button" id="r{{i.pk}}" class=""btn btn-default>Remove Question</button>
 			<button type="button" id="{{i.pk}}" class="btn btn-success hidden ">Add to question paper</button>
 {%else%}
-			<button type="button" id="{{i.pk}}" class="btn btn-success">Add to question paper</button>
+			<button type="button" id="{{i.pk}}" class="btn btn-success addbutton">Add to question paper</button>
 <button type="button" id="r{{i.pk}}" class="btn btn-warning hidden">Remove Question</button>
 {%endif%}
 			{% for j in i.choices_set.all %}
