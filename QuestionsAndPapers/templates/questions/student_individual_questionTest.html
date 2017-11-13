@@ -103,7 +103,7 @@ sessionStorage.clear();
 	{%endfor%}
 	<br>
 	<div style='text-align:center;'>
-		<form action='{% url "QuestionsAndPapers:conductTest" %}' method='post' id ='finishForm'>
+		<form action='{% url "QuestionsAndPapers:EvaluateTest" %}' method='post' id ='finishForm'>
 		{%csrf_token%}
 		<input type="text" name="timeTaken" value="" class='hidden' />
 		<button type="submit" id='testsub' value="{{te_id}}" class="btn btn-default text-center" name="testSub" onclick="formClick()" >Submit Test</button>

@@ -151,6 +151,11 @@ def home(request):
             subjects = me.my_subjects_names()
             # if B2C customer then add tests  to profile
             if profile.school.name == 'BodhiAI':
+                bad_tests = SSCKlassTest.objects.filter(sub='')
+                if bad_tests:
+                    for i in bad_tests:
+                        i.delete()
+
                 me.subjects_OnlineTest()
             subjects = user.student.subject_set.all()
             
@@ -492,20 +497,6 @@ def student_improvement_sub(request):
     if 'improvementSub' in request.GET:
         sub = request.GET['improvementSub']
         me = Studs(user)
-        #overall = me.plot_improvement(sub)
-        #outer = []
-        #innerid = []
-        #innertime = []
-        #innerpercent = []
-        #try:
-        #    for k,v in overall.items():
-        #        outer.append(k)
-        #        innerpercent.append(overall[k]['percent'])
-        #        innerid.append(overall[k]['testid'])
-        #        innertime.append(overall[k]['time'])
-        #except:
-        #    pass
-        #subject_progress = me.improvement(sub)
         overall = me.section_improvement(sub)
         if overall == 0:
             context = {'overall':None}

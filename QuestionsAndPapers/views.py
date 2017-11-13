@@ -655,16 +655,23 @@ def conduct_Test(request):
     user = request.user
     if user.is_authenticated:
         me = Studs(user)
-        
+        if '' in request.GET:
+            raise Http404('You are not supposed to be here')
+        if '' in request.POST:
+            raise Http404('You are not supposed to be here')
+
         if 'onlineTestid' in request.GET:
             testid = request.GET['onlineTestid']
             TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=testid).delete()
-            taken = me.is_onlineTestTaken(testid)
-            if taken:
+            taken =\
+            SSCOnlineMarks.objects.filter(student=me.profile,test__id=testid)
+            print(len(taken))
+            if len(taken)>0:
                 if me.institution == 'School':
                     student_type = 'School'
                 elif me.institution == 'SSC':
                     student_type = 'SSC'
+                taken = taken[0]
                 total_time = taken.timeTaken
                 hours = int(total_time/3600)
                 t = int(total_time%3600)
@@ -720,6 +727,12 @@ def conduct_Test(request):
 
         if 'takeTest' in request.POST:
             testid = request.POST['takeTest']
+            already_taken =\
+            SSCOnlineMarks.objects.filter(student=me.profile,test__id = testid)
+            if len(already_taken)>0:
+                raise Http404('You have already taken this test, Sorry!!\
+                              retakes are not allowed.')
+
             quest = []
             if me.institution == 'School':
                 test = KlassTest.objects.get(id = testid)
@@ -791,7 +804,6 @@ def conduct_Test(request):
                 choice_id = -1
             # runs when next button is pressed rather than selecting a
             # choice(skipped)
-            print('%s -- questimer' %questTime)
             question_id = request.POST['questionid']
             test_id = request.POST['testid']
             if choice_id == -1:
@@ -825,154 +837,18 @@ def conduct_Test(request):
                 for i in temp_marks:
                    all_quests.append(i.quests)
                 return HttpResponse(how_many)
-        if 'testSub' in request.POST:
-            # get values of test id and total test time
-            test_id = request.POST['testSub']
-            time_taken = request.POST['timeTaken']
-            if me.institution == 'School':
-                student_type = 'School'
-                test = KlassTest.objects.get(id = test_id)
-                online_marks = OnlineMarks()
-            elif me.institution == 'SSC':
-                student_type = 'SSC'
-                test = SSCKlassTest.objects.get(id = test_id)
-                online_marks = SSCOnlineMarks()
-            quest_ids = []
-            skipped_ids = []
-            quest_ans_dict = {}
-            online_marks.test = test
-            online_marks.testTaken = timezone.now()
-            online_marks.student = user.student
-            for q in test.sscquestions_set.all():
-                quest_ids.append(q.id)
-            # iterate over all the questions in the test
-            for i in quest_ids:
-                try:
-                    answers_ids = []
-                    time_ids = []
-                    # get all the temporary holders and put the answer and time
-                    # in a dictionary and add skipped questions to a list
-                    temp_marks =\
-                    TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=test_id,quests
-                                                         =
-                                                         str(i)).order_by('time')
-                    for j in temp_marks:
-                        try:
-                            answers_ids.append(int(j.answers))
-                            time_ids.append(j.time)
-                        except Exception as e:
-                            print(str(e))
-                   
-                    
-                    qad = {'answers':answers_ids,'time':time_ids}
-                    quest_ans_dict[i] = qad
-            
-                    
-                except:
-                    skipped_ids.append(i)
+        else:
+            raise Http404('You are not supposed to be here')
 
-            all_answers = []
-            final_skipped = []
-            final_correct = []
-            final_wrong = []
-            ra = []
-            wa = []
-            all_time = []
-            num = 0
-            # iterate over all the answer and time holding dictionary
-            print('%s -- all_time' %all_time)
-            for k in quest_ans_dict.keys():
-                for j in quest_ans_dict[k]:
-                    num = num +1
-                    try:
-                        #final answer when more than one questions answered
-                        final_ans = quest_ans_dict[k][j][-1] 
-                        # if statement for weeding out the skipped(cleared
-                        # selection) questions
-                        if final_ans == -1:
-                            pass
-                        else:
-                            # add time and answer ids to respective lists
-                            # according to the keys of quest_ans_dict
-                            if j == 'answers':
-                                all_answers.append(final_ans)
-                            elif j == 'time':
-                                all_time.append(final_ans)
-
-                    except:
-                        # same as above but runs only when one or none
-                        # questions are answered
-                        final_ans = quest_ans_dict[k][j]
-                        if final_ans == -1:
-                            pass
-                        else:
-                            if len(final_ans) == 0:
-                                pass
-                            else:
-                                if num %2 == 0:
-                                    all_answers.append(final_ans)
-                                else:
-                                    all_time.append(final_ans)
-                    
-
-            test_marks = 0
-            # evaluate the test
-            for question in test.sscquestions_set.all():
-                for choice in question.choices_set.all():
-            # identify the skipped questions
-                    if not choice.id in all_answers:
-                        final_skipped.append(question.id)
-            # identify the correct answers and add marks to total marks
-                    elif choice.id in all_answers and choice.predicament == \
-                    "Correct":
-                        final_correct.append(choice.id)
-                        ra.append(question.id)
-                        test_marks += question.max_marks
-            # identify the wrong answers and subtract marks from total marks
-                    elif choice.id in all_answers and choice.predicament == \
-                    "Wrong":
-                        final_wrong.append(choice.id)
-                        wa.append(question.id)
-                        test_marks -= question.negative_marks
-                final_skipped = list(unique_everseen(final_skipped))
-            final_skipped2=[]
-            for an in final_skipped:
-                if not an in ra and not an in wa:
-                    final_skipped2.append(an)
-            # calculate the total time taken for the test
-            try:
-                total_time = (test.totalTime * 60)- (int(time_taken))
-            except Exception as e:
-                print(str(e))
-                total_time = int(1000) - int(time_taken)
-            # save to SSCOnlinemarks
-            online_marks.rightAnswers = final_correct
-            online_marks.wrongAnswers = final_wrong
-            online_marks.skippedAnswers = final_skipped2
-            online_marks.allAnswers = all_answers
-            online_marks.marks = test_marks
-            online_marks.timeTaken = total_time
-            online_marks.save()
-            num = 0
-            # save question and time taken to solve the question
-            for q in test.sscquestions_set.all():
-                times = 0
-                online_marks_quests = SSCansweredQuestion()
-                online_marks_quests.onlineMarks = online_marks
-                online_marks_quests.quest = q
-                for ch in q.choices_set.all():
-                    if ch.id in all_answers:
-                        online_marks_quests.time = all_time[num]
-                        num = num +1
-                    else:
-                        times = times +1
-                        if times == len(q.choices_set.all()):
-                            online_marks_quests.time = -1
-                try:
-                    online_marks_quests.save()
-                except Exception as e:
-                    print(str(e))
-            # calculate time to send to template
+def show_finished_test(request,testid):
+    user = request.user
+    if user.is_authenticated:
+        if user.groups.filter(name= 'Students').exists():
+            me = Studs(user)
+            test_details =\
+            SSCOnlineMarks.objects.get(student=me.profile,test__id = testid)
+            student_type='SSC'
+            total_time = test_details.timeTaken
             hours = int(total_time/3600)
             t = int(total_time%3600)
             mins = int(t/60)
@@ -985,17 +861,181 @@ def conduct_Test(request):
                 tt = '{} hours {} minutes and {}\
                 seconds'.format(hours,mins,seconds)
 
-            # delete the temporary holders
-            TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=test_id).delete()
             context = \
-            {'student_type':student_type,'marks':online_marks,'timetaken':tt}
-            #url = \
-                    #reverse('QuestionsAndPapers:studentMyOnlineTests')
-            #return HttpResponseRedirect(url)
+            {'student_type':student_type,'marks':test_details,'timetaken':tt}
             return render(request,'questions/student_finished_test.html',context)
 
+def evaluate_test(request):
+    user = request.user
+    me = Studs(user)
+    if 'testSub' in request.POST:
+        # get values of test id and total test time
+        test_id = request.POST['testSub']
+        time_taken = request.POST['timeTaken']
+        if me.institution == 'School':
+            student_type = 'School'
+            test = KlassTest.objects.get(id = test_id)
+            online_marks = OnlineMarks()
+        elif me.institution == 'SSC':
+            student_type = 'SSC'
+            already_taken =\
+            SSCOnlineMarks.objects.filter(student=me.profile,test__id=test_id)
+            if len(already_taken)>0:
+                raise Http404('You have already taken this test, Sorry retakes\
+                              are not allowd')
+            test = SSCKlassTest.objects.get(id = test_id)
+            online_marks = SSCOnlineMarks()
+        quest_ids = []
+        skipped_ids = []
+        quest_ans_dict = {}
+        online_marks.test = test
+        online_marks.testTaken = timezone.now()
+        online_marks.student = user.student
+        for q in test.sscquestions_set.all():
+            quest_ids.append(q.id)
+        # iterate over all the questions in the test
+        for i in quest_ids:
+            try:
+                answers_ids = []
+                time_ids = []
+                # get all the temporary holders and put the answer and time
+                # in a dictionary and add skipped questions to a list
+                temp_marks =\
+                TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=test_id,quests
+                                                     =
+                                                     str(i)).order_by('time')
+                for j in temp_marks:
+                    try:
+                        answers_ids.append(int(j.answers))
+                        time_ids.append(j.time)
+                    except Exception as e:
+                        print(str(e))
+               
+                
+                qad = {'answers':answers_ids,'time':time_ids}
+                quest_ans_dict[i] = qad
+        
+                
+            except:
+                skipped_ids.append(i)
 
-           
+        all_answers = []
+        final_skipped = []
+        final_correct = []
+        final_wrong = []
+        ra = []
+        wa = []
+        all_time = []
+        num = 0
+        # iterate over all the answer and time holding dictionary
+        for k in quest_ans_dict.keys():
+            for j in quest_ans_dict[k]:
+                num = num +1
+                try:
+                    #final answer when more than one questions answered
+                    final_ans = quest_ans_dict[k][j][-1] 
+                    # if statement for weeding out the skipped(cleared
+                    # selection) questions
+                    if final_ans == -1:
+                        pass
+                    else:
+                        # add time and answer ids to respective lists
+                        # according to the keys of quest_ans_dict
+                        if j == 'answers':
+                            all_answers.append(final_ans)
+                        elif j == 'time':
+                            all_time.append(final_ans)
 
+                except:
+                    # same as above but runs only when one or none
+                    # questions are answered
+                    final_ans = quest_ans_dict[k][j]
+                    if final_ans == -1:
+                        pass
+                    else:
+                        if len(final_ans) == 0:
+                            pass
+                        else:
+                            if num %2 == 0:
+                                all_answers.append(final_ans)
+                            else:
+                                all_time.append(final_ans)
+                
 
+        test_marks = 0
+        # evaluate the test
+        for question in test.sscquestions_set.all():
+            for choice in question.choices_set.all():
+        # identify the skipped questions
+                if not choice.id in all_answers:
+                    final_skipped.append(question.id)
+        # identify the correct answers and add marks to total marks
+                elif choice.id in all_answers and choice.predicament == \
+                "Correct":
+                    final_correct.append(choice.id)
+                    ra.append(question.id)
+                    test_marks += question.max_marks
+        # identify the wrong answers and subtract marks from total marks
+                elif choice.id in all_answers and choice.predicament == \
+                "Wrong":
+                    final_wrong.append(choice.id)
+                    wa.append(question.id)
+                    test_marks -= question.negative_marks
+            final_skipped = list(unique_everseen(final_skipped))
+        final_skipped2=[]
+        for an in final_skipped:
+            if not an in ra and not an in wa:
+                final_skipped2.append(an)
+        # calculate the total time taken for the test
+        try:
+            total_time = (test.totalTime * 60)- (int(time_taken))
+        except Exception as e:
+            print(str(e))
+            total_time = int(1000) - int(time_taken)
+        # save to SSCOnlinemarks
+        online_marks.rightAnswers = final_correct
+        online_marks.wrongAnswers = final_wrong
+        online_marks.skippedAnswers = final_skipped2
+        online_marks.allAnswers = all_answers
+        online_marks.marks = test_marks
+        online_marks.timeTaken = total_time
+        online_marks.save()
+        num = 0
+        # save question and time taken to solve the question
+        for q in test.sscquestions_set.all():
+            times = 0
+            online_marks_quests = SSCansweredQuestion()
+            online_marks_quests.onlineMarks = online_marks
+            online_marks_quests.quest = q
+            for ch in q.choices_set.all():
+                if ch.id in all_answers:
+                    online_marks_quests.time = all_time[num]
+                    num = num +1
+                else:
+                    times = times +1
+                    if times == len(q.choices_set.all()):
+                        online_marks_quests.time = -1
+            try:
+                online_marks_quests.save()
+            except Exception as e:
+                print(str(e))
+        # calculate time to send to template
+        hours = int(total_time/3600)
+        t = int(total_time%3600)
+        mins = int(t/60)
+        seconds =int(t%60)
+        if hours == 0:
+            tt = '{} minutes and {} seconds'.format(mins,seconds)
+        if hours == 0 and mins == 0:
+            tt = '{} seconds'.format(seconds)
+        if hours > 0:
+            tt = '{} hours {} minutes and {}\
+            seconds'.format(hours,mins,seconds)
+
+        # delete the temporary holders
+        TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=test_id).delete()
+        #context = \
+        #{'student_type':student_type,'marks':online_marks,'timetaken':tt}
+        return \
+        HttpResponseRedirect(reverse('QuestionsAndPapers:showFinishedTest',args=[test_id]))
 

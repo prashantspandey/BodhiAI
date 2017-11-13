@@ -941,8 +941,8 @@ class Studs:
             if self.profile.school.name== 'BodhiAI':
                 all_tests = SSCKlassTest.objects.filter(creator__username =
                                                         'BodhiAI')
-                already_taken_marks = SSCOnlineMarks.objects.filter(test__testTakers
-                                                              = self.profile)
+                already_taken_marks =\
+                SSCOnlineMarks.objects.filter(student=self.profile)
                 already_taken_tests = []
                 takeable_tests = []
                 for i in already_taken_marks:
@@ -1018,17 +1018,16 @@ class Studs:
             all_tests = SSCKlassTest.objects.filter(testTakers = self.profile)
             takeable_tests = []
             for i in all_tests:
-                if i.sub != None:
+                if i.sub != None or i.sub == '':
                     takeable_tests.append(i)
             new_tests = {}
             for n,i in enumerate(takeable_tests):
                 topics = []
-                try:
-                    already_taken = SSCOnlineMarks.objects.get(student =
-                                                               self.profile,test__id
-                                                               =i.id)
-                    pass
-                except:
+                already_taken = SSCOnlineMarks.objects.filter(student =\
+                                                           self.profile,test__id =i.id)
+                if len(already_taken)>0:
+                    continue
+                else:
                     count_quest = 0
                     for j in i.sscquestions_set.all():
                         count_quest += 1
