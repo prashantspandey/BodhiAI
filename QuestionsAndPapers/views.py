@@ -51,6 +51,8 @@ def create_test(request):
                                                      =school)
                     elif me.institution == "SSC":
                         quest = SSCquestions.objects.filter(school= school)
+                        print(len(quest))
+                        #quest = SSCquestions.objects.all()
 
                     if me.institution == "School":
                         if quest:
@@ -70,6 +72,7 @@ def create_test(request):
                             context = {'noTest':noTest,'test_type':test_type}
                             return render(request,'questions/klass_available.html',context)
                     elif me.institution == "SSC":
+                        print('here in inns')
                         if quest:
                             unique_chapters = []
                             for i in quest:
@@ -319,9 +322,11 @@ def publish_test(request):
                 myTest.mode = 'BodhiSchool'
                 myTest.save()
                 context = {'test':myTest,'teacher_type':teacher_type}
-                pdf =\
-                render_to_pdf('questions/teacher_school_createdTest.html',context)
-                return HttpResponse(pdf,content_type= 'application/pdf')
+                return\
+            render(request,'questions/teacher_school_createdTest.html',context)
+                #pdf =\
+                #render_to_pdf('questions/teacher_school_createdTest.html',context)
+                #return HttpResponse(pdf,content_type= 'application/pdf')
 
 # create a one click test
 def create_oneclick_test(request):
@@ -350,13 +355,16 @@ def oneclick_test(request):
             return render(request,'questions/oneclick_test2.html',context)
         if 'questionsubjects' in request.GET:
             subsandnumquests = request.GET['questionsubjects']
+            print(subsandnumquests)
             subs = subsandnumquests.split(',')[0]
             numquests = subsandnumquests.split(',')[1]
             all_topics = []
             sub_topics = SSCquestions.objects.filter(section_category = subs)
+            print(sub_topics)
             for i in sub_topics:
                 all_topics.append(i.topic_category)
             all_topics = list(unique_everseen(all_topics))
+            print(all_topics)
             topics = me.change_topicNumbersNames(all_topics,subs)
             topics = np.array(topics)
             context =\

@@ -194,7 +194,9 @@ def home(request):
             if profile.school.name == 'BodhiAI':
                 new_tests = me.toTake_Tests()
             else:
-                pass
+                new_tests = None
+            #opt = ['A','D',0]
+            #evaluate_offline_test(profile.id,40,opt)
              #Get all the student marks
             try:
                 mathst1,mathst2,mathst3,mathshy,mathst4,mathspredhy =\
@@ -263,8 +265,12 @@ def home(request):
                        'science1': sciencet1, 'science2': sciencet2,
                        'science3': sciencet3, 'science4':
                        sciencet4,'announcements':my_announcements}
-            context = \
+            if me.profile.school.name == "BodhiAI":
+                context = \
                     {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
+            else:
+                context = \
+                    {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks}
 
             return render(request, 'basicinformation/studentInstitute.html', context)
             #ssccoaching = School.objects.get(name='BodhiAI')
@@ -284,6 +290,12 @@ def home(request):
             weak_klass = []
             weak_subs = []
             subs = []
+            #tests = SSCKlassTest.objects.filter(creator=user)
+            #test = SSCKlassTest.objects.get(id=40)
+            #for i in test.sscquestions_set.all():
+            #    print(i.id)
+            #opt = ['A',0,'D']
+            #evaluate_offline_test(40,opt)
             try:
                 for sub in subjects:
                     for i in klasses:
@@ -313,12 +325,6 @@ def home(request):
     else:
         return HttpResponseRedirect(reverse('membership:login'))
 
-#def student_profile_page(request):
-#    user = request.user
-#    if user.is_authenticated:
-#        if user.groups.filter(name='Students').exists():
-#            if user.student.address and user.student.phone:
-#                myProfile = StudentCustomProfile(
 
 
 def student_select_topicTest(request):
@@ -362,12 +368,15 @@ def student_self_analysis(request):
             raise Http404(" This page is only meant for student to see.")
         elif user.groups.filter(name='Students').exists():
             me = Studs(user)
-            #allSubjects = me.my_subjects_names()
-            allSubjects = me.subjects_OnlineTest() 
-            allSubjects = me.already_takenTests_Subjects()
-            print('%s allsubs' %allSubjects)
-            #print('%s -- online test subejcts' %subs)
-            analysis_types = ['School Tests Analysis', 'Online Test Analysis']
+            if me.profile.school.name == 'BodhiAI':
+                allSubjects = me.subjects_OnlineTest() 
+                allSubjects = me.already_takenTests_Subjects()
+            else:
+                allSubjects = me.my_subjects_names()
+            if me.institution == 'SSC':
+                analysis_types = ['Institute Tests Analysis', 'Online Test Analysis']
+            else:
+                analysis_types = ['School Tests Analysis', 'Online Test Analysis']
             context = {'subjects': allSubjects}
             return render(request, 'basicinformation/selfStudentAnalysis.html', context)
 
@@ -378,21 +387,40 @@ def student_subject_analysis(request):
     if user.is_authenticated:
         if 'studentwhichsub' in request.GET:
             which_sub = request.GET['studentwhichsub']
-            ana_type = ['School Tests', 'Online Tests']
+            print('%s --which sub' %which_sub)
+            if me.institution == 'SSC':
+                ana_type = ['Institute Tests', 'Online Tests']
+            else:
+                ana_type = ['School Tests', 'Online Tests']
+
             context = {'anatype': ana_type, 'sub': which_sub}
             return \
                 render(request, 'basicinformation/student_analysis_subjects.html', context)
         if 'studentwhichana' in request.GET:
             which_one = request.GET['studentwhichana']
-            subject = which_one
-            if me.institution == 'School':
-                tests = OnlineMarks.objects.filter(test__sub=subject, student=user.student)
-            elif me.institution == 'SSC':
-                tests = SSCOnlineMarks.objects.filter(test__sub=subject, student=user.student)
+            mode = which_one.split(',')[1]
+            sub = which_one.split(',')[0]
+            subject = sub
 
-            context = {'tests': tests,'subject':subject}
-            return \
-                render(request, 'basicinformation/student_self_sub_tests.html', context)
+            print('%s which onel' %mode)
+            if mode == 'online':
+                if me.institution == 'School':
+                    tests = OnlineMarks.objects.filter(test__sub=subject, student=user.student)
+                elif me.institution == 'SSC':
+                    tests = SSCOnlineMarks.objects.filter(test__sub=subject, student=user.student)
+
+                context = {'tests': tests,'subject':subject}
+                return \
+                    render(request, 'basicinformation/student_self_sub_tests.html', context)
+            elif mode == 'offline':
+                if me.institution == 'School':
+                    tests = OnlineMarks.objects.filter(test__sub=subject, student=user.student)
+                elif me.institution == 'SSC':
+                    tests = SSCOfflineMarks.objects.filter(test__sub=subject, student=user.student)
+                context = {'tests': tests,'subject':subject}
+                return \
+                    render(request, 'basicinformation/student_self_sub_tests.html', context)
+
         if 'studentTestid' in request.GET:
             idandsubject = request.GET['studentTestid']
             test_id = idandsubject.split(',')[0]
@@ -401,47 +429,78 @@ def student_subject_analysis(request):
                 test = OnlineMarks.objects.get(student=user.student, test__id=test_id)
                 student_type = 'School'
             elif me.institution == 'SSC':
-                test = SSCOnlineMarks.objects.get(student=user.student, test__id=test_id)
-                student_type = 'SSC'
-            my_marks_percent = (test.marks / test.test.max_marks) * 100
-            average, percent_average = \
-                me.online_findAverageofTest(test_id, percent='p')
-            percentile, all_marks = me.online_findPercentile(test_id)
-            percentile = percentile * 100
-            all_marks = [((i / test.test.max_marks) * 100) for i in all_marks]
-            freq = me.online_QuestionPercentage(test_id)
-            # converting test time seconds to hours and minutes
-            test_totalTime = test.timeTaken
-            hours = int(test_totalTime/3600)
-            t = int(test_totalTime%3600)
-            mins = int(t/60)
-            seconds =int(t%60)
-            if hours == 0:
-                tt = '{} minutes and {} seconds'.format(mins,seconds)
-            if hours == 0 and mins == 0:
-                tt = '{} seconds'.format(seconds)
-            if hours > 0:
-                tt = '{} hours {} minutes and {}\
-                seconds'.format(hours,mins,seconds)
+                try:
+                    test = SSCOfflineMarks.objects.get(student=user.student, test__id=test_id)
+                    mode = 'offline'
+                except:
+                    test = SSCOnlineMarks.objects.get(student=user.student, test__id=test_id)
+                    mode = 'online'
 
-            ra,wa,sp,accuracy = me.test_statistics(test_id)
-            weak_areas = me.weakAreas_Intensity(sub,singleTest = test_id)
-            area_timing,freq = me.areawise_timing(sub,test_id)
-            subjectwise_accuracy = me.test_SubjectAccuracy(test_id)
-            if sub == 'SSCMultipleSections':
-                weak_names = weak_areas
-                timing = area_timing
-            else:
+                student_type = 'SSC'
+            if mode == 'online':
+                my_marks_percent = (test.marks / test.test.max_marks) * 100
+                average, percent_average = \
+                    me.online_findAverageofTest(test_id, percent='p')
+                percentile, all_marks = me.online_findPercentile(test_id)
+                percentile = percentile * 100
+                all_marks = [((i / test.test.max_marks) * 100) for i in all_marks]
+                freq = me.online_QuestionPercentage(test_id)
+                # converting test time seconds to hours and minutes
+                test_totalTime = test.timeTaken
+                hours = int(test_totalTime/3600)
+                t = int(test_totalTime%3600)
+                mins = int(t/60)
+                seconds =int(t%60)
+                if hours == 0:
+                    tt = '{} minutes and {} seconds'.format(mins,seconds)
+                if hours == 0 and mins == 0:
+                    tt = '{} seconds'.format(seconds)
+                if hours > 0:
+                    tt = '{} hours {} minutes and {}\
+                    seconds'.format(hours,mins,seconds)
+
+                ra,wa,sp,accuracy = me.test_statistics(test_id)
+                weak_areas = me.weakAreas_Intensity(sub,singleTest = test_id)
+                area_timing,freq = me.areawise_timing(sub,test_id)
+                subjectwise_accuracy = me.test_SubjectAccuracy(test_id)
+                if sub == 'SSCMultipleSections':
+                    weak_names = weak_areas
+                    timing = area_timing
+                else:
+                    weak_names = me.changeTopicNumbersNames(weak_areas,sub)
+                    timing = me.changeTopicNumbersNames(area_timing,sub)
+                context = \
+                    {'test': test, 'average': average, 'percentAverage': percent_average,
+                     'my_percent': my_marks_percent, 'percentile': percentile, 'allMarks': all_marks,
+                     'freq':
+                     freq,'student_type':student_type,'topicWeakness':weak_names,'topicTiming':timing,
+                     'numberRight':ra,'numberWrong':wa,'numberSkipped':sp,'accuracy':accuracy,'subjectwise_accuracy':subjectwise_accuracy,'tt':tt}
+                return \
+                    render(request, 'basicinformation/student_analyze_test.html', context)
+
+        # for offline tests conducted in institute (with OMR) (no timing in
+        # these)
+
+            elif mode == 'offline':
+                my_marks_percent = (test.marks / test.test.max_marks) * 100
+                average, percent_average = \
+                    me.offline_findAverageofTest(test_id, percent='p')
+                percentile, all_marks = me.offline_findPercentile(test_id)
+                percentile = percentile * 100
+                all_marks = [((i / test.test.max_marks) * 100) for i in all_marks]
+                freq = me.offline_QuestionPercentage(test_id)
+                ra,wa,sp,accuracy = me.offline_test_statistics(test_id)
+                weak_areas = me.offline_weakAreas_Intensity(sub,singleTest = test_id)
                 weak_names = me.changeTopicNumbersNames(weak_areas,sub)
-                timing = me.changeTopicNumbersNames(area_timing,sub)
-            context = \
-                {'test': test, 'average': average, 'percentAverage': percent_average,
-                 'my_percent': my_marks_percent, 'percentile': percentile, 'allMarks': all_marks,
-                 'freq':
-                 freq,'student_type':student_type,'topicWeakness':weak_names,'topicTiming':timing,
-                 'numberRight':ra,'numberWrong':wa,'numberSkipped':sp,'accuracy':accuracy,'subjectwise_accuracy':subjectwise_accuracy,'tt':tt}
-            return \
-                render(request, 'basicinformation/student_analyze_test.html', context)
+                subjectwise_accuracy = me.offline_test_SubjectAccuracy(test_id)
+                context = \
+                    {'test': test, 'average': average, 'percentAverage': percent_average,
+                     'my_percent': my_marks_percent, 'percentile': percentile, 'allMarks': all_marks,
+                     'freq':
+                     freq,'student_type':student_type,'topicWeakness':weak_names,
+                     'numberRight':ra,'numberWrong':wa,'numberSkipped':sp,'accuracy':accuracy,'subjectwise_accuracy':subjectwise_accuracy,}
+                return \
+                    render(request, 'basicinformation/student_analyze_test.html', context)
 
 def student_weakAreasSubject(request):
     user = request.user
@@ -599,49 +658,35 @@ def teacher_update_page(request):
         schoolSubject = request.GET['schoolSubject']
         sub = schoolSubject.split(',')[0]
         which_class = schoolSubject.split(',')[1]
-        marks_class_test1, marks_class_test2, marks_class_test3, marks_class_predictedHy = \
-            me.listofStudentsMarks(which_class)
-        if not marks_class_test1:
-            noTest = 'No Tests'
-            context = {'noTest': noTest, 'which_class': which_class}
-            return \
-                render(request, 'basicinformation/teacher_school_analysis2.html', context)
-        if not marks_class_test2:
-            Tests = ['Test1']
-            context = {'Tests': Tests, 'which_class': which_class}
-            return \
-                render(request, 'basicinformation/teacher_school_analysis2.html', context)
+        offline_tests = SSCKlassTest.objects.filter(sub =
+                                                    sub,mode='BodhiSchool')
+        context = {'Tests':offline_tests}
+        return \
+    render(request,'basicinformation/teacher_school_analysis2.html',context)
 
-        if not marks_class_test3:
-            Tests = ['Test1', 'Test2']
-            context = {'Tests': Tests, 'which_class': which_class}
-            return \
-                render(request, 'basicinformation/teacher_school_analysis2.html', context)
-
-        if marks_class_test3:
-            Tests = ['Test1', 'Test2', 'Test3']
-            context = {'Tests': Tests}
-            return \
-                render(request, 'basicinformation/teacher_school_analysis2.html', context)
     elif 'schoolTestid' in request.GET:
         test_class = request.GET['schoolTestid']
-        test = test_class.split(',')[0]
+        test_id = test_class.split(',')[0]
         which_class = test_class.split(',')[1]
-        marks_class_test1, marks_class_test2, marks_class_test3, marks_class_predictedHy = \
-            me.listofStudentsMarks(which_class)
+        offline_marks = SSCOfflineMarks.objects.filter(test__id=test_id)
+        test = SSCKlassTest.objects.get(id = test_id)
+        problem_quests = me.offline_problematicAreasperTest(test_id)
+        max_marks = 0
+        for i in offline_marks:
+            max_marks = i.test.max_marks
+        average,percent_average =\
+        me.offline_findAverageofTest(test_id,percent='p')
+        grade_s,grade_a,grade_b,grade_c,grade_d,grade_e,grade_f= \
+        me.online_freqeucyGrades(test_id,mode='offline')
+        freq = me.offline_QuestionPercentage(test_id)
+        sq = me.online_skippedQuestions(test_id,mode='offline')
+        context = {'om': offline_marks,'test':test,'average':average
+                   ,'percentAverage':percent_average,'maxMarks':max_marks,
+                   'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
+                   'grade_d':grade_d,'grade_e':grade_e,'grade_f':grade_f,
+                   'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True}
+        return render(request, 'basicinformation/teacher_school_analysis3.html', context)
 
-        if test == 'Test1':
-            context = me.school_test_analysis(marks_class_test1)
-            return render(request,
-                          'basicinformation/teacher_school_analysis3.html', context)
-        elif test == 'Test2':
-            context = me.school_test_analysis(marks_class_test2)
-            return render(request,
-                          'basicinformation/teacher_school_analysis3.html', context)
-        elif test == 'Test3':
-            context = me.school_test_analysis(marks_class_test3)
-            return render(request,
-                          'basicinformation/teacher_school_analysis3.html', context)
     elif 'onlineTestAnalysis' in request.GET:
         which_klass = request.GET['onlineTestAnalysis']
         if institution == 'School':
@@ -672,7 +717,7 @@ def teacher_update_page(request):
             online_tests = SSCKlassTest.objects.filter(creator=
                                                     user,
                                                        klas__name=which_class, sub=
-                                                    sub)
+                                                    sub,mode='BodhiOnline')
             context = {'tests': online_tests}
             return render(request, 'basicinformation/teacher_online_analysis2.html', context)
 
@@ -744,7 +789,11 @@ def teacher_update_page(request):
         if me.institution == 'School':
             every_marks = OnlineMarks.objects.filter(test__id = test_id)
         elif me.institution == 'SSC':
-            every_marks = SSCOnlineMarks.objects.filter(test__id =
+            try:
+                every_marks = SSCOfflineMarks.objects.filter(test__id =
+                                                             test_id)
+            except:
+                every_marks = SSCOnlineMarks.objects.filter(test__id =
                                                              test_id)
         studs = []
         for stu in every_marks:
@@ -761,7 +810,11 @@ def teacher_update_page(request):
                                             = test_id)
             student_type = 'School'
         elif me.institution == 'SSC':
-            his_marks = SSCOnlineMarks.objects.get(student__id = student_id,
+            try:
+                his_marks = SSCOfflineMarks.objects.get(student__id = student_id,
+                                                test__id = test_id)
+            except:
+                his_marks = SSCOnlineMarks.objects.get(student__id = student_id,
                                                 test__id = test_id)
             student_type = 'SSC'
 
@@ -958,6 +1011,104 @@ def write_passages(passages):
         new_passage.text = str(i)
         new_passage.save()
 
+def evaluate_offline_test(studentid,tid,opt):
+    test = SSCKlassTest.objects.get(id=tid)
+    qid = []
+    for q in test.sscquestions_set.all():
+        qid.append(q.id)
+    qans = list(zip(qid,opt))
+    chid = []
+    rightAnswer = []
+    wrongAnswer = []
+    allAnswer = []
+    skippedAnswer = []
+    total_marks = 0
+    for j,k in qans:
+        quest = SSCquestions.objects.get(id=j)
+        for n,i in enumerate(quest.choices_set.all()):
+            if k == 0:
+                skippedAnswer.append(j)
+                break
+            if k == 'A' and n == 0:
+                chid.append(i.id)
+                if i.predicament == 'Correct':
+                    print(i.id,i.predicament)
+                    rightAnswer.append(i.id)
+                    allAnswer.append(i.id)
+                    total_marks += 2
+                elif i.predicament == 'Wrong':
+                    print(i.id,i.predicament)
+                    wrongAnswer.append(i.id)
+                    allAnswer.append(i.id)
+                    total_marks -= 0.25
+                break
+            elif k == 'B' and n == 1:
+                chid.append(i.id)
+                if i.predicament == 'Correct':
+                    print(i.id,i.predicament)
+                    rightAnswer.append(i.id)
+                    allAnswer.append(i.id)
+                    total_marks += 2
+                elif i.predicament == 'Wrong':
+                    print(i.id,i.predicament)
+                    wrongAnswer.append(i.id)
+                    allAnswer.append(i.id)
+                    total_marks -= 0.25
+                break
+            elif k == 'C' and n == 2:
+                chid.append(i.id)
+                if i.predicament == 'Correct':
+                    print(i.id,i.predicament)
+                    rightAnswer.append(i.id)
+                    allAnswer.append(i.id)
+                    total_marks += 2
+                elif i.predicament == 'Wrong':
+                    print(i.id,i.predicament)
+                    wrongAnswer.append(i.id)
+                    allAnswer.append(i.id)
+                    total_marks -= 0.25
+                break
+            elif k == 'D' and n == 3:
+                chid.append(i.id)
+                if i.predicament == 'Correct':
+                    print(i.id,i.predicament)
+                    rightAnswer.append(i.id)
+                    allAnswer.append(i.id)
+                    total_marks += 2
+                elif i.predicament == 'Wrong':
+                    print(i.id,i.predicament)
+                    wrongAnswer.append(i.id)
+                    allAnswer.append(i.id)
+                    total_marks -= 0.25
+                break
+            elif k == 'E' and n == 4:
+                chid.append(i.id)
+                if i.predicament == 'Correct':
+                    print(i.id,i.predicament)
+                    rightAnswer.append(i.id)
+                    allAnswer.append(i.id)
+                    total_marks += 2
+                elif i.predicament == 'Wrong':
+                    print(i.id,i.predicament)
+                    wrongAnswer.append(i.id)
+                    allAnswer.append(i.id)
+                    total_marks -= 0.25
+                break
+    offline_marks = SSCOfflineMarks()
+    offline_marks.allAnswers = allAnswer
+    offline_marks.rightAnswers = rightAnswer
+    offline_marks.wrongAnswers = wrongAnswer
+    offline_marks.skippedAnswers = skippedAnswer
+    offline_marks.test = test
+    student = Student.objects.get(id = studentid)
+    offline_marks.student = student
+    offline_marks.marks = total_marks
+    offline_marks.testTaken = timezone.now()
+    offline_marks.save()
+    print(rightAnswer,wrongAnswer,skippedAnswer,allAnswer) 
+    print(qans,chid)
+    print(total_marks)
+             
 
 
 

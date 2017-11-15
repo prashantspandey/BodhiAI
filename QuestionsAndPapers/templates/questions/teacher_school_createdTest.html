@@ -3,7 +3,7 @@
 	<head>
 		<title> BodhiAI Test </title>
 		{%block scripts %}
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		   <meta http-equiv="content-type" content="text/html; charset=utf-8-sig"> 
 		{%endblock%}
 	</head>
 
@@ -34,10 +34,17 @@
 	<div class='col-md-offset-1 col-md-10 col-sm-12'>
 			{% for qu in test.sscquestions_set.all%}
 			<div class='well'>
-			<h2> {{forloop.counter}}. {{qu.text}} </h2>
+				{%if qu.text %}			<h2> {{forloop.counter}}. {{qu.text|linebreaks}} </h2>{%endif%}
+				{%if qu.picture %} 
+			<img src='{{qu.picture}}' class='img-responsive'>
+			 {%endif%}
 			<p style='text-align:right;'>Max-Marks-{{qu.max_marks}}</p>
 			{% for ch in qu.choices_set.all%}
-			<p>{{forloop.counter}} - {{ch.text}} </p>
+		{%if ch.text %} 	<p>{{forloop.counter}} - {{ch.text|linebreaks}}</p>{%endif%} 
+			{% if ch.picture %}
+			<p>{{forloop.counter}}-		<img src='{{ch.picture}}' class='img-responsive'></p>
+       
+		 {%endif%} 
 			{%endfor%}
 			</div>
 			{%endfor%}

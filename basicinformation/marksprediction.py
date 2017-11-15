@@ -1110,6 +1110,73 @@ class Studs:
         freq = np.asarray((unique, counts)).T
         return freq
 
+
+    def offline_QuestionPercentage(self, test_id):
+        if self.institution == 'School':
+            offline_marks = OnlineMarks.objects.filter(test__id=test_id)
+        elif self.institution == 'SSC':
+            offline_marks = SSCOfflineMarks.objects.filter(test__id=test_id)
+        all_answers = []
+        for aa in offline_marks:
+            all_answers.extend(aa.allAnswers)
+        unique, counts = np.unique(all_answers, return_counts=True)
+        freq = np.asarray((unique, counts)).T
+        return freq
+
+    def offline_findPercentile(self,test_id):
+        if self.institution == 'School':
+            test = OnlineMarks.objects.filter(test__id=test_id)
+            my_score = OnlineMarks.objects.get(test__id=test_id, student=self.profile)
+        elif self.institution == 'SSC':
+            test = SSCOfflineMarks.objects.filter(test__id=test_id)
+            my_score = SSCOfflineMarks.objects.get(test__id=test_id, student=self.profile)
+        all_marks = []
+        for te in test:
+            all_marks.append(te.marks)
+        num_students = len(all_marks)
+        my_score = my_score.marks
+        same_marks = -1
+        less_marks = 0
+        for i in all_marks:
+            if i == my_score:
+                same_marks += 1
+            elif i < my_score:
+                less_marks += 1
+        if same_marks == -1:
+            percentile = ((less_marks-same_marks) / num_students)
+        else:
+            percentile = ((less_marks + (0.5 * same_marks)) / num_students)
+        return percentile, all_marks
+    
+
+    def offline_findAverageofTest(self, test_id, percent=None):
+        if percent:
+            if self.institution == 'School':
+                test = OnlineMarks.objects.filter(test__id=test_id)
+            elif self.institution == 'SSC':
+                test = SSCOfflineMarks.objects.filter(test__id=test_id)
+            all_marks = []
+            all_marks_percent = []
+            for te in test:
+                all_marks.append(int(te.marks))
+                all_marks_percent.append((te.marks / te.test.max_marks) * 100)
+            average = np.mean(all_marks)
+            percent_average = np.mean(all_marks_percent)
+            return average, percent_average
+
+
+        else:
+            if self.institution == 'School':
+                test = OnlineMarks.objects.filter(test__id=test_id)
+            elif self.institution == 'SSC':
+                test = SSCOfflineMarks.objects.filter(test__id=test_id)
+            all_marks = []
+            for te in test:
+                all_marks.append(int(te.marks))
+            average = np.mean(all_marks)
+
+            return average
+
 # Finds number of right, wrong and skipped answers, also finds accuracy in a
 # test    
     def test_statistics(self,testid):
@@ -1136,6 +1203,31 @@ class Studs:
                 except Exception as e:
                     accuracy = 0
                 return right_answers,wrong_answers,skipped_answers,accuracy
+    def offline_test_statistics(self,test_id):
+        if self.institution == 'Schoool':
+            pass
+        elif self.institution == 'SSC':
+            # get instance of onlinemarks with testid
+            marks = SSCOfflineMarks.objects.get(student = self.profile,test__id
+                                               = test_id)
+            if marks:
+                right_answers = 0
+                wrong_answers = 0
+                skipped_answers = 0
+            # counts number of right,wrong and skipped answers
+                for ra in marks.rightAnswers:
+                    right_answers += 1
+                for wa in marks.wrongAnswers:
+                    wrong_answers += 1
+                for sp in marks.skippedAnswers:
+                    skipped_answers += 1
+            # finds accuracy on the basis of counting done above
+                try: 
+                    accuracy = ((right_answers)/(right_answers+wrong_answers))*100
+                except Exception as e:
+                    accuracy = 0
+                return right_answers,wrong_answers,skipped_answers,accuracy
+
 
 # Finds the subjectwise accuracy (eg. SSCMultipleSections) of a test
     def test_SubjectAccuracy(self,testid):
@@ -1144,6 +1236,83 @@ class Studs:
         elif self.institution == 'SSC':
             # get onlinemarks object of a particular test
             marks = SSCOnlineMarks.objects.get(student = self.profile,test__id
+                                               = testid)
+            right_answers = []
+            wrong_answers = []
+            skipped_answers = []
+            subjectra = []
+            subjectwa = []
+            subjectsa = []
+            # find all the right answers with their subjects
+            for ra in marks.rightAnswers:
+                question = SSCquestions.objects.get(choices__id = ra)
+                sub = question.section_category
+                right_answers.append(question.id)
+                subjectra.append(sub)
+            # find all the wrong answers with their subjects
+            for wa in marks.wrongAnswers:
+                question = SSCquestions.objects.get(choices__id = wa)
+                sub = question.section_category
+                wrong_answers.append(question.id)
+                subjectwa.append(sub)
+            # find all the skipped answers with their subjects
+            for sa in marks.skippedAnswers:
+                question = SSCquestions.objects.get(id = sa)
+                sub = question.section_category
+                skipped_answers.append(question.id)
+                subjectsa.append(sub)
+            # zip answers with their subjects
+            ra = list(zip(subjectra,right_answers))
+            wa = list(zip(subjectwa,wrong_answers))
+            sp= list(zip(subjectsa,skipped_answers))
+            # find unique questions ids and thier counts
+            unique, counts = np.unique(ra, return_counts=True)
+            raf = np.asarray((unique, counts)).T
+            unique, counts = np.unique(wa, return_counts=True)
+            waf = np.asarray((unique, counts)).T
+            unique, counts = np.unique(sp, return_counts=True)
+            spf = np.asarray((unique, counts)).T
+            new_ra = {}
+            # if subject is in student's subject then add subject count to a
+            # dictionary
+            for i,j in raf:
+                if  i in self.my_subjects_names():
+                    new_ra[i] = j
+            new_wa = {}
+            for i,j in waf:
+                if  i in self.my_subjects_names():
+                    new_wa[i] = j
+            new_sa = {}
+            for i,j in spf:
+                if  i in self.my_subjects_names():
+                    new_sa[i] = j
+            # if length of right or wrong answer dictionaries are not same then
+            # add the missing subject to the shorter dictionary (works when
+            # accuracy of one of the subjects is 100%)
+            if len(new_ra) > len(new_wa):
+                for i in new_ra.keys():
+                    if not i in new_wa.keys():
+                        new_wa[i] = 0
+            elif len(new_ra) < len(new_wa):
+                for i in new_wa.keys():
+                    if not i in new_ra.keys():
+                        new_ra[i] = 0
+            # find subject accuracy by comparing number of right and wrong  answers per
+            # subject
+            sub_accuracy = {}
+            for rk,rv in new_ra.items():
+                for wk,wv in new_wa.items():
+                    if rk == wk:
+                        accuracy =\
+                        ((int(new_ra[wk]))/((int(new_ra[wk])+int(new_wa[wk])))*100)
+                        sub_accuracy[wk] = accuracy
+            return sub_accuracy
+    def offline_test_SubjectAccuracy(self,testid):
+        if self.institution == 'School':
+            pass
+        elif self.institution == 'SSC':
+            # get onlinemarks object of a particular test
+            marks = SSCOfflineMarks.objects.get(student = self.profile,test__id
                                                = testid)
             right_answers = []
             wrong_answers = []
@@ -1506,6 +1675,187 @@ class Studs:
         timing = list(zip(dim3,dim4))
         freq_list = list(zip(dim3,freq))
         return timing,freq_list
+
+    def offline_weakAreas(self,subject,singleTest = None):
+        if self.institution == 'School':
+            my_marks = OnlineMarks.objects.filter(student = self.profile,test__sub
+                                             = subject)
+        elif self.institution == 'SSC':
+            if singleTest == None:
+                my_marks = SSCOfflineMarks.objects.filter(student = self.profile,test__sub
+                                                 = subject)
+                all_marks = SSCOfflineMarks.objects.filter(student= self.profile,
+                                                    test__sub =
+                                                    'SSCMultipleSections')
+                indi_my_marks = None
+            else:
+                indi_my_marks = SSCOfflineMarks.objects.get(student=
+                                                         self.profile,test__id =
+                                                         singleTest)
+                my_marks = None
+                all_marks = None
+
+        wrong_Answers = []
+        skipped_Answers = []
+        # if onetest object is present then adds all the wrong and skipped
+        # answers to separate lists
+        if indi_my_marks:
+            for wa in indi_my_marks.wrongAnswers:
+                wrong_Answers.append(wa)
+            for sp in indi_my_marks.skippedAnswers:
+                skipped_Answers.append(sp)
+        # same as above, but when single subject tests are present
+        if my_marks:
+            for om in my_marks:
+                for wa in om.wrongAnswers:
+                    wrong_Answers.append(wa)
+                for sp in om.skippedAnswers:
+                    skipped_Answers.append(sp)
+
+        # same as above, but when multiple subject tests are present
+        if all_marks:
+            for om in all_marks:
+                for wa in om.wrongAnswers:
+                    wrong_Answers.append(wa)
+                for sp in om.skippedAnswers:
+                    skipped_Answers.append(sp)
+        wq=[]
+        for i in wrong_Answers:
+            if self.institution == 'School':
+                qu = Questions.objects.get(choices__id = i)
+            elif self.institution == 'SSC':
+            # finds the questions objects of wrong questions
+                qu = SSCquestions.objects.get(choices__id = i)
+                if subject == 'SSCMultipleSections':
+                    quid = qu.id
+                    wq.append(quid)
+                else:
+                    if qu.section_category == subject:
+                        quid = qu.id
+                        wq.append(quid)
+        for i in skipped_Answers:
+            if self.institution == 'School':
+                qu = Questions.objects.get(id = i)
+            elif self.institution == 'SSC':
+            # finds the questions objects of skipped questions
+                qu = SSCquestions.objects.get(id = i)
+                if subject == 'SSCMultipleSections':
+                    quid = qu.id
+                    wq.append(quid)
+                else:
+                    if qu.section_category == subject:
+                        quid = qu.id
+                        wq.append(quid)
+        # finds unique questions with thier frequency
+        unique, counts = np.unique(wq, return_counts=True)
+        waf = np.asarray((unique, counts)).T
+        nw_ind = []
+        # sorts the list 
+        kk = np.sort(waf,0)[::-1]
+        for u in kk[:,1]:
+            for z,w in waf:
+                if u == w:
+                    if z in nw_ind:
+                        continue
+                    else:
+                        nw_ind.append(z)
+                        break
+        final_freq = np.asarray((nw_ind,kk[:,1])).T
+        return final_freq
+
+    def offline_weakAreas_Intensity(self,subject,singleTest = None):
+        if singleTest == None:
+            arr = self.offline_weakAreas(subject)
+        else:
+            arr = self.offline_weakAreas(subject,singleTest = singleTest)
+            catSubject = []
+            catCategory = []
+        anal = []
+        num = []
+        for u,k in arr: 
+            if self.institution == 'School':
+                qu = Questions.objects.get(id = u)
+            elif self.institution == 'SSC':
+                qu = SSCquestions.objects.get(id = u)
+            if subject == 'SSCMultipleSections':
+                quest_cat = qu.topic_category
+                quest_sub = qu.section_category
+                name_cat = self.changeIndividualNames(quest_cat,quest_sub)
+                anal.append(name_cat)
+                num.append(k)
+            else:
+                category = qu.topic_category
+                anal.append(category)
+                num.append(k)
+        analysis = list(zip(anal,num))
+        final_analysis = []
+        final_num = []
+        for u,k in analysis:
+            if u in final_analysis:
+                ind = final_analysis.index(u)
+                temp = final_num[ind]
+                final_num[ind] = temp + k
+            else:
+                final_analysis.append(u)
+                final_num.append(k)
+
+        waf = list(zip(final_analysis,final_num))
+        return waf
+
+    def offline_weakAreas_IntensityAverage(self,subject):
+        arr = self.offline_weakAreas_Intensity(subject)
+        if self.institution == 'School':
+            pass
+        elif self.institution == 'SSC':
+            marks = SSCOfflineMarks.objects.filter(student =
+                                                  self.profile,test__sub =
+                                                  subject)
+            all_marks = SSCOfflineMarks.objects.filter(student=
+                                                      self.profile,test__sub='SSCMultipleSections')
+            all_ids = []
+            for mark in marks:
+                for total in mark.allAnswers:
+                    quest = SSCquestions.objects.get(choices__id = total)
+                    all_ids.append(quest.topic_category) 
+                for sk in mark.skippedAnswers:
+                    quest = SSCquestions.objects.get(id = sk)
+                    all_ids.append(quest.topic_category)
+            # finds question ids from mixed category tests
+            if all_marks:
+                for mark in all_marks:
+                    for total in mark.allAnswers:
+                        quest = SSCquestions.objects.get(choices__id = total)
+                        if quest.section_category == subject:
+                            all_ids.append(quest.topic_category) 
+                    for sk in mark.skippedAnswers:
+                        quest = SSCquestions.objects.get(id = sk)
+                        if quest.section_category == subject:
+                            all_ids.append(quest.topic_category)
+
+            unique, counts = np.unique(all_ids, return_counts=True)
+            cat_quests = np.asarray((unique, counts)).T
+            arr = np.array(arr)
+            average_cat = []
+            average_percent = []
+
+            if len(arr)>0:
+                for i,j in cat_quests:
+                    if i in arr[:,0]:
+                        ind = np.where(arr==i)
+                        now_arr = arr[ind[0],1]
+                        average =(int(now_arr[0])/int(j)*100)
+                        average_cat.append(i)
+                        average_percent.append(average)
+                weak_average = list(zip(average_cat,average_percent))
+                return weak_average
+            else:
+                return 0
+
+
+
+
+
+
 
     def changeTopicNumbersNames(self,arr,subject):
         namedarr = []
@@ -2785,11 +3135,54 @@ class Teach:
                 average = np.mean(all_marks)
                 return average
 
-    def online_freqeucyGrades(self,test_id):
+
+    def offline_findAverageofTest(self, test_id, percent=None):
+        if self.institution == 'School':
+            if percent:
+                test = OnlineMarks.objects.filter(test__id=test_id)
+                all_marks = []
+                all_marks_percent = []
+                for te in test:
+                    all_marks.append(int(te.marks))
+                    all_marks_percent.append((te.marks / te.test.max_marks) * 100)
+                average = np.mean(all_marks)
+                percent_average = np.mean(all_marks_percent)
+                return average, percent_average
+            else:
+                test = OnlineMarks.objects.filter(test__id=test_id)
+                all_marks = []
+                for te in test:
+                    all_marks.append(int(te.marks))
+                average = np.mean(all_marks)
+
+                return average
+        elif self.institution == 'SSC':
+            if percent:
+                test = SSCOfflineMarks.objects.filter(test__id=test_id)
+                all_marks = []
+                all_marks_percent = []
+                for te in test:
+                    all_marks.append(int(te.marks))
+                    all_marks_percent.append((te.marks / te.test.max_marks) * 100)
+                average = np.mean(all_marks)
+                percent_average = np.mean(all_marks_percent)
+                return average, percent_average
+            else:
+                test = SSCOfflineMarks.objects.filter(test__id=test_id)
+                all_marks = []
+                for te in test:
+                    all_marks.append(int(te.marks))
+                average = np.mean(all_marks)
+                return average
+
+    def online_freqeucyGrades(self,test_id,mode = None):
         if self.institution == 'School':
             test = OnlineMarks.objects.filter(test__id = test_id)
         elif self.institution == 'SSC':
-            test = SSCOnlineMarks.objects.filter(test__id = test_id)
+            if mode =='offline':
+                test = SSCOfflineMarks.objects.filter(test__id = test_id)
+            else:
+                test = SSCOnlineMarks.objects.filter(test__id = test_id)
         all_marks = []
         for i in test:
             all_marks.append((i.marks/i.test.max_marks)*100)
@@ -2828,11 +3221,31 @@ class Teach:
         unique, counts = np.unique(all_answers, return_counts=True)
         freq = np.asarray((unique, counts)).T
         return freq
-    def online_skippedQuestions(self,test_id):
+
+    def offline_QuestionPercentage(self, test_id):
+        if self.institution == 'School':
+            offline_marks = OnlineMarks.objects.filter(test__id=test_id)
+        elif self.institution == 'SSC':
+            offline_marks = SSCOfflineMarks.objects.filter(test__id=test_id)
+        all_answers = []
+        for aa in offline_marks:
+            all_answers.extend(aa.allAnswers)
+        unique, counts = np.unique(all_answers, return_counts=True)
+        freq = np.asarray((unique, counts)).T
+        return freq
+
+   
+
+
+
+    def online_skippedQuestions(self,test_id,mode=None):
         if self.institution == 'School':
             online_marks = OnlineMarks.objects.filter(test__id=test_id)
         elif self.institution == 'SSC':
-            online_marks = SSCOnlineMarks.objects.filter(test__id=test_id)
+            if mode == 'offline':
+                online_marks = SSCOnlineMarks.objects.filter(test__id=test_id)
+            else:
+                online_marks = SSCOfflineMarks.objects.filter(test__id=test_id)
         skipped_questions = []
         for om in online_marks:
             for sq in om.skippedAnswers:
@@ -2870,6 +3283,59 @@ class Teach:
             return final_freq
         elif self.institution == 'SSC':
             online_marks = SSCOnlineMarks.objects.filter(test__id = test_id)
+            wrong_answers = []
+            for om in online_marks:
+                for wa in om.wrongAnswers:
+                    wrong_answers.append(wa)
+            wq = []
+            for i in wrong_answers:
+                qu = SSCquestions.objects.get(choices__id = i)
+                quid = qu.id
+                wq.append(quid)
+
+            unique, counts = np.unique(wq, return_counts=True)
+            waf = np.asarray((unique, counts)).T
+            nw_ind = []
+            kk = np.sort(waf,0)[::-1]
+            for u in kk[:,1]:
+                for z,w in waf:
+                    if u == w:
+                        if z in nw_ind:
+                            continue
+                        else:
+                            nw_ind.append(z)
+                            break
+            final_freq = np.asarray((nw_ind,kk[:,1])).T
+            return final_freq
+    def offline_problematicAreasperTest(self,test_id):
+        if self.institution == 'School':
+            online_marks = OnlineMarks.objects.filter(test__id = test_id)
+            wrong_answers = []
+            for om in online_marks:
+                for wa in om.wrongAnswers:
+                    wrong_answers.append(wa)
+            wq = []
+            for i in wrong_answers:
+                qu = Questions.objects.get(choices__id = i)
+                quid = qu.id
+                wq.append(quid)
+
+            unique, counts = np.unique(wq, return_counts=True)
+            waf = np.asarray((unique, counts)).T
+            nw_ind = []
+            kk = np.sort(waf,0)[::-1]
+            for u in kk[:,1]:
+                for z,w in waf:
+                    if u == w:
+                        if z in nw_ind:
+                            continue
+                        else:
+                            nw_ind.append(z)
+                            break
+            final_freq = np.asarray((nw_ind,kk[:,1])).T
+            return final_freq
+        elif self.institution == 'SSC':
+            online_marks = SSCOfflineMarks.objects.filter(test__id = test_id)
             wrong_answers = []
             for om in online_marks:
                 for wa in om.wrongAnswers:
@@ -3802,7 +4268,8 @@ def render_to_pdf(template_src, context_dict={}):
     html  = template.render(context_dict)
     result = BytesIO()
     #pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")),result)
-    pdf = pisa.pisaDocument(BytesIO(html.encode("utf-8")),result)
+    pdf =\
+    pisa.pisaDocument(BytesIO(html.encode("utf-8-sig")),result,encoding='utf-8')
     if not pdf.err:
         return  HttpResponse(result.getvalue(),content_type='application/pdf')
     return None

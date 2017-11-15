@@ -161,6 +161,21 @@ class SSCOnlineMarks(models.Model):
     def __str__(self):
         return str(self.marks)
 
+class SSCOfflineMarks(models.Model):
+    test = models.ForeignKey(SSCKlassTest)
+    student = models.ForeignKey(Student)
+    rightAnswers = ArrayField(models.IntegerField(null=True,blank=True))
+    wrongAnswers = ArrayField(models.IntegerField(null=True,blank=True))
+    allAnswers = ArrayField(models.IntegerField(null=True,blank=True))
+    skippedAnswers = ArrayField(models.IntegerField(null=True,blank=True))
+    marks = models.DecimalField(max_digits=4,decimal_places=2)
+    testTaken = models.DateField()
+    def __str__(self):
+        return str(self.marks)
+
+
+
+
 class TemporaryAnswerHolder(models.Model):
     stud = models.ForeignKey(Student,null=True,blank=True)
     test = models.ForeignKey(SSCKlassTest)
