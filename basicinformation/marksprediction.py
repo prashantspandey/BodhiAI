@@ -961,7 +961,11 @@ class Studs:
                     
                 for t in takeable_tests:
                     t.testTakers.add(self.profile)
-        return takeable_tests
+                    return takeable_tests
+            else:
+                all_tests = SSCKlassTest.objects.filter(testTakers =
+                                                        self.profile)
+                return all_tests
     def already_takenTests_Subjects(self):
         taken_tests = SSCOnlineMarks.objects.filter(test__testTakers =
                                                     self.profile)

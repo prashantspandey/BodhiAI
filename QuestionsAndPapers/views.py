@@ -337,7 +337,6 @@ def create_oneclick_test(request):
             testholder = TemporaryOneClickTestHolder.objects.filter(teacher= me.profile)
             if testholder:
                 testholder.delete()
-
             num_quests = [10,25,30,35,40,45,50]
             context = {'numberofquestions':num_quests}
             return render(request,'questions/oneclick_test1.html',context)
