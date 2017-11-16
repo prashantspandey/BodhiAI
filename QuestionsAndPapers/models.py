@@ -121,6 +121,8 @@ class SSCquestions(models.Model):
     #        return 'question'
 
 class Choices(models.Model):
+    class Meta:
+        ordering = ['pk']
     res_choice = (('Correct','Correct'),('Wrong','Wrong'),('Not decided','Not decided'))
     predicament = models.CharField(max_length= 30, choices = res_choice)    
     quest = models.ForeignKey(Questions,blank=True,null=True)

@@ -38,30 +38,40 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            quad_questions = SSCquestions.objects.filter(section_category =\
-                                                         'Quantitative-Analysis',topic_category=22.1)
-            ch_list = []
-            for quest in quad_questions:
-                kk = "none"
-                for ch in quest.choices_set.all():
-                    if ch.text == kk:
-                        ch_list.append(ch.id)
-                    kk = ch.text
-            print(ch_list)
-            for c in ch_list:
-                ch = Choices.objects.get(id = c)
-                if ch.predicament == 'Correct':
-                   print(ch.text)
-                   rch = Choices.objects.get(id = c-1)
-                   rch.predicament = 'Correct'
-                   rch.save()
-                   ch.delete()
-                try:
-                    ch.delete()
-                except Exception as e:
-                    print(str(e))
+            #quad_questions = SSCquestions.objects.filter(section_category =\
+            #                                             'Quantitative-Analysis',topic_category=22.1)
+            #ch_list = []
+            #for quest in quad_questions:
+            #    kk = "none"
+            #    for ch in quest.choices_set.all():
+            #        if ch.text == kk:
+            #            ch_list.append(ch.id)
+            #        kk = ch.text
+            #print(ch_list)
+            #for c in ch_list:
+            #    ch = Choices.objects.get(id = c)
+            #    if ch.predicament == 'Correct':
+            #       print(ch.text)
+            #       rch = Choices.objects.get(id = c-1)
+            #       rch.predicament = 'Correct'
+            #       rch.save()
+            #       ch.delete()
+            #    try:
+            #        ch.delete()
+            #    except Exception as e:
+            #        print(str(e))
 
-               
+            #df=\
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/swamitestanswers.csv',error_bad_lines=False )
+            #marks = df.ix[:,:]
+            #marks = np.array(marks)
+            #for n,i in enumerate(range(31)):
+            #    opt = marks[1:,i]
+            #    name = marks[0,i]
+            #    evaluate_offline_test(name,opt)
+
+            return HttpResponse(str(hello))
+  
                
                     
             #idom_text = 'Choose the option which best explains the given phrase/idiom \n'
@@ -98,53 +108,52 @@ def home(request):
             #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
-            df=\
-            pd.read_csv('/app/question_data/gk7nov.csv',error_bad_lines=False )
-            quests = []
-            optA = []
-            optB = []
-            optC = []
-            optD = []
-            right_answer = []
-            quest_category = []
-            quests = df['Questions']
-            #images = df['link']
-            #images = None
-            optA = df['OptionA']
-            optB = df['OptionB']
-            optC = df['OptionC']
-            optD = df['OptionD']
-            optE = df['OptionE'] 
-            exp = df['solution']
-            quest_category = df['Category']
-            #quest_category = '11.1' # indian museams
-            for i in df['Correct']:
-                ichanged = str(i).replace(u'\\xa0',u' ')
-                ichanged2 = ichanged.replace('Answer',' ')
-                ichanged3 = ichanged2.replace('Explanation',' ')
-                if 'A)' in ichanged :
-                    right_answer.append(1)
-                elif 'B)' in ichanged :
-                    right_answer.append(2)
-                elif 'C)' in ichanged :
-                    right_answer.append(3)
-                elif 'D)' in ichanged :
-                    right_answer.append(4)
-                elif 'E)' in ichanged :
-                    right_answer.append(5)
-            for ind in range(len(optA)):
-                #print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
-                # -- right_answer,%s -- explanation'
-                # %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
+            #df=\
+            #pd.read_csv('/app/question_data/gk7nov.csv',error_bad_lines=False )
+            #quests = []
+            #optA = []
+            #optB = []
+            #optC = []
+            #optD = []
+            #right_answer = []
+            #quest_category = []
+            #quests = df['Questions']
+            ##images = df['link']
+            ##images = None
+            #optA = df['OptionA']
+            #optB = df['OptionB']
+            #optC = df['OptionC']
+            #optD = df['OptionD']
+            #optE = df['OptionE'] 
+            #exp = df['solution']
+            #quest_category = df['Category']
+            ##quest_category = '11.1' # indian museams
+            #for i in df['Correct']:
+            #    ichanged = str(i).replace(u'\\xa0',u' ')
+            #    ichanged2 = ichanged.replace('Answer',' ')
+            #    ichanged3 = ichanged2.replace('Explanation',' ')
+            #    if 'A)' in ichanged :
+            #        right_answer.append(1)
+            #    elif 'B)' in ichanged :
+            #        right_answer.append(2)
+            #    elif 'C)' in ichanged :
+            #        right_answer.append(3)
+            #    elif 'D)' in ichanged :
+            #        right_answer.append(4)
+            #    elif 'E)' in ichanged :
+            #        right_answer.append(5)
+            #for ind in range(len(optA)):
+            #    #print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
+            #    # -- right_answer,%s -- explanation'
+            #    # %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
-                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],3,right_answer[ind],quest_category[ind],exp[ind],sectionType='GK')
+            #    write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],3,right_answer[ind],quest_category[ind],exp[ind],sectionType='GK')
             ##write_passages(all_passages)
             #print(quests)
             #print(right_answer)
             #print(optE)
             #return HttpResponse('hello')
             ##return render(request,'basicinformation/staffpage1.html')
-            return HttpResponse('hello')
         if user.groups.filter(name='Students').exists():
             profile = user.student
             me = Studs(request.user)
@@ -291,11 +300,15 @@ def home(request):
             weak_subs = []
             subs = []
             #tests = SSCKlassTest.objects.filter(creator=user)
-            #test = SSCKlassTest.objects.get(id=40)
+            #test = SSCKlassTest.objects.get(id=49)
             #for i in test.sscquestions_set.all():
-            #    print(i.id)
-            #opt = ['A',0,'D']
-            #evaluate_offline_test(40,opt)
+            #    for ch in i.choices_set.all():
+            #        if ch.predicament == 'Not decided':
+            #            print(i.text)
+                        
+            #opt =\
+            #['C','C','B','B','B','B','B','C','C','D','D',0,'D','B','B','C','C','B','B','B','C','C','B','C','D']
+            #evaluate_offline_test(0,49,opt)
             try:
                 for sub in subjects:
                     for i in klasses:
@@ -863,10 +876,8 @@ def create_entities(request):
 def create_student(num, request):
 
     user = request.user
-    school = School.objects.get(name='Not Dummy School')
-    #teachers = Teacher.objects.filter(school__name = 'Not Dummy School')
-    mathTeacher = Teacher.objects.get(name = 'teacher4')
-    scienceTeacher = Teacher.objects.get(name ='teacher3')
+    school = School.objects.get(name='Swami Reasoning World')
+    teacher = Teacher.objects.get(school__name = 'Swami Reasoning World')
     for i in range(1, num):
         try:
             us = User.objects.create_user(username='student' +
@@ -893,6 +904,33 @@ def create_student(num, request):
             =randint(3, 10), test2=randint(3, 9), test3=
                           randint(3, 9))
 
+            sub.save()
+        except Exception as e:
+            print(str(e))
+
+def real_create_student(stu, request):
+    user = request.user
+    school = School.objects.get(name='Swami Reasoning World')
+    teacher = Teacher.objects.get(school__name = 'Swami Reasoning World')
+    for i,j in stu:
+        try:
+            pa = str(i)
+            pa = pa[:8]
+            us = User.objects.create_user(username=i,
+                                          email='swamireasoning' + str(j) + '@gmail.com',
+                                          password='pa')
+            us.save()
+            gr = Group.objects.get(name='Students')
+            gr.user_set.add(us)
+            cl = klass.objects.get(school__name='Swami Reasoning World')
+            stu = Student(studentuser=us, klass=cl,
+                              rollNumber=i,
+                              name= j,
+                              dob=timezone.now(),
+                          pincode=int(str(302018)),school= school)
+            stu.save()
+            sub = Subject(name='General-Intelligence', student=stu,
+                          teacher=teacher)
             sub.save()
         except Exception as e:
             print(str(e))
@@ -1011,8 +1049,8 @@ def write_passages(passages):
         new_passage.text = str(i)
         new_passage.save()
 
-def evaluate_offline_test(studentid,tid,opt):
-    test = SSCKlassTest.objects.get(id=tid)
+def evaluate_offline_test(studentid,opt):
+    test = SSCKlassTest.objects.get(creator__username = 'rajeshkswamiadmin')
     qid = []
     for q in test.sscquestions_set.all():
         qid.append(q.id)
@@ -1026,10 +1064,10 @@ def evaluate_offline_test(studentid,tid,opt):
     for j,k in qans:
         quest = SSCquestions.objects.get(id=j)
         for n,i in enumerate(quest.choices_set.all()):
-            if k == 0:
+            if k == '0':
                 skippedAnswer.append(j)
                 break
-            if k == 'A' and n == 0:
+            if k == 'a' and n == 0:
                 chid.append(i.id)
                 if i.predicament == 'Correct':
                     print(i.id,i.predicament)
@@ -1042,7 +1080,7 @@ def evaluate_offline_test(studentid,tid,opt):
                     allAnswer.append(i.id)
                     total_marks -= 0.25
                 break
-            elif k == 'B' and n == 1:
+            elif k == 'b' and n == 1:
                 chid.append(i.id)
                 if i.predicament == 'Correct':
                     print(i.id,i.predicament)
@@ -1055,7 +1093,7 @@ def evaluate_offline_test(studentid,tid,opt):
                     allAnswer.append(i.id)
                     total_marks -= 0.25
                 break
-            elif k == 'C' and n == 2:
+            elif k == 'c' and n == 2:
                 chid.append(i.id)
                 if i.predicament == 'Correct':
                     print(i.id,i.predicament)
@@ -1068,7 +1106,7 @@ def evaluate_offline_test(studentid,tid,opt):
                     allAnswer.append(i.id)
                     total_marks -= 0.25
                 break
-            elif k == 'D' and n == 3:
+            elif k == 'd' and n == 3:
                 chid.append(i.id)
                 if i.predicament == 'Correct':
                     print(i.id,i.predicament)
@@ -1081,7 +1119,7 @@ def evaluate_offline_test(studentid,tid,opt):
                     allAnswer.append(i.id)
                     total_marks -= 0.25
                 break
-            elif k == 'E' and n == 4:
+            elif k == 'e' and n == 4:
                 chid.append(i.id)
                 if i.predicament == 'Correct':
                     print(i.id,i.predicament)
@@ -1100,14 +1138,11 @@ def evaluate_offline_test(studentid,tid,opt):
     offline_marks.wrongAnswers = wrongAnswer
     offline_marks.skippedAnswers = skippedAnswer
     offline_marks.test = test
-    student = Student.objects.get(id = studentid)
+    student = Student.objects.get(studentuser__username = studentid)
     offline_marks.student = student
     offline_marks.marks = total_marks
     offline_marks.testTaken = timezone.now()
     offline_marks.save()
-    print(rightAnswer,wrongAnswer,skippedAnswer,allAnswer) 
-    print(qans,chid)
-    print(total_marks)
              
 
 

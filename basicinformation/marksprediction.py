@@ -1953,6 +1953,40 @@ class Studs:
                 elif i == '3.4':
                     namedarr.append('Dice & Boxes')
                     timing.append(j)
+                elif i == '2.8':
+                    namedarr.append('Ruled based analogy')
+                    timing.append(j)
+                elif i == '2.9':
+                    namedarr.append('Alphabet series (missing)')
+                    timing.append(j)
+                elif i == '4.1':
+                    namedarr.append('Age')
+                    timing.append(j)
+                elif i == '5.1':
+                    namedarr.append('Coding Decoding')
+                    timing.append(j)
+                elif i == '6.1':
+                    namedarr.append('Word Creation')
+                    timing.append(j)
+                elif i == '7.1':
+                    namedarr.append('Odd one out')
+                    timing.append(j)
+                elif i == '8.1':
+                    namedarr.append('Height')
+                    timing.append(j)
+                elif i == '9.1':
+                    namedarr.append('Direction')
+                    timing.append(j)
+                elif i =='10.1':
+                    namedarr.append('Statement & Conclusion')
+                    timing.append(j)
+                elif i == '11.1':
+                    namedarr.append('Venn Diagram')
+                    timing.append(j)
+                elif i == '12.1':
+                    namedarr.append('Missing number')
+                    timing.append(j)
+
 
 
             return list(zip(namedarr,timing))
@@ -2179,6 +2213,29 @@ class Studs:
                     namedarr.append('Classification (Diagram)')
                 elif i == '3.4':
                     namedarr.append('Dice & Boxes')
+                elif i == '2.8':
+                    namedarr.append('Ruled based analogy')
+                elif i == '2.9':
+                    namedarr.append('Alphabet series (missing)')
+                elif i == '4.1':
+                    namedarr.append('Age')
+                elif i == '5.1':
+                    namedarr.append('Coding Decoding')
+                elif i == '6.1':
+                    namedarr.append('Word Creation')
+                elif i == '7.1':
+                    namedarr.append('Odd one out')
+                elif i == '8.1':
+                    namedarr.append('Height')
+                elif i == '9.1':
+                    namedarr.append('Direction')
+                elif i =='10.1':
+                    namedarr.append('Statement & Conclusion')
+                elif i == '11.1':
+                    namedarr.append('Venn Diagram')
+                elif i == '12.1':
+                    namedarr.append('Missing number')
+
 
             return namedarr
         if subject == 'Qualitative-Analysis':
@@ -2346,6 +2403,29 @@ class Studs:
                 return 'Classification (Diagram)'
             elif i == '3.4':
                 return 'Dice & Boxes'
+            elif i == '2.8':
+                return 'Ruled based analogy'
+            elif i == '2.9':
+                return 'Alphabet series (missing)'
+            elif i == '4.1':
+                return 'Age'
+            elif i == '5.1':
+                return 'Coding Decoding'
+            elif i == '6.1':
+                return 'Word Creation'
+            elif i == '7.1':
+                return 'Odd one out'
+            elif i == '8.1':
+                return 'Height'
+            elif i == '9.1':
+                return 'Direction'
+            elif i =='10.1':
+                return 'Statement & Conclusion'
+            elif i == '11.1':
+                return 'Venn Diagram'
+            elif i == '12.1':
+                return 'Missing number'
+
 
 
         if subject == 'Quantitative-Analysis':
@@ -3676,6 +3756,40 @@ class Teach:
                 elif i == '3.4':
                     names.append('Dice & Boxes')
                     numbers.append(i)
+                elif i == '2.8':
+                    names.append('Ruled based analogy')
+                    numbers.append(i)
+                elif i == '2.9':
+                    names.append('Alphabet series (missing)')
+                    numbers.append(i)
+                elif i == '4.1':
+                    names.append('Age')
+                    numbers.append(i)
+                elif i == '5.1':
+                    names.append('Coding Decoding')
+                    numbers.append(i)
+                elif i == '6.1':
+                    names.append('Word Creation')
+                    numbers.append(i)
+                elif i == '7.1':
+                    names.append('Odd one out')
+                    numbers.append(i)
+                elif i == '8.1':
+                    names.append('Height')
+                    numbers.append(i)
+                elif i == '9.1':
+                    names.append('Direction')
+                    numbers.append(i)
+                elif i =='10.1':
+                    names.append('Statement & Conclusion')
+                    numbers.append(i)
+                elif i == '11.1':
+                    names.append('Venn Diagram')
+                    numbers.append(i)
+                elif i == '12.1':
+                    names.append('Missing number')
+                    numbers.append(i)
+
 
             changed = list(zip(names,numbers))
             return changed
@@ -3933,6 +4047,40 @@ class Teach:
                 elif i == '3.4':
                     names.append('Dice & Boxes')
                     numbers.append(i)
+                elif i == '2.8':
+                    names.append('Ruled based analogy')
+                    numbers.append(i)
+                elif i == '2.9':
+                    names.append('Alphabet series (missing)')
+                    numbers.append(i)
+                elif i == '4.1':
+                    names.append('Age')
+                    numbers.append(i)
+                elif i == '5.1':
+                    names.append('Coding Decoding')
+                    numbers.append(i)
+                elif i == '6.1':
+                    names.append('Word Creation')
+                    numbers.append(i)
+                elif i == '7.1':
+                    names.append('Odd one out')
+                    numbers.append(i)
+                elif i == '8.1':
+                    names.append('Height')
+                    numbers.append(i)
+                elif i == '9.1':
+                    names.append('Direction')
+                    numbers.append(i)
+                elif i =='10.1':
+                    names.append('Statement & Conclusion')
+                    numbers.append(i)
+                elif i == '11.1':
+                    names.append('Venn Diagram')
+                    numbers.append(i)
+                elif i == '12.1':
+                    names.append('Missing number')
+                    numbers.append(i)
+
 
             changed = list(zip(names,numbers))
             return changed
@@ -4156,6 +4304,29 @@ class Teach:
                     numbers.append('3.3')
                 elif i == 'Dice & Boxes':
                     numbers.append('3.4')
+                elif i == 'Ruled based analogy':
+                    numbers.append('2.8')
+                elif i == 'Alphabet series (missing)':
+                    numbers.append('2.9')
+                elif i == 'Age':
+                    numbers.append('4.1')
+                elif i == 'Coding Decoding':
+                    numbers.append('5.1')
+                elif i == 'Word Creation':
+                    numbers.append('6.1')
+                elif i == 'Odd one out':
+                    numbers.append('7.1')
+                elif i == 'Height':
+                    numbers.append('8.1')
+                elif i == 'Direction':
+                    numbers.append('9.1')
+                elif i =='Statement & Conclusion':
+                    numbers.append('10.1')
+                elif i == 'Venn Diagram':
+                    numbers.append('11.1')
+                elif i == 'Missing number':
+                    numbers.append('12.1')
+
 
             return numbers
         if subject == 'Quantitative-Analysis':
