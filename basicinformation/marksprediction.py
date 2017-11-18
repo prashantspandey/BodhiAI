@@ -3,6 +3,7 @@ import pickle
 import math
 import itertools
 from datetime import datetime, date
+from django.utils import timezone
 from .models import Subject
 from more_itertools import unique_everseen
 from QuestionsAndPapers.models import *
@@ -10,6 +11,7 @@ from xhtml2pdf import pisa
 from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template
+from django.db.models import Q
 #'''
 #load pickles for data transformation and prediction (hindi)
 #'''
@@ -989,7 +991,6 @@ class Studs:
         subs = list(unique_everseen(subs))
         return subs
 
-
     def OnlineTestsSubwise(self, subject):
         if self.profile.school.category == 'School':
             my_tests = KlassTest.objects.filter(testTakers=self.profile, sub=
@@ -1402,6 +1403,14 @@ class Studs:
                 all_marks = SSCOnlineMarks.objects.filter(student= self.profile,
                                                     test__sub =
                                                     'SSCMultipleSections')
+                offline_my_marks =\
+                SSCOfflineMarks.objects.filter(student=self.profile,test__sub=subject)
+                offline_all_marks = SSCOfflineMarks.objects.filter(student =
+                                                                   self.profile,test__sub
+                                                                   =
+                                                                   'SSCMultipleSections')
+
+
                 indi_my_marks = None
             else:
                 indi_my_marks = SSCOnlineMarks.objects.get(student=
@@ -1409,6 +1418,8 @@ class Studs:
                                                          singleTest)
                 my_marks = None
                 all_marks = None
+                offline_my_marks = None
+                offline_all_marks = None
 
         wrong_Answers = []
         skipped_Answers = []
@@ -1434,6 +1445,22 @@ class Studs:
                     wrong_Answers.append(wa)
                 for sp in om.skippedAnswers:
                     skipped_Answers.append(sp)
+        # same as above, but when for offline my marks
+        if offline_my_marks:
+            print(len(offline_my_marks))
+            for om in offline_my_marks:
+                for wa in om.wrongAnswers:
+                    wrong_Answers.append(wa)
+                for sp in om.skippedAnswers:
+                    skipped_Answers.append(sp)
+        # same as above, but when for offline marks for multiple subjects
+        if offline_all_marks:
+            for om in offline_all_marks:
+                for wa in om.wrongAnswers:
+                    wrong_Answers.append(wa)
+                for sp in om.skippedAnswers:
+                    skipped_Answers.append(sp)
+
         wq=[]
         for i in wrong_Answers:
             if self.institution == 'School':
@@ -1532,6 +1559,13 @@ class Studs:
                                                   subject)
             all_marks = SSCOnlineMarks.objects.filter(student=
                                                       self.profile,test__sub='SSCMultipleSections')
+            offline_marks =\
+            SSCOfflineMarks.objects.filter(student=self.profile,test__sub =
+                                           subject)
+            offline_all_marks = SSCOfflineMarks.objects.filter(student =
+                                                               self.profile,
+                                                               test__sub =
+                                                               'SSCMultipleSections')
             all_ids = []
             for mark in marks:
                 for total in mark.allAnswers:
@@ -1551,6 +1585,29 @@ class Studs:
                         quest = SSCquestions.objects.get(id = sk)
                         if quest.section_category == subject:
                             all_ids.append(quest.topic_category)
+            if offline_marks:
+                print('in offline marks')
+                for mark in offline_marks:
+                    for total in mark.allAnswers:
+                        quest = SSCquestions.objects.get(choices__id = total)
+                        all_ids.append(quest.topic_category) 
+                    for sk in mark.skippedAnswers:
+                        quest = SSCquestions.objects.get(id = sk)
+                        all_ids.append(quest.topic_category)
+            if offline_all_marks:
+                for mark in offline_all_marks:
+                    for total in mark.allAnswers:
+                        quest = SSCquestions.objects.get(choices__id = total)
+                        if quest.section_category == subject:
+                            all_ids.append(quest.topic_category) 
+                    for sk in mark.skippedAnswers:
+                        quest = SSCquestions.objects.get(id = sk)
+                        if quest.section_category == subject:
+                            all_ids.append(quest.topic_category)
+
+
+
+
 
             unique, counts = np.unique(all_ids, return_counts=True)
             cat_quests = np.asarray((unique, counts)).T
@@ -1986,6 +2043,10 @@ class Studs:
                 elif i == '12.1':
                     namedarr.append('Missing number')
                     timing.append(j)
+                elif i == '13.1':
+                    namedarr.append('Logical Sequence of words')
+                    timing.append(j)
+
 
 
 
@@ -2235,6 +2296,9 @@ class Studs:
                     namedarr.append('Venn Diagram')
                 elif i == '12.1':
                     namedarr.append('Missing number')
+                elif i == '13.1':
+                    namedarr.append('Logical Sequence of words')
+
 
 
             return namedarr
@@ -2425,6 +2489,9 @@ class Studs:
                 return 'Venn Diagram'
             elif i == '12.1':
                 return 'Missing number'
+            elif i == '13.1':
+                return 'Logical Sequence of words'
+
 
 
 
@@ -3661,6 +3728,48 @@ class Teach:
         freq_list = list(zip(dim3,freq))
         return timing,freq_list
 
+    def find_classRank(self,li):
+        array = np.array(li)
+        temp = array.argsort()
+        ranks = np.empty(len(array), int)
+        ranks[temp] = np.arange(len(array))
+        final_rank = []
+        for j in ranks:
+            final_rank.append(((len(li)-j)))
+        return final_rank
+
+
+    def generate_rankTable(self,test_id,mode=None):
+        if mode:
+            all_marks = SSCOfflineMarks.objects.filter(test__id = test_id)
+        else:
+            all_marks = SSCOnlineMarks.objects.filter(test__id = test_id)
+        names = []
+        totalMarks = []
+        scores = []
+        percentage = []
+        numCorrect = []
+        numIncorrect = []
+        numSkipped = []
+        # get total marks and put in a list
+        for i in all_marks:
+            names.append(i.student.name)
+            totalMarks.append(i.test.max_marks)
+            scores.append(i.marks)
+            percentage.append((i.marks/i.test.max_marks)*100)
+            numCorrect.append(len(i.rightAnswers))
+            numIncorrect.append(len(i.wrongAnswers))
+            numSkipped.append(len(i.skippedAnswers))
+        rank = self.find_classRank(scores)
+        result =\
+        list(zip(names,totalMarks,scores,rank,percentage,numCorrect,numIncorrect,numSkipped))
+        return result
+        
+
+        
+
+
+
 
 
     def change_topicNumbersNames(self,arr,subject):
@@ -3789,6 +3898,10 @@ class Teach:
                 elif i == '12.1':
                     names.append('Missing number')
                     numbers.append(i)
+                elif i == '13.1':
+                    names.append('Logical Sequence of words')
+                    numbers.append(i)
+
 
 
             changed = list(zip(names,numbers))
@@ -4080,6 +4193,10 @@ class Teach:
                 elif i == '12.1':
                     names.append('Missing number')
                     numbers.append(i)
+                elif i == '13.1':
+                    names.append('Logical Sequence of words')
+                    numbers.append(i)
+
 
 
             changed = list(zip(names,numbers))
@@ -4326,6 +4443,9 @@ class Teach:
                     numbers.append('11.1')
                 elif i == 'Missing number':
                     numbers.append('12.1')
+                elif i == 'Logical Sequence of words':
+                    numbers.append('13.1')
+
 
 
             return numbers
@@ -4451,6 +4571,17 @@ def render_to_pdf(template_src, context_dict={}):
 
 
 
+def visible_tests(test_id):
+    test = SSCKlassTest.objects.get(id = test_id)
+    test_date = test.due_date
+    print(test_date)
+    today_date = datetime.now().date()
+    print(today_date)
+    if test_date == today_date:
+        return test
+
+    else:
+        return test
 
 
 

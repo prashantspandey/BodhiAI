@@ -70,7 +70,6 @@ def home(request):
             #    name = marks[0,i]
             #    evaluate_offline_test(name,opt)
 
-            return HttpResponse(str(hello))
   
                
                     
@@ -108,52 +107,63 @@ def home(request):
             #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
+            df=\
+            pd.read_csv('/app/question_data/logicalsequence15.csv',error_bad_lines=False )
             #df=\
-            #pd.read_csv('/app/question_data/gk7nov.csv',error_bad_lines=False )
-            #quests = []
-            #optA = []
-            #optB = []
-            #optC = []
-            #optD = []
-            #right_answer = []
-            #quest_category = []
-            #quests = df['Questions']
-            ##images = df['link']
-            ##images = None
-            #optA = df['OptionA']
-            #optB = df['OptionB']
-            #optC = df['OptionC']
-            #optD = df['OptionD']
-            #optE = df['OptionE'] 
-            #exp = df['solution']
-            #quest_category = df['Category']
-            ##quest_category = '11.1' # indian museams
-            #for i in df['Correct']:
-            #    ichanged = str(i).replace(u'\\xa0',u' ')
-            #    ichanged2 = ichanged.replace('Answer',' ')
-            #    ichanged3 = ichanged2.replace('Explanation',' ')
-            #    if 'A)' in ichanged :
-            #        right_answer.append(1)
-            #    elif 'B)' in ichanged :
-            #        right_answer.append(2)
-            #    elif 'C)' in ichanged :
-            #        right_answer.append(3)
-            #    elif 'D)' in ichanged :
-            #        right_answer.append(4)
-            #    elif 'E)' in ichanged :
-            #        right_answer.append(5)
-            #for ind in range(len(optA)):
-            #    #print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
-            #    # -- right_answer,%s -- explanation'
-            #    # %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/logicalsequence15.csv',error_bad_lines=False )
 
-            #    write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],3,right_answer[ind],quest_category[ind],exp[ind],sectionType='GK')
+            quests = []
+            optA = []
+            optB = []
+            optC = []
+            optD = []
+            right_answer = []
+            quest_category = []
+            quests = df['Questions']
+            temp = []
+            qu = 'Write the following words according to the order in the dictionary.\n'
+            for i in quests:
+                i = str(qu) + str(i)
+                temp.append(i)
+
+
+            #images = df['link']
+            #images = None
+            optA = df['OptionA']
+            optB = df['OptionB']
+            optC = df['OptionC']
+            optD = df['OptionD']
+            #optE = df['OptionE'] 
+            quest_category = df['category']
+            #quest_category = '11.1' # indian museams
+            for i in df['Answer']:
+                ichanged = str(i).replace(u'\\xa0',u' ')
+                ichanged2 = ichanged.replace('Answer',' ')
+                ichanged3 = ichanged2.replace('Explanation',' ')
+                if 'A' in ichanged :
+                    right_answer.append(1)
+                elif 'B' in ichanged :
+                    right_answer.append(2)
+                elif 'C' in ichanged :
+                    right_answer.append(3)
+                elif 'D' in ichanged :
+                    right_answer.append(4)
+                elif 'E' in ichanged :
+                    right_answer.append(5)
+            for ind in range(len(optA)):
+                #print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
+                # -- right_answer,%s -- explanation'
+                # %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
+
+                write_questions(temp[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,3,right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions
+                               = True)
             ##write_passages(all_passages)
             #print(quests)
             #print(right_answer)
             #print(optE)
             #return HttpResponse('hello')
             ##return render(request,'basicinformation/staffpage1.html')
+            return ('hello')
         if user.groups.filter(name='Students').exists():
             profile = user.student
             me = Studs(request.user)
@@ -200,12 +210,7 @@ def home(request):
 
 
            # get new tests to take (practise tests on the student page) 
-            if profile.school.name == 'BodhiAI':
-                new_tests = me.toTake_Tests()
-            else:
-                new_tests = None
-            #opt = ['A','D',0]
-            #evaluate_offline_test(profile.id,40,opt)
+            new_tests = me.toTake_Tests()
              #Get all the student marks
             try:
                 mathst1,mathst2,mathst3,mathshy,mathst4,mathspredhy =\
@@ -279,7 +284,7 @@ def home(request):
                     {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
             else:
                 context = \
-                    {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks}
+                    {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
 
             return render(request, 'basicinformation/studentInstitute.html', context)
             #ssccoaching = School.objects.get(name='BodhiAI')
@@ -300,15 +305,43 @@ def home(request):
             weak_subs = []
             subs = []
             #tests = SSCKlassTest.objects.filter(creator=user)
-            #test = SSCKlassTest.objects.get(id=49)
-            #for i in test.sscquestions_set.all():
-            #    for ch in i.choices_set.all():
-            #        if ch.predicament == 'Not decided':
-            #            print(i.text)
-                        
-            #opt =\
-            #['C','C','B','B','B','B','B','C','C','D','D',0,'D','B','B','C','C','B','B','B','C','C','B','C','D']
-            #evaluate_offline_test(0,49,opt)
+            #test = SSCOfflineMarks.objects.filter(test__id = 49)
+            #names = []
+            #total_marks = []
+            #score = []
+            #rank = []
+            #percentage = []
+            #correct = []
+            #incorrect = []
+            #attempted = []
+            #not_attempted = []
+            #for i in test:
+            #    names.append(i.student.name)
+            #    total_marks.append(50)
+            #    score.append(i.marks)
+            #    percentage.append((i.marks/50)*100)
+            #    correct.append(len(i.rightAnswers))
+            #    incorrect.append(len(i.wrongAnswers))
+            #    not_attempted.append(len(i.skippedAnswers))
+            #score_rank = np.array(score)
+            #temp = score_rank.argsort()
+            #rank = np.empty(len(score_rank),int)
+            #rank[temp] =  np.arange(len(score_rank))
+            #final_rank = []
+            #final_rank2 = []
+            #for i in rank:
+            #    final_rank.append(int(i+1))
+            #for i in final_rank:
+            #    final_rank2.append(32-i)
+            #ran = list(zip(score,final_rank2))
+            #score_card =\
+            #list(zip(names,total_marks,score,final_rank2,percentage,correct,incorrect,not_attempted))
+            ##data =\
+            #[names,score,final_rank2,percentage,correct,incorrect,attempted,not_attempted]
+            #data = score_card
+            #df = pd.DataFrame(data)
+            #df.to_csv('SwamiReasoningWorldNov16test.csv')
+
             try:
                 for sub in subjects:
                     for i in klasses:
@@ -415,7 +448,6 @@ def student_subject_analysis(request):
             sub = which_one.split(',')[0]
             subject = sub
 
-            print('%s which onel' %mode)
             if mode == 'online':
                 if me.institution == 'School':
                     tests = OnlineMarks.objects.filter(test__sub=subject, student=user.student)
@@ -437,6 +469,7 @@ def student_subject_analysis(request):
         if 'studentTestid' in request.GET:
             idandsubject = request.GET['studentTestid']
             test_id = idandsubject.split(',')[0]
+            #visible_tests(test_id)
             sub = idandsubject.split(',')[1]
             if me.institution == 'School':
                 test = OnlineMarks.objects.get(student=user.student, test__id=test_id)
@@ -532,6 +565,7 @@ def student_weakAreas(request):
         timing_areawise,freq_timer = me.areawise_timing(subject)
         freq_timer = me.changeTopicNumbersNames(freq_timer,subject)
         freq = me.weakAreas_IntensityAverage(subject)
+        print('%s weak ' %freq)
         strongAreas = []
         strongFreq = []
         try:
@@ -762,17 +796,17 @@ def teacher_update_page(request):
             max_marks = 0
             for i in online_marks:
                 max_marks = i.test.max_marks
-            average,percent_average =\
-            me.online_findAverageofTest(test_id,percent='p')
+            average,percent_average =me.online_findAverageofTest(test_id,percent='p')
             grade_s,grade_a,grade_b,grade_c,grade_d,grade_e,grade_f= \
             me.online_freqeucyGrades(test_id)
             freq = me.online_QuestionPercentage(test_id)
             sq = me.online_skippedQuestions(test_id)
+            result = me.generate_rankTable(test_id)
             context = {'om': online_marks,'test':test,'average':average
                        ,'percentAverage':percent_average,'maxMarks':max_marks,
                        'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
                        'grade_d':grade_d,'grade_e':grade_e,'grade_f':grade_f,
-                       'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True}
+                       'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
             return render(request, 'basicinformation/teacher_online_analysis3.html', context)
 
     elif 'onlineIndividualPerformace' in request.GET:
@@ -971,7 +1005,7 @@ def read_questions(fi):
 
 
 def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCategory,exp,sectionType,fouroptions=False):
-    school = School.objects.filter(category = 'SSC',name = 'BodhiAI')
+    school = School.objects.filter(category = 'SSC')
     if fouroptions == True:
         all_options = [optA,optB,optC,optD]
     else:

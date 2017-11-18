@@ -540,11 +540,17 @@ def student_show_onlineTests(request):
     if 'onlineTestSubject' in request.GET:
         my_sub = request.GET['onlineTestSubject']
         tests = me.OnlineTestsSubwise(my_sub)
+        vtests = []
+        for i in tests:
+            vt = visible_tests(i.id)
+            if vt == None:
+                pass
+            else:
+                vtests.append(vt)
         context = {'tests':tests}
         return render(request,'questions/student_onlinetests_subjectwise.html',context)
     if 'onlineTestid' in request.GET:
         testid = request.GET['onlineTestid']
-        kk = SSCOnlineMarks.objects.all()
         old_test = me.is_onlineTestTaken(testid)
         if old_test:
             if me.institution == 'School':
@@ -672,7 +678,6 @@ def conduct_Test(request):
             TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=testid).delete()
             taken =\
             SSCOnlineMarks.objects.filter(student=me.profile,test__id=testid)
-            print(len(taken))
             if len(taken)>0:
                 if me.institution == 'School':
                     student_type = 'School'
