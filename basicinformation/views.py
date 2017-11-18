@@ -108,7 +108,7 @@ def home(request):
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
             df=\
-            pd.read_csv('/app/question_data/logicalsequence15.csv',error_bad_lines=False )
+            pd.read_csv('/app/question_data/logicalsequence24.csv',error_bad_lines=False )
             #df=\
             #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/logicalsequence15.csv',error_bad_lines=False )
 
@@ -140,15 +140,15 @@ def home(request):
                 ichanged = str(i).replace(u'\\xa0',u' ')
                 ichanged2 = ichanged.replace('Answer',' ')
                 ichanged3 = ichanged2.replace('Explanation',' ')
-                if 'A' in ichanged :
+                if 'a' in ichanged :
                     right_answer.append(1)
-                elif 'B' in ichanged :
+                elif 'b' in ichanged :
                     right_answer.append(2)
-                elif 'C' in ichanged :
+                elif 'c' in ichanged :
                     right_answer.append(3)
-                elif 'D' in ichanged :
+                elif 'd' in ichanged :
                     right_answer.append(4)
-                elif 'E' in ichanged :
+                elif 'e' in ichanged :
                     right_answer.append(5)
             for ind in range(len(optA)):
                 #print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
