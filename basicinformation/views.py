@@ -108,7 +108,7 @@ def home(request):
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
             df=\
-            pd.read_csv('/app/question_data/logicalsequence24.csv',error_bad_lines=False )
+            pd.read_csv('/app/question_data/logicalsequence30.csv',error_bad_lines=False )
             #df=\
             #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/logicalsequence15.csv',error_bad_lines=False )
 
@@ -121,7 +121,7 @@ def home(request):
             quest_category = []
             quests = df['Questions']
             temp = []
-            qu = 'Write the following words according to the order in the dictionary.\n'
+            qu = 'Arrange the words below meaningfully\n'
             for i in quests:
                 i = str(qu) + str(i)
                 temp.append(i)
