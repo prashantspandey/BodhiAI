@@ -3524,6 +3524,14 @@ class Teach:
                                                             user,test__sub =
                                                             'SSCMultipleSections',test__klas__name=
                                                             klass)
+            offline_marks = SSCOfflineMarks.objects.filter(test__creator =
+                                                           user,test__sub =
+                                                           subject,test__klas__name
+                                                           = klass)
+            all_offlinemarks = SSCOfflineMarks.objects.filter(test__creator =
+                                                               user,test__sub =
+                                                               'SSCMultipleSections',test__klas__name
+                                                               = klass)
         wrong_answers = []
         skipped_answers = []
         if online_marks:
@@ -3540,6 +3548,20 @@ class Teach:
                     wrong_answers.append(wa)
                 for sp in om.skippedAnswers:
                     skipped_answers.append(sp)
+        if offline_marks:
+            for om in offline_marks:
+                for wa in om.wrongAnswers:
+                    wrong_answers.append(wa)
+                for sp in om.skippedAnswers:
+                    skipped_answers.append(sp) 
+        if all_offlinemarks:
+            for om in all_offlinemarks:
+                for wa in om.wrongAnswers:
+                    wrong_answers.append(wa)
+                for sp in om.skippedAnswers:
+                    skipped_answers.append(sp)
+
+
         wq = []
         for i in wrong_answers:
             if self.institution == 'School':
@@ -3605,6 +3627,7 @@ class Teach:
 
     def online_problematicAreaswithIntensity(self,user,subject,klass):
         arr = self.online_problematicAreas(user,subject,klass)
+        print('%s arr' %arr)
         anal = []
         num = []
         for u,k in arr:
@@ -3642,6 +3665,14 @@ class Teach:
                                                           user,test__sub=
                                                           'SSCMultipleSections',test__klas__name
                                                      = klass)
+            offline_total_arr = SSCOfflineMarks.objects.filter(test__creator =
+                                                               user,test__sub =
+                                                               subject,test__klas__name
+                                                               = klass)
+            all_offline_total_arr =\
+            SSCOfflineMarks.objects.filter(test__creator = user,test__sub =
+                                           'SSCMultipleSections',test__klas__name
+                                           = klass)
             quest_categories = []
             if total_arr:
                 for ta in total_arr:
@@ -3659,6 +3690,23 @@ class Teach:
                     for sk in ta.skippedAnswers:
                         quest = SSCquestions.objects.get(id = sk)
                         quest_categories.append(quest.topic_category)
+            if offline_total_arr:
+                 for ta in offline_total_arr:
+                    for al in ta.allAnswers:
+                        quest = SSCquestions.objects.get(choices__id = al)
+                        quest_categories.append(quest.topic_category)
+                    for sk in ta.skippedAnswers:
+                        quest = SSCquestions.objects.get(id = sk)
+                        quest_categories.append(quest.topic_category)
+            if all_offline_total_arr:
+                 for ta in all_offline_total_arr:
+                    for al in ta.allAnswers:
+                        quest = SSCquestions.objects.get(choices__id = al)
+                        quest_categories.append(quest.topic_category)
+                    for sk in ta.skippedAnswers:
+                        quest = SSCquestions.objects.get(id = sk)
+                        quest_categories.append(quest.topic_category)
+              
 
             unique, counts = np.unique(quest_categories, return_counts=True)
             waf = np.asarray((unique, counts)).T
@@ -4150,52 +4198,52 @@ class Teach:
                     numbers.append(j)
                 elif i == '3.1':
                     names.append('Series Completion (Diagram)')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i == '3.2':
                     names.append('Analogy (Diagram)')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i == '3.3':
                     names.append('Classification (Diagram)')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i == '3.4':
                     names.append('Dice & Boxes')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i == '2.8':
                     names.append('Ruled based analogy')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i == '2.9':
                     names.append('Alphabet series (missing)')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i == '4.1':
                     names.append('Age')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i == '5.1':
                     names.append('Coding Decoding')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i == '6.1':
                     names.append('Word Creation')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i == '7.1':
                     names.append('Odd one out')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i == '8.1':
                     names.append('Height')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i == '9.1':
                     names.append('Direction')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i =='10.1':
                     names.append('Statement & Conclusion')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i == '11.1':
                     names.append('Venn Diagram')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i == '12.1':
                     names.append('Missing number')
-                    numbers.append(i)
+                    numbers.append(j)
                 elif i == '13.1':
                     names.append('Logical Sequence of words')
-                    numbers.append(i)
+                    numbers.append(j)
 
 
 
