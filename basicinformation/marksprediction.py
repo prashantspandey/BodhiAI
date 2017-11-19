@@ -2046,6 +2046,9 @@ class Studs:
                 elif i == '13.1':
                     namedarr.append('Logical Sequence of words')
                     timing.append(j)
+                elif i == '14.1':
+                    namedarr.append('Clock/Time')
+                    timing.append(j)
 
 
 
@@ -2298,6 +2301,9 @@ class Studs:
                     namedarr.append('Missing number')
                 elif i == '13.1':
                     namedarr.append('Logical Sequence of words')
+                elif i == '14.1':
+                    namedarr.append('Clock/Time')
+
 
 
 
@@ -2491,6 +2497,9 @@ class Studs:
                 return 'Missing number'
             elif i == '13.1':
                 return 'Logical Sequence of words'
+            elif i == '14.1':
+                return 'Clock/Time'
+
 
 
 
@@ -3949,6 +3958,10 @@ class Teach:
                 elif i == '13.1':
                     names.append('Logical Sequence of words')
                     numbers.append(i)
+                elif i == '14.1':
+                    names.append('Clock/Time')
+                    numbers.append(i)
+
 
 
 
@@ -4244,6 +4257,10 @@ class Teach:
                 elif i == '13.1':
                     names.append('Logical Sequence of words')
                     numbers.append(j)
+                elif i == '14.1':
+                    names.append('Clock/Time')
+                    numbers.append(j)
+
 
 
 
@@ -4493,6 +4510,10 @@ class Teach:
                     numbers.append('12.1')
                 elif i == 'Logical Sequence of words':
                     numbers.append('13.1')
+                elif i == 'Clock/Time':
+                    numbers.append('14.1')
+
+
 
 
 
