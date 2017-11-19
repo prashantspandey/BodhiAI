@@ -6,9 +6,8 @@
          $(document).ready(function () {
 		 $('#loadingstudentmytests').hide();
     var pr
-
-        for(i=1 ; i<=10; i++){
-         $(eval("'#whichTest'+i")).click(function(){
+	    $('.studentAvailableTest').click(function(){
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
           which_test = $(this).attr('value');
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
 	 $('#loadingstudentonlinetestssubjectwise').show();
@@ -21,7 +20,6 @@
 
     pr = $(this).attr('id');
 });
-};
 });
     </script>
 
@@ -35,7 +33,7 @@
   <div class="panel-body">
 			{% for test in tests %}
 
-<button type="button" class="btn btn-default text-center" value='{{test.id}}' id="whichTest{{forloop.counter}}">{{test.published}}</button>
+<button type="button" class="btn btn-default studentAvailableTest" value='{{test.id}}' id="whichTest{{forloop.counter}}">{{test.published}}</button>
 	{%endfor%}
 	</div>
 	</div>

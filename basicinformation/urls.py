@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'studentImprovement_sub/$',views.student_improvement_sub,
         name='studentImprovementsub'),
     url(r'studentTopicWiseTest/$',views.student_select_topicTest,
-        name='studentTopicWiseTest')
+        name='studentTopicWiseTest'),
+    url(r'downloadResult/$',views.teacher_download_result,name='downloadResult'),
 
 ]

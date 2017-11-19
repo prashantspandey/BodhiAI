@@ -3811,7 +3811,7 @@ class Teach:
         rank = self.find_classRank(scores)
         result =\
         list(zip(names,totalMarks,scores,rank,percentage,numCorrect,numIncorrect,numSkipped))
-        return result
+        return np.array(result)
         
 
         

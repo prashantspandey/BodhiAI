@@ -5,23 +5,21 @@
 	  $('#loadinganalysis2').hide();
     var pr
 
-        for(i=1 ; i<=10; i++){
-         $(eval("'#onlineTestid'+i")).click(function(){
-          which_testid = $(this).attr('value');
+	$(".testButton").click(function(){
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+which_testid = $(this).attr('value');
 	  $('#loadinganalysis3').show();
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
+
          $('#onlinetestanalysis').removeClass("hidden");
          $('#onlinetestanalysis').html('').load('{% url 'basic:teacher_update_page' %}?onlinetestid='+which_testid);
 
 
-        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
-
-
-
-
     pr = $(this).attr('id');
-});
-};
+
+
+	});
+
 });
     </script>
 
@@ -34,7 +32,7 @@
 {% for i in tests %}
 
 <div class="btn-group" role="group" aria-label="...">
-	<button type="button" class="btn btn-default text-center  col-xs-12" value ="{{i.id}}" id="onlineTestid{{forloop.counter}}">{{i.published}}</button>
+	<button type="button" class="btn btn-default testButton" value ="{{i.id}}" id="onlineTestid{{forloop.counter}}">{{i.published}}</button>
 </div>
 {%endfor%}
 {%endif%}

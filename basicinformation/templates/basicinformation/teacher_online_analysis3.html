@@ -252,6 +252,9 @@ $(document).ready(function () {
 			</tr>
 				{%endfor%}
 		</table>
+		<form action="{% url 'basic:downloadResult' %}" method='get'>
+			<button type="submit" value="{{test.id}}" name='downloadresult' class="btn btn-info" >Download Result</button>
+		</form>
 	</div>
 
 </div>

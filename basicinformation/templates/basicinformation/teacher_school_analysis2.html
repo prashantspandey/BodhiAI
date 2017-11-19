@@ -4,9 +4,8 @@
          $(document).ready(function () {
 	  $('#loadingSchoolAnalysis2').hide();
     var pr
-
-        for(i=1 ; i<=20; i++){
-         $(eval("'#schoolTestButton'+i")).click(function(){
+	$('.schoolTestButton').click(function(){
+        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
           which_test = $(this).attr('value');
 	  which_klass = $('#which_class').attr('value')
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
@@ -16,11 +15,10 @@
         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
 
-
-
     pr = $(this).attr('id');
 });
-};
+
+
 });
     </script>
 
@@ -33,7 +31,7 @@
 {% for i in Tests %}
 
 <div class="btn-group" role="group" aria-label="...">
-	<button type="button" class="btn btn-default text-center col-xs-12" value ="{{i.id}}" id="schoolTestButton{{forloop.counter}}">{{i.published}}</button>
+	<button type="button" class="btn btn-default schoolTestButton" value ="{{i.id}}" id="schoolTestButton{{forloop.counter}}">{{i.published}}</button>
 	<button type="button" class="hidden btn btn-default text-center col-xs-12" value ="{{i}}" id="which_class">{{which_class}}</button>
 </div>
 {%endfor%}

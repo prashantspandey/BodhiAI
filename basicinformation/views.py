@@ -19,6 +19,7 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from .marksprediction import *
 from Private_Messages.models import *
 from operator import itemgetter
+from io import BytesIO as IO
 
 
 def home(request):
@@ -108,9 +109,9 @@ def home(request):
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
             df=\
-            pd.read_csv('/app/question_data/logicalsequence30.csv',error_bad_lines=False )
+            pd.read_csv('/app/question_data/watchquestions50.csv',error_bad_lines=False )
             #df=\
-            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/logicalsequence15.csv',error_bad_lines=False )
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/watchquestions50.csv',error_bad_lines=False )
 
             quests = []
             optA = []
@@ -121,10 +122,10 @@ def home(request):
             quest_category = []
             quests = df['Questions']
             temp = []
-            qu = 'Arrange the words below meaningfully\n'
-            for i in quests:
-                i = str(qu) + str(i)
-                temp.append(i)
+            #qu = 'Arrange the words below meaningfully\n'
+            #for i in quests:
+            #    i = str(qu) + str(i)
+            #    temp.append(i)
 
 
             #images = df['link']
@@ -134,28 +135,37 @@ def home(request):
             optC = df['OptionC']
             optD = df['OptionD']
             #optE = df['OptionE'] 
-            quest_category = df['category']
+            exp = df['Explanation']
+            quest_category = df['Category']
             #quest_category = '11.1' # indian museams
-            for i in df['Answer']:
+            for i in df['Correct']:
                 ichanged = str(i).replace(u'\\xa0',u' ')
                 ichanged2 = ichanged.replace('Answer',' ')
                 ichanged3 = ichanged2.replace('Explanation',' ')
-                if 'a' in ichanged :
+                if 'A' in ichanged:
                     right_answer.append(1)
-                elif 'b' in ichanged :
+                elif 'B' in ichanged:
                     right_answer.append(2)
-                elif 'c' in ichanged :
+                elif 'C' in ichanged:
                     right_answer.append(3)
-                elif 'd' in ichanged :
+                elif 'D' in ichanged:
                     right_answer.append(4)
-                elif 'e' in ichanged :
+                elif 'E' in ichanged:
                     right_answer.append(5)
+            print(len(quests))
+            print(len(optA))
+            print(len(optB))
+            print(len(optC))
+            print(len(optD))
+            print(len(right_answer))
+            print(len(quest_category))
+            print(len(exp))
             for ind in range(len(optA)):
-                #print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
-                # -- right_answer,%s -- explanation'
-                # %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
+                print('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
+                 -- right_answer,%s -- explanation'
+                 %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
-                write_questions(temp[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,3,right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions
+                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,3,right_answer[ind],quest_category[ind],exp[ind],sectionType='Resoning',fouroptions
                                = True)
             ##write_passages(all_passages)
             #print(quests)
@@ -163,7 +173,7 @@ def home(request):
             #print(optE)
             #return HttpResponse('hello')
             ##return render(request,'basicinformation/staffpage1.html')
-            return ('hello')
+            return HttpResponse('hello')
         if user.groups.filter(name='Students').exists():
             profile = user.student
             me = Studs(request.user)
@@ -726,12 +736,17 @@ def teacher_update_page(request):
         grade_s,grade_a,grade_b,grade_c,grade_d,grade_e,grade_f= \
         me.online_freqeucyGrades(test_id,mode='offline')
         freq = me.offline_QuestionPercentage(test_id)
+        result = me.generate_rankTable(test_id,mode='offline')
+        try:
+            result = result[result[:,3].argsort()]
+        except:
+            result = None
         sq = me.online_skippedQuestions(test_id,mode='offline')
         context = {'om': offline_marks,'test':test,'average':average
                    ,'percentAverage':percent_average,'maxMarks':max_marks,
                    'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
                    'grade_d':grade_d,'grade_e':grade_e,'grade_f':grade_f,
-                   'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True}
+                   'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
         return render(request, 'basicinformation/teacher_school_analysis3.html', context)
 
     elif 'onlineTestAnalysis' in request.GET:
@@ -802,6 +817,10 @@ def teacher_update_page(request):
             freq = me.online_QuestionPercentage(test_id)
             sq = me.online_skippedQuestions(test_id)
             result = me.generate_rankTable(test_id)
+            try:
+                result = result[result[:,3].argsort()]
+            except:
+                result = None
             context = {'om': online_marks,'test':test,'average':average
                        ,'percentAverage':percent_average,'maxMarks':max_marks,
                        'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
@@ -836,17 +855,23 @@ def teacher_update_page(request):
         if me.institution == 'School':
             every_marks = OnlineMarks.objects.filter(test__id = test_id)
         elif me.institution == 'SSC':
-            try:
-                every_marks = SSCOfflineMarks.objects.filter(test__id =
+            offline_every_marks = SSCOfflineMarks.objects.filter(test__id =
+                                                         test_id)
+            if len(offline_every_marks)>0:
+                studs = []
+                for stu in offline_every_marks:
+                    studs.append(stu.student)
+                context = {'students':studs,'test_id':test_id}
+                return \
+    render(request,'basicinformation/teacher_online_individualPerformance3.html',context)
+            else:
+                online_every_marks = SSCOnlineMarks.objects.filter(test__id =
                                                              test_id)
-            except:
-                every_marks = SSCOnlineMarks.objects.filter(test__id =
-                                                             test_id)
-        studs = []
-        for stu in every_marks:
-            studs.append(stu.student)
-        context = {'students':studs,'test_id':test_id}
-        return \
+                studs = []
+                for stu in online_every_marks:
+                    studs.append(stu.student)
+                context = {'students':studs,'test_id':test_id}
+                return \
     render(request,'basicinformation/teacher_online_individualPerformance3.html',context)
     elif 'individualStudentid' in request.GET:
         stude_test = request.GET['individualStudentid']
@@ -868,6 +893,29 @@ def teacher_update_page(request):
         context = {'test':his_marks,'student_type':student_type}
         return \
     render(request,'basicinformation/teacher_online_individualPerformance4.html',context)
+
+def teacher_download_result(request):
+    user = request.user
+    me = Teach(user)
+    if 'downloadresult' in request.GET:
+        test_id = request.GET['downloadresult']
+        result = me.generate_rankTable(test_id)
+        result = result[result[:,3].argsort()]
+        
+        df = pd.DataFrame(result)
+        excel_result = IO()
+        xlwriter = pd.ExcelWriter(excel_result, engine= 'xlsxwriter')
+        df.to_excel(xlwriter,'result')
+        xlwriter.save()
+        xlwriter.close()
+        excel_result.seek(0)
+        response =\
+        HttpResponse(excel_result.read(),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=results.xlsx'
+
+        return response
+
+
         
 # functions for school management
 
