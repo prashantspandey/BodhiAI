@@ -900,8 +900,12 @@ def teacher_download_result(request):
     if 'downloadresult' in request.GET:
         test_id = request.GET['downloadresult']
         result = me.generate_rankTable(test_id)
-        result = result[result[:,3].argsort()]
-        
+        if len(result) == 0:
+            result = me.generate_rankTable(test_id,mode='offline')
+        try:
+            result = result[result[:,3].argsort()]
+        except:
+            result = result
         df = pd.DataFrame(result)
         excel_result = IO()
         xlwriter = pd.ExcelWriter(excel_result, engine= 'xlsxwriter')
