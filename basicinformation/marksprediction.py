@@ -2049,6 +2049,9 @@ class Studs:
                 elif i == '14.1':
                     namedarr.append('Clock/Time')
                     timing.append(j)
+                elif i == '15.1':
+                    namedarr.append('Mathematical Operations')
+                    timing.append(j)
 
 
 
@@ -2303,6 +2306,9 @@ class Studs:
                     namedarr.append('Logical Sequence of words')
                 elif i == '14.1':
                     namedarr.append('Clock/Time')
+                elif i == '15.1':
+                    namedarr.append('Mathematical Operations')
+
 
 
 
@@ -2499,6 +2505,9 @@ class Studs:
                 return 'Logical Sequence of words'
             elif i == '14.1':
                 return 'Clock/Time'
+            elif i == '15.1':
+                return 'Mathematical Operations'
+
 
 
 
@@ -3961,6 +3970,10 @@ class Teach:
                 elif i == '14.1':
                     names.append('Clock/Time')
                     numbers.append(i)
+                elif i == '15.1':
+                    names.append('Mathematical Operations')
+                    numbers.append(i)
+
 
 
 
@@ -4260,6 +4273,10 @@ class Teach:
                 elif i == '14.1':
                     names.append('Clock/Time')
                     numbers.append(j)
+                elif i == '15.1':
+                    names.append('Mathematical Operations')
+                    numbers.append(j)
+
 
 
 
@@ -4512,6 +4529,10 @@ class Teach:
                     numbers.append('13.1')
                 elif i == 'Clock/Time':
                     numbers.append('14.1')
+                elif i == 'Mathematical Operations':
+                    numbers.append('15.1')
+
+
 
 
 
