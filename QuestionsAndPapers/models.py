@@ -107,18 +107,25 @@ class SSCquestions(models.Model):
     topic_category = models.CharField(max_length=5,choices = topic_choice)
     school = models.ManyToManyField(School)
     picture = models.URLField(max_length=500,null=True,blank=True)
-    #def __str__(self):
-    #    try:
-    #        if str(self.text) != None:
-    #            if len(self.text) > 50:
-    #                return str(self.text[:50])
-    #            else:
-    #                return str(self.text)
 
-    #        elif str(self.text) == None:
-    #            return str(self.topic_category)
-    #    except:
-    #        return 'question'
+class TimesUsed(models.Model):
+    numUsed = models.IntegerField()
+    teacher = models.ForeignKey(Teacher)
+    quest = models.ForeignKey(SSCquestions)
+
+    def __str__(self):
+        name = str(self.quest)+ str(self.teacher.name) + str(self.numUsed)
+        return name
+
+class TimesReported(models.Model):
+    isReported = models.BooleanField()
+    teacher = models.ForeignKey(Teacher)
+    quest = models.ForeignKey(SSCquestions)
+
+    def __str__(self):
+        name = str(self.quest)+ str(self.teacher.name) + str(self.numReported)
+        return name
+
 
 class Choices(models.Model):
     class Meta:

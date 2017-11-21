@@ -15,8 +15,11 @@
 <body>
 	{% block content %}
 <div class='jumbotron col-md-offset-1 col-md-10 col-sm-12 animated flipInX'>
+
 <h1 >Hello {{profile.name}}</h1>
 <h3> You teach {{num_klasses}}{%if num_klasses == 1 %} class {%else%} classes {%endif%} at {{profile.school}}</h3>
+
+	<img src = '{{profile.school.logo}}' class='img-responsive' style='width:auto; height:10%;'  >
 	<ul>
 	{% for kl in klasses %}
 	<li> {{kl}} </li>

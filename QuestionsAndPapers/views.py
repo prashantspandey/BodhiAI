@@ -269,6 +269,7 @@ def publish_test(request):
                     myTest = KlassTest.objects.get(id = testid)
                 elif me.institution == 'SSC':
                     myTest = SSCKlassTest.objects.get(id = testid)
+                
                 kl = myTest.klas
                 students = Student.objects.filter(klass = kl,school = school)
                 for i in students:
@@ -287,6 +288,23 @@ def publish_test(request):
                 elif me.institution == 'SSC':
                     subs = []
                     for sub in myTest.sscquestions_set.all():
+                        timesus = TimesUsed.objects.filter(teacher =
+                                                          me.profile,quest =
+                                                          sub)
+                        if len(timesus) ==1:
+                            for i in timesus:
+                                print('%s timesused' %i.numUsed)
+                                i.numUsed = i.numUsed + 1
+                                i.save()
+                                print('%s timesused' %i.numUsed)
+                                
+                        else:
+                            tused = TimesUsed()
+                            tused.numUsed = 1
+                            tused.teacher = me.profile
+                            tused.quest = sub
+                            tused.save()
+
                         subs.append(sub.section_category)
                     subs = list(unique_everseen(subs))
                     if len(subs)==1:
@@ -312,6 +330,20 @@ def publish_test(request):
                     myTest = SSCKlassTest.objects.get(id = testid)
                     subs = []
                     for sub in myTest.sscquestions_set.all():
+                        timesus = TimesUsed.objects.filter(teacher =
+                                                          me.profile,quest =
+                                                          sub)
+                        if len(timesus) == 1:
+                            for i in timesus:
+                                i.numUsed = i.numUsed + 1
+                                i.save()
+                        else:
+                            tused = TimesUsed()
+                            tused.numUsed = 1
+                            tused.teacher = me.profile
+                            tused.quest = sub
+                            tused.save()
+
                         subs.append(sub.section_category)
                     subs = list(unique_everseen(subs))
                     if len(subs)==1:

@@ -8,6 +8,7 @@ class School(models.Model):
     name = models.CharField(max_length=200)
     pincode = models.IntegerField()
     category = models.CharField(max_length = 10, choices = category_choices)
+    logo = models.URLField(max_length = 500,null=True,blank=True)
     
     def __str__(self):
         return self.name

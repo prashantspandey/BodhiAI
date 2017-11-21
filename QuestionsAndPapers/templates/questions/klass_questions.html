@@ -40,7 +40,8 @@ $(eval("'#r'+now")).click(function(){
 </div>
 <h1 align='center'> Questions </h1>
 
-<form action="{%url 'QuestionsAndPapers:addQuestions'%}" method='post'>{%csrf_token%} {%for i in que %}
+<form action="{%url 'QuestionsAndPapers:addQuestions'%}" method='post'>{%csrf_token%} 
+	{%for i in que %}
 		<div class='well col-md-offset-1 col-md-10' id = 'questBox'>
 			{%if i.comprehension %}
 			<p> <pre>{{i.comprehension.text}}</pre> </p>
@@ -53,6 +54,9 @@ $(eval("'#r'+now")).click(function(){
 			<div class='hidden' id='tells_klass'>{{which_class}}</div>
 			<div class="col-md-offset-10">
 			<p>Maximum-Marks: {{i.max_marks}}</p>
+			{% for tused in i.timesused_set.all %}
+			<p>Times Used: {{tused.numUsed}}</p>
+			{%endfor%}
 			</div>
 			{% if i.pk in idlist %}
 <button type="button" id="r{{i.pk}}" class=""btn btn-default>Remove Question</button>

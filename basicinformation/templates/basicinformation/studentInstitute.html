@@ -94,7 +94,6 @@ $('.thumbnail').on('click',function(){
 </head>
 <body>
 {%block content%}
-<h3 class='text-center' style='font-weight:bold;'> {{user.student.school}}</h3>
 
 <div class="jumbotron col-md-offset-1 col-md-10 col-sm-12 animated flipInX">
   <h1 id="name">Hello {{profile.name}}</h1>
@@ -102,6 +101,7 @@ $('.thumbnail').on('click',function(){
   {% if profile.rollNumber != None %}
   <p>Rollnumber: {{profile.rollNumber}}</p>
   <p>Date of Birth: {{profile.dob}}</p>
+<img src = '{{profile.school.logo}}' class='img-responsive' style='margin:0 auto;width:auto; height:10%;'  >
   {%endif%}
 
 <hr>
