@@ -168,7 +168,7 @@ $(document).ready(function () {
 	<div class = 'well col-md-offset-1 col-md-10  col-xs-12'>
 		<h3> {{quest.text|linebreaks}} </h3>
 		{%if quest.picture %}
-		<img src='{{quest.picture}}'>
+		<img src='{{quest.picture}}' class='img-responsive'>
 		{%endif%}	
 
 		{%for x,y in sq %}
@@ -180,7 +180,7 @@ $(document).ready(function () {
 		{% for ch in quest.choices_set.all %}
 		<p> {%if ch.text %}{{ch.text|linebreaks }} {%endif%}
 		{%if ch.picture %}
-		<img src='{{ch.picture}}'>
+		<img src='{{ch.picture}}' class='img-responsive'>
 		{%endif%}	
 
 		{%for a,b in freq %}
@@ -205,13 +205,13 @@ $(document).ready(function () {
 	<div class ='well col-xs-12' >
 		<h3 style='font-weight:bold;'> {{qu.text|linebreaks}}</h3>
 		{%if qu.picture %}
-		<img src='{{qu.picture}}'>
+		<img src='{{qu.picture}}' class='img-responsive'>
 		{%endif%}	
 
 		{% for ch in qu.choices_set.all%}
 		<p> {%if ch.text %}{{ch.text}}{%endif%}
 		{%if ch.picture %}
-		<img src='{{ch.picture}}'>
+		<img src='{{ch.picture}}' class='img-responsive'>
 		{%endif%}	
 
 		{%for a,b in freq %}
