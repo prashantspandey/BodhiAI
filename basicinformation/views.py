@@ -108,10 +108,10 @@ def home(request):
             #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
-            df=\
-            pd.read_csv('/app/question_data/mathematicaloperations56.csv',error_bad_lines=False )
             #df=\
-            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/mathematicaloperations56.csv',error_bad_lines=False )
+            #pd.read_csv('/app/question_data/mathematicaloperations56.csv',error_bad_lines=False )
+            df=\
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/matrix51.csv',error_bad_lines=False )
 
             quests = []
             optA = []
@@ -138,7 +138,7 @@ def home(request):
             #exp = df['Explanation']
             quest_category = df['Category']
             #quest_category = '11.1' # indian museams
-            for i in df['Answer']:
+            for i in df['Correct']:
                 ichanged = str(i).replace(u'\\xa0',u' ')
                 ichanged2 = ichanged.replace('Answer',' ')
                 ichanged3 = ichanged2.replace('Explanation',' ')
@@ -164,7 +164,7 @@ def home(request):
                 #j -- right_answer,%s -- explanation'
                 #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
-                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,3,right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions
+                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,quests[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions
                                = True)
             ##write_passages(all_passages)
             #print(quests)
@@ -1081,9 +1081,9 @@ def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCate
         new_questions.section_category = 'Quantitative-Analysis'
     elif sectionType == 'GK':
         new_questions.section_category = 'General-Knowledge'
-    new_questions.text = str(question)
+    #new_questions.text = str(question)
     new_questions.topic_category = str(questCategory)
-    if image == 5:
+    if image != 5:
         new_questions.picture = image
     new_questions.save()
     for sch in school:

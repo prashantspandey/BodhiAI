@@ -2020,7 +2020,7 @@ class Studs:
                     namedarr.append('Age')
                     timing.append(j)
                 elif i == '5.1':
-                    namedarr.append('Coding Decoding')
+                    namedarr.append('Matrix')
                     timing.append(j)
                 elif i == '6.1':
                     namedarr.append('Word Creation')
@@ -2053,7 +2053,7 @@ class Studs:
                     namedarr.append('Mathematical Operations')
                     timing.append(j)
                 elif i == '16.1':
-                    namedarr.append('Matrix')
+                    namedarr.append('Coding Decoding')
                     timing.append(j)
 
 
@@ -2290,7 +2290,7 @@ class Studs:
                 elif i == '4.1':
                     namedarr.append('Age')
                 elif i == '5.1':
-                    namedarr.append('Coding Decoding')
+                    namedarr.append('Matrix')
                 elif i == '6.1':
                     namedarr.append('Word Creation')
                 elif i == '7.1':
@@ -2312,7 +2312,7 @@ class Studs:
                 elif i == '15.1':
                     namedarr.append('Mathematical Operations')
                 elif i == '16.1':
-                    namedarr.append('Matrix')
+                    namedarr.append('Coding Decoding')
 
 
 
@@ -2492,7 +2492,7 @@ class Studs:
             elif i == '4.1':
                 return 'Age'
             elif i == '5.1':
-                return 'Coding Decoding'
+                return 'Matrix'
             elif i == '6.1':
                 return 'Word Creation'
             elif i == '7.1':
@@ -2514,7 +2514,7 @@ class Studs:
             elif i == '15.1':
                 return 'Mathematical Operations'
             elif i == '16.1':
-                return 'Matrix'
+                return 'Coding Decoding'
 
 
 
@@ -3950,7 +3950,7 @@ class Teach:
                     names.append('Age')
                     numbers.append(i)
                 elif i == '5.1':
-                    names.append('Coding Decoding')
+                    names.append('Matrix')
                     numbers.append(i)
                 elif i == '6.1':
                     names.append('Word Creation')
@@ -3983,7 +3983,7 @@ class Teach:
                     names.append('Mathematical Operations')
                     numbers.append(i)
                 elif i == '16.1':
-                    names.append('Matrix')
+                    names.append('Coding Decoding')
                     numbers.append(i)
 
 
@@ -4257,7 +4257,7 @@ class Teach:
                     names.append('Age')
                     numbers.append(j)
                 elif i == '5.1':
-                    names.append('Coding Decoding')
+                    names.append('Matrix')
                     numbers.append(j)
                 elif i == '6.1':
                     names.append('Word Creation')
@@ -4290,7 +4290,7 @@ class Teach:
                     names.append('Mathematical Operations')
                     numbers.append(j)
                 elif i == '16.1':
-                    names.append('Matrix')
+                    names.append('Coding Decoding')
                     numbers.append(j)
 
 
@@ -4526,7 +4526,7 @@ class Teach:
                     numbers.append('2.9')
                 elif i == 'Age':
                     numbers.append('4.1')
-                elif i == 'Coding Decoding':
+                elif i == 'Matrix':
                     numbers.append('5.1')
                 elif i == 'Word Creation':
                     numbers.append('6.1')
@@ -4548,7 +4548,7 @@ class Teach:
                     numbers.append('14.1')
                 elif i == 'Mathematical Operations':
                     numbers.append('15.1')
-                elif i == 'Matrix':
+                elif i == 'Coding Decoding':
                     numbers.append('16.1')
 
 
