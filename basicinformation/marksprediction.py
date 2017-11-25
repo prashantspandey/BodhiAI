@@ -3558,7 +3558,7 @@ class Teach:
             all_offlinemarks = SSCOfflineMarks.objects.filter(test__creator =
                                                                user,test__sub =
                                                                'SSCMultipleSections',test__klas__name
-                                                               = klass)
+                                                            = klass)
         wrong_answers = []
         skipped_answers = []
         if online_marks:
@@ -3654,7 +3654,6 @@ class Teach:
 
     def online_problematicAreaswithIntensity(self,user,subject,klass):
         arr = self.online_problematicAreas(user,subject,klass)
-        print('%s arr' %arr)
         anal = []
         num = []
         for u,k in arr:

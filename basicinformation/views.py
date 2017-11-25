@@ -20,7 +20,7 @@ from .marksprediction import *
 from Private_Messages.models import *
 from operator import itemgetter
 from io import BytesIO as IO
-
+import timeit
 
 def home(request):
     user = request.user
@@ -664,11 +664,20 @@ def teacher_weakAreasinDetail(request):
             which_class = request.GET['weakAreasClass']
             which_sub = request.GET['weakAreasSub']
             me = Teach(user)
+            before = timeit.default_timer()
             res = \
             me.online_problematicAreaswithIntensityAverage(user,which_sub,which_class)
+            end = timeit.default_timer()
+            print('%s time it took' %(end-before))
+            before = timeit.default_timer()
             res = me.change_topicNumbersNamesWeakAreas(res,which_sub)
+            end = timeit.default_timer()
+            print('%s time it took' %(end-before))
+            before = timeit.default_timer()
             timing,freq_timing = me.weakAreas_timing(user,which_sub,which_class)
             timing = me.change_topicNumbersNamesWeakAreas(timing,which_sub)
+            end = timeit.default_timer()
+            print('%s time it took' %(end-before))
             context =\
             {'which_class':which_class,'probAreas':res,'timing':timing}
             return render(request,'basicinformation/teacher_weakAreasinDetail.html',context)
