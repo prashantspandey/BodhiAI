@@ -1,1 +1,1 @@
-web: gunicorn bodhiai.wsgi  --timeout 300
+web: gunicorn bodhiai.wsgi  
