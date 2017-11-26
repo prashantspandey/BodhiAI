@@ -986,10 +986,13 @@ class Studs:
     def subjects_OnlineTest(self):
         my_tests = self.allOnlinetests()
         subs = []
-        for i in my_tests:
-            subs.append(i.sub)
-        subs = list(unique_everseen(subs))
-        return subs
+        if my_tests:
+            for i in my_tests:
+                subs.append(i.sub)
+            subs = list(unique_everseen(subs))
+            return subs
+        else:
+            return None
 
     def OnlineTestsSubwise(self, subject):
         if self.profile.school.category == 'School':

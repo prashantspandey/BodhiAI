@@ -83,9 +83,16 @@ sessionStorage.clear();
 	</head>
 	<body>
 		{%block content%}
-		<div id='mainContainer'>
-	<div >
+	<div class='hidden' id ='checkingWaiter'  style='text-align:center;display:none;'>
+			<h4 style='text-center;'>Please wait... </h4>
+	        <img src="{%static 'basicinformation/images/bodhigif.gif' %}" >
+		 </div>
 
+		<div id='mainContainer'>
+
+
+	<div >
+	
 
 	<div class = 'hidden' id='showIndividualQuestions'>
 		{% include 'questions/student_individual_questionTestquestion.html' %}
