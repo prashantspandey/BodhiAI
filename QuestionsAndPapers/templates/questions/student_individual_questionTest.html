@@ -13,27 +13,23 @@
          $(document).ready(function () {
 
 	 var pr
-	
-		for(i=1 ; i<=100; i++){
-         $(eval("'#num'+i")).click(function(){
-          quest_pos = $(this).attr('value');
-	var  howmany = {{how_many}}	 
-	 teid = {{te_id}}
-         $(this).removeClass("btn btn-default").addClass("btn btn-success");
- 		  $('#showIndividualQuestions').removeClass("hidden");
-         $('#showIndividualQuestions').html('').load('{% url 'QuestionsAndPapers:conductTest' %}?IndividualTestQuestPos='+encodeURIComponent(quest_pos)+','+teid);
+	$('.numberQuestion').click(function(){
          $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
-
-
-
+		quest_pos = $(this).attr('value');
+			var  howmany = {{how_many}}	 
+			 teid = {{te_id}}
+			 $(this).removeClass("btn btn-default").addClass("btn btn-success");
+		$('#showIndividualQuestions').removeClass("hidden");
+	$('#showIndividualQuestions').html('').load('{% url 'QuestionsAndPapers:conductTest' %}?IndividualTestQuestPos='+encodeURIComponent(quest_pos)+','+teid);
 
     pr = $(this).attr('id');
+			});
+
+
          });
-				};	
 
        
 	  
-});
 setInterval("timer()",1000);
 
 function timer() {
@@ -68,8 +64,8 @@ function formClick(){
 var timer = counter
 var formInfo = document.forms['finishForm']
 formInfo.elements["timeTaken"].value = timer;
-$('#checkingWaiter').removeClass('hidden');
 $('#mainContainer').addClass('hidden');
+$('#loaderComplete').removeClass("hidden");
 formInfo.submit()
 sessionStorage.clear();
 };
@@ -83,11 +79,10 @@ sessionStorage.clear();
 	</head>
 	<body>
 		{%block content%}
-	<div class='hidden' id ='checkingWaiter'  style='text-align:center;display:none;'>
-			<h4 style='text-center;'>Please wait... </h4>
-	        <img src="{%static 'basicinformation/images/bodhigif.gif' %}" >
-		 </div>
-
+		<div class='hidden' id='loaderComplete' style='text-align:center;'>		
+	<h4 style='text-center;'>Please wait... </h4>
+	        <img   src="{%static 'basicinformation/images/bodhigif.gif' %}" >
+		</div>
 		<div id='mainContainer'>
 
 
@@ -104,7 +99,7 @@ sessionStorage.clear();
 	<div id='timeKeeper' style='font-weight:bold;color:red;text-align:center;'></div>
 	<div id='tk' style='font-weight:bold;color:red;text-align:center;'></div>
 	{% for questPos in questPosition %}
-	<button type="button" value = "{{questPos}}" class="btn btn-default text-center" id="num{{forloop.counter}}">{{questPos|add:1}}</button>
+	<button type="button" value = "{{questPos}}" class="btn btn-default numberQuestion" id="num{{forloop.counter}}">{{questPos|add:1}}</button>
 	<button type="button" class="btn btn-default hidden" id="teid">{{te_id}}</button>
 
 	{%endfor%}
