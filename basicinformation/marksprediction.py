@@ -3593,25 +3593,39 @@ class Teach:
 
 
         wq = []
+        print('hree in one')
         for i in wrong_answers:
             if self.institution == 'School':
                 qu = Questions.objects.get(choices__id = i)
             elif self.institution == 'SSC':
-                qu = SSCquestions.objects.get(choices__id = i)
+                try:
+                    qu = SSCquestions.objects.get(choices__id = i)
+                except Exception as e:
+                    print(str(e))
+                    continue
             if qu.section_category == subject:
                 quid = qu.id
                 wq.append(quid)
         for i in skipped_answers:
             if self.institution == 'School':
-                qu = Questions.objects.get(id = i)
+                try:
+                    qu = Questions.objects.get(id = i)
+                except Exception as e:
+                    print(str(e))
+                    continue
             elif self.institution == 'SSC':
-                qu = SSCquestions.objects.get(id = i)
+                try:
+                    qu = SSCquestions.objects.get(id = i)
+                except Exception as e:
+                    print(str(e))
+                    continue
             if qu.section_category == subject:
                 quid = qu.id
                 wq.append(quid)
 
         unique, counts = np.unique(wq, return_counts=True)
         waf = np.asarray((unique, counts)).T
+        print('hree in two')
         nw_ind = []
         kk = np.sort(waf,0)[::-1]
         for u in kk[:,1]:
@@ -3623,6 +3637,7 @@ class Teach:
                         nw_ind.append(z)
                         break
         final_freq = np.asarray((nw_ind,kk[:,1])).T
+        print('hree in up')
         return final_freq
         
     def online_problematicAreasNames(self,user,subject,klass):
@@ -3706,34 +3721,66 @@ class Teach:
             if total_arr:
                 for ta in total_arr:
                     for al in ta.allAnswers:
-                        quest = SSCquestions.objects.get(choices__id = al)
+                        try:
+                            quest = SSCquestions.objects.get(choices__id = al)
+                        except Exception as e:
+                            print(str(e))
+                            continue
                         quest_categories.append(quest.topic_category)
                     for sk in ta.skippedAnswers:
-                        quest = SSCquestions.objects.get(id = sk)
+                        try:
+                            quest = SSCquestions.objects.get(id = sk)
+                        except Exception as e:
+                            print(str(e))
+                            continue
                         quest_categories.append(quest.topic_category)
             if all_total_arr:
                 for ta in all_total_arr:
                     for al in ta.allAnswers:
-                        quest = SSCquestions.objects.get(choices__id = al)
+                        try:
+                            quest = SSCquestions.objects.get(choices__id = al)
+                        except Exception   as e:
+                            print(str(e))
+                            continue
                         quest_categories.append(quest.topic_category)
                     for sk in ta.skippedAnswers:
-                        quest = SSCquestions.objects.get(id = sk)
+                        try:
+                            quest = SSCquestions.objects.get(id = sk)
+                        except Exception   as e:
+                            print(str(e))
+                            continue
                         quest_categories.append(quest.topic_category)
             if offline_total_arr:
                  for ta in offline_total_arr:
                     for al in ta.allAnswers:
-                        quest = SSCquestions.objects.get(choices__id = al)
+                        try:
+                            quest = SSCquestions.objects.get(choices__id = al)
+                        except Exception   as e:
+                            print(str(e))
+                            continue
                         quest_categories.append(quest.topic_category)
                     for sk in ta.skippedAnswers:
-                        quest = SSCquestions.objects.get(id = sk)
+                        try:
+                            quest = SSCquestions.objects.get(id = sk)
+                        except Exception   as e:
+                            print(str(e))
+                            continue
                         quest_categories.append(quest.topic_category)
             if all_offline_total_arr:
                  for ta in all_offline_total_arr:
                     for al in ta.allAnswers:
-                        quest = SSCquestions.objects.get(choices__id = al)
+                        try:
+                            quest = SSCquestions.objects.get(choices__id = al)
+                        except Exception   as e:
+                            print(str(e))
+                            continue
                         quest_categories.append(quest.topic_category)
                     for sk in ta.skippedAnswers:
-                        quest = SSCquestions.objects.get(id = sk)
+                        try:
+                            quest = SSCquestions.objects.get(id = sk)
+                        except Exception   as e:
+                            print(str(e))
+                            continue
                         quest_categories.append(quest.topic_category)
               
 
