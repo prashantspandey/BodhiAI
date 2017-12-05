@@ -109,10 +109,9 @@ def home(request):
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
             df=\
-            pd.read_csv('/app/question_data/seriestest54.csv',error_bad_lines=False )
+            pd.read_csv('/app/question_data/dice15.csv',error_bad_lines=False )
             #df=\
-            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/seriestest54.csv',error_bad_lines=False )
-
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/dice15.csv',error_bad_lines=False )
             quests = []
             optA = []
             optB = []
@@ -134,6 +133,7 @@ def home(request):
             optB = df['OptionB']
             optC = df['OptionC']
             optD = df['OptionD']
+            im = df['Image']
             #optE = df['OptionE'] 
             #exp = df['Explanation']
             quest_category = df['Category']
@@ -159,12 +159,14 @@ def home(request):
             print(len(optD))
             print(len(right_answer))
             print(len(quest_category))
+            print(len(im))
             for ind in range(len(optA)):
+                print(im[ind])
                 #jprint('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
                 #j -- right_answer,%s -- explanation'
                 #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
-                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,quests[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions
+                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,im[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions
                                = True)
             ##write_passages(all_passages)
             #print(quests)
@@ -1092,8 +1094,9 @@ def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCate
         new_questions.section_category = 'General-Knowledge'
     new_questions.text = str(question)
     new_questions.topic_category = str(questCategory)
-    #if image != 5:
-    #    new_questions.picture = image
+    if image:
+        print('%s image' %image)
+        new_questions.picture = image
     new_questions.save()
     for sch in school:
         new_questions.school.add(sch)
