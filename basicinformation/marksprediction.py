@@ -2058,6 +2058,9 @@ class Studs:
                 elif i == '16.1':
                     namedarr.append('Coding Decoding')
                     timing.append(j)
+                elif i == '17.1':
+                    namedarr.append('Series Test')
+                    timing.append(j)
 
 
 
@@ -2316,6 +2319,9 @@ class Studs:
                     namedarr.append('Mathematical Operations')
                 elif i == '16.1':
                     namedarr.append('Coding Decoding')
+                elif i == '17.1':
+                    namedarr.append('Series Test')
+
 
 
 
@@ -2518,6 +2524,9 @@ class Studs:
                 return 'Mathematical Operations'
             elif i == '16.1':
                 return 'Coding Decoding'
+            elif i == '17.1':
+                return 'Series Test'
+
 
 
 
@@ -4034,6 +4043,10 @@ class Teach:
                 elif i == '16.1':
                     names.append('Coding Decoding')
                     numbers.append(i)
+                elif i == '17.1':
+                    names.append('Series Test')
+                    numbers.append(i)
+
 
 
 
@@ -4341,6 +4354,10 @@ class Teach:
                 elif i == '16.1':
                     names.append('Coding Decoding')
                     numbers.append(j)
+                elif i == '17.1':
+                    names.append('Series Test')
+                    numbers.append(j)
+
 
 
 
@@ -4599,6 +4616,9 @@ class Teach:
                     numbers.append('15.1')
                 elif i == 'Coding Decoding':
                     numbers.append('16.1')
+                elif i == 'Series Test':
+                    numbers.append('17.1')
+
 
 
 

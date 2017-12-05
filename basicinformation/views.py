@@ -108,10 +108,10 @@ def home(request):
             #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
-            df=\
-            pd.read_csv('/app/question_data/matrix51.csv',error_bad_lines=False )
             #df=\
-            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/matrix51.csv',error_bad_lines=False )
+            #pd.read_csv('/app/question_data/matrix51.csv',error_bad_lines=False )
+            df=\
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/seriestest54.csv',error_bad_lines=False )
 
             quests = []
             optA = []
@@ -138,7 +138,7 @@ def home(request):
             #exp = df['Explanation']
             quest_category = df['Category']
             #quest_category = '11.1' # indian museams
-            for i in df['Correct']:
+            for i in df['Answer']:
                 ichanged = str(i).replace(u'\\xa0',u' ')
                 ichanged2 = ichanged.replace('Answer',' ')
                 ichanged3 = ichanged2.replace('Explanation',' ')
@@ -1090,10 +1090,10 @@ def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCate
         new_questions.section_category = 'Quantitative-Analysis'
     elif sectionType == 'GK':
         new_questions.section_category = 'General-Knowledge'
-    #new_questions.text = str(question)
+    new_questions.text = str(question)
     new_questions.topic_category = str(questCategory)
-    if image != 5:
-        new_questions.picture = image
+    #if image != 5:
+    #    new_questions.picture = image
     new_questions.save()
     for sch in school:
         new_questions.school.add(sch)
