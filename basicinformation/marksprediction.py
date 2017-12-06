@@ -1848,7 +1848,11 @@ class Studs:
                 qu = Questions.objects.get(id = i)
             elif self.institution == 'SSC':
             # finds the questions objects of skipped questions
-                qu = SSCquestions.objects.get(id = i)
+                try:
+                    qu = SSCquestions.objects.get(id = i)
+                except Exception as e:
+                    print(str(e))
+                    continue
                 if subject == 'SSCMultipleSections':
                     quid = qu.id
                     wq.append(quid)
