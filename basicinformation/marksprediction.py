@@ -1483,10 +1483,18 @@ class Studs:
                         wq.append(quid)
         for i in skipped_Answers:
             if self.institution == 'School':
-                qu = Questions.objects.get(id = i)
+                try:
+                    qu = Questions.objects.get(id = i)
+                except Exception as e:
+                    print(str(e))
+                    continue
             elif self.institution == 'SSC':
             # finds the questions objects of skipped questions
-                qu = SSCquestions.objects.get(id = i)
+                try:
+                    qu = SSCquestions.objects.get(id = i)
+                except Exception as e:
+                    print(str(e))
+                    continue
                 if subject == 'SSCMultipleSections':
                     quid = qu.id
                     wq.append(quid)
