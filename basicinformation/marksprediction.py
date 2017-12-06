@@ -1583,20 +1583,36 @@ class Studs:
             all_ids = []
             for mark in marks:
                 for total in mark.allAnswers:
-                    quest = SSCquestions.objects.get(choices__id = total)
+                    try:
+                        quest = SSCquestions.objects.get(choices__id = total)
+                    except Exception as e:
+                        print(str(e))
+                        continue
                     all_ids.append(quest.topic_category) 
                 for sk in mark.skippedAnswers:
-                    quest = SSCquestions.objects.get(id = sk)
+                    try:
+                        quest = SSCquestions.objects.get(id = sk)
+                    except Exception as e:
+                        print(str(e))
+                        continue
                     all_ids.append(quest.topic_category)
             # finds question ids from mixed category tests
             if all_marks:
                 for mark in all_marks:
                     for total in mark.allAnswers:
-                        quest = SSCquestions.objects.get(choices__id = total)
+                        try:
+                            quest = SSCquestions.objects.get(choices__id = total)
+                        except Exception as e:
+                            print(str(e))
+                            continue
                         if quest.section_category == subject:
                             all_ids.append(quest.topic_category) 
                     for sk in mark.skippedAnswers:
-                        quest = SSCquestions.objects.get(id = sk)
+                        try:
+                            quest = SSCquestions.objects.get(id = sk)
+                        except Exception as e:
+                            print(str(e))
+                            continue
                         if quest.section_category == subject:
                             all_ids.append(quest.topic_category)
             if offline_marks:
@@ -1609,16 +1625,28 @@ class Studs:
                             continue
                         all_ids.append(quest.topic_category) 
                     for sk in mark.skippedAnswers:
-                        quest = SSCquestions.objects.get(id = sk)
+                        try:
+                            quest = SSCquestions.objects.get(id = sk)
+                        except Exception as e:
+                            print(str(e))
+                            continue
                         all_ids.append(quest.topic_category)
             if offline_all_marks:
                 for mark in offline_all_marks:
                     for total in mark.allAnswers:
-                        quest = SSCquestions.objects.get(choices__id = total)
+                        try:
+                            quest = SSCquestions.objects.get(choices__id = total)
+                        except Exception as e:
+                            print(str(e))
+                            continue
                         if quest.section_category == subject:
                             all_ids.append(quest.topic_category) 
                     for sk in mark.skippedAnswers:
-                        quest = SSCquestions.objects.get(id = sk)
+                        try:
+                            quest = SSCquestions.objects.get(id = sk)
+                        except Exception as e:
+                            print(str(e))
+                            continue
                         if quest.section_category == subject:
                             all_ids.append(quest.topic_category)
 
