@@ -1330,19 +1330,31 @@ class Studs:
             subjectsa = []
             # find all the right answers with their subjects
             for ra in marks.rightAnswers:
-                question = SSCquestions.objects.get(choices__id = ra)
+                try:
+                    question = SSCquestions.objects.get(choices__id = ra)
+                except Exception as e:
+                    print(str(e))
+                    continue
                 sub = question.section_category
                 right_answers.append(question.id)
                 subjectra.append(sub)
             # find all the wrong answers with their subjects
             for wa in marks.wrongAnswers:
-                question = SSCquestions.objects.get(choices__id = wa)
+                try:
+                    question = SSCquestions.objects.get(choices__id = wa)
+                except Exception as e:
+                    print(str(e))
+                    continue
                 sub = question.section_category
                 wrong_answers.append(question.id)
                 subjectwa.append(sub)
             # find all the skipped answers with their subjects
             for sa in marks.skippedAnswers:
-                question = SSCquestions.objects.get(id = sa)
+                try:
+                    question = SSCquestions.objects.get(id = sa)
+                except Exception as e:
+                    print(str(e))
+                    continue
                 sub = question.section_category
                 skipped_answers.append(question.id)
                 subjectsa.append(sub)
