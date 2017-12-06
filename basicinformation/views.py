@@ -108,10 +108,10 @@ def home(request):
             #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
-            df=\
-            pd.read_csv('/app/question_data/dice15.csv',error_bad_lines=False )
             #df=\
-            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/dice15.csv',error_bad_lines=False )
+            #pd.read_csv('/app/question_data/dice15.csv',error_bad_lines=False )
+            df=\
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/dice.csv',error_bad_lines=False )
             quests = []
             optA = []
             optB = []
@@ -142,15 +142,15 @@ def home(request):
                 ichanged = str(i).replace(u'\\xa0',u' ')
                 ichanged2 = ichanged.replace('Answer',' ')
                 ichanged3 = ichanged2.replace('Explanation',' ')
-                if 'a' in ichanged:
+                if 'A' in ichanged:
                     right_answer.append(1)
-                elif 'b' in ichanged:
+                elif 'B' in ichanged:
                     right_answer.append(2)
-                elif 'c' in ichanged:
+                elif 'C' in ichanged:
                     right_answer.append(3)
-                elif 'd' in ichanged:
+                elif 'D' in ichanged:
                     right_answer.append(4)
-                elif 'e' in ichanged:
+                elif 'E' in ichanged:
                     right_answer.append(5)
             print(len(quests))
             print(len(optA))
@@ -444,7 +444,6 @@ def student_subject_analysis(request):
     if user.is_authenticated:
         if 'studentwhichsub' in request.GET:
             which_sub = request.GET['studentwhichsub']
-            print('%s --which sub' %which_sub)
             if me.institution == 'SSC':
                 ana_type = ['Institute Tests', 'Online Tests']
             else:
@@ -576,7 +575,6 @@ def student_weakAreas(request):
         timing_areawise,freq_timer = me.areawise_timing(subject)
         freq_timer = me.changeTopicNumbersNames(freq_timer,subject)
         freq = me.weakAreas_IntensityAverage(subject)
-        print('%s weak ' %freq)
         strongAreas = []
         strongFreq = []
         try:
@@ -670,16 +668,13 @@ def teacher_weakAreasinDetail(request):
             res = \
             me.online_problematicAreaswithIntensityAverage(user,which_sub,which_class)
             end = timeit.default_timer()
-            print('%s time it took' %(end-before))
             before = timeit.default_timer()
             res = me.change_topicNumbersNamesWeakAreas(res,which_sub)
             end = timeit.default_timer()
-            print('%s time it took' %(end-before))
             before = timeit.default_timer()
             timing,freq_timing = me.weakAreas_timing(user,which_sub,which_class)
             timing = me.change_topicNumbersNamesWeakAreas(timing,which_sub)
             end = timeit.default_timer()
-            print('%s time it took' %(end-before))
             context =\
             {'which_class':which_class,'probAreas':res,'timing':timing}
             return render(request,'basicinformation/teacher_weakAreasinDetail.html',context)
@@ -1095,7 +1090,6 @@ def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCate
     new_questions.text = str(question)
     new_questions.topic_category = str(questCategory)
     if image:
-        print('%s image' %image)
         new_questions.picture = image
     new_questions.save()
     for sch in school:
@@ -1130,7 +1124,6 @@ def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCate
             exptext3 = exptext2.replace(u'\\xa0',u' ')
             exptext4 = exptext3.replace('\"','')
         if correctOpt == n+1:
-            print('%s -- correctopt' %correctOpt)
             new_choices.predicament = 'Correct'
             if 'https:' in str(exp):
                 new_choices.explanationPicture = exp
@@ -1167,12 +1160,10 @@ def evaluate_offline_test(studentid,opt):
             if k == 'a' and n == 0:
                 chid.append(i.id)
                 if i.predicament == 'Correct':
-                    print(i.id,i.predicament)
                     rightAnswer.append(i.id)
                     allAnswer.append(i.id)
                     total_marks += 2
                 elif i.predicament == 'Wrong':
-                    print(i.id,i.predicament)
                     wrongAnswer.append(i.id)
                     allAnswer.append(i.id)
                     total_marks -= 0.25
@@ -1180,12 +1171,10 @@ def evaluate_offline_test(studentid,opt):
             elif k == 'b' and n == 1:
                 chid.append(i.id)
                 if i.predicament == 'Correct':
-                    print(i.id,i.predicament)
                     rightAnswer.append(i.id)
                     allAnswer.append(i.id)
                     total_marks += 2
                 elif i.predicament == 'Wrong':
-                    print(i.id,i.predicament)
                     wrongAnswer.append(i.id)
                     allAnswer.append(i.id)
                     total_marks -= 0.25
@@ -1193,12 +1182,10 @@ def evaluate_offline_test(studentid,opt):
             elif k == 'c' and n == 2:
                 chid.append(i.id)
                 if i.predicament == 'Correct':
-                    print(i.id,i.predicament)
                     rightAnswer.append(i.id)
                     allAnswer.append(i.id)
                     total_marks += 2
                 elif i.predicament == 'Wrong':
-                    print(i.id,i.predicament)
                     wrongAnswer.append(i.id)
                     allAnswer.append(i.id)
                     total_marks -= 0.25
@@ -1206,12 +1193,10 @@ def evaluate_offline_test(studentid,opt):
             elif k == 'd' and n == 3:
                 chid.append(i.id)
                 if i.predicament == 'Correct':
-                    print(i.id,i.predicament)
                     rightAnswer.append(i.id)
                     allAnswer.append(i.id)
                     total_marks += 2
                 elif i.predicament == 'Wrong':
-                    print(i.id,i.predicament)
                     wrongAnswer.append(i.id)
                     allAnswer.append(i.id)
                     total_marks -= 0.25
@@ -1219,12 +1204,10 @@ def evaluate_offline_test(studentid,opt):
             elif k == 'e' and n == 4:
                 chid.append(i.id)
                 if i.predicament == 'Correct':
-                    print(i.id,i.predicament)
                     rightAnswer.append(i.id)
                     allAnswer.append(i.id)
                     total_marks += 2
                 elif i.predicament == 'Wrong':
-                    print(i.id,i.predicament)
                     wrongAnswer.append(i.id)
                     allAnswer.append(i.id)
                     total_marks -= 0.25

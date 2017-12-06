@@ -1450,7 +1450,6 @@ class Studs:
                     skipped_Answers.append(sp)
         # same as above, but when for offline my marks
         if offline_my_marks:
-            print(len(offline_my_marks))
             for om in offline_my_marks:
                 for wa in om.wrongAnswers:
                     wrong_Answers.append(wa)
@@ -1589,10 +1588,13 @@ class Studs:
                         if quest.section_category == subject:
                             all_ids.append(quest.topic_category)
             if offline_marks:
-                print('in offline marks')
                 for mark in offline_marks:
                     for total in mark.allAnswers:
-                        quest = SSCquestions.objects.get(choices__id = total)
+                        try:
+                            quest = SSCquestions.objects.get(choices__id = total)
+                        except Exception as e:
+                            print(str(e))
+                            continue
                         all_ids.append(quest.topic_category) 
                     for sk in mark.skippedAnswers:
                         quest = SSCquestions.objects.get(id = sk)
@@ -3602,7 +3604,6 @@ class Teach:
 
 
         wq = []
-        print('hree in one')
         for i in wrong_answers:
             if self.institution == 'School':
                 qu = Questions.objects.get(choices__id = i)
@@ -3634,7 +3635,6 @@ class Teach:
 
         unique, counts = np.unique(wq, return_counts=True)
         waf = np.asarray((unique, counts)).T
-        print('hree in two')
         nw_ind = []
         kk = np.sort(waf,0)[::-1]
         for u in kk[:,1]:
@@ -3646,7 +3646,6 @@ class Teach:
                         nw_ind.append(z)
                         break
         final_freq = np.asarray((nw_ind,kk[:,1])).T
-        print('hree in up')
         return final_freq
         
     def online_problematicAreasNames(self,user,subject,klass):
