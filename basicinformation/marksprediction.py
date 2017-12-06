@@ -1469,7 +1469,11 @@ class Studs:
                 qu = Questions.objects.get(choices__id = i)
             elif self.institution == 'SSC':
             # finds the questions objects of wrong questions
-                qu = SSCquestions.objects.get(choices__id = i)
+                try:
+                    qu = SSCquestions.objects.get(choices__id = i)
+                except Exception as e:
+                    print(str(e))
+                    continue
                 if subject == 'SSCMultipleSections':
                     quid = qu.id
                     wq.append(quid)
