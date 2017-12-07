@@ -3610,7 +3610,11 @@ class Teach:
                     wrong_answers.append(wa)
             wq = []
             for i in wrong_answers:
-                qu = SSCquestions.objects.get(choices__id = i)
+                try:
+                    qu = SSCquestions.objects.get(choices__id = i)
+                except Exception as e:
+                    print(str(e))
+                    continue
                 quid = qu.id
                 wq.append(quid)
 
