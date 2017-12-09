@@ -10,6 +10,7 @@
          $(eval("'#subjectButton'+i")).click(function(){
           which_sub = $(this).text(); 
 	  which_klass = $('#which_class').text();
+	  $('#loadinganalysis2').show();
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
          $('#onlinetestid').removeClass("hidden");
          $('#onlinetestid').html('').load('{% url 'basic:teacher_update_page' %}?onlineschoolSubject='+which_sub.replace(/\s+/g,'')+','+which_klass);

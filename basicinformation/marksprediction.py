@@ -3511,9 +3511,9 @@ class Teach:
             online_marks = OnlineMarks.objects.filter(test__id=test_id)
         elif self.institution == 'SSC':
             if mode == 'offline':
-                online_marks = SSCOnlineMarks.objects.filter(test__id=test_id)
-            else:
                 online_marks = SSCOfflineMarks.objects.filter(test__id=test_id)
+            else:
+                online_marks = SSCOnlineMarks.objects.filter(test__id=test_id)
         skipped_questions = []
         for om in online_marks:
             for sq in om.skippedAnswers:

@@ -826,6 +826,7 @@ def teacher_update_page(request):
                 result = result[result[:,3].argsort()]
             except:
                 result = None
+
             context = {'om': online_marks,'test':test,'average':average
                        ,'percentAverage':percent_average,'maxMarks':max_marks,
                        'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,

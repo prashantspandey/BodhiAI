@@ -211,9 +211,31 @@ class SSCTemporaryQuestionsHolder(models.Model):
     teacher = models.ForeignKey(Teacher)
     time = models.DateTimeField()
 
+
 class TemporaryQuestionsHolder(models.Model):
     quests = ArrayField(models.IntegerField())
     teacher = models.ForeignKey(Teacher)
+
+
 class TemporaryOneClickTestHolder(models.Model):
     quests = ArrayField(models.IntegerField())
     teacher = models.ForeignKey(Teacher)
+
+class SscTeacherTestResultLoader(models.Model):
+    test = models.ForeignKey(SSCKlassTest)
+    teacher = models.ForeignKey(Teacher)
+    onlineMarks = models.ForeignKey(SSCOnlineMarks)
+    average = models.FloatField()
+    percentAverage = models.FloatField()
+    grade_a = models.IntegerField(default = 0)
+    grade_b = models.IntegerField(default = 0)
+    grade_c = models.IntegerField(default = 0)
+    grade_d = models.IntegerField(default = 0)
+    grade_e = models.IntegerField(default = 0)
+    grade_f = models.IntegerField(default = 0)
+    grade_s = models.IntegerField(default = 0)
+    skipped  = ArrayField(models.IntegerField())
+    problemQuestions = ArrayField(models.IntegerField())
+
+
+
