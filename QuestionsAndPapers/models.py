@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
-
 class KlassTest(models.Model):
     mode_choices =\
     (('BodhiOnline','BodhiOnline'),('BodhiSchool','BodhiSchool'))
@@ -238,7 +237,8 @@ class SscTeacherTestResultLoader(models.Model):
     skippedFreq = ArrayField(models.IntegerField())
     problemQuestions = ArrayField(models.IntegerField())
     problemQuestionsFreq = ArrayField(models.IntegerField())
-    freqAnswers = ArrayField(models.IntegerField())
+    freqAnswersQuestions = ArrayField(models.IntegerField())
+    freqAnswersFreq = ArrayField(models.IntegerField())
 
 
     def __str__(self):

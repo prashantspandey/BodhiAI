@@ -818,10 +818,10 @@ def teacher_update_page(request):
                 result_loader = SscTeacherTestResultLoader.objects.get(test__id = test_id)
             except:
                 result_loader = SscTeacherTestResultLoader()
-                result_loader.test = SSCKlassTest.objects.get(id = test_id)
+                res_test = SSCKlassTest.objects.get(id=test_id)
+                result_loader.test = res_test
                 result_loader.teacher = me.profile
-                
-                
+                max_marks = res_test.max_marks
                 result_loader.average,result_loader.percentAverage =\
                 me.online_findAverageofTest(test_id,percent='p')
                 result_loader.grade_s,result_loader.grade_a,result_loader.grade_b,\
@@ -835,16 +835,25 @@ def teacher_update_page(request):
                 result_loader.problemQuestions = list(problem_loader[:,0])
                 result_loader.problemQuestionsFreq = list(problem_loader[:,1])
                 freqAnswers = me.online_QuestionPercentage(test_id)
-                result_loader.freqAnswers =list(freqAnswers)
+                freqAnswerQuest = freqAnswers[:,0]
+                freqAnswersfreq = freqAnswers[:,1]
+                result_loader.freqAnswersQuestions = list(freqAnswerQuest)
+                result_loader.freqAnswersFreq = list(freqAnswersfreq)
                 result_loader.save()
                 for i in online_marks:
                     result_loader.onlineMarks.add(i)
+                result = me.generate_rankTable(test_id)
+                try:
+                    result = result[result[:,3].argsort()]
+                except:
+                    result = None
+
                 context = {'om':
                            online_marks,'test':result_loader.test,'average':result_loader.average
                            ,'percentAverage':result_loader.percentAverage,'maxMarks':max_marks,
-                           'grade_s':result_loader.grade_s,'grade_a':result_loader.grade_a,'grade_b':result_loadergrade_b,'grade_c':result_loader.grade_c,
+                           'grade_s':result_loader.grade_s,'grade_a':result_loader.grade_a,'grade_b':result_loader.grade_b,'grade_c':result_loader.grade_c,
                            'grade_d':result_loader.grade_d,'grade_e':result_loader.grade_e,'grade_f':result_loader.grade_f,
-                           'freq':result_loader.freqAnswers,'sq':skipped_loader,'problem_quests':problem_loader,'ssc':True,'result':result}
+                           'freq':freqAnswers,'sq':skipped_loader,'problem_quests':problem_loader,'ssc':True,'result':result}
                 return render(request, 'basicinformation/teacher_online_analysis3.html', context)
 
 
@@ -867,7 +876,9 @@ def teacher_update_page(request):
                 skipped_quests = result_loader.skipped
                 skipped_freq = result_loader.skippedFreq
                 sq = list(zip(skipped_quests,skipped_freq))
-                freq = result_loader.freqAnswers
+                freqQuests = result_loader.freqAnswersQuestions
+                freqQuestsfreq = result_loader.freqAnswersFreq
+                freq = list(zip(freqQuests,freqQuestsfreq))
                 result = me.generate_rankTable(test_id)
                 try:
                     result = result[result[:,3].argsort()]
@@ -891,11 +902,11 @@ def teacher_update_page(request):
                 #me.online_freqeucyGrades(test_id)
                 #freq = me.online_QuestionPercentage(test_id)
                 #sq = me.online_skippedQuestions(test_id)
-                #result = me.generate_rankTable(test_id)
-                #try:
-                #    result = result[result[:,3].argsort()]
-                #except:
-                #    result = None
+                result = me.generate_rankTable(test_id)
+                try:
+                    result = result[result[:,3].argsort()]
+                except:
+                    result = None
                 
                 
                 result_loader.average,result_loader.percentAverage =\
@@ -911,7 +922,10 @@ def teacher_update_page(request):
                 result_loader.problemQuestions = list(problem_loader[:,0])
                 result_loader.problemQuestionsFreq = list(problem_loader[:,1])
                 freqAnswers = me.online_QuestionPercentage(test_id)
-                result_loader.freqAnswers =list(freqAnswers)
+                freqAnswerQuest = freqAnswers[:,0]
+                freqAnswersfreq = freqAnswers[:,1]
+                result_loader.freqAnswersQuestions = list(freqAnswerQuest)
+                result_loader.freqAnswersFreq = list(freqAnswersfreq)
                 result_loader.save()
                 for i in online_marks:
                     result_loader.onlineMarks.add(i)
@@ -919,7 +933,7 @@ def teacher_update_page(request):
                            ,'percentAverage':percent_average,'maxMarks':max_marks,
                            'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
                            'grade_d':grade_d,'grade_e':grade_e,'grade_f':grade_f,
-                           'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
+                           'freq':freqAnswers,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
                 return render(request, 'basicinformation/teacher_online_analysis3.html', context)
 
     elif 'onlineIndividualPerformace' in request.GET:
