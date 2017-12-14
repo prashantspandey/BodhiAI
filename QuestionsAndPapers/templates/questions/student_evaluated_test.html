@@ -43,7 +43,7 @@
 
 		{% for quest in marks.test.sscquestions_set.all %}
 	<div class = 'well col-md-offset-1 col-md-10 col-sm-12'>
-		<h4 style='font-weight:bold;'>{{quest.text|linebreaks}}</h4>
+		<h4 style='font-weight:bold;'>{% if quest.text %}{{quest.text|linebreaks}}{%endif%}</h4>
 		{%if quest.picture %}
 		<img src='{{quest.picture}}' class='img-responsive'>
 		{%endif%}	

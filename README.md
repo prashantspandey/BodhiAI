@@ -1,4 +1,4 @@
-# BodhiAI
+BodhiAI
 5 apps - 
 - basicInformation
 - membership

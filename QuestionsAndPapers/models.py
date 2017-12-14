@@ -224,7 +224,7 @@ class TemporaryOneClickTestHolder(models.Model):
 class SscTeacherTestResultLoader(models.Model):
     test = models.ForeignKey(SSCKlassTest)
     teacher = models.ForeignKey(Teacher)
-    onlineMarks = models.ForeignKey(SSCOnlineMarks)
+    onlineMarks = models.ManyToManyField(SSCOnlineMarks)
     average = models.FloatField()
     percentAverage = models.FloatField()
     grade_a = models.IntegerField(default = 0)
@@ -235,7 +235,14 @@ class SscTeacherTestResultLoader(models.Model):
     grade_f = models.IntegerField(default = 0)
     grade_s = models.IntegerField(default = 0)
     skipped  = ArrayField(models.IntegerField())
+    skippedFreq = ArrayField(models.IntegerField())
     problemQuestions = ArrayField(models.IntegerField())
+    problemQuestionsFreq = ArrayField(models.IntegerField())
+    freqAnswers = ArrayField(models.IntegerField())
+
+
+    def __str__(self):
+        return str(self.test.id)
 
 
 
