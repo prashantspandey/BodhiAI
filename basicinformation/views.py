@@ -859,8 +859,7 @@ def teacher_update_page(request):
 
             saved_marks = result_loader.onlineMarks.all()
             if len(online_marks) == len(saved_marks):
-                test = result_loader.test
-                max_marks = test.max_marks    
+                max_marks = result_loader.test.max_marks    
                 pro_quests = result_loader.problemQuestions
                 pro_freq  = result_loader.problemQuestionsFreq
                 average = result_loader.average
@@ -884,10 +883,11 @@ def teacher_update_page(request):
                     result = result[result[:,3].argsort()]
                 except:
                     result = None
-                context = {'om': online_marks,'test':test,'average':average
-                           ,'percentAverage':percent_average,'maxMarks':max_marks,
-                           'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
-                           'grade_d':grade_d,'grade_e':grade_e,'grade_f':grade_f,
+                context = {'om':
+                           online_marks,'test':result_loader.test,'average':result_loader.average
+                           ,'percentAverage':result_loader.percentAverage,'maxMarks':max_marks,
+                           'grade_s':result_loader.grade_s,'grade_a':result_loader.grade_a,'grade_b':result_loader.grade_b,'grade_c':result_loader.grade_c,
+                           'grade_d':result_loader.grade_d,'grade_e':result_loader.grade_e,'grade_f':result_loader.grade_f,
                            'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
                 return render(request, 'basicinformation/teacher_online_analysis3.html', context)
 
@@ -929,7 +929,7 @@ def teacher_update_page(request):
                 result_loader.save()
                 for i in online_marks:
                     result_loader.onlineMarks.add(i)
-                context = {'om': online_marks,'test':test,'average':average
+                context = {'om': online_marks,'test':result_loader.test,'average':average
                            ,'percentAverage':percent_average,'maxMarks':max_marks,
                            'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
                            'grade_d':grade_d,'grade_e':grade_e,'grade_f':grade_f,
