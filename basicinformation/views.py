@@ -108,10 +108,10 @@ def home(request):
             #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
-            #df=\
-            #pd.read_csv('/app/question_data/dice15.csv',error_bad_lines=False )
             df=\
-            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/dice.csv',error_bad_lines=False )
+            pd.read_csv('/app/question_data/alphabettesthindi24.csv',error_bad_lines=False )
+            #df=\
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/alphabettesthindi24.csv',error_bad_lines=False )
             quests = []
             optA = []
             optB = []
@@ -133,12 +133,12 @@ def home(request):
             optB = df['OptionB']
             optC = df['OptionC']
             optD = df['OptionD']
-            im = df['Image']
+            #im = df['Image']
             #optE = df['OptionE'] 
             #exp = df['Explanation']
             quest_category = df['Category']
             #quest_category = '11.1' # indian museams
-            for i in df['Answer']:
+            for i in df['Correct']:
                 ichanged = str(i).replace(u'\\xa0',u' ')
                 ichanged2 = ichanged.replace('Answer',' ')
                 ichanged3 = ichanged2.replace('Explanation',' ')
@@ -159,14 +159,12 @@ def home(request):
             print(len(optD))
             print(len(right_answer))
             print(len(quest_category))
-            print(len(im))
             for ind in range(len(optA)):
-                print(im[ind])
                 #jprint('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
                 #j -- right_answer,%s -- explanation'
                 #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
-                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,im[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions
+                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions
                                = True)
             ##write_passages(all_passages)
             #print(quests)
@@ -225,6 +223,11 @@ def home(request):
 
            # get new tests to take (practise tests on the student page) 
             new_tests = me.toTake_Tests()
+            all_ts = []
+            for i in new_tests.items():
+                all_ts.append(i)
+            for n,i in enumerate(all_ts):
+                print("%s --- %s" %(n,i))
              #Get all the student marks
             try:
                 mathst1,mathst2,mathst3,mathshy,mathst4,mathspredhy =\
@@ -249,9 +252,9 @@ def home(request):
                 sciencet1 = sciencet2 = sciencet3 = sciencehy = sciencet4 =\
                 sciencepredhy=None
 
-            # check for announcements in past 48 hours
+            # check for announcements in past 24 hours
             startdate = date.today()
-            enddate = startdate - timedelta(days=2)
+            enddate = startdate - timedelta(days=1)
             my_announcements = Announcement.objects.filter(listener =
                                                            profile,date__range=[enddate,startdate])
 
@@ -295,10 +298,10 @@ def home(request):
                        sciencet4,'announcements':my_announcements}
             if me.profile.school.name == "BodhiAI":
                 context = \
-                    {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
+                        {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests,'allTs':all_ts}
             else:
                 context = \
-                    {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
+                    {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests,'allTs':all_ts}
 
             return render(request, 'basicinformation/studentInstitute.html', context)
             #ssccoaching = School.objects.get(name='BodhiAI')
@@ -386,6 +389,7 @@ def home(request):
         return HttpResponseRedirect(reverse('membership:login'))
 
 
+# gets tests of selected topic by the student on home page
 
 def student_select_topicTest(request):
     user = request.user

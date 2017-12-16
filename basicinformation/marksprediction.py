@@ -2095,7 +2095,7 @@ class Studs:
                     namedarr.append('Ruled based analogy')
                     timing.append(j)
                 elif i == '2.9':
-                    namedarr.append('Alphabet series (missing)')
+                    namedarr.append('Alphabet Test')
                     timing.append(j)
                 elif i == '4.1':
                     namedarr.append('Age')
@@ -2370,7 +2370,7 @@ class Studs:
                 elif i == '2.8':
                     namedarr.append('Ruled based analogy')
                 elif i == '2.9':
-                    namedarr.append('Alphabet series (missing)')
+                    namedarr.append('Alphabet Test')
                 elif i == '4.1':
                     namedarr.append('Age')
                 elif i == '5.1':
@@ -2575,7 +2575,7 @@ class Studs:
             elif i == '2.8':
                 return 'Ruled based analogy'
             elif i == '2.9':
-                return 'Alphabet series (missing)'
+                return 'Alphabet Test'
             elif i == '4.1':
                 return 'Age'
             elif i == '5.1':
@@ -4081,7 +4081,7 @@ class Teach:
                     names.append('Ruled based analogy')
                     numbers.append(i)
                 elif i == '2.9':
-                    names.append('Alphabet series (missing)')
+                    names.append('Alphabet Test')
                     numbers.append(i)
                 elif i == '4.1':
                     names.append('Age')
@@ -4392,7 +4392,7 @@ class Teach:
                     names.append('Ruled based analogy')
                     numbers.append(j)
                 elif i == '2.9':
-                    names.append('Alphabet series (missing)')
+                    names.append('Alphabet Test')
                     numbers.append(j)
                 elif i == '4.1':
                     names.append('Age')
@@ -4667,7 +4667,7 @@ class Teach:
                     numbers.append('3.4')
                 elif i == 'Ruled based analogy':
                     numbers.append('2.8')
-                elif i == 'Alphabet series (missing)':
+                elif i == 'Alphabet Test':
                     numbers.append('2.9')
                 elif i == 'Age':
                     numbers.append('4.1')
