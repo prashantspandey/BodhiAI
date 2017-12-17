@@ -931,13 +931,15 @@ def teacher_update_page(request):
                 result_loader.freqAnswersQuestions = list(freqAnswerQuest)
                 result_loader.freqAnswersFreq = list(freqAnswersfreq)
                 result_loader.save()
+                max_marks = result_loader.test.max_marks
                 for i in online_marks:
                     result_loader.onlineMarks.add(i)
-                context = {'om': online_marks,'test':result_loader.test,'average':average
-                           ,'percentAverage':percent_average,'maxMarks':max_marks,
-                           'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
-                           'grade_d':grade_d,'grade_e':grade_e,'grade_f':grade_f,
-                           'freq':freqAnswers,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
+                context = {'om':
+                           online_marks,'test':result_loader.test,'average':result_loader.average
+                           ,'percentAverage':result_loader.percentAverage,'maxMarks':max_marks,
+                           'grade_s':result_loader.grade_s,'grade_a':result_loader.grade_a,'grade_b':result_loader.grade_b,'grade_c':result_loader.grade_c,
+                           'grade_d':result_loader.grade_d,'grade_e':result_loader.grade_e,'grade_f':result_loader.grade_f,
+                           'freq':freqAnswers,'sq':skipped_loader,'problem_quests':problem_loader,'ssc':True,'result':result}
                 return render(request, 'basicinformation/teacher_online_analysis3.html', context)
 
     elif 'onlineIndividualPerformace' in request.GET:
