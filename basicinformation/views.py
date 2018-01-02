@@ -39,6 +39,19 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
+
+            # add students 
+            #df =\
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swami2jan.csv',error_bad_lines=False )
+            #name = df['Name']
+            #dob = df['DOB']
+            #batch = df['Batch no']
+            #username = df['Phone']
+            #password = df['password']
+            #stu = list(zip(name,dob,batch,username,password))
+            #real_create_student(stu,request)
+            #return HttpResponse(stu)
+
             #quad_questions = SSCquestions.objects.filter(section_category =\
             #                                             'Quantitative-Analysis',topic_category=22.1)
             #ch_list = []
@@ -109,9 +122,9 @@ def home(request):
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
             df=\
-            pd.read_csv('/app/question_data/sylloligm72.csv',error_bad_lines=False )
+            pd.read_csv('/app/question_data/analogyhindi51.csv',error_bad_lines=False )
             #df=\
-            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/sylloligm72.csv',error_bad_lines=False )
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/analogyhindi51.csv',error_bad_lines=False )
             quests = []
             optA = []
             optB = []
@@ -120,7 +133,7 @@ def home(request):
             optE = []
             right_answer = []
             quest_category = []
-            #quests = df['Questions']
+            quests = df['Questions']
             temp = []
             #qu = 'Arrange the words below meaningfully\n'
             #for i in quests:
@@ -130,16 +143,16 @@ def home(request):
 
             #images = df['link']
             #images = None
-            optA = df['optionA']
-            optB = df['optionB']
-            optC = df['optionC']
-            optD = df['optionD']
-            im = df['QuestionLink']
-            optE = df['optionE'] 
+            optA = df['OptionA']
+            optB = df['OptionB']
+            optC = df['OptionC']
+            optD = df['OptionD']
+            #im = df['QuestionLink']
+            #optE = df['optionE'] 
             #exp = df['Explanation']
             quest_category = df['Category']
             #quest_category = '11.1' # indian museams
-            for i in df['correct']:
+            for i in df['Correct']:
                 ichanged = str(i).replace(u'\\xa0',u' ')
                 ichanged2 = ichanged.replace('Answer',' ')
                 ichanged3 = ichanged2.replace('Explanation',' ')
@@ -153,7 +166,7 @@ def home(request):
                     right_answer.append(4)
                 elif 'e' in ichanged:
                     right_answer.append(5)
-            print(len(im))
+            print(len(quests))
             print(len(optA))
             print(len(optB))
             print(len(optC))
@@ -165,7 +178,7 @@ def home(request):
                 #j -- right_answer,%s -- explanation'
                 #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
-                write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],im[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning')
+                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True)
             ##write_passages(all_passages)
             #print(quests)
             #print(right_answer)
@@ -1182,24 +1195,33 @@ def create_student(num, request):
             print(str(e))
 
 def real_create_student(stu, request):
+    print('in process............')
     user = request.user
     school = School.objects.get(name='Swami Reasoning World')
     teacher = Teacher.objects.get(school__name = 'Swami Reasoning World')
-    for i,j in stu:
+    for na,dob,batch,phone,pa in stu:
+        #ss = Student.objects.get(studentuser__username = phone)
+        #print(ss.name)
         try:
-            pa = str(i)
-            pa = pa[:8]
-            us = User.objects.create_user(username=i,
-                                          email='swamireasoning' + str(j) + '@gmail.com',
-                                          password='pa')
+            pa = str.lower(pa)
+            dob = datetime.strptime(dob,'%d/%m/%Y')
+            us = User.objects.create_user(username=phone,
+                                          email='swamireasoning' + str(na) + '@gmail.com',
+                                          password=pa)
             us.save()
             gr = Group.objects.get(name='Students')
             gr.user_set.add(us)
-            cl = klass.objects.get(school__name='Swami Reasoning World')
+            if batch == 16:
+                cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch16')
+            elif batch == 17:
+                 cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch17')
+            elif batch == 24:
+                  cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch24')
+          
             stu = Student(studentuser=us, klass=cl,
-                              rollNumber=i,
-                              name= j,
-                              dob=timezone.now(),
+                              rollNumber=phone,
+                              name= na,
+                              dob=dob,
                           pincode=int(str(302018)),school= school)
             stu.save()
             sub = Subject(name='General-Intelligence', student=stu,

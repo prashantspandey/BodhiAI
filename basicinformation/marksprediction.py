@@ -2061,7 +2061,7 @@ class Studs:
                     namedarr.append('Counting in figures')
                     timing.append(j)
                 elif i == '2.1':
-                    namedarr.append('Analogous pair')
+                    namedarr.append('Analogy')
                     timing.append(j)
                 elif i == '2.2':
                     namedarr.append('Multiple Analogy')
@@ -2351,7 +2351,7 @@ class Studs:
                 elif i == '1.6':
                     namedarr.append('Counting in figures')
                 elif i == '2.1':
-                    namedarr.append('Analogous pair')
+                    namedarr.append('Analogy')
                 elif i == '2.2':
                     namedarr.append('Multiple Analogy')
                 elif i == '2.3':
@@ -2558,7 +2558,7 @@ class Studs:
             elif i == '1.6':
                 return 'Counting in figures'
             elif i == '2.1':
-                return 'Analogous pair'
+                return 'Analogy'
             elif i == '2.2':
                 return 'Multiple Analogy'
             elif i == '2.3':
@@ -4061,7 +4061,7 @@ class Teach:
                     names.append('Counting of figures')
                     numbers.append(i)
                 elif i == '2.1':
-                    names.append('Analogous pair')
+                    names.append('Analogy')
                     numbers.append(i)
                 elif i == '2.2':
                     names.append('Multiple Analogy')
@@ -4376,7 +4376,7 @@ class Teach:
                     names.append('Counting of figures')
                     numbers.append(j)
                 elif i == '2.1':
-                    names.append('Analogous pair')
+                    names.append('Analogy')
                     numbers.append(j)
                 elif i == '2.2':
                     names.append('Multiple Analogy')
@@ -4667,7 +4667,7 @@ class Teach:
                     numbers.append('1.5')
                 elif i == 'Counting of figures':
                     numbers.append('1.6')
-                elif i == 'Analogous pair':
+                elif i == 'Analogy':
                     numbers.append('2.1')
                 elif i == 'Multiple Analogy':
                     numbers.append('2.2')

@@ -6,6 +6,12 @@
 <head>
 <title>{%block title %}Login To BodhiAI{%endblock%}</title>
 {%block scripts %}
+<script>
+function loginClick(){
+	$('#loadinglogin').removeClass("hidden");
+	console.log('this is login')
+};
+</script>
 <link rel='stylesheet' href="{%static 'basicinformation/css/animate.css'%}">
 	<style type="text/css">
 	.container{
@@ -21,12 +27,16 @@
 {% block content %}
 
 <body>
+
+	
 	<br>
 	<br>
 	<br>
 <div class='animated flash'style='text-align:center; col-sm-12 ' id ='logoContainer'>
 	<img src="{%static 'basicinformation/img/bodhiaigif.gif' %}" alt="Bodhi AI"  style='height:25%;'>
-  </div>
+</div>
+
+
 <h1 style='text-align:center;font-weight:bold;'>Login</h1>
   <div class="container">
 
@@ -36,7 +46,7 @@
   {% csrf_token %}
   {{form|crispy}}
   <div style='text-align:center;'>
-  <button type="submit" class="btn btn-primary btn-lg">Log In</button>
+  <button type="submit" class="btn btn-primary btn-lg" onclick="loginClick()">Log In</button>
   </div>
 
    </form>
@@ -49,6 +59,11 @@
 
   
 	</div>
+	<div class='hidden' id = 'loadinglogin' style='text-align:center;display:none;'>
+ <h4 style='text-center;'>Please wait... </h4>
+         <img src="{%static 'basicinformation/images/bodhigif.gif' %}" >
+  </div> 
+
  
 </div>
 
