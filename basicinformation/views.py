@@ -121,10 +121,10 @@ def home(request):
             #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
-            df=\
-            pd.read_csv('/app/question_data/analogyhindi51.csv',error_bad_lines=False )
             #df=\
-            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/analogyhindi51.csv',error_bad_lines=False )
+            #pd.read_csv('/app/question_data/analogyhindi51.csv',error_bad_lines=False )
+            df=\
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/directiontest22.csv',error_bad_lines=False )
             quests = []
             optA = []
             optB = []
@@ -133,7 +133,7 @@ def home(request):
             optE = []
             right_answer = []
             quest_category = []
-            quests = df['Questions']
+            quests = df['Question']
             temp = []
             #qu = 'Arrange the words below meaningfully\n'
             #for i in quests:
@@ -143,10 +143,10 @@ def home(request):
 
             #images = df['link']
             #images = None
-            optA = df['OptionA']
-            optB = df['OptionB']
-            optC = df['OptionC']
-            optD = df['OptionD']
+            optA = df['optionA']
+            optB = df['optionB']
+            optC = df['optionC']
+            optD = df['optionD']
             #im = df['QuestionLink']
             #optE = df['optionE'] 
             #exp = df['Explanation']
