@@ -1407,6 +1407,7 @@ class Studs:
 
 # Finds the overall weak topics of a student,else if singleTest is true then
 # finds weak topics of single  test 
+
     def weakAreas(self,subject,singleTest = None):
         if self.institution == 'School':
             my_marks = OnlineMarks.objects.filter(student = self.profile,test__sub
@@ -1792,6 +1793,7 @@ class Studs:
                 pass
         timing = list(zip(dim3,dim4))
         freq_list = list(zip(dim3,freq))
+        print(timing,freq_list)
         return timing,freq_list
 
     def offline_weakAreas(self,subject,singleTest = None):
@@ -2098,7 +2100,7 @@ class Studs:
                     namedarr.append('Alphabet Test')
                     timing.append(j)
                 elif i == '4.1':
-                    namedarr.append('Age')
+                    namedarr.append('Ranking')
                     timing.append(j)
                 elif i == '5.1':
                     namedarr.append('Matrix')
@@ -2138,6 +2140,9 @@ class Studs:
                     timing.append(j)
                 elif i == '17.1':
                     namedarr.append('Series Test')
+                    timing.append(j)
+                elif i == '18.1':
+                    namedarr.append('Syllogism')
                     timing.append(j)
 
 
@@ -2183,7 +2188,7 @@ class Studs:
                     namedarr.append('Inequalities')
                     timing.append(j)
                 elif i == '14.1':
-                    namedarr.append('Ages')
+                    namedarr.append('Ranking')
                     timing.append(j)
                 elif i == '15.1':
                     namedarr.append('Chain Rule')
@@ -2372,7 +2377,7 @@ class Studs:
                 elif i == '2.9':
                     namedarr.append('Alphabet Test')
                 elif i == '4.1':
-                    namedarr.append('Age')
+                    namedarr.append('Ranking')
                 elif i == '5.1':
                     namedarr.append('Matrix')
                 elif i == '6.1':
@@ -2399,6 +2404,8 @@ class Studs:
                     namedarr.append('Coding Decoding')
                 elif i == '17.1':
                     namedarr.append('Series Test')
+                elif i == '18.1':
+                    namedarr.append('Syllogism')
 
 
 
@@ -2434,7 +2441,7 @@ class Studs:
                 elif i == '13.1':
                     namedarr.append('Inequalities')
                 elif i == '14.1':
-                    namedarr.append('Ages')
+                    namedarr.append('Ranking')
                 elif i == '15.1':
                     namedarr.append('Chain Rule')
                 elif i == '16.1':
@@ -2577,7 +2584,7 @@ class Studs:
             elif i == '2.9':
                 return 'Alphabet Test'
             elif i == '4.1':
-                return 'Age'
+                return 'Ranking'
             elif i == '5.1':
                 return 'Matrix'
             elif i == '6.1':
@@ -2604,6 +2611,9 @@ class Studs:
                 return 'Coding Decoding'
             elif i == '17.1':
                 return 'Series Test'
+            elif i == '18.1':
+                return 'Syllogism'
+
 
 
 
@@ -2638,7 +2648,7 @@ class Studs:
                 elif i == '13.1':
                     return 'Inequalities'
                 elif i == '14.1':
-                    return 'Ages'
+                    return 'Ranking'
                 elif i == '15.1':
                     return 'Chain Rule'
                 elif i == '16.1':
@@ -2770,10 +2780,12 @@ class Studs:
         if self.institution == 'School':
             pass
         elif self.institution == 'SSC':
+            # get marks query
             marks =\
             SSCOnlineMarks.objects.filter(student=self.profile,test__sub=subject).order_by('testTaken')
             mixed_marks =\
             SSCOnlineMarks.objects.filter(student=self.profile,test__sub='SSCMultipleSections').order_by('testTaken')
+            # get all marks in list and sort it by test taken
             total = []
             if marks:
                 for i in marks:
@@ -2788,6 +2800,8 @@ class Studs:
             ra = []
             wa = []
             overall_accuracy = []
+            # put all right and wrong questions in a separate list(also adding
+            # topics)
             for i in total:
                 for r in i.rightAnswers:
                     rq = SSCquestions.objects.get(choices__id = r)
@@ -2801,8 +2815,10 @@ class Studs:
                         wa.append(wq)
                         cat = wq.topic_category
                         topics.append(cat)
+                # get unique topics
                 topics = list(unique_everseen(topics))
                 accuracy_dict = {}
+                # get topic wise accuracy
                 for j in topics:
                     right = 0
                     wrong = 0
@@ -4084,7 +4100,7 @@ class Teach:
                     names.append('Alphabet Test')
                     numbers.append(i)
                 elif i == '4.1':
-                    names.append('Age')
+                    names.append('Ranking')
                     numbers.append(i)
                 elif i == '5.1':
                     names.append('Matrix')
@@ -4125,6 +4141,10 @@ class Teach:
                 elif i == '17.1':
                     names.append('Series Test')
                     numbers.append(i)
+                elif i == '18.1':
+                    names.append('Syllogism')
+                    numbers.append(i)
+
 
 
 
@@ -4173,7 +4193,7 @@ class Teach:
                     names.append('Inequalities')
                     numbers.append(i)
                 elif i == '14.1':
-                    names.append('Ages')
+                    names.append('Ranking')
                     numbers.append(i)
                 elif i == '15.1':
                     names.append('Chain Rule')
@@ -4395,7 +4415,7 @@ class Teach:
                     names.append('Alphabet Test')
                     numbers.append(j)
                 elif i == '4.1':
-                    names.append('Age')
+                    names.append('Ranking')
                     numbers.append(j)
                 elif i == '5.1':
                     names.append('Matrix')
@@ -4436,6 +4456,10 @@ class Teach:
                 elif i == '17.1':
                     names.append('Series Test')
                     numbers.append(j)
+                elif i == '18.1':
+                    names.append('Syllogism')
+                    numbers.append(j)
+
 
 
 
@@ -4484,7 +4508,7 @@ class Teach:
                     names.append('Inequalities')
                     numbers.append(j)
                 elif i == '14.1':
-                    names.append('Ages')
+                    names.append('Ranking')
                     numbers.append(j)
                 elif i == '15.1':
                     names.append('Chain Rule')
@@ -4669,7 +4693,7 @@ class Teach:
                     numbers.append('2.8')
                 elif i == 'Alphabet Test':
                     numbers.append('2.9')
-                elif i == 'Age':
+                elif i == 'Ranking':
                     numbers.append('4.1')
                 elif i == 'Matrix':
                     numbers.append('5.1')
@@ -4697,6 +4721,9 @@ class Teach:
                     numbers.append('16.1')
                 elif i == 'Series Test':
                     numbers.append('17.1')
+                elif i == 'Syllogism':
+                    numbers.append('18.1')
+
 
 
 
@@ -4734,7 +4761,7 @@ class Teach:
                     numbers.append('12.1')
                 elif i == 'Inequalities':
                     numbers.append('13.1')
-                elif i == 'Ages':
+                elif i == 'Ranking':
                     numbers.append('14.1')
                 elif i == 'Chain Rule':
                     numbers.append('15.1')
@@ -4843,6 +4870,9 @@ def visible_tests(test_id):
         return test
 
 
+
+#-------------------------------
+#algorithms for question data analytics in QuestionsAndPapers Model
 
 
 

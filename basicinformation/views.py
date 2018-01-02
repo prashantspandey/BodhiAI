@@ -109,17 +109,18 @@ def home(request):
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
             df=\
-            pd.read_csv('/app/question_data/alphabettesthindi2.csv',error_bad_lines=False )
+            pd.read_csv('/app/question_data/sylloligm72.csv',error_bad_lines=False )
             #df=\
-            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/alphabettesthindi2.csv',error_bad_lines=False )
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/sylloligm72.csv',error_bad_lines=False )
             quests = []
             optA = []
             optB = []
             optC = []
             optD = []
+            optE = []
             right_answer = []
             quest_category = []
-            quests = df['Questions']
+            #quests = df['Questions']
             temp = []
             #qu = 'Arrange the words below meaningfully\n'
             #for i in quests:
@@ -129,30 +130,30 @@ def home(request):
 
             #images = df['link']
             #images = None
-            optA = df['OptionA']
-            optB = df['OptionB']
-            optC = df['OptionC']
-            optD = df['OptionD']
-            #im = df['Image']
-            #optE = df['OptionE'] 
+            optA = df['optionA']
+            optB = df['optionB']
+            optC = df['optionC']
+            optD = df['optionD']
+            im = df['QuestionLink']
+            optE = df['optionE'] 
             #exp = df['Explanation']
             quest_category = df['Category']
             #quest_category = '11.1' # indian museams
-            for i in df['Correct']:
+            for i in df['correct']:
                 ichanged = str(i).replace(u'\\xa0',u' ')
                 ichanged2 = ichanged.replace('Answer',' ')
                 ichanged3 = ichanged2.replace('Explanation',' ')
-                if 'A' in ichanged:
+                if 'a' in ichanged:
                     right_answer.append(1)
-                elif 'B' in ichanged:
+                elif 'b' in ichanged:
                     right_answer.append(2)
-                elif 'C' in ichanged:
+                elif 'c' in ichanged:
                     right_answer.append(3)
-                elif 'D' in ichanged:
+                elif 'd' in ichanged:
                     right_answer.append(4)
-                elif 'E' in ichanged:
+                elif 'e' in ichanged:
                     right_answer.append(5)
-            print(len(quests))
+            print(len(im))
             print(len(optA))
             print(len(optB))
             print(len(optC))
@@ -164,8 +165,7 @@ def home(request):
                 #j -- right_answer,%s -- explanation'
                 #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
-                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions
-                               = True)
+                write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],im[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning')
             ##write_passages(all_passages)
             #print(quests)
             #print(right_answer)
@@ -177,6 +177,29 @@ def home(request):
             profile = user.student
             me = Studs(request.user)
             subjects = me.my_subjects_names()
+
+#------------------------------------------------------------
+            ## testing for AI
+            #online_marks = SSCOnlineMarks.objects.filter(student = profile)
+            #print('%s - tests taken' %len(online_marks))
+            #tests = []
+            #for i in online_marks:
+            #    tests.append(i.test)
+            #quests = []
+            #for n,i in enumerate(tests):
+            #    for q in i.sscquestions_set.all():
+            #        quests.append(q)
+            #for i in quests:
+            #    print(i.text)
+
+                
+                
+
+
+
+
+
+#-------------------------------------------------------------
             # if B2C customer then add tests  to profile
             if profile.school.name == 'BodhiAI':
                 bad_tests = SSCKlassTest.objects.filter(sub='')
@@ -581,6 +604,56 @@ def student_weakAreas(request):
         subject = request.GET['studWA']
         timing_areawise,freq_timer = me.areawise_timing(subject)
         freq_timer = me.changeTopicNumbersNames(freq_timer,subject)
+#        if me.institution == 'SSC':
+#            my_marks = SSCOnlineMarks.objects.filter(student =
+#                                                     self.profile,test__sub = subject)
+#            all_marks = SSCOnlineMarks.objects.filter(student= self.profile,test__sub =
+#                                              'SSCMultipleSections')
+#            offline_my_marks =SSCOfflineMarks.objects.filter(student=self.profile,test__sub=subject)
+#            offline_all_marks =SSCOfflineMarks.objects.filter(student =
+#                                                              self.profile,test__sub =
+#                                               'SSCMultipleSections')
+#
+#            try:
+#                weak_loader = SscStudentWeakAreaLoader.objects.get(student =
+#                                                                   me.profile,subject
+#                                                                   = subject)
+#                saved_onlinesinglesub = weak_loader.lenonlineSingleSub
+#                saved_onlinemultiplesub = weak_loader.lenonlineMultipleSub
+#                saved_offlinesinglesub = weak_loader.lenofflineSingleSub
+#                saved_offlinemultiplesub = weak_loader.lenofflineMultipleSub
+#
+#                if len(my_marks) == saved_onlinesinglesub and len(all_marks) ==
+#                saved_onlinemultiplesub and len(offline_my_marks) ==
+#                saved_offlinesinglesub and len(offline_all_marks) ==
+#                saved_offlinemultiplesub:
+#                    freq_category = weak_loader.topics
+#                    freq_weakness = weak_loader.weakTopics
+#                    freq = list(zip(freq_category,freq_weakness))
+#                else:
+#                    weak_loader.lenonlineSingleSub = len(my_marks)
+#                    weak_loader.lenonlineMultipleSub = len(all_marks)
+#                    weak_loader.lenofflineSingleSub = len(offline_my_marks)
+#                    weak_loader.lenofflineMultipleSub = len(offline_all_marks)
+#                    freq = me.weakAreas_IntensityAverage(subject)
+#                    freq_cat = freq[:,0]
+#                    freq_weakness = freq[:,1]
+#                    weak_loader.topics = freq_cat
+#                    weak_loader.weakTopics = freq_weakness
+#                    timing_areawise,freq_timer = me.areawise_timing(subject)
+#                    weak_loader.weakTiming = 0
+
+
+
+
+
+
+
+
+
+
+
+
         freq = me.weakAreas_IntensityAverage(subject)
         strongAreas = []
         strongFreq = []
@@ -1196,7 +1269,8 @@ def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCate
         new_questions.section_category = 'Quantitative-Analysis'
     elif sectionType == 'GK':
         new_questions.section_category = 'General-Knowledge'
-    new_questions.text = str(question)
+    if question != None:
+        new_questions.text = str(question)
     new_questions.topic_category = str(questCategory)
     if image:
         new_questions.picture = image

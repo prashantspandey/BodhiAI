@@ -77,6 +77,9 @@ class Questions(models.Model):
     picture = models.URLField(null=True,blank=True)
     def __str__(self):
         return self.text[:50]
+
+
+
 class SSCquestions(models.Model):
     ch = 1 
     tp = 1 
@@ -106,6 +109,26 @@ class SSCquestions(models.Model):
     topic_category = models.CharField(max_length=5,choices = topic_choice)
     school = models.ManyToManyField(School)
     picture = models.URLField(max_length=500,null=True,blank=True)
+
+class GeneralDifficulty(models.Model):
+    average_difficulty = models.FloatField()
+    skipped_ratio = models.FloatField()
+    quest = models.ForeignKey(SSCquestions)
+
+    def __str__(self):
+        return str(self.average_difficulty)
+
+
+
+class InstituteQuestionDifficulty(models.Model):
+    average_difficulty = models.FloatField()
+    skipped_ratio = models.FloatField()
+    institute = models.ForeignKey(School)
+    quest = models.ForeignKey(SSCquestions)
+
+    def __str__(self):
+        return str(self.institute)+','+str(self.average_difficulty)
+
 
 class TimesUsed(models.Model):
     numUsed = models.IntegerField()
@@ -244,5 +267,26 @@ class SscTeacherTestResultLoader(models.Model):
     def __str__(self):
         return str(self.test.id)
 
+class SscStudentWeakAreaLoader(models.Model):
+    subject_choices = \
+        (('General-Intelligence','General-Intelligence'),('General-Knowledge','General-Knowledge')
+         ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English'),
+        ('SSCMultipleSections','SSCMultipleSections'))
+
+    student = models.ForeignKey(Student)
+    subject = models.CharField(max_length = 70,choices = subject_choices)
+    lenonlineSingleSub = models.IntegerField(null=True)
+    lenonlineMultipleSub = models.IntegerField(null=True)
+    lenofflineSingleSub = models.IntegerField(null=True)
+    lenofflineMultipleSub = models.IntegerField(null=True)
+    topics = ArrayField(models.FloatField())
+    weakTopicsPercentage = ArrayField(models.FloatField())
+    timingTopics = ArrayField(models.FloatField())
+    weakTiming = ArrayField(models.FloatField())
+    weakTimingFreq = ArrayField(models.IntegerField())
+
+
+    def __str__(self):
+        return str(self.student) + str(self.weakTopics)
 
 
