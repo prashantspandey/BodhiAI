@@ -41,8 +41,11 @@ def home(request):
         if user.is_staff:
 
             # add students 
-            df =\
-            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swami2jan.csv',error_bad_lines=False )
+            df = \
+            pd.read_csv('/app/question_data/swami2jan.csv',error_bad_lines =False)
+
+            #df =\
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swami2jan.csv',error_bad_lines=False )
             name = df['Name']
             dob = df['DOB']
             batch = df['Batch no']
