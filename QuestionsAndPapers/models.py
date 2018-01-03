@@ -39,6 +39,7 @@ class SSCKlassTest(models.Model):
     due_date = models.DateField(null=True,blank=True)
     mode = models.CharField(max_length=20,choices = mode_choices)
     totalTime = models.IntegerField(blank=True,null=True)
+    pattern_test = models.BooleanField(default=False)
     def __str__(self):
         return self.name
 

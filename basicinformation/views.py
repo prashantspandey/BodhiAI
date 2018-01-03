@@ -125,9 +125,9 @@ def home(request):
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
             df=\
-            pd.read_csv('/app/question_data/ranking42.csv',error_bad_lines=False )
+            pd.read_csv('/app/question_data/bloodRelations16.csv',error_bad_lines=False )
             #df=\
-            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/ranking42.csv',error_bad_lines=False )
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/bloodRelations16.csv',error_bad_lines=False )
             quests = []
             optA = []
             optB = []
@@ -136,7 +136,7 @@ def home(request):
             optE = []
             right_answer = []
             quest_category = []
-            #quests = df['Question']
+            quests = df['Questions']
             temp = []
             #qu = 'Arrange the words below meaningfully\n'
             #for i in quests:
@@ -144,18 +144,18 @@ def home(request):
             #    temp.append(i)
 
 
-            images = df['QuestionLinks']
+            #images = df['QuestionLinks']
             #images = None
-            optA = df['optionA']
-            optB = df['optionB']
-            optC = df['optionC']
-            optD = df['optionD']
+            optA = df['OptionA']
+            optB = df['OptionB']
+            optC = df['OptionC']
+            optD = df['OptionD']
             #im = df['QuestionLink']
             #optE = df['optionE'] 
             #exp = df['Explanation']
             quest_category = df['Category']
             #quest_category = '11.1' # indian museams
-            for i in df['correct']:
+            for i in df['Answer']:
                 ichanged = str(i).replace(u'\\xa0',u' ')
                 ichanged2 = ichanged.replace('Answer',' ')
                 ichanged3 = ichanged2.replace('Explanation',' ')
@@ -169,7 +169,7 @@ def home(request):
                     right_answer.append(4)
                 elif 'e' in ichanged:
                     right_answer.append(5)
-            print(len(images))
+            print(len(quests))
             print(len(optA))
             print(len(optB))
             print(len(optC))
@@ -181,7 +181,7 @@ def home(request):
                 #j -- right_answer,%s -- explanation'
                 #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
-                write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True)
+                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True)
             #write_passages(all_passages)
             print(quests)
             print(right_answer)

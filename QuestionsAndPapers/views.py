@@ -51,16 +51,12 @@ def create_test(request):
                                                      =school)
                     elif me.institution == "SSC":
                         quest = SSCquestions.objects.filter(school= school)
-                        print(len(quest))
-                        #quest = SSCquestions.objects.all()
 
                     if me.institution == "School":
                         if quest:
                             unique_chapters = []
                             for i in quest:
                                 unique_chapters.append(i.chapCategory)
-                                #for j in i.chapCategory:
-                                #    unique_chapters.append(j)
                             unique_chapters = list(unique_everseen(unique_chapters))
                             test_type = 'School'
                             return render(request, 'questions/klass_available.html',
@@ -548,6 +544,36 @@ def oneclick_test(request):
                 oneClickTest.testTakers.add(i)
             oneClickTest.save()
             return render(request,'questions/teacher_successfully_published.html')
+
+
+
+def create_pattern_test(request):
+    user = request.user
+    if user.is_authenticated:
+        me = Teach(user)
+        if user.groups.filter(name= 'Teachers').exists():
+            testholder = TemporaryOneClickTestHolder.objects.filter(teacher = me.profile)
+            if testholder:
+                testholder.delete()
+            my_batches = me.my_classes_names()
+            context = {'batches':my_batches}
+            return render(request,'questions/create_pattern_test1.html',context)
+def pattern_test(request):
+    user = request.user
+    me = Teach(user)
+    if 'batch_test' in request.GET:
+        batch = request.GET['batch_test']
+        subject = me.my_subjects_names()
+        context = {'mySubs':subject,'batch':batch}
+        return render(request,'questions/create_pattern_test2.html',context)
+    if 'batchandsub' in request.GET:
+        batchandsub = request.GET['batchandsub']
+        sub = batchandsub.split(',')[0]
+        batch = batchandsub.split(',')[1]
+        print(batch,sub)
+        return HttpResponse(sub)
+
+
 
 def see_Test(request):
     user = request.user
