@@ -294,8 +294,11 @@ def home(request):
             # check for announcements in past 24 hours
             startdate = date.today()
             enddate = startdate - timedelta(days=1)
-            my_announcements = Announcement.objects.filter(listener =
+            try:
+                my_announcements = Announcement.objects.filter(listener =
                                                            profile,date__range=[enddate,startdate])
+            except:
+                my_announcements = None
 
             # find the predicted marks
             try:

@@ -23,7 +23,7 @@ class klass(models.Model):
                              level_choices,null=True,blank=True)
 
     def __str__(self):
-        return str(self.name)+str(self.school.name)
+        return self.name
 
 
 class Student(models.Model):
@@ -36,7 +36,7 @@ class Student(models.Model):
     school = \
     models.ForeignKey(School,related_name='school',blank=True,null=True)
     def __str__(self):
-        return '%s--from -- %s' %(str(self.name),str(self.school.name))
+        return self.name
 
 class Teacher(models.Model):
     teacheruser = models.OneToOneField(User,blank=True,null=True)
