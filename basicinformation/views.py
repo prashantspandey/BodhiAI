@@ -124,10 +124,10 @@ def home(request):
             #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
-            #df=\
-            #pd.read_csv('/app/question_data/directiontest22.csv',error_bad_lines=False )
             df=\
-            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/ranking42.csv',error_bad_lines=False )
+            pd.read_csv('/app/question_data/ranking42.csv',error_bad_lines=False )
+            #df=\
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/ranking42.csv',error_bad_lines=False )
             quests = []
             optA = []
             optB = []
