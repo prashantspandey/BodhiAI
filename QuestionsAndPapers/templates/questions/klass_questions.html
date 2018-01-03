@@ -46,8 +46,9 @@ $(eval("'#r'+now")).click(function(){
 			{%if i.comprehension %}
 			<p> <pre>{{i.comprehension.text}}</pre> </p>
 			{%endif%}
-			
+			{%if i.text %}
 			<p id = 'questP'>{{i.text|linebreaks}} </p>
+			{%endif%}
 			{% if i.picture %}
 			<img src='{{i.picture}}' class="img-responsive" >
 			{%endif%}
