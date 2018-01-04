@@ -2147,6 +2147,9 @@ class Studs:
                 elif i == '19.1':
                     namedarr.append('Blood Relation')
                     timing.append(j)
+                elif i == '20.1':
+                    namedarr.append('Seating Arrangement')
+                    timing.append(j)
 
 
 
@@ -2411,6 +2414,9 @@ class Studs:
                     namedarr.append('Syllogism')
                 elif i == '19.1':
                     namedarr.append('Blood Relation')
+                elif i == '20.1':
+                    namedarr.append('Seating Arrangement')
+
 
 
 
@@ -2621,6 +2627,9 @@ class Studs:
                 return 'Syllogism'
             elif i == '19.1':
                 return 'Blood Relation'
+            elif i == '20.1':
+                return 'Seating Arrangement'
+
 
 
 
@@ -4156,6 +4165,10 @@ class Teach:
                 elif i == '19.1':
                     names.append('Blood Relation')
                     numbers.append(i)
+                elif i == '20.1':
+                    names.append('Seating Arrangement')
+                    numbers.append(i)
+
 
 
 
@@ -4475,6 +4488,10 @@ class Teach:
                 elif i == '19.1':
                     names.append('Blood Relation')
                     numbers.append(j)
+                elif i == '20.1':
+                    names.append('Seating Arrangement')
+                    numbers.append(j)
+
 
 
 
@@ -4742,6 +4759,10 @@ class Teach:
                     numbers.append('18.1')
                 elif i == 'Blood Relation':
                     numbers.append('19.1')
+                elif i == '20.1':
+                    numbers.append('Seating Arrangement')
+
+
 
 
 
