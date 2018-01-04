@@ -570,8 +570,38 @@ def pattern_test(request):
         batchandsub = request.GET['batchandsub']
         sub = batchandsub.split(',')[0]
         batch = batchandsub.split(',')[1]
-        print(batch,sub)
-        return HttpResponse(sub)
+        school_name = me.my_school()
+        kl = klass.objects.get(school = school_name,name = str(batch))
+        course = kl.level
+        all_tests = SSCKlassTest.objects.filter(sub = sub,course =
+                                                course,pattern_test = True)
+        context = {'alltests':all_tests,'subject':sub,'batch':batch}
+        return render(request,'questions/create_pattern_test3.html',context)
+    if 'patterntestnumber' in request.GET:
+        test_name = request.GET['patterntestnumber']
+        testid = test_name.split(',')[0]
+        testsubject = test_name.split(',')[1]
+        testbatch = test_name.split(',')[2]
+        test = SSCKlassTest.objects.get(id=testid)
+        quests = []
+        for qu in test.sscquestions_set.all():
+            quests.append(qu)
+            context = {'que':quests,'testbatch':testbatch,'testid':testid}
+        return render(request,'questions/create_pattern_test4.html',context)
+    if 'patternBatch' and 'patternTestid' and 'patternTest' in request.POST:
+        batch = request.POST['patternBatch']
+        testid = request.POST['patternTestid']
+        students = []
+        school_name = me.my_school()
+        kl = klass.objects.get(school = school_name,name = str(batch))
+        test = SSCKlassTest.objects.get(id = testid)
+        test.patternTestBatches.add(kl)
+        studs = Student.objects.filter(klass=kl)
+        for i in studs:
+            test.testTakers.add(i)
+        test.save()
+        return render(request,'questions/create_pattern_test5.html')
+
 
 
 

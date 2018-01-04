@@ -28,17 +28,22 @@ class SSCKlassTest(models.Model):
         (('General-Intelligence','General-Intelligence'),('General-Knowledge','General-Knowledge')
          ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English'),
         ('SSCMultipleSections','SSCMultipleSections'))
+    course_choices = (('SSC','SSC'),('Railways','Railways'))
 
     #max_marks = models.DecimalField(max_digits=4,decimal_places=2)
     max_marks = models.IntegerField()
     testTakers = models.ManyToManyField(Student)
     published = models.DateField(auto_now_add= True)
     klas = models.ForeignKey(klass,null=True,blank=True)
+    patternTestBatches = models.ManyToManyField(klass,related_name =
+                                                'patternBatches')
     creator = models.ForeignKey(User,null=True,blank=True)
     sub = models.CharField(max_length=70,choices = subject_choices)
     due_date = models.DateField(null=True,blank=True)
     mode = models.CharField(max_length=20,choices = mode_choices)
     totalTime = models.IntegerField(blank=True,null=True)
+    course =\
+    models.CharField(max_length=20,choices=course_choices,default='SSC')
     pattern_test = models.BooleanField(default=False)
     def __str__(self):
         return self.name
