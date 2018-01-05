@@ -125,9 +125,9 @@ def home(request):
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
             df=\
-            pd.read_csv('/app/question_data/seatingarrangement25.csv',error_bad_lines=False )
+            pd.read_csv('/app/question_data/swamiquestions.csv',error_bad_lines=False )
             #df=\
-            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/seatingarrangement25.csv',error_bad_lines=False )
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swamiquestions.csv',error_bad_lines=False )
             quests = []
             optA = []
             optB = []
@@ -159,15 +159,15 @@ def home(request):
                 ichanged = str(i).replace(u'\\xa0',u' ')
                 ichanged2 = ichanged.replace('Answer',' ')
                 ichanged3 = ichanged2.replace('Explanation',' ')
-                if 'a' in ichanged:
+                if 'A' in ichanged:
                     right_answer.append(1)
-                elif 'b' in ichanged:
+                elif 'B' in ichanged:
                     right_answer.append(2)
-                elif 'c' in ichanged:
+                elif 'C' in ichanged:
                     right_answer.append(3)
-                elif 'd' in ichanged:
+                elif 'D' in ichanged:
                     right_answer.append(4)
-                elif 'e' in ichanged:
+                elif 'E' in ichanged:
                     right_answer.append(5)
             print(len(quests))
             print(len(optA))
