@@ -36,7 +36,7 @@ class SSCKlassTest(models.Model):
     published = models.DateField(auto_now_add= True)
     klas = models.ForeignKey(klass,null=True,blank=True)
     patternTestBatches = models.ManyToManyField(klass,related_name =
-                                                'patternBatches')
+                                                'patternBatches',null=True,blank=True)
     creator = models.ForeignKey(User,null=True,blank=True)
     sub = models.CharField(max_length=70,choices = subject_choices)
     due_date = models.DateField(null=True,blank=True)
