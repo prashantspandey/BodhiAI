@@ -8,28 +8,24 @@
 	 $('#loadingCreateTest1').hide();
 
    var pr
-		 	for(i=1 ; i<=30; i++){
-		 	$(eval("'#categoryButton'+i")).click(function(){
-          category = $(this).attr('value');
-	  console.log(category)
+		$('.teacherCategory').click(function(){
+		category = $(this).attr('value');
           which_klass = $('#which_klass').text()
           which_section = $('#which_section').text()
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
-	 $('#loadingCreateTest2').show();
+	    	 $('#loadingCreateTest2').show();
  		  $('#allQuestions').removeClass("hidden");
-         $('#allQuestions').html('').load('{% url 'QuestionsAndPapers:createTest' %}?chapter_test='+encodeURIComponent(category+','+which_klass+','+which_section));
-       $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
-
-        $('#analysisType').removeClass('hidden');
-
-
+               $('#allQuestions').html('').load('{% url 'QuestionsAndPapers:createTest' %}?chapter_test='+encodeURIComponent(category+','+which_klass+','+which_section));
 
     pr = $(this).attr('id');
+		});
+
+
+
+
          
        
-		 });
 
-		 };
 });
 
 
@@ -46,7 +42,7 @@
   {%else%}
     <div class="panel-body" >
   {% for i,k in categories %}
-  <button type="button" class="btn btn-default text-center"  value = '{{k}}' id="categoryButton{{forloop.counter}}">{{i}}</button>
+  <button type="button" class="btn btn-default text-center teacherCategory"  value = '{{k}}' id="categoryButton{{forloop.counter}}">{{i}}</button>
   {%endfor%}
   </div>
   {%endif%}
