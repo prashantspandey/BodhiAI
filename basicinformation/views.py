@@ -41,19 +41,19 @@ def home(request):
         if user.is_staff:
 
             # add students  (swami)
-            #df = \
-            #pd.read_csv('/app/question_data/swami2jan.csv',error_bad_lines =False)
+            df = \
+            pd.read_csv('/app/question_data/swami2jan.csv',error_bad_lines =False)
 
-            ##df =\
-            ##pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swami2jan.csv',error_bad_lines=False )
-            #name = df['Name']
-            #dob = df['DOB']
-            #batch = df['Batch no']
-            #username = df['Phone']
-            #password = df['password']
-            #stu = list(zip(name,dob,batch,username,password))
-            #real_create_student(stu,request)
-            #return HttpResponse(stu)
+            #df =\
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swami2jan.csv',error_bad_lines=False )
+            name = df['Name']
+            dob = df['DOB']
+            batch = df['Batch no']
+            username = df['Phone']
+            password = df['password']
+            stu = list(zip(name,dob,batch,username,password))
+            real_create_student(stu,request)
+            return HttpResponse(stu)
 
             #quad_questions = SSCquestions.objects.filter(section_category =\
             #                                             'Quantitative-Analysis',topic_category=22.1)
@@ -124,71 +124,71 @@ def home(request):
             #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
             #             ,'rb') as fi:
             #    all_passages = pickle.load(fi)
-            df=\
-            pd.read_csv('/app/question_data/swamiquestions.csv',error_bad_lines=False )
             #df=\
-            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swamiquestions.csv',error_bad_lines=False )
-            quests = []
-            optA = []
-            optB = []
-            optC = []
-            optD = []
-            optE = []
-            right_answer = []
-            quest_category = []
-            quests = df['Questions']
-            temp = []
-            #qu = 'Arrange the words below meaningfully\n'
-            #for i in quests:
-            #    i = str(qu) + str(i)
-            #    temp.append(i)
+            #pd.read_csv('/app/question_data/swamiquestions.csv',error_bad_lines=False )
+            ##df=\
+            ##pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swamiquestions.csv',error_bad_lines=False )
+            #quests = []
+            #optA = []
+            #optB = []
+            #optC = []
+            #optD = []
+            #optE = []
+            #right_answer = []
+            #quest_category = []
+            #quests = df['Questions']
+            #temp = []
+            ##qu = 'Arrange the words below meaningfully\n'
+            ##for i in quests:
+            ##    i = str(qu) + str(i)
+            ##    temp.append(i)
 
 
-            #images = df['QuestionLinks']
-            #images = None
-            optA = df['optionA']
-            optB = df['optionB']
-            optC = df['optionC']
-            optD = df['optionD']
-            #im = df['QuestionLink']
-            #optE = df['optionE'] 
-            #exp = df['Explanation']
-            quest_category = df['category']
-            #quest_category = '11.1' # indian museams
-            for i in df['Correct']:
-                ichanged = str(i).replace(u'\\xa0',u' ')
-                ichanged2 = ichanged.replace('Answer',' ')
-                ichanged3 = ichanged2.replace('Explanation',' ')
-                if 'A' in ichanged:
-                    right_answer.append(1)
-                elif 'B' in ichanged:
-                    right_answer.append(2)
-                elif 'C' in ichanged:
-                    right_answer.append(3)
-                elif 'D' in ichanged:
-                    right_answer.append(4)
-                elif 'E' in ichanged:
-                    right_answer.append(5)
-            print(len(quests))
-            print(len(optA))
-            print(len(optB))
-            print(len(optC))
-            print(len(optD))
-            print(len(right_answer))
-            print(len(quest_category))
-            for ind in range(len(optA)):
-                #jprint('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
-                #j -- right_answer,%s -- explanation'
-                #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
+            ##images = df['QuestionLinks']
+            ##images = None
+            #optA = df['optionA']
+            #optB = df['optionB']
+            #optC = df['optionC']
+            #optD = df['optionD']
+            ##im = df['QuestionLink']
+            ##optE = df['optionE'] 
+            ##exp = df['Explanation']
+            #quest_category = df['category']
+            ##quest_category = '11.1' # indian museams
+            #for i in df['Correct']:
+            #    ichanged = str(i).replace(u'\\xa0',u' ')
+            #    ichanged2 = ichanged.replace('Answer',' ')
+            #    ichanged3 = ichanged2.replace('Explanation',' ')
+            #    if 'A' in ichanged:
+            #        right_answer.append(1)
+            #    elif 'B' in ichanged:
+            #        right_answer.append(2)
+            #    elif 'C' in ichanged:
+            #        right_answer.append(3)
+            #    elif 'D' in ichanged:
+            #        right_answer.append(4)
+            #    elif 'E' in ichanged:
+            #        right_answer.append(5)
+            #print(len(quests))
+            #print(len(optA))
+            #print(len(optB))
+            #print(len(optC))
+            #print(len(optD))
+            #print(len(right_answer))
+            #print(len(quest_category))
+            #for ind in range(len(optA)):
+            #    #jprint('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
+            #    #j -- right_answer,%s -- explanation'
+            #    #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
-                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True)
-            #write_passages(all_passages)
-            print(quests)
-            print(right_answer)
-            print(optE)
-            return HttpResponse('hello')
-            #return render(request,'basicinformation/staffpage1.html')
-            return HttpResponse('hello')
+            #    write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True)
+            ##write_passages(all_passages)
+            #print(quests)
+            #print(right_answer)
+            #print(optE)
+            #return HttpResponse('hello')
+            ##return render(request,'basicinformation/staffpage1.html')
+            #return HttpResponse('hello')
         if user.groups.filter(name='Students').exists():
             profile = user.student
             me = Studs(request.user)
