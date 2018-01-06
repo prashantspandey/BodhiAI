@@ -140,9 +140,10 @@ class TimesUsed(models.Model):
     numUsed = models.IntegerField()
     teacher = models.ForeignKey(Teacher)
     quest = models.ForeignKey(SSCquestions)
+    batch = models.ForeignKey(klass,null=True,blank=True)
 
     def __str__(self):
-        name = str(self.quest)+ str(self.teacher.name) + str(self.numUsed)
+        name = str(self.batch) + str(self.teacher.name) + str(self.numUsed)
         return name
 
 class TimesReported(models.Model):

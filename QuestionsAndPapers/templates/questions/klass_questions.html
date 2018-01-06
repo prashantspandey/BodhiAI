@@ -56,7 +56,9 @@ $(eval("'#r'+now")).click(function(){
 			<div class="col-md-offset-10">
 			<p>Maximum-Marks: {{i.max_marks}}</p>
 			{% for tused in i.timesused_set.all %}
-			<p>Times Used: {{tused.numUsed}}</p>
+			{% if tused.teacher == user.teacher %}
+			<p>Times Used for <strong>{{tused.batch}}: {{tused.numUsed}}</strong></p>
+			{%endif%}
 			{%endfor%}
 			</div>
 			{% if i.pk in idlist %}
