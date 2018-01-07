@@ -196,7 +196,157 @@ def home(request):
 
 #------------------------------------------------------------
             ## testing for AI
-            #online_marks = SSCOnlineMarks.objects.filter(student = profile)
+            #school = School.objects.get(name='Swami Reasoning World')
+            #student = Student.objects.filter(school = school)
+            #all_categories = []
+
+            #for i in student:
+            #    total_right = []
+            #    total_wrong = []
+            #    subTest = SSCKlassTest.objects.filter(testTakers = i,sub =
+            #                                          'General-Intelligence')
+            #    right = 0
+            #    wrong = 0
+            #    category_right = []
+            #    category_wrong = []
+            #    for j in subTest:
+            #        onlineMarks = SSCOnlineMarks.objects.filter(test =
+            #                                                j,student =
+            #                                                i)
+            #        
+            #        for k in onlineMarks:
+            #            print('%s---%s --- %s---%s-----%s'
+            #                  %(i.id,j,k,len(k.rightAnswers),len(k.wrongAnswers)))
+
+            #            right = right + len(k.rightAnswers)
+            #            wrong = wrong + len(k.wrongAnswers)
+            #            for quest in k.test.sscquestions_set.all():
+            #                for ch in quest.choices_set.all():
+            #                    if ch.id in k.rightAnswers:
+            #                        category_right.append(quest.topic_category)
+
+            #                    if ch.id in k.wrongAnswers:
+            #                        category_wrong.append(quest.topic_category)
+
+            #            
+            #    category_right = np.array(category_right)
+            #    category_wrong = np.array(category_wrong)
+            #    unique,counts = np.unique(category_right,return_counts = True)
+            #    right_category = np.asarray((unique,counts)).T
+            #    print(right_category)
+            #    unique,counts = np.unique(category_wrong,return_counts = True)
+            #    wrong_category = np.asarray((unique,counts)).T
+            #    print(wrong_category)
+            #    for i in category_right:
+            #        all_categories.append(i)
+            #    for i in category_wrong:
+            #        all_categories.append(i)
+            #all_categories = list(unique_everseen(all_categories))
+            #print(all_categories)
+            #teach = Teacher.objects.get(school = school)
+            #all_questions = []
+            #all_std = []
+            #for stu in student:
+            #    questions = []
+            #    std =[]
+            #    online_marks =SSCOnlineMarks.objects.filter(student=stu)
+            #    for om in online_marks:
+            #        for q in om.test.sscquestions_set.all():
+            #            questions.append(q)
+            #    count = len(questions)
+            #    for i in range(count):
+            #        std.append(stu)
+            #    all_std.extend(std)
+            #    
+            #    
+
+            #    if len(questions) != 0:
+            #        all_questions.extend(questions)
+            #        overall = list(zip(all_std,all_questions))
+            #overall = np.array(overall)
+            #print(overall.shape)
+            #quest_accuracy = []
+            #quest_skipped = []
+            #for i,k in overall:
+            #     
+            #    topic = k.topic_category
+            #    r_ans = 0
+            #    w_ans = 0
+            #    s_ans = 0
+
+            #    online_marks =\
+            #        SSCOnlineMarks.objects.filter(test__sscquestions=k,test__creator=
+            #                                     teach.teacheruser)
+            #    print(len(online_marks))
+
+            #    for qid in online_marks:
+            #        if k.id in qid.skippedAnswers:
+            #            s_ans = s_ans + 1
+            #        else:
+            #            for ch in k.choices_set.all():
+            #                if ch.id in qid.rightAnswers:
+            #                    r_ans = r_ans + 1
+            #                if ch.id in qid.wrongAnswers:
+            #                    w_ans = w_ans + 1
+            #    try:
+            #        accuracy = ((r_ans-w_ans)/(r_ans+w_ans))*100
+            #        print('%s--%s---%s---%s----%s'
+            #              %(k.id,accuracy,s_ans,r_ans,w_ans))
+            #    except:
+            #        accuracy = None
+            #    quest_accuracy.append(accuracy)
+            #    quest_skipped.append(s_ans)
+            #print(len(quest_accuracy),len(quest_skipped))
+            #quest_accuracy = np.array(quest_accuracy)
+            #quest_skipped = np.array(quest_skipped)
+            #overall_2 =\
+            #np.array([overall[:,0],overall[:,1],quest_accuracy,quest_skipped])
+            #overall_2 = np.transpose(overall_2)
+            #print(overall_2)
+            #print(overall_2.shape)
+
+
+
+
+ 
+                
+            #for i in all_categories:
+            #    quests = SSCquestions.objects.filter(section_category =
+            #                                         'General-Intelligence',topic_category =
+            #                                         i)
+            #    print('%s quests len---%s topic' %(len(quests),i))
+            #    for j in quests:
+            #        r_ans = 0
+            #        w_ans = 0
+            #        s_ans = 0
+
+            #        online_marks =\
+            #            SSCOnlineMarks.objects.filter(test__sscquestions=j,test__creator=
+            #                                         teach.teacheruser)
+
+            #        if len(online_marks) != 0:
+            #            for qid in online_marks:
+            #                if j.id in qid.skippedAnswers:
+            #                    s_ans = s_ans + 1
+            #                else:
+            #                    for ch in j.choices_set.all():
+            #                        if ch.id in qid.rightAnswers:
+            #                            r_ans = r_ans + 1
+            #                        if ch.id in qid.wrongAnswers:
+            #                            w_ans = w_ans + 1
+            #        try:
+            #            accuracy = ((r_ans-w_ans)/(r_ans+w_ans))*100
+            #            print('%s--%s---%s' %(j.id,accuracy,s_ans))
+            #        except:
+            #            accuracy = None
+            #            print('%s--%s---%s' %(j.id,accuracy,s_ans))
+
+
+                
+
+
+
+
             #print('%s - tests taken' %len(online_marks))
             #tests = []
             #for i in online_marks:
