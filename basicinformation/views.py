@@ -1373,7 +1373,8 @@ def real_create_student(stu, request):
                  cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch17')
             elif batch == 24:
                   cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch24')
-          
+            elif batch == 15:
+                  cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch15')
             stu = Student(studentuser=us, klass=cl,
                               rollNumber=phone,
                               name= na,
