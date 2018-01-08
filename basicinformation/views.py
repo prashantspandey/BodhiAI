@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse, redirect
 import os.path
+import pickle
 from django.http import Http404, HttpResponse
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -199,6 +200,10 @@ def home(request):
             #school = School.objects.get(name='Swami Reasoning World')
             #student = Student.objects.filter(school = school)
             #all_categories = []
+            #student_accuracy = []
+            #acc_list_all = []
+            #acc_cat_all = []
+            #stu_id_all = []
 
             #for i in student:
             #    total_right = []
@@ -215,9 +220,6 @@ def home(request):
             #                                                i)
             #        
             #        for k in onlineMarks:
-            #            print('%s---%s --- %s---%s-----%s'
-            #                  %(i.id,j,k,len(k.rightAnswers),len(k.wrongAnswers)))
-
             #            right = right + len(k.rightAnswers)
             #            wrong = wrong + len(k.wrongAnswers)
             #            for quest in k.test.sscquestions_set.all():
@@ -233,14 +235,27 @@ def home(request):
             #    category_wrong = np.array(category_wrong)
             #    unique,counts = np.unique(category_right,return_counts = True)
             #    right_category = np.asarray((unique,counts)).T
-            #    print(right_category)
             #    unique,counts = np.unique(category_wrong,return_counts = True)
             #    wrong_category = np.asarray((unique,counts)).T
-            #    print(wrong_category)
-            #    for i in category_right:
-            #        all_categories.append(i)
-            #    for i in category_wrong:
-            #        all_categories.append(i)
+            #    acc_list = []
+            #    acc_cat = []
+            #    stu_id = []
+            #    for ca,freq in right_category:
+            #        for cw,freqwr in wrong_category:
+            #            if ca == cw:
+            #                acc =\
+            #                ((int(freq)-int(freqwr))/(int(freq)+int(freqwr)))*100
+            #                acc_list.append(acc)
+            #                acc_cat.append(ca)
+            #                stu_id.append(i.id)
+            #    acc_list_all.extend(acc_list)
+            #    acc_cat_all.extend(acc_cat)
+            #    stu_id_all.extend(stu_id)
+            #    for cat_r in category_right:
+            #        all_categories.append(cat_r)
+            #    for cat_wr in category_wrong:
+            #        all_categories.append(cat_wr)
+            #acc_student = np.array([stu_id_all,acc_cat_all,acc_list_all])
             #all_categories = list(unique_everseen(all_categories))
             #print(all_categories)
             #teach = Teacher.objects.get(school = school)
@@ -277,7 +292,6 @@ def home(request):
             #    online_marks =\
             #        SSCOnlineMarks.objects.filter(test__sscquestions=k,test__creator=
             #                                     teach.teacheruser)
-            #    print(len(online_marks))
 
             #    for qid in online_marks:
             #        if k.id in qid.skippedAnswers:
@@ -296,14 +310,62 @@ def home(request):
             #        accuracy = None
             #    quest_accuracy.append(accuracy)
             #    quest_skipped.append(s_ans)
-            #print(len(quest_accuracy),len(quest_skipped))
             #quest_accuracy = np.array(quest_accuracy)
             #quest_skipped = np.array(quest_skipped)
             #overall_2 =\
             #np.array([overall[:,0],overall[:,1],quest_accuracy,quest_skipped])
             #overall_2 = np.transpose(overall_2)
-            #print(overall_2)
-            #print(overall_2.shape)
+            #student_accuracy = np.array(acc_student)
+            #student_accuracy = np.transpose(student_accuracy)
+            #print(student_accuracy.shape)
+            #print('%s-- student accuracy' %student_accuracy)
+            #num = 0
+            #for stu,quest,acc,ski in overall_2:
+            #    num = num +1
+            #    for s,c,a in student_accuracy:
+            #        
+            #        if int(stu.id) == int(s) and quest.topic_category == c:
+            #            print('%s--%s-- %s---%s---%s---%s'
+            #                  %(num,stu.id,quest.topic_category,acc,a,ski))
+            #predicament = []
+            #stu_id = []
+            #q_id = []
+            #for stu,quest in overall_2[:,[0,1]]:
+            #    stu_id.append(stu.id)
+            #    q_id.append(quest.id)
+            #    online_marks = SSCOnlineMarks.objects.filter(student =
+            #                                                 stu,test__sscquestions
+            #                                                 = quest)
+            #    for om in online_marks:
+            #        if quest.id in om.skippedAnswers:
+            #            predicament.append('S')
+            #        for ch in quest.choices_set.all():
+            #            if ch.id in om.rightAnswers:
+            #                predicament.append('R')
+            #            if ch.id in om.wrongAnswers:
+            #                predicament.append('W')
+            #print(len(predicament))
+            #predicament = np.array(predicament)
+            #stu_id = np.array(stu_id)
+            #q_id = np.array(q_id)
+            #pred = list(zip(stu_id,predicament,q_id))
+
+            #pred = np.array(pred)
+            #print(pred[:10])
+            #print(pred.shape)
+            #final =\
+            #list(zip(overall_2[:,0],overall_2[:,1],overall_2[:,2],overall_2[:,3],predicament))
+            #final = np.array(final)
+            #print(final)
+            #print(final.shape)
+            #with open('bodhidata.pkl','wb') as fi:
+            #    pickle.dump(final,fi)
+
+            
+
+                                
+                                
+
 
 
 
