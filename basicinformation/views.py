@@ -127,77 +127,76 @@ def home(request):
             #    all_passages = pickle.load(fi)
             #df=\
             #pd.read_csv('/app/question_data/swamiquestions.csv',error_bad_lines=False )
-            kd_files =\
-            ['kdtest1.csv','kdtest2.csv','kdtest3.csv','kdtest4.csv','kdtest5.csv','kdtest6.csv','kdtest7.csv','kdtest8.csv','kdtest9.csv','kdtest10.csv','kdtest11.csv','kdtest12.csv','kdtest13.csv']
+            #kd_files =\
+            #['kdtest1.csv','kdtest2.csv','kdtest3.csv','kdtest4.csv','kdtest5.csv','kdtest6.csv','kdtest7.csv','kdtest8.csv','kdtest9.csv','kdtest10.csv','kdtest11.csv','kdtest12.csv','kdtest13.csv']
 
-            for kd in kd_files:
-                df=\
-                pd.read_csv('/app/question_data/'+kd,error_bad_lines=False )
+            df=\
+            pd.read_csv('/app/question_data/calender30.csv',error_bad_lines=False )
 
-                #df=\
-                #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+kd,error_bad_lines=False )
+            #df=\
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+kd,error_bad_lines=False )
 
-                quests = []
-                optA = []
-                optB = []
-                optC = []
-                optD = []
-                optE = []
-                right_answer = []
-                quest_category = []
-                #quests = df['Questions']
-                temp = []
-                #qu = 'Arrange the words below meaningfully\n'
-                #for i in quests:
-                #    i = str(qu) + str(i)
-                #    temp.append(i)
+            quests = []
+            optA = []
+            optB = []
+            optC = []
+            optD = []
+            optE = []
+            right_answer = []
+            quest_category = []
+            quests = df['Question']
+            temp = []
+            #qu = 'Arrange the words below meaningfully\n'
+            #for i in quests:
+            #    i = str(qu) + str(i)
+            #    temp.append(i)
 
 
-                images = df['QuestionLink']
-                #images = None
-                optA = df['optionA']
-                optB = df['optionB']
-                optC = df['optionC']
-                optD = df['optionD']
-                #im = df['QuestionLink']
-                #optE = df['optionE'] 
-                #exp = df['Explanation']
-                quest_category = df['category']
-                #quest_category = '11.1' # indian museams
-                for i in df['correct']:
-                    ichanged = str(i).replace(u'\\xa0',u' ')
-                    ichanged2 = ichanged.replace('Answer',' ')
-                    ichanged3 = ichanged2.replace('Explanation',' ')
-                    if 'a' in ichanged:
-                        right_answer.append(1)
-                    elif 'b' in ichanged:
-                        right_answer.append(2)
-                    elif 'c' in ichanged:
-                        right_answer.append(3)
-                    elif 'd' in ichanged:
-                        right_answer.append(4)
-                    elif 'e' in ichanged:
-                        right_answer.append(5)
-                print(len(images))
-                print(len(optA))
-                print(len(optB))
-                print(len(optC))
-                print(len(optD))
-                print(len(right_answer))
-                print(len(quest_category))
-                for ind in range(len(optA)):
-                    #jprint('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
-                    #j -- right_answer,%s -- explanation'
-                    #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
+            #images = df['QuestionLink']
+            #images = None
+            optA = df['optionA']
+            optB = df['optionB']
+            optC = df['optionC']
+            optD = df['optionD']
+            #im = df['QuestionLink']
+            #optE = df['optionE'] 
+            #exp = df['Explanation']
+            quest_category = df['category']
+            #quest_category = '11.1' # indian museams
+            for i in df['correct']:
+                ichanged = str(i).replace(u'\\xa0',u' ')
+                ichanged2 = ichanged.replace('Answer',' ')
+                ichanged3 = ichanged2.replace('Explanation',' ')
+                if 'a' in ichanged:
+                    right_answer.append(1)
+                elif 'b' in ichanged:
+                    right_answer.append(2)
+                elif 'c' in ichanged:
+                    right_answer.append(3)
+                elif 'd' in ichanged:
+                    right_answer.append(4)
+                elif 'e' in ichanged:
+                    right_answer.append(5)
+            print(len(quests))
+            print(len(optA))
+            print(len(optB))
+            print(len(optC))
+            print(len(optD))
+            print(len(right_answer))
+            print(len(quest_category))
+            for ind in range(len(optA)):
+                #jprint('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
+                #j -- right_answer,%s -- explanation'
+                #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
-                    write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True)
-                #write_passages(all_passages)
-                #print(quests)
-                #print(right_answer)
-                #print(optE)
-                #return HttpResponse('hello')
-                ##return render(request,'basicinformation/staffpage1.html')
-                #return HttpResponse('hello')
+                write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True)
+            #write_passages(all_passages)
+            #print(quests)
+            #print(right_answer)
+            #print(optE)
+            #return HttpResponse('hello')
+            ##return render(request,'basicinformation/staffpage1.html')
+            #return HttpResponse('hello')
 
         if user.groups.filter(name='Students').exists():
             profile = user.student
