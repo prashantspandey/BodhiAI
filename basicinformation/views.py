@@ -129,9 +129,14 @@ def home(request):
             #pd.read_csv('/app/question_data/swamiquestions.csv',error_bad_lines=False )
             kd_files =\
             ['kdtest1.csv','kdtest2.csv','kdtest3.csv','kdtest4.csv','kdtest5.csv','kdtest6.csv','kdtest7.csv','kdtest8.csv','kdtest9.csv','kdtest10.csv','kdtest11.csv','kdtest12.csv','kdtest13.csv']
+
             for kd in kd_files:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+kd,error_bad_lines=False )
+                pd.read_csv('/app/question_data/'+kd,error_bad_lines=False )
+
+                #df=\
+                #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+kd,error_bad_lines=False )
+
                 quests = []
                 optA = []
                 optB = []
