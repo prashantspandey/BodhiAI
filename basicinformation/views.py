@@ -42,19 +42,19 @@ def home(request):
         if user.is_staff:
 
             # add students  (swami)
-            df = \
-            pd.read_csv('/app/question_data/swami2jan.csv',error_bad_lines =False)
+            #df = \
+            #pd.read_csv('/app/question_data/swami2jan.csv',error_bad_lines =False)
 
-            #df =\
-            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swami2jan.csv',error_bad_lines=False )
-            name = df['Name']
-            dob = df['DOB']
-            batch = df['Batch no']
-            username = df['Phone']
-            password = df['password']
-            stu = list(zip(name,dob,batch,username,password))
-            real_create_student(stu,request)
-            return HttpResponse(stu)
+            ##df =\
+            ##pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swami2jan.csv',error_bad_lines=False )
+            #name = df['Name']
+            #dob = df['DOB']
+            #batch = df['Batch no']
+            #username = df['Phone']
+            #password = df['password']
+            #stu = list(zip(name,dob,batch,username,password))
+            #real_create_student(stu,request)
+            #return HttpResponse(stu)
 
             #quad_questions = SSCquestions.objects.filter(section_category =\
             #                                             'Quantitative-Analysis',topic_category=22.1)
@@ -127,76 +127,80 @@ def home(request):
             #    all_passages = pickle.load(fi)
             #df=\
             #pd.read_csv('/app/question_data/swamiquestions.csv',error_bad_lines=False )
-            ##df=\
-            ##pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swamiquestions.csv',error_bad_lines=False )
-            #quests = []
-            #optA = []
-            #optB = []
-            #optC = []
-            #optD = []
-            #optE = []
-            #right_answer = []
-            #quest_category = []
-            #quests = df['Questions']
-            #temp = []
-            ##qu = 'Arrange the words below meaningfully\n'
-            ##for i in quests:
-            ##    i = str(qu) + str(i)
-            ##    temp.append(i)
+            kd_files =\
+            ['kdtest1.csv','kdtest2.csv','kdtest3.csv','kdtest4.csv','kdtest5.csv','kdtest6.csv','kdtest7.csv','kdtest8.csv','kdtest9.csv','kdtest10.csv','kdtest11.csv','kdtest12.csv','kdtest13.csv']
+            for kd in kd_files:
+                df=\
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+kd,error_bad_lines=False )
+                quests = []
+                optA = []
+                optB = []
+                optC = []
+                optD = []
+                optE = []
+                right_answer = []
+                quest_category = []
+                #quests = df['Questions']
+                temp = []
+                #qu = 'Arrange the words below meaningfully\n'
+                #for i in quests:
+                #    i = str(qu) + str(i)
+                #    temp.append(i)
 
 
-            ##images = df['QuestionLinks']
-            ##images = None
-            #optA = df['optionA']
-            #optB = df['optionB']
-            #optC = df['optionC']
-            #optD = df['optionD']
-            ##im = df['QuestionLink']
-            ##optE = df['optionE'] 
-            ##exp = df['Explanation']
-            #quest_category = df['category']
-            ##quest_category = '11.1' # indian museams
-            #for i in df['Correct']:
-            #    ichanged = str(i).replace(u'\\xa0',u' ')
-            #    ichanged2 = ichanged.replace('Answer',' ')
-            #    ichanged3 = ichanged2.replace('Explanation',' ')
-            #    if 'A' in ichanged:
-            #        right_answer.append(1)
-            #    elif 'B' in ichanged:
-            #        right_answer.append(2)
-            #    elif 'C' in ichanged:
-            #        right_answer.append(3)
-            #    elif 'D' in ichanged:
-            #        right_answer.append(4)
-            #    elif 'E' in ichanged:
-            #        right_answer.append(5)
-            #print(len(quests))
-            #print(len(optA))
-            #print(len(optB))
-            #print(len(optC))
-            #print(len(optD))
-            #print(len(right_answer))
-            #print(len(quest_category))
-            #for ind in range(len(optA)):
-            #    #jprint('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
-            #    #j -- right_answer,%s -- explanation'
-            #    #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
+                images = df['QuestionLink']
+                #images = None
+                optA = df['optionA']
+                optB = df['optionB']
+                optC = df['optionC']
+                optD = df['optionD']
+                #im = df['QuestionLink']
+                #optE = df['optionE'] 
+                #exp = df['Explanation']
+                quest_category = df['category']
+                #quest_category = '11.1' # indian museams
+                for i in df['correct']:
+                    ichanged = str(i).replace(u'\\xa0',u' ')
+                    ichanged2 = ichanged.replace('Answer',' ')
+                    ichanged3 = ichanged2.replace('Explanation',' ')
+                    if 'a' in ichanged:
+                        right_answer.append(1)
+                    elif 'b' in ichanged:
+                        right_answer.append(2)
+                    elif 'c' in ichanged:
+                        right_answer.append(3)
+                    elif 'd' in ichanged:
+                        right_answer.append(4)
+                    elif 'e' in ichanged:
+                        right_answer.append(5)
+                print(len(images))
+                print(len(optA))
+                print(len(optB))
+                print(len(optC))
+                print(len(optD))
+                print(len(right_answer))
+                print(len(quest_category))
+                for ind in range(len(optA)):
+                    #jprint('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
+                    #j -- right_answer,%s -- explanation'
+                    #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
 
-            #    write_questions(quests[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True)
-            ##write_passages(all_passages)
-            #print(quests)
-            #print(right_answer)
-            #print(optE)
-            #return HttpResponse('hello')
-            ##return render(request,'basicinformation/staffpage1.html')
-            #return HttpResponse('hello')
+                    write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True)
+                #write_passages(all_passages)
+                #print(quests)
+                #print(right_answer)
+                #print(optE)
+                #return HttpResponse('hello')
+                ##return render(request,'basicinformation/staffpage1.html')
+                #return HttpResponse('hello')
+
         if user.groups.filter(name='Students').exists():
             profile = user.student
             me = Studs(request.user)
             subjects = me.my_subjects_names()
 
 #------------------------------------------------------------
-            ## testing for AI
+            # testing for AI
             #school = School.objects.get(name='Swami Reasoning World')
             #student = Student.objects.filter(school = school)
             #all_categories = []
@@ -317,8 +321,6 @@ def home(request):
             #overall_2 = np.transpose(overall_2)
             #student_accuracy = np.array(acc_student)
             #student_accuracy = np.transpose(student_accuracy)
-            #print(student_accuracy.shape)
-            #print('%s-- student accuracy' %student_accuracy)
             #num = 0
             #for stu,quest,acc,ski in overall_2:
             #    num = num +1
@@ -344,7 +346,6 @@ def home(request):
             #                predicament.append('R')
             #            if ch.id in om.wrongAnswers:
             #                predicament.append('W')
-            #print(len(predicament))
             #predicament = np.array(predicament)
             #stu_id = np.array(stu_id)
             #q_id = np.array(q_id)
@@ -353,11 +354,100 @@ def home(request):
             #pred = np.array(pred)
             #print(pred[:10])
             #print(pred.shape)
+            #st_final = []
+            #qu_final = []
+            #qu_cat_fianl = []
+            #for st in overall_2[:,0]:
+            #    st_final.append(st.id)
+            #for qu in overall_2[:,1]:
+            #    qu_final.append(qu.id)
+            #    qu_cat_fianl.append(qu.topic_category)
+            #acc_student = np.transpose(acc_student)
+
+            #print('%s-- ac student' %acc_student)
             #final =\
-            #list(zip(overall_2[:,0],overall_2[:,1],overall_2[:,2],overall_2[:,3],predicament))
+            #list(zip(st_final,qu_final,qu_cat_fianl,overall_2[:,2],overall_2[:,3],predicament))
             #final = np.array(final)
+            #st_accu = []
+            #n=0
+            #nu = 0
+            #for st,qu,cat,tacc,sk,pr in final:
+            #    n = n +1
+            #    for s,c,a in acc_student:
+            #        if int(st) == int(s) and cat == c:
+            #            nu = nu + 1
+            #            print('%s-- %s-----%s---%s' %(n,nu,a,c))
+            #            st_accu.append(a)
+            #temp =[]
+            #no_ids = []
+            #unique,counts = np.unique(st_final,return_counts = True)
+            #unique_stu = np.asarray((unique,counts)).T
+            #for s in unique_stu[:,0]:
+            #    if s in stu_id_all:
+            #        temp.append('yes')
+            #    else:
+            #        temp.append('no')
+            #        no_ids.append(s)
+            #        print(s)
+            #right_quid = []
+            #quid = []
+            #ls_id = []
+            #acc_list = []
+            ##for s,q,c,qa,qsk,pre in final:
+            ##    marks =\
+            ##    SSCOnlineMarks.objects.filter(student=stud)
+            ##    if len(marks) == 0:
+            ##        acc_list.append(0)
+            ##    for ma in marks:
+            ##        right = 0
+            ##        wrong = 0
+            ##        for quest in ma.test.sscquestions_set.all():
+            ##            if quest.topic_category == c:
+            ##                for ch in quest.choices_set.all():
+            ##                    if ch.id in ma.rightAnswers:
+            ##                        right = right + 1
+            ##                    if ch.id in ma.wrongAnswers:
+            ##                        wrong += 1
+            ##                try:
+            ##                    acc = ((right-wrong)/(right + wrong)*100)
+            ##                except:
+            ##                    acc = 0
+            ##            else:
+            ##                continue
+            ##        quid.append(quest.id)
+            ##        acc_list.append(acc)
+            ##        ls_id.append(st)
+
+            #lost_students = list(zip(ls_id,quid,acc_list))
+            #lost_students = np.array(lost_students)
+            #print(lost_students)
+            #print(lost_students.shape)
+            #
+
+
+
+
+
+            #                   
+
+
+            #unique,counts = np.unique(temp,return_counts = True)
+            #unique_stu2 = np.asarray((unique,counts)).T
+            #print(unique_stu2)
+       
+            #print(len(new_list))
+            #new_list = np.array(new_list)
+            #final_2 =\
+            #list(zip([st_final,qu_final,qu_cat_fianl,overall_2[:,2],overall_2[:,3],new_list,predicament]))
+            #final_2 = np.array(final_2)
+            #final_2 = np.transpose(final_2)
+
             #print(final)
-            #print(final.shape)
+            #print(final_2.shape)
+            #print(len(st_accu))
+
+
+
             #with open('bodhidata.pkl','wb') as fi:
             #    pickle.dump(final,fi)
 

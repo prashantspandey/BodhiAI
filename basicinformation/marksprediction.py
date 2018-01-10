@@ -2150,6 +2150,9 @@ class Studs:
                 elif i == '20.1':
                     namedarr.append('Seating Arrangement')
                     timing.append(j)
+                elif i == '22.1':
+                    namedarr.append('Calender Test')
+                    timing.append(j)
 
 
 
@@ -2416,6 +2419,9 @@ class Studs:
                     namedarr.append('Blood Relation')
                 elif i == '20.1':
                     namedarr.append('Seating Arrangement')
+                elif i == '22.1':
+                    namedarr.append('Calender Test')
+
 
 
 
@@ -2629,6 +2635,9 @@ class Studs:
                 return 'Blood Relation'
             elif i == '20.1':
                 return 'Seating Arrangement'
+            elif i == '22.1':
+                return 'Calender Test'
+
 
 
 
@@ -4168,6 +4177,10 @@ class Teach:
                 elif i == '20.1':
                     names.append('Seating Arrangement')
                     numbers.append(i)
+                elif i == '22.1':
+                    names.append('Calender Test')
+                    numbers.append(i)
+
 
 
 
@@ -4491,6 +4504,10 @@ class Teach:
                 elif i == '20.1':
                     names.append('Seating Arrangement')
                     numbers.append(j)
+                elif i == '22.1':
+                    names.append('Calender Test')
+                    numbers.append(j)
+
 
 
 
@@ -4761,6 +4778,9 @@ class Teach:
                     numbers.append('19.1')
                 elif i == '20.1':
                     numbers.append('Seating Arrangement')
+                elif i == '22.1':
+                    numbers.append('Calender Test')
+
 
 
 
