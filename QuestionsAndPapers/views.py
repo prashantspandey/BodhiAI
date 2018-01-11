@@ -472,6 +472,20 @@ def oneclick_test(request):
             test.save()
             # add questions to testpaper
             for q in test_quest:
+                try:
+                    times_used = TimesUsed.objects.get(batch =
+                                                   kl,quest=q,teacher=me.profile)
+                    times_used.numUsed += 1
+                    times_used.save()
+                except:
+                    times_used = TimesUsed()
+                    times_used.batch = kl
+                    times_used.numUsed =1
+                    times_used.quest = q
+                    times_used.teacher = me.profile
+                    times_used.save()
+                
+
                 q.ktest.add(test)
             students = Student.objects.filter(klass = kl,school =
                                               me.my_school())
