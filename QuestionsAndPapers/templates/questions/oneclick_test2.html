@@ -8,10 +8,9 @@
 		 	$(eval("'#clicksubs'+i")).click(function(){
 
 	ajKl = $(this).attr('value');
-	numquests = $('#numberquestions').attr('value');
-	console.log(ajKl)
+	clickbatch = $('#oneClickBatches').attr('value');
          $('#includeSubs').removeClass("hidden");
-         $('#includeSubs').html('').load('{% url 'QuestionsAndPapers:oneClickTest2' %}?questionsubjects='+encodeURIComponent(ajKl)+','+numquests);
+         $('#includeSubs').html('').load('{% url 'QuestionsAndPapers:oneClickTest2' %}?questionsubjects='+encodeURIComponent(ajKl)+','+clickbatch);
              $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
         $('#analysisType').removeClass('hidden');
@@ -40,7 +39,7 @@
 
 {%endfor%}
 
-<input type='text' value='{{numquests}}' id = 'numberquestions'  class='hidden' >
+<input type='text' value='{{oneClickBatch}}' id = 'oneClickBatches'  class='hidden' >
 
         </div>
 

@@ -366,185 +366,297 @@ def create_oneclick_test(request):
             testholder = TemporaryOneClickTestHolder.objects.filter(teacher= me.profile)
             if testholder:
                 testholder.delete()
-            num_quests = [10,25,30,35,40,45,50]
-            context = {'numberofquestions':num_quests}
+            #num_quests = [10,25,30,35,40,45,50]
+            my_batches = me.my_classes_names()
+            context = {'myBatches':my_batches}
             return render(request,'questions/oneclick_test1.html',context)
 def oneclick_test(request):
     user = request.user
     me = Teach(user)
     if user.is_authenticated:
-        if 'subquestions' in request.GET:
+        if 'oneclickbatches' in request.GET:
             testholder = TemporaryOneClickTestHolder.objects.filter(teacher= me.profile)
             if testholder:
                 testholder.delete()
-            numQuests = request.GET['subquestions']
+            clickBatch = request.GET['oneclickbatches']
             my_subs = me.my_subjects_names()
-            context = {'subjects': my_subs,'numquests':numQuests}
+            context = {'subjects': my_subs,'oneClickBatch':clickBatch}
             return render(request,'questions/oneclick_test2.html',context)
         if 'questionsubjects' in request.GET:
-            subsandnumquests = request.GET['questionsubjects']
-            print(subsandnumquests)
-            subs = subsandnumquests.split(',')[0]
-            numquests = subsandnumquests.split(',')[1]
+            subandbatch = request.GET['questionsubjects']
+            sub = subandbatch.split(',')[0]
+            batch = subandbatch.split(',')[1]
+            school = me.my_school()
             all_topics = []
-            sub_topics = SSCquestions.objects.filter(section_category = subs)
-            print(sub_topics)
+            sub_topics = SSCquestions.objects.filter(section_category =
+                                                     sub,school = school)
             for i in sub_topics:
                 all_topics.append(i.topic_category)
             all_topics = list(unique_everseen(all_topics))
-            print(all_topics)
-            topics = me.change_topicNumbersNames(all_topics,subs)
+            topics = me.change_topicNumbersNames(all_topics,sub)
             topics = np.array(topics)
-            context =\
-            {'topics':topics[:,0],'subject':subs,'numquests':numquests}
+
+            context = {'topics':topics,'subject':sub,'oneclickbatch':batch}
             return render(request,'questions/oneclick_test3.html',context)
-        if 'createTest' in request.GET:
-            topics = request.GET['createTest']
-            # get topics in string format
-            # count commas to know how many topics are selected
-            # last two commas are for subject and number of questions
-            commacounter = 0
-            for tp in topics:
-                if ',' == str(tp):
-                    commacounter += 1
-            # add topics to separate list (splitting by the commas)
-            tps = []
-            for i in range(commacounter-1):
-                top = topics.split(',')[i]
-                tps.append(top)
-            sub = topics.split(',')[-2]  # get subject
-            numquests = topics.split(',')[-1]  #get number of questions
-            if len(tps)==0:
-                context = {'noneselected':'none'}
-                return render(request,'questions/oneclick_test3.html',context)
-            all_questions = []
-            # change topics names to topics numbers
-            tp = me.change_topicNamesNumber(tps,sub)
-            all_topics = []
-            # get questions topic wise and put them in lists
-            for topic in tp:
-                name = eval("'cat'+topic")
-                questions = SSCquestions.objects.filter(section_category = sub,
-                                                    topic_category = topic)
-                name = []
-                for quest in questions:
-                    all_questions.append(quest)
-                    name.append(quest)
-                all_topics.append(name)
-            all_topics = np.array(all_topics)
-            # get old questions created by the users
-            old_questions = SSCKlassTest.objects.filter(creator = user)
-            oldquestions_list = []
-            for oq in old_questions:
-                for quest in oq.sscquestions_set.all():
-                    oldquestions_list.append(quest)
-            # count number of times questions have been repeated in the past by
-            # the teacher
-            quest_freq = []
-            quest_f = []
-            for quest in all_questions:
-                freq = 0
-                for oq in oldquestions_list:
-                    if quest ==  oq:
-                        freq += 1
-                quest_freq.append(quest.id)
-                quest_f.append(freq)
-            total_freq = list(zip(quest_freq,quest_f))
-            possible = True
-            if (len(all_questions) < int(numquests)):
-                possible = False
-                text = "Sorry choose more categories to have " +\
-                                    numquests + " questions. Currently only " +\
-                                    str(len(all_questions)) + ' questions can\
-                           be added.'
-                context = {'notpossible':text}
-                return render(request,'questions/oneclick_test4.html',context)
-            else:
-                meannumber = int(int(numquests)/len(all_topics))
-                final_list = []
-                for i in range(len(tp)):
-                    for j in range(meannumber):
-                        try:
-                            if len(all_topics[i])==0:
-                                break
-                            topicquestion = random.choice(all_topics[i])
-                            all_topics[i].remove(topicquestion)
-                            if topicquestion in final_list:
-                                pass
-                            else:
-                                final_list.append(topicquestion)
-                        except Exception as e:
-                            topicquestion = random.choice(all_topics[i])
-                            final_list.append(topicquestion)
-                            print(str(e))
-                final_list = list(unique_everseen(final_list))
-                if len(final_list) < int(numquests):
-                    meannumber = int(numquests)
-                    for i in range(len(tp)):
-                        for j in range(meannumber):
-                            try:
-                                if len(final_list) == int(numquests):
-                                    break
-                                if len(all_topics[i])==0:
-                                    break
-                                topicquestion = random.choice(all_topics[i])
-                                all_topics[i].remove(topicquestion)
-                                if topicquestion in final_list:
-                                    pass
-                                else:
-                                    final_list.append(topicquestion)
-                            except Exception as e:
-                                topicquestion = random.choice(all_topics[i])
-                                final_list.append(topicquestion)
-                                print(str(e))
+        if 'oneclicktopicsnum' in request.GET:
+            topicnumber = request.GET.getlist('oneclicktopicsnum');
+            tnum = str(topicnumber).split('and')[0]
+            tnum = tnum.replace('[','')
+            tnum = tnum.replace('\'','')
+            tnum_list = tnum.split(',')
+            tname  = str(topicnumber).split('and')[1]
+            tname_list = tname.split(',')
 
-                final_list = list(unique_everseen(final_list))
-                final_id_list = []
-                for i in final_list:
-                    final_id_list.append(i.id)
-                testholder = TemporaryOneClickTestHolder()
-                testholder.teacher = me.profile
-                testholder.quests = final_id_list
-                testholder.save()
-                batches = me.my_classes_names()
-                context =\
-                {'batches':batches,'subject':sub,'numquests':numquests}
-                return render(request,'questions/oneclick_test4.html',context)
-        if 'finalTest' in request.GET:
-            numquests = request.GET['numquests']
-            subject = request.GET['whichsubject']
-            kl = request.GET['classoneclicktest']
-            myTest = TemporaryOneClickTestHolder.objects.get(teacher= me.profile)
-            oneClickTest = SSCKlassTest()
-            oneClickTest.mode = 'BodhiOnline'
-            quest_list = myTest.quests
-            maxMarks = 0
-            for quest in quest_list:
-                question = SSCquestions.objects.get(id = quest)
-                maxMarks += question.max_marks
+            subject = str(topicnumber).split('and')[2]
+            batch = str(topicnumber).split('and')[3]
+            batch = batch.replace(']','')
+            batch = batch.replace('\'','')
 
-            kla = klass.objects.get(name = kl, level= 'SSC', school =
-                                   user.teacher.school)
-            print(type(maxMarks))
-            print('%s max marks' %maxMarks)
+            topics_total = list(zip(tnum_list,tname_list))
+            topics_total = np.array(topics_total)
 
-            kla = me.my_classes_objects(kl)
-            oneClickTest.max_marks =maxMarks
-            oneClickTest.klas = kla
-            oneClickTest.creator = user
-            oneClickTest.totalTime = int(float(0.6)*int(numquests))
-            oneClickTest.published = timezone.now()
-            oneClickTest.name = str(request.user.teacher) + str(timezone.now())
-            oneClickTest.sub = subject
-            oneClickTest.save()
-            for zz in quest_list:
-                q = SSCquestions.objects.get(id = zz)
-                q.ktest.add(oneClickTest)
-            students = Student.objects.filter(klass = kla)
-            for i in students:
-                oneClickTest.testTakers.add(i)
-            oneClickTest.save()
-            return render(request,'questions/teacher_successfully_published.html')
+            final_num = []
+            final_name = []
+            print(topics_total)
+            for num,cat in topics_total:
+                if int(num) != 0:
+                    final_num.append(int(num))
+                    final_name.append(cat)
+            final_topic = list(zip(final_num,final_name))
+            if len(final_topic)==0:
+                return HttpResponse('Please fill in the number of questions from a\
+                              topic')
+
+            # creation of one click paper
+
+            kl = klass.objects.get(school = me.my_school(),name= batch)
+            test_quest = []  # the question containing list
+
+            for num,cat in final_topic:
+                questions = SSCquestions.objects.filter(topic_category =
+                                                        cat,section_category =
+                                                        subject,school=me.my_school())
+                cat_quest = []
+                used_quests = [] # used question containing list
+                for count,quest in enumerate(questions):
+                    #if quest is not used in the batch before then add that
+                    #question
+                    t_used=\
+                    TimesUsed.objects.filter(teacher=me.profile,quest=quest,batch=kl)
+                    if len(t_used) == 0 and count < num:
+                        cat_quest.append(quest)
+                    # add used questions to the used_quest list
+                    if len(t_used) != 0:
+                        used_quests.append(quest)
+                if len(cat_quest) < num:
+                    for count,q in used_quests:
+                        if count < len(cat_quest):
+                            cat_quest.append(q)
+                test_quest.extend(cat_quest)
+            # setting up the test
+            test = SSCKlassTest()
+            test.name=str('oneclick')+str(me.profile)+str(batch)+str(timezone.now())
+            test.mode = 'BodhiOnline'
+            marks = 0
+            for qu in test_quest:
+                marks += qu.max_marks
+            test.max_marks = marks
+            test.course = 'SSC'
+            test.creator = user
+            test.sub = subject
+            kl = klass.objects.get(school = me.my_school(),name= batch)
+            test.klas = kl
+            totalTime = len(test_quest)*0.6 # one question requires 36 secs
+
+            test.totalTime = totalTime
+            test.save()
+            # add questions to testpaper
+            for q in test_quest:
+                q.ktest.add(test)
+            students = Student.objects.filter(klass = kl,school =
+                                              me.my_school())
+            # add testtakers(students of a specific batch) to test paper
+            for st in students:
+                test.testTakers.add(st)
+                test.save()
+            return render(request,'questions/oneclick_test4.html')
+        if 'oneclickcreated' in request.POST:
+            print('hree in post')
+            return render(request,'questions/oneclick_test5.html')
+
+#def oneclick_test(request):
+#    user = request.user
+#    me = Teach(user)
+#    if user.is_authenticated:
+#        if 'subquestions' in request.GET:
+#            testholder = TemporaryOneClickTestHolder.objects.filter(teacher= me.profile)
+#            if testholder:
+#                testholder.delete()
+#            numQuests = request.GET['subquestions']
+#            my_subs = me.my_subjects_names()
+#            context = {'subjects': my_subs,'numquests':numQuests}
+#            return render(request,'questions/oneclick_test2.html',context)
+#        if 'questionsubjects' in request.GET:
+#            subsandnumquests = request.GET['questionsubjects']
+#            subs = subsandnumquests.split(',')[0]
+#            numquests = subsandnumquests.split(',')[1]
+#            all_topics = []
+#            sub_topics = SSCquestions.objects.filter(section_category = subs)
+#            for i in sub_topics:
+#                all_topics.append(i.topic_category)
+#            all_topics = list(unique_everseen(all_topics))
+#            topics = me.change_topicNumbersNames(all_topics,subs)
+#            topics = np.array(topics)
+#            context =\
+#            {'topics':topics[:,0],'subject':subs,'numquests':numquests}
+#            return render(request,'questions/oneclick_test3.html',context)
+#        if 'createTest' in request.GET:
+#            topics = request.GET['createTest']
+#            # get topics in string format
+#            # count commas to know how many topics are selected
+#            # last two commas are for subject and number of questions
+#            commacounter = 0
+#            for tp in topics:
+#                if ',' == str(tp):
+#                    commacounter += 1
+#            # add topics to separate list (splitting by the commas)
+#            tps = []
+#            for i in range(commacounter-1):
+#                top = topics.split(',')[i]
+#                tps.append(top)
+#            sub = topics.split(',')[-2]  # get subject
+#            numquests = topics.split(',')[-1]  #get number of questions
+#            if len(tps)==0:
+#                context = {'noneselected':'none'}
+#                return render(request,'questions/oneclick_test3.html',context)
+#            all_questions = []
+#            # change topics names to topics numbers
+#            tp = me.change_topicNamesNumber(tps,sub)
+#            all_topics = []
+#            # get questions topic wise and put them in lists
+#            for topic in tp:
+#                name = eval("'cat'+topic")
+#                questions = SSCquestions.objects.filter(section_category = sub,
+#                                                    topic_category = topic)
+#                name = []
+#                for quest in questions:
+#                    all_questions.append(quest)
+#                    name.append(quest)
+#                all_topics.append(name)
+#            all_topics = np.array(all_topics)
+#            # get old questions created by the users
+#            old_questions = SSCKlassTest.objects.filter(creator = user)
+#            oldquestions_list = []
+#            for oq in old_questions:
+#                for quest in oq.sscquestions_set.all():
+#                    oldquestions_list.append(quest)
+#            # count number of times questions have been repeated in the past by
+#            # the teacher
+#            quest_freq = []
+#            quest_f = []
+#            for quest in all_questions:
+#                freq = 0
+#                for oq in oldquestions_list:
+#                    if quest ==  oq:
+#                        freq += 1
+#                quest_freq.append(quest.id)
+#                quest_f.append(freq)
+#            total_freq = list(zip(quest_freq,quest_f))
+#            possible = True
+#            if (len(all_questions) < int(numquests)):
+#                possible = False
+#                text = "Sorry choose more categories to have " +\
+#                                    numquests + " questions. Currently only " +\
+#                                    str(len(all_questions)) + ' questions can\
+#                           be added.'
+#                context = {'notpossible':text}
+#                return render(request,'questions/oneclick_test4.html',context)
+#            else:
+#                meannumber = int(int(numquests)/len(all_topics))
+#                final_list = []
+#                for i in range(len(tp)):
+#                    for j in range(meannumber):
+#                        try:
+#                            if len(all_topics[i])==0:
+#                                break
+#                            topicquestion = random.choice(all_topics[i])
+#                            all_topics[i].remove(topicquestion)
+#                            if topicquestion in final_list:
+#                                pass
+#                            else:
+#                                final_list.append(topicquestion)
+#                        except Exception as e:
+#                            topicquestion = random.choice(all_topics[i])
+#                            final_list.append(topicquestion)
+#                            print(str(e))
+#                final_list = list(unique_everseen(final_list))
+#                if len(final_list) < int(numquests):
+#                    meannumber = int(numquests)
+#                    for i in range(len(tp)):
+#                        for j in range(meannumber):
+#                            try:
+#                                if len(final_list) == int(numquests):
+#                                    break
+#                                if len(all_topics[i])==0:
+#                                    break
+#                                topicquestion = random.choice(all_topics[i])
+#                                all_topics[i].remove(topicquestion)
+#                                if topicquestion in final_list:
+#                                    pass
+#                                else:
+#                                    final_list.append(topicquestion)
+#                            except Exception as e:
+#                                topicquestion = random.choice(all_topics[i])
+#                                final_list.append(topicquestion)
+#                                print(str(e))
+#
+#                final_list = list(unique_everseen(final_list))
+#                final_id_list = []
+#                for i in final_list:
+#                    final_id_list.append(i.id)
+#                testholder = TemporaryOneClickTestHolder()
+#                testholder.teacher = me.profile
+#                testholder.quests = final_id_list
+#                testholder.save()
+#                batches = me.my_classes_names()
+#                context =\
+#                {'batches':batches,'subject':sub,'numquests':numquests}
+#                return render(request,'questions/oneclick_test4.html',context)
+#        if 'finalTest' in request.GET:
+#            numquests = request.GET['numquests']
+#            subject = request.GET['whichsubject']
+#            kl = request.GET['classoneclicktest']
+#            myTest = TemporaryOneClickTestHolder.objects.get(teacher= me.profile)
+#            oneClickTest = SSCKlassTest()
+#            oneClickTest.mode = 'BodhiOnline'
+#            quest_list = myTest.quests
+#            maxMarks = 0
+#            for quest in quest_list:
+#                question = SSCquestions.objects.get(id = quest)
+#                maxMarks += question.max_marks
+#
+#            kla = klass.objects.get(name = kl, level= 'SSC', school =
+#                                   user.teacher.school)
+#            print(type(maxMarks))
+#            print('%s max marks' %maxMarks)
+#
+#            kla = me.my_classes_objects(kl)
+#            oneClickTest.max_marks =maxMarks
+#            oneClickTest.klas = kla
+#            oneClickTest.creator = user
+#            oneClickTest.totalTime = int(float(0.6)*int(numquests))
+#            oneClickTest.published = timezone.now()
+#            oneClickTest.name = str(request.user.teacher) + str(timezone.now())
+#            oneClickTest.sub = subject
+#            oneClickTest.save()
+#            for zz in quest_list:
+#                q = SSCquestions.objects.get(id = zz)
+#                q.ktest.add(oneClickTest)
+#            students = Student.objects.filter(klass = kla)
+#            for i in students:
+#                oneClickTest.testTakers.add(i)
+#            oneClickTest.save()
+#            return render(request,'questions/teacher_successfully_published.html')
 
 
 

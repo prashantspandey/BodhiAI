@@ -11,22 +11,12 @@
 		 $(document).ready(function () {
 		var pr
 		 	for(i=1 ; i<=10; i++){
-		 	$(eval("'#numQuestsButton'+i")).click(function(){
+		 	$(eval("'#numOneClickBatchButton'+i")).click(function(){
 
 	ajKl = $(this).html();
-	console.log(ajKl)
          $(this).removeClass("btn btn-primary").addClass("btn btn-success");
          $('#includeAreas').removeClass("hidden");
-         $('#includeAreas').html('').load('{% url 'QuestionsAndPapers:oneClickTest2' %}?subquestions='+encodeURIComponent(ajKl));
-        $(this).animate({
-            height: '42px',
-            width: '60px',
-        });
-
-               $(eval("'#'+pr")).animate({
-            height: '42px',
-            width: '52px',
-        });
+         $('#includeAreas').html('').load('{% url 'QuestionsAndPapers:oneClickTest2' %}?oneclickbatches='+encodeURIComponent(ajKl));
         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
 
         $('#analysisType').removeClass('hidden');
@@ -49,10 +39,10 @@
 	<div class="panel panel-default" id='numQuests'>
   <div class="panel-heading " style='text-align:center;font-weight:bold;' >Number of questions you want in Test: </div>
   <div class="panel-body">
-{% for i in numberofquestions %}
+{% for i in myBatches %}
 
 <div class="btn-group" role="group" aria-label="...">
-  <button type="button" class="btn btn-default text-center" id="numQuestsButton{{forloop.counter}}">{{i}}</button>
+  <button type="button" class="btn btn-default" id="numOneClickBatchButton{{forloop.counter}}">{{i}}</button>
 </div>
 
 {%endfor%}
