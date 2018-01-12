@@ -93,6 +93,7 @@ $('.thumbnail').on('click',function(){
     function testTake(){
 	$('#testloader').removeClass("hidden");	
 	$('.wholeContainer').addClass("hidden");	
+	$('#performanceChart').addClass("hidden");	
     };
      </script>
 
@@ -106,7 +107,6 @@ $('.thumbnail').on('click',function(){
 	<img src="{% static 'basicinformation/images/bodhigif.gif' %}">
 </div>
 
-	<div class='wholeContainer'>
 <div class="jumbotron col-md-offset-1 col-md-10 col-sm-12 animated flipInX">
   <h1 id="name">Hello {{profile.name}}</h1>
   <p>{%if user.student.school.name == 'BodhiAI' %}Course: {{profile.klass}}{%else%}Class: {{profile.klass}}{%endif%}</p>
@@ -148,6 +148,7 @@ $('.thumbnail').on('click',function(){
 	
 	</select>
 
+	<div class='wholeContainer'>
 
 <div class = 'hidden' id = 'topicTests' >
 	{% include 'basicinformation/studentInstituteTopicTests.html' %}
@@ -185,7 +186,7 @@ $('.thumbnail').on('click',function(){
    {% for key,value in subjectwiseMarks.items %}
  <div class=" col-md-4 col-md-offset-1  col-xs-12" id='graphContainer'   >
 	 <h2 id='subjectName' class="text-center">{%if key == 'SSCMultipleSections' %} Complete Test {%else%} {{key}} {%endif%}</h2>
-<div>
+<div id ='performanceChart'>
 <canvas  id="myChart{{key|slice:"-4:-1"}}"   height="400"></canvas>
 </div>
 </div>
