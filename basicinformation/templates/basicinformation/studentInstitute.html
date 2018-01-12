@@ -92,7 +92,7 @@ $('.thumbnail').on('click',function(){
 
     function testTake(){
 	$('#testloader').removeClass("hidden");	
-	$('.wholeContainer').addClass("hidden");	
+	$('#wholeContainer').addClass("hidden");	
 	$('#performanceChart').addClass("hidden");	
     };
      </script>
@@ -102,6 +102,13 @@ $('.thumbnail').on('click',function(){
 </head>
 <body>
 {%block content%}
+<div class='hidden' id ='testloader' style='text-align:center;'>
+	<h4 class='text-center;'> Please wait.....</h4>
+	<img src="{% static 'basicinformation/images/bodhigif.gif' %}">
+</div>
+
+
+	<div id='wholeContainer'>
 <div class="jumbotron col-md-offset-1 col-md-10 col-sm-12 animated flipInX">
   <h1 id="name">Hello {{profile.name}}</h1>
   <p>{%if user.student.school.name == 'BodhiAI' %}Course: {{profile.klass}}{%else%}Class: {{profile.klass}}{%endif%}</p>
@@ -142,13 +149,8 @@ $('.thumbnail').on('click',function(){
 	{%endfor%}
 	
 	</select>
-<div class='hidden' id ='testloader' style='text-align:center;'>
-	<h4 class='text-center;'> Please wait.....</h4>
-	<img src="{% static 'basicinformation/images/bodhigif.gif' %}">
-</div>
 
-
-	<div class='wholeContainer'>
+	<div id='wholeContainer'>
 
 <div class = 'hidden' id = 'topicTests' >
 	{% include 'basicinformation/studentInstituteTopicTests.html' %}
