@@ -449,9 +449,13 @@ def oneclick_test(request):
                     if len(t_used) != 0:
                         used_quests.append(quest)
                 if len(cat_quest) < num:
-                    for count,q in used_quests:
-                        if count < len(cat_quest):
-                            cat_quest.append(q)
+                    print('%s used quest' %len(used_quests))
+                    try:
+                        for count,q in used_quests:
+                            if count < len(cat_quest):
+                                cat_quest.append(q)
+                    except Exception as e:
+                        print(str(e))
                 test_quest.extend(cat_quest)
             # setting up the test
             test = SSCKlassTest()
