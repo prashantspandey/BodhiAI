@@ -934,13 +934,23 @@ class Studs:
             conversion = '404'
         return conversion
 
+
+# return all tests that are not taken by the student to be shown on home page
+
     def allOnlinetests(self):
         if self.profile.school.category == 'School':
             my_tests = KlassTest.objects.filter(testTakers=self.profile)
         elif self.profile.school.category == 'SSC':
+
             #  adding all tests papers created by BodhiAI 
             #for all the students who register 
+
             if self.profile.school.name== 'BodhiAI':
+                # gets all the questions created by BodhiAI and also gets all
+                # the OnlineMarks by student to compare what tests has the
+                # student taken. If student has not taken any test then that
+                # test is added to new_test list and is checked for
+                # legitimitacy and then finally returned.
                 all_tests = SSCKlassTest.objects.filter(creator__username =
                                                         'BodhiAI')
                 already_taken_marks =\
@@ -955,19 +965,23 @@ class Studs:
                         pass
                     else:
                         new_tests.append(at)
+                # checks if test is legitimate 
                 for i in new_tests:
-                    if i.sub != None or i.sub != '':
+                    if i.sub != None or i.sub != '' or i.totalTime != 0:
                         takeable_tests.append(i)
                     else:
                         pass
                     
                 for t in takeable_tests:
                     t.testTakers.add(self.profile)
-                    return takeable_tests
+                return takeable_tests
             else:
                 all_tests = SSCKlassTest.objects.filter(testTakers =
                                                         self.profile)
                 return all_tests
+
+
+
     def already_takenTests_Subjects(self):
         taken_tests = SSCOnlineMarks.objects.filter(test__testTakers =
                                                     self.profile)
@@ -976,6 +990,8 @@ class Studs:
             if i.test.sub != '':
                 subs.append(i.test.sub)
         return list(unique_everseen(subs))
+
+
     def subjects_NotTakenTests(self):
         tests = SSCKlassTest.objects.filter(testTakers=self.profile)
         sub_list = []
@@ -1018,7 +1034,17 @@ class Studs:
             print(str(e))
             return None
 
+
+# Returns tests that are already taken
+
+    def takenTests(self):
+        if self.institution == 'SSC':
+            takenT = SSCOnlineMarks.objects.filter(student = self.profile)
+            return takenT
+        
+
 # Tests that are not taken 
+
     def toTake_Tests(self):
         if self.institution == 'School':
            pass
@@ -3042,6 +3068,18 @@ class Studs:
             return overall
         else:
             return None
+    def skipped_testwise(self,testid,student):
+        marks = SSCOnlineMarks.objects.get(student = student,test__id = testid)
+        quest_cat = []
+        for qid in marks.skippedAnswers:
+            quest = SSCquestions.objects.get(id = qid)
+            cat = quest.topic_category
+            quest_cat.append(cat)
+        unique,count = np.unique(quest_cat,return_counts=True)
+        sk_cat = np.asarray((unique,count)).T
+
+
+        
 
 
 class Teach:

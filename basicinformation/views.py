@@ -522,19 +522,26 @@ def home(request):
 
 
 #-------------------------------------------------------------
+
+
             # if B2C customer then add tests  to profile
             if profile.school.name == 'BodhiAI':
-                bad_tests = SSCKlassTest.objects.filter(sub='')
+                # checks if test is legitimate, if not then delete the test
+                bad_tests = SSCKlassTest.objects.filter(Q(sub='')| Q(totalTime
+                                                                    = 0))
                 if bad_tests:
                     try:
                         for i in bad_tests:
                             i.delete()
                     except Exception as e:
                         print(str(e))
-
+                
                 me.subjects_OnlineTest()
             subjects = user.student.subject_set.all()
-            
+#-----------------------------------------
+
+
+
             teacher_name = {}
             subject_marks = {} 
             # check for marks objects of multiple sections
@@ -564,15 +571,14 @@ def home(request):
                         multiple_time.append(i.testTaken)
                         subject_marks['SSCMultipleSections'] =\
                         {'marks':multiple_one_marks,'time':multiple_time}
-
+#-----------------------------------------
 
            # get new tests to take (practise tests on the student page) 
+
+
             new_tests = me.toTake_Tests()
-            all_ts = []
-            for i in new_tests.items():
-                all_ts.append(i)
-            for n,i in enumerate(all_ts):
-                print("%s --- %s" %(n,i))
+
+#----------------------------------------
              #Get all the student marks
             try:
                 mathst1,mathst2,mathst3,mathshy,mathst4,mathspredhy =\
@@ -646,18 +652,12 @@ def home(request):
                        sciencet4,'announcements':my_announcements}
             if me.profile.school.name == "BodhiAI":
                 context = \
-                        {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests,'allTs':all_ts}
+                        {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
             else:
                 context = \
-                    {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests,'allTs':all_ts}
+                    {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
 
             return render(request, 'basicinformation/studentInstitute.html', context)
-            #ssccoaching = School.objects.get(name='BodhiAI')
-            #quests = SSCquestions.objects.all()
-            #for i in quests:
-            #    i.school.add(ssccoaching)
-
-            #return HttpResponse(ssccoaching)
 
 
         elif user.groups.filter(name='Teachers').exists():
@@ -872,6 +872,7 @@ def student_subject_analysis(request):
 
                 ra,wa,sp,accuracy = me.test_statistics(test_id)
                 weak_areas = me.weakAreas_Intensity(sub,singleTest = test_id)
+                sk_weak = me.skipped_testwise(test_id,me.profile)
                 area_timing,freq = me.areawise_timing(sub,test_id)
                 subjectwise_accuracy = me.test_SubjectAccuracy(test_id)
                 if sub == 'SSCMultipleSections':
