@@ -128,7 +128,7 @@ def home(request):
             #df=\
             #pd.read_csv('/app/question_data/swamiquestions.csv',error_bad_lines=False )
             kd_files =\
-            ['kdtest14.csv','kdtest15.csv','kdtest16.csv','kdtest17.csv','kdtest18.csv','kdtest19.csv','kdtest20.csv','kdtest21.csv','kdtest22.csv','kdtest23.csv','kdtest24.csv','kdtest25.csv','kdtest26.csv','kdtest27.csv']
+            ['kdtest19.csv','kdtest20.csv','kdtest21.csv','kdtest22.csv','kdtest23.csv','kdtest24.csv','kdtest25.csv','kdtest26.csv','kdtest27.csv']
             for kd in kd_files:
 
                 df=\
