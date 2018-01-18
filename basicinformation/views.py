@@ -131,11 +131,11 @@ def home(request):
             ['kdtest30.csv','kdtest31.csv','kdtest32.csv','kdtest33.csv','kdtest34.csv']
             for kd in kd_files:
 
-                #df=\
-                #pd.read_csv('/app/question_data/'+kd,error_bad_lines=False )
-
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+kd,error_bad_lines=False )
+                pd.read_csv('/app/question_data/'+kd,error_bad_lines=False )
+
+                #df=\
+                #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+kd,error_bad_lines=False )
 
                 quests = []
                 optA = []
