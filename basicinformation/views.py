@@ -128,14 +128,14 @@ def home(request):
             #df=\
             #pd.read_csv('/app/question_data/swamiquestions.csv',error_bad_lines=False )
             kd_files =\
-            ['kdtest19.csv','kdtest20.csv','kdtest21.csv','kdtest22.csv','kdtest23.csv','kdtest24.csv','kdtest25.csv','kdtest26.csv','kdtest27.csv']
+            ['kdtest30.csv','kdtest31.csv','kdtest32.csv','kdtest33.csv','kdtest34.csv']
             for kd in kd_files:
 
-                df=\
-                pd.read_csv('/app/question_data/'+kd,error_bad_lines=False )
-
                 #df=\
-                #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+kd,error_bad_lines=False )
+                #pd.read_csv('/app/question_data/'+kd,error_bad_lines=False )
+
+                df=\
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+kd,error_bad_lines=False )
 
                 quests = []
                 optA = []
@@ -190,6 +190,7 @@ def home(request):
                     #j -- right_answer,%s -- explanation'
                     #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
                     write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True)
+                    print('%s-- test number' %kd)
             #write_passages(all_passages)
             #print(quests)
             #print(right_answer)
@@ -205,6 +206,7 @@ def home(request):
 
 #------------------------------------------------------------
             # testing for AI
+            trial_ai(request)
             #school = School.objects.get(name='Swami Reasoning World')
             #student = Student.objects.filter(school = school)
             #all_categories = []
@@ -212,7 +214,7 @@ def home(request):
             #acc_list_all = []
             #acc_cat_all = []
             #stu_id_all = []
-
+            
             #for i in student:
             #    total_right = []
             #    total_wrong = []
@@ -245,6 +247,7 @@ def home(request):
             #    right_category = np.asarray((unique,counts)).T
             #    unique,counts = np.unique(category_wrong,return_counts = True)
             #    wrong_category = np.asarray((unique,counts)).T
+            #    print(right_category,wrong_category)
             #    acc_list = []
             #    acc_cat = []
             #    stu_id = []
@@ -1744,8 +1747,169 @@ def evaluate_offline_test(studentid,opt):
     offline_marks.save()
              
 
+def trial_ai(request):
+    school = School.objects.get(name= 'Swami Reasoning World')
+    students = Student.objects.filter(school=school)
+    marks = []
+    stud = []
+    time = []
+    ave_oftest = []
+    for st in students:
+        try:
+            online_marks = SSCOnlineMarks.objects.filter(student =
+                                                         st).order_by('testTaken')
+            if len(online_marks) != 0:
+                marks.extend(online_marks)
+                for times in range(len(online_marks)):
+                    stud.append(st)
+                for num,om in enumerate(online_marks):
+                    try:
+                        test_loader =\
+                        SscTeacherTestResultLoader.objects.get(test=om.test)
+                        ave_oftest.append(test_loader.average)
+                    except Exception as e:
+                        print(str(e))
+                        ave_oftest.append(float('nan'))
+                    time.append(int(num+1))
+        except Exception as e:
+            print(str(e))
+    st_marks = list(zip(stud,marks,ave_oftest,time))
+    st_marks = np.array(st_marks)
+    print(st_marks)
+    print(st_marks.shape)
+    qid2 = []
+    catid2 = []
+    accid2 = []
+    st2 = []
+    quest_acc = []
+    questidfinal = []
+    for st in students:
+        online_marks =\
+        SSCOnlineMarks.objects.filter(student=st).order_by('testTaken')
+        if len(online_marks) != 0:
+            for nu,marks in enumerate(online_marks):
+                qid = []
+                catid = []
+                r_w = []
+                for nu,quest in enumerate(marks.test.sscquestions_set.all()):
+                    q_test = SSCOnlineMarks.objects.filter(test__sscquestions=quest)
+                    right = 0
+                    wrong = 0
+                    skipped = 0
+                    for q in q_test:
+                        for c in quest.choices_set.all():
+                            if c.id in q.rightAnswers:
+                                right += 1
+                            if c.id in q.wrongAnswers:
+                                wrong += 1
+                            else:
+                                skipped += 1
+                    try:
+                        quest_acc.append((right-wrong)/(right+wrong)*100)
+                        questidfinal.append(quest.id)
+                    except Exception as e:
+                        print(str(e))
+                        quest_acc.append(float('nan'))
+                        questidfinal.append(quest.id)
+
+                    
+                        
+                    for ch in quest.choices_set.all():
+                        if ch.id in marks.rightAnswers:
+                            r_w.append('R')
+                        if ch.id in marks.wrongAnswers:
+                            r_w.append('W')
+                        else:
+                            r_w.append('S')
+                        qid.append(quest.id)
+                        catid.append(quest.topic_category)
+                        st2.append(st.id)
+                qid2.extend(qid)
+                catid2.extend(catid)
+                accid2.extend(r_w)
+
+    #unique,count = np.unique(catid2,return_counts = True)
+    #cat_unique = np.asarray((unique,count)).T
+    cat_unique = list(unique_everseen(catid2))
+    cat_tot = []
+    acc_cat_stu = []
+    stu_cat = []
+    for st in students:
+        for un_cat in cat_unique:
+            right = 0
+            wrong = 0
+            om_marks = SSCOnlineMarks.objects.filter(test__testTakers
+                                                     =st)
+            for om in om_marks:
+                for quest in\
+                om.test.sscquestions_set.filter(topic_category=un_cat):
+                    for ch in quest.choices_set.all():
+                        if ch.id in om.rightAnswers:
+                            right += 1
+                        if ch.id in om.wrongAnswers:
+                            wrong += 1
+            try:
+                acc = ((right-wrong)/(right+wrong)*100)
+
+            except Exception as e:
+                acc_cat_stu.append(float('nan'))
+            cat_tot.append(un_cat)
+            acc_cat_stu.append(acc)
+            stu_cat.append(st.id)
+
+           
+
+    personal_cat = list(zip(stu_cat,cat_tot,acc_cat_stu))
+    personal_cat = np.array(personal_cat)
+    print(personal_cat)
+    print(personal_cat.shape)
+    qu_acc = list(zip(questidfinal,quest_acc))
+    qu_acc = np.array(qu_acc)
+    final = list(zip(st2,qid2,catid2,accid2))
+    final = np.array(final)
+    quest_accuracy = []
+    for st,qid,catid,accid in final:
+        for q,a in qu_acc:
+            if int(qid) == int(q):
+                quest_accuracy.append(a)
+    final2 = list(zip(st2,qid2,catid2,accid2,quest_accuracy))
+    final2 = np.array(final2)
+    stu_category = []
+    last_st = []
+    last_cat = []
+    last_qid = []
+    last_accid = []
+    last_questacc = []
+    last_stqacc = []
+    for st,qid,catid,accid,quest_accuracy in final2:
+        for stid,cat,qacc in personal_cat:
+            if st == stid and catid == cat:
+                last_st.append(st)
+                last_cat.append(catid)
+                last_qid.append(qid)
+                last_accid.append(accid)
+                last_questacc.append(quest_accuracy)
+                last_stqacc.append(qacc)
+    last =\
+    list(zip(last_st,last_cat,last_qid,last_accid,last_questacc,last_stqacc))
+    last = np.array(last)
+    with open('bodhidata.pkl','wb') as fi:
+        pickle.dump(last,fi)
+    print(last)
+    print(last.shape)
+    print(last.shape)
+    print(len(stu_category))
+    print(len(personal_cat))
+    print(final.shape)
+    print(qu_acc.shape)
 
 
 
+
+
+
+
+
+                    
 
 
