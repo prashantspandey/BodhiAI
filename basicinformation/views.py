@@ -206,7 +206,7 @@ def home(request):
 
 #------------------------------------------------------------
             # testing for AI
-            trial_ai(request)
+            #trial_ai(request)
             #school = School.objects.get(name='Swami Reasoning World')
             #student = Student.objects.filter(school = school)
             #all_categories = []
