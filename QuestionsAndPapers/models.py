@@ -81,6 +81,9 @@ class Questions(models.Model):
     topic_category = models.CharField(max_length=10,choices = topic_choice)
     school = models.ManyToManyField(School)
     picture = models.URLField(null=True,blank=True)
+    source = models.CharField(max_length= 50,null=True,blank=True)
+    dateInserted = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+
     def __str__(self):
         return self.text[:50]
 
@@ -103,6 +106,8 @@ class SSCquestions(models.Model):
     negative_marks =\
     models.DecimalField(max_digits=2,decimal_places=2,default=0.25)
     tier_choices = (('1','Tier1'),('2','Tier2'),('3','Tier3'))
+    usedFor_choices =\
+    (('SSC','SSC'),('Aptitude','Aptitude'),('Groupx','Groupx'),('Groupy','Groupy'))
     section_choices = \
         (('General-Intelligence','General-Intelligence'),('General-Knowledge','General-Knowledge')
          ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English'))
@@ -115,6 +120,12 @@ class SSCquestions(models.Model):
     topic_category = models.CharField(max_length=5,choices = topic_choice)
     school = models.ManyToManyField(School)
     picture = models.URLField(max_length=500,null=True,blank=True)
+    usedFor = models.CharField(max_length=30,choices=
+                              usedFor_choices,null=True,blank=True)
+    source = models.CharField(max_length= 50,null=True,blank=True)
+    dateInserted = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+
+
 
 class GeneralDifficulty(models.Model):
     average_difficulty = models.FloatField()

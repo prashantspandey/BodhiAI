@@ -22,7 +22,8 @@ from .marksprediction import *
 from operator import itemgetter
 from io import BytesIO as IO
 import timeit
-
+from PIL import Image
+import requests
 def home(request):
     user = request.user
     if user.is_authenticated:
@@ -128,7 +129,7 @@ def home(request):
             #df=\
             #pd.read_csv('/app/question_data/swamiquestions.csv',error_bad_lines=False )
             kd_files =\
-            ['kdtest30.csv','kdtest31.csv','kdtest32.csv','kdtest33.csv','kdtest34.csv']
+            ['kdtest41.csv','kdtest42.csv','kdtest43.csv','kdtest44.csv','kdtest45.csv','kdtest46.csv','kdtest47.csv','kdtest48.csv','kdtest49.csv','kdtest50.csv']
             for kd in kd_files:
 
                 df=\
@@ -162,19 +163,19 @@ def home(request):
                 #im = df['QuestionLink']
                 #optE = df['optionE'] 
                 #exp = df['Explanation']
-                quest_category = df['category']
+                quest_category = df['Category']
                 #quest_category = '11.1' # indian museams
-                for i in df['correct']:
+                for i in df['Answer']:
                     ichanged = str(i).replace(u'\\xa0',u' ')
                     ichanged2 = ichanged.replace('Answer',' ')
                     ichanged3 = ichanged2.replace('Explanation',' ')
-                    if 'a' in ichanged:
+                    if 'a' or 'A'  in ichanged:
                         right_answer.append(1)
-                    elif 'b' in ichanged:
+                    elif 'b' or 'B' in ichanged:
                         right_answer.append(2)
-                    elif 'c' in ichanged:
+                    elif 'c' or 'C' in ichanged:
                         right_answer.append(3)
-                    elif 'd' in ichanged:
+                    elif 'd' or 'D' in ichanged:
                         right_answer.append(4)
                     elif 'e' in ichanged:
                         right_answer.append(5)
@@ -529,6 +530,7 @@ def home(request):
 
             # if B2C customer then add tests  to profile
             if profile.school.name == 'BodhiAI':
+                #replace_quest_image()
                 # checks if test is legitimate, if not then delete the test
                 bad_tests = SSCKlassTest.objects.filter(Q(sub='')| Q(totalTime
                                                                     = 0))
@@ -1905,7 +1907,26 @@ def trial_ai(request):
 
 
 
-
+def replace_quest_image():
+    image_questions = SSCquestions.objects.all()
+    all_quests = []
+    for i in image_questions:
+        if i.picture != None:
+            all_quests.append(i)
+    for num,i in enumerate(all_quests):
+        if num == 5:
+            break
+        img = Image.open(requests.get(i.picture,stream=True).raw)
+        img = img.convert("RGBA")
+        datas = img.getdata()
+        newData = []
+        for item in datas:
+            if item[0] == 255 and item[1] == 255 and item[2]:
+                newData.append((255,255,255,0))
+            else:
+                newData.append(item)
+                img.putdata(newData)
+        img.show()
 
 
 
