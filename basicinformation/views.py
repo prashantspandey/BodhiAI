@@ -169,15 +169,16 @@ def home(request):
                     ichanged = str(i).replace(u'\\xa0',u' ')
                     ichanged2 = ichanged.replace('Answer',' ')
                     ichanged3 = ichanged2.replace('Explanation',' ')
-                    if 'a' or 'A'  in ichanged:
+
+                    if 'a'  in ichanged.lower():
                         right_answer.append(1)
-                    elif 'b' or 'B' in ichanged:
+                    elif 'b' in ichanged.lower():
                         right_answer.append(2)
-                    elif 'c' or 'C' in ichanged:
+                    elif 'c'  in ichanged.lower():
                         right_answer.append(3)
-                    elif 'd' or 'D' in ichanged:
+                    elif 'd'  in ichanged.lower():
                         right_answer.append(4)
-                    elif 'e' in ichanged:
+                    elif 'e' in ichanged.lower():
                         right_answer.append(5)
                 print(len(quests))
                 print(len(optA))
@@ -190,7 +191,7 @@ def home(request):
                     #jprint('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
                     #j -- right_answer,%s -- explanation'
                     #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
-                    write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True)
+                    write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True,replace=True)
                     print('%s-- test number' %kd)
             #write_passages(all_passages)
             #print(quests)
@@ -1584,78 +1585,89 @@ def read_questions(fi):
     return questText
 
 
-def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCategory,exp,sectionType,fouroptions=False):
-    school = School.objects.filter(category = 'SSC')
-    if fouroptions == True:
-        all_options = [optA,optB,optC,optD]
-    else:
-        try:
-            if optE:
-                if math.isnan(optE):
-                    all_options = [optA,optB,optC,optD]
+def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCategory,exp,sectionType,fouroptions=False,replace=False):
+    if replace:
+        quest = SSCquestions.objects.filter(picture = image)
+        for n,qu in enumerate(quest):
+            for num,ch in enumerate(qu.choices_set.all()):
+                if num == correctOpt:
+                    ch.predicament ='Correct'
                 else:
-                    all_options = [optA,optB,optC,optD,optE]
+                    ch.predicament = 'Wrong'
+    else:
+
+
+        school = School.objects.filter(category = 'SSC')
+        if fouroptions == True:
+            all_options = [optA,optB,optC,optD]
+        else:
+            try:
+                if optE:
+                    if math.isnan(optE):
+                        all_options = [optA,optB,optC,optD]
+                    else:
+                        all_options = [optA,optB,optC,optD,optE]
+                else:
+                        all_options = [optA,optB,optC,optD,optE]
+            except Exception as e:
+                print(str(e))
+                all_options = [optA,optB,optC,optD,optE]
+        new_questions = SSCquestions()
+        new_questions.tier_category = '1'
+        if sectionType == 'English':
+            new_questions.section_category = 'English'
+        elif sectionType == 'Resoning':
+            new_questions.section_category = 'General-Intelligence'
+        elif sectionType == 'Maths':
+            new_questions.section_category = 'Quantitative-Analysis'
+        elif sectionType == 'GK':
+            new_questions.section_category = 'General-Knowledge'
+        if question != None:
+            new_questions.text = str(question)
+        new_questions.topic_category = str(questCategory)
+        if image:
+            new_questions.picture = image
+        new_questions.save()
+        for sch in school:
+            new_questions.school.add(sch)
+        #for j in range(1,9):
+        #    if questCategory == str(j):
+        #        mn = questCategory + '.'+'1'
+        #        new_questions.topic_category = str(mn)
+        #        new_questions.topic_category = str(mn)
+        #        new_questions.save()
+        #    else:
+        #        new_questions.topic_category = str(questCategory)
+        #        new_questions.save()
+        #print(new_questions.topic_category)
+        for n,i in enumerate(all_options):
+            new_choices = Choices()
+            new_choices.sscquest = new_questions
+            if 'https:' in str(i):
+                new_choices.picture = str(i)
             else:
-                    all_options = [optA,optB,optC,optD,optE]
-        except Exception as e:
-            print(str(e))
-            all_options = [optA,optB,optC,optD,optE]
-    new_questions = SSCquestions()
-    new_questions.tier_category = '1'
-    if sectionType == 'English':
-        new_questions.section_category = 'English'
-    elif sectionType == 'Resoning':
-        new_questions.section_category = 'General-Intelligence'
-    elif sectionType == 'Maths':
-        new_questions.section_category = 'Quantitative-Analysis'
-    elif sectionType == 'GK':
-        new_questions.section_category = 'General-Knowledge'
-    if question != None:
-        new_questions.text = str(question)
-    new_questions.topic_category = str(questCategory)
-    if image:
-        new_questions.picture = image
-    new_questions.save()
-    for sch in school:
-        new_questions.school.add(sch)
-    #for j in range(1,9):
-    #    if questCategory == str(j):
-    #        mn = questCategory + '.'+'1'
-    #        new_questions.topic_category = str(mn)
-    #        new_questions.topic_category = str(mn)
-    #        new_questions.save()
-    #    else:
-    #        new_questions.topic_category = str(questCategory)
-    #        new_questions.save()
-    #print(new_questions.topic_category)
-    for n,i in enumerate(all_options):
-        new_choices = Choices()
-        new_choices.sscquest = new_questions
-        if 'https:' in str(i):
-            new_choices.picture = str(i)
-        else:
-            itext = str(i).replace('[','')
-            itext2 = itext.replace(']','')
-            itext3 = itext2.replace(')','')
-            itext4 = itext3.replace(u'\\xa0',u' ')
-            itext5 = itext4.replace('\"','')
-            new_choices.text = itext5
-        if 'https:' in str(exp):
-            pass
-        else:
-            exptext = str(exp).replace('[','')
-            exptext2 = exptext.replace(']','')
-            exptext3 = exptext2.replace(u'\\xa0',u' ')
-            exptext4 = exptext3.replace('\"','')
-        if correctOpt == n+1:
-            new_choices.predicament = 'Correct'
+                itext = str(i).replace('[','')
+                itext2 = itext.replace(']','')
+                itext3 = itext2.replace(')','')
+                itext4 = itext3.replace(u'\\xa0',u' ')
+                itext5 = itext4.replace('\"','')
+                new_choices.text = itext5
             if 'https:' in str(exp):
-                new_choices.explanationPicture = exp
+                pass
             else:
-                new_choices.explanation = exptext4
-        else:
-            new_choices.predicament = 'Wrong'
-        new_choices.save()
+                exptext = str(exp).replace('[','')
+                exptext2 = exptext.replace(']','')
+                exptext3 = exptext2.replace(u'\\xa0',u' ')
+                exptext4 = exptext3.replace('\"','')
+            if correctOpt == n+1:
+                new_choices.predicament = 'Correct'
+                if 'https:' in str(exp):
+                    new_choices.explanationPicture = exp
+                else:
+                    new_choices.explanation = exptext4
+            else:
+                new_choices.predicament = 'Wrong'
+            new_choices.save()
 
 def write_passages(passages):
     for i in passages:
