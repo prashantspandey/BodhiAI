@@ -129,7 +129,7 @@ def home(request):
             #df=\
             #pd.read_csv('/app/question_data/swamiquestions.csv',error_bad_lines=False )
             kd_files =\
-            ['kdtest41.csv','kdtest42.csv','kdtest43.csv','kdtest44.csv','kdtest45.csv','kdtest46.csv','kdtest47.csv','kdtest48.csv','kdtest49.csv','kdtest50.csv']
+            ['kiran_mirrorandwater_type1.csv']
             for kd in kd_files:
 
                 df=\
