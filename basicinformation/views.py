@@ -1591,7 +1591,7 @@ def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCate
         for n,qu in enumerate(quest):
             for num,ch in enumerate(qu.choices_set.all()):
                 print(num)
-                if num == correctOpt:
+                if num+1 == correctOpt:
                     ch.predicament ='Correct'
                 else:
                     ch.predicament = 'Wrong'
