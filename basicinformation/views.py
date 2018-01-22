@@ -163,9 +163,9 @@ def home(request):
                 #im = df['QuestionLink']
                 #optE = df['optionE'] 
                 #exp = df['Explanation']
-                quest_category = df['Category']
+                quest_category = df['category']
                 #quest_category = '11.1' # indian museams
-                for i in df['Answer']:
+                for i in df['correct']:
                     ichanged = str(i).replace(u'\\xa0',u' ')
                     ichanged2 = ichanged.replace('Answer',' ')
                     ichanged3 = ichanged2.replace('Explanation',' ')
@@ -191,7 +191,7 @@ def home(request):
                     #jprint('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
                     #j -- right_answer,%s -- explanation'
                     #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
-                    write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True,replace=True)
+                    write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True)
                     print('%s-- test number' %kd)
             #write_passages(all_passages)
             #print(quests)
