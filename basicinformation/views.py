@@ -1590,10 +1590,8 @@ def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCate
         quest = SSCquestions.objects.filter(picture = image)
         for n,qu in enumerate(quest):
             for num,ch in enumerate(qu.choices_set.all()):
-                print('%s-- num of choices' %num)
                 if num == correctOpt:
                     ch.predicament ='Correct'
-                    print('%s-- correct' %(num,ch))
                 else:
                     ch.predicament = 'Wrong'
                 ch.save()
