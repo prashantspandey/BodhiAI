@@ -1592,8 +1592,10 @@ def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCate
             for num,ch in enumerate(qu.choices_set.all()):
                 if num == correctOpt:
                     ch.predicament ='Correct'
+                    ch.save()
                 else:
                     ch.predicament = 'Wrong'
+                    ch.save()
     else:
 
 
