@@ -108,6 +108,7 @@ class SSCquestions(models.Model):
     tier_choices = (('1','Tier1'),('2','Tier2'),('3','Tier3'))
     usedFor_choices =\
     (('SSC','SSC'),('Aptitude','Aptitude'),('Groupx','Groupx'),('Groupy','Groupy'))
+    language_choices = (('English','English'),('Hindi','Hindi'),('Bi','Bi'))
     section_choices = \
         (('General-Intelligence','General-Intelligence'),('General-Knowledge','General-Knowledge')
          ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English'))
@@ -124,6 +125,8 @@ class SSCquestions(models.Model):
                               usedFor_choices,null=True,blank=True)
     source = models.CharField(max_length= 50,null=True,blank=True)
     dateInserted = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    language = models.CharField(max_length = 20,choices =
+                                language_choices,null=True,blank=True )
 
 
 

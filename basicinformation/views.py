@@ -41,7 +41,9 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-
+            add_teachers('jecrc_teacher.csv',production=True,jecrc=True)
+            #add_students('jecrc_6thsem_itdepartment.csv')
+            #add_questions('JECRC')
             # add students  (swami)
             #df = \
             #pd.read_csv('/app/question_data/swami2jan.csv',error_bad_lines =False)
@@ -128,71 +130,76 @@ def home(request):
             #    all_passages = pickle.load(fi)
             #df=\
             #pd.read_csv('/app/question_data/swamiquestions.csv',error_bad_lines=False )
-            kd_files =\
-            ['kiran_mirrorandwater_type1.csv']
-            for kd in kd_files:
-
-                df=\
-                pd.read_csv('/app/question_data/'+kd,error_bad_lines=False )
-
-                #df=\
-                #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+kd,error_bad_lines=False )
-
-                quests = []
-                optA = []
-                optB = []
-                optC = []
-                optD = []
-                optE = []
-                right_answer = []
-                quest_category = []
-                #quests = df['Question']
-                temp = []
-                #qu = 'Arrange the words below meaningfully\n'
-                #for i in quests:
-                #    i = str(qu) + str(i)
-                #    temp.append(i)
 
 
-                images = df['QuestionLink']
-                #images = None
-                optA = df['optionA']
-                optB = df['optionB']
-                optC = df['optionC']
-                optD = df['optionD']
-                #im = df['QuestionLink']
-                #optE = df['optionE'] 
-                #exp = df['Explanation']
-                quest_category = df['category']
-                #quest_category = '11.1' # indian museams
-                for i in df['correct']:
-                    ichanged = str(i).replace(u'\\xa0',u' ')
-                    ichanged2 = ichanged.replace('Answer',' ')
-                    ichanged3 = ichanged2.replace('Explanation',' ')
 
-                    if 'a'  in ichanged.lower():
-                        right_answer.append(1)
-                    elif 'b' in ichanged.lower():
-                        right_answer.append(2)
-                    elif 'c'  in ichanged.lower():
-                        right_answer.append(3)
-                    elif 'd'  in ichanged.lower():
-                        right_answer.append(4)
-                    elif 'e' in ichanged.lower():
-                        right_answer.append(5)
-                print(len(quests))
-                print(len(optA))
-                print(len(optB))
-                print(len(optC))
-                print(len(optD))
-                print(len(right_answer))
-                print(len(quest_category))
-                for ind in range(len(optA)):
-                    #jprint('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
-                    #j -- right_answer,%s -- explanation'
-                    #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
-                    write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True)
-                    print('%s-- test number' %kd)
+
+
+            #kd_files =\
+            #['kiran_calender_type1.csv','kiran_calender_type2.csv','kiran_calender_type3.csv']
+            #for kd in kd_files:
+
+            #    #df=\
+            #    #pd.read_csv('/app/question_data/'+kd,error_bad_lines=False )
+
+            #    df=\
+            #    pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+kd,error_bad_lines=False )
+
+            #    quests = []
+            #    optA = []
+            #    optB = []
+            #    optC = []
+            #    optD = []
+            #    optE = []
+            #    right_answer = []
+            #    quest_category = []
+            #    #quests = df['Question']
+            #    temp = []
+            #    #qu = 'Arrange the words below meaningfully\n'
+            #    #for i in quests:
+            #    #    i = str(qu) + str(i)
+            #    #    temp.append(i)
+
+
+            #    images = df['QuestionLink']
+            #    #images = None
+            #    optA = df['optionA']
+            #    optB = df['optionB']
+            #    optC = df['optionC']
+            #    optD = df['optionD']
+            #    #im = df['QuestionLink']
+            #    #optE = df['optionE'] 
+            #    #exp = df['Explanation']
+            #    quest_category = df['Category']
+            #    #quest_category = '11.1' # indian museams
+            #    for i in df['Correct']:
+            #        ichanged = str(i).replace(u'\\xa0',u' ')
+            #        ichanged2 = ichanged.replace('Answer',' ')
+            #        ichanged3 = ichanged2.replace('Explanation',' ')
+
+            #        if 'a'  in ichanged.lower():
+            #            right_answer.append(1)
+            #        elif 'b' in ichanged.lower():
+            #            right_answer.append(2)
+            #        elif 'c'  in ichanged.lower():
+            #            right_answer.append(3)
+            #        elif 'd'  in ichanged.lower():
+            #            right_answer.append(4)
+            #        elif 'e' in ichanged.lower():
+            #            right_answer.append(5)
+            #    print(len(quests))
+            #    print(len(optA))
+            #    print(len(optB))
+            #    print(len(optC))
+            #    print(len(optD))
+            #    print(len(right_answer))
+            #    print(len(quest_category))
+            #    for ind in range(len(optA)):
+            #        #jprint('%s -- opta,%s -- optb,%s -- optc, %s -- optd,%s\
+            #        #j -- right_answer,%s -- explanation'
+            #        #j %(optA[ind],optB[ind],optC[ind],optD[ind],right_answer[ind],exp[ind]))
+            #        write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType='Resoning',fouroptions=True)
+            #        print('%s-- test number' %kd)
             #write_passages(all_passages)
             #print(quests)
             #print(right_answer)
@@ -1513,49 +1520,66 @@ def create_student(num, request):
         except Exception as e:
             print(str(e))
 
-def real_create_student(stu, request):
+def real_create_student(stu,schoolName,swami=False):
     print('in process............')
-    user = request.user
-    school = School.objects.get(name='Swami Reasoning World')
-    teacher = Teacher.objects.get(school__name = 'Swami Reasoning World')
-    for na,dob,batch,phone,pa in stu:
+    school = School.objects.get(name=schoolName)
+    pa = '10'
+    for na,batch,phone,teach,email in stu:
+        try:
+            teacher = Teacher.objects.get(teacheruser__username = teach)
+            print(teacher)
+        except Exception as e:
+            print(str(e))
         #ss = Student.objects.get(studentuser__username = phone)
         #print(ss.name)
         try:
-            pa = str.lower(pa)
-            dob = datetime.strptime(dob,'%d/%m/%Y')
+            pa = str(phone)
+            pa = phone[::-1]
+            print('%s password' %pa)
+            #dob = datetime.strptime(dob,'%d/%m/%Y')
             us = User.objects.create_user(username=phone,
-                                          email='swamireasoning' + str(na) + '@gmail.com',
+                                          email=email,
                                           password=pa)
             us.save()
             gr = Group.objects.get(name='Students')
             gr.user_set.add(us)
-            if batch == 16:
-                cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch16')
-            elif batch == 17:
-                 cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch17')
-            elif batch == 24:
-                  cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch24')
-            elif batch == 15:
-                  cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch15')
+            if swami:
+                if batch == 16:
+                    cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch16')
+                elif batch == 17:
+                     cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch17')
+                elif batch == 24:
+                      cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch24')
+                elif batch == 15:
+                      cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch15')
+            else:
+                if '4th' in batch:
+                    cl =\
+                    klass.objects.get(school__name=schoolName,name='IT-4th-semester')
+                if '6th' in batch:
+                    cl =\
+                    klass.objects.get(school__name=schoolName,name='IT-6th-semester')
+
             stu = Student(studentuser=us, klass=cl,
                               rollNumber=phone,
                               name= na,
-                              dob=dob,
+                              dob=timezone.now(),
                           pincode=int(str(302018)),school= school)
             stu.save()
             sub = Subject(name='General-Intelligence', student=stu,
                           teacher=teacher)
             sub.save()
+            print('%s -- saved' %na)
         except Exception as e:
             print(str(e))
+            us.delete()
 
 
 def create_teacher(num):
     school1 = School.objects.get(name='Dummy School')
     school2 = School.objects.get(name='Not Dummy School')
     schools = [school1,school2]
-    for i in range(num):
+    for i in range():
         try:
             us = User.objects.create_user(username='teacher' + str(i),
                                           email='teacher' + str(i) + '@gmail.com',
@@ -1943,9 +1967,76 @@ def replace_quest_image():
                 img.putdata(newData)
         img.show()
 
+def real_create_teacher(name,teach):
+    school = School.objects.get(name=name)
+    for name,batch,email in teach:
+        pas = str(name.lower())
+        pas = pas.strip()
+        try:
+            us = User.objects.create_user(username=str(email),
+                                          email=email,
+                                          password=pas)
+            us.save()
+            gr = Group.objects.get(name='Teachers')
+            gr.user_set.add(us)
+
+            teache = Teacher(teacheruser=us,
+                             experience=0, name=name,
+                             school=school)
+            teache.save() 
+            print('%s --- name saved' %name)
+        except Exception as e:
+            print(str(e))
+
+def add_teachers(path_file,production=False,jecrc=False):
+    if production:
+        df = \
+        pd.read_csv('/app/client_info/jecrc/'+path_file,error_bad_lines =False)
+    else:
+        df =\
+        pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/jecrc/'+path_file,error_bad_lines=False )
+    if jecrc:
+        name = df['Name']
+        batch = df['Group associated']
+        email = df['email ID']
+        teach = list(zip(name,batch,email))
+        real_create_teacher('JECRC',teach)
 
 
 
+def add_students(path_file,production = False,swami=False):
+    if production:
+        df = \
+        pd.read_csv('/app/client_info/jecrc/'+path_file,error_bad_lines =False)
+    else:
+        df =\
+        pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/jecrc/'+path_file,error_bad_lines=False )
+    if swami:
+        name = df['Name']
+        dob = df['DOB']
+        batch = df['Batch no']
+        username = df['Phone']
+        password = df['password']
+        stu = list(zip(name,dob,batch,username,password))
+        real_create_student(stu,request)
+        return HttpResponse(stu)
+    else:
+        name = df['Student Name']
+        email = df['Email ID(Active)']
+        phone = df['Contact Number(Whatsapp)']
+        teach = df['TG']
+        batch = df['batch']
+        stu_details = list(zip(name,batch,phone,teach,email))
+        real_create_student(stu_details,'JECRC')
+
+
+def add_questions(institute):
+    if institute == 'JECRC':
+       questions = SSCquestions.objects.filter(school__name = 'Swami Reasoning World')
+       school = School.objects.get(name = institute)
+       print('%s --num quests' %len(questions))
+       for i in questions:
+           i.school.add(school)
                     
 
 
