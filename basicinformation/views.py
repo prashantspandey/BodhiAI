@@ -41,8 +41,39 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
+            #all_students = Student.objects.filter(school__name = 'JECRC')
+            #all_teachers = Teacher.objects.filter(school__name = 'JECRC')
+            #print(len(all_students))
+            #df =\
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/jecrc/jecrc_6thsem_itdepartment.csv',error_bad_lines=False )
+            #cf =\
+            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/jecrc/jecrc_4thsem.csv',error_bad_lines=False )
+
+            #phoneNum = []
+            #phone = df['Contact Number(Whatsapp)']
+            #phone2 = cf['Contact Number(Whatsapp)']
+
+            #for i in phone:
+            #    phoneNum.append(str(i))
+            #for i in phone2:
+            #    phoneNum.append(str(i))
+            #print(len(phoneNum))
+            #print(phoneNum)
+            #student_num = []
+            #for num,st in enumerate(all_students):
+            #    student_num.append(str(st.rollNumber))
+            #print('%s len students' %len(student_num))
+            #pho = list(unique_everseen(phoneNum))
+            #print('%s len pho' %len(pho))
+            #for n,ph in enumerate(phoneNum):
+            #    if str(ph) in student_num:
+            #        pass
+            #    else:
+            #        print('%s ---%s' %(n,ph))
+
+            #return HttpResponse('hello')
             #add_teachers('jecrc_teacher.csv',production=True,jecrc=True)
-            add_students('jecrc_6thsem_itdepartment.csv',production=True)
+            add_students('jecrc_4thsem.csv',production=True)
             #add_questions('JECRC')
             # add students  (swami)
             #df = \
@@ -1572,7 +1603,6 @@ def real_create_student(stu,schoolName,swami=False):
             print('%s -- saved' %na)
         except Exception as e:
             print(str(e))
-            us.delete()
 
 
 def create_teacher(num):
