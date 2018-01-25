@@ -41,8 +41,8 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            add_teachers('jecrc_teacher.csv',production=True,jecrc=True)
-            #add_students('jecrc_6thsem_itdepartment.csv')
+            #add_teachers('jecrc_teacher.csv',production=True,jecrc=True)
+            add_students('jecrc_4thsem.csv',production=True)
             #add_questions('JECRC')
             # add students  (swami)
             #df = \
