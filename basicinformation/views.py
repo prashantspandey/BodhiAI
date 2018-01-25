@@ -42,8 +42,8 @@ def home(request):
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
             #add_teachers('jecrc_teacher.csv',production=True,jecrc=True)
-            #add_students('jecrc_4thsem.csv',production=True)
-            add_questions('JECRC')
+            add_students('jecrc_6thsem_itdepartment.csv',production=True)
+            #add_questions('JECRC')
             # add students  (swami)
             #df = \
             #pd.read_csv('/app/question_data/swami2jan.csv',error_bad_lines =False)
