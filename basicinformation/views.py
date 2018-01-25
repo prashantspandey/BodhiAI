@@ -1534,7 +1534,7 @@ def real_create_student(stu,schoolName,swami=False):
         #print(ss.name)
         try:
             pa = str(phone)
-            pa = phone[::-1]
+            pa = pa[::-1]
             print('%s password' %pa)
             #dob = datetime.strptime(dob,'%d/%m/%Y')
             us = User.objects.create_user(username=phone,
