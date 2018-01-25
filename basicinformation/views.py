@@ -73,7 +73,7 @@ def home(request):
 
             #return HttpResponse('hello')
             #add_teachers('jecrc_teacher.csv',production=True,jecrc=True)
-            add_students('jecrc_4thsem.csv',production=True)
+            add_students('jecrc_6thsem_itdepartment.csv',production=True)
             #add_questions('JECRC')
             # add students  (swami)
             #df = \
