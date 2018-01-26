@@ -6,7 +6,8 @@
 		{% if question.comprehension %}
 		<h4> {{question.comprehension.text|linebreaks}} </h4>
 		{%endif %}
-		<h4 style='font-weight:bold;'> {{question.text|linebreaks}} </h4>
+		<h4 style='font-weight:bold;'> 
+			{%if question.text %}{{question.text|linebreaks}}{%endif%} </h4>
 		{% if question.picture %}
 		<img src='{{question.picture}}' class="img-responsive" >
 		{%endif%}

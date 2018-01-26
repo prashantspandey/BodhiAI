@@ -166,7 +166,7 @@ $(document).ready(function () {
 <div>
 	{% for quest in test.sscquestions_set.all %}
 	<div class = 'well col-md-offset-1 col-md-10  col-xs-12'>
-		<h3> {{quest.text|linebreaks}} </h3>
+		<h3> {%if quest.text %}{{quest.text|linebreaks}}{%endif%} </h3>
 		{%if quest.picture %}
 		<img src='{{quest.picture}}' class='img-responsive'>
 		{%endif%}	
@@ -203,7 +203,8 @@ $(document).ready(function () {
 	{%if qu.id == i %}
 	<h3 style='font-weight:bold;'> {{f}} students got this question wrong or skipped it. </h3>
 	<div class ='well col-xs-12' >
-		<h3 style='font-weight:bold;'> {{qu.text|linebreaks}}</h3>
+		<h3 style='font-weight:bold;'>
+			{%if qu.text %}	{{qu.text|linebreaks}}{%endif%}</h3>
 		{%if qu.picture %}
 		<img src='{{qu.picture}}' class='img-responsive'>
 		{%endif%}	
