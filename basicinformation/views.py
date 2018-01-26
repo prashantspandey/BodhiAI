@@ -56,7 +56,7 @@ def home(request):
             for i in name:
                 j = i.replace(" ","")
                 pa = j.lower()
-                password.append(pa)
+                password.append(str(pa))
             change_password('JECRC',password)
             #phoneNum = []
             #phone = df['Contact Number(Whatsapp)']
@@ -2085,5 +2085,6 @@ def change_password(institute,password):
             user.password = password[num]
             print('%s username , %s password' %(user.username,user.password))
             user.save()
+            teach.save()
 
 
