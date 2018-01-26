@@ -50,7 +50,7 @@ def home(request):
             #cf =\
             #pd.read_csv('/app/client_info/jecrc/jecrc_4thsem.csv',error_bad_lines=False )
             tf =\
-            pd.read_csv('app/client_info/jecrc/jecrc_teacher.csv',error_bad_lines=False )
+            pd.read_csv('/app/client_info/jecrc/jecrc_teacher.csv',error_bad_lines=False )
             name = tf['Name']
             password = []
             for i in name:
