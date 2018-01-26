@@ -266,10 +266,6 @@ def publish_test(request):
                 elif me.institution == 'SSC':
                     myTest = SSCKlassTest.objects.get(id = testid)
                 
-                kl = myTest.klas
-                students = Student.objects.filter(klass = kl,school = school)
-                for i in students:
-                    myTest.testTakers.add(i)
                 due_date = datetime.datetime.strptime(date, "%m/%d/%Y")
                 myTest.due_date = due_date
                 if time:
@@ -283,16 +279,15 @@ def publish_test(request):
                     myTest.sub = subject
                 elif me.institution == 'SSC':
                     subs = []
+                    kl = myTest.klas
                     for sub in myTest.sscquestions_set.all():
                         timesus = TimesUsed.objects.filter(teacher =
                                                           me.profile,quest =
                                                           sub,batch = kl)
                         if len(timesus) == 1:
                             for i in timesus:
-                                print('%s timesused' %i.numUsed)
                                 i.numUsed = i.numUsed + 1
                                 i.save()
-                                print('%s timesused' %i.numUsed)
                                 
                         else:
                             tused = TimesUsed()
@@ -306,7 +301,39 @@ def publish_test(request):
                     subs = list(unique_everseen(subs))
                     if len(subs)==1:
                         myTest.sub = subs[0]
+                        kl = myTest.klas
+                        students = Student.objects.filter(klass = kl,school = school)
+                        for i in students:
+                            subjs = Subject.objects.filter(teacher =
+                                                          me.profile,student=i,name
+                                                          = myTest.sub)
+                            if subjs:
+                                studs = Student.objects.get(subject = subjs)
+                                myTest.testTakers.add(studs)
+                                myTest.save()
+
                     else:
+                        students = Student.objects.filter(klass = kl,school = school)
+                        for i in students:
+                            all_subs = []
+                            for su in subs:
+                                subjs = Subject.objects.filter(teacher =
+                                                          me.profile,student=i,name
+                                                          = su)
+                                all_subs.append(subjs)
+                            if len(all_subs) != 0:
+                                for s in all_subs:
+                                    try:
+                                        studs = Student.objects.get(subject = s)
+                                        myTest.testTakers.add(studs)
+                                        myTest.save()
+                                    except:
+                                        pass
+
+
+
+ 
+
                         myTest.sub = 'SSCMultipleSections'
                     
                 myTest.mode = 'BodhiOnline'
@@ -428,7 +455,9 @@ def oneclick_test(request):
                               topic')
 
             # creation of one click paper
-
+            
+            # class object to find out how many times has the teacher used a
+            # question for that certain class
             kl = klass.objects.get(school = me.my_school(),name= batch)
             test_quest = []  # the question containing list
 
@@ -439,23 +468,31 @@ def oneclick_test(request):
                 cat_quest = []
                 used_quests = [] # used question containing list
                 for count,quest in enumerate(questions):
-                    #if quest is not used in the batch before then add that
-                    #question
+                    # get the number of times used object associated with the
+                    # question
+
                     t_used=\
                     TimesUsed.objects.filter(teacher=me.profile,quest=quest,batch=kl)
+
+                    #if quest has not been used in the batch before then add that
+                    #question
+
                     if len(t_used) == 0 and count < num:
                         cat_quest.append(quest)
-                    # add used questions to the used_quest list
+                    # otherwise add used questions to the used_quest list
                     if len(t_used) != 0:
                         used_quests.append(quest)
+                # check if there are not enough new(unused) questions 
                 if len(cat_quest) < num:
-                    print('%s used quest' %len(used_quests))
                     try:
-                        for count,q in used_quests:
+                        # if yes then add already used questions to list until
+                        # list is equal to number of required questions
+                        for count,q in enumerate(used_quests):
                             if count < len(cat_quest):
                                 cat_quest.append(q)
                     except Exception as e:
                         print(str(e))
+                # finally add all questions to final questions list
                 test_quest.extend(cat_quest)
             # setting up the test
             test = SSCKlassTest()
@@ -477,11 +514,15 @@ def oneclick_test(request):
             # add questions to testpaper
             for q in test_quest:
                 try:
+                    # modify times used object associated with each question as
+                    # they are added to the test paper
                     times_used = TimesUsed.objects.get(batch =
                                                    kl,quest=q,teacher=me.profile)
                     times_used.numUsed += 1
                     times_used.save()
                 except:
+                    # if new question then create the TimesUsed object for that
+                    # question
                     times_used = TimesUsed()
                     times_used.batch = kl
                     times_used.numUsed =1
@@ -489,17 +530,27 @@ def oneclick_test(request):
                     times_used.teacher = me.profile
                     times_used.save()
                 
-
+                # add many to many field of question to specific test
                 q.ktest.add(test)
+
+            # getting all the students in a specific class to be given the test
+            # to
             students = Student.objects.filter(klass = kl,school =
                                               me.my_school())
             # add testtakers(students of a specific batch) to test paper
             for st in students:
-                test.testTakers.add(st)
-                test.save()
+                # looks for common subject between student and teacher
+                subs = Subject.objects.filter(student=st,teacher =
+                                              me.profile,name=subject)
+                # if common subject found that means student is connected to
+                # teacher and he should be added to test
+                if subs:
+                    stu = Student.objects.get(subject = subs)
+                    test.testTakers.add(stu)
+                    test.save()
             return render(request,'questions/oneclick_test4.html')
+
         if 'oneclickcreated' in request.POST:
-            print('hree in post')
             return render(request,'questions/oneclick_test5.html')
 
 #def oneclick_test(request):
