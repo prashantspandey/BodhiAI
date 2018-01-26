@@ -42,27 +42,27 @@ def home(request):
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
             #all_students = Student.objects.filter(school__name = 'JECRC')
-            all_teachers = Teacher.objects.filter(school__name = 'JECRC')
+            #all_teachers = Teacher.objects.filter(school__name = 'JECRC')
             
-            print(len(all_teachers))
+            #print(len(all_teachers))
             #df =\
             #pd.read_csv('/app/client_info/jecrc/jecrc_6thsem_itdepartment.csv',error_bad_lines=False )
             #cf =\
             #pd.read_csv('/app/client_info/jecrc/jecrc_4thsem.csv',error_bad_lines=False )
-            tf =\
-            pd.read_csv('/app/client_info/jecrc/jecrc_teacher.csv',error_bad_lines=False )
-            name = tf['Name']
-            email = tf['email ID']
-            em_id = []
-            for i in email:
-                em_id.append(i)
-            password = []
-            for i in name:
-                j = i.replace(" ","")
-                pa = j.lower()
-                password.append(str(pa))
-            acc = list(zip(em_id,password))
-            change_password('JECRC',acc)
+            #tf =\
+            #pd.read_csv('/app/client_info/jecrc/jecrc_teacher.csv',error_bad_lines=False )
+            #name = tf['Name']
+            #email = tf['email ID']
+            #em_id = []
+            #for i in email:
+            #    em_id.append(i)
+            #password = []
+            #for i in name:
+            #    j = i.replace(" ","")
+            #    pa = j.lower()
+            #    password.append(str(pa))
+            #acc = list(zip(em_id,password))
+            #change_password('JECRC',acc)
             #phoneNum = []
             #phone = df['Contact Number(Whatsapp)']
             #phone2 = cf['Contact Number(Whatsapp)']
@@ -87,7 +87,7 @@ def home(request):
 
             #return HttpResponse('hello')
             #add_teachers('jecrc_teacher.csv',production=True,jecrc=True)
-            #add_students('jecrc_6thsem_itdepartment.csv',production=True)
+            add_students('jecrc_extrastudents.csv',production=True)
             #add_questions('JECRC')
             # add students  (swami)
             #df = \
