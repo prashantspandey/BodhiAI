@@ -52,12 +52,17 @@ def home(request):
             tf =\
             pd.read_csv('/app/client_info/jecrc/jecrc_teacher.csv',error_bad_lines=False )
             name = tf['Name']
+            email = tf['email ID']
+            em_id = []
+            for i in email:
+                em_id.append(i)
             password = []
             for i in name:
                 j = i.replace(" ","")
                 pa = j.lower()
                 password.append(str(pa))
-            change_password('JECRC',password)
+            acc = list(zip(em_id,password))
+            change_password('JECRC',acc)
             #phoneNum = []
             #phone = df['Contact Number(Whatsapp)']
             #phone2 = cf['Contact Number(Whatsapp)']
@@ -2077,14 +2082,14 @@ def add_questions(institute):
        for i in questions:
            i.school.add(school)
                     
-def change_password(institute,password):
+def change_password(institute,acc):
     if institute == 'JECRC':
-        teachers = Teacher.objects.filter(school__name=institute)
-        for num,teach in enumerate(teachers):
-            user = teach.teacheruser
-            user.password = password[num]
-            print('%s username , %s password' %(user.username,user.password))
+        for us,pa in acc:
+            user = User.objects.get(username = us)
+            print(user.password)
+            user.set_password(pa)
             user.save()
-            teach.save()
+            print('%s-- username , %s -- password'
+                  %(user.username,user.password))
 
 
