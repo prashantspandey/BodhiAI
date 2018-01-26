@@ -41,37 +41,47 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            all_students = Student.objects.filter(school__name = 'JECRC')
+            #all_students = Student.objects.filter(school__name = 'JECRC')
             all_teachers = Teacher.objects.filter(school__name = 'JECRC')
-            print(len(all_students))
-            df =\
-            pd.read_csv('/app/client_info/jecrc/jecrc_6thsem_itdepartment.csv',error_bad_lines=False )
-            cf =\
-            pd.read_csv('/app/client_info/jecrc/jecrc_4thsem.csv',error_bad_lines=False )
+            
+            print(len(all_teachers))
+            #df =\
+            #pd.read_csv('/app/client_info/jecrc/jecrc_6thsem_itdepartment.csv',error_bad_lines=False )
+            #cf =\
+            #pd.read_csv('/app/client_info/jecrc/jecrc_4thsem.csv',error_bad_lines=False )
+            tf =\
+            pd.read_csv('app/client_info/jecrc/jecrc_teacher.csv',error_bad_lines=False )
+            name = tf['Name']
+            password = []
+            for i in name:
+                j = i.replace(" ","")
+                pa = j.lower()
+                print(pa)
+                password.append(pa)
+            change_password('JECRC',password)
+            #phoneNum = []
+            #phone = df['Contact Number(Whatsapp)']
+            #phone2 = cf['Contact Number(Whatsapp)']
 
-            phoneNum = []
-            phone = df['Contact Number(Whatsapp)']
-            phone2 = cf['Contact Number(Whatsapp)']
+            #for i in phone:
+            #    phoneNum.append(str(i))
+            #for i in phone2:
+            #    phoneNum.append(str(i))
+            #print(len(phoneNum))
+            #print(phoneNum)
+            #student_num = []
+            #for num,st in enumerate(all_students):
+            #    student_num.append(str(st.rollNumber))
+            #print('%s len students' %len(student_num))
+            #pho = list(unique_everseen(phoneNum))
+            #print('%s len pho' %len(pho))
+            #for n,ph in enumerate(phoneNum):
+            #    if str(ph) in student_num:
+            #        pass
+            #    else:
+            #        print('%s ---%s' %(n,ph))
 
-            for i in phone:
-                phoneNum.append(str(i))
-            for i in phone2:
-                phoneNum.append(str(i))
-            print(len(phoneNum))
-            print(phoneNum)
-            student_num = []
-            for num,st in enumerate(all_students):
-                student_num.append(str(st.rollNumber))
-            print('%s len students' %len(student_num))
-            pho = list(unique_everseen(phoneNum))
-            print('%s len pho' %len(pho))
-            for n,ph in enumerate(phoneNum):
-                if str(ph) in student_num:
-                    pass
-                else:
-                    print('%s ---%s' %(n,ph))
-
-            return HttpResponse('hello')
+            #return HttpResponse('hello')
             #add_teachers('jecrc_teacher.csv',production=True,jecrc=True)
             #add_students('jecrc_6thsem_itdepartment.csv',production=True)
             #add_questions('JECRC')
@@ -2068,5 +2078,14 @@ def add_questions(institute):
        for i in questions:
            i.school.add(school)
                     
+def change_password(institute,password):
+    if institute == 'JECRC':
+        teachers = Teacher.objects.filter(school__name=institute)
+        for num,teach in enumerate(teachers):
+            user = teach.teacheruser
+            user.password = password[num]
+            print(user.username)
+            print(user.password)
+            user.save()
 
 
