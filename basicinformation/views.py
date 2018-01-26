@@ -56,7 +56,6 @@ def home(request):
             for i in name:
                 j = i.replace(" ","")
                 pa = j.lower()
-                print(pa)
                 password.append(pa)
             change_password('JECRC',password)
             #phoneNum = []
@@ -2084,8 +2083,7 @@ def change_password(institute,password):
         for num,teach in enumerate(teachers):
             user = teach.teacheruser
             user.password = password[num]
-            print(user.username)
-            print(user.password)
+            print('%s username , %s password' %(user.username,user.password))
             user.save()
 
 
