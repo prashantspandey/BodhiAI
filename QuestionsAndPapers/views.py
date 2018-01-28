@@ -1135,16 +1135,23 @@ def show_finished_test(request,testid):
             t = int(total_time%3600)
             mins = int(t/60)
             seconds =int(t%60)
-            if hours == 0:
-                tt = '{} minutes and {} seconds'.format(mins,seconds)
-            if hours == 0 and mins == 0:
-                tt = '{} seconds'.format(seconds)
-            if hours > 0:
-                tt = '{} hours {} minutes and {}\
-                seconds'.format(hours,mins,seconds)
+            try:
+                if hours == 0:
+                    tt = '{} minutes and {} seconds'.format(mins,seconds)
+                if hours == 0 and mins == 0:
+                    tt = '{} seconds'.format(seconds)
+                if hours > 0:
+                    tt = '{} hours {} minutes and {}\
+                    seconds'.format(hours,mins,seconds)
+            except:
+                pass
+            try:
+                context = \
+                {'student_type':student_type,'marks':test_details,'timetaken':tt}
+            except:
+                context = \
+                {'student_type':student_type,'marks':test_details,'timetaken':'unilimited'}
 
-            context = \
-            {'student_type':student_type,'marks':test_details,'timetaken':tt}
             return render(request,'questions/student_finished_test.html',context)
 
 def evaluate_test(request):
@@ -1318,6 +1325,9 @@ def evaluate_test(request):
         TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=test_id).delete()
         #context = \
         #{'student_type':student_type,'marks':online_marks,'timetaken':tt}
-        return \
-        HttpResponseRedirect(reverse('QuestionsAndPapers:showFinishedTest',args=[test_id]))
+        try:
+            return \
+            HttpResponseRedirect(reverse('QuestionsAndPapers:showFinishedTest',args=[test_id]))
+        except ValueError:
+            return HttpResponseRedirect(reverse('basic:home'))
 

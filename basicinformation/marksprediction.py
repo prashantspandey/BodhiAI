@@ -2344,6 +2344,235 @@ class Studs:
                    timing.append(j)
             return list(zip(namedarr,timing))
 
+# categories for GroupX 
+
+        if subject == 'GroupX-English':
+            for i,j in arr:
+                if i == '1.1':
+                    namedarr.append('Comprehension')
+                    timing.append(j)
+                if i == '2.1':
+                    namedarr.append('Judge Comprehension')
+                    timing.append(j)
+                if i == '3.1':
+                    namedarr.append('Inferences')
+                    timing.append(j)
+                if i == '4.1':
+                    namedarr.append('Vocabulary')
+                    timing.append(j)
+                if i == '5.1':
+                    namedarr.append('Composition')
+                    timing.append(j)
+                if i == '6.1':
+                    namedarr.append('Subject and Verb')
+                    timing.append(j)
+                if i == '7.1':
+                    namedarr.append('Verb and their use')
+                    timing.append(j)
+                if i == '8.1':
+                    namedarr.append('Sequence of tenses')
+                    timing.append(j)
+                if i == '9.1':
+                    namedarr.append('Transformation')
+                    timing.append(j)
+                if i == '10.1':
+                    namedarr.append('Grammer')
+                    timing.append(j)
+                if i == '11.1':
+                    namedarr.append('Spellings')
+                    timing.append(j)
+                if i == '12.1':
+                    namedarr.append('Word formation')
+                    timing.append(j)
+                if i == '11.1':
+                    namedarr.append('Antonyms& Synonyms')
+                    timing.append(j)
+                if i == '11.1':
+                    namedarr.append('Word Substitution')
+                    timing.append(j)
+                if i == '12.1':
+                    namedarr.append('Correct use of words')
+                    timing.append(j)
+                if i == '13.1':
+                    namedarr.append('Confusing words')
+                    timing.append(j)
+                if i == '14.1':
+                    namedarr.append('Word order')
+                    timing.append(j)
+                if i == '15.1':
+                    namedarr.append('Correct use of Adverbs')
+                    timing.append(j)
+                if i == '16.1':
+                    namedarr.append('Idioms and Phrases')
+                    timing.append(j)
+                if i == '17.1':
+                    namedarr.append('Use of simple idioms')
+                    timing.append(j)
+                if i == '18.1':
+                    namedarr.append('Use of common proverbs')
+                    timing.append(j)
+                if i == '19.1':
+                    namedarr.append('Direct/Indirect sentences')
+                    timing.append(j)
+                if i == '20.1':
+                    namedarr.append('Direct to Indirect form')
+                    timing.append(j)
+                if i == '21.1':
+                    namedarr.append('Indirect to Direct')
+                    timing.append(j)
+                if i == '22.1':
+                    namedarr.append('Active and Passive voice')
+                    timing.append(j)
+                if i == '23.1':
+                    namedarr.append('Active to Passive voice')
+                    timing.append(j)
+                if i == '22.1':
+                    namedarr.append('Passive to Active voice')
+                    timing.append(j)
+            return list(zip(namedarr,timing))
+
+        if subject == 'GroupX-Physics':
+            for i,j in arr:
+                if i == '1.1':
+                    namedarr.append('Physical World & Measurements')
+                    timing.append(j)
+                if i == '2.1':
+                    namedarr.append('Kinematics')
+                    timing.append(j)
+                if i == '3.1':
+                    namedarr.append('Laws of Motion')
+                    timing.append(j)
+                if i == '4.1':
+                    namedarr.append('Work-Engergy-Power')
+                    timing.append(j)
+                if i == '5.1':
+                    namedarr.append('Motion of particles & rigid body')
+                    timing.append(j)
+                if i == '6.1':
+                    namedarr.append('Gravitation')
+                    timing.append(j)
+                if i == '7.1':
+                    namedarr.append('Properties of Bulk Matter')
+                    timing.append(j)
+                if i == '8.1':
+                    namedarr.append('Thermodynamics')
+                    timing.append(j)
+                if i == '9.1':
+                    namedarr.append('Perfect Gas & Theory of gases')
+                    timing.append(j)
+                if i == '10.1':
+                    namedarr.append('Oscillations & Waves')
+                    timing.append(j)
+                if i == '11.1':
+                    namedarr.append('Electrostatics')
+                    timing.append(j)
+                if i == '12.1':
+                    namedarr.append('Current Electricity')
+                    timing.append(j)
+                if i == '11.1':
+                    namedarr.append('Magnetic effect of current&magnetism')
+                    timing.append(j)
+                if i == '11.1':
+                    namedarr.append('Electromagnetic Induction & Alternating\
+                                    current')
+                    timing.append(j)
+                if i == '12.1':
+                    namedarr.append('Electromagnetic Waves')
+                    timing.append(j)
+                if i == '13.1':
+                    namedarr.append('Optics')
+                    timing.append(j)
+                if i == '14.1':
+                    namedarr.append('Dual Nature of Matter')
+                    timing.append(j)
+                if i == '15.1':
+                    namedarr.append('Atoms & Nuclei')
+                    timing.append(j)
+                if i == '16.1':
+                    namedarr.append('Electronic Devices')
+                    timing.append(j)
+                if i == '17.1':
+                    namedarr.append('Communication Systems')
+                    timing.append(j)
+            return list(zip(namedarr,timing))
+
+
+        if subject == 'GroupX-Maths':
+            for i,j in arr:
+                if i == '1.1':
+                    namedarr.append('Sets-Relations-Functions')
+                    timing.append(j)
+                if i == '2.1':
+                    namedarr.append('Trigonometric functions')
+                    timing.append(j)
+                if i == '3.1':
+                    namedarr.append('Inverse Trigonometric functions')
+                    timing.append(j)
+                if i == '4.1':
+                    namedarr.append('Complex numbers')
+                    timing.append(j)
+                if i == '5.1':
+                    namedarr.append('Quadratic eqations')
+                    timing.append(j)
+                if i == '6.1':
+                    namedarr.append('Sequence & Series')
+                    timing.append(j)
+                if i == '7.1':
+                    namedarr.append('Permutations')
+                    timing.append(j)
+                if i == '8.1':
+                    namedarr.append('Combination')
+                    timing.append(j)
+                if i == '9.1':
+                    namedarr.append('Binomial Theorem')
+                    timing.append(j)
+                if i == '10.1':
+                    namedarr.append('Coordinate Geometry')
+                    timing.append(j)
+                if i == '11.1':
+                    namedarr.append('Exponential Series')
+                    timing.append(j)
+                if i == '12.1':
+                    namedarr.append('Logarithmic Series')
+                    timing.append(j)
+                if i == '11.1':
+                    namedarr.append('Matrices')
+                    timing.append(j)
+                if i == '11.1':
+                    namedarr.append('Determinants')
+                    timing.append(j)
+                if i == '12.1':
+                    namedarr.append('Limit & Continuity')
+                    timing.append(j)
+                if i == '13.1':
+                    namedarr.append('Differentiation')
+                    timing.append(j)
+                if i == '14.1':
+                    namedarr.append('Application of Differentiation')
+                    timing.append(j)
+                if i == '15.1':
+                    namedarr.append('Indefinite Integrals')
+                    timing.append(j)
+                if i == '16.1':
+                    namedarr.append('Definite Integrals')
+                    timing.append(j)
+                if i == '17.1':
+                    namedarr.append('Application of Integration')
+                    timing.append(j)
+                if i == '17.1':
+                    namedarr.append('Diferential Equations')
+                    timing.append(j)
+                if i == '17.1':
+                    namedarr.append('Probability Statistics')
+                    timing.append(j)
+
+
+            return list(zip(namedarr,timing))
+
+
+
+
+
     def convertTopicNumbersNames(self,arr,subject):
         namedarr = []
         if subject == 'English':
@@ -2564,6 +2793,165 @@ class Studs:
                 if i == '28.1':
                    namedarr.append('Polity (World)')
             return namedarr
+
+
+# group x subjects
+
+        if subject == 'GroupX-English':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('Comprehension')
+                if i == '2.1':
+                    namedarr.append('Judge Comprehension')
+                if i == '3.1':
+                    namedarr.append('Inferences')
+                if i == '4.1':
+                    namedarr.append('Vocabulary')
+                if i == '5.1':
+                    namedarr.append('Composition')
+                if i == '6.1':
+                    namedarr.append('Subject and Verb')
+                if i == '7.1':
+                    namedarr.append('Verb and their use')
+                if i == '8.1':
+                    namedarr.append('Sequence of tenses')
+                if i == '9.1':
+                    namedarr.append('Transformation')
+                if i == '10.1':
+                    namedarr.append('Grammer')
+                if i == '11.1':
+                    namedarr.append('Spellings')
+                if i == '12.1':
+                    namedarr.append('Word formation')
+                if i == '11.1':
+                    namedarr.append('Antonyms& Synonyms')
+                if i == '11.1':
+                    namedarr.append('Word Substitution')
+                if i == '12.1':
+                    namedarr.append('Correct use of words')
+                if i == '13.1':
+                    namedarr.append('Confusing words')
+                if i == '14.1':
+                    namedarr.append('Word order')
+                if i == '15.1':
+                    namedarr.append('Correct use of Adverbs')
+                if i == '16.1':
+                    namedarr.append('Idioms and Phrases')
+                if i == '17.1':
+                    namedarr.append('Use of simple idioms')
+                if i == '18.1':
+                    namedarr.append('Use of common proverbs')
+                if i == '19.1':
+                    namedarr.append('Direct/Indirect sentences')
+                if i == '20.1':
+                    namedarr.append('Direct to Indirect form')
+                if i == '21.1':
+                    namedarr.append('Indirect to Direct')
+                if i == '22.1':
+                    namedarr.append('Active and Passive voice')
+                if i == '23.1':
+                    namedarr.append('Active to Passive voice')
+                if i == '22.1':
+                    namedarr.append('Passive to Active voice')
+            return namedarr
+
+        if subject == 'GroupX-Physics':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('Physical World & Measurements')
+                if i == '2.1':
+                    namedarr.append('Kinematics')
+                if i == '3.1':
+                    namedarr.append('Laws of Motion')
+                if i == '4.1':
+                    namedarr.append('Work-Engergy-Power')
+                if i == '5.1':
+                    namedarr.append('Motion of particles & rigid body')
+                if i == '6.1':
+                    namedarr.append('Gravitation')
+                if i == '7.1':
+                    namedarr.append('Properties of Bulk Matter')
+                if i == '8.1':
+                    namedarr.append('Thermodynamics')
+                if i == '9.1':
+                    namedarr.append('Perfect Gas & Theory of gases')
+                if i == '10.1':
+                    namedarr.append('Oscillations & Waves')
+                if i == '11.1':
+                    namedarr.append('Electrostatics')
+                if i == '12.1':
+                    namedarr.append('Current Electricity')
+                if i == '11.1':
+                    namedarr.append('Magnetic effect of current&magnetism')
+                if i == '11.1':
+                    namedarr.append('Electromagnetic Induction & Alternating\
+                                    current')
+                if i == '12.1':
+                    namedarr.append('Electromagnetic Waves')
+                if i == '13.1':
+                    namedarr.append('Optics')
+                if i == '14.1':
+                    namedarr.append('Dual Nature of Matter')
+                if i == '15.1':
+                    namedarr.append('Atoms & Nuclei')
+                if i == '16.1':
+                    namedarr.append('Electronic Devices')
+                if i == '17.1':
+                    namedarr.append('Communication Systems')
+            return namedarr
+
+
+        if subject == 'GroupX-Maths':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('Sets-Relations-Functions')
+                if i == '2.1':
+                    namedarr.append('Trigonometric functions')
+                if i == '3.1':
+                    namedarr.append('Inverse Trigonometric functions')
+                if i == '4.1':
+                    namedarr.append('Complex numbers')
+                if i == '5.1':
+                    namedarr.append('Quadratic eqations')
+                if i == '6.1':
+                    namedarr.append('Sequence & Series')
+                if i == '7.1':
+                    namedarr.append('Permutations')
+                if i == '8.1':
+                    namedarr.append('Combination')
+                if i == '9.1':
+                    namedarr.append('Binomial Theorem')
+                if i == '10.1':
+                    namedarr.append('Coordinate Geometry')
+                if i == '11.1':
+                    namedarr.append('Exponential Series')
+                if i == '12.1':
+                    namedarr.append('Logarithmic Series')
+                if i == '11.1':
+                    namedarr.append('Matrices')
+                if i == '11.1':
+                    namedarr.append('Determinants')
+                if i == '12.1':
+                    namedarr.append('Limit & Continuity')
+                if i == '13.1':
+                    namedarr.append('Differentiation')
+                if i == '14.1':
+                    namedarr.append('Application of Differentiation')
+                if i == '15.1':
+                    namedarr.append('Indefinite Integrals')
+                if i == '16.1':
+                    namedarr.append('Definite Integrals')
+                if i == '17.1':
+                    namedarr.append('Application of Integration')
+                if i == '17.1':
+                    namedarr.append('Diferential Equations')
+                if i == '17.1':
+                    namedarr.append('Probability Statistics')
+
+
+            return namedar
+
+
     def changeIndividualNames(self,i,subject):
         if subject == 'English':
             if i == '1.1':
@@ -2777,6 +3165,156 @@ class Studs:
                    return 'World Organizations'
                 if i == '28.1':
                    return 'Polity (World)'
+# group x subjects
+
+        if subject == 'GroupX-English':
+                if i == '1.1':
+                    return 'Comprehension'
+                if i == '2.1':
+                    return 'Judge Comprehension'
+                if i == '3.1':
+                    return 'Inferences'
+                if i == '4.1':
+                    return 'Vocabulary'
+                if i == '5.1':
+                    return 'Composition'
+                if i == '6.1':
+                    return 'Subject and Verb'
+                if i == '7.1':
+                    return 'Verb and their use'
+                if i == '8.1':
+                    return 'Sequence of tenses'
+                if i == '9.1':
+                    return 'Transformation'
+                if i == '10.1':
+                    return 'Grammer'
+                if i == '11.1':
+                    return 'Spellings'
+                if i == '12.1':
+                    return 'Word formation'
+                if i == '11.1':
+                    return 'Antonyms& Synonyms'
+                if i == '11.1':
+                    return 'Word Substitution'
+                if i == '12.1':
+                    return 'Correct use of words'
+                if i == '13.1':
+                    return 'Confusing words'
+                if i == '14.1':
+                    return 'Word order'
+                if i == '15.1':
+                    return 'Correct use of Adverbs'
+                if i == '16.1':
+                    return 'Idioms and Phrases'
+                if i == '17.1':
+                    return 'Use of simple idioms'
+                if i == '18.1':
+                    return 'Use of common proverbs'
+                if i == '19.1':
+                    return 'Direct/Indirect sentences'
+                if i == '20.1':
+                    return 'Direct to Indirect form'
+                if i == '21.1':
+                    return 'Indirect to Direct'
+                if i == '22.1':
+                    return 'Active and Passive voice'
+                if i == '23.1':
+                    return 'Active to Passive voice'
+                if i == '22.1':
+                    return 'Passive to Active voice'
+
+        if subject == 'GroupX-Physics':
+                if i == '1.1':
+                    return 'Physical World & Measurements'
+                if i == '2.1':
+                    return 'Kinematics'
+                if i == '3.1':
+                    return 'Laws of Motion'
+                if i == '4.1':
+                    return 'Work-Engergy-Power'
+                if i == '5.1':
+                    return 'Motion of particles & rigid body'
+                if i == '6.1':
+                    return 'Gravitation'
+                if i == '7.1':
+                    return 'Properties of Bulk Matter'
+                if i == '8.1':
+                    return 'Thermodynamics'
+                if i == '9.1':
+                    return 'Perfect Gas & Theory of gases'
+                if i == '10.1':
+                    return 'Oscillations & Waves'
+                if i == '11.1':
+                    return 'Electrostatics'
+                if i == '12.1':
+                    return 'Current Electricity'
+                if i == '11.1':
+                    return 'Magnetic effect of current&magnetism'
+                if i == '11.1':
+                    return 'Electromagnetic Induction & Alternating\
+                                    current'
+                if i == '12.1':
+                    return 'Electromagnetic Waves'
+                if i == '13.1':
+                    return 'Optics'
+                if i == '14.1':
+                    return 'Dual Nature of Matter'
+                if i == '15.1':
+                    return 'Atoms & Nuclei'
+                if i == '16.1':
+                    return 'Electronic Devices'
+                if i == '17.1':
+                    return 'Communication Systems'
+
+
+        if subject == 'GroupX-Maths':
+                if i == '1.1':
+                    return 'Sets-Relations-Functions'
+                if i == '2.1':
+                    return 'Trigonometric functions'
+                if i == '3.1':
+                    return 'Inverse Trigonometric functions'
+                if i == '4.1':
+                    return 'Complex numbers'
+                if i == '5.1':
+                    return 'Quadratic eqations'
+                if i == '6.1':
+                    return 'Sequence & Series'
+                if i == '7.1':
+                    return 'Permutations'
+                if i == '8.1':
+                    return 'Combination'
+                if i == '9.1':
+                    return 'Binomial Theorem'
+                if i == '10.1':
+                    return 'Coordinate Geometry'
+                if i == '11.1':
+                    return 'Exponential Series'
+                if i == '12.1':
+                    return 'Logarithmic Series'
+                if i == '11.1':
+                    return 'Matrices'
+                if i == '11.1':
+                    return 'Determinants'
+                if i == '12.1':
+                    return 'Limit & Continuity'
+                if i == '13.1':
+                    return 'Differentiation'
+                if i == '14.1':
+                    return 'Application of Differentiation'
+                if i == '15.1':
+                    return 'Indefinite Integrals'
+                if i == '16.1':
+                    return 'Definite Integrals'
+                if i == '17.1':
+                    return 'Application of Integration'
+                if i == '17.1':
+                    return 'Diferential Equations'
+                if i == '17.1':
+                    return 'Probability Statistics'
+
+
+
 
 
 
@@ -4389,6 +4927,232 @@ class Teach:
                     numbers.append(i)
             changed = list(zip(names,numbers))
             return changed
+# categories for GroupX 
+
+        if subject == 'GroupX-English':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Comprehension')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('Judge Comprehension')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Inferences')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Vocabulary')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('Composition')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('Subject and Verb')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('Verb and their use')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('Sequence of tenses')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('Transformation')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('Grammer')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Spellings')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Word formation')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Antonyms& Synonyms')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Word Substitution')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Correct use of words')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('Confusing words')
+                    numbers.append(i)
+                if i == '14.1':
+                    names.append('Word order')
+                    numbers.append(i)
+                if i == '15.1':
+                    names.append('Correct use of Adverbs')
+                    numbers.append(i)
+                if i == '16.1':
+                    names.append('Idioms and Phrases')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Use of simple idioms')
+                    numbers.append(i)
+                if i == '18.1':
+                    names.append('Use of common proverbs')
+                    numbers.append(i)
+                if i == '19.1':
+                    names.append('Direct/Indirect sentences')
+                    numbers.append(i)
+                if i == '20.1':
+                    names.append('Direct to Indirect form')
+                    numbers.append(i)
+                if i == '21.1':
+                    names.append('Indirect to Direct')
+                    numbers.append(i)
+                if i == '22.1':
+                    names.append('Active and Passive voice')
+                    numbers.append(i)
+                if i == '23.1':
+                    names.append('Active to Passive voice')
+                    numbers.append(i)
+                if i == '22.1':
+                    names.append('Passive to Active voice')
+                    numbers.append(i)
+            return list(zip(names,numbers))
+
+        if subject == 'GroupX-Physics':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Physical World & Measurements')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('Kinematics')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Laws of Motion')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Work-Engergy-Power')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('Motion of particles & rigid body')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('Gravitation')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('Properties of Bulk Matter')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('Thermodynamics')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('Perfect Gas & Theory of gases')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('Oscillations & Waves')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Electrostatics')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Current Electricity')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Magnetic effect of current&magnetism')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Electromagnetic Induction & Alternating\
+                                    current')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Electromagnetic Waves')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('Optics')
+                    numbers.append(i)
+                if i == '14.1':
+                    names.append('Dual Nature of Matter')
+                    numbers.append(i)
+                if i == '15.1':
+                    names.append('Atoms & Nuclei')
+                    numbers.append(i)
+                if i == '16.1':
+                    names.append('Electronic Devices')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Communication Systems')
+                    numbers.append(i)
+            return list(zip(names,numbers))
+
+
+        if subject == 'GroupX-Maths':
+            for i,j in arr:
+                if i == '1.1':
+                    names.append('Sets-Relations-Functions')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('Trigonometric functions')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Inverse Trigonometric functions')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Complex numbers')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('Quadratic eqations')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('Sequence & Series')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('Permutations')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('Combination')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('Binomial Theorem')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('Coordinate Geometry')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Exponential Series')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Logarithmic Series')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Matrices')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Determinants')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Limit & Continuity')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('Differentiation')
+                    numbers.append(i)
+                if i == '14.1':
+                    names.append('Application of Differentiation')
+                    numbers.append(i)
+                if i == '15.1':
+                    names.append('Indefinite Integrals')
+                    numbers.append(i)
+                if i == '16.1':
+                    names.append('Definite Integrals')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Application of Integration')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Diferential Equations')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Probability Statistics')
+                    numbers.append(i)
+
+
+            return list(zip(names,numbers))
+
+
 
     
     
@@ -4545,14 +5309,6 @@ class Teach:
                 elif i == '22.1':
                     names.append('Calender Test')
                     numbers.append(j)
-
-
-
-
-
-
-
-
 
 
 
@@ -4714,6 +5470,234 @@ class Teach:
                     names.append('Polity (World)')
                     numbers.append(i)
             changed = list(zip(names,numbers))
+            return changed
+# categories for GroupX 
+
+        if subject == 'GroupX-English':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Comprehension')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('Judge Comprehension')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Inferences')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Vocabulary')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('Composition')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('Subject and Verb')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('Verb and their use')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('Sequence of tenses')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('Transformation')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('Grammer')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Spellings')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Word formation')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Antonyms& Synonyms')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Word Substitution')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Correct use of words')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('Confusing words')
+                    numbers.append(i)
+                if i == '14.1':
+                    names.append('Word order')
+                    numbers.append(i)
+                if i == '15.1':
+                    names.append('Correct use of Adverbs')
+                    numbers.append(i)
+                if i == '16.1':
+                    names.append('Idioms and Phrases')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Use of simple idioms')
+                    numbers.append(i)
+                if i == '18.1':
+                    names.append('Use of common proverbs')
+                    numbers.append(i)
+                if i == '19.1':
+                    names.append('Direct/Indirect sentences')
+                    numbers.append(i)
+                if i == '20.1':
+                    names.append('Direct to Indirect form')
+                    numbers.append(i)
+                if i == '21.1':
+                    names.append('Indirect to Direct')
+                    numbers.append(i)
+                if i == '22.1':
+                    names.append('Active and Passive voice')
+                    numbers.append(i)
+                if i == '23.1':
+                    names.append('Active to Passive voice')
+                    numbers.append(i)
+                if i == '22.1':
+                    names.append('Passive to Active voice')
+                    numbers.append(i)
+            changed = list(zip(names,numbers))
+            return changed
+
+        if subject == 'GroupX-Physics':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Physical World & Measurements')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('Kinematics')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Laws of Motion')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Work-Engergy-Power')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('Motion of particles & rigid body')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('Gravitation')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('Properties of Bulk Matter')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('Thermodynamics')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('Perfect Gas & Theory of gases')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('Oscillations & Waves')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Electrostatics')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Current Electricity')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Magnetic effect of current&magnetism')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Electromagnetic Induction & Alternating\
+                                    current')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Electromagnetic Waves')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('Optics')
+                    numbers.append(i)
+                if i == '14.1':
+                    names.append('Dual Nature of Matter')
+                    numbers.append(i)
+                if i == '15.1':
+                    names.append('Atoms & Nuclei')
+                    numbers.append(i)
+                if i == '16.1':
+                    names.append('Electronic Devices')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Communication Systems')
+                    numbers.append(i)
+            changed = list(zip(names,numbers))
+            return changed
+
+
+        if subject == 'GroupX-Maths':
+            for i,j in arr:
+                if i == '1.1':
+                    names.append('Sets-Relations-Functions')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('Trigonometric functions')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Inverse Trigonometric functions')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Complex numbers')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('Quadratic eqations')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('Sequence & Series')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('Permutations')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('Combination')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('Binomial Theorem')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('Coordinate Geometry')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Exponential Series')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Logarithmic Series')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Matrices')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Determinants')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Limit & Continuity')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('Differentiation')
+                    numbers.append(i)
+                if i == '14.1':
+                    names.append('Application of Differentiation')
+                    numbers.append(i)
+                if i == '15.1':
+                    names.append('Indefinite Integrals')
+                    numbers.append(i)
+                if i == '16.1':
+                    names.append('Definite Integrals')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Application of Integration')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Diferential Equations')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Probability Statistics')
+                    numbers.append(i)
+            changed = list(zip(names,numbers))
+            return changed
+
+
 
     def change_topicNamesNumber(self,arr,subject):
         numbers = []
@@ -4940,6 +5924,161 @@ class Teach:
                 if i == 'Polity (World)':
                     numbers.append('28.1')
             return numbers
+# categories for GroupX 
+
+        if subject == 'GroupX-English':
+            for i in arr:
+                if i == 'Comprehension':
+                    numbers.append('1.1')
+                if i == 'Judge Comprehension':
+                    numbers.append('2.1')
+                if i == 'Inferences':
+                    numbers.append('3.1')
+                if i == 'Vocabulary':
+                    numbers.append('4.1')
+                if i == 'Composition':
+                    numbers.append('5.1')
+                if i == 'Subject and Verb':
+                    numbers.append('6.1')
+                if i == 'Verb and their use':
+                    numbers.append('7.1')
+                if i == 'Sequence of tenses':
+                    numbers.append('8.1')
+                if i == 'Transformation':
+                    numbers.append('9.1')
+                if i == 'Grammer':
+                    numbers.append('10.1')
+                if i == 'Spellings':
+                    numbers.append('11.1')
+                if i == 'Word formation':
+                    numbers.append('12.1')
+                if i == 'Antonyms& Synonyms':
+                    numbers.append('13.1')
+                if i == 'Word Substitution':
+                    numbers.append('14.1')
+                if i == 'Correct use of words':
+                    numbers.append('15.1')
+                if i == 'Confusing words':
+                    numbers.append('16.1')
+                if i == 'Word order':
+                    numbers.append('17.1')
+                if i == 'Correct use of Adverbs':
+                    numbers.append('18.1')
+                if i == 'Idioms and Phrases':
+                    numbers.append('19.1')
+                if i == 'Use of simple idioms':
+                    numbers.append('20.1')
+                if i == 'Use of common proverbs':
+                    numbers.append('21.1')
+                if i == 'Direct/Indirect sentences':
+                    numbers.append('22.1')
+                if i == 'Direct to Indirect form':
+                    numbers.append('23.1')
+                if i == 'Indirect to Direct':
+                    numbers.append('24.1')
+                if i == 'Active and Passive voice':
+                    numbers.append('25.1')
+                if i == 'Active to Passive voice':
+                    numbers.append('26.1')
+                if i == 'Passive to Active voice':
+                    numbers.append('27.1')
+            return numbers
+
+        if subject == 'GroupX-Physics':
+            for i in arr:
+                if i == 'Physical World & Measurements':
+                    numbers.append('1.1')
+                if i == 'Kinematics':
+                    numbers.append('2.1')
+                if i == 'Laws of Motion':
+                    numbers.append('3.1')
+                if i == 'Work-Engergy-Power':
+                    numbers.append('4.1')
+                if i == 'Motion of particles & rigid body':
+                    numbers.append('5.1')
+                if i == 'Gravitation':
+                    numbers.append('6.1')
+                if i == 'Properties of Bulk Matter':
+                    numbers.append('7.1')
+                if i == 'Thermodynamics':
+                    numbers.append('8.1')
+                if i == 'Perfect Gas & Theory of gases':
+                    numbers.append('9.1')
+                if i == 'Oscillations & Waves':
+                    numbers.append('10.1')
+                if i == 'Electrostatics':
+                    numbers.append('11.1')
+                if i == 'Current Electricity':
+                    numbers.append('12.1')
+                if i == 'Magnetic effect of current&magnetism':
+                    numbers.append('13.1')
+                if i == 'Electromagnetic Induction & Alternating\
+                   current':
+                    numbers.append('14.1')
+                if i == 'Electromagnetic Waves':
+                    numbers.append('15.1')
+                if i == 'Optics':
+                    numbers.append('16.1')
+                if i == 'Dual Nature of Matter':
+                    numbers.append('17.1')
+                if i == 'Atoms & Nuclei':
+                    numbers.append('18.1')
+                if i == 'Electronic Devices':
+                    numbers.append('19.1')
+                if i == 'Communication Systems':
+                    numbers.append('20.1')
+            return numbers
+
+
+        if subject == 'GroupX-Maths':
+            for i in arr:
+                if i == 'Sets-Relations-Functions':
+                    numbers.append('1.1')
+                if i == 'Trigonometric functions':
+                    numbers.append('2.1')
+                if i == 'Inverse Trigonometric functions':
+                    numbers.append('3.1')
+                if i == 'Complex numbers':
+                    numbers.append('4.1')
+                if i == 'Quadratic eqations':
+                    numbers.append('5.1')
+                if i == 'Sequence & Series':
+                    numbers.append('6.1')
+                if i == 'Permutations':
+                    numbers.append('7.1')
+                if i == 'Combination':
+                    numbers.append('8.1')
+                if i == 'Binomial Theorem':
+                    numbers.append('9.1')
+                if i == 'Coordinate Geometry':
+                    numbers.append('10.1')
+                if i == 'Exponential Series':
+                    numbers.append('11.1')
+                if i == 'Logarithmic Series':
+                    numbers.append('12.1')
+                if i == 'Matrices':
+                    numbers.append('13.1')
+                if i == 'Determinants':
+                    numbers.append('14.1')
+                if i == 'Limit & Continuity':
+                    numbers.append('15.1')
+                if i == 'Differentiation':
+                    numbers.append('16.1')
+                if i == 'Application of Differentiation':
+                    numbers.append('17.1')
+                if i == 'Indefinite Integrals':
+                    numbers.append('18.1')
+                if i == 'Definite Integrals':
+                    numbers.append('19.1')
+                if i == 'Application of Integration':
+                    numbers.append('20.1')
+                if i == 'Diferential Equations':
+                    numbers.append('21.1')
+                if i == 'Probability Statistics':
+                    numbers.append('22.1')
+            return numbers
+
+
 
 
 
