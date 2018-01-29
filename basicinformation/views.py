@@ -43,6 +43,7 @@ def home(request):
         if user.is_staff:
             add_teachers(None,'Govindam Defence Academy',dummy=True)
             add_students(None,dummy=True)
+            add_questions('Govindam Defence Academy')
             #sheet_links = ['groupx11english.csv','groupx12english.csv']
             #add_to_database_questions(sheet_links,extra_info = True,onlyImage = True)
 
@@ -1867,6 +1868,14 @@ def add_questions(institute):
        print('%s --num quests' %len(questions))
        for i in questions:
            i.school.add(school)
+    elif institute == 'Govindam Defence Academy':
+       questions = SSCquestions.objects.filter(school__name =
+                                               'BodhiAI',section_category='English')
+       school = School.objects.get(name = institute)
+       print('%s --num quests' %len(questions))
+       for i in questions:
+           i.school.add(school)
+
                     
 def change_password(institute,acc):
     if institute == 'JECRC':
