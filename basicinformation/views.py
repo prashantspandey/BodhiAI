@@ -41,108 +41,11 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            #return HttpResponse('hello')
-            #add_teachers('jecrc_teacher.csv',production=True,jecrc=True)
-            #add_students('jecrc_extrastudents.csv',production=True)
-            #add_questions('JECRC')
-            # add students  (swami)
-            #df = \
-            #pd.read_csv('/app/question_data/swami2jan.csv',error_bad_lines =False)
+            add_teachers(None,'Govindam Defence Academy',dummy=True)
+            add_students(None,dummy=True)
+            #sheet_links = ['groupx11english.csv','groupx12english.csv']
+            #add_to_database_questions(sheet_links,extra_info = True,onlyImage = True)
 
-            ##df =\
-            ##pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swami2jan.csv',error_bad_lines=False )
-            #name = df['Name']
-            #dob = df['DOB']
-            #batch = df['Batch no']
-            #username = df['Phone']
-            #password = df['password']
-            #stu = list(zip(name,dob,batch,username,password))
-            #real_create_student(stu,request)
-            #return HttpResponse(stu)
-
-            #quad_questions = SSCquestions.objects.filter(section_category =\
-            #                                             'Quantitative-Analysis',topic_category=22.1)
-            #ch_list = []
-            #for quest in quad_questions:
-            #    kk = "none"
-            #    for ch in quest.choices_set.all():
-            #        if ch.text == kk:
-            #            ch_list.append(ch.id)
-            #        kk = ch.text
-            #print(ch_list)
-            #for c in ch_list:
-            #    ch = Choices.objects.get(id = c)
-            #    if ch.predicament == 'Correct':
-            #       print(ch.text)
-            #       rch = Choices.objects.get(id = c-1)
-            #       rch.predicament = 'Correct'
-            #       rch.save()
-            #       ch.delete()
-            #    try:
-            #        ch.delete()
-            #    except Exception as e:
-            #        print(str(e))
-
-            #df=\
-            #pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/swamitestanswers.csv',error_bad_lines=False )
-            #marks = df.ix[:,:]
-            #marks = np.array(marks)
-            #for n,i in enumerate(range(31)):
-            #    opt = marks[1:,i]
-            #    name = marks[0,i]
-            #    evaluate_offline_test(name,opt)
-
-  
-               
-                    
-            #idom_text = 'Choose the option which best explains the given phrase/idiom \n'
-            #underlined_text = 'Choose the option which improves the sentence. \n'
-            #substitution_text = 'Choose the option which can be substituted in place of given sentence.\n'
-            #quests_idoms =\
-            #SSCquestions.objects.filter(section_category='English',topic_category
-            #                            = 1.2)
-            #quests_underlined =\
-            #SSCquestions.objects.filter(section_category='English',topic_category
-            #                            = 3.1)
-            #quests_substitution = \
-            #SSCquestions.objects.filter(section_category='English',topic_category
-            #                            = 6.1)
-            #for i in quests_idoms:
-            #    final_text = idom_text + i.text
-            #    i.text = final_text
-            #    i.save()
-            #    print(i.text)
-            #for i in quests_underlined:
-            #    final_text = underlined_text + i.text
-            #    i.text = final_text
-            #    i.save()
-            #    print(i.text)
-            #for i in quests_substitution:
-            #    final_text = substitution_text + i.text
-            #    i.text = final_text
-            #    i.save()
-            #    print(i.text)
-
-            #df = \
-            #pd.read_csv('/app/basicinformation/english.csv')
-            #with \
-            #        open('/home/prashant/Desktop/programming/projects/bodhiai/BodhiAI/basicinformation/englishpassages.pkl'
-            #             ,'rb') as fi:
-            #    all_passages = pickle.load(fi)
-            #df=\
-            #pd.read_csv('/app/question_data/swamiquestions.csv',error_bad_lines=False )
-
-
-
-
-
-            #        print('%s-- test number' %kd)
-            #write_passages(all_passages)
-            #print(quests)
-            #print(right_answer)
-            #print(optE)
-            #return HttpResponse('hello')
-            ##return render(request,'basicinformation/staffpage1.html')
             return HttpResponse('hello')
 
         if user.groups.filter(name='Students').exists():
@@ -619,44 +522,6 @@ def home(request):
             weak_klass = []
             weak_subs = []
             subs = []
-            #tests = SSCKlassTest.objects.filter(creator=user)
-            #test = SSCOfflineMarks.objects.filter(test__id = 49)
-            #names = []
-            #total_marks = []
-            #score = []
-            #rank = []
-            #percentage = []
-            #correct = []
-            #incorrect = []
-            #attempted = []
-            #not_attempted = []
-            #for i in test:
-            #    names.append(i.student.name)
-            #    total_marks.append(50)
-            #    score.append(i.marks)
-            #    percentage.append((i.marks/50)*100)
-            #    correct.append(len(i.rightAnswers))
-            #    incorrect.append(len(i.wrongAnswers))
-            #    not_attempted.append(len(i.skippedAnswers))
-            #score_rank = np.array(score)
-            #temp = score_rank.argsort()
-            #rank = np.empty(len(score_rank),int)
-            #rank[temp] =  np.arange(len(score_rank))
-            #final_rank = []
-            #final_rank2 = []
-            #for i in rank:
-            #    final_rank.append(int(i+1))
-            #for i in final_rank:
-            #    final_rank2.append(32-i)
-            #ran = list(zip(score,final_rank2))
-            #score_card =\
-            #list(zip(names,total_marks,score,final_rank2,percentage,correct,incorrect,not_attempted))
-            ##data =\
-            #[names,score,final_rank2,percentage,correct,incorrect,attempted,not_attempted]
-            #data = score_card
-            #df = pd.DataFrame(data)
-            #df.to_csv('SwamiReasoningWorldNov16test.csv')
-
             try:
                 for sub in subjects:
                     for i in klasses:
@@ -1480,7 +1345,7 @@ def real_create_student(stu,schoolName,swami=False):
             us.save()
             gr = Group.objects.get(name='Students')
             gr.user_set.add(us)
-            if swami:
+            if schoolName == 'Swami Reasoning World':
                 if batch == 16:
                     cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch16')
                 elif batch == 17:
@@ -1489,13 +1354,16 @@ def real_create_student(stu,schoolName,swami=False):
                       cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch24')
                 elif batch == 15:
                       cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch15')
-            else:
+            elif schoolName =='JECRC':
                 if '4th' in batch:
                     cl =\
                     klass.objects.get(school__name=schoolName,name='IT-4th-semester')
                 if '6th' in batch:
                     cl =\
                     klass.objects.get(school__name=schoolName,name='IT-6th-semester')
+            elif schoolName == 'Govindam Defence Academy':
+                cl = klass.objects.get(school__name =
+                                       schoolName,name='Airforce-GroupX')
 
             stu = Student(studentuser=us, klass=cl,
                               rollNumber=phone,
@@ -1545,7 +1413,8 @@ def read_questions(fi):
     return questText
 
 
-def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCategory,exp,sectionType,fouroptions=False,replace=False):
+def\
+write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCategory,exp,sectionType,lang,used_for,fouroptions=False,replace=False):
     if replace:
         quest = SSCquestions.objects.filter(picture = image)
         for n,qu in enumerate(quest):
@@ -1576,15 +1445,26 @@ def write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCate
                 print(str(e))
                 all_options = [optA,optB,optC,optD,optE]
         new_questions = SSCquestions()
+        if lang:
+            new_questions.language = lang
+        if used_for:
+            new_questions.usedFor = used_for
         new_questions.tier_category = '1'
         if sectionType == 'English':
             new_questions.section_category = 'English'
-        elif sectionType == 'Resoning':
+        elif sectionType == 'Reasoning':
             new_questions.section_category = 'General-Intelligence'
         elif sectionType == 'Maths':
             new_questions.section_category = 'Quantitative-Analysis'
         elif sectionType == 'GK':
             new_questions.section_category = 'General-Knowledge'
+        elif sectionType == 'groupxen':
+            new_questions.section_category = 'GroupX-English'
+        elif sectionType == 'groupxphy':
+            new_questions.section_category = 'GroupX-Physics'
+        elif sectionType == 'groupxmath':
+            new_questions.section_category = 'GroupX-Maths'
+
         if question != None:
             new_questions.text = str(question)
         new_questions.topic_category = str(questCategory)
@@ -1924,46 +1804,60 @@ def real_create_teacher(name,teach):
         except Exception as e:
             print(str(e))
 
-def add_teachers(path_file,production=False,jecrc=False):
-    if production:
-        df = \
-        pd.read_csv('/app/client_info/jecrc/'+path_file,error_bad_lines =False)
+def add_teachers(path_file,schoolName,production=False,jecrc=False,dummy=False):
+    if dummy != True:
+        if production:
+            df = \
+            pd.read_csv('/app/client_info/jecrc/'+path_file,error_bad_lines =False)
+        else:
+            df =\
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/jecrc/'+path_file,error_bad_lines=False )
+        if jecrc:
+            name = df['Name']
+            batch = df['Group associated']
+            email = df['email ID']
+            teach = list(zip(name,batch,email))
+            real_create_teacher('JECRC',teach)
     else:
-        df =\
-        pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/jecrc/'+path_file,error_bad_lines=False )
-    if jecrc:
-        name = df['Name']
-        batch = df['Group associated']
-        email = df['email ID']
-        teach = list(zip(name,batch,email))
-        real_create_teacher('JECRC',teach)
+        if schoolName == 'Govindam Defence Academy':
+            name = ['Govind Choudhary']
+            batch = ['Airforce-GroupX']
+            email = ['govindgarwa@gmail.com']
+            teach = list(zip(name,batch,email))
+            real_create_teacher('Govindam Defence Academy',teach)
 
 
 
-def add_students(path_file,production = False,swami=False):
-    if production:
-        df = \
-        pd.read_csv('/app/client_info/jecrc/'+path_file,error_bad_lines =False)
+def add_students(path_file,production = False,swami=False,dummy=False):
+    if dummy == False:
+        if production:
+            df = \
+            pd.read_csv('/app/client_info/jecrc/'+path_file,error_bad_lines =False)
+        else:
+            df =\
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/jecrc/'+path_file,error_bad_lines=False )
+        if swami:
+            name = df['Name']
+            dob = df['DOB']
+            batch = df['Batch no']
+            username = df['Phone']
+            password = df['password']
+            stu = list(zip(name,dob,batch,username,password))
+            real_create_student(stu,request)
+            return HttpResponse(stu)
     else:
-        df =\
-        pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/jecrc/'+path_file,error_bad_lines=False )
-    if swami:
-        name = df['Name']
-        dob = df['DOB']
-        batch = df['Batch no']
-        username = df['Phone']
-        password = df['password']
-        stu = list(zip(name,dob,batch,username,password))
-        real_create_student(stu,request)
-        return HttpResponse(stu)
-    else:
-        name = df['Student Name']
-        email = df['Email ID(Active)']
-        phone = df['Contact Number(Whatsapp)']
-        teach = df['TG']
-        batch = df['batch']
+        #name = df['Student Name']
+        #email = df['Email ID(Active)']
+        #phone = df['Contact Number(Whatsapp)']
+        #teach = df['TG']
+        #batch = df['batch']
+        name = ['Dummy Student']
+        email = ['dummystudent@govindam.com']
+        phone = ['12345']
+        teach = ['govindgarwa@gmail.com']
+        batch = ['Airforce-GroupX']
         stu_details = list(zip(name,batch,phone,teach,email))
-        real_create_student(stu_details,'JECRC')
+        real_create_student(stu_details,'Govindam Defence Academy')
 
 
 def add_questions(institute):
@@ -1984,17 +1878,15 @@ def change_password(institute,acc):
             print('%s-- username , %s -- password'
                   %(user.username,user.password))
 
-def add_to_database_questions(subType,production=False,onlyImage =
+def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
                               False,fiveOptions=False,explanation_quest=False):
-        kd_files =\
-        ['kiran_calender_type1.csv','kiran_calender_type2.csv','kiran_calender_type3.csv']
-        for kd in kd_files:
+        for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/'+kd,error_bad_lines=False )
+                pd.read_csv('/app/question_data/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+kd,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
@@ -2005,7 +1897,9 @@ def add_to_database_questions(subType,production=False,onlyImage =
             right_answer = []
             quest_category = []
             temp = []
-
+            if extra_info:
+                used_for = df['usedfor']
+                lang = df['lang']
             if onlyImage:
                 images = df['QuestionLink']
             else:
@@ -2014,6 +1908,7 @@ def add_to_database_questions(subType,production=False,onlyImage =
             optB = df['optionB']
             optC = df['optionC']
             optD = df['optionD']
+            sectionType = df['sectionType']
             if fiveOptions:
                 optE = df['optionE'] 
             if explanation_quest:
@@ -2046,9 +1941,9 @@ def add_to_database_questions(subType,production=False,onlyImage =
             print('%s number of categories' %len(quest_category))
             for ind in range(len(optA)):
                 if onlyImage:
-                    write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType=subType,fouroptions=True)
+                    write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],used_for[ind],lang[ind],fouroptions=True)
                 else:
-                    write_questions(quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType=subType,fouroptions=True)
+                    write_questions(quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],used_for,lang[ind],fouroptions=True)
 
 
 def check_add_entities():

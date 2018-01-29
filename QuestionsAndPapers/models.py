@@ -107,7 +107,7 @@ class SSCquestions(models.Model):
     models.DecimalField(max_digits=2,decimal_places=2,default=0.25)
     tier_choices = (('1','Tier1'),('2','Tier2'),('3','Tier3'))
     usedFor_choices =\
-    (('SSC','SSC'),('Aptitude','Aptitude'),('Groupx','Groupx'),('Groupy','Groupy'))
+    (('SSC','SSC'),('Aptitude','Aptitude'),('Groupx','Groupx'),('Groupy','Groupy'),('RPSC','RPSC'),('RAS','RAS'))
     language_choices = (('English','English'),('Hindi','Hindi'),('Bi','Bi'))
     section_choices = \
         (('General-Intelligence','General-Intelligence'),('General-Knowledge','General-Knowledge')
