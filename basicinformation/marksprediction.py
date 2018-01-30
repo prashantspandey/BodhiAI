@@ -4597,7 +4597,14 @@ class Teach:
         return np.array(result)
         
 
-        
+    def test_taken_subjects(self,user):
+        tests = SSCKlassTest.objects.filter(creator=user)
+        subs = []
+        for te in tests:
+            if te.sub != '':
+                subs.append(te.sub)
+        return list(unique_everseen(subs))
+
 
 
 

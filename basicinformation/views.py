@@ -610,6 +610,7 @@ def student_self_analysis(request):
             if me.profile.school.name == 'BodhiAI':
                 allSubjects = me.subjects_OnlineTest() 
                 allSubjects = me.already_takenTests_Subjects()
+                print('%s taken tests' %allSubjects)
             else:
                 allSubjects = me.my_subjects_names()
             if me.institution == 'SSC':
@@ -996,7 +997,8 @@ def teacher_update_page(request):
             return \
                 render(request, 'basicinformation/teacher_online_analysis.html', context)
         elif institution == 'SSC':
-            subjects = me.my_subjects_names()
+            #subjects = me.my_subjects_names()
+            subjects = me.test_taken_subjects(user)
             context = {'subs': subjects, 'which_class': which_klass}
             return \
                 render(request, 'basicinformation/teacher_online_analysis.html', context)

@@ -1311,17 +1311,20 @@ def evaluate_test(request):
             except Exception as e:
                 print(str(e))
         # calculate time to send to template
-        hours = int(total_time/3600)
-        t = int(total_time%3600)
-        mins = int(t/60)
-        seconds =int(t%60)
-        if hours == 0:
-            tt = '{} minutes and {} seconds'.format(mins,seconds)
-        if hours == 0 and mins == 0:
-            tt = '{} seconds'.format(seconds)
-        if hours > 0:
-            tt = '{} hours {} minutes and {}\
-            seconds'.format(hours,mins,seconds)
+        try:
+            hours = int(total_time/3600)
+            t = int(total_time%3600)
+            mins = int(t/60)
+            seconds =int(t%60)
+            if hours == 0:
+                tt = '{} minutes and {} seconds'.format(mins,seconds)
+            if hours == 0 and mins == 0:
+                tt = '{} seconds'.format(seconds)
+            if hours > 0:
+                tt = '{} hours {} minutes and {}\
+                seconds'.format(hours,mins,seconds)
+        except Exception as e:
+            print(str(e))
 
         # delete the temporary holders
         try:
