@@ -68,7 +68,6 @@ def create_test(request):
                             context = {'noTest':noTest,'test_type':test_type}
                             return render(request,'questions/klass_available.html',context)
                     elif me.institution == "SSC":
-                        print('1st point')
                         if quest:
                             unique_chapters = []
                             for i in quest:
@@ -90,11 +89,9 @@ def create_test(request):
                     if me.institution == 'School':
                         pass
                     elif me.institution == 'SSC':
-                        print('%s cat,%s klass' %(split_category,split_klass))
                         quest = SSCquestions.objects.filter(section_category =
                                                             split_category,school
                                                             =school)
-                        print(quest)
                         all_categories = []
                         for i in quest:
                             all_categories.append(i.topic_category)
@@ -165,7 +162,6 @@ def add_questions(request):
     me = Teach(user)
     quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
     if 'question_id' in request.GET:
-        print('here')
         if os.path.exists(quest_file_name):
             with open(quest_file_name,'rb') as lql:
                 questions_list = pickle.load(lql)
@@ -446,7 +442,6 @@ def oneclick_test(request):
 
             final_num = []
             final_name = []
-            print(topics_total)
             for num,cat in topics_total:
                 if int(num) != 0:
                     final_num.append(int(num))
@@ -1044,10 +1039,8 @@ def conduct_Test(request):
             # this method gets the value of button pressed and sends the
             # question that is in that place
             questPos = request.GET['IndividualTestQuestPos']
-            print(questPos)
             pos = questPos.split(',')[0]
             testid = questPos.split(',')[1]
-            print('%s type,id %s' %(type(testid),testid))
             test = SSCKlassTest.objects.get(id = int(testid))
             quest = []
             # gets the number of questions in the test
@@ -1115,7 +1108,10 @@ def conduct_Test(request):
                 my_marks.test = test
                 my_marks.quests= question_id
                 my_marks.answers = choice_id
-                my_marks.time = int(questTime)
+                try:
+                    my_marks.time = int(questTime)
+                except:
+                    my_marks.time = int(0)
                 my_marks.save()
                 all_quests = []
                 for i in temp_marks:
@@ -1163,6 +1159,7 @@ def evaluate_test(request):
         # get values of test id and total test time
         test_id = request.POST['testSub']
         time_taken = request.POST['timeTaken']
+        print('%s --%s testid and time taken' %(test_id,time_taken))
         if me.institution == 'School':
             student_type = 'School'
             test = KlassTest.objects.get(id = test_id)
@@ -1173,7 +1170,7 @@ def evaluate_test(request):
             SSCOnlineMarks.objects.filter(student=me.profile,test__id=test_id)
             if len(already_taken)>0:
                 raise Http404('You have already taken this test, Sorry retakes\
-                              are not allowd')
+                              are not allowed')
             test = SSCKlassTest.objects.get(id = test_id)
             online_marks = SSCOnlineMarks()
         quest_ids = []
@@ -1284,13 +1281,16 @@ def evaluate_test(request):
             print(str(e))
             total_time = int(1000) - int(time_taken)
         # save to SSCOnlinemarks
-        online_marks.rightAnswers = final_correct
-        online_marks.wrongAnswers = final_wrong
-        online_marks.skippedAnswers = final_skipped2
-        online_marks.allAnswers = all_answers
-        online_marks.marks = test_marks
-        online_marks.timeTaken = total_time
-        online_marks.save()
+        try:
+            online_marks.rightAnswers = final_correct
+            online_marks.wrongAnswers = final_wrong
+            online_marks.skippedAnswers = final_skipped2
+            online_marks.allAnswers = all_answers
+            online_marks.marks = test_marks
+            online_marks.timeTaken = total_time
+            online_marks.save()
+        except Exception as e:
+            print(str(e))
         num = 0
         # save question and time taken to solve the question
         for q in test.sscquestions_set.all():
@@ -1324,7 +1324,10 @@ def evaluate_test(request):
             seconds'.format(hours,mins,seconds)
 
         # delete the temporary holders
-        TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=test_id).delete()
+        try:
+            TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=test_id).delete()
+        except Exception as e:
+            print(str(e))
         #context = \
         #{'student_type':student_type,'marks':online_marks,'timetaken':tt}
         try:

@@ -419,7 +419,11 @@ def home(request):
                     time = []
                     # add date and marks to a dictionary with index subject
                     for i in marks:
-                        one_marks.append(float(i.marks)/float(i.test.max_marks)*100)
+                        try:
+                            one_marks.append(float(i.marks)/float(i.test.max_marks)*100)
+                        except Exception as e:
+                            print(str(e))
+                            one_marks.append(float(0))
                         time.append(i.testTaken)
                         subject_marks[sub.name] = {'marks':one_marks,'time':time}
                 if multiple_marks:
