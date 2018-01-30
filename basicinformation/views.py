@@ -49,7 +49,7 @@ def home(request):
             sheet_links =\
             ['groupx05english.csv']
             add_to_database_questions(sheet_links,'Govindam Defence Academy',extra_info =
-                                      True,onlyImage=True,production = False)
+                                      True,onlyImage=True,production = True)
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
