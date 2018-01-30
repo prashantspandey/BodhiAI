@@ -1172,7 +1172,7 @@ def teacher_update_page(request):
 
     elif 'onlineIndividualPerformace' in request.GET:
         which_klass = request.GET['onlineIndividualPerformace']
-        subjects = me.my_subjects_names()
+        subjects = me.test_taken_subjects(user)
         context = {'subs': subjects, 'which_class': which_klass}
         return \
             render(request,
