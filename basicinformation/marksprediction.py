@@ -5081,7 +5081,7 @@ class Teach:
 
 
         if subject == 'GroupX-Maths':
-            for i,j in arr:
+            for i in arr:
                 if i == '1.1':
                     names.append('Sets-Relations-Functions')
                     numbers.append(i)

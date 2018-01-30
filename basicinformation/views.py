@@ -41,11 +41,17 @@ def home(request):
             context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            add_teachers(None,'Govindam Defence Academy',dummy=True)
-            add_students(None,dummy=True)
-            add_questions('Govindam Defence Academy')
-            #sheet_links = ['groupx11english.csv','groupx12english.csv']
+            #add_teachers(None,'Govindam Defence Academy',dummy=True)
+            #add_students(None,dummy=True)
+            #add_questions('Govindam Defence Academy')
+            #sheet_links = ['groupx03math.csv','groupx03physics.csv']
+            #sheet_links = ['groupx04math.csv','groupx04physics.csv']
+            sheet_links = ['groupx05math.csv','groupx05physics.csv']
             #add_to_database_questions(sheet_links,extra_info = True,onlyImage = True)
+            add_to_database_questions(sheet_links,'Govindam Defence Academy',extra_info =
+                                      True,onlyImage=True)
+            #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
+            #                  False,fiveOptions=False,explanation_quest=False):
 
             return HttpResponse('hello')
 
@@ -1415,7 +1421,7 @@ def read_questions(fi):
 
 
 def\
-write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCategory,exp,sectionType,lang,used_for,fouroptions=False,replace=False):
+write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questCategory,exp,sectionType,lang,used_for,source,fouroptions=False,replace=False):
     if replace:
         quest = SSCquestions.objects.filter(picture = image)
         for n,qu in enumerate(quest):
@@ -1430,7 +1436,7 @@ write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCategory
     else:
 
 
-        school = School.objects.filter(category = 'SSC')
+        school = School.objects.filter(name = school)
         if fouroptions == True:
             all_options = [optA,optB,optC,optD]
         else:
@@ -1446,10 +1452,23 @@ write_questions(question,optA,optB,optC,optD,optE,image,correctOpt,questCategory
                 print(str(e))
                 all_options = [optA,optB,optC,optD,optE]
         new_questions = SSCquestions()
-        if lang:
-            new_questions.language = lang
-        if used_for:
-            new_questions.usedFor = used_for
+        print(lang,used_for)
+        if lang == 'Hindi':
+            new_questions.language = 'Hindi'
+        if lang == 'Bi':
+            new_questions.language = 'Bi'
+        if lang == 'English':
+            new_questions.language = 'English'
+
+        if used_for == 'Groupx':
+            new_questions.usedFor = 'Groupx'
+        if used_for == 'Groupy':
+            new_questions.usedFor = 'Groupx'
+        if used_for == 'SSC':
+            new_questions.usedFor = 'SSC'
+        if source:
+            new_questions.source = source
+
         new_questions.tier_category = '1'
         if sectionType == 'English':
             new_questions.section_category = 'English'
@@ -1887,7 +1906,7 @@ def change_password(institute,acc):
             print('%s-- username , %s -- password'
                   %(user.username,user.password))
 
-def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
+def add_to_database_questions(sheet_link,school,extra_info=False,production=False,onlyImage =
                               False,fiveOptions=False,explanation_quest=False):
         for sh in sheet_link:
             if production:
@@ -1909,6 +1928,7 @@ def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyI
             if extra_info:
                 used_for = df['usedfor']
                 lang = df['lang']
+                source = df['source']
             if onlyImage:
                 images = df['QuestionLink']
             else:
@@ -1950,9 +1970,9 @@ def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyI
             print('%s number of categories' %len(quest_category))
             for ind in range(len(optA)):
                 if onlyImage:
-                    write_questions(None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],used_for[ind],lang[ind],fouroptions=True)
+                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(used_for[ind]),str(lang[ind]),source[ind],fouroptions=True)
                 else:
-                    write_questions(quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],used_for,lang[ind],fouroptions=True)
+                    write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],used_for,lang[ind],source[ind],fouroptions=True)
 
 
 def check_add_entities():

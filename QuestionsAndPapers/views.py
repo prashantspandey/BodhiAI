@@ -68,7 +68,7 @@ def create_test(request):
                             context = {'noTest':noTest,'test_type':test_type}
                             return render(request,'questions/klass_available.html',context)
                     elif me.institution == "SSC":
-                        print('here in inns')
+                        print('1st point')
                         if quest:
                             unique_chapters = []
                             for i in quest:
@@ -90,9 +90,11 @@ def create_test(request):
                     if me.institution == 'School':
                         pass
                     elif me.institution == 'SSC':
+                        print('%s cat,%s klass' %(split_category,split_klass))
                         quest = SSCquestions.objects.filter(section_category =
                                                             split_category,school
                                                             =school)
+                        print(quest)
                         all_categories = []
                         for i in quest:
                             all_categories.append(i.topic_category)
