@@ -50,6 +50,7 @@ class SSCKlassTest(models.Model):
 
 class Comprehension(models.Model):
     text = models.TextField()
+    picture = models.URLField(max_length=500,null=True,blank=True)
 
     def __str__(self):
         return self.text[:100]

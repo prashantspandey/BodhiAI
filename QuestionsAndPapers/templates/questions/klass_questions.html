@@ -44,7 +44,7 @@ $(eval("'#r'+now")).click(function(){
 	{%for i in que %}
 		<div class='well col-md-offset-1 col-md-10' id = 'questBox'>
 			{%if i.comprehension %}
-			<p> <pre>{{i.comprehension.text}}</pre> </p>
+			<img src='{{i.picture}}' class="img-responsive" >
 			{%endif%}
 			{%if i.text %}
 			<p id = 'questP'>{{i.text|linebreaks}} </p>

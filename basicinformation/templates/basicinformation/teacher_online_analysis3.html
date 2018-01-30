@@ -166,6 +166,10 @@ $(document).ready(function () {
 <div>
 	{% for quest in test.sscquestions_set.all %}
 	<div class = 'well col-md-offset-1 col-md-10  col-xs-12'>
+		{% if quest.comprehension %}
+		<img src='{{quest.picture}}' class='img-responsive'>
+		{%endif%}
+
 		<h3> {%if quest.text %}{{quest.text|linebreaks}}{%endif%} </h3>
 		{%if quest.picture %}
 		<img src='{{quest.picture}}' class='img-responsive'>
