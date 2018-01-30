@@ -42,15 +42,15 @@ def home(request):
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
             #add_teachers(None,'Govindam Defence Academy',dummy=True)
-            #add_students(None,dummy=True)
+            add_students(None,dummy=True)
             #add_questions('Govindam Defence Academy')
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
-            sheet_links =\
-            ['groupx03physics.csv','groupx04math.csv','groupx04physics.csv','groupx05math.csv','groupx05physics.csv']
+            #sheet_links =\
+            #['groupx03physics.csv','groupx04math.csv','groupx04physics.csv','groupx05math.csv','groupx05physics.csv']
             #add_to_database_questions(sheet_links,extra_info = True,onlyImage = True)
-            add_to_database_questions(sheet_links,'Govindam Defence Academy',extra_info =
-                                      True,onlyImage=True,production = True)
+            #add_to_database_questions(sheet_links,'Govindam Defence Academy',extra_info =
+                                      #True,onlyImage=True,production = True)
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
@@ -1333,20 +1333,16 @@ def create_student(num, request):
 def real_create_student(stu,schoolName,swami=False):
     print('in process............')
     school = School.objects.get(name=schoolName)
-    pa = '10'
     for na,batch,phone,teach,email in stu:
         try:
             teacher = Teacher.objects.get(teacheruser__username = teach)
             print(teacher)
         except Exception as e:
             print(str(e))
-        #ss = Student.objects.get(studentuser__username = phone)
-        #print(ss.name)
         try:
             pa = str(phone)
             pa = pa[::-1]
             print('%s password' %pa)
-            #dob = datetime.strptime(dob,'%d/%m/%Y')
             us = User.objects.create_user(username=phone,
                                           email=email,
                                           password=pa)
@@ -1374,14 +1370,21 @@ def real_create_student(stu,schoolName,swami=False):
                                        schoolName,name='Airforce-GroupX')
 
             stu = Student(studentuser=us, klass=cl,
-                              rollNumber=phone,
-                              name= na,
+                              rollNumber=us.id,
+                              name= str(na),
                               dob=timezone.now(),
                           pincode=int(str(302018)),school= school)
             stu.save()
-            sub = Subject(name='General-Intelligence', student=stu,
+            sub = Subject(name='GroupX-Physics', student=stu,
                           teacher=teacher)
+            sub1 = Subject(name='GroupX-Maths', student=stu,
+                          teacher=teacher)
+            sub2 = Subject(name='GroupX-English', student=stu,
+                          teacher=teacher)
+
             sub.save()
+            sub1.save()
+            sub2.save()
             print('%s -- saved' %na)
         except Exception as e:
             print(str(e))
@@ -1872,11 +1875,23 @@ def add_students(path_file,production = False,swami=False,dummy=False):
         #phone = df['Contact Number(Whatsapp)']
         #teach = df['TG']
         #batch = df['batch']
-        name = ['Dummy Student']
-        email = ['dummystudent@govindam.com']
-        phone = ['12345']
-        teach = ['govindgarwa@gmail.com']
-        batch = ['Airforce-GroupX']
+        name = ['Dummy Student1','Dummy Student2','Dummy\
+                Student3','Dummy Student4','Dummy Student5','Dummy\
+                Student6','Dummy Student7','Dummy Student8','Dummy\
+                Student9','Dummy Student10','Dummy Student11','Dummy Student12']
+        email =\
+        ['dummystudent@govindam.com','dummystudent@govindam.com','dummystudent@govindam.com','dummystudent@govindam.com','dummystudent@govindam.com','dummystudent@govindam.com','dummystudent@govindam.com','dummystudent@govindam.com','dummystudent@govindam.com','dummystudent@govindam.com','dummystudent@govindam.com','dummystudent@govindam.com']
+        phone =\
+        ['g1','g2','g3','g4','g5','g6','g7','g8','g9','g10','g11','g12']
+        teach =\
+        ['govindgarwa@gmail.com','govindgarwa@gmail.com','govindgarwa@gmail.com','govindgarwa@gmail.com','govindgarwa@gmail.com','govindgarwa@gmail.com','govindgarwa@gmail.com','govindgarwa@gmail.com','govindgarwa@gmail.com','govindgarwa@gmail.com','govindgarwa@gmail.com','govindgarwa@gmail.com']
+        batch =\
+        ['Airforce-GroupX','Airforce-GroupX','Airforce-GroupX','Airforce-GroupX','Airforce-GroupX','Airforce-GroupX','Airforce-GroupX','Airforce-GroupX','Airforce-GroupX','Airforce-GroupX','Airforce-GroupX','Airforce-GroupX']
+        print(len(name))
+        print(len(email))
+        print(len(phone))
+        print(len(teach))
+        print(len(batch))
         stu_details = list(zip(name,batch,phone,teach,email))
         real_create_student(stu_details,'Govindam Defence Academy')
 
