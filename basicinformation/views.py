@@ -47,7 +47,7 @@ def home(request):
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
             sheet_links =\
-            ['groupx03math.csv','groupx03physics.csv''groupx04math.csv','groupx04physics.csv','groupx05math.csv','groupx05physics.csv']
+            ['groupx03physics.csv','groupx04math.csv','groupx04physics.csv','groupx05math.csv','groupx05physics.csv']
             #add_to_database_questions(sheet_links,extra_info = True,onlyImage = True)
             add_to_database_questions(sheet_links,'Govindam Defence Academy',extra_info =
                                       True,onlyImage=True,production = True)
