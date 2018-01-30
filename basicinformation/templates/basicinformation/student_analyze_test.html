@@ -313,7 +313,7 @@ $(document).ready(function () {
 		{% for te in test.test.sscquestions_set.all %}
 		<div class='quests well  col-xs-12'>
 			{% if te.comprehension %}
-				<img src='{{te.picture}}' class='img-responsive'>
+				<img src='{{te.comprehension.picture}}' class='img-responsive'>
 				{%endif%}
 
 			<h5 style='font-weight:bold;'>{%if te.text %}{{te.text}} {%endif%}

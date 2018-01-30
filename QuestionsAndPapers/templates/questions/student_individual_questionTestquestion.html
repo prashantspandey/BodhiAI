@@ -5,7 +5,7 @@
 	<div class='well col-md-offset-1 col-md-10 ' id='questionContainer'>
 		{% if question.comprehension %}
 		<h4> {{question.comprehension.text|linebreaks}} </h4>
-		<img src='{{question.picture}}' class="img-responsive" >
+		<img src='{{question.comprehension.picture}}' class="img-responsive" >
 		{%endif %}
 		<h4 style='font-weight:bold;'> 
 			{%if question.text %}{{question.text|linebreaks}}{%endif%} </h4>
