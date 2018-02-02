@@ -32,25 +32,22 @@ def home(request):
         if user.groups.filter(name='Management').exists():
             all_students = Student.objects.filter(school =
                                                   user.schoolmanagement.school)
-            all_studs_list = []
-            all_klasses = []
-            for i in all_students:
-                all_studs_list.append(i)
-                all_klasses.append(i.klass.name)
-            all_klasses = list(unique_everseen(all_klasses))
-            num_classes = len(all_klasses)
-            context = {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
+            all_teachers =\
+            Teacher.objects.filter(school=user.schoolmanagement.school)
+            klasses = klass.objects.filter(school=user.schoolmanagement.school)
+            context =\
+            {'students':all_students,'teachers':all_teachers,'all_classes':klasses}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
             #add_teachers(None,'Govindam Defence Academy',dummy=True)
-            #add_students(None,dummy=True)
+            add_students('swami2jan.csv',swami=True,production=True)
             #add_questions('Govindam Defence Academy')
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
-            sheet_links =\
-            ['groupx06math.csv','groupx06physics.csv']
-            add_to_database_questions(sheet_links,'Govindam Defence Academy',extra_info =
-                                      True,onlyImage=True,production = True)
+            #sheet_links =\
+            #['groupx06math.csv','groupx06physics.csv']
+            #add_to_database_questions(sheet_links,'Govindam Defence Academy',extra_info =
+            #                          True,onlyImage=True,production = True)
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
@@ -1339,61 +1336,99 @@ def create_student(num, request):
 def real_create_student(stu,schoolName,swami=False):
     print('in process............')
     school = School.objects.get(name=schoolName)
-    for na,batch,phone,teach,email in stu:
-        try:
-            teacher = Teacher.objects.get(teacheruser__username = teach)
-            print(teacher)
-        except Exception as e:
-            print(str(e))
-        try:
-            pa = str(phone)
-            pa = pa[::-1]
-            print('%s password' %pa)
-            us = User.objects.create_user(username=phone,
-                                          email=email,
-                                          password=pa)
-            us.save()
-            gr = Group.objects.get(name='Students')
-            gr.user_set.add(us)
-            if schoolName == 'Swami Reasoning World':
+    if swami:
+        for na,dob,batch,phone,password in stu:
+            try:
+                teacher = Teacher.objects.get(teacheruser__username =
+                                              'rajeshkswamiadmin')
+                print(teacher)
+            except Exception as e:
+                print(str(e))
+            try:
+                us = User.objects.create_user(username=phone,
+                                                email=str(na)+'@swami.com',
+                                              password=password)
+                us.save()
+                gr = Group.objects.get(name='Students')
+                gr.user_set.add(us)
                 if batch == 16:
                     cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch16')
                 elif batch == 17:
-                     cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch17')
+                    cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch17')
                 elif batch == 24:
-                      cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch24')
+                    cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch24')
                 elif batch == 15:
-                      cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch15')
-            elif schoolName =='JECRC':
-                if '4th' in batch:
-                    cl =\
-                    klass.objects.get(school__name=schoolName,name='IT-4th-semester')
-                if '6th' in batch:
-                    cl =\
-                    klass.objects.get(school__name=schoolName,name='IT-6th-semester')
-            elif schoolName == 'Govindam Defence Academy':
-                cl = klass.objects.get(school__name =
-                                       schoolName,name='Airforce-GroupX')
+                    cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch15')
+                stu = Student(studentuser=us, klass=cl,
+                                  rollNumber=us.id,
+                                  name= str(na),
+                                  dob=datetime.strptime(dob,'%d/%m/%Y').strftime('%Y-%m-%d'),
+                              pincode=int(str(302018)),school= school)
+                stu.save()
+                sub = Subject(name='General-Intelligence', student=stu,
+                              teacher=teacher)
 
-            stu = Student(studentuser=us, klass=cl,
-                              rollNumber=us.id,
-                              name= str(na),
-                              dob=timezone.now(),
-                          pincode=int(str(302018)),school= school)
-            stu.save()
-            sub = Subject(name='GroupX-Physics', student=stu,
-                          teacher=teacher)
-            sub1 = Subject(name='GroupX-Maths', student=stu,
-                          teacher=teacher)
-            sub2 = Subject(name='GroupX-English', student=stu,
-                          teacher=teacher)
+                sub.save()
+                print('%s -- saved' %na)
 
-            sub.save()
-            sub1.save()
-            sub2.save()
-            print('%s -- saved' %na)
-        except Exception as e:
-            print(str(e))
+            except Exception as e:
+                print(str(e))
+
+    else:
+        for na,batch,phone,teach,email in stu:
+            try:
+                teacher = Teacher.objects.get(teacheruser__username = teach)
+                print(teacher)
+            except Exception as e:
+                print(str(e))
+            try:
+                pa = str(phone)
+                pa = pa[::-1]
+                us = User.objects.create_user(username=phone,
+                                              email=email,
+                                              password=pa)
+                us.save()
+                gr = Group.objects.get(name='Students')
+                gr.user_set.add(us)
+                if schoolName == 'Swami Reasoning World':
+                    if batch == 16:
+                        cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch16')
+                    elif batch == 17:
+                         cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch17')
+                    elif batch == 24:
+                          cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch24')
+                    elif batch == 15:
+                          cl = klass.objects.get(school__name='Swami Reasoning World',name='Batch15')
+                elif schoolName =='JECRC':
+                    if '4th' in batch:
+                        cl =\
+                        klass.objects.get(school__name=schoolName,name='IT-4th-semester')
+                    if '6th' in batch:
+                        cl =\
+                        klass.objects.get(school__name=schoolName,name='IT-6th-semester')
+                elif schoolName == 'Govindam Defence Academy':
+                    cl = klass.objects.get(school__name =
+                                           schoolName,name='Airforce-GroupX')
+
+                stu = Student(studentuser=us, klass=cl,
+                                  rollNumber=us.id,
+                                  name= str(na),
+                                  dob=timezone.now(),
+                              pincode=int(str(302018)),school= school)
+                stu.save()
+                sub = Subject(name='GroupX-Physics', student=stu,
+                              teacher=teacher)
+                sub1 = Subject(name='GroupX-Maths', student=stu,
+                              teacher=teacher)
+                sub2 = Subject(name='GroupX-English', student=stu,
+                              teacher=teacher)
+
+                sub.save()
+                sub1.save()
+                sub2.save()
+                print('%s -- saved' %na)
+            except Exception as e:
+                print(str(e))
 
 
 def create_teacher(num):
@@ -1862,10 +1897,10 @@ def add_students(path_file,production = False,swami=False,dummy=False):
     if dummy == False:
         if production:
             df = \
-            pd.read_csv('/app/client_info/jecrc/'+path_file,error_bad_lines =False)
+            pd.read_csv('/app/question_data/'+path_file,error_bad_lines =False)
         else:
             df =\
-            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/jecrc/'+path_file,error_bad_lines=False )
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+path_file,error_bad_lines=False )
         if swami:
             name = df['Name']
             dob = df['DOB']
@@ -1873,7 +1908,7 @@ def add_students(path_file,production = False,swami=False,dummy=False):
             username = df['Phone']
             password = df['password']
             stu = list(zip(name,dob,batch,username,password))
-            real_create_student(stu,request)
+            real_create_student(stu,'Swami Reasoning World',swami = True)
             return HttpResponse(stu)
     else:
         #name = df['Student Name']
