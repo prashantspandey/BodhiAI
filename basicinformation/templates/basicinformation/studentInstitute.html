@@ -125,6 +125,17 @@ $('.thumbnail').on('click',function(){
 		<li>	<h5><strong>Step 3.</strong> See your weak areas and progress in respective tabs.</h5></li>
 	</ul>
 </div>
+<div class ='col-md-10'>
+	{%if message %}
+	{% for mess in message %}
+	<div class='' role='alert'>
+		{{mess}}
+	</div>
+	{%endfor%}
+	{%endif%}
+
+</div>
+
 
 {%if announcements %}
 <h2 style= 'text-align:center;'> Announcements </h2>
@@ -161,6 +172,9 @@ $('.thumbnail').on('click',function(){
 		<div class="caption">
 			<h3 class='text-center' style='font-weight:bold;'>{% if value.subject == 'SSCMultipleSections'%}Multiple Subjects {%else%}{{value.subject}} {%endif%}</h3>
 				<h4 class='text-center'>{{value.num_questions}} questions </h4>
+
+				<h4 class='text-center'>Created By:  </h4>
+				<h4 class='text-center'><strong>{{value.creator}}</strong>  </h4>
 			<h4> Topics </h4>
 			<ul>
 				{% for i in value.topics %}

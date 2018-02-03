@@ -9,7 +9,7 @@
 <script>
 function loginClick(){
 	$('#loadinglogin').removeClass("hidden");
-	console.log('this is login')
+	$('#wholeContainer').addClass("hidden");
 };
 </script>
 <link rel='stylesheet' href="{%static 'basicinformation/css/animate.css'%}">
@@ -27,11 +27,15 @@ function loginClick(){
 {% block content %}
 
 <body>
-
+	<div class='hidden' id = 'loadinglogin' style='text-align:center;'>
+ <h4 style='text-center;'>Please wait... </h4>
+         <img src="{%static 'basicinformation/images/bodhigif.gif' %}" >
+  </div> 
 	
 	<br>
 	<br>
 	<br>
+	<div id ='wholeContainer'>
 <div class='animated flash'style='text-align:center; col-sm-12 ' id ='logoContainer'>
 	<img src="{%static 'basicinformation/img/bodhiaigif.gif' %}" alt="Bodhi AI"  style='height:25%;'>
 </div>
@@ -59,12 +63,10 @@ function loginClick(){
 
   
 	</div>
-	<div class='hidden' id = 'loadinglogin' style='text-align:center;display:none;'>
- <h4 style='text-center;'>Please wait... </h4>
-         <img src="{%static 'basicinformation/images/bodhigif.gif' %}" >
-  </div> 
+
 
  
+</div>
 </div>
 
 

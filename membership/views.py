@@ -1,9 +1,14 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse, redirect
 from .forms import LoginForm,RegisterForm
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import (authenticate, 
+                                 login,
+                                logout,
+                                 update_session_auth_hash)
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
+from django.contrib.auth.forms import PasswordChangeForm
+
 def user_login(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('basic:home'))
@@ -56,7 +61,20 @@ def user_register(request):
 
 
 
+def user_changePassword(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data = request.POST,user = request.user)
 
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Password successfully changed !!')
+            update_session_auth_hash(request,form.user)
+            return HttpResponseRedirect(reverse('basic:home'))
+    else:
+        form = PasswordChangeForm(user=request.user)
+
+    context = {'form':form}
+    return render(request,'membership/change_password.html',context)
 
 
 

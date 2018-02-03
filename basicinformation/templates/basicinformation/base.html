@@ -79,7 +79,14 @@
 
 	  	   <ul class="nav navbar-nav navbar-right">
 {% if user.is_authenticated %} 
-	{%if user.student %}
+ <li class="nav-item dropdown">
+	 <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" role="button" aria-haspopup ="true" aria-expanded="false"><strong>Profile</strong> 
+		 <span class="caret"></span></a>
+		    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+			    <a  class='dropdown-item'  href="{% url 'membership:changePassword' %}"><strong>Change Password</strong></a>
+		    </div>
+ </li>
+	               	{%if user.student %}
 		<li role="presentation"><a href="{%url 'basic:studentWeakAreas' %}"><strong>My Weak Areas</strong>
 				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 			</a></li>
@@ -133,7 +140,6 @@
 			</a></li>
 	{%endif%}
 {%endif%}
-
   {%if user.is_authenticated%}  
   <li role="presentation"><a href="{%url 'membership:logout' %}"><strong>Logout</strong>
 				<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>

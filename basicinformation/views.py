@@ -23,6 +23,7 @@ from io import BytesIO as IO
 import timeit
 from PIL import Image
 import requests
+from django.contrib import messages
 
 
 def home(request):
@@ -35,8 +36,37 @@ def home(request):
             all_teachers =\
             Teacher.objects.filter(school=user.schoolmanagement.school)
             klasses = klass.objects.filter(school=user.schoolmanagement.school)
+            test_teachers ={}
+            for te in all_teachers:
+                all_tests = SSCKlassTest.objects.filter(creator =
+                                                        te.teacheruser)
+                test_teachers[te] = {all_tests}
+            new_test_teachers = {}
+            for key,value in test_teachers.items():
+                print(key)
+                n_tests = []
+                for qs in value:
+                    for te in qs:
+                        if te.published <=\
+                        datetime.strptime('2018-01-27','%Y-%m-%d').date():
+                            print('old test')
+                        else:
+                            n_tests.append(te)
+                    new_test_teachers[key] = {'test':n_tests}
+            print(new_test_teachers)
+            #for key,value in test_teachers.items():
+            #    print(key)
+            #    print(type(value))
+            #    for k,v in value.items():
+            #        print(k)
+            #        for te in v:
+            #            if te.published <=\
+            #            datetime.strptime('2018-01-27','%Y-%m-%d').date():
+            #                print('old test')
+            #            else:
+            #                print(te.published)
             context =\
-            {'students':all_students,'teachers':all_teachers,'all_classes':klasses}
+                    {'students':all_students,'teachers':all_teachers,'all_classes':klasses,'tests_created':new_test_teachers}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
             #add_teachers(None,'Govindam Defence Academy',dummy=True)
@@ -55,6 +85,7 @@ def home(request):
 
         if user.groups.filter(name='Students').exists():
             profile = user.student
+            storage = messages.get_messages(request)
             me = Studs(request.user)
             subjects = me.my_subjects_names()
 
@@ -511,13 +542,13 @@ def home(request):
                        'english2': englisht2, 'english3': englisht3, 'english4': englisht4,
                        'science1': sciencet1, 'science2': sciencet2,
                        'science3': sciencet3, 'science4':
-                       sciencet4,'announcements':my_announcements}
+                       sciencet4,'announcements':my_announcements,'message':storage}
             if me.profile.school.name == "BodhiAI":
                 context = \
-                        {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
+                        {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests,'message':storage}
             else:
                 context = \
-                    {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
+                    {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests,'message':storage}
 
             return render(request, 'basicinformation/studentInstitute.html', context)
 

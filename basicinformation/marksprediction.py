@@ -1043,7 +1043,8 @@ class Studs:
             return takenT
         
 
-# Tests that are not taken 
+# Tests that are not taken and return a dictionary with test with it's
+# subject,topics,number of questions and teacher name
 
     def toTake_Tests(self):
         if self.institution == 'School':
@@ -1062,6 +1063,7 @@ class Studs:
                 if len(already_taken)>0:
                     continue
                 else:
+                    teacher = Teacher.objects.get(teacheruser = i.creator)
                     count_quest = 0
                     for j in i.sscquestions_set.all():
                         count_quest += 1
@@ -1070,7 +1072,7 @@ class Studs:
                         topics.append(cat)
                     topics = list(unique_everseen(topics))
                     new_tests[i.id] =\
-                    {'subject':i.sub,'topics':topics,'num_questions':count_quest}
+                            {'subject':i.sub,'topics':topics,'num_questions':count_quest,'creator':teacher.name}
             return new_tests
 
             
