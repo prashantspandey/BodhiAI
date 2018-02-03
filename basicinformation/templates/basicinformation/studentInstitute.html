@@ -166,9 +166,9 @@ $('.thumbnail').on('click',function(){
 <div class = 'hidden' id = 'topicTests' >
 	{% include 'basicinformation/studentInstituteTopicTests.html' %}
 </div>
-	<div>
+	<div class='container'>
 {% for key,value in newTests.items %}
-	  <div class="col-sm-2 col-md-2 animated zoomIn" id ='newTests'>
+	  <div class="col-sm-2 col-md-4 animated zoomIn" id ='newTests'>
 	<div class="thumbnail ">
 		<div class="caption">
 			<h3 class='text-center' style='font-weight:bold;'>{% if value.subject == 'SSCMultipleSections'%}Multiple Subjects {%else%}{{value.subject}} {%endif%}</h3>

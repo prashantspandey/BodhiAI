@@ -168,7 +168,7 @@ def student_select_topicTest(request):
         if 'topicwisetest' in request.GET:
             topic = request.GET['topicwisetest']
             me = Studs(user)
-            new_tests = me.toTake_Tests()
+            new_tests = me.toTake_Tests(0,allTests=True)
             topic_tests_id = []
 
             for k,v in new_tests.items():
