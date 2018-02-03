@@ -24,5 +24,8 @@ urlpatterns = [
     url(r'studentTopicWiseTest/$',views.student_select_topicTest,
         name='studentTopicWiseTest'),
     url(r'downloadResult/$',views.teacher_download_result,name='downloadResult'),
+    url(r'all_tests/$',views.student_moreTests,
+        name='studentMoreTests'),
+
 
 ]

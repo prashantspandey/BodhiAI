@@ -1046,7 +1046,7 @@ class Studs:
 # Tests that are not taken and return a dictionary with test with it's
 # subject,topics,number of questions and teacher name
 
-    def toTake_Tests(self):
+    def toTake_Tests(self,num_tests,allTests = False):
         if self.institution == 'School':
            pass
         elif self.institution == 'SSC':
@@ -1073,7 +1073,10 @@ class Studs:
                     topics = list(unique_everseen(topics))
                     new_tests[i.id] =\
                             {'subject':i.sub,'topics':topics,'num_questions':count_quest,'creator':teacher.name}
-            return new_tests
+            if allTests:
+                return new_tests
+            else:
+                return {k:new_tests[k] for k in list(new_tests)[:int(num_tests)]}
 
             
             
@@ -2024,6 +2027,41 @@ class Studs:
                 return 0
 
 
+# gets marks of all the tests taken by student to be displayed on home page
+    def test_information(self,subjects):
+        multiple_marks = SSCOnlineMarks.objects.filter(test__sub =
+                                                           'SSCMultipleSections',student=self.profile)
+
+        teacher_name = {}
+        subject_marks = {} 
+        for sub in subjects:
+            teacher_name[sub.name] = sub.teacher
+            # get all the marks objects subjectwise
+            marks = SSCOnlineMarks.objects.filter(test__sub = sub.name,student =
+                                                 self.profile).order_by('testTaken')
+            if len(marks) >0:
+                one_marks = []
+                time = []
+                # add date and marks to a dictionary with index subject
+                for i in marks:
+                    try:
+                        one_marks.append(float(i.marks)/float(i.test.max_marks)*100)
+                    except Exception as e:
+                        print(str(e))
+                        one_marks.append(float(0))
+                    time.append(i.testTaken)
+                    subject_marks[sub.name] = {'marks':one_marks,'time':time}
+            if len(multiple_marks) > 0:
+                multiple_one_marks = []
+                multiple_time = []
+                # add date and marks to a dictionary with index
+                # subject(multiple sections)
+                for i in multiple_marks:
+                    multiple_one_marks.append(float(i.marks)/float(i.test.max_marks)*100)
+                    multiple_time.append(i.testTaken)
+                    subject_marks['SSCMultipleSections'] =\
+                    {'marks':multiple_one_marks,'time':multiple_time}
+        return subject_marks
 
 
 

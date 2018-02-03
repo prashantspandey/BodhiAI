@@ -87,330 +87,6 @@ def home(request):
             profile = user.student
             storage = messages.get_messages(request)
             me = Studs(request.user)
-            subjects = me.my_subjects_names()
-
-#------------------------------------------------------------
-            # testing for AI
-            #trial_ai(request)
-            #school = School.objects.get(name='Swami Reasoning World')
-            #student = Student.objects.filter(school = school)
-            #all_categories = []
-            #student_accuracy = []
-            #acc_list_all = []
-            #acc_cat_all = []
-            #stu_id_all = []
-            
-            #for i in student:
-            #    total_right = []
-            #    total_wrong = []
-            #    subTest = SSCKlassTest.objects.filter(testTakers = i,sub =
-            #                                          'General-Intelligence')
-            #    right = 0
-            #    wrong = 0
-            #    category_right = []
-            #    category_wrong = []
-            #    for j in subTest:
-            #        onlineMarks = SSCOnlineMarks.objects.filter(test =
-            #                                                j,student =
-            #                                                i)
-            #        
-            #        for k in onlineMarks:
-            #            right = right + len(k.rightAnswers)
-            #            wrong = wrong + len(k.wrongAnswers)
-            #            for quest in k.test.sscquestions_set.all():
-            #                for ch in quest.choices_set.all():
-            #                    if ch.id in k.rightAnswers:
-            #                        category_right.append(quest.topic_category)
-
-            #                    if ch.id in k.wrongAnswers:
-            #                        category_wrong.append(quest.topic_category)
-
-            #            
-            #    category_right = np.array(category_right)
-            #    category_wrong = np.array(category_wrong)
-            #    unique,counts = np.unique(category_right,return_counts = True)
-            #    right_category = np.asarray((unique,counts)).T
-            #    unique,counts = np.unique(category_wrong,return_counts = True)
-            #    wrong_category = np.asarray((unique,counts)).T
-            #    print(right_category,wrong_category)
-            #    acc_list = []
-            #    acc_cat = []
-            #    stu_id = []
-            #    for ca,freq in right_category:
-            #        for cw,freqwr in wrong_category:
-            #            if ca == cw:
-            #                acc =\
-            #                ((int(freq)-int(freqwr))/(int(freq)+int(freqwr)))*100
-            #                acc_list.append(acc)
-            #                acc_cat.append(ca)
-            #                stu_id.append(i.id)
-            #    acc_list_all.extend(acc_list)
-            #    acc_cat_all.extend(acc_cat)
-            #    stu_id_all.extend(stu_id)
-            #    for cat_r in category_right:
-            #        all_categories.append(cat_r)
-            #    for cat_wr in category_wrong:
-            #        all_categories.append(cat_wr)
-            #acc_student = np.array([stu_id_all,acc_cat_all,acc_list_all])
-            #all_categories = list(unique_everseen(all_categories))
-            #print(all_categories)
-            #teach = Teacher.objects.get(school = school)
-            #all_questions = []
-            #all_std = []
-            #for stu in student:
-            #    questions = []
-            #    std =[]
-            #    online_marks =SSCOnlineMarks.objects.filter(student=stu)
-            #    for om in online_marks:
-            #        for q in om.test.sscquestions_set.all():
-            #            questions.append(q)
-            #    count = len(questions)
-            #    for i in range(count):
-            #        std.append(stu)
-            #    all_std.extend(std)
-            #    
-            #    
-
-            #    if len(questions) != 0:
-            #        all_questions.extend(questions)
-            #        overall = list(zip(all_std,all_questions))
-            #overall = np.array(overall)
-            #print(overall.shape)
-            #quest_accuracy = []
-            #quest_skipped = []
-            #for i,k in overall:
-            #     
-            #    topic = k.topic_category
-            #    r_ans = 0
-            #    w_ans = 0
-            #    s_ans = 0
-
-            #    online_marks =\
-            #        SSCOnlineMarks.objects.filter(test__sscquestions=k,test__creator=
-            #                                     teach.teacheruser)
-
-            #    for qid in online_marks:
-            #        if k.id in qid.skippedAnswers:
-            #            s_ans = s_ans + 1
-            #        else:
-            #            for ch in k.choices_set.all():
-            #                if ch.id in qid.rightAnswers:
-            #                    r_ans = r_ans + 1
-            #                if ch.id in qid.wrongAnswers:
-            #                    w_ans = w_ans + 1
-            #    try:
-            #        accuracy = ((r_ans-w_ans)/(r_ans+w_ans))*100
-            #        print('%s--%s---%s---%s----%s'
-            #              %(k.id,accuracy,s_ans,r_ans,w_ans))
-            #    except:
-            #        accuracy = None
-            #    quest_accuracy.append(accuracy)
-            #    quest_skipped.append(s_ans)
-            #quest_accuracy = np.array(quest_accuracy)
-            #quest_skipped = np.array(quest_skipped)
-            #overall_2 =\
-            #np.array([overall[:,0],overall[:,1],quest_accuracy,quest_skipped])
-            #overall_2 = np.transpose(overall_2)
-            #student_accuracy = np.array(acc_student)
-            #student_accuracy = np.transpose(student_accuracy)
-            #num = 0
-            #for stu,quest,acc,ski in overall_2:
-            #    num = num +1
-            #    for s,c,a in student_accuracy:
-            #        
-            #        if int(stu.id) == int(s) and quest.topic_category == c:
-            #            print('%s--%s-- %s---%s---%s---%s'
-            #                  %(num,stu.id,quest.topic_category,acc,a,ski))
-            #predicament = []
-            #stu_id = []
-            #q_id = []
-            #for stu,quest in overall_2[:,[0,1]]:
-            #    stu_id.append(stu.id)
-            #    q_id.append(quest.id)
-            #    online_marks = SSCOnlineMarks.objects.filter(student =
-            #                                                 stu,test__sscquestions
-            #                                                 = quest)
-            #    for om in online_marks:
-            #        if quest.id in om.skippedAnswers:
-            #            predicament.append('S')
-            #        for ch in quest.choices_set.all():
-            #            if ch.id in om.rightAnswers:
-            #                predicament.append('R')
-            #            if ch.id in om.wrongAnswers:
-            #                predicament.append('W')
-            #predicament = np.array(predicament)
-            #stu_id = np.array(stu_id)
-            #q_id = np.array(q_id)
-            #pred = list(zip(stu_id,predicament,q_id))
-
-            #pred = np.array(pred)
-            #print(pred[:10])
-            #print(pred.shape)
-            #st_final = []
-            #qu_final = []
-            #qu_cat_fianl = []
-            #for st in overall_2[:,0]:
-            #    st_final.append(st.id)
-            #for qu in overall_2[:,1]:
-            #    qu_final.append(qu.id)
-            #    qu_cat_fianl.append(qu.topic_category)
-            #acc_student = np.transpose(acc_student)
-
-            #print('%s-- ac student' %acc_student)
-            #final =\
-            #list(zip(st_final,qu_final,qu_cat_fianl,overall_2[:,2],overall_2[:,3],predicament))
-            #final = np.array(final)
-            #st_accu = []
-            #n=0
-            #nu = 0
-            #for st,qu,cat,tacc,sk,pr in final:
-            #    n = n +1
-            #    for s,c,a in acc_student:
-            #        if int(st) == int(s) and cat == c:
-            #            nu = nu + 1
-            #            print('%s-- %s-----%s---%s' %(n,nu,a,c))
-            #            st_accu.append(a)
-            #temp =[]
-            #no_ids = []
-            #unique,counts = np.unique(st_final,return_counts = True)
-            #unique_stu = np.asarray((unique,counts)).T
-            #for s in unique_stu[:,0]:
-            #    if s in stu_id_all:
-            #        temp.append('yes')
-            #    else:
-            #        temp.append('no')
-            #        no_ids.append(s)
-            #        print(s)
-            #right_quid = []
-            #quid = []
-            #ls_id = []
-            #acc_list = []
-            ##for s,q,c,qa,qsk,pre in final:
-            ##    marks =\
-            ##    SSCOnlineMarks.objects.filter(student=stud)
-            ##    if len(marks) == 0:
-            ##        acc_list.append(0)
-            ##    for ma in marks:
-            ##        right = 0
-            ##        wrong = 0
-            ##        for quest in ma.test.sscquestions_set.all():
-            ##            if quest.topic_category == c:
-            ##                for ch in quest.choices_set.all():
-            ##                    if ch.id in ma.rightAnswers:
-            ##                        right = right + 1
-            ##                    if ch.id in ma.wrongAnswers:
-            ##                        wrong += 1
-            ##                try:
-            ##                    acc = ((right-wrong)/(right + wrong)*100)
-            ##                except:
-            ##                    acc = 0
-            ##            else:
-            ##                continue
-            ##        quid.append(quest.id)
-            ##        acc_list.append(acc)
-            ##        ls_id.append(st)
-
-            #lost_students = list(zip(ls_id,quid,acc_list))
-            #lost_students = np.array(lost_students)
-            #print(lost_students)
-            #print(lost_students.shape)
-            #
-
-
-
-
-
-            #                   
-
-
-            #unique,counts = np.unique(temp,return_counts = True)
-            #unique_stu2 = np.asarray((unique,counts)).T
-            #print(unique_stu2)
-       
-            #print(len(new_list))
-            #new_list = np.array(new_list)
-            #final_2 =\
-            #list(zip([st_final,qu_final,qu_cat_fianl,overall_2[:,2],overall_2[:,3],new_list,predicament]))
-            #final_2 = np.array(final_2)
-            #final_2 = np.transpose(final_2)
-
-            #print(final)
-            #print(final_2.shape)
-            #print(len(st_accu))
-
-
-
-            #with open('bodhidata.pkl','wb') as fi:
-            #    pickle.dump(final,fi)
-
-            
-
-                                
-                                
-
-
-
-
-
- 
-                
-            #for i in all_categories:
-            #    quests = SSCquestions.objects.filter(section_category =
-            #                                         'General-Intelligence',topic_category =
-            #                                         i)
-            #    print('%s quests len---%s topic' %(len(quests),i))
-            #    for j in quests:
-            #        r_ans = 0
-            #        w_ans = 0
-            #        s_ans = 0
-
-            #        online_marks =\
-            #            SSCOnlineMarks.objects.filter(test__sscquestions=j,test__creator=
-            #                                         teach.teacheruser)
-
-            #        if len(online_marks) != 0:
-            #            for qid in online_marks:
-            #                if j.id in qid.skippedAnswers:
-            #                    s_ans = s_ans + 1
-            #                else:
-            #                    for ch in j.choices_set.all():
-            #                        if ch.id in qid.rightAnswers:
-            #                            r_ans = r_ans + 1
-            #                        if ch.id in qid.wrongAnswers:
-            #                            w_ans = w_ans + 1
-            #        try:
-            #            accuracy = ((r_ans-w_ans)/(r_ans+w_ans))*100
-            #            print('%s--%s---%s' %(j.id,accuracy,s_ans))
-            #        except:
-            #            accuracy = None
-            #            print('%s--%s---%s' %(j.id,accuracy,s_ans))
-
-
-                
-
-
-
-
-            #print('%s - tests taken' %len(online_marks))
-            #tests = []
-            #for i in online_marks:
-            #    tests.append(i.test)
-            #quests = []
-            #for n,i in enumerate(tests):
-            #    for q in i.sscquestions_set.all():
-            #        quests.append(q)
-            #for i in quests:
-            #    print(i.text)
-
-                
-                
-
-
-
-
-
-#-------------------------------------------------------------
-
 
             # if B2C customer then add tests  to profile
             if profile.school.name == 'BodhiAI':
@@ -427,122 +103,14 @@ def home(request):
                 
                 me.subjects_OnlineTest()
             subjects = user.student.subject_set.all()
-#-----------------------------------------
 
-
-
-            teacher_name = {}
-            subject_marks = {} 
-            # check for marks objects of multiple sections
-            multiple_marks = SSCOnlineMarks.objects.filter(test__sub =
-                                                           'SSCMultipleSections',student=profile)
-            
-            for sub in subjects:
-                teacher_name[sub.name] = sub.teacher
-                # get all the marks objects subjectwise
-                marks = SSCOnlineMarks.objects.filter(test__sub = sub.name,student =
-                                                     profile)
-                if marks:
-                    one_marks = []
-                    time = []
-                    # add date and marks to a dictionary with index subject
-                    for i in marks:
-                        try:
-                            one_marks.append(float(i.marks)/float(i.test.max_marks)*100)
-                        except Exception as e:
-                            print(str(e))
-                            one_marks.append(float(0))
-                        time.append(i.testTaken)
-                        subject_marks[sub.name] = {'marks':one_marks,'time':time}
-                if multiple_marks:
-                    multiple_one_marks = []
-                    multiple_time = []
-                    # add date and marks to a dictionary with index
-                    # subject(multiple sections)
-                    for i in multiple_marks:
-                        multiple_one_marks.append(float(i.marks)/float(i.test.max_marks)*100)
-                        multiple_time.append(i.testTaken)
-                        subject_marks['SSCMultipleSections'] =\
-                        {'marks':multiple_one_marks,'time':multiple_time}
-#-----------------------------------------
+            # gets marks of all the tests taken by student to be displayed on home page
+            subject_marks = me.test_information(subjects)
 
            # get new tests to take (practise tests on the student page) 
+            new_tests = me.toTake_Tests(6)
 
-
-            new_tests = me.toTake_Tests()
-
-#----------------------------------------
-             #Get all the student marks
-            try:
-                mathst1,mathst2,mathst3,mathshy,mathst4,mathspredhy =\
-                me.readmarks('Maths')
-            except:
-                mathst1 = mathst2 = mathst3 = mathshy = mathst4 = mathspredhy=None
-            try:
-                hindit1,hindit2,hindit3,hindihy,hindit4,hindipredhy =\
-                me.readmarks('Hindi')
-            except:
-                hindit1 = hindit2 = hindit3 = hindihy = hindit4 = hindipredhy=None
-            try:
-                englisht1,englisht2,englisht3,englishhy,englisht4,englishpredhy =\
-                me.readmarks('English')
-            except:
-                englisht1 = englisht2 = englisht3 = englishhy = englisht4 =\
-                englishpredhy=None
-            try:
-                sciencet1,sciencet2,sciencet3,sciencehy,sciencet4,sciencepredhy =\
-                me.readmarks('Science')
-            except:
-                sciencet1 = sciencet2 = sciencet3 = sciencehy = sciencet4 =\
-                sciencepredhy=None
-
-            # check for announcements in past 24 hours
-            startdate = date.today()
-            enddate = startdate - timedelta(days=1)
-            try:
-                my_announcements = Announcement.objects.filter(listener =
-                                                           profile,date__range=[enddate,startdate])
-            except:
-                my_announcements = None
-
-            # find the predicted marks
-            try:
-                hindipredhy_raw = \
-                me.hindi_3testhyprediction(hindit1,hindit2,hindit3,me.get_dob(),me.get_section())
-                hindipredhy = me.predictionConvertion(hindipredhy_raw)
-            except:
-                pass
-
-            try:
-                mathspredhy_raw = \
-                me.hindi_3testhyprediction(mathst1,mathst2,mathst3,me.get_dob(),me.get_section())
-                mathspredhy = me.predictionConvertion(mathspredhy_raw)
-            except:
-                pass
-            try:
-                englishpredhy_raw = \
-                me.english_3testhyprediction(englisht1,englisht2,englisht3,me.get_dob(),me.get_section())
-                englishpredhy = me.predictionConvertion(englishpredhy_raw)
-            except:
-                pass
-            try:
-                sciencepredhy_raw = \
-                me.science_3testhyprediction(sciencet1,sciencet2,sciencet3,me.get_dob(),me.get_section())
-                sciencepredhy = me.predictionConvertion(sciencepredhy_raw)
-            except:
-                pass
-            # sending all values to template
-            context = {'profile': profile, 'subjects': subjects,
-                       'hindihy_prediction': hindipredhy, 'mathshy_prediction': mathspredhy,
-                       'englishhy_prediction': englishpredhy,
-                       'sciencehy_prediction': sciencepredhy,
-                       'maths1': mathst1, 'maths2': mathst2, 'maths3': mathst3,
-                       'maths4': mathst4, 'hindi1': hindit1, 'hindi2': hindit2,
-                       'hindi3': hindit3, 'hindi4': hindit4, 'english1': englisht1,
-                       'english2': englisht2, 'english3': englisht3, 'english4': englisht4,
-                       'science1': sciencet1, 'science2': sciencet2,
-                       'science3': sciencet3, 'science4':
-                       sciencet4,'announcements':my_announcements,'message':storage}
+            # sending all values to template based on type of student
             if me.profile.school.name == "BodhiAI":
                 context = \
                         {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests,'message':storage}
@@ -625,7 +193,15 @@ def student_select_topicTest(request):
             context = {'newTests':ntest}
             return render(request,'basicinformation/studentInstituteTopicTests.html',context)
 
-
+def student_moreTests(request):
+    user = request.user
+    if user.is_authenticated:
+        if 'homePageMoreTests' in request.GET:
+            me = Studs(user)
+            new_tests = me.toTake_Tests(0,allTests = True)
+            print(new_tests)
+            context = {'newTests':new_tests}
+            return render(request,'basicinformation/studentMoreTests.html',context)
 
 
 def student_self_analysis(request):
@@ -2107,5 +1683,397 @@ def check_add_entities():
                 pass
             else:
                 print('%s ---%s' %(n,ph))
+
+
+def old_student_marks():
+             #Get all the student marks
+            try:
+                mathst1,mathst2,mathst3,mathshy,mathst4,mathspredhy =\
+                me.readmarks('Maths')
+            except:
+                mathst1 = mathst2 = mathst3 = mathshy = mathst4 = mathspredhy=None
+            try:
+                hindit1,hindit2,hindit3,hindihy,hindit4,hindipredhy =\
+                me.readmarks('Hindi')
+            except:
+                hindit1 = hindit2 = hindit3 = hindihy = hindit4 = hindipredhy=None
+            try:
+                englisht1,englisht2,englisht3,englishhy,englisht4,englishpredhy =\
+                me.readmarks('English')
+            except:
+                englisht1 = englisht2 = englisht3 = englishhy = englisht4 =\
+                englishpredhy=None
+            try:
+                sciencet1,sciencet2,sciencet3,sciencehy,sciencet4,sciencepredhy =\
+                me.readmarks('Science')
+            except:
+                sciencet1 = sciencet2 = sciencet3 = sciencehy = sciencet4 =\
+                sciencepredhy=None
+
+            # check for announcements in past 24 hours
+            startdate = date.today()
+            enddate = startdate - timedelta(days=1)
+            try:
+                my_announcements = Announcement.objects.filter(listener =
+                                                           profile,date__range=[enddate,startdate])
+            except:
+                my_announcements = None
+
+            # find the predicted marks
+            try:
+                hindipredhy_raw = \
+                me.hindi_3testhyprediction(hindit1,hindit2,hindit3,me.get_dob(),me.get_section())
+                hindipredhy = me.predictionConvertion(hindipredhy_raw)
+            except:
+                pass
+
+            try:
+                mathspredhy_raw = \
+                me.hindi_3testhyprediction(mathst1,mathst2,mathst3,me.get_dob(),me.get_section())
+                mathspredhy = me.predictionConvertion(mathspredhy_raw)
+            except:
+                pass
+            try:
+                englishpredhy_raw = \
+                me.english_3testhyprediction(englisht1,englisht2,englisht3,me.get_dob(),me.get_section())
+                englishpredhy = me.predictionConvertion(englishpredhy_raw)
+            except:
+                pass
+            try:
+                sciencepredhy_raw = \
+                me.science_3testhyprediction(sciencet1,sciencet2,sciencet3,me.get_dob(),me.get_section())
+                sciencepredhy = me.predictionConvertion(sciencepredhy_raw)
+            except:
+                pass
+            context = {'profile': profile, 'subjects': subjects,
+                       'hindihy_prediction': hindipredhy, 'mathshy_prediction': mathspredhy,
+                       'englishhy_prediction': englishpredhy,
+                       'sciencehy_prediction': sciencepredhy,
+                       'maths1': mathst1, 'maths2': mathst2, 'maths3': mathst3,
+                       'maths4': mathst4, 'hindi1': hindit1, 'hindi2': hindit2,
+                       'hindi3': hindit3, 'hindi4': hindit4, 'english1': englisht1,
+                       'english2': englisht2, 'english3': englisht3, 'english4': englisht4,
+                       'science1': sciencet1, 'science2': sciencet2,
+                       'science3': sciencet3, 'science4':
+                       sciencet4,'announcements':my_announcements,'message':storage}
+def some_AI_function():
+            # testing for AI
+            #trial_ai(request)
+            #school = School.objects.get(name='Swami Reasoning World')
+            #student = Student.objects.filter(school = school)
+            #all_categories = []
+            #student_accuracy = []
+            #acc_list_all = []
+            #acc_cat_all = []
+            #stu_id_all = []
+            
+            #for i in student:
+            #    total_right = []
+            #    total_wrong = []
+            #    subTest = SSCKlassTest.objects.filter(testTakers = i,sub =
+            #                                          'General-Intelligence')
+            #    right = 0
+            #    wrong = 0
+            #    category_right = []
+            #    category_wrong = []
+            #    for j in subTest:
+            #        onlineMarks = SSCOnlineMarks.objects.filter(test =
+            #                                                j,student =
+            #                                                i)
+            #        
+            #        for k in onlineMarks:
+            #            right = right + len(k.rightAnswers)
+            #            wrong = wrong + len(k.wrongAnswers)
+            #            for quest in k.test.sscquestions_set.all():
+            #                for ch in quest.choices_set.all():
+            #                    if ch.id in k.rightAnswers:
+            #                        category_right.append(quest.topic_category)
+
+            #                    if ch.id in k.wrongAnswers:
+            #                        category_wrong.append(quest.topic_category)
+
+            #            
+            #    category_right = np.array(category_right)
+            #    category_wrong = np.array(category_wrong)
+            #    unique,counts = np.unique(category_right,return_counts = True)
+            #    right_category = np.asarray((unique,counts)).T
+            #    unique,counts = np.unique(category_wrong,return_counts = True)
+            #    wrong_category = np.asarray((unique,counts)).T
+            #    print(right_category,wrong_category)
+            #    acc_list = []
+            #    acc_cat = []
+            #    stu_id = []
+            #    for ca,freq in right_category:
+            #        for cw,freqwr in wrong_category:
+            #            if ca == cw:
+            #                acc =\
+            #                ((int(freq)-int(freqwr))/(int(freq)+int(freqwr)))*100
+            #                acc_list.append(acc)
+            #                acc_cat.append(ca)
+            #                stu_id.append(i.id)
+            #    acc_list_all.extend(acc_list)
+            #    acc_cat_all.extend(acc_cat)
+            #    stu_id_all.extend(stu_id)
+            #    for cat_r in category_right:
+            #        all_categories.append(cat_r)
+            #    for cat_wr in category_wrong:
+            #        all_categories.append(cat_wr)
+            #acc_student = np.array([stu_id_all,acc_cat_all,acc_list_all])
+            #all_categories = list(unique_everseen(all_categories))
+            #print(all_categories)
+            #teach = Teacher.objects.get(school = school)
+            #all_questions = []
+            #all_std = []
+            #for stu in student:
+            #    questions = []
+            #    std =[]
+            #    online_marks =SSCOnlineMarks.objects.filter(student=stu)
+            #    for om in online_marks:
+            #        for q in om.test.sscquestions_set.all():
+            #            questions.append(q)
+            #    count = len(questions)
+            #    for i in range(count):
+            #        std.append(stu)
+            #    all_std.extend(std)
+            #    
+            #    
+
+            #    if len(questions) != 0:
+            #        all_questions.extend(questions)
+            #        overall = list(zip(all_std,all_questions))
+            #overall = np.array(overall)
+            #print(overall.shape)
+            #quest_accuracy = []
+            #quest_skipped = []
+            #for i,k in overall:
+            #     
+            #    topic = k.topic_category
+            #    r_ans = 0
+            #    w_ans = 0
+            #    s_ans = 0
+
+            #    online_marks =\
+            #        SSCOnlineMarks.objects.filter(test__sscquestions=k,test__creator=
+            #                                     teach.teacheruser)
+
+            #    for qid in online_marks:
+            #        if k.id in qid.skippedAnswers:
+            #            s_ans = s_ans + 1
+            #        else:
+            #            for ch in k.choices_set.all():
+            #                if ch.id in qid.rightAnswers:
+            #                    r_ans = r_ans + 1
+            #                if ch.id in qid.wrongAnswers:
+            #                    w_ans = w_ans + 1
+            #    try:
+            #        accuracy = ((r_ans-w_ans)/(r_ans+w_ans))*100
+            #        print('%s--%s---%s---%s----%s'
+            #              %(k.id,accuracy,s_ans,r_ans,w_ans))
+            #    except:
+            #        accuracy = None
+            #    quest_accuracy.append(accuracy)
+            #    quest_skipped.append(s_ans)
+            #quest_accuracy = np.array(quest_accuracy)
+            #quest_skipped = np.array(quest_skipped)
+            #overall_2 =\
+            #np.array([overall[:,0],overall[:,1],quest_accuracy,quest_skipped])
+            #overall_2 = np.transpose(overall_2)
+            #student_accuracy = np.array(acc_student)
+            #student_accuracy = np.transpose(student_accuracy)
+            #num = 0
+            #for stu,quest,acc,ski in overall_2:
+            #    num = num +1
+            #    for s,c,a in student_accuracy:
+            #        
+            #        if int(stu.id) == int(s) and quest.topic_category == c:
+            #            print('%s--%s-- %s---%s---%s---%s'
+            #                  %(num,stu.id,quest.topic_category,acc,a,ski))
+            #predicament = []
+            #stu_id = []
+            #q_id = []
+            #for stu,quest in overall_2[:,[0,1]]:
+            #    stu_id.append(stu.id)
+            #    q_id.append(quest.id)
+            #    online_marks = SSCOnlineMarks.objects.filter(student =
+            #                                                 stu,test__sscquestions
+            #                                                 = quest)
+            #    for om in online_marks:
+            #        if quest.id in om.skippedAnswers:
+            #            predicament.append('S')
+            #        for ch in quest.choices_set.all():
+            #            if ch.id in om.rightAnswers:
+            #                predicament.append('R')
+            #            if ch.id in om.wrongAnswers:
+            #                predicament.append('W')
+            #predicament = np.array(predicament)
+            #stu_id = np.array(stu_id)
+            #q_id = np.array(q_id)
+            #pred = list(zip(stu_id,predicament,q_id))
+
+            #pred = np.array(pred)
+            #print(pred[:10])
+            #print(pred.shape)
+            #st_final = []
+            #qu_final = []
+            #qu_cat_fianl = []
+            #for st in overall_2[:,0]:
+            #    st_final.append(st.id)
+            #for qu in overall_2[:,1]:
+            #    qu_final.append(qu.id)
+            #    qu_cat_fianl.append(qu.topic_category)
+            #acc_student = np.transpose(acc_student)
+
+            #print('%s-- ac student' %acc_student)
+            #final =\
+            #list(zip(st_final,qu_final,qu_cat_fianl,overall_2[:,2],overall_2[:,3],predicament))
+            #final = np.array(final)
+            #st_accu = []
+            #n=0
+            #nu = 0
+            #for st,qu,cat,tacc,sk,pr in final:
+            #    n = n +1
+            #    for s,c,a in acc_student:
+            #        if int(st) == int(s) and cat == c:
+            #            nu = nu + 1
+            #            print('%s-- %s-----%s---%s' %(n,nu,a,c))
+            #            st_accu.append(a)
+            #temp =[]
+            #no_ids = []
+            #unique,counts = np.unique(st_final,return_counts = True)
+            #unique_stu = np.asarray((unique,counts)).T
+            #for s in unique_stu[:,0]:
+            #    if s in stu_id_all:
+            #        temp.append('yes')
+            #    else:
+            #        temp.append('no')
+            #        no_ids.append(s)
+            #        print(s)
+            #right_quid = []
+            #quid = []
+            #ls_id = []
+            #acc_list = []
+            ##for s,q,c,qa,qsk,pre in final:
+            ##    marks =\
+            ##    SSCOnlineMarks.objects.filter(student=stud)
+            ##    if len(marks) == 0:
+            ##        acc_list.append(0)
+            ##    for ma in marks:
+            ##        right = 0
+            ##        wrong = 0
+            ##        for quest in ma.test.sscquestions_set.all():
+            ##            if quest.topic_category == c:
+            ##                for ch in quest.choices_set.all():
+            ##                    if ch.id in ma.rightAnswers:
+            ##                        right = right + 1
+            ##                    if ch.id in ma.wrongAnswers:
+            ##                        wrong += 1
+            ##                try:
+            ##                    acc = ((right-wrong)/(right + wrong)*100)
+            ##                except:
+            ##                    acc = 0
+            ##            else:
+            ##                continue
+            ##        quid.append(quest.id)
+            ##        acc_list.append(acc)
+            ##        ls_id.append(st)
+
+            #lost_students = list(zip(ls_id,quid,acc_list))
+            #lost_students = np.array(lost_students)
+            #print(lost_students)
+            #print(lost_students.shape)
+            #
+
+
+
+
+
+            #                   
+
+
+            #unique,counts = np.unique(temp,return_counts = True)
+            #unique_stu2 = np.asarray((unique,counts)).T
+            #print(unique_stu2)
+       
+            #print(len(new_list))
+            #new_list = np.array(new_list)
+            #final_2 =\
+            #list(zip([st_final,qu_final,qu_cat_fianl,overall_2[:,2],overall_2[:,3],new_list,predicament]))
+            #final_2 = np.array(final_2)
+            #final_2 = np.transpose(final_2)
+
+            #print(final)
+            #print(final_2.shape)
+            #print(len(st_accu))
+
+
+
+            #with open('bodhidata.pkl','wb') as fi:
+            #    pickle.dump(final,fi)
+
+            
+
+                                
+                                
+
+
+
+
+
+ 
+                
+            #for i in all_categories:
+            #    quests = SSCquestions.objects.filter(section_category =
+            #                                         'General-Intelligence',topic_category =
+            #                                         i)
+            #    print('%s quests len---%s topic' %(len(quests),i))
+            #    for j in quests:
+            #        r_ans = 0
+            #        w_ans = 0
+            #        s_ans = 0
+
+            #        online_marks =\
+            #            SSCOnlineMarks.objects.filter(test__sscquestions=j,test__creator=
+            #                                         teach.teacheruser)
+
+            #        if len(online_marks) != 0:
+            #            for qid in online_marks:
+            #                if j.id in qid.skippedAnswers:
+            #                    s_ans = s_ans + 1
+            #                else:
+            #                    for ch in j.choices_set.all():
+            #                        if ch.id in qid.rightAnswers:
+            #                            r_ans = r_ans + 1
+            #                        if ch.id in qid.wrongAnswers:
+            #                            w_ans = w_ans + 1
+            #        try:
+            #            accuracy = ((r_ans-w_ans)/(r_ans+w_ans))*100
+            #            print('%s--%s---%s' %(j.id,accuracy,s_ans))
+            #        except:
+            #            accuracy = None
+            #            print('%s--%s---%s' %(j.id,accuracy,s_ans))
+
+
+                
+
+
+
+
+            #print('%s - tests taken' %len(online_marks))
+            #tests = []
+            #for i in online_marks:
+            #    tests.append(i.test)
+            #quests = []
+            #for n,i in enumerate(tests):
+            #    for q in i.sscquestions_set.all():
+            #        quests.append(q)
+            #for i in quests:
+            #    print(i.text)
+    pass
+                
+                
+
+
+
+
 
 

@@ -13,8 +13,8 @@
     <script>
 	{% for topics,wrong in freq %}
 $(document).ready(function () {
-	var ctx{{topics|slice:"-3:-1"}} = document.getElementById("myChart{{topics|slice:"-3:-1"}}");
-	 var myChart1 = new Chart(ctx{{topics|slice:"-3:-1"}}, {
+	var ctx{{topics|slice:"-2:-1"}} = document.getElementById('myChart{{topics|slice:"-2:-1"}}');
+	 var myChart1 = new Chart(ctx{{topics|slice:"-2:-1"}}, {
 	type: 'doughnut',
 	data: {
 		labels: ["In-correct/Not Attempted %","Correct %"],
@@ -149,7 +149,7 @@ var pointBackgroundColorsTiming = [];
 	<h2 style="text-align:center;"> {{topics}} </h2>
 	<div>
 		
-	<canvas  id="myChart{{topics|slice:"-3:-1"}}"  height='300'  >
+	<canvas  id="myChart{{topics|slice:"-2:-1"}}"  height='300'  >
 </canvas>
 <hr>
 	</div>	

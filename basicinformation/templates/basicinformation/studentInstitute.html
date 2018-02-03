@@ -36,8 +36,8 @@ $('.thumbnail').on('click',function(){
 
 	
 
-	     var ctx{{key|slice:"-4:-1"}} = document.getElementById("myChart{{key|slice:"-4:-1"}}");
-	      myChart = new Chart(ctx{{key|slice:"-4:-1"}}, {
+	     var ctx{{key|slice:"-6:-1"}} = document.getElementById("myChart{{key|slice:"-6:-1"}}");
+	      myChart = new Chart(ctx{{key|slice:"-6:-1"}}, {
             type: 'line',
             data: {
 		    labels: [{% for da in value.time%}'{{da}}',{%endfor%}],
@@ -166,6 +166,7 @@ $('.thumbnail').on('click',function(){
 <div class = 'hidden' id = 'topicTests' >
 	{% include 'basicinformation/studentInstituteTopicTests.html' %}
 </div>
+	<div>
 {% for key,value in newTests.items %}
 	  <div class="col-sm-2 col-md-2 animated zoomIn" id ='newTests'>
 	<div class="thumbnail ">
@@ -193,7 +194,15 @@ $('.thumbnail').on('click',function(){
 	{%endfor%}
 
 </div>
+
 </div>
+			<div class='text-center'>
+				<form action = "{% url 'basic:studentMoreTests' %}" method='get'>
+					<button type="submit" name='homePageMoreTests' class="btn btn-success"  >More Tests..</button>
+				</form>
+			</div>
+			</div>
+
 <hr>
 <br>
 <div class='col-md-12'>
@@ -203,7 +212,7 @@ $('.thumbnail').on('click',function(){
  <div class=" col-md-4 col-md-offset-1  col-xs-12" id='graphContainer'   >
 	 <h2 id='subjectName' class="text-center">{%if key == 'SSCMultipleSections' %} Complete Test {%else%} {{key}} {%endif%}</h2>
 <div id ='performanceChart'>
-<canvas  id="myChart{{key|slice:"-4:-1"}}"   height="400"></canvas>
+<canvas  id="myChart{{key|slice:"-6:-1"}}"   height="400"></canvas>
 </div>
 </div>
 {%endfor%}
