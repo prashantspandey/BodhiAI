@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'downloadResult/$',views.teacher_download_result,name='downloadResult'),
     url(r'all_tests/$',views.student_moreTests,
         name='studentMoreTests'),
-
+    
+    url(r'managementInformation/$',views.management_information,name='managementInformation'),
 
 ]

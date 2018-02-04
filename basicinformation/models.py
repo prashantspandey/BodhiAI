@@ -43,6 +43,7 @@ class Teacher(models.Model):
     name = models.CharField(max_length=200)
     experience = models.FloatField()
     school = models.ForeignKey(School,blank=True,null=True)
+    subBatch = models.CharField(max_length=5,null=True,blank=True)
     
 
     def __str__(self):

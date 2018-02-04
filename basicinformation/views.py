@@ -43,28 +43,17 @@ def home(request):
                 test_teachers[te] = {all_tests}
             new_test_teachers = {}
             for key,value in test_teachers.items():
-                print(key)
                 n_tests = []
                 for qs in value:
                     for te in qs:
                         if te.published <=\
                         datetime.strptime('2018-01-27','%Y-%m-%d').date():
-                            print('old test')
+                            pass
                         else:
                             n_tests.append(te)
                     new_test_teachers[key] = {'test':n_tests}
-            print(new_test_teachers)
-            #for key,value in test_teachers.items():
-            #    print(key)
-            #    print(type(value))
-            #    for k,v in value.items():
-            #        print(k)
-            #        for te in v:
-            #            if te.published <=\
-            #            datetime.strptime('2018-01-27','%Y-%m-%d').date():
-            #                print('old test')
-            #            else:
-            #                print(te.published)
+
+
             context =\
                     {'students':all_students,'teachers':all_teachers,'all_classes':klasses,'tests_created':new_test_teachers}
             return render(request,'basicinformation/managementHomePage.html',context)
@@ -868,25 +857,207 @@ def teacher_download_result(request):
 
         
 # functions for school management
-
-def management_homePage(request):
+def management_information(request):
     user = request.user
     if user.is_authenticated:
         if user.groups.filter(name='Management').exists():
-            all_students = Student.objects.filter(school =
-                                                  user.schoolManagement.school)
-            all_studs_list = []
-            all_klasses = []
-            for i in all_students:
-                all_studs_list.append(i)
-                all_klasses.append(i.klass.name)
-            all_klasses = list(unique_everseen(all_klasses))
-            num_classes = len(all_klasses)
+            if 'managementBatchid' in request.GET:
+               batchid = request.GET['managementBatchid']
+               teachers = Teacher.objects.filter(Q(school =\
+                                                  user.schoolmanagement.school) and
+               Q(subBatch = None))
+               if len(teachers) != 0:
+                   context = {'SubBatch':True,'batch':batchid}
+                   return\
+               render(request,'basicinformation/management_Information2.html',context)
+               else:
+                   tests = SSCKlassTest.objects.filter(klas__id = batchid)
+                   teachers = []
+                   for te in tests:
+                       teachers.append(te.creator)
+                   teachers = list(unique_everseen(teachers)) 
+                   context = {'teachers':teachers,'batch':batchid}
+                   return\
+                render(request,'basicinformation/management_Information3.html',context)
+            if 'managementChoice' in request.GET:
+                choiceandbatch = request.GET['managementChoice']
+                choice = choiceandbatch.split(',')[0]
+                batch_id = choiceandbatch.split(',')[1]
 
-            context =\
-            {'students':all_studs_list,'num_classes':num_classes,'all_classes':all_klasses}
-            return
-        render(request,'basicinformation/managementHomePage.html',context)
+                if choice == 'chbatch':
+
+                    context={'ho':'hello'} 
+                    return\
+                render(request,'basicinformation/management_Information3.html',context)
+                else:
+                   tests = SSCKlassTest.objects.filter(klas__id = batch_id)
+                   teachers = []
+                   for te in tests:
+                       teachers.append(te.creator)
+                   teachers = list(unique_everseen(teachers)) 
+                   context = {'teachers':teachers}
+
+                   return\
+                render(request,'basicinformation/management_Information3.html',context)
+            if 'managementTeacherid' in request.GET:
+                teacher_id = request.GET['managementTeacherid']
+                tests = SSCKlassTest.objects.filter(creator__id = teacher_id)
+                context = {'tests':tests}
+                return\
+            render(request,'basicinformation/management_Information4.html',context)
+            if 'managementTestid' in request.GET:
+                test_id = request.GET['managementTestid']
+                test = SSCKlassTest.objects.get(id= int(test_id))
+                teacher_user = test.creator
+                me = Teach(teacher_user)
+                online_marks = SSCOnlineMarks.objects.filter(test__id=test_id)
+                try:
+                    result_loader = SscTeacherTestResultLoader.objects.get(test__id = test_id)
+                    print(result_loader)
+                except Exception as e:
+                    print(str(e))
+
+                    result_loader = SscTeacherTestResultLoader()
+                    res_test = SSCKlassTest.objects.get(id=test_id)
+                    result_loader.test = res_test
+                    result_loader.teacher = me.profile
+                    max_marks = res_test.max_marks
+                    result_loader.average,result_loader.percentAverage =\
+                    me.online_findAverageofTest(test_id,percent='p')
+                    result_loader.grade_s,result_loader.grade_a,result_loader.grade_b,\
+                    result_loader.grade_c,result_loader.grade_d,\
+                    result_loader.grade_e,result_loader.grade_f,\
+                     = me.online_freqeucyGrades(test_id)
+                    skipped_loader = me.online_skippedQuestions(test_id)
+                    result_loader.skipped = list(skipped_loader[:,0])
+                    result_loader.skippedFreq = list(skipped_loader[:,1])
+                    problem_loader = me.online_problematicAreasperTest(test_id)
+                    result_loader.problemQuestions = list(problem_loader[:,0])
+                    result_loader.problemQuestionsFreq = list(problem_loader[:,1])
+                    freqAnswers = me.online_QuestionPercentage(test_id)
+                    freqAnswerQuest = freqAnswers[:,0]
+                    freqAnswersfreq = freqAnswers[:,1]
+                    result_loader.freqAnswersQuestions = list(freqAnswerQuest)
+                    result_loader.freqAnswersFreq = list(freqAnswersfreq)
+                    result_loader.save()
+                    for i in online_marks:
+                        result_loader.onlineMarks.add(i)
+                    result = me.generate_rankTable(test_id)
+                    try:
+                        result = result[result[:,3].argsort()]
+                    except:
+                        result = None
+                    context = {'om':
+                               online_marks,'test':result_loader.test,'average':result_loader.average
+                               ,'percentAverage':result_loader.percentAverage,'maxMarks':max_marks,
+                               'grade_s':result_loader.grade_s,'grade_a':result_loader.grade_a,'grade_b':result_loader.grade_b,'grade_c':result_loader.grade_c,
+                               'grade_d':result_loader.grade_d,'grade_e':result_loader.grade_e,'grade_f':result_loader.grade_f,
+                               'freq':freqAnswers,'sq':skipped_loader,'problem_quests':problem_loader,'ssc':True,'result':result}
+
+                    return\
+                    render(request,'basicinformation/management_Information5.html',context)
+                saved_marks = result_loader.onlineMarks.all()
+                if len(online_marks) == len(saved_marks):
+                    max_marks = result_loader.test.max_marks    
+                    pro_quests = result_loader.problemQuestions
+                    pro_freq  = result_loader.problemQuestionsFreq
+                    average = result_loader.average
+                    percent_average = result_loader.percentAverage
+                    problem_quests = list(zip(pro_quests,pro_freq))
+                    grade_s = result_loader.grade_s
+                    grade_a = result_loader.grade_a
+                    grade_b = result_loader.grade_b
+                    grade_c = result_loader.grade_c
+                    grade_d = result_loader.grade_d
+                    grade_e = result_loader.grade_e
+                    grade_f = result_loader.grade_f
+                    skipped_quests = result_loader.skipped
+                    skipped_freq = result_loader.skippedFreq
+                    sq = list(zip(skipped_quests,skipped_freq))
+                    freqQuests = result_loader.freqAnswersQuestions
+                    freqQuestsfreq = result_loader.freqAnswersFreq
+                    freq = list(zip(freqQuests,freqQuestsfreq))
+                    result = me.generate_rankTable(test_id)
+                    try:
+                        result = result[result[:,3].argsort()]
+                    except:
+                        result = None
+                    context = {'om':
+                               online_marks,'test':result_loader.test,'average':result_loader.average
+                               ,'percentAverage':result_loader.percentAverage,'maxMarks':max_marks,
+                               'grade_s':result_loader.grade_s,'grade_a':result_loader.grade_a,'grade_b':result_loader.grade_b,'grade_c':result_loader.grade_c,
+                               'grade_d':result_loader.grade_d,'grade_e':result_loader.grade_e,'grade_f':result_loader.grade_f,
+                               'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
+                    return render(request,
+                                  'basicinformation/management_Information5.html', context)
+
+                else:
+                    result = me.generate_rankTable(test_id)
+                    try:
+                        result = result[result[:,3].argsort()]
+                    except:
+                        result = None
+                    
+                    
+                    result_loader.average,result_loader.percentAverage =\
+                    me.online_findAverageofTest(test_id,percent='p')
+                    result_loader.grade_s,result_loader.grade_a,result_loader.grade_b,\
+                    result_loader.grade_c,result_loader.grade_d,\
+                    result_loader.grade_e,result_loader.grade_f,\
+                     = me.online_freqeucyGrades(test_id)
+                    skipped_loader = me.online_skippedQuestions(test_id)
+                    result_loader.skipped = list(skipped_loader[:,0])
+                    result_loader.skippedFreq = list(skipped_loader[:,1])
+                    problem_loader = me.online_problematicAreasperTest(test_id)
+                    result_loader.problemQuestions = list(problem_loader[:,0])
+                    result_loader.problemQuestionsFreq = list(problem_loader[:,1])
+                    freqAnswers = me.online_QuestionPercentage(test_id)
+                    freqAnswerQuest = freqAnswers[:,0]
+                    freqAnswersfreq = freqAnswers[:,1]
+                    result_loader.freqAnswersQuestions = list(freqAnswerQuest)
+                    result_loader.freqAnswersFreq = list(freqAnswersfreq)
+                    result_loader.save()
+                    max_marks = result_loader.test.max_marks
+                    for i in online_marks:
+                        result_loader.onlineMarks.add(i)
+                    context = {'om':
+                               online_marks,'test':result_loader.test,'average':result_loader.average
+                               ,'percentAverage':result_loader.percentAverage,'maxMarks':max_marks,
+                               'grade_s':result_loader.grade_s,'grade_a':result_loader.grade_a,'grade_b':result_loader.grade_b,'grade_c':result_loader.grade_c,
+                               'grade_d':result_loader.grade_d,'grade_e':result_loader.grade_e,'grade_f':result_loader.grade_f,
+                               'freq':freqAnswers,'sq':skipped_loader,'problem_quests':problem_loader,'ssc':True,'result':result}
+                    return render(request,
+                              'basicinformation/management_Information5.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               #batchid = request.GET['managementBatchid']
+               #tests = SSCKlassTest.objects.filter(klas__id = batchid)
+               #teachers = []
+               #for te in tests:
+               #    teachers.append(te.creator)
+               #teachers = list(unique_everseen(teachers)) 
+               #context = {'teachers':teachers}
+               #return\
+           #render(request,'basicinformation/management_Information2.html',context)
+
+            if 'managementTeacherid' in request.GET:
+                return HttpResponse('teacher')
+            klasses = klass.objects.filter(school=user.schoolmanagement.school)
+            context = {'klasses':klasses}
+            return\
+        render(request,'basicinformation/management_Information.html',context)
 
 
 
