@@ -1715,7 +1715,7 @@ def add_students(path_file,schoolName,production = False,swami=False,dummy=False
     if dummy == False:
         if production:
             df = \
-            pd.read_csv('/app/question_data/'+path_file,error_bad_lines =False)
+            pd.read_csv('/app/client_info/colonelDefence_Kuchaman/'+path_file,error_bad_lines =False)
         else:
             df =\
             pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/colonelDefence_Kuchaman/'+path_file,error_bad_lines=False )
