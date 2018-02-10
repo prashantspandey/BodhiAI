@@ -58,18 +58,21 @@ def home(request):
                     {'students':all_students,'teachers':all_teachers,'all_classes':klasses,'tests_created':new_test_teachers}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            add_teachers('teachers.csv','Colonel Defence Academy',production=True)
-            add_students('students.csv','Colonel Defence Academy',production=True)
-            #add_questions('Govindam Defence Academy')
+            #add_teachers('teachers.csv','Colonel Defence Academy',production=True)
+            #add_students('students.csv','Colonel Defence Academy',production=True)
+            #add_questions('Colonel Defence Academy','Defence-Physics')
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
-            #sheet_links =\
-            #['groupx06math.csv','groupx06physics.csv']
-            #add_to_database_questions(sheet_links,'Govindam Defence Academy',extra_info =
-            #                          True,onlyImage=True,production = True)
+            
+            sheet_links =\
+            ['1t1.csv','1t2.csv','2t1.csv','2t2.csv','3t1.csv','3t2.csv','9t2.csv','10t.csv','12t2.csv','13t2.csv','14t2.csv','15t2.csv','18t1.csv','18t2.csv','19t1.csv','19t2.csv','20t1.csv','23t1.csv','23t2.csv','24t1.csv','24t2.csv','25t1.csv','25t2.csv']
+            add_to_database_questions(sheet_links,'Colonel Defence\
+                                      Academy',onlyImage=True,production =\
+                                      True)
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
+            add_questions('Colonel Defence Academy','Defence-Physics')
             return HttpResponse('hello')
 
         if user.groups.filter(name='Students').exists():
@@ -1321,6 +1324,8 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
             new_questions.source = source
 
         new_questions.tier_category = '1'
+        new_questions.max_marks = int(1)
+        new_questions.negative_marks = 0.0
         if sectionType == 'English':
             new_questions.section_category = 'English'
         elif sectionType == 'Reasoning':
@@ -1330,9 +1335,9 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
         elif sectionType == 'GK':
             new_questions.section_category = 'General-Knowledge'
         elif sectionType == 'groupxen':
-            new_questions.section_category = 'GroupX-English'
+            new_questions.section_category = 'Defence-English'
         elif sectionType == 'groupxphy':
-            new_questions.section_category = 'GroupX-Physics'
+            new_questions.section_category = 'Defence-Physics'
         elif sectionType == 'groupxmath':
             new_questions.section_category = 'GroupX-Maths'
 
@@ -1769,7 +1774,7 @@ def add_students(path_file,schoolName,production = False,swami=False,dummy=False
         real_create_student(stu_details,'Govindam Defence Academy')
 
 
-def add_questions(institute):
+def add_questions(institute,section):
     if institute == 'JECRC':
        questions = SSCquestions.objects.filter(school__name = 'Swami Reasoning World')
        school = School.objects.get(name = institute)
@@ -1783,6 +1788,13 @@ def add_questions(institute):
        print('%s --num quests' %len(questions))
        for i in questions:
            i.school.add(school)
+    else:
+        questions =\
+        SSCquestions.objects.filter(section_category=section)
+        school = School.objects.get(name = institute)
+        print(len(questions))
+        for i in questions:
+            i.school.add(school)
 
                     
 def change_password(institute,acc):
@@ -1795,15 +1807,15 @@ def change_password(institute,acc):
             print('%s-- username , %s -- password'
                   %(user.username,user.password))
 
-def add_to_database_questions(sheet_link,school,extra_info=False,production=False,onlyImage =
+def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                               False,fiveOptions=False,explanation_quest=False):
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/'+sh,error_bad_lines=False )
+                pd.read_csv('/app/question_data/defence_physics/lucent/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/defence_physics/lucent/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
@@ -1814,10 +1826,9 @@ def add_to_database_questions(sheet_link,school,extra_info=False,production=Fals
             right_answer = []
             quest_category = []
             temp = []
-            if extra_info:
-                used_for = df['usedfor']
-                lang = df['lang']
-                source = df['source']
+            used_for = df['usedfor']
+            lang = df['lang']
+            source = df['source']
             if onlyImage:
                 images = df['QuestionLink']
             else:
@@ -1831,8 +1842,8 @@ def add_to_database_questions(sheet_link,school,extra_info=False,production=Fals
                 optE = df['optionE'] 
             if explanation_quest:
                 exp = df['Explanation']
-            quest_category = df['Category']
-            for i in df['Correct']:
+            quest_category = df['category']
+            for i in df['correct']:
                 ichanged = str(i).replace(u'\\xa0',u' ')
                 ichanged2 = ichanged.replace('Answer',' ')
                 ichanged3 = ichanged2.replace('Explanation',' ')
@@ -1857,6 +1868,8 @@ def add_to_database_questions(sheet_link,school,extra_info=False,production=Fals
             print('%s optD' %len(optD))
             print('%s correct answers' %len(right_answer))
             print('%s number of categories' %len(quest_category))
+            print('%s languages ' %len(lang))
+            print('%s sources' %len(source))
             for ind in range(len(optA)):
                 if onlyImage:
                     write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(used_for[ind]),str(lang[ind]),source[ind],fouroptions=True)

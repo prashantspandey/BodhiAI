@@ -2386,7 +2386,7 @@ class Studs:
 
 # categories for GroupX 
 
-        if subject == 'GroupX-English':
+        if subject == 'Defence-English':
             for i,j in arr:
                 if i == '1.1':
                     namedarr.append('Comprehension')
@@ -2471,69 +2471,197 @@ class Studs:
                     timing.append(j)
             return list(zip(namedarr,timing))
 
-        if subject == 'GroupX-Physics':
+        if subject == 'Defence-Physics':
             for i,j in arr:
                 if i == '1.1':
-                    namedarr.append('Physical World & Measurements')
+                    namedarr.append('Unit of Dimension')
                     timing.append(j)
                 if i == '2.1':
-                    namedarr.append('Kinematics')
+                    namedarr.append('Scalers&Vectors')
                     timing.append(j)
                 if i == '3.1':
-                    namedarr.append('Laws of Motion')
+                    namedarr.append('Motion in straight line')
                     timing.append(j)
                 if i == '4.1':
-                    namedarr.append('Work-Engergy-Power')
+                    namedarr.append('Law of Motion')
                     timing.append(j)
                 if i == '5.1':
-                    namedarr.append('Motion of particles & rigid body')
+                    namedarr.append('Projectile Motion')
                     timing.append(j)
                 if i == '6.1':
-                    namedarr.append('Gravitation')
+                    namedarr.append('Circular Motion')
                     timing.append(j)
                 if i == '7.1':
-                    namedarr.append('Properties of Bulk Matter')
+                    namedarr.append('Friction ')
                     timing.append(j)
                 if i == '8.1':
-                    namedarr.append('Thermodynamics')
+                    namedarr.append('Work power & Energy')
                     timing.append(j)
                 if i == '9.1':
-                    namedarr.append('Perfect Gas & Theory of gases')
+                    namedarr.append('Collision')
                     timing.append(j)
                 if i == '10.1':
-                    namedarr.append('Oscillations & Waves')
+                    namedarr.append('Rotational motion % Moment of Inertia')
                     timing.append(j)
                 if i == '11.1':
-                    namedarr.append('Electrostatics')
+                    namedarr.append('Gravitation')
                     timing.append(j)
                 if i == '12.1':
-                    namedarr.append('Current Electricity')
-                    timing.append(j)
-                if i == '11.1':
-                    namedarr.append('Magnetic effect of current&magnetism')
-                    timing.append(j)
-                if i == '11.1':
-                    namedarr.append('Electromagnetic Induction & Alternating\
-                                    current')
-                    timing.append(j)
-                if i == '12.1':
-                    namedarr.append('Electromagnetic Waves')
+                    namedarr.append('Elasticity')
                     timing.append(j)
                 if i == '13.1':
-                    namedarr.append('Optics')
+                    namedarr.append('Fluid Pressure ')
                     timing.append(j)
                 if i == '14.1':
-                    namedarr.append('Dual Nature of Matter')
+                    namedarr.append('Viscocity& Flow of fluids')
                     timing.append(j)
                 if i == '15.1':
-                    namedarr.append('Atoms & Nuclei')
+                    namedarr.append('Surface Tension')
                     timing.append(j)
                 if i == '16.1':
-                    namedarr.append('Electronic Devices')
+                    namedarr.append('Oscillations')
                     timing.append(j)
                 if i == '17.1':
-                    namedarr.append('Communication Systems')
+                    namedarr.append('Thermometry')
                     timing.append(j)
+                if i == '18.1':
+                    namedarr.append('Thermal Expansion')
+                    timing.append(j)
+                if i == '19.1':
+                    namedarr.append('Calorimetry')
+                    timing.append(j)
+                if i == '20.1':
+                    namedarr.append('Transmission of Heat')
+                    timing.append(j)
+                if i == '21.1':
+                    namedarr.append('Thermodynamics')
+                    timing.append(j)
+                if i == '22.1':
+                    namedarr.append('Kinetic Theory of gases')
+                    timing.append(j)
+                if i == '23.1':
+                    namedarr.append('Wave Motion')
+                    timing.append(j)
+                if i == '24.1':
+                    namedarr.append('Superposition of waves')
+                    timing.append(j)
+                if i == '25.1':
+                    namedarr.append('Speed of Sound')
+                    timing.append(j)
+                if i == '26.1':
+                    namedarr.append('Vibrations in air columns')
+                    timing.append(j)
+                if i == '27.1':
+                    namedarr.append('Vibration of Strings')
+                    timing.append(j)
+                if i == '28.1':
+                    namedarr.append('Dopplers Effect')
+                    timing.append(j)
+                if i == '29.1':
+                    namedarr.append('Musical Sound& Ultra sound')
+                    timing.append(j)
+                if i == '30.1':
+                    namedarr.append('Electric charge & Electric Field')
+                    timing.append(j)
+                if i == '31.1':
+                    namedarr.append('Gauss Theorem')
+                    timing.append(j)
+                if i == '32.1':
+                    namedarr.append('Electric Capacitance')
+                    timing.append(j)
+                if i == '33.1':
+                    namedarr.append('Electric Conduction')
+                    timing.append(j)
+                if i == '34.1':
+                    namedarr.append('Ohms Law')
+                    timing.append(j)
+                if i == '35.1':
+                    namedarr.append('Electromotive force & Electric cell')
+                    timing.append(j)
+                if i == '36.1':
+                    namedarr.append('Kirchoffs law & wheatstone bridge')
+                    timing.append(j)
+                if i == '37.1':
+                    namedarr.append('Potentiometer')
+                    timing.append(j)
+                if i == '38.1':
+                    namedarr.append('Heating effect of current')
+                    timing.append(j)
+                if i == '39.1':
+                    namedarr.append('Chemical effect of current')
+                    timing.append(j)
+                if i == '40.1':
+                    namedarr.append('Magnetic effect of current')
+                    timing.append(j)
+                if i == '41.1':
+                    namedarr.append('Electrical Instruments')
+                    timing.append(j)
+                if i == '42.1':
+                    namedarr.append('Magnetic Field')
+                    timing.append(j)
+                if i == '43.1':
+                    namedarr.append('Magnetic effects of matter & terrestrial\
+                                    magnetism')
+                    timing.append(j)
+                if i == '44.1':
+                    namedarr.append('Electromagnetic Induction')
+                    timing.append(j)
+                if i == '45.1':
+                    namedarr.append('Alternating Current')
+                    timing.append(j)
+                if i == '46.1':
+                    namedarr.append('Reflection of light')
+                    timing.append(j)
+                if i == '47.1':
+                    namedarr.append('Refraction of light')
+                    timing.append(j)
+                if i == '48.1':
+                    namedarr.append('Refraction at Spherical surface & by\
+                                    lenses')
+                    timing.append(j)
+                if i == '49.1':
+                    namedarr.append('Prism & scattering of light')
+                    timing.append(j)
+                if i == '50.1':
+                    namedarr.append('Optical instruments')
+                    timing.append(j)
+                if i == '51.1':
+                    namedarr.append('Human eye & defects of vision')
+                    timing.append(j)
+                if i == '52.1':
+                    namedarr.append('Wave theory of light')
+                    timing.append(j)
+                if i == '53.1':
+                    namedarr.append('Interferance & Deflection of light')
+                    timing.append(j)
+                if i == '54.1':
+                    namedarr.append('Polarization of light')
+                    timing.append(j)
+                if i == '55.1':
+                    namedarr.append('Photometry')
+                    timing.append(j)
+                if i == '56.1':
+                    namedarr.append('Dual nature of radiation & matter')
+                    timing.append(j)
+                if i == '57.1':
+                    namedarr.append('Electromagnetic waves')
+                    timing.append(j)
+                if i == '58.1':
+                    namedarr.append('Structure of Atom')
+                    timing.append(j)
+                if i == '59.1':
+                    namedarr.append('Radioactivity')
+                    timing.append(j)
+                if i == '60.1':
+                    namedarr.append('Nuclear fission & fusion')
+                    timing.append(j)
+                if i == '61.1':
+                    namedarr.append('Semi-conductor,diode & Transistors')
+                    timing.append(j)
+                if i == '62.1':
+                    namedarr.append('Digital electronics & logic gates')
+                    timing.append(j)
+
             return list(zip(namedarr,timing))
 
 
@@ -2895,50 +3023,137 @@ class Studs:
                     namedarr.append('Passive to Active voice')
             return namedarr
 
-        if subject == 'GroupX-Physics':
+        if subject == 'Defence-Physics':
             for i in arr:
                 if i == '1.1':
-                    namedarr.append('Physical World & Measurements')
+                    namedarr.append('Unit of Dimension')
                 if i == '2.1':
-                    namedarr.append('Kinematics')
+                    namedarr.append('Scalers&Vectors')
                 if i == '3.1':
-                    namedarr.append('Laws of Motion')
+                    namedarr.append('Motion in straight line')
                 if i == '4.1':
-                    namedarr.append('Work-Engergy-Power')
+                    namedarr.append('Law of Motion')
                 if i == '5.1':
-                    namedarr.append('Motion of particles & rigid body')
+                    namedarr.append('Projectile Motion')
                 if i == '6.1':
-                    namedarr.append('Gravitation')
+                    namedarr.append('Circular Motion')
                 if i == '7.1':
-                    namedarr.append('Properties of Bulk Matter')
+                    namedarr.append('Friction ')
                 if i == '8.1':
-                    namedarr.append('Thermodynamics')
+                    namedarr.append('Work power & Energy')
                 if i == '9.1':
-                    namedarr.append('Perfect Gas & Theory of gases')
+                    namedarr.append('Collision')
                 if i == '10.1':
-                    namedarr.append('Oscillations & Waves')
+                    namedarr.append('Rotational motion % Moment of Inertia')
                 if i == '11.1':
-                    namedarr.append('Electrostatics')
+                    namedarr.append('Gravitation')
                 if i == '12.1':
-                    namedarr.append('Current Electricity')
-                if i == '11.1':
-                    namedarr.append('Magnetic effect of current&magnetism')
-                if i == '11.1':
-                    namedarr.append('Electromagnetic Induction & Alternating\
-                                    current')
-                if i == '12.1':
-                    namedarr.append('Electromagnetic Waves')
+                    namedarr.append('Elasticity')
                 if i == '13.1':
-                    namedarr.append('Optics')
+                    namedarr.append('Fluid Pressure ')
                 if i == '14.1':
-                    namedarr.append('Dual Nature of Matter')
+                    namedarr.append('Viscocity& Flow of fluids')
                 if i == '15.1':
-                    namedarr.append('Atoms & Nuclei')
+                    namedarr.append('Surface Tension')
                 if i == '16.1':
-                    namedarr.append('Electronic Devices')
+                    namedarr.append('Oscillations')
                 if i == '17.1':
-                    namedarr.append('Communication Systems')
+                    namedarr.append('Thermometry')
+                if i == '18.1':
+                    namedarr.append('Thermal Expansion')
+                if i == '19.1':
+                    namedarr.append('Calorimetry')
+                if i == '20.1':
+                    namedarr.append('Transmission of Heat')
+                if i == '21.1':
+                    namedarr.append('Thermodynamics')
+                if i == '22.1':
+                    namedarr.append('Kinetic Theory of gases')
+                if i == '23.1':
+                    namedarr.append('Wave Motion')
+                if i == '24.1':
+                    namedarr.append('Superposition of waves')
+                if i == '25.1':
+                    namedarr.append('Speed of Sound')
+                if i == '26.1':
+                    namedarr.append('Vibrations in air columns')
+                if i == '27.1':
+                    namedarr.append('Vibration of Strings')
+                if i == '28.1':
+                    namedarr.append('Dopplers Effect')
+                if i == '29.1':
+                    namedarr.append('Musical Sound& Ultra sound')
+                if i == '30.1':
+                    namedarr.append('Electric charge & Electric Field')
+                if i == '31.1':
+                    namedarr.append('Gauss Theorem')
+                if i == '32.1':
+                    namedarr.append('Electric Capacitance')
+                if i == '33.1':
+                    namedarr.append('Electric Conduction')
+                if i == '34.1':
+                    namedarr.append('Ohms Law')
+                if i == '35.1':
+                    namedarr.append('Electromotive force & Electric cell')
+                if i == '36.1':
+                    namedarr.append('Kirchoffs law & wheatstone bridge')
+                if i == '37.1':
+                    namedarr.append('Potentiometer')
+                if i == '38.1':
+                    namedarr.append('Heating effect of current')
+                if i == '39.1':
+                    namedarr.append('Chemical effect of current')
+                if i == '40.1':
+                    namedarr.append('Magnetic effect of current')
+                if i == '41.1':
+                    namedarr.append('Electrical Instruments')
+                if i == '42.1':
+                    namedarr.append('Magnetic Field')
+                if i == '43.1':
+                    namedarr.append('Magnetic effects of matter & terrestrial\
+                                    magnetism')
+                if i == '44.1':
+                    namedarr.append('Electromagnetic Induction')
+                if i == '45.1':
+                    namedarr.append('Alternating Current')
+                if i == '46.1':
+                    namedarr.append('Reflection of light')
+                if i == '47.1':
+                    namedarr.append('Refraction of light')
+                if i == '48.1':
+                    namedarr.append('Refraction at Spherical surface & by\
+                                    lenses')
+                if i == '49.1':
+                    namedarr.append('Prism & scattering of light')
+                if i == '50.1':
+                    namedarr.append('Optical instruments')
+                if i == '51.1':
+                    namedarr.append('Human eye & defects of vision')
+                if i == '52.1':
+                    namedarr.append('Wave theory of light')
+                if i == '53.1':
+                    namedarr.append('Interferance & Deflection of light')
+                if i == '54.1':
+                    namedarr.append('Polarization of light')
+                if i == '55.1':
+                    namedarr.append('Photometry')
+                if i == '56.1':
+                    namedarr.append('Dual nature of radiation & matter')
+                if i == '57.1':
+                    namedarr.append('Electromagnetic waves')
+                if i == '58.1':
+                    namedarr.append('Structure of Atom')
+                if i == '59.1':
+                    namedarr.append('Radioactivity')
+                if i == '60.1':
+                    namedarr.append('Nuclear fission & fusion')
+                if i == '61.1':
+                    namedarr.append('Semi-conductor,diode & Transistors')
+                if i == '62.1':
+                    namedarr.append('Digital electronics & logic gates')
+
             return namedarr
+
 
 
         if subject == 'GroupX-Maths':
@@ -3263,48 +3478,137 @@ class Studs:
                 if i == '22.1':
                     return 'Passive to Active voice'
 
-        if subject == 'GroupX-Physics':
+        if subject == 'Defence-Physics':
+            for i in arr:
                 if i == '1.1':
-                    return 'Physical World & Measurements'
+                    return 'Unit of Dimension'
                 if i == '2.1':
-                    return 'Kinematics'
+                    return 'Scalers&Vectors'
                 if i == '3.1':
-                    return 'Laws of Motion'
+                    return 'Motion in straight line'
                 if i == '4.1':
-                    return 'Work-Engergy-Power'
+                    return 'Law of Motion'
                 if i == '5.1':
-                    return 'Motion of particles & rigid body'
+                    return 'Projectile Motion'
                 if i == '6.1':
-                    return 'Gravitation'
+                    return 'Circular Motion'
                 if i == '7.1':
-                    return 'Properties of Bulk Matter'
+                    return 'Friction '
                 if i == '8.1':
-                    return 'Thermodynamics'
+                    return 'Work power & Energy'
                 if i == '9.1':
-                    return 'Perfect Gas & Theory of gases'
+                    return 'Collision'
                 if i == '10.1':
-                    return 'Oscillations & Waves'
+                    return 'Rotational motion % Moment of Inertia'
                 if i == '11.1':
-                    return 'Electrostatics'
+                    return 'Gravitation'
                 if i == '12.1':
-                    return 'Current Electricity'
-                if i == '11.1':
-                    return 'Magnetic effect of current&magnetism'
-                if i == '11.1':
-                    return 'Electromagnetic Induction & Alternating\
-                                    current'
-                if i == '12.1':
-                    return 'Electromagnetic Waves'
+                    return 'Elasticity'
                 if i == '13.1':
-                    return 'Optics'
+                    return 'Fluid Pressure '
                 if i == '14.1':
-                    return 'Dual Nature of Matter'
+                    return 'Viscocity& Flow of fluids'
                 if i == '15.1':
-                    return 'Atoms & Nuclei'
+                    return 'Surface Tension'
                 if i == '16.1':
-                    return 'Electronic Devices'
+                    return 'Oscillations'
                 if i == '17.1':
-                    return 'Communication Systems'
+                    return 'Thermometry'
+                if i == '18.1':
+                    return 'Thermal Expansion'
+                if i == '19.1':
+                    return 'Calorimetry'
+                if i == '20.1':
+                    return 'Transmission of Heat'
+                if i == '21.1':
+                    return 'Thermodynamics'
+                if i == '22.1':
+                    return 'Kinetic Theory of gases'
+                if i == '23.1':
+                    return 'Wave Motion'
+                if i == '24.1':
+                    return 'Superposition of waves'
+                if i == '25.1':
+                    return 'Speed of Sound'
+                if i == '26.1':
+                    return 'Vibrations in air columns'
+                if i == '27.1':
+                    return 'Vibration of Strings'
+                if i == '28.1':
+                    return 'Dopplers Effect'
+                if i == '29.1':
+                    return 'Musical Sound& Ultra sound'
+                if i == '30.1':
+                    return 'Electric charge & Electric Field'
+                if i == '31.1':
+                    return 'Gauss Theorem'
+                if i == '32.1':
+                    return 'Electric Capacitance'
+                if i == '33.1':
+                    return 'Electric Conduction'
+                if i == '34.1':
+                    return 'Ohms Law'
+                if i == '35.1':
+                    return 'Electromotive force & Electric cell'
+                if i == '36.1':
+                    return 'Kirchoffs law & wheatstone bridge'
+                if i == '37.1':
+                    return 'Potentiometer'
+                if i == '38.1':
+                    return 'Heating effect of current'
+                if i == '39.1':
+                    return 'Chemical effect of current'
+                if i == '40.1':
+                    return 'Magnetic effect of current'
+                if i == '41.1':
+                    return 'Electrical Instruments'
+                if i == '42.1':
+                    return 'Magnetic Field'
+                if i == '43.1':
+                    return 'Magnetic effects of matter & terrestrial\
+                                    magnetism'
+                if i == '44.1':
+                    return 'Electromagnetic Induction'
+                if i == '45.1':
+                    return 'Alternating Current'
+                if i == '46.1':
+                    return 'Reflection of light'
+                if i == '47.1':
+                    return 'Refraction of light'
+                if i == '48.1':
+                    return 'Refraction at Spherical surface & by\
+                                    lenses'
+                if i == '49.1':
+                    return 'Prism & scattering of light'
+                if i == '50.1':
+                    return 'Optical instruments'
+                if i == '51.1':
+                    return 'Human eye & defects of vision'
+                if i == '52.1':
+                    return 'Wave theory of light'
+                if i == '53.1':
+                    return 'Interferance & Deflection of light'
+                if i == '54.1':
+                    return 'Polarization of light'
+                if i == '55.1':
+                    return 'Photometry'
+                if i == '56.1':
+                    return 'Dual nature of radiation & matter'
+                if i == '57.1':
+                    return 'Electromagnetic waves'
+                if i == '58.1':
+                    return 'Structure of Atom'
+                if i == '59.1':
+                    return 'Radioactivity'
+                if i == '60.1':
+                    return 'Nuclear fission & fusion'
+                if i == '61.1':
+                    return 'Semi-conductor,diode & Transistors'
+                if i == '62.1':
+                    return 'Digital electronics & logic gates'
+
+
+
 
 
         if subject == 'GroupX-Maths':
@@ -5061,69 +5365,198 @@ class Teach:
                     numbers.append(i)
             return list(zip(names,numbers))
 
-        if subject == 'GroupX-Physics':
+
+        if subject == 'Defence-Physics':
             for i in arr:
                 if i == '1.1':
-                    names.append('Physical World & Measurements')
+                    names.append('Unit of Dimension')
                     numbers.append(i)
                 if i == '2.1':
-                    names.append('Kinematics')
+                    names.append('Scalers&Vectors')
                     numbers.append(i)
                 if i == '3.1':
-                    names.append('Laws of Motion')
+                    names.append('Motion in straight line')
                     numbers.append(i)
                 if i == '4.1':
-                    names.append('Work-Engergy-Power')
+                    names.append('Law of Motion')
                     numbers.append(i)
                 if i == '5.1':
-                    names.append('Motion of particles & rigid body')
+                    names.append('Projectile Motion')
                     numbers.append(i)
                 if i == '6.1':
-                    names.append('Gravitation')
+                    names.append('Circular Motion')
                     numbers.append(i)
                 if i == '7.1':
-                    names.append('Properties of Bulk Matter')
+                    names.append('Friction ')
                     numbers.append(i)
                 if i == '8.1':
-                    names.append('Thermodynamics')
+                    names.append('Work power & Energy')
                     numbers.append(i)
                 if i == '9.1':
-                    names.append('Perfect Gas & Theory of gases')
+                    names.append('Collision')
                     numbers.append(i)
                 if i == '10.1':
-                    names.append('Oscillations & Waves')
+                    names.append('Rotational motion % Moment of Inertia')
                     numbers.append(i)
                 if i == '11.1':
-                    names.append('Electrostatics')
+                    names.append('Gravitation')
                     numbers.append(i)
                 if i == '12.1':
-                    names.append('Current Electricity')
-                    numbers.append(i)
-                if i == '11.1':
-                    names.append('Magnetic effect of current&magnetism')
-                    numbers.append(i)
-                if i == '11.1':
-                    names.append('Electromagnetic Induction & Alternating\
-                                    current')
-                    numbers.append(i)
-                if i == '12.1':
-                    names.append('Electromagnetic Waves')
+                    names.append('Elasticity')
                     numbers.append(i)
                 if i == '13.1':
-                    names.append('Optics')
+                    names.append('Fluid Pressure ')
                     numbers.append(i)
                 if i == '14.1':
-                    names.append('Dual Nature of Matter')
+                    names.append('Viscocity& Flow of fluids')
                     numbers.append(i)
                 if i == '15.1':
-                    names.append('Atoms & Nuclei')
+                    names.append('Surface Tension')
                     numbers.append(i)
                 if i == '16.1':
-                    names.append('Electronic Devices')
+                    names.append('Oscillations')
                     numbers.append(i)
                 if i == '17.1':
-                    names.append('Communication Systems')
+                    names.append('Thermometry')
                     numbers.append(i)
+                if i == '18.1':
+                    names.append('Thermal Expansion')
+                    numbers.append(i)
+                if i == '19.1':
+                    names.append('Calorimetry')
+                    numbers.append(i)
+                if i == '20.1':
+                    names.append('Transmission of Heat')
+                    numbers.append(i)
+                if i == '21.1':
+                    names.append('Thermodynamics')
+                    numbers.append(i)
+                if i == '22.1':
+                    names.append('Kinetic Theory of gases')
+                    numbers.append(i)
+                if i == '23.1':
+                    names.append('Wave Motion')
+                    numbers.append(i)
+                if i == '24.1':
+                    names.append('Superposition of waves')
+                    numbers.append(i)
+                if i == '25.1':
+                    names.append('Speed of Sound')
+                    numbers.append(i)
+                if i == '26.1':
+                    names.append('Vibrations in air columns')
+                    numbers.append(i)
+                if i == '27.1':
+                    names.append('Vibration of Strings')
+                    numbers.append(i)
+                if i == '28.1':
+                    names.append('Dopplers Effect')
+                    numbers.append(i)
+                if i == '29.1':
+                    names.append('Musical Sound& Ultra sound')
+                    numbers.append(i)
+                if i == '30.1':
+                    names.append('Electric charge & Electric Field')
+                    numbers.append(i)
+                if i == '31.1':
+                    names.append('Gauss Theorem')
+                    numbers.append(i)
+                if i == '32.1':
+                    names.append('Electric Capacitance')
+                    numbers.append(i)
+                if i == '33.1':
+                    names.append('Electric Conduction')
+                    numbers.append(i)
+                if i == '34.1':
+                    names.append('Ohms Law')
+                    numbers.append(i)
+                if i == '35.1':
+                    names.append('Electromotive force & Electric cell')
+                    numbers.append(i)
+                if i == '36.1':
+                    names.append('Kirchoffs law & wheatstone bridge')
+                    numbers.append(i)
+                if i == '37.1':
+                    names.append('Potentiometer')
+                    numbers.append(i)
+                if i == '38.1':
+                    names.append('Heating effect of current')
+                    numbers.append(i)
+                if i == '39.1':
+                    names.append('Chemical effect of current')
+                    numbers.append(i)
+                if i == '40.1':
+                    names.append('Magnetic effect of current')
+                    numbers.append(i)
+                if i == '41.1':
+                    names.append('Electrical Instruments')
+                    numbers.append(i)
+                if i == '42.1':
+                    names.append('Magnetic Field')
+                    numbers.append(i)
+                if i == '43.1':
+                    names.append('Magnetic effects of matter & terrestrial\
+                                    magnetism')
+                    numbers.append(i)
+                if i == '44.1':
+                    names.append('Electromagnetic Induction')
+                    numbers.append(i)
+                if i == '45.1':
+                    names.append('Alternating Current')
+                    numbers.append(i)
+                if i == '46.1':
+                    names.append('Reflection of light')
+                    numbers.append(i)
+                if i == '47.1':
+                    names.append('Refraction of light')
+                    numbers.append(i)
+                if i == '48.1':
+                    names.append('Refraction at Spherical surface & by\
+                                    lenses')
+                    numbers.append(i)
+                if i == '49.1':
+                    names.append('Prism & scattering of light')
+                    numbers.append(i)
+                if i == '50.1':
+                    names.append('Optical instruments')
+                    numbers.append(i)
+                if i == '51.1':
+                    names.append('Human eye & defects of vision')
+                    numbers.append(i)
+                if i == '52.1':
+                    names.append('Wave theory of light')
+                    numbers.append(i)
+                if i == '53.1':
+                    names.append('Interferance & Deflection of light')
+                    numbers.append(i)
+                if i == '54.1':
+                    names.append('Polarization of light')
+                    numbers.append(i)
+                if i == '55.1':
+                    names.append('Photometry')
+                    numbers.append(i)
+                if i == '56.1':
+                    names.append('Dual nature of radiation & matter')
+                    numbers.append(i)
+                if i == '57.1':
+                    names.append('Electromagnetic waves')
+                    numbers.append(i)
+                if i == '58.1':
+                    names.append('Structure of Atom')
+                    numbers.append(i)
+                if i == '59.1':
+                    names.append('Radioactivity')
+                    numbers.append(i)
+                if i == '60.1':
+                    names.append('Nuclear fission & fusion')
+                    numbers.append(i)
+                if i == '61.1':
+                    names.append('Semi-conductor,diode & Transistors')
+                    numbers.append(i)
+                if i == '62.1':
+                    names.append('Digital electronics & logic gates')
+                    numbers.append(i)
+
             return list(zip(names,numbers))
 
 
@@ -5606,71 +6039,199 @@ class Teach:
             changed = list(zip(names,numbers))
             return changed
 
-        if subject == 'GroupX-Physics':
+        if subject == 'Defence-Physics':
             for i in arr:
                 if i == '1.1':
-                    names.append('Physical World & Measurements')
+                    names.append('Unit of Dimension')
                     numbers.append(i)
                 if i == '2.1':
-                    names.append('Kinematics')
+                    names.append('Scalers&Vectors')
                     numbers.append(i)
                 if i == '3.1':
-                    names.append('Laws of Motion')
+                    namedarr.append('Motion in straight line')
                     numbers.append(i)
                 if i == '4.1':
-                    names.append('Work-Engergy-Power')
+                    names.append('Law of Motion')
                     numbers.append(i)
                 if i == '5.1':
-                    names.append('Motion of particles & rigid body')
+                    names.append('Projectile Motion')
                     numbers.append(i)
                 if i == '6.1':
-                    names.append('Gravitation')
+                    names.append('Circular Motion')
                     numbers.append(i)
                 if i == '7.1':
-                    names.append('Properties of Bulk Matter')
+                    names.append('Friction ')
                     numbers.append(i)
                 if i == '8.1':
-                    names.append('Thermodynamics')
+                    names.append('Work power & Energy')
                     numbers.append(i)
                 if i == '9.1':
-                    names.append('Perfect Gas & Theory of gases')
+                    names.append('Collision')
                     numbers.append(i)
                 if i == '10.1':
-                    names.append('Oscillations & Waves')
+                    names.append('Rotational motion % Moment of Inertia')
                     numbers.append(i)
                 if i == '11.1':
-                    names.append('Electrostatics')
+                    names.append('Gravitation')
                     numbers.append(i)
                 if i == '12.1':
-                    names.append('Current Electricity')
-                    numbers.append(i)
-                if i == '11.1':
-                    names.append('Magnetic effect of current&magnetism')
-                    numbers.append(i)
-                if i == '11.1':
-                    names.append('Electromagnetic Induction & Alternating\
-                                    current')
-                    numbers.append(i)
-                if i == '12.1':
-                    names.append('Electromagnetic Waves')
+                    names.append('Elasticity')
                     numbers.append(i)
                 if i == '13.1':
-                    names.append('Optics')
+                    names.append('Fluid Pressure ')
                     numbers.append(i)
                 if i == '14.1':
-                    names.append('Dual Nature of Matter')
+                    names.append('Viscocity& Flow of fluids')
                     numbers.append(i)
                 if i == '15.1':
-                    names.append('Atoms & Nuclei')
+                    names.append('Surface Tension')
                     numbers.append(i)
                 if i == '16.1':
-                    names.append('Electronic Devices')
+                    names.append('Oscillations')
                     numbers.append(i)
                 if i == '17.1':
-                    names.append('Communication Systems')
+                    names.append('Thermometry')
                     numbers.append(i)
-            changed = list(zip(names,numbers))
-            return changed
+                if i == '18.1':
+                    names.append('Thermal Expansion')
+                    numbers.append(i)
+                if i == '19.1':
+                    names.append('Calorimetry')
+                    numbers.append(i)
+                if i == '20.1':
+                    names.append('Transmission of Heat')
+                    numbers.append(i)
+                if i == '21.1':
+                    names.append('Thermodynamics')
+                    numbers.append(i)
+                if i == '22.1':
+                    names.append('Kinetic Theory of gases')
+                    numbers.append(i)
+                if i == '23.1':
+                    names.append('Wave Motion')
+                    numbers.append(i)
+                if i == '24.1':
+                    names.append('Superposition of waves')
+                    numbers.append(i)
+                if i == '25.1':
+                    names.append('Speed of Sound')
+                    numbers.append(i)
+                if i == '26.1':
+                    names.append('Vibrations in air columns')
+                    numbers.append(i)
+                if i == '27.1':
+                    names.append('Vibration of Strings')
+                    numbers.append(i)
+                if i == '28.1':
+                    names.append('Dopplers Effect')
+                    numbers.append(i)
+                if i == '29.1':
+                    names.append('Musical Sound& Ultra sound')
+                    numbers.append(i)
+                if i == '30.1':
+                    names.append('Electric charge & Electric Field')
+                    numbers.append(i)
+                if i == '31.1':
+                    names.append('Gauss Theorem')
+                    numbers.append(i)
+                if i == '32.1':
+                    names.append('Electric Capacitance')
+                    numbers.append(i)
+                if i == '33.1':
+                    names.append('Electric Conduction')
+                    numbers.append(i)
+                if i == '34.1':
+                    names.append('Ohms Law')
+                    numbers.append(i)
+                if i == '35.1':
+                    names.append('Electromotive force & Electric cell')
+                    numbers.append(i)
+                if i == '36.1':
+                    names.append('Kirchoffs law & wheatstone bridge')
+                    numbers.append(i)
+                if i == '37.1':
+                    names.append('Potentiometer')
+                    numbers.append(i)
+                if i == '38.1':
+                    names.append('Heating effect of current')
+                    numbers.append(i)
+                if i == '39.1':
+                    names.append('Chemical effect of current')
+                    numbers.append(i)
+                if i == '40.1':
+                    names.append('Magnetic effect of current')
+                    numbers.append(i)
+                if i == '41.1':
+                    names.append('Electrical Instruments')
+                    numbers.append(i)
+                if i == '42.1':
+                    names.append('Magnetic Field')
+                    numbers.append(i)
+                if i == '43.1':
+                    names.append('Magnetic effects of matter & terrestrial\
+                                    magnetism')
+                    numbers.append(i)
+                if i == '44.1':
+                    names.append('Electromagnetic Induction')
+                    numbers.append(i)
+                if i == '45.1':
+                    names.append('Alternating Current')
+                    numbers.append(i)
+                if i == '46.1':
+                    names.append('Reflection of light')
+                    numbers.append(i)
+                if i == '47.1':
+                    names.append('Refraction of light')
+                    numbers.append(i)
+                if i == '48.1':
+                    names.append('Refraction at Spherical surface & by\
+                                    lenses')
+                    numbers.append(i)
+                if i == '49.1':
+                    names.append('Prism & scattering of light')
+                    numbers.append(i)
+                if i == '50.1':
+                    names.append('Optical instruments')
+                    numbers.append(i)
+                if i == '51.1':
+                    names.append('Human eye & defects of vision')
+                    numbers.append(i)
+                if i == '52.1':
+                    names.append('Wave theory of light')
+                    numbers.append(i)
+                if i == '53.1':
+                    names.append('Interferance & Deflection of light')
+                    numbers.append(i)
+                if i == '54.1':
+                    names.append('Polarization of light')
+                    numbers.append(i)
+                if i == '55.1':
+                    names.append('Photometry')
+                    numbers.append(i)
+                if i == '56.1':
+                    names.append('Dual nature of radiation & matter')
+                    numbers.append(i)
+                if i == '57.1':
+                    names.append('Electromagnetic waves')
+                    numbers.append(i)
+                if i == '58.1':
+                    names.append('Structure of Atom')
+                    numbers.append(i)
+                if i == '59.1':
+                    names.append('Radioactivity')
+                    numbers.append(i)
+                if i == '60.1':
+                    names.append('Nuclear fission & fusion')
+                    numbers.append(i)
+                if i == '61.1':
+                    names.append('Semi-conductor,diode & Transistors')
+                    numbers.append(i)
+                if i == '62.1':
+                    names.append('Digital electronics & logic gates')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+
 
 
         if subject == 'GroupX-Maths':
@@ -6031,50 +6592,137 @@ class Teach:
                     numbers.append('27.1')
             return numbers
 
-        if subject == 'GroupX-Physics':
+        if subject == 'Defence-Physics':
             for i in arr:
-                if i == 'Physical World & Measurements':
+                if i == 'Unit of Dimension':
                     numbers.append('1.1')
-                if i == 'Kinematics':
+                if i == 'Scalers&Vectors':
                     numbers.append('2.1')
-                if i == 'Laws of Motion':
+                if i == 'Motion in straight line':
                     numbers.append('3.1')
-                if i == 'Work-Engergy-Power':
+                if i == 'Law of Motion':
                     numbers.append('4.1')
-                if i == 'Motion of particles & rigid body':
+                if i == 'Projectile Motion':
                     numbers.append('5.1')
-                if i == 'Gravitation':
+                if i == 'Circular Motion':
                     numbers.append('6.1')
-                if i == 'Properties of Bulk Matter':
+                if i == 'Friction':
                     numbers.append('7.1')
-                if i == 'Thermodynamics':
+                if i == 'Work power & Energy':
                     numbers.append('8.1')
-                if i == 'Perfect Gas & Theory of gases':
+                if i == 'Collision':
                     numbers.append('9.1')
-                if i == 'Oscillations & Waves':
+                if i == 'Rotational motion % Moment of Inertia':
                     numbers.append('10.1')
-                if i == 'Electrostatics':
+                if i == 'Gravitation':
                     numbers.append('11.1')
-                if i == 'Current Electricity':
+                if i == 'Elasticity':
                     numbers.append('12.1')
-                if i == 'Magnetic effect of current&magnetism':
+                if i == 'Fluid Pressure ':
                     numbers.append('13.1')
-                if i == 'Electromagnetic Induction & Alternating\
-                   current':
+                if i == 'Viscocity& Flow of fluids':
                     numbers.append('14.1')
-                if i == 'Electromagnetic Waves':
+                if i == 'Surface Tension':
                     numbers.append('15.1')
-                if i == 'Optics':
+                if i == 'Oscillations':
                     numbers.append('16.1')
-                if i == 'Dual Nature of Matter':
+                if i == 'Thermometry':
                     numbers.append('17.1')
-                if i == 'Atoms & Nuclei':
+                if i == 'Thermal Expansion':
                     numbers.append('18.1')
-                if i == 'Electronic Devices':
+                if i == 'Calorimetry':
                     numbers.append('19.1')
-                if i == 'Communication Systems':
+                if i == 'Transmission of Heat':
                     numbers.append('20.1')
+                if i == 'Thermodynamics':
+                    numbers.append('21.1')
+                if i == 'Kinetic Theory of gases':
+                    numbers.append('22.1')
+                if i == 'Wave Motion':
+                    numbers.append('23.1')
+                if i == 'Superposition of waves':
+                    numbers.append('24.1')
+                if i == 'Speed of Sound':
+                    numbers.append('25.1')
+                if i == 'Vibrations in air columns':
+                    numbers.append('26.1')
+                if i == 'Vibration of Strings':
+                    numbers.append('27.1')
+                if i == 'Dopplers Effect':
+                    numbers.append('28.1')
+                if i == 'Musical Sound& Ultra sound':
+                    numbers.append('29.1')
+                if i == 'Electric charge & Electric Field':
+                    numbers.append('30.1')
+                if i == 'Gauss Theorem':
+                    numbers.append('31.1')
+                if i == 'Electric Capacitance':
+                    numbers.append('32.1')
+                if i == 'Electric Conduction':
+                    numbers.append('33.1')
+                if i == 'Ohms Law':
+                    numbers.append('34.1')
+                if i == 'Electromotive force & Electric cell':
+                    numbers.append('35.1')
+                if i == 'Kirchoffs law & wheatstone bridge':
+                    numbers.append('36.1')
+                if i == 'Potentiometer':
+                    numbers.append('37.1')
+                if i == 'Heating effect of current':
+                    numbers.append('38.1')
+                if i == 'Chemical effect of current':
+                    numbers.append('39.1')
+                if i == 'Magnetic effect of current':
+                    numbers.append('40.1')
+                if i == 'Electrical Instruments':
+                    numbers.append('41.1')
+                if i == 'Magnetic Field':
+                    numbers.append('42.1')
+                if i == 'Magnetic effects of matter & terrestrial\
+                   magnetism':
+                    numbers.append('43.1')
+                if i == 'Electromagnetic Induction':
+                    numbers.append('44.1')
+                if i == 'Alternating Current':
+                    numbers.append('45.1')
+                if i == 'Reflection of light':
+                    numbers.append('46.1')
+                if i == 'Refraction of light':
+                    numbers.append('47.1')
+                if i == 'Refraction at Spherical surface & by\
+                                    lenses':
+                    numbers.append('48.1')
+                if i == 'Prism & scattering of light':
+                    numbers.append('49.1')
+                if i == 'Optical instruments':
+                    numbers.append('50.1')
+                if i == 'Human eye & defects of vision':
+                    numbers.append('51.1')
+                if i == 'Wave theory of light':
+                    numbers.append('52.1')
+                if i == 'Interferance & Deflection of light':
+                    numbers.append('53.1')
+                if i == 'Polarization of light':
+                    numbers.append('54.1')
+                if i == 'Photometry':
+                    numbers.append('55.1')
+                if i == 'Dual nature of radiation & matter':
+                    numbers.append('56.1')
+                if i == 'Electromagnetic waves':
+                    numbers.append('57.1')
+                if i == 'Structure of Atom':
+                    numbers.append('58.1')
+                if i == 'Radioactivity':
+                    numbers.append('59.1')
+                if i == 'Nuclear fission & fusion':
+                    numbers.append('60.1')
+                if i == 'Semi-conductor,diode & Transistors':
+                    numbers.append('61.1')
+                if i == 'Digital electronics & logic gates':
+                    numbers.append('62.1')
+
             return numbers
+
 
 
         if subject == 'GroupX-Maths':

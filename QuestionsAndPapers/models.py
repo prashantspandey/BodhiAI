@@ -112,8 +112,8 @@ class SSCquestions(models.Model):
     language_choices = (('English','English'),('Hindi','Hindi'),('Bi','Bi'))
     section_choices = \
         (('General-Intelligence','General-Intelligence'),('General-Knowledge','General-Knowledge')
-         ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English'),('GroupX-English','GroupX-English'),
-        ('GroupX-Physics','GroupX-Physics'),('GroupX-Maths','GroupX-Maths'))
+         ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English'),('Defence-English','Defence-English'),
+        ('Defence-Physics','Defence-Physics'),('GroupX-Maths','GroupX-Maths'))
     diffculty_choices = (('easy','easy'),('medium','medium'),('hard','hard'))
     text = models.TextField(blank=True,null=True)
     tier_category = models.CharField(max_length=20,choices = tier_choices)
