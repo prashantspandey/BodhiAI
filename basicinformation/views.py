@@ -1895,7 +1895,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
             print('%s optD' %len(optD))
             print('%s correct answers' %len(right_answer))
             print('%s number of categories' %len(quest_category))
-            print('%s languages ' %len(lang))
+            #print('%s languages ' %len(lang))
             print('%s sources' %len(source))
             print('%s sheet ' %sh)
         
