@@ -71,7 +71,7 @@ def home(request):
             sheet_link3 =\
             ['19t1.csv','19t2.csv','20t1.csv','23t1.csv','23t2.csv','24t1.csv','24t2.csv']
             sheet_link4 =\
-            ['27t2.csv','28t2.csv','29t2.csv','30t2.csv','31t2.csv']
+            ['28t2.csv','29t2.csv','30t2.csv','31t2.csv']
             sheet_link5 = ['32t2.csv','33t2.csv','34t2.csv']
             add_to_database_questions(sheet_link4,'Colonel Defence\
                                       Academy',onlyImage=True,production =\
