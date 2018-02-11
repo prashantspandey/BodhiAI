@@ -5,6 +5,7 @@ from django.http import Http404, HttpResponse
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from random import randint
+from django.views.decorators.csrf import ensure_csrf_cookie
 from datetime import timedelta
 import math
 from datetime import date
@@ -25,7 +26,7 @@ from PIL import Image
 import requests
 from django.contrib import messages
 
-
+@ensure_csrf_cookie
 def home(request):
     user = request.user
     if user.is_authenticated:
@@ -58,24 +59,24 @@ def home(request):
                     {'students':all_students,'teachers':all_teachers,'all_classes':klasses,'tests_created':new_test_teachers}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            #add_teachers('teachers.csv','Govindam Defence Academy',production=False)
+            add_teachers('teachers.csv','Govindam Defence Academy',production=True)
             #add_students('students1.csv','Govindam Defence Academy',production=False)
             #add_questions('Colonel Defence Academy','Defence-Physics')
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
             
-            sheet_links =\
-            ['1t1.csv','1t2.csv','2t1.csv','2t2.csv','3t1.csv','3t2.csv','9t2.csv']
-            sheet_link2 =\
-            ['10t.csv','12t2.csv','13t2.csv','14t2.csv','15t2.csv','18t1.csv','18t2.csv']
-            sheet_link3 =\
-            ['19t1.csv','19t2.csv','20t1.csv','23t1.csv','23t2.csv','24t1.csv','24t2.csv']
-            sheet_link4 =\
-            ['27t2.csv','29t2.csv','30t2.csv','31t2.csv']
-            sheet_link5 = ['32t2.csv','33t2.csv','34t2.csv']
-            add_to_database_questions(sheet_link5,'Colonel Defence\
-                                      Academy',onlyImage=True,production =\
-                                      True)
+            #sheet_links =\
+            #['1t1.csv','1t2.csv','2t1.csv','2t2.csv','3t1.csv','3t2.csv','9t2.csv']
+            #sheet_link2 =\
+            #['10t.csv','12t2.csv','13t2.csv','14t2.csv','15t2.csv','18t1.csv','18t2.csv']
+            #sheet_link3 =\
+            #['19t1.csv','19t2.csv','20t1.csv','23t1.csv','23t2.csv','24t1.csv','24t2.csv']
+            #sheet_link4 =\
+            #['27t2.csv','29t2.csv','30t2.csv','31t2.csv']
+            #sheet_link5 = ['32t2.csv','33t2.csv','34t2.csv']
+            #add_to_database_questions(sheet_link5,'Colonel Defence\
+            #                          Academy',onlyImage=True,production =\
+            #                          True)
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
@@ -85,7 +86,7 @@ def home(request):
 
         if user.groups.filter(name='Students').exists():
             profile = user.student
-            storage = messages.get_messages(request)
+            #storage = messages.get_messages(request)
             me = Studs(request.user)
 
             # if B2C customer then add tests  to profile
@@ -113,10 +114,10 @@ def home(request):
             # sending all values to template based on type of student
             if me.profile.school.name == "BodhiAI":
                 context = \
-                        {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests,'message':storage}
+                        {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
             else:
                 context = \
-                    {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests,'message':storage}
+                    {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
 
             return render(request, 'basicinformation/studentInstitute.html', context)
 
@@ -247,18 +248,22 @@ def student_subject_analysis(request):
 
             if mode == 'online':
                 if me.institution == 'School':
-                    tests = OnlineMarks.objects.filter(test__sub=subject, student=user.student)
+                    tests = OnlineMarks.objects.filter(test__sub=subject,
+                                                       student=me.profile)
                 elif me.institution == 'SSC':
-                    tests = SSCOnlineMarks.objects.filter(test__sub=subject, student=user.student)
+                    tests = SSCOnlineMarks.objects.filter(test__sub=subject,
+                                                          student=me.profile)
 
                 context = {'tests': tests,'subject':subject}
                 return \
                     render(request, 'basicinformation/student_self_sub_tests.html', context)
             elif mode == 'offline':
                 if me.institution == 'School':
-                    tests = OnlineMarks.objects.filter(test__sub=subject, student=user.student)
+                    tests = OnlineMarks.objects.filter(test__sub=subject,
+                                                       student=me.profile)
                 elif me.institution == 'SSC':
-                    tests = SSCOfflineMarks.objects.filter(test__sub=subject, student=user.student)
+                    tests = SSCOfflineMarks.objects.filter(test__sub=subject,
+                                                           student=me.profile)
                 context = {'tests': tests,'subject':subject}
                 return \
                     render(request, 'basicinformation/student_self_sub_tests.html', context)
@@ -269,14 +274,14 @@ def student_subject_analysis(request):
             #visible_tests(test_id)
             sub = idandsubject.split(',')[1]
             if me.institution == 'School':
-                test = OnlineMarks.objects.get(student=user.student, test__id=test_id)
+                test = OnlineMarks.objects.get(student=me.profile, test__id=test_id)
                 student_type = 'School'
             elif me.institution == 'SSC':
                 try:
-                    test = SSCOfflineMarks.objects.get(student=user.student, test__id=test_id)
+                    test = SSCOfflineMarks.objects.get(student=me.profile, test__id=test_id)
                     mode = 'offline'
                 except:
-                    test = SSCOnlineMarks.objects.get(student=user.student, test__id=test_id)
+                    test = SSCOnlineMarks.objects.get(student=me.profile, test__id=test_id)
                     mode = 'online'
 
                 student_type = 'SSC'
@@ -505,14 +510,9 @@ def teacher_weakAreasinDetail(request):
             before = timeit.default_timer()
             res = \
             me.online_problematicAreaswithIntensityAverage(user,which_sub,which_class)
-            end = timeit.default_timer()
-            before = timeit.default_timer()
             res = me.change_topicNumbersNamesWeakAreas(res,which_sub)
-            end = timeit.default_timer()
-            before = timeit.default_timer()
             timing,freq_timing = me.weakAreas_timing(user,which_sub,which_class)
             timing = me.change_topicNumbersNamesWeakAreas(timing,which_sub)
-            end = timeit.default_timer()
             context =\
             {'which_class':which_class,'probAreas':res,'timing':timing}
             return render(request,'basicinformation/teacher_weakAreasinDetail.html',context)
@@ -541,12 +541,6 @@ def teacher_update_page(request):
     me = Teach(user)
     if 'ajKlass' in request.GET:
         return HttpResponse('Choose from Above')
-        #which_class = request.GET['ajKlass']
-        #me = Teach(user)
-        #t1,t2,t3,tphy = me.listofStudentsMarks(which_class)
-        #marks = list(zip(t1,t2,t3))
-        #context = {'marks':marks}
-        #return render(request,'basicinformation/teacher_all_offlineMarks.html',context)
     elif 'schoolTestAnalysis' in request.GET:
         which_klass = request.GET['schoolTestAnalysis']
         which_class = which_klass.split(',')[0]
