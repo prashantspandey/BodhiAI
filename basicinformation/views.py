@@ -58,21 +58,22 @@ def home(request):
                     {'students':all_students,'teachers':all_teachers,'all_classes':klasses,'tests_created':new_test_teachers}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            #add_teachers('teachers.csv','Colonel Defence Academy',production=True)
-            #add_students('students.csv','Colonel Defence Academy',production=True)
+            #add_teachers('teachers.csv','Govindam Defence Academy',production=False)
+            #add_students('students1.csv','Govindam Defence Academy',production=False)
             #add_questions('Colonel Defence Academy','Defence-Physics')
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
             
             #sheet_links =\
-            #['1t1.csv','1t2.csv','2t1.csv','2t2.csv','3t1.csv','3t2.csv','9t2.csv','10t.csv','12t2.csv','13t2.csv','14t2.csv','15t2.csv','18t1.csv','18t2.csv','19t1.csv','19t2.csv','20t1.csv','23t1.csv','23t2.csv','24t1.csv','24t2.csv','25t1.csv','25t2.csv']
+            #['1t1.csv','1t2.csv','2t1.csv','2t2.csv','3t1.csv','3t2.csv','9t2.csv','10t.csv','12t2.csv','13t2.csv','14t2.csv','15t2.csv','18t1.csv','18t2.csv','19t1.csv','19t2.csv','20t1.csv','23t1.csv','23t2.csv','24t1.csv','24t2.csv','25t1.csv','25t2.csv','27t2.csv','28t2.csv','29t2.csv','30t2.csv','31t2.csv','32t2.csv','33t2.csv','34t2.csv']
             #add_to_database_questions(sheet_links,'Colonel Defence\
             #                          Academy',onlyImage=True,production =\
             #                          True)
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
-            add_questions('Colonel Defence Academy','Defence-Physics')
+            #add_questions('Govindam Defence Academy','Defence-Physics')
+            delete_sectionQuestions('Defence-Physics')
             return HttpResponse('hello')
 
         if user.groups.filter(name='Students').exists():
@@ -1193,7 +1194,7 @@ def real_create_student(stu,schoolName,swami=False,multiTeacher =False):
                         klass.objects.get(school__name=schoolName,name='IT-6th-semester')
                 elif schoolName == 'Govindam Defence Academy':
                     cl = klass.objects.get(school__name =
-                                           schoolName,name='Airforce-GroupX')
+                                           schoolName,name='DefenceBatch')
                 elif schoolName == 'Colonel Defence Academy':
                     cl = klass.objects.get(school__name =
                                            schoolName,name='DefenceBatch')
@@ -1206,11 +1207,11 @@ def real_create_student(stu,schoolName,swami=False,multiTeacher =False):
                 stu.save()
                 if multiTeacher:
                     for te in teacher:
-                        sub = Subject(name='GroupX-Physics', student=stu,
+                        sub = Subject(name='Defence-Physics', student=stu,
                                       teacher=te)
                         sub1 = Subject(name='GroupX-Maths', student=stu,
                                       teacher=te)
-                        sub2 = Subject(name='GroupX-English', student=stu,
+                        sub2 = Subject(name='Defence-English', student=stu,
                                       teacher=te)
 
                         sub.save()
@@ -1218,17 +1219,17 @@ def real_create_student(stu,schoolName,swami=False,multiTeacher =False):
                               %(stu,sub.name,te))
                         sub1.save()
                         print('%s student-- %s subject -- %s teacher'
-                              %(stu,sub.name,te))
+                              %(stu,sub1.name,te))
                         sub2.save()
                         print('%s student-- %s subject -- %s teacher'
-                              %(stu,sub.name,te))
+                              %(stu,sub2.name,te))
 
                 else:
-                    sub = Subject(name='GroupX-Physics', student=stu,
+                    sub = Subject(name='Defence-Physics', student=stu,
                                   teacher=teacher)
                     sub1 = Subject(name='GroupX-Maths', student=stu,
                                   teacher=teacher)
-                    sub2 = Subject(name='GroupX-English', student=stu,
+                    sub2 = Subject(name='Defence-English', student=stu,
                                   teacher=teacher)
 
                     sub.save()
@@ -1688,10 +1689,10 @@ def add_teachers(path_file,schoolName,production=False,jecrc=False,dummy=False):
     if dummy != True:
         if production:
             df = \
-            pd.read_csv('/app/client_info/colonelDefence_Kuchaman/'+path_file,error_bad_lines =False)
+            pd.read_csv('/app/client_info/govindamdefence_Kuchaman/'+path_file,error_bad_lines =False)
         else:
             df =\
-            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/colonelDefence_Kuchaman/'+path_file,error_bad_lines=False )
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/govindamdefence_Kuchaman/'+path_file,error_bad_lines=False )
         if jecrc:
             name = df['Name']
             batch = df['Group associated']
@@ -1705,14 +1706,24 @@ def add_teachers(path_file,schoolName,production=False,jecrc=False,dummy=False):
             batch = ['DefenceBatch','DefenceBatch']
             teach = list(zip(name,batch,phone))
             real_create_teacher('Colonel Defence Academy',teach,ph=True)
+        if schoolName == 'Govindam Defence Academy':
+            name = df['Name']
+            many = len(name)
+            phone = df['Phone']
+            batch = many*['DefenceBatch']
+            teach = list(zip(name,batch,phone))
+            real_create_teacher('Govindam Defence Academy',teach,ph=True)
+
+
 
     else:
         if schoolName == 'Govindam Defence Academy':
-            name = ['Govind Choudhary']
-            batch = ['Airforce-GroupX']
-            email = ['govindgarwa@gmail.com']
-            teach = list(zip(name,batch,email))
-            real_create_teacher('Govindam Defence Academy',teach)
+            name = ['Name']
+            many = len(name)
+            phone = ['Phone']
+            batch = many*['DefenceBatch']
+            teach = list(zip(name,batch,phone))
+            real_create_teacher('Govindam Defence Academy',teach,ph=True)
 
 
 
@@ -1720,10 +1731,10 @@ def add_students(path_file,schoolName,production = False,swami=False,dummy=False
     if dummy == False:
         if production:
             df = \
-            pd.read_csv('/app/client_info/colonelDefence_Kuchaman/'+path_file,error_bad_lines =False)
+            pd.read_csv('/app/client_info/govindamdefence_Kuchaman/'+path_file,error_bad_lines =False)
         else:
             df =\
-            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/colonelDefence_Kuchaman/'+path_file,error_bad_lines=False )
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/govindamdefence_Kuchaman/'+path_file,error_bad_lines=False )
         if swami:
             name = df['Name']
             dob = df['DOB']
@@ -1744,6 +1755,16 @@ def add_students(path_file,schoolName,production = False,swami=False,dummy=False
             real_create_student(stu,'Colonel Defence Academy',multiTeacher=True)
             return HttpResponse(stu)
 
+        if schoolName == 'Govindam Defence Academy':
+            name = df['Name']
+            many = len(name)
+            email = many*['']
+            phone = df['Phone']
+            batch = many*['']
+            teach = many*['']
+            stu = list(zip(name,batch,phone,teach,email))
+            real_create_student(stu,'Govindam Defence Academy',multiTeacher=True)
+            return HttpResponse(stu)
 
 
 
@@ -1781,7 +1802,7 @@ def add_questions(institute,section):
        print('%s --num quests' %len(questions))
        for i in questions:
            i.school.add(school)
-    elif institute == 'Govindam Defence Academy':
+    elif institute == 'Govindam Defence':
        questions = SSCquestions.objects.filter(school__name =
                                                'BodhiAI',section_category='English')
        school = School.objects.get(name = institute)
@@ -1875,6 +1896,13 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                     write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(used_for[ind]),str(lang[ind]),source[ind],fouroptions=True)
                 else:
                     write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],used_for,lang[ind],source[ind],fouroptions=True)
+
+
+def delete_sectionQuestions(section):
+    questions = SSCquestions.objects.filter(section_category = section)
+    print(len(questions))
+    for i in questions:
+        i.delete()
 
 
 def check_add_entities():
