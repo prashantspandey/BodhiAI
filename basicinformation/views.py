@@ -71,7 +71,7 @@ def home(request):
             sheet_link3 =\
             ['19t1.csv','19t2.csv','20t1.csv','23t1.csv','23t2.csv','24t1.csv','24t2.csv']
             sheet_link4 =\
-            ['28t2.csv','29t2.csv','30t2.csv','31t2.csv']
+            ['27t2.csv','29t2.csv','30t2.csv','31t2.csv']
             sheet_link5 = ['32t2.csv','33t2.csv','34t2.csv']
             add_to_database_questions(sheet_link4,'Colonel Defence\
                                       Academy',onlyImage=True,production =\
@@ -1854,7 +1854,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
             quest_category = []
             temp = []
             used_for = df['usedfor']
-            lang = df['lang']
+            #lang = df['lang']
             source = df['source']
             if onlyImage:
                 images = df['QuestionLink']
@@ -1901,7 +1901,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         
             for ind in range(len(optA)):
                 if onlyImage:
-                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(used_for[ind]),str(lang[ind]),source[ind],fouroptions=True)
+                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(used_for[ind]),None,source[ind],fouroptions=True)
                 else:
                     write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],used_for,lang[ind],source[ind],fouroptions=True)
 
