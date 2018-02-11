@@ -59,8 +59,8 @@ def home(request):
                     {'students':all_students,'teachers':all_teachers,'all_classes':klasses,'tests_created':new_test_teachers}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            add_teachers('teachers.csv','Govindam Defence Academy',production=True)
-            #add_students('students1.csv','Govindam Defence Academy',production=False)
+            #add_teachers('teachers.csv','Govindam Defence Academy',production=True)
+            add_students('students1.csv','Govindam Defence Academy',production=True)
             #add_questions('Colonel Defence Academy','Defence-Physics')
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
