@@ -5628,7 +5628,7 @@ class Teach:
         if subject == 'Defence-GK-CA':
             for i in arr:
                 if i == '1.1':
-                    names.apped('General Science')
+                    names.append('General Science')
                     numbers.append(i)
                 if i == '1.2':
                     names.append('Civics')
@@ -6330,7 +6330,7 @@ class Teach:
         if subject == 'Defence-GK-CA':
             for i in arr:
                 if i == '1.1':
-                    names.apped('General Science')
+                    names.append('General Science')
                     numbers.append(i)
                 if i == '1.2':
                     names.append('Civics')
@@ -6850,7 +6850,7 @@ class Teach:
         if subject == 'Defence-GK-CA':
             for i in arr:
                 if i == 'General Science':
-                    numbers.apped('1.1')
+                    numbers.append('1.1')
                 if i == 'Civics':
                     numbers.append('1.2')
                 if i == 'Geography':
