@@ -76,13 +76,15 @@ def home(request):
             #sheet_link4 =\
             #['30t2.csv','31t2.csv']
             #sheet_link5 = ['33t2.csv','34t2.csv']
-            add_to_database_questions(sheet_links,'Colonel Defence\
-                                      Academy',onlyImage=True,production =\
-                                      True)
+            #add_to_database_questions(sheet_links,'Colonel Defence\
+            #                          Academy',onlyImage=True,production =\
+            #                          True)
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
-            add_questions('Govindam Defence Academy','Defence-English')
+            #add_questions('Govindam Defence Academy','Defence-English')
+            add_student_subject('Govindam Defence Academy','Defence-GK-CA',None,allTeacers=True)
+            
             #questions = SSCquestions.objects.filter(section_category = 'GroupX-English')
             #print(len(questions))
             #delete_sectionQuestions('GroupX-English')
@@ -221,11 +223,8 @@ def student_self_analysis(request):
                 allSubjects = me.already_takenTests_Subjects()
                 print('%s taken tests' %allSubjects)
             else:
-                allSubjects = me.my_subjects_names()
-            if me.institution == 'SSC':
-                analysis_types = ['Institute Tests Analysis', 'Online Test Analysis']
-            else:
-                analysis_types = ['School Tests Analysis', 'Online Test Analysis']
+                allSubjects = me.already_takenTests_Subjects()
+            
             context = {'subjects': allSubjects}
             return render(request, 'basicinformation/selfStudentAnalysis.html', context)
 
@@ -371,55 +370,6 @@ def student_weakAreas(request):
         subject = request.GET['studWA']
         timing_areawise,freq_timer = me.areawise_timing(subject)
         freq_timer = me.changeTopicNumbersNames(freq_timer,subject)
-#        if me.institution == 'SSC':
-#            my_marks = SSCOnlineMarks.objects.filter(student =
-#                                                     self.profile,test__sub = subject)
-#            all_marks = SSCOnlineMarks.objects.filter(student= self.profile,test__sub =
-#                                              'SSCMultipleSections')
-#            offline_my_marks =SSCOfflineMarks.objects.filter(student=self.profile,test__sub=subject)
-#            offline_all_marks =SSCOfflineMarks.objects.filter(student =
-#                                                              self.profile,test__sub =
-#                                               'SSCMultipleSections')
-#
-#            try:
-#                weak_loader = SscStudentWeakAreaLoader.objects.get(student =
-#                                                                   me.profile,subject
-#                                                                   = subject)
-#                saved_onlinesinglesub = weak_loader.lenonlineSingleSub
-#                saved_onlinemultiplesub = weak_loader.lenonlineMultipleSub
-#                saved_offlinesinglesub = weak_loader.lenofflineSingleSub
-#                saved_offlinemultiplesub = weak_loader.lenofflineMultipleSub
-#
-#                if len(my_marks) == saved_onlinesinglesub and len(all_marks) ==
-#                saved_onlinemultiplesub and len(offline_my_marks) ==
-#                saved_offlinesinglesub and len(offline_all_marks) ==
-#                saved_offlinemultiplesub:
-#                    freq_category = weak_loader.topics
-#                    freq_weakness = weak_loader.weakTopics
-#                    freq = list(zip(freq_category,freq_weakness))
-#                else:
-#                    weak_loader.lenonlineSingleSub = len(my_marks)
-#                    weak_loader.lenonlineMultipleSub = len(all_marks)
-#                    weak_loader.lenofflineSingleSub = len(offline_my_marks)
-#                    weak_loader.lenofflineMultipleSub = len(offline_all_marks)
-#                    freq = me.weakAreas_IntensityAverage(subject)
-#                    freq_cat = freq[:,0]
-#                    freq_weakness = freq[:,1]
-#                    weak_loader.topics = freq_cat
-#                    weak_loader.weakTopics = freq_weakness
-#                    timing_areawise,freq_timer = me.areawise_timing(subject)
-#                    weak_loader.weakTiming = 0
-
-
-
-
-
-
-
-
-
-
-
 
         freq = me.weakAreas_IntensityAverage(subject)
         strongAreas = []
@@ -1911,6 +1861,25 @@ def delete_sectionQuestions(section):
     print(len(questions))
     for i in questions:
         i.delete()
+
+
+def add_student_subject(institute,subject,teach,allTeacers=False):
+    students = Student.objects.filter(school__name = institute)
+    if allTeacers:
+        teachers = Teacher.objects.filter(school__name = institute)
+        for st in students:
+            for teach in teachers:
+                sub = Subject(name=subject, student=st,
+                                    teacher=teach)
+                sub.save()
+
+    else:
+        teach = Teacher.objects.get(name=teach,school=institute)
+        for st in students:
+            sub = Subject(name=subject, student=st,
+                                    teacher=teach)
+            sub.save()
+
 
 
 def check_add_entities():

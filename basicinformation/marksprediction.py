@@ -3525,7 +3525,6 @@ class Studs:
                     return 'Passive to Active voice'
 
         if subject == 'Defence-Physics':
-            for i in arr:
                 if i == '1.1':
                     return 'Unit of Dimension'
                 if i == '2.1':
@@ -3653,7 +3652,6 @@ class Studs:
                 if i == '62.1':
                     return 'Digital electronics & logic gates'
         if subject == 'Defence-GK-CA':
-            for i in arr:
                 if i == '1.1':
                     return 'General Science'
                 if i == '1.2':
@@ -3669,7 +3667,6 @@ class Studs:
                 if i == '1.7':
                     return 'General Knowledge' 
 
-            return namedarr
 
 
 
