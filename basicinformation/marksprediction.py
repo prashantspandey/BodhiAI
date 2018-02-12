@@ -2664,6 +2664,33 @@ class Studs:
 
             return list(zip(namedarr,timing))
 
+        if subject == 'Defence-GK-CA':
+            for i,j in arr:
+                if i == '1.1':
+                    namedarr.append('General Science')
+                    timing.append(j)
+                if i == '1.2':
+                    namedarr.append('Civics')
+                    timing.append(j)
+                if i == '1.3':
+                    namedarr.append('Geography')
+                    timing.append(j)
+                if i == '1.4':
+                    namedarr.append('Current Events')
+                    timing.append(j)
+                if i == '1.5':
+                    namedarr.append('History')
+                    timing.append(j)
+                if i == '1.6':
+                    namedarr.append('Basic Computer Operation')
+                    timing.append(j)
+                if i == '1.7':
+                    namedarr.append('General Knowledge')
+                    timing.append(j)
+
+            return list(zip(namedarr,timing))
+
+
 
         if subject == 'GroupX-Maths':
             for i,j in arr:
@@ -3154,6 +3181,25 @@ class Studs:
 
             return namedarr
 
+        if subject == 'Defence-GK-CA':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('General Science')
+                if i == '1.2':
+                    namedarr.append('Civics')
+                if i == '1.3':
+                    namedarr.append('Geography')
+                if i == '1.4':
+                    namedarr.append('Current Events')
+                if i == '1.5':
+                    namedarr.append('History')
+                if i == '1.6':
+                    namedarr.append('Basic Computer Operation')
+                if i == '1.7':
+                    namedarr.append('General Knowledge')
+
+            return namedarr
+
 
 
         if subject == 'GroupX-Maths':
@@ -3606,6 +3652,26 @@ class Studs:
                     return 'Semi-conductor,diode & Transistors'
                 if i == '62.1':
                     return 'Digital electronics & logic gates'
+        if subject == 'Defence-GK-CA':
+            for i in arr:
+                if i == '1.1':
+                    return 'General Science'
+                if i == '1.2':
+                    return 'Civics'
+                if i == '1.3':
+                    return 'Geography'
+                if i == '1.4':
+                    return 'Current Events'
+                if i == '1.5':
+                    return 'History'
+                if i == '1.6':
+                    return 'Basic Computer Operation'
+                if i == '1.7':
+                    return 'General Knowledge' 
+
+            return namedarr
+
+
 
 
 
@@ -5559,6 +5625,36 @@ class Teach:
 
             return list(zip(names,numbers))
 
+        if subject == 'Defence-GK-CA':
+            for i in arr:
+                if i == '1.1':
+                    names.apped('General Science')
+                    numbers.append(i)
+                if i == '1.2':
+                    names.append('Civics')
+                    numbers.append(i)
+                if i == '1.3':
+                    names.append('Geography')
+                    numbers.append(i)
+                if i == '1.4':
+                    names.append('Current Events')
+                    numbers.append(i)
+                if i == '1.5':
+                    names.append('History')
+                    numbers.append(i)
+                if i == '1.6':
+                    names.append('Basic Computer Operation')
+                    numbers.append(i)
+                if i == '1.7':
+                    names.append('General Knowledge')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+
+
+
+
+
 
         if subject == 'GroupX-Maths':
             for i in arr:
@@ -6231,6 +6327,34 @@ class Teach:
                     numbers.append(i)
 
             return list(zip(names,numbers))
+        if subject == 'Defence-GK-CA':
+            for i in arr:
+                if i == '1.1':
+                    names.apped('General Science')
+                    numbers.append(i)
+                if i == '1.2':
+                    names.append('Civics')
+                    numbers.append(i)
+                if i == '1.3':
+                    names.append('Geography')
+                    numbers.append(i)
+                if i == '1.4':
+                    names.append('Current Events')
+                    numbers.append(i)
+                if i == '1.5':
+                    names.append('History')
+                    numbers.append(i)
+                if i == '1.6':
+                    names.append('Basic Computer Operation')
+                    numbers.append(i)
+                if i == '1.7':
+                    names.append('General Knowledge')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+
+
+
 
 
 
@@ -6722,6 +6846,27 @@ class Teach:
                     numbers.append('62.1')
 
             return numbers
+
+        if subject == 'Defence-GK-CA':
+            for i in arr:
+                if i == 'General Science':
+                    numbers.apped('1.1')
+                if i == 'Civics':
+                    numbers.append('1.2')
+                if i == 'Geography':
+                    numbers.append('1.3')
+                if i == 'Current Events':
+                    numbers.append('1.4')
+                if i == 'History':
+                    numbers.append('1.5')
+                if i == 'Basic Computer Operation':
+                    names.append('1.6')
+                if i == 'General Knowledge':
+                    names.append('1.7')
+
+            return numbers
+
+
 
 
 

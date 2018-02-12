@@ -113,7 +113,7 @@ class SSCquestions(models.Model):
     section_choices = \
         (('General-Intelligence','General-Intelligence'),('General-Knowledge','General-Knowledge')
          ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English'),('Defence-English','Defence-English'),
-        ('Defence-Physics','Defence-Physics'),('GroupX-Maths','GroupX-Maths'))
+        ('Defence-Physics','Defence-Physics'),('GroupX-Maths','GroupX-Maths'),('Defence-GK-CA','Defence-GK-CA'))
     diffculty_choices = (('easy','easy'),('medium','medium'),('hard','hard'))
     text = models.TextField(blank=True,null=True)
     tier_category = models.CharField(max_length=20,choices = tier_choices)
