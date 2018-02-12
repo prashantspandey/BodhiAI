@@ -72,16 +72,16 @@ def home(request):
             #['10t.csv','12t2.csv','13t2.csv','14t2.csv','15t2.csv','18t1.csv','18t2.csv']
             #sheet_link3 =\
             #['19t1.csv','19t2.csv','20t1.csv','23t1.csv','23t2.csv','24t1.csv','24t2.csv']
-            sheet_link4 =\
-            ['30t2.csv','31t2.csv']
-            sheet_link5 = ['33t2.csv','34t2.csv']
-            add_to_database_questions(sheet_link5,'Colonel Defence\
-                                      Academy',onlyImage=True,production =\
-                                      True)
+            #sheet_link4 =\
+            #['30t2.csv','31t2.csv']
+            #sheet_link5 = ['33t2.csv','34t2.csv']
+            #add_to_database_questions(sheet_link5,'Colonel Defence\
+            #                          Academy',onlyImage=True,production =\
+            #                          True)
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
-            #add_questions('Govindam Defence Academy','Defence-Physics')
+            add_questions('Govindam Defence Academy','Defence-Physics')
             #delete_sectionQuestions('Defence-Physics')
             return HttpResponse('hello')
 
