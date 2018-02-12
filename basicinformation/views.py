@@ -67,7 +67,7 @@ def home(request):
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
             
             sheet_links =\
-            ['12gk.csv','13gk.csv','17gk.csv','20gk.csv']
+            ['x3.csv','x4.csv','x11.csv','x12.csv']
             #sheet_link2 =\
             #['10t.csv','12t2.csv','13t2.csv','14t2.csv','15t2.csv','18t1.csv','18t2.csv']
             #sheet_link3 =\
@@ -75,14 +75,16 @@ def home(request):
             #sheet_link4 =\
             #['30t2.csv','31t2.csv']
             #sheet_link5 = ['33t2.csv','34t2.csv']
-            #add_to_database_questions(sheet_links,'Colonel Defence\
-            #                          Academy',onlyImage=True,production =\
-            #                          True)
+            add_to_database_questions(sheet_links,'Colonel Defence\
+                                      Academy',onlyImage=True,production =\
+                                      True)
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
-            add_questions('Govindam Defence Academy','Defence-GK-CA')
-            #delete_sectionQuestions('Defence-Physics')
+            #add_questions('Govindam Defence Academy','Defence-GK-CA')
+            questions = SSCquestions.objects.filter(section_category = 'GroupX-English')
+            print(len(questions))
+            delete_sectionQuestions('GroupX-English')
             return HttpResponse('hello')
 
         if user.groups.filter(name='Students').exists():
@@ -1836,10 +1838,10 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/defence_gk/'+sh,error_bad_lines=False )
+                pd.read_csv('/app/question_data/defence_english/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/defence_gk/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/defence_english/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
