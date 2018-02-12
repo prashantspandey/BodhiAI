@@ -95,7 +95,7 @@ class SSCquestions(models.Model):
     tp = 1 
     topic_choice = []
     topic_choice2 = []
-    for ch in range(1,30):
+    for ch in range(1,70):
         for tp in range(1,10):
             topic_choice.append(str(ch)+'.'+str(tp))
             topic_choice2.append(str(ch)+'.'+str(tp))
