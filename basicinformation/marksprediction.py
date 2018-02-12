@@ -2965,7 +2965,7 @@ class Studs:
 
 # group x subjects
 
-        if subject == 'GroupX-English':
+        if subject == 'Defence-English':
             for i in arr:
                 if i == '1.1':
                     namedarr.append('Comprehension')
@@ -3422,7 +3422,7 @@ class Studs:
                    return 'Polity (World)'
 # group x subjects
 
-        if subject == 'GroupX-English':
+        if subject == 'Defence-English':
                 if i == '1.1':
                     return 'Comprehension'
                 if i == '2.1':
@@ -5280,7 +5280,7 @@ class Teach:
             return changed
 # categories for GroupX 
 
-        if subject == 'GroupX-English':
+        if subject == 'Defence-English':
             for i in arr:
                 if i == '1.1':
                     names.append('Comprehension')
@@ -5953,7 +5953,7 @@ class Teach:
             return changed
 # categories for GroupX 
 
-        if subject == 'GroupX-English':
+        if subject == 'Defence-English':
             for i in arr:
                 if i == '1.1':
                     names.append('Comprehension')
@@ -6534,7 +6534,7 @@ class Teach:
             return numbers
 # categories for GroupX 
 
-        if subject == 'GroupX-English':
+        if subject == 'Defence-English':
             for i in arr:
                 if i == 'Comprehension':
                     numbers.append('1.1')
