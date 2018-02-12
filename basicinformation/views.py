@@ -60,8 +60,8 @@ def home(request):
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
             #add_teachers('teachers.csv','Govindam Defence Academy',production=True)
-            add_students('students2.csv','Govindam Defence Academy',production=True)
-            add_students('students3.csv','Govindam Defence Academy',production=True)
+            add_students('swami2jan.csv','Swami Reasoning World',swami=True,production=True)
+            #add_students('students3.csv','Govindam Defence Academy',production=True)
             #add_questions('Colonel Defence Academy','Defence-Physics')
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
@@ -1732,10 +1732,10 @@ def add_students(path_file,schoolName,production = False,swami=False,dummy=False
     if dummy == False:
         if production:
             df = \
-            pd.read_csv('/app/client_info/govindamdefence_Kuchaman/'+path_file,error_bad_lines =False)
+            pd.read_csv('/app/client_info/swami_jaipur/'+path_file,error_bad_lines =False)
         else:
             df =\
-            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/govindamdefence_Kuchaman/'+path_file,error_bad_lines=False )
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/swami_jaipur/'+path_file,error_bad_lines=False )
         if swami:
             name = df['Name']
             dob = df['DOB']
