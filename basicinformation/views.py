@@ -309,6 +309,11 @@ def student_subject_analysis(request):
                 if hours > 0:
                     tt = '{} hours {} minutes and {}\
                     seconds'.format(hours,mins,seconds)
+                try:
+                    if tt:
+                        pass
+                except:
+                    tt = None
 
                 ra,wa,sp,accuracy = me.test_statistics(test_id)
                 weak_areas = me.weakAreas_Intensity(sub,singleTest = test_id)
@@ -324,7 +329,7 @@ def student_subject_analysis(request):
                 context = \
                     {'test': test, 'average': average, 'percentAverage': percent_average,
                      'my_percent': my_marks_percent, 'percentile': percentile, 'allMarks': all_marks,
-                     'freq':
+                     'freq':\
                      freq,'student_type':student_type,'topicWeakness':weak_names,'topicTiming':timing,
                      'numberRight':ra,'numberWrong':wa,'numberSkipped':sp,'accuracy':accuracy,'subjectwise_accuracy':subjectwise_accuracy,'tt':tt}
                 return \
