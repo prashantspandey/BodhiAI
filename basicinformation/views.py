@@ -66,8 +66,8 @@ def home(request):
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
             
-            #sheet_links =\
-            #['1t1.csv','1t2.csv','2t1.csv','2t2.csv','3t1.csv','3t2.csv','9t2.csv']
+            sheet_links =\
+            ['y12.csv','y13.csv','y17.csv','y20.csv']
             #sheet_link2 =\
             #['10t.csv','12t2.csv','13t2.csv','14t2.csv','15t2.csv','18t1.csv','18t2.csv']
             #sheet_link3 =\
@@ -75,13 +75,13 @@ def home(request):
             #sheet_link4 =\
             #['30t2.csv','31t2.csv']
             #sheet_link5 = ['33t2.csv','34t2.csv']
-            #add_to_database_questions(sheet_link5,'Colonel Defence\
-            #                          Academy',onlyImage=True,production =\
-            #                          True)
+            add_to_database_questions(sheet_links,'Colonel Defence\
+                                      Academy',onlyImage=True,production =\
+                                      True)
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
-            add_questions('Govindam Defence Academy','Defence-Physics')
+            #add_questions('Govindam Defence Academy','Defence-Physics')
             #delete_sectionQuestions('Defence-Physics')
             return HttpResponse('hello')
 
@@ -1834,10 +1834,10 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/defence_physics/lucent/'+sh,error_bad_lines=False )
+                pd.read_csv('/app/question_data/defence_english/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/defence_physics/lucent/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/defence_english/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
