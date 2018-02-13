@@ -83,7 +83,8 @@ def home(request):
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
-            #add_questions('Colonel Defence Academy','Defence-English')
+            add_questions('Colonel Defence Academy','Defence-Physics')
+            add_questions('Colonel Defence Academy','Defence-GK-CA')
             #add_questions('Govindam Defence Academy','Defence-English')
             add_student_subject('Colonel Defence Academy','Defence-GK-CA',None,allTeacers=True)
             
