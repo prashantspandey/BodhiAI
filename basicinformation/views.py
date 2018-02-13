@@ -573,9 +573,9 @@ def teacher_update_page(request):
                 render(request, 'basicinformation/teacher_online_analysis.html', context)
         elif institution == 'SSC':
             subject0 = me.my_subjects_names()
-            subject1 = me.pattern_test_taken_subjects()
+            #subject1 = me.pattern_test_taken_subjects()
             subjects = me.test_taken_subjects(user)
-            sub = subject0+subjects+subject1
+            sub = subject0+subjects
             context = {'subs': sub, 'which_class': which_klass}
             return \
                 render(request, 'basicinformation/teacher_online_analysis.html', context)
@@ -594,18 +594,19 @@ def teacher_update_page(request):
             sub = onlineSubject.split(',')[0]
             which_class = onlineSubject.split(',')[1]
             kl = me.my_classes_objects(which_class)
-            if sub == 'Defence-MultipleSubjects':
-                online_tests =\
-                SSCKlassTest.objects.filter(creator=user,patternTestBatches=kl)
-                context = {'tests': online_tests}
-                return render(request, 'basicinformation/teacher_online_analysis2.html', context)
-            else:
+
+            online_tests = SSCKlassTest.objects.filter(creator=
+                                                user,
+                                                   klas=kl, sub=
+                                                sub,mode='BodhiOnline')
+            if len(online_tests) == 0 and sub == 'Defence-MultipleSubjects':
                 online_tests = SSCKlassTest.objects.filter(creator=
-                                                    user,
-                                                       klas__name=which_class, sub=
-                                                    sub,mode='BodhiOnline')
-                context = {'tests': online_tests}
-                return render(request, 'basicinformation/teacher_online_analysis2.html', context)
+                                                user,
+                                                    sub=
+                                                sub)
+
+            context = {'tests': online_tests}
+            return render(request, 'basicinformation/teacher_online_analysis2.html', context)
 
     elif 'onlinetestid' in request.GET:
         test_id = request.GET['onlinetestid']
