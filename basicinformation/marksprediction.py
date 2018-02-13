@@ -2061,7 +2061,7 @@ class Studs:
 
 # gets marks of all the tests taken by student to be displayed on home page
     def test_information(self,subjects):
-        if 'Defence' in subject:
+        if 'Defence' in subjects:
             multiple_marks = SSCOnlineMarks.objects.filter(test__sub =
                                                                'Defence-MultipleSubjects',student=self.profile)
         else:
