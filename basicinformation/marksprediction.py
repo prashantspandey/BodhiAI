@@ -4044,16 +4044,18 @@ class Teach:
 
 
     def my_classes_objects(self, klass_name=None):
-        if klass_name:
-            subs = self.profile.subject_set.all()
-            if subs:
-                klasses = []
-                for sub in subs:
-                    if sub.student.klass.name == klass_name:
-                        klasses.append(sub.student.klass)
-                return klasses[0]
-            else:
-                return None
+        kl = klass.objects.get(school=self.profile.school,name=klass_name)
+        return kl
+        #if klass_name:
+        #    subs = self.profile.subject_set.all()
+        #    if subs:
+        #        klasses = []
+        #        for sub in subs:
+        #            if sub.student.klass.name == klass_name:
+        #                klasses.append(sub.student.klass)
+        #        return klasses[0]
+        #    else:
+        #        return None
 
         subs = self.profile.subject_set.all()
         if subs:
@@ -5022,6 +5024,14 @@ class Teach:
                 subs.append(te.sub)
         return list(unique_everseen(subs))
 
+    def pattern_test_taken_subjects(self):
+        tests = SSCKlassTest.objects.filter(patternTestCreators = self.profile)
+        print(len(tests))
+        subs = []
+        for te in tests:
+            if te.sub != '':
+                subs.append(te.sub)
+        return list(unique_everseen(subs))
 
 
 

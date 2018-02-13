@@ -20,6 +20,8 @@ class KlassTest(models.Model):
     totalTime = models.IntegerField(blank=True,null=True)
     def __str__(self):
         return self.name
+
+
 class SSCKlassTest(models.Model):
     mode_choices =\
     (('BodhiOnline','BodhiOnline'),('BodhiSchool','BodhiSchool'))
@@ -38,6 +40,7 @@ class SSCKlassTest(models.Model):
     klas = models.ForeignKey(klass,null=True,blank=True)
     patternTestBatches = models.ManyToManyField(klass,related_name =
                                                 'patternBatches',null=True,blank=True)
+    patternTestCreators = models.ManyToManyField(Teacher)
     creator = models.ForeignKey(User,null=True,blank=True)
     sub = models.CharField(max_length=70,choices = subject_choices)
     due_date = models.DateField(null=True,blank=True)

@@ -60,6 +60,9 @@ def home(request):
                     {'students':all_students,'teachers':all_teachers,'all_classes':klasses,'tests_created':new_test_teachers}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
+            #te = SSCKlassTest.objects.get(name='GroupYT1')
+            #te.pk = None
+            #te.save()
             #add_teachers('teachers.csv','Govindam Defence Academy',production=True)
             #add_students('swami2jan.csv','Swami Reasoning World',swami=True,production=True)
             #add_students('students3.csv','Govindam Defence Academy',production=True)
@@ -84,9 +87,9 @@ def home(request):
             #                  False,fiveOptions=False,explanation_quest=False):
 
             #add_questions('Colonel Defence Academy','Defence-Physics')
-            add_questions('BodhiAI','Defence-English')
-            add_questions('BodhiAI','Defence-GK-CA')
-            add_questions('BodhiAI','Defence-Physics')
+            #add_questions('BodhiAI','Defence-English')
+            #add_questions('BodhiAI','Defence-GK-CA')
+            #add_questions('BodhiAI','Defence-Physics')
             #add_questions('Govindam Defence Academy','Defence-English')
             #add_student_subject('Colonel Defence Academy','Defence-GK-CA',None,allTeacers=True)
             
@@ -504,8 +507,6 @@ def teacher_update_page(request):
     klass_dict, all_klasses = teacher_get_students_classwise(request)
     me = Teach(user)
     if 'ajKlass' in request.GET:
-        kl = klass.objects.all()
-        print(len(kl))
 
         return HttpResponse('Choose from Above')
     elif 'schoolTestAnalysis' in request.GET:
@@ -562,10 +563,11 @@ def teacher_update_page(request):
             return \
                 render(request, 'basicinformation/teacher_online_analysis.html', context)
         elif institution == 'SSC':
-            #subjects = me.my_subjects_names()
-
+            subject0 = me.my_subjects_names()
+            subject1 = me.pattern_test_taken_subjects()
             subjects = me.test_taken_subjects(user)
-            context = {'subs': subjects, 'which_class': which_klass}
+            sub = subject0+subjects+subject1
+            context = {'subs': sub, 'which_class': which_klass}
             return \
                 render(request, 'basicinformation/teacher_online_analysis.html', context)
 
@@ -582,9 +584,10 @@ def teacher_update_page(request):
         elif institution == 'SSC':
             sub = onlineSubject.split(',')[0]
             which_class = onlineSubject.split(',')[1]
+            kl = me.my_classes_objects(which_class)
             if sub == 'Defence-MultipleSubjects':
                 online_tests =\
-                SSCKlassTest.objects.filter(creator=user,sub=sub,patternTestBatches__name=which_class)
+                SSCKlassTest.objects.filter(creator=me.profile,patternTestBatches=kl)
                 context = {'tests': online_tests}
                 return render(request, 'basicinformation/teacher_online_analysis2.html', context)
             else:
@@ -617,7 +620,9 @@ def teacher_update_page(request):
                        'freq':freq,'sq':sq,'problem_quests':problem_quests,'school':True}
             return render(request, 'basicinformation/teacher_online_analysis3.html', context)
         elif institution == 'SSC':
-            online_marks = SSCOnlineMarks.objects.filter(test__id=test_id)
+            online_marks =\
+            SSCOnlineMarks.objects.filter(test__id=test_id,student__school =
+                                          me.profile.school)
             try:
                 result_loader = SscTeacherTestResultLoader.objects.get(test__id = test_id)
             except:
