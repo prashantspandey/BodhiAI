@@ -1447,9 +1447,14 @@ class Studs:
             if singleTest == None:
                 my_marks = SSCOnlineMarks.objects.filter(student = self.profile,test__sub
                                                  = subject)
-                all_marks = SSCOnlineMarks.objects.filter(student= self.profile,
+                if 'Defence' in subject:
+                    all_marks = SSCOnlineMarks.objects.filter(student= self.profile,
                                                     test__sub =
-                                                    'SSCMultipleSections')
+                                                    'Defence-MultipleSubjects')
+                else:
+                    all_marks = SSCOnlineMarks.objects.filter(student= self.profile,
+                                                        test__sub =
+                                                        'SSCMultipleSections')
                 offline_my_marks =\
                 SSCOfflineMarks.objects.filter(student=self.profile,test__sub=subject)
                 offline_all_marks = SSCOfflineMarks.objects.filter(student =
@@ -1518,7 +1523,8 @@ class Studs:
                 except Exception as e:
                     print(str(e))
                     continue
-                if subject == 'SSCMultipleSections':
+                if subject == 'SSCMultipleSections' or subject ==\
+                'Defence-MultipleSubjects':
                     quid = qu.id
                     wq.append(quid)
                 else:
@@ -1539,7 +1545,8 @@ class Studs:
                 except Exception as e:
                     print(str(e))
                     continue
-                if subject == 'SSCMultipleSections':
+                if subject == 'SSCMultipleSections'or subject ==\
+                'Defence-MultipleSubjects':
                     quid = qu.id
                     wq.append(quid)
                 else:
@@ -1581,7 +1588,8 @@ class Studs:
                 qu = Questions.objects.get(id = u)
             elif self.institution == 'SSC':
                 qu = SSCquestions.objects.get(id = u)
-            if subject == 'SSCMultipleSections':
+            if subject == 'SSCMultipleSections'or subject ==\
+                'Defence-MultipleSubjects':
                 quest_cat = qu.topic_category
                 quest_sub = qu.section_category
                 name_cat = self.changeIndividualNames(quest_cat,quest_sub)
@@ -1615,7 +1623,12 @@ class Studs:
             marks = SSCOnlineMarks.objects.filter(student =
                                                   self.profile,test__sub =
                                                   subject)
-            all_marks = SSCOnlineMarks.objects.filter(student=
+            if 'Defence' in subject:
+                all_marks = SSCOnlineMarks.objects.filter(student=
+                                                      self.profile,test__sub='Defence-MultipleSubjects')
+            else:
+
+                all_marks = SSCOnlineMarks.objects.filter(student=
                                                       self.profile,test__sub='SSCMultipleSections')
             offline_marks =\
             SSCOfflineMarks.objects.filter(student=self.profile,test__sub =
@@ -1735,7 +1748,13 @@ class Studs:
         if self.institution == 'SSC':
             myMarks = SSCOnlineMarks.objects.filter(student =
                                                     self.profile,test__sub = subject)
-            allMyMarks =\
+            if 'Defence' in subject:
+                allMyMarks =\
+                 SSCOnlineMarks.objects.filter(student=self.profile,test__sub=
+                                              'Defence-MultipleSubjects')
+            else:
+
+                allMyMarks =\
                 SSCOnlineMarks.objects.filter(student=self.profile,test__sub=
                                               'SSCMultipleSections')
             if myMarks:
@@ -1774,10 +1793,15 @@ class Studs:
                             all_questions.append(aq.quest.topic_category)
                             all_timing.append(aq.time)
 
+                if 'Defence' in subject:
+                    all_marks =\
+                    SSCOnlineMarks.objects.filter(student=self.profile,test__sub=
+                                                  'Defence-MultipleSubjects')
+                else:
 
-                all_marks =\
-                SSCOnlineMarks.objects.filter(student=self.profile,test__sub=
-                                              'SSCMultipleSections')
+                    all_marks =\
+                    SSCOnlineMarks.objects.filter(student=self.profile,test__sub=
+                                                  'SSCMultipleSections')
                 if all_marks:
                     for om in all_marks:
                         for aq in om.sscansweredquestion_set.all():
@@ -1791,7 +1815,8 @@ class Studs:
 
                 if indi_marks:
                     for aq in indi_marks.sscansweredquestion_set.all():
-                        if subject == 'SSCMultipleSections':
+                        if subject == 'SSCMultipleSections' or subject ==\
+                        'Defence-MultipleSubjects':
                             category =\
                                 self.changeIndividualNames(aq.quest.topic_category,aq.quest.section_category)
                             all_questions.append(category)
@@ -1881,7 +1906,8 @@ class Studs:
                 except Exception as e:
                     print(str(e))
                     continue
-                if subject == 'SSCMultipleSections':
+                if subject == 'SSCMultipleSections' or subject ==\
+                'Defence-MultitpleSubjects':
                     quid = qu.id
                     wq.append(quid)
                 else:
@@ -1898,7 +1924,8 @@ class Studs:
                 except Exception as e:
                     print(str(e))
                     continue
-                if subject == 'SSCMultipleSections':
+                if subject == 'SSCMultipleSections' or subject ==\
+                'Defence-MultitpleSubjects':
                     quid = qu.id
                     wq.append(quid)
                 else:
@@ -1936,7 +1963,7 @@ class Studs:
                 qu = Questions.objects.get(id = u)
             elif self.institution == 'SSC':
                 qu = SSCquestions.objects.get(id = u)
-            if subject == 'SSCMultipleSections':
+            if subject == 'SSCMultipleSections' or subject == 'Defence-MultipleSubjects':
                 quest_cat = qu.topic_category
                 quest_sub = qu.section_category
                 name_cat = self.changeIndividualNames(quest_cat,quest_sub)
@@ -1969,8 +1996,13 @@ class Studs:
             marks = SSCOfflineMarks.objects.filter(student =
                                                   self.profile,test__sub =
                                                   subject)
-            all_marks = SSCOfflineMarks.objects.filter(student=
-                                                      self.profile,test__sub='SSCMultipleSections')
+            if 'Defence' in subject:
+                all_marks = SSCOfflineMarks.objects.filter(student=
+                                                          self.profile,test__sub='Defence-MultipleSubjects')
+            else:
+
+                all_marks = SSCOfflineMarks.objects.filter(student=
+                                                          self.profile,test__sub='SSCMultipleSections')
             all_ids = []
             for mark in marks:
                 for total in mark.allAnswers:
@@ -2029,7 +2061,12 @@ class Studs:
 
 # gets marks of all the tests taken by student to be displayed on home page
     def test_information(self,subjects):
-        multiple_marks = SSCOnlineMarks.objects.filter(test__sub =
+        if 'Defence' in subject:
+            multiple_marks = SSCOnlineMarks.objects.filter(test__sub =
+                                                               'Defence-MultipleSubjects',student=self.profile)
+        else:
+
+            multiple_marks = SSCOnlineMarks.objects.filter(test__sub =
                                                            'SSCMultipleSections',student=self.profile)
 
         teacher_name = {}
@@ -3760,9 +3797,15 @@ class Studs:
             marks = SSCOnlineMarks.objects.filter(student =
                                                   self.profile,test__sub =
                                                   subject)
-            mixed_marks =\
-            SSCOnlineMarks.objects.filter(student=self.profile,test__sub =
-                                          'SSCMultipleSections')
+            if 'Defence' in subject:
+                mixed_marks =\
+                SSCOnlineMarks.objects.filter(student=self.profile,test__sub =
+                                              'Defence-MultipleSubjects')
+            else:
+
+                mixed_marks =\
+                SSCOnlineMarks.objects.filter(student=self.profile,test__sub =
+                                              'SSCMultipleSections')
             if marks:
                 if len(marks)>1:
                     change = []
@@ -3807,8 +3850,12 @@ class Studs:
             # get marks query
             marks =\
             SSCOnlineMarks.objects.filter(student=self.profile,test__sub=subject).order_by('testTaken')
-            mixed_marks =\
-            SSCOnlineMarks.objects.filter(student=self.profile,test__sub='SSCMultipleSections').order_by('testTaken')
+            if 'Defence' in subject:
+                mixed_marks =\
+                SSCOnlineMarks.objects.filter(student=self.profile,test__sub='Defence-MultipleSubjects').order_by('testTaken')
+            else:
+                mixed_marks =\
+                SSCOnlineMarks.objects.filter(student=self.profile,test__sub='SSCMultipleSections').order_by('testTaken')
             # get all marks in list and sort it by test taken
             total = []
             if marks:
@@ -3894,7 +3941,12 @@ class Studs:
             marks = SSCOnlineMarks.objects.filter(student =
                                                   self.profile,test__sub=
                                                   subject).order_by('id')
-            mixed_marks = SSCOnlineMarks.objects.filter(student=
+            if 'Defence' in subject:
+                mixed_marks = SSCOnlineMarks.objects.filter(student=
+                                                        self.profile,test__sub
+                                                        ='Defence-MultipleSubjects').order_by('id')
+            else:
+                mixed_marks = SSCOnlineMarks.objects.filter(student=
                                                         self.profile,test__sub
                                                         ='SSCMultipleSections').order_by('id')
             # get all the categories of questions that student has taken 
@@ -4855,10 +4907,16 @@ class Teach:
                                                       user,test__sub =
                                                       subject,test__klas__name
                                                      = klass) 
-            all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
-                                                          user,test__sub=
-                                                          'SSCMultipleSections',test__klas__name
-                                                     = klass)
+            if 'Defence' in subject:
+                all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
+                                                              user,test__sub=
+                                                              'Defence-MultipleSubjects',test__klas__name
+                                                         = klass)
+            else:
+                all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
+                                                              user,test__sub=
+                                                              'SSCMultipleSections',test__klas__name
+                                                         = klass)
             offline_total_arr = SSCOfflineMarks.objects.filter(test__creator =
                                                                user,test__sub =
                                                                subject,test__klas__name
@@ -4965,9 +5023,14 @@ class Teach:
             marks = SSCOnlineMarks.objects.filter(test__sub = subject,
                                                   test__creator =
                                                   user)
-            every_marks = SSCOnlineMarks.objects.filter(test__sub =
-                                                        'SSCMultipleSections',test__creator
+            if 'Defence' in subject:
+                every_marks = SSCOnlineMarks.objects.filter(test__sub =
+                                                        'Defence-MultipleSubjects',test__creator
                                                         = user)
+            else:
+                every_marks = SSCOnlineMarks.objects.filter(test__sub =
+                                                            'SSCMultipleSections',test__creator
+                                                            = user)
             for om in marks:
                 for aq in om.sscansweredquestion_set.all():
                     all_questions.append(aq.quest.topic_category)
