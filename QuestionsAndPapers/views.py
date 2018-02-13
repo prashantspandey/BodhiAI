@@ -327,12 +327,11 @@ def publish_test(request):
                                         myTest.save()
                                     except:
                                         pass
-
-
-
- 
-
-                        myTest.sub = 'SSCMultipleSections'
+                        if 'Defence-Physics' in subs or 'Defence-English' in\
+                        subs or 'Defence-GK-CA' in subs:
+                            myTest.sub = 'Defence-MultipleSubjects'
+                        else:
+                            myTest.sub = 'SSCMultipleSections'
                     
                 myTest.mode = 'BodhiOnline'
                 myTest.save()
@@ -742,7 +741,8 @@ def pattern_test(request):
     me = Teach(user)
     if 'batch_test' in request.GET:
         batch = request.GET['batch_test']
-        subject = me.my_subjects_names()
+        #subject = me.my_subjects_names()
+        subject = me.test_taken_subjects(user)
         context = {'mySubs':subject,'batch':batch}
         return render(request,'questions/create_pattern_test2.html',context)
     if 'batchandsub' in request.GET:

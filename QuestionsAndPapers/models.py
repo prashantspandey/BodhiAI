@@ -26,8 +26,9 @@ class SSCKlassTest(models.Model):
     name = models.CharField(max_length=100)
     subject_choices = \
         (('General-Intelligence','General-Intelligence'),('General-Knowledge','General-Knowledge')
-         ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English'),
-        ('SSCMultipleSections','SSCMultipleSections'))
+         ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English'),('Defence-English','Defence-English'),
+        ('Defence-Physics','Defence-Physics'),('GroupX-Maths','GroupX-Maths'),('Defence-GK-CA','Defence-GK-CA'),
+        ('SSCMultipleSections','SSCMultipleSections'),('Defence-MultipleSubjects','Defence-MultipleSubjects'))
     course_choices = (('SSC','SSC'),('Railways','Railways'))
 
     #max_marks = models.DecimalField(max_digits=4,decimal_places=2)

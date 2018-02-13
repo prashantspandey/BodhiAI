@@ -17,6 +17,9 @@
 		<div class='well col-md-offset-1 col-md-10' id = 'patternQuestBox'>
 			{%if i.comprehension %}
 			<p> <pre>{{i.comprehension.text}}</pre> </p>
+			{%if i.comprehension.picture %}
+			<img src='{{i.comprehension.picture}}' class="img-responsive" >
+			{%endif%}
 			<img src='{{i.picture}}' class="img-responsive" >
 			{%endif%}
 			{%if i.text %}
@@ -27,9 +30,6 @@
 			{%endif%}
 			<div class="col-md-offset-10">
 			<p>Maximum-Marks: {{i.max_marks}}</p>
-			{% for tused in i.timesused_set.all %}
-			<p>Times Used: {{tused.numUsed}}</p>
-			{%endfor%}
 			</div>
 			{% for j in i.choices_set.all %}
 			<div class="radio col-md-offset-1">

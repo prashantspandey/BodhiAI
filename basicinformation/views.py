@@ -14,7 +14,7 @@ import pandas as pd
 import urllib.request
 from more_itertools import unique_everseen
 from django.contrib.auth.models import User, Group
-from .models import Student, Teacher, Subject, School, klass
+from .models import *
 from django.utils import timezone
 from django.contrib.staticfiles.templatetags.staticfiles import static
 # from .marksprediction import predictionConvertion, readmarks, averageoftest, teacher_get_students_classwise 
@@ -504,6 +504,9 @@ def teacher_update_page(request):
     klass_dict, all_klasses = teacher_get_students_classwise(request)
     me = Teach(user)
     if 'ajKlass' in request.GET:
+        kl = klass.objects.all()
+        print(len(kl))
+
         return HttpResponse('Choose from Above')
     elif 'schoolTestAnalysis' in request.GET:
         which_klass = request.GET['schoolTestAnalysis']
@@ -560,6 +563,7 @@ def teacher_update_page(request):
                 render(request, 'basicinformation/teacher_online_analysis.html', context)
         elif institution == 'SSC':
             #subjects = me.my_subjects_names()
+
             subjects = me.test_taken_subjects(user)
             context = {'subs': subjects, 'which_class': which_klass}
             return \
@@ -578,12 +582,18 @@ def teacher_update_page(request):
         elif institution == 'SSC':
             sub = onlineSubject.split(',')[0]
             which_class = onlineSubject.split(',')[1]
-            online_tests = SSCKlassTest.objects.filter(creator=
+            if sub == 'Defence-MultipleSubjects':
+                online_tests =\
+                SSCKlassTest.objects.filter(creator=user,sub=sub,patternTestBatches__name=which_class)
+                context = {'tests': online_tests}
+                return render(request, 'basicinformation/teacher_online_analysis2.html', context)
+            else:
+                online_tests = SSCKlassTest.objects.filter(creator=
                                                     user,
                                                        klas__name=which_class, sub=
                                                     sub,mode='BodhiOnline')
-            context = {'tests': online_tests}
-            return render(request, 'basicinformation/teacher_online_analysis2.html', context)
+                context = {'tests': online_tests}
+                return render(request, 'basicinformation/teacher_online_analysis2.html', context)
 
     elif 'onlinetestid' in request.GET:
         test_id = request.GET['onlinetestid']
