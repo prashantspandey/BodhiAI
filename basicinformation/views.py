@@ -84,9 +84,11 @@ def home(request):
             #                  False,fiveOptions=False,explanation_quest=False):
 
             #add_questions('Colonel Defence Academy','Defence-Physics')
-            add_questions('Colonel Defence Academy','General-Intelligence')
+            add_questions('BodhiAI','Defence-English')
+            add_questions('BodhiAI','Defence-GK-CA')
+            add_questions('BodhiAI','Defence-Physics')
             #add_questions('Govindam Defence Academy','Defence-English')
-            add_student_subject('Colonel Defence Academy','Defence-GK-CA',None,allTeacers=True)
+            #add_student_subject('Colonel Defence Academy','Defence-GK-CA',None,allTeacers=True)
             
             #questions = SSCquestions.objects.filter(section_category = 'GroupX-English')
             #print(len(questions))
