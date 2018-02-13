@@ -753,7 +753,7 @@ def pattern_test(request):
         kl = klass.objects.get(school = school_name,name = str(batch))
         course = kl.level
         all_tests = SSCKlassTest.objects.filter(sub = sub,course =
-                                                course,pattern_test = True)
+                                                course,creator =user, pattern_test = True)
         context = {'alltests':all_tests,'subject':sub,'batch':batch}
         return render(request,'questions/create_pattern_test3.html',context)
     if 'patterntestnumber' in request.GET:
@@ -762,10 +762,12 @@ def pattern_test(request):
         testsubject = test_name.split(',')[1]
         testbatch = test_name.split(',')[2]
         test = SSCKlassTest.objects.get(id=testid)
+        print('%s test' %test)
         quests = []
         for qu in test.sscquestions_set.all():
             quests.append(qu)
-            context = {'que':quests,'testbatch':testbatch,'testid':testid}
+        print(len(quests))
+        context = {'que':quests,'testbatch':testbatch,'testid':testid}
         return render(request,'questions/create_pattern_test4.html',context)
     if 'patternBatch' and 'patternTestid' and 'patternTest' in request.POST:
         batch = request.POST['patternBatch']

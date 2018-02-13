@@ -62,6 +62,8 @@ def home(request):
         if user.is_staff:
             #te = SSCKlassTest.objects.get(name='GroupYT1')
             #te.pk = None
+            #us = User.objects.get(username = '9783935637')
+            #te.creator = us
             #te.save()
             #add_teachers('teachers.csv','Govindam Defence Academy',production=True)
             #add_students('swami2jan.csv','Swami Reasoning World',swami=True,production=True)
@@ -587,7 +589,7 @@ def teacher_update_page(request):
             kl = me.my_classes_objects(which_class)
             if sub == 'Defence-MultipleSubjects':
                 online_tests =\
-                SSCKlassTest.objects.filter(creator=me.profile,patternTestBatches=kl)
+                SSCKlassTest.objects.filter(creator=user,patternTestBatches=kl)
                 context = {'tests': online_tests}
                 return render(request, 'basicinformation/teacher_online_analysis2.html', context)
             else:
