@@ -2734,35 +2734,41 @@ class Studs:
                 if i == '12.1':
                     namedarr.append('Logarithmic Series')
                     timing.append(j)
-                if i == '11.1':
+                if i == '13.1':
                     namedarr.append('Matrices')
                     timing.append(j)
-                if i == '11.1':
+                if i == '14.1':
                     namedarr.append('Determinants')
                     timing.append(j)
-                if i == '12.1':
+                if i == '15.1':
                     namedarr.append('Limit & Continuity')
                     timing.append(j)
-                if i == '13.1':
+                if i == '16.1':
                     namedarr.append('Differentiation')
                     timing.append(j)
-                if i == '14.1':
+                if i == '17.1':
                     namedarr.append('Application of Differentiation')
                     timing.append(j)
-                if i == '15.1':
+                if i == '18.1':
                     namedarr.append('Indefinite Integrals')
                     timing.append(j)
-                if i == '16.1':
+                if i == '19.1':
                     namedarr.append('Definite Integrals')
                     timing.append(j)
-                if i == '17.1':
+                if i == '20.1':
                     namedarr.append('Application of Integration')
                     timing.append(j)
-                if i == '17.1':
+                if i == '21.1':
                     namedarr.append('Diferential Equations')
                     timing.append(j)
-                if i == '17.1':
+                if i == '22.1':
                     namedarr.append('Probability Statistics')
+                    timing.append(j)
+                if i == '23.1':
+                    namedarr.append('Properties of Triangle')
+                    timing.append(j)
+                if i == '24.1':
+                    namedarr.append('Height&Distance')
                     timing.append(j)
 
 
@@ -3235,26 +3241,31 @@ class Studs:
                     namedarr.append('Exponential Series')
                 if i == '12.1':
                     namedarr.append('Logarithmic Series')
-                if i == '11.1':
-                    namedarr.append('Matrices')
-                if i == '11.1':
-                    namedarr.append('Determinants')
-                if i == '12.1':
-                    namedarr.append('Limit & Continuity')
                 if i == '13.1':
-                    namedarr.append('Differentiation')
+                    namedarr.append('Matrices')
                 if i == '14.1':
-                    namedarr.append('Application of Differentiation')
+                    namedarr.append('Determinants')
                 if i == '15.1':
-                    namedarr.append('Indefinite Integrals')
+                    namedarr.append('Limit & Continuity')
                 if i == '16.1':
+                    namedarr.append('Differentiation')
+                if i == '17.1':
+                    namedarr.append('Application of Differentiation')
+                if i == '18.1':
+                    namedarr.append('Indefinite Integrals')
+                if i == '19.1':
                     namedarr.append('Definite Integrals')
-                if i == '17.1':
+                if i == '20.1':
                     namedarr.append('Application of Integration')
-                if i == '17.1':
+                if i == '21.1':
                     namedarr.append('Diferential Equations')
-                if i == '17.1':
+                if i == '22.1':
                     namedarr.append('Probability Statistics')
+                if i == '23.1':
+                    namedarr.append('Properties of Triangle')
+                if i == '24.1':
+                    namedarr.append('Height&Distance')
+
 
 
             return namedar
@@ -3709,26 +3720,31 @@ class Studs:
                     return 'Exponential Series'
                 if i == '12.1':
                     return 'Logarithmic Series'
-                if i == '11.1':
-                    return 'Matrices'
-                if i == '11.1':
-                    return 'Determinants'
-                if i == '12.1':
-                    return 'Limit & Continuity'
                 if i == '13.1':
-                    return 'Differentiation'
+                    return 'Matrices'
                 if i == '14.1':
-                    return 'Application of Differentiation'
+                    return 'Determinants'
                 if i == '15.1':
-                    return 'Indefinite Integrals'
+                    return 'Limit & Continuity'
                 if i == '16.1':
+                    return 'Differentiation'
+                if i == '17.1':
+                    return 'Application of Differentiation'
+                if i == '18.1':
+                    return 'Indefinite Integrals'
+                if i == '19.1':
                     return 'Definite Integrals'
-                if i == '17.1':
+                if i == '20.1':
                     return 'Application of Integration'
-                if i == '17.1':
+                if i == '21.1':
                     return 'Diferential Equations'
-                if i == '17.1':
+                if i == '22.1':
                     return 'Probability Statistics'
+                if i == '23.1':
+                    return 'Properties of Triangle'
+                if i == '24.1':
+                    return 'Height&Distance'
+
 
 
 
@@ -5715,36 +5731,43 @@ class Teach:
                 if i == '12.1':
                     names.append('Logarithmic Series')
                     numbers.append(i)
-                if i == '11.1':
+                if i == '13.1':
                     names.append('Matrices')
                     numbers.append(i)
-                if i == '11.1':
+                if i == '14.1':
                     names.append('Determinants')
                     numbers.append(i)
-                if i == '12.1':
+                if i == '15.1':
                     names.append('Limit & Continuity')
                     numbers.append(i)
-                if i == '13.1':
+                if i == '16.1':
                     names.append('Differentiation')
                     numbers.append(i)
-                if i == '14.1':
+                if i == '17.1':
                     names.append('Application of Differentiation')
                     numbers.append(i)
-                if i == '15.1':
+                if i == '18.1':
                     names.append('Indefinite Integrals')
                     numbers.append(i)
-                if i == '16.1':
+                if i == '19.1':
                     names.append('Definite Integrals')
                     numbers.append(i)
-                if i == '17.1':
+                if i == '20.1':
                     names.append('Application of Integration')
                     numbers.append(i)
-                if i == '17.1':
+                if i == '21.1':
                     names.append('Diferential Equations')
                     numbers.append(i)
-                if i == '17.1':
+                if i == '22.1':
                     names.append('Probability Statistics')
                     numbers.append(i)
+                if i == '23.1':
+                    names.append('Properties of Triangle')
+                    numbers.append(i)
+                if i == '24.1':
+                    names.append('Height&Distance')
+                    numbers.append(i)
+
 
 
             return list(zip(names,numbers))
@@ -6421,36 +6444,43 @@ class Teach:
                 if i == '12.1':
                     names.append('Logarithmic Series')
                     numbers.append(i)
-                if i == '11.1':
+                if i == '13.1':
                     names.append('Matrices')
                     numbers.append(i)
-                if i == '11.1':
+                if i == '14.1':
                     names.append('Determinants')
                     numbers.append(i)
-                if i == '12.1':
+                if i == '15.1':
                     names.append('Limit & Continuity')
                     numbers.append(i)
-                if i == '13.1':
+                if i == '16.1':
                     names.append('Differentiation')
                     numbers.append(i)
-                if i == '14.1':
+                if i == '17.1':
                     names.append('Application of Differentiation')
                     numbers.append(i)
-                if i == '15.1':
+                if i == '18.1':
                     names.append('Indefinite Integrals')
                     numbers.append(i)
-                if i == '16.1':
+                if i == '19.1':
                     names.append('Definite Integrals')
                     numbers.append(i)
-                if i == '17.1':
+                if i == '20.1':
                     names.append('Application of Integration')
                     numbers.append(i)
-                if i == '17.1':
+                if i == '21.1':
                     names.append('Diferential Equations')
                     numbers.append(i)
-                if i == '17.1':
+                if i == '22.1':
                     names.append('Probability Statistics')
                     numbers.append(i)
+                if i == '23.1':
+                    names.append('Properties of Triangle')
+                    numbers.append(i)
+                if i == '24.1':
+                    names.append('Height&Distance')
+                    numbers.append(i)
+
             changed = list(zip(names,numbers))
             return changed
 
@@ -6944,6 +6974,11 @@ class Teach:
                     numbers.append('21.1')
                 if i == 'Probability Statistics':
                     numbers.append('22.1')
+                if i == 'Properties of Triangle':
+                    numbers.append('23.1')
+                if i == 'Height&Distance':
+                    numbers.append('24.1')
+
             return numbers
 
 

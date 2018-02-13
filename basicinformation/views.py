@@ -78,17 +78,23 @@ def home(request):
             #sheet_link3 =\
             #['1gk.csv','2gk.csv','3gk.csv','4gk.csv','5gk.csv','7gk.csv','8gk.csv','9gk.csv','10gk.csv']
             sheet_link3 =\
-            ['sk_passages1-5.csv']
-            #sheet_link4 =\
-            #['30t2.csv','31t2.csv']
+            ['ch5.csv','ch6.csv','ch7.csv']
+            sheet_link4 =\
+            ['ch8.csv','ch9.csv','ch10.csv','ch11.csv']
             #sheet_link5 = ['33t2.csv','34t2.csv']
-            #add_to_database_questions(sheet_link3,'Colonel Defence\
-            #                          Academy',onlyImage=True,production =\
-            #                          True)
+            add_to_database_questions(sheet_link4,'Colonel Defence\
+                                      Academy',onlyImage=True,production =\
+                                      True)
+            add_to_database_questions(sheet_link3,'Colonel Defence\
+                                      Academy',onlyImage=True,production =\
+                                      True)
+
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
-            add_questions('BodhiAI','Defence-English')
+            #add_questions('BodhiAI','GroupX-Maths')
+            #add_questions('Colonel Defence Academy','GroupX-Maths')
+            #add_questions('Govindam Defence Academy','GroupX-Maths')
             #add_questions('Govindam Defence Academy','Defence-English')
             #add_questions('BodhiAI','Defence-English')
             #add_questions('BodhiAI','Defence-GK-CA')
@@ -1817,10 +1823,10 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/defence_english/'+sh,error_bad_lines=False )
+                pd.read_csv('/app/question_data/defence_maths/lucent/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/defence_english/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/defence_maths/lucent/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
