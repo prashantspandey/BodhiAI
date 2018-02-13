@@ -223,7 +223,6 @@ def student_moreTests(request):
         if 'homePageMoreTests' in request.GET:
             me = Studs(user)
             new_tests = me.toTake_Tests(0,allTests = True)
-            print(new_tests)
             context = {'newTests':new_tests}
             return render(request,'basicinformation/studentMoreTests.html',context)
 
@@ -238,7 +237,6 @@ def student_self_analysis(request):
             if me.profile.school.name == 'BodhiAI':
                 allSubjects = me.subjects_OnlineTest() 
                 allSubjects = me.already_takenTests_Subjects()
-                print('%s taken tests' %allSubjects)
             else:
                 allSubjects = me.already_takenTests_Subjects()
             
@@ -907,7 +905,6 @@ def management_information(request):
                 online_marks = SSCOnlineMarks.objects.filter(test__id=test_id)
                 try:
                     result_loader = SscTeacherTestResultLoader.objects.get(test__id = test_id)
-                    print(result_loader)
                 except Exception as e:
                     print(str(e))
 
@@ -1113,7 +1110,6 @@ def real_create_student(stu,schoolName,swami=False,multiTeacher =False):
             try:
                 teacher = Teacher.objects.get(teacheruser__username =
                                               'rajeshkswamiadmin')
-                print(teacher)
             except Exception as e:
                 print(str(e))
             try:

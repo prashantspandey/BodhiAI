@@ -4695,14 +4695,22 @@ class Teach:
         elif self.institution == 'SSC':
             online_marks = SSCOnlineMarks.objects.filter(test__creator= user,test__sub=
                                                   subject,test__klas__name = klass)
-            all_onlineMarks = SSCOnlineMarks.objects.filter(test__creator =
-                                                            user,test__sub =
-                                                            'SSCMultipleSections',test__klas__name=
-                                                            klass)
+            if 'Defence' in klass:
+                all_onlineMarks = SSCOnlineMarks.objects.filter(test__creator =
+                                                                user,test__sub =
+                                                                'Defence-MultipleSubjects',test__klas__name=
+                                                                klass)
+            else:
+
+                all_onlineMarks = SSCOnlineMarks.objects.filter(test__creator =
+                                                                user,test__sub =
+                                                                'SSCMultipleSections',test__klas__name=
+                                                                klass)
             offline_marks = SSCOfflineMarks.objects.filter(test__creator =
                                                            user,test__sub =
                                                            subject,test__klas__name
                                                            = klass)
+
             all_offlinemarks = SSCOfflineMarks.objects.filter(test__creator =
                                                                user,test__sub =
                                                                'SSCMultipleSections',test__klas__name
