@@ -30,7 +30,8 @@ class SSCComprehensionAdmin(admin.ModelAdmin):
 
 admin.site.register(Questions,QuestionAdmin)
 admin.site.register(SSCquestions,SSCQuestionAdmin)
-admin.site.register(SSCOnlineMarks,SSCOnlineMarksAdmin)
+#admin.site.register(SSCOnlineMarks,SSCOnlineMarksAdmin)
+admin.site.register(SSCOnlineMarks)
 admin.site.register(Comprehension,SSCComprehensionAdmin)
 admin.site.register(KlassTest)
 admin.site.register(SSCKlassTest)
