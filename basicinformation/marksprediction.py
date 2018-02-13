@@ -2469,6 +2469,10 @@ class Studs:
                 if i == '22.1':
                     namedarr.append('Passive to Active voice')
                     timing.append(j)
+                if i == '50.1':
+                    namedarr.append('To be categorized')
+                    timing.append(j)
+
             return list(zip(namedarr,timing))
 
         if subject == 'Defence-Physics':
@@ -3048,6 +3052,9 @@ class Studs:
                     namedarr.append('Active to Passive voice')
                 if i == '22.1':
                     namedarr.append('Passive to Active voice')
+                if i == '50.1':
+                    namedarr.append('To be categorized')
+
             return namedarr
 
         if subject == 'Defence-Physics':
@@ -3523,6 +3530,9 @@ class Studs:
                     return 'Active to Passive voice'
                 if i == '22.1':
                     return 'Passive to Active voice'
+                if i == '50.1':
+                    return 'To be categorized'
+
 
         if subject == 'Defence-Physics':
                 if i == '1.1':
@@ -5426,6 +5436,10 @@ class Teach:
                 if i == '22.1':
                     names.append('Passive to Active voice')
                     numbers.append(i)
+                if i == '50.1':
+                    names.append('To be categorized')
+                    numbers.append(i)
+
             return list(zip(names,numbers))
 
 
@@ -6129,6 +6143,10 @@ class Teach:
                 if i == '22.1':
                     names.append('Passive to Active voice')
                     numbers.append(i)
+                if i == '50.1':
+                    names.append('To be categorized')
+                    numbers.append(i)
+
             changed = list(zip(names,numbers))
             return changed
 
@@ -6711,6 +6729,9 @@ class Teach:
                     numbers.append('26.1')
                 if i == 'Passive to Active voice':
                     numbers.append('27.1')
+                if i == 'To be categorized':
+                    numbers.append('50.1')
+
             return numbers
 
         if subject == 'Defence-Physics':

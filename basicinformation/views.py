@@ -43,6 +43,7 @@ def home(request):
                                                         te.teacheruser)
                 test_teachers[te] = {all_tests}
             new_test_teachers = {}
+            new_test_teachers = {}
             for key,value in test_teachers.items():
                 n_tests = []
                 for qs in value:
@@ -66,23 +67,24 @@ def home(request):
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
             
-            sheet_links =\
-            ['1english.csv','2english.csv','3english.csv','4english.csv','5english.csv']
-            sheet_link2=['7english.csv','8english.csv','9english.csv','10english.csv']
-            sheet_link3 =\
-            ['1gk.csv','2gk.csv','3gk.csv','4gk.csv','5gk.csv','7gk.csv','8gk.csv','9gk.csv','10gk.csv']
+            #sheet_links =\
+            #['1english.csv','2english.csv','3english.csv','4english.csv','5english.csv']
+            #sheet_link2=['7english.csv','8english.csv','9english.csv','10english.csv']
             #sheet_link3 =\
-            #['19t1.csv','19t2.csv','20t1.csv','23t1.csv','23t2.csv','24t1.csv','24t2.csv']
+            #['1gk.csv','2gk.csv','3gk.csv','4gk.csv','5gk.csv','7gk.csv','8gk.csv','9gk.csv','10gk.csv']
+            sheet_link3 =\
+            ['sk_english_test1.csv','sk_english_test2.csv','sk_english_test3.csv']
             #sheet_link4 =\
             #['30t2.csv','31t2.csv']
             #sheet_link5 = ['33t2.csv','34t2.csv']
-            #add_to_database_questions(sheet_links,'Colonel Defence\
-            #                          Academy',onlyImage=True,production =\
-            #                          True)
+            add_to_database_questions(sheet_link3,'Colonel Defence\
+                                      Academy',onlyImage=True,production =\
+                                      True)
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
             add_questions('Colonel Defence Academy','Defence-English')
+            add_questions('Govindam Defence Academy','Defence-English')
             #add_student_subject('Govindam Defence Academy','Defence-GK-CA',None,allTeacers=True)
             
             #questions = SSCquestions.objects.filter(section_category = 'GroupX-English')
