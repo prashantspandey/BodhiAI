@@ -82,14 +82,14 @@ def home(request):
             #sheet_link4 =\
             #['30t2.csv','31t2.csv']
             #sheet_link5 = ['33t2.csv','34t2.csv']
-            add_to_database_questions(sheet_link3,'Colonel Defence\
-                                      Academy',onlyImage=True,production =\
-                                      True)
+            #add_to_database_questions(sheet_link3,'Colonel Defence\
+            #                          Academy',onlyImage=True,production =\
+            #                          True)
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
-            add_questions('Colonel Defence Academy','Defence-English')
-            add_questions('Govindam Defence Academy','Defence-English')
+            add_questions('BodhiAI','Defence-English')
+            #add_questions('Govindam Defence Academy','Defence-English')
             #add_questions('BodhiAI','Defence-English')
             #add_questions('BodhiAI','Defence-GK-CA')
             #add_questions('BodhiAI','Defence-Physics')
