@@ -23,10 +23,6 @@ def create_test(request):
         if user.groups.filter(name= 'Teachers').exists():
             me = Teach(user)
             quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
-            if me.institution == 'School':
-                questions = Questions.objects.all()
-            elif me.institution == 'SSC':
-                questions = SSCquestions.objects.all()
             school = me.my_school()
             all_klasses = me.my_classes_names()
             try:
@@ -38,50 +34,23 @@ def create_test(request):
                         pass
 
                     ttt = request.GET['klass_test']
-                    klasses = klass.objects.filter(name=ttt)
-                    klass_level = 'aa'
-                    
-                    for kass in klasses:
-                        if me.institution == 'School':
-                            klass_level = kass.level
-                        elif me.institution == 'SSC':
-                            klass_level = 'SSC'
-                    if me.institution == "School":
-                        quest = Questions.objects.filter(level = klass_level,school
-                                                     =school)
-                    elif me.institution == "SSC":
-                        quest = SSCquestions.objects.filter(school= school)
-
-                    if me.institution == "School":
-                        if quest:
-                            unique_chapters = []
-                            for i in quest:
-                                unique_chapters.append(i.chapCategory)
-                            unique_chapters = list(unique_everseen(unique_chapters))
-                            test_type = 'School'
-                            return render(request, 'questions/klass_available.html',
-                                      {'fin':
-                                       unique_chapters,'which_klass':ttt,'test_type':test_type})
-                        else:
-                            test_type = 'School'
-                            noTest = 'Not Questions for this class'
-                            context = {'noTest':noTest,'test_type':test_type}
-                            return render(request,'questions/klass_available.html',context)
-                    elif me.institution == "SSC":
-                        if quest:
-                            unique_chapters = []
-                            for i in quest:
-                                unique_chapters.append(i.section_category)
-                            unique_chapters = list(unique_everseen(unique_chapters))
-                            test_type = 'SSC'
-                            return render(request, 'questions/klass_available.html',
-                                      {'fin':
-                                       unique_chapters,'which_klass':ttt,'test_type':test_type})
-                        else:
-                            noTest = 'Not Questions for this class'
-                            context = {'noTest':noTest}
-                            return
-                        render(request,'questions/klass_available.html',context)
+                    quest = SSCquestions.objects.filter(school= school)
+                    if len(quest)!=0:
+                        unique_chapters = me.my_subjects_names()
+                        #unique_chapters = []
+                        #for i in quest:
+                        #    unique_chapters.append(i.section_category)
+                        #unique_chapters = list(unique_everseen(unique_chapters))
+                        
+                        test_type = 'SSC'
+                        return render(request, 'questions/klass_available.html',
+                                  {'fin':
+                                   unique_chapters,'which_klass':ttt,'test_type':test_type})
+                    else:
+                        noTest = 'Not Questions for this class'
+                        context = {'noTest':noTest}
+                        return
+                    render(request,'questions/klass_available.html',context)
                 if 'category_test' in request.GET:
                     category_klass = request.GET['category_test']
                     split_category = category_klass.split(',')[0]
@@ -96,6 +65,7 @@ def create_test(request):
                         for i in quest:
                             all_categories.append(i.topic_category)
                         all_categories = list(unique_everseen(all_categories))
+                        #all_categories = me.return_TopicNames(split_category)
                         all_categories.sort()
                         all_categories = \
                         me.change_topicNumbersNames(all_categories,split_category)
@@ -112,12 +82,6 @@ def create_test(request):
                     splitClass = which_chap.split(",")[1]
                     splitSection = which_chap.split(",")[2]
                     klasses = klass.objects.filter(name=splitClass)
-                    klass_level = 'aa'
-                    for kass in klasses:
-                        if me.institution == 'School':
-                            klass_level = kass.level
-                        elif me.institution == 'SSC':
-                            klass_level = 'SSC'
                     
                     if os.path.exists(quest_file_name):
                         with open(quest_file_name,'rb') as fi:
@@ -126,25 +90,17 @@ def create_test(request):
                         for qq in questions_list:
                             idlist.append(qq.id)
 
-                        if me.institution == "School":
-                            klass_question = Questions.objects.filter(level =
-                                                          klass_level,chapCategory=splitChap,school=school)
-                        elif me.institution == "SSC":
-                            klass_question = \
-                            SSCquestions.objects.filter(topic_category = splitChap,school =
+                        klass_question = \
+                        SSCquestions.objects.filter(topic_category = splitChap,school =
                                                         school,section_category=splitSection)
                         context = \
                         {'que':klass_question,'idlist':idlist,'which_class':splitClass }
                         return render(request,'questions/klass_questions.html',context)
                     else:
-                        if me.institution == 'School':
-                            klass_question = Questions.objects.filter(level =
-                                                          klass_level,chapCategory=splitChap,school=school)
-                        elif me.institution == 'SSC':
-                            klass_question =\
-                            SSCquestions.objects.filter(topic_category =
-                                                        splitChap,school =
-                                                        school,section_category=splitSection)
+                        klass_question =\
+                        SSCquestions.objects.filter(topic_category =
+                                                    splitChap,school =
+                                                    school,section_category=splitSection)
                         context = \
                         {'que':klass_question,'which_class':splitClass }
                         return render(request,'questions/klass_questions.html',context)
@@ -153,7 +109,7 @@ def create_test(request):
             except Exception as e:
                 print(str(e))
 
-            context = {'questions':questions,'klasses':all_klasses}
+            context = {'klasses':all_klasses}
             return render(request,'questions/createTest.html',context)
         else:
             raise Http404("You don't have necessary permissions.")

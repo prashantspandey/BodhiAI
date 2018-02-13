@@ -6989,7 +6989,25 @@ class Teach:
 
             return numbers
 
-
+    def return_TopicNames(self,subject):
+        if subject == 'Defence-GK-CA':
+            sub_list = ['1.1','1.2','1.3','1.4','1.5','1.6','1.7']
+            return sub_list
+        if subject == 'GroupX-Maths':
+            sub_list =\
+            ['1.1','2.1','3.1','4.1','5.1','6.1','7.1','8.1','9.1','10.1','11.1','12.1','13.1','14.1','15.1','16.1','17.1','18.1','19.1','20.1','21.1','22.1','23.1','24.1']
+            return sub_list
+        if subject == 'Defence-Physics':
+            topic_choice = []
+            for ch in range(1,63):
+                topic_choice.append(str(ch)+'.'+str(1))
+            return topic_choice
+        if subject == 'Defence-English':
+            topic_choice = []
+            for ch in range(1,28):
+                topic_choice.append(str(ch)+'.'+str(1))
+            topic_choice.append('50.1')
+            return topic_choice
 
 
 
