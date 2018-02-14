@@ -15,6 +15,7 @@ import urllib.request
 from more_itertools import unique_everseen 
 from random import randint
 from decimal import *
+import sys
 # Create your views here.
 
 def create_test(request):
@@ -1124,6 +1125,7 @@ def evaluate_test(request):
             test_id = int(test_id)
         except Exception as e:
             print('no testSub value in error')
+            sys.stdout.flush()
             print(str(e))
             return HttpResponseRedirect(reverse('basic:home'))
         time_taken = request.POST['timeTaken']
@@ -1138,6 +1140,7 @@ def evaluate_test(request):
             test = SSCKlassTest.objects.get(id = test_id)
         except Exception as e:
             print('cant fetch test error to evaluate')
+            sys.stdout.flush()
             print(str(e))
         online_marks = SSCOnlineMarks()
         quest_ids = []
@@ -1174,6 +1177,7 @@ def evaluate_test(request):
                 
             except Exception as e:
                 print('line 1176')
+                sys.stdout.flush()
                 print(str(e))
                 skipped_ids.append(i)
 
@@ -1245,11 +1249,17 @@ def evaluate_test(request):
             if not an in ra and not an in wa:
                 final_skipped2.append(an)
         # calculate the total time taken for the test
+        print('%s time taken, %s type' %(time_taken,type(time_taken)))
+        sys.stdout.flush()
         try:
-            total_time = (test.totalTime * 60)- (float(time_taken))
+            time_taken = float(time_taken)
+        except:
+            time_taken = int(time_taken)
+        try:
+            total_time = (test.totalTime * 60)- time_taken
         except Exception as e:
             print(str(e))
-            total_time = int(1000) - float(time_taken)
+            total_time = int(1000) - time_taken
         # save to SSCOnlinemarks
         try:
             online_marks.rightAnswers = final_correct
@@ -1261,6 +1271,7 @@ def evaluate_test(request):
             online_marks.save()
         except Exception as e:
             print('error at line 1263')
+            sys.stdout.flush()
             print(str(e))
         num = 0
         # save question and time taken to solve the question
