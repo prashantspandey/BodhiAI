@@ -900,9 +900,9 @@ def conduct_Test(request):
 
         if 'onlineTestid' in request.GET:
             testid = request.GET['onlineTestid']
-            TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=testid).delete()
+            TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=int(testid)).delete()
             taken =\
-            SSCOnlineMarks.objects.filter(student=me.profile,test__id=testid)
+            SSCOnlineMarks.objects.filter(student=me.profile,test__id=int(testid))
             if len(taken)>0:
                 if me.institution == 'School':
                     student_type = 'School'
@@ -936,7 +936,7 @@ def conduct_Test(request):
                     return \
                 render(request,'questions/student_startoftest.html',context)
                 elif me.institution == 'SSC':
-                    test = SSCKlassTest.objects.get(id=testid)
+                    test = SSCKlassTest.objects.get(id=int(testid))
                     if test.totalTime:
                         timeTest = test.totalTime
                     else:
@@ -964,8 +964,10 @@ def conduct_Test(request):
 
         if 'takeTest' in request.POST:
             testid = request.POST['takeTest']
+            testid = int(testid)
             already_taken =\
-            SSCOnlineMarks.objects.filter(student=me.profile,test__id = testid)
+            SSCOnlineMarks.objects.filter(student=me.profile,test__id =
+                                          int(testid))
             if len(already_taken)>0:
                 raise Http404('You have already taken this test, Sorry!!\
                               retakes are not allowed.')
@@ -1055,12 +1057,12 @@ def conduct_Test(request):
 
                 try:
                     temp_marks = TemporaryAnswerHolder.objects.filter(stud =
-                                                                  user.student,test__id=test_id)
+                                                                  user.student,test__id=int(test_id))
                    
                 except:
                     pass
             # saves choice to temporary holder 
-                test = SSCKlassTest.objects.get(id = test_id)
+                test = SSCKlassTest.objects.get(id = int(test_id))
                 my_marks = TemporaryAnswerHolder()
                 my_marks.stud = user.student
                 my_marks.test = test
@@ -1116,6 +1118,7 @@ def evaluate_test(request):
     if 'testSub' in request.POST:
         # get values of test id and total test time
         test_id = request.POST['testSub']
+        test_id = int(test_id)
         time_taken = request.POST['timeTaken']
         print('%s --%s testid and time taken' %(test_id,time_taken))
         if me.institution == 'School':
@@ -1125,11 +1128,11 @@ def evaluate_test(request):
         elif me.institution == 'SSC':
             student_type = 'SSC'
             already_taken =\
-            SSCOnlineMarks.objects.filter(student=me.profile,test__id=test_id)
+            SSCOnlineMarks.objects.filter(student=me.profile,test__id=int(test_id))
             if len(already_taken)>0:
                 raise Http404('You have already taken this test, Sorry retakes\
                               are not allowed')
-            test = SSCKlassTest.objects.get(id = test_id)
+            test = SSCKlassTest.objects.get(id = int(test_id))
             online_marks = SSCOnlineMarks()
         quest_ids = []
         skipped_ids = []
@@ -1147,7 +1150,7 @@ def evaluate_test(request):
                 # get all the temporary holders and put the answer and time
                 # in a dictionary and add skipped questions to a list
                 temp_marks =\
-                TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=test_id,quests
+                TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=int(test_id),quests
                                                      =
                                                      str(i)).order_by('time')
                 for j in temp_marks:
@@ -1286,14 +1289,16 @@ def evaluate_test(request):
 
         # delete the temporary holders
         try:
-            TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=test_id).delete()
+            TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=int(test_id)).delete()
         except Exception as e:
             print(str(e))
         #context = \
         #{'student_type':student_type,'marks':online_marks,'timetaken':tt}
         try:
             return \
-            HttpResponseRedirect(reverse('QuestionsAndPapers:showFinishedTest',args=[test_id]))
+            HttpResponseRedirect(reverse('QuestionsAndPapers:showFinishedTest',args=[int(test_id)]))
         except ValueError:
             return HttpResponseRedirect(reverse('basic:home'))
+    
+        return HttpResponseRedirect(reverse('basic:home'))
 
