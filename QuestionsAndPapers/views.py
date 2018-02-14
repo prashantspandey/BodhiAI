@@ -901,7 +901,6 @@ def conduct_Test(request):
         if 'onlineTestid' in request.GET:
             testid = request.GET['onlineTestid']
             testid = int(testid)
-            print('%s testid --(1 error)' %testid)
             TemporaryAnswerHolder.objects.filter(stud=me.profile,test__id=testid).delete()
             taken =\
             SSCOnlineMarks.objects.filter(student=me.profile,test__id=testid)
@@ -1165,6 +1164,7 @@ def evaluate_test(request):
                         answers_ids.append(int(j.answers))
                         time_ids.append(j.time)
                     except Exception as e:
+                        print('line 1166')
                         print(str(e))
                
                 
@@ -1173,6 +1173,7 @@ def evaluate_test(request):
         
                 
             except Exception as e:
+                print('line 1176')
                 print(str(e))
                 skipped_ids.append(i)
 
@@ -1245,10 +1246,10 @@ def evaluate_test(request):
                 final_skipped2.append(an)
         # calculate the total time taken for the test
         try:
-            total_time = (test.totalTime * 60)- (int(time_taken))
+            total_time = (test.totalTime * 60)- (float(time_taken))
         except Exception as e:
             print(str(e))
-            total_time = int(1000) - int(time_taken)
+            total_time = int(1000) - float(time_taken)
         # save to SSCOnlinemarks
         try:
             online_marks.rightAnswers = final_correct
@@ -1259,6 +1260,7 @@ def evaluate_test(request):
             online_marks.timeTaken = total_time
             online_marks.save()
         except Exception as e:
+            print('error at line 1263')
             print(str(e))
         num = 0
         # save question and time taken to solve the question
@@ -1309,4 +1311,7 @@ def evaluate_test(request):
             return HttpResponseRedirect(reverse('basic:home'))
     
         return HttpResponseRedirect(reverse('basic:home'))
+    else:
+        return HttpResponseRedirect(reverse('basic:home'))
+
 
