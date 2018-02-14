@@ -900,9 +900,11 @@ def conduct_Test(request):
 
         if 'onlineTestid' in request.GET:
             testid = request.GET['onlineTestid']
-            TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=int(testid)).delete()
+            testid = int(testid)
+            print('%s testid --(1 error)' %testid)
+            TemporaryAnswerHolder.objects.filter(stud=me.profile,test__id=testid).delete()
             taken =\
-            SSCOnlineMarks.objects.filter(student=me.profile,test__id=int(testid))
+            SSCOnlineMarks.objects.filter(student=me.profile,test__id=testid)
             if len(taken)>0:
                 if me.institution == 'School':
                     student_type = 'School'
@@ -936,7 +938,7 @@ def conduct_Test(request):
                     return \
                 render(request,'questions/student_startoftest.html',context)
                 elif me.institution == 'SSC':
-                    test = SSCKlassTest.objects.get(id=int(testid))
+                    test = SSCKlassTest.objects.get(id=testid)
                     if test.totalTime:
                         timeTest = test.totalTime
                     else:
@@ -965,9 +967,10 @@ def conduct_Test(request):
         if 'takeTest' in request.POST:
             testid = request.POST['takeTest']
             testid = int(testid)
+            print('%s testid -- error(2)' %testid)
             already_taken =\
             SSCOnlineMarks.objects.filter(student=me.profile,test__id =
-                                          int(testid))
+                                          testid)
             if len(already_taken)>0:
                 raise Http404('You have already taken this test, Sorry!!\
                               retakes are not allowed.')
@@ -1117,23 +1120,27 @@ def evaluate_test(request):
     me = Studs(user)
     if 'testSub' in request.POST:
         # get values of test id and total test time
-        test_id = request.POST['testSub']
-        test_id = int(test_id)
+        try:
+            test_id = request.POST['testSub']
+            test_id = int(test_id)
+        except Exception as e:
+            print('no testSub value in error')
+            print(str(e))
+            return HttpResponseRedirect(reverse('basic:home'))
         time_taken = request.POST['timeTaken']
         print('%s --%s testid and time taken' %(test_id,time_taken))
-        if me.institution == 'School':
-            student_type = 'School'
-            test = KlassTest.objects.get(id = test_id)
-            online_marks = OnlineMarks()
-        elif me.institution == 'SSC':
-            student_type = 'SSC'
-            already_taken =\
-            SSCOnlineMarks.objects.filter(student=me.profile,test__id=int(test_id))
-            if len(already_taken)>0:
-                raise Http404('You have already taken this test, Sorry retakes\
-                              are not allowed')
-            test = SSCKlassTest.objects.get(id = int(test_id))
-            online_marks = SSCOnlineMarks()
+        student_type = 'SSC'
+        already_taken =\
+        SSCOnlineMarks.objects.filter(student=me.profile,test__id=test_id)
+        if len(already_taken)>0:
+            raise Http404('You have already taken this test, Sorry retakes\
+                          are not allowed')
+        try:
+            test = SSCKlassTest.objects.get(id = test_id)
+        except Exception as e:
+            print('cant fetch test error to evaluate')
+            print(str(e))
+        online_marks = SSCOnlineMarks()
         quest_ids = []
         skipped_ids = []
         quest_ans_dict = {}
@@ -1165,7 +1172,8 @@ def evaluate_test(request):
                 quest_ans_dict[i] = qad
         
                 
-            except:
+            except Exception as e:
+                print(str(e))
                 skipped_ids.append(i)
 
         all_answers = []
