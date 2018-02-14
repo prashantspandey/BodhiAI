@@ -135,7 +135,7 @@ def home(request):
             #add_questions('BodhiAI','Defence-GK-CA')
             #add_questions('BodhiAI','Defence-Physics')
             #add_questions('Govindam Defence Academy','Defence-English')
-            add_student_subject('Colonel Defence Academy','Defence-English',None,allTeacers=True)
+            add_student_subject('Colonel Defence Academy','Defence-Physics',None,allTeacers=True)
             
             #questions = SSCquestions.objects.filter(section_category = 'GroupX-English')
             #print(len(questions))
