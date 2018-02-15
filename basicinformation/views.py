@@ -100,10 +100,10 @@ def home(request):
 
 
             #add_teachers('teachers.csv','Govindam Defence Academy',production=True)
-            #add_students('swami2jan.csv','Swami Reasoning World',swami=True,production=True)
+            add_students('4thsemjecrc.csv','JECRC',production=True)
             #add_students('students3.csv','Govindam Defence Academy',production=True)
-            add_questions('Colonel Defence Academy','Defence-Physics')
-            add_questions('Colonel Defence Academy','Defence-English')
+            #add_questions('Colonel Defence Academy','Defence-Physics')
+            #add_questions('Colonel Defence Academy','Defence-English')
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
             
@@ -135,7 +135,7 @@ def home(request):
             #add_questions('BodhiAI','Defence-GK-CA')
             #add_questions('BodhiAI','Defence-Physics')
             #add_questions('Govindam Defence Academy','Defence-English')
-            add_student_subject('Colonel Defence Academy','Defence-Physics',None,allTeacers=True)
+            #add_student_subject('Colonel Defence Academy','Defence-Physics',None,allTeacers=True)
             
             #questions = SSCquestions.objects.filter(section_category = 'GroupX-English')
             #print(len(questions))
@@ -1138,9 +1138,20 @@ def create_student(num, request):
         except Exception as e:
             print(str(e))
 
-def real_create_student(stu,schoolName,swami=False,multiTeacher =False):
+def real_create_student(stu,schoolName,swami=False,multiTeacher
+                        =False,delUsers=False):
     print('in process............')
     school = School.objects.get(name=schoolName)
+    if delUsers == True:
+        try:
+            for na,bat,phone,te,em in stu:
+                user = User.objects.get(username=phone)
+                user.delete()
+                print('deleted')
+        except Exception as e:
+            print('user delete error')
+            print(str(e))
+
     if swami:
         for na,dob,batch,phone,password in stu:
             try:
@@ -1247,16 +1258,16 @@ def real_create_student(stu,schoolName,swami=False,multiTeacher =False):
                               %(stu,sub2.name,te))
 
                 else:
-                    sub = Subject(name='Defence-Physics', student=stu,
+                    sub = Subject(name='General-Intelligence', student=stu,
                                   teacher=teacher)
-                    sub1 = Subject(name='GroupX-Maths', student=stu,
-                                  teacher=teacher)
-                    sub2 = Subject(name='Defence-English', student=stu,
-                                  teacher=teacher)
+                    #sub1 = Subject(name='GroupX-Maths', student=stu,
+                    #              teacher=teacher)
+                    #sub2 = Subject(name='Defence-English', student=stu,
+                    #              teacher=teacher)
 
                     sub.save()
-                    sub1.save()
-                    sub2.save()
+                    #sub1.save()
+                    #sub2.save()
 
                 print('%s -- saved' %na)
             except Exception as e:
@@ -1754,10 +1765,10 @@ def add_students(path_file,schoolName,production = False,swami=False,dummy=False
     if dummy == False:
         if production:
             df = \
-            pd.read_csv('/app/client_info/swami_jaipur/'+path_file,error_bad_lines =False)
+            pd.read_csv('/app/client_info/jecrc/'+path_file,error_bad_lines =False)
         else:
             df =\
-            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/swami_jaipur/'+path_file,error_bad_lines=False )
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/jecrc/'+path_file,error_bad_lines=False )
         if swami:
             name = df['Name']
             dob = df['DOB']
@@ -1787,6 +1798,16 @@ def add_students(path_file,schoolName,production = False,swami=False,dummy=False
             teach = many*['']
             stu = list(zip(name,batch,phone,teach,email))
             real_create_student(stu,'Govindam Defence Academy',multiTeacher=True)
+            return HttpResponse(stu)
+
+        if schoolName == 'JECRC':
+            name = df['Name']
+            email = df['email']
+            phone = df['Phone']
+            teach = df['TG']
+            batch = df['batch']
+            stu = list(zip(name,batch,phone,teach,email))
+            real_create_student(stu,'JECRC',delUsers= True)
             return HttpResponse(stu)
 
 
