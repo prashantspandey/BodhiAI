@@ -1098,17 +1098,13 @@ def evaluate_test(request):
         except Exception as e:
             test_stu =\
             StudentCurrentTest.objects.filter(student=me.profile).order_by('-time')
-            print(len(test_stu))
             test_stu = test_stu[0]
-            print(test_stu.id)
             test_id = test_stu.test.id
             print(str(e))
         try:
             time_taken = request.POST['timeTaken']
         except Exception as e:
-            test = SSCKlassTest.objects.get(id=test_id)
-            time_taken = int(test.totalTime)
-            print(str(e))
+            time_taken = int(100)
 
         print('%s --%s testid and time taken' %(test_id,time_taken))
 
@@ -1236,8 +1232,7 @@ def evaluate_test(request):
         try:
             time_taken = float(time_taken)
         except:
-            test = SSCKlassTest.objects.get(id=test_id)
-            time_taken = int(test.totalTime)
+            time_taken = float(100)
             print(str(e))
 
         try:
