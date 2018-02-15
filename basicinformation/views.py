@@ -99,9 +99,10 @@ def home(request):
             #    q.ktest.add(ee)
 
 
-            #add_teachers('teachers.csv','Govindam Defence Academy',production=True)
-            #add_students('4thsem2jecrc.csv','JECRC',production=True)
-            #add_students('students3.csv','Govindam Defence Academy',production=True)
+            add_teachers('kartavyateachers.csv','Kartavya Defence Academy',production=True)
+            add_teachers('krteachers.csv','KR Defence Coaching',production=True)
+            add_students('kartavyastudents.csv','Kartavya Defence Academy',production=True)
+            add_students('krstudents.csv','KR Defence Coaching',production=True)
             #add_questions('Colonel Defence Academy','Defence-Physics')
             #add_questions('Colonel Defence Academy','Defence-English')
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
@@ -116,10 +117,10 @@ def home(request):
             ['ch5.csv','ch6.csv','ch7.csv']
             sheet_link4 =\
             ['ch8.csv','ch9.csv','ch10.csv','ch11.csv']
-            questions = SSCquestions.objects.filter(school__name='Govindam Defence Academy')
-            for i in questions:
-                i.max_marks = int(1)
-                i.save()
+            #questions = SSCquestions.objects.filter(school__name='Govindam Defence Academy')
+            #for i in questions:
+            #    i.max_marks = int(1)
+            #    i.save()
 
             #sheet_link5 = ['33t2.csv','34t2.csv']
             #add_to_database_questions(sheet_link4,'Colonel Defence\
@@ -1236,6 +1237,14 @@ def real_create_student(stu,schoolName,swami=False,multiTeacher
                 elif schoolName == 'Colonel Defence Academy':
                     cl = klass.objects.get(school__name =
                                            schoolName,name='DefenceBatch')
+                elif schoolName == 'Kartavya Defence Academy':
+                    cl = klass.objects.get(school__name =
+                                           schoolName,name='DefBatchKartavya')
+                elif schoolName == 'KR Defence Coaching':
+                    cl = klass.objects.get(school__name =
+                                           schoolName,name='DefBatchKr')
+
+
 
                 stu = Student(studentuser=us, klass=cl,
                                   rollNumber=us.id,
@@ -1728,10 +1737,10 @@ def add_teachers(path_file,schoolName,production=False,jecrc=False,dummy=False):
     if dummy != True:
         if production:
             df = \
-            pd.read_csv('/app/client_info/govindamdefence_Kuchaman/'+path_file,error_bad_lines =False)
+            pd.read_csv('/app/client_info/dummy/'+path_file,error_bad_lines =False)
         else:
             df =\
-            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/govindamdefence_Kuchaman/'+path_file,error_bad_lines=False )
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/dummy/'+path_file,error_bad_lines=False )
         if jecrc:
             name = df['Name']
             batch = df['Group associated']
@@ -1752,6 +1761,23 @@ def add_teachers(path_file,schoolName,production=False,jecrc=False,dummy=False):
             batch = many*['DefenceBatch']
             teach = list(zip(name,batch,phone))
             real_create_teacher('Govindam Defence Academy',teach,ph=True)
+        if schoolName == 'Kartavya Defence Academy':
+            name = df['Name']
+            many = len(name)
+            phone = df['Phone']
+            batch = many*['DefBatchKartavya']
+            teach = list(zip(name,batch,phone))
+            real_create_teacher('Kartavya Defence Academy',teach,ph=True)
+
+        if schoolName == 'KR Defence Coaching':
+            name = df['Name']
+            many = len(name)
+            phone = df['Phone']
+            batch = many*['DefBatchKr']
+            teach = list(zip(name,batch,phone))
+
+            real_create_teacher('KR Defence Coaching',teach,ph=True)
+
 
 
 
@@ -1770,10 +1796,10 @@ def add_students(path_file,schoolName,production = False,swami=False,dummy=False
     if dummy == False:
         if production:
             df = \
-            pd.read_csv('/app/client_info/jecrc/'+path_file,error_bad_lines =False)
+            pd.read_csv('/app/client_info/dummy/'+path_file,error_bad_lines =False)
         else:
             df =\
-            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/jecrc/'+path_file,error_bad_lines=False )
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/client_info/dummy/'+path_file,error_bad_lines=False )
         if swami:
             name = df['Name']
             dob = df['DOB']
@@ -1814,6 +1840,27 @@ def add_students(path_file,schoolName,production = False,swami=False,dummy=False
             stu = list(zip(name,batch,phone,teach,email))
             real_create_student(stu,'JECRC',delUsers= True)
             return HttpResponse(stu)
+        if schoolName == 'Kartavya Defence Academy':
+            name = df['Name']
+            many = len(name)
+            email = many*['']
+            phone = df['Phone']
+            batch = many*['']
+            teach = many*['']
+            stu = list(zip(name,batch,phone,teach,email))
+            real_create_student(stu,'Kartavya Defence Academy',multiTeacher=True,delUsers = True)
+            return HttpResponse(stu)
+        if schoolName == 'KR Defence Coaching':
+            name = df['Name']
+            many = len(name)
+            email = many*['']
+            phone = df['Phone']
+            batch = many*['']
+            teach = many*['']
+            stu = list(zip(name,batch,phone,teach,email))
+            real_create_student(stu,'KR Defence Coaching',multiTeacher=True,delUsers=True)
+            return HttpResponse(stu)
+
 
 
 

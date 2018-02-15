@@ -5097,11 +5097,16 @@ class Teach:
             numCorrect.append(len(i.rightAnswers))
             numIncorrect.append(len(i.wrongAnswers))
             numSkipped.append(len(i.skippedAnswers))
+            right_answers = 0
+            wrong_answers = 0
+            skipped_answers = 0
+        # counts number of right,wrong and skipped answers
+     
         rank = self.find_classRank(scores)
         result =\
         list(zip(names,totalMarks,scores,rank,percentage,numCorrect,numIncorrect,numSkipped))
         return np.array(result)
-        
+
 
     def test_taken_subjects(self,user):
         tests = SSCKlassTest.objects.filter(creator=user)
