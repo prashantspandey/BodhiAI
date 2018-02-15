@@ -118,7 +118,7 @@ def home(request):
             ['ch8.csv','ch9.csv','ch10.csv','ch11.csv']
             questions = SSCquestions.objects.filter(school__name='Govindam Defence Academy')
             for i in questions:
-                i.max_marks = 1
+                i.max_marks = int(1)
                 i.save()
 
             #sheet_link5 = ['33t2.csv','34t2.csv']
