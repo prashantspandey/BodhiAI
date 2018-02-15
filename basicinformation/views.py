@@ -100,7 +100,7 @@ def home(request):
 
 
             #add_teachers('teachers.csv','Govindam Defence Academy',production=True)
-            add_students('4th2semjecrc.csv','JECRC',production=True)
+            add_students('4thsem2jecrc.csv','JECRC',production=True)
             #add_students('students3.csv','Govindam Defence Academy',production=True)
             #add_questions('Colonel Defence Academy','Defence-Physics')
             #add_questions('Colonel Defence Academy','Defence-English')
