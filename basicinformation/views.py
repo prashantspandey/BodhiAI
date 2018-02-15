@@ -100,7 +100,7 @@ def home(request):
 
 
             #add_teachers('teachers.csv','Govindam Defence Academy',production=True)
-            add_students('4thsem2jecrc.csv','JECRC',production=True)
+            #add_students('4thsem2jecrc.csv','JECRC',production=True)
             #add_students('students3.csv','Govindam Defence Academy',production=True)
             #add_questions('Colonel Defence Academy','Defence-Physics')
             #add_questions('Colonel Defence Academy','Defence-English')
@@ -116,6 +116,11 @@ def home(request):
             ['ch5.csv','ch6.csv','ch7.csv']
             sheet_link4 =\
             ['ch8.csv','ch9.csv','ch10.csv','ch11.csv']
+            questions = SSCquestions.objects.filter(school__name='Govindam Defence Academy')
+            for i in questions:
+                i.negative_marks = 0.25
+                i.save()
+
             #sheet_link5 = ['33t2.csv','34t2.csv']
             #add_to_database_questions(sheet_link4,'Colonel Defence\
             #                          Academy',onlyImage=True,production =\
