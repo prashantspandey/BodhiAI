@@ -60,49 +60,49 @@ def home(request):
                     {'students':all_students,'teachers':all_teachers,'all_classes':klasses,'tests_created':new_test_teachers}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            #te = SSCKlassTest.objects.get(name='GroupYT1')
-            #quests = []
-            #for q in te.sscquestions_set.all():
-            #    quests.append(q)
-            #te.pk = None
+            te = SSCKlassTest.objects.get(name='GroupYT1')
+            quests = []
+            for q in te.sscquestions_set.all():
+                quests.append(q)
+            te.pk = None
         
-            #us = User.objects.get(username = 'govindgarwa@gmail.com')
-            #te.creator = us
-            #te.name = 'GroupYTest1GDA'
-            #te.save()
-            #for q in quests:
-            #    q.ktest.add(te)
-            #de = SSCKlassTest.objects.get(name='GroupYT2')
-            #quests = []
-            #for q in de.sscquestions_set.all():
-            #    quests.append(q)
-            #de.pk = None
+            us = User.objects.get(username = 'kr123')
+            te.creator = us
+            te.name = 'GroupYTest1KR'
+            te.save()
+            for q in quests:
+                q.ktest.add(te)
+            de = SSCKlassTest.objects.get(name='GroupYT2')
+            quests = []
+            for q in de.sscquestions_set.all():
+                quests.append(q)
+            de.pk = None
         
-            #us = User.objects.get(username = 'govindgarwa@gmail.com')
-            #de.creator = us
-            #de.name = 'GroupYTest2GDA'
-            #de.save()
-            #for q in quests:
-            #    q.ktest.add(de)
+            us = User.objects.get(username = 'kr123')
+            de.creator = us
+            de.name = 'GroupYTest2Kr'
+            de.save()
+            for q in quests:
+                q.ktest.add(de)
 
-            #ee = SSCKlassTest.objects.get(name='GroupYT3')
-            #quests = []
-            #for q in ee.sscquestions_set.all():
-            #    quests.append(q)
-            #ee.pk = None
+            ee = SSCKlassTest.objects.get(name='GroupYT3')
+            quests = []
+            for q in ee.sscquestions_set.all():
+                quests.append(q)
+            ee.pk = None
         
-            #us = User.objects.get(username = 'govindgarwa@gmail.com')
-            #ee.creator = us
-            #ee.name = 'GroupYTest3GDA'
-            #ee.save()
-            #for q in quests:
-            #    q.ktest.add(ee)
+            us = User.objects.get(username = 'kr123')
+            ee.creator = us
+            ee.name = 'GroupYTest3Kr'
+            ee.save()
+            for q in quests:
+                q.ktest.add(ee)
 
 
-            add_teachers('kartavyateachers.csv','Kartavya Defence Academy',production=True)
-            add_teachers('krteachers.csv','KR Defence Coaching',production=True)
-            add_students('kartavyastudents.csv','Kartavya Defence Academy',production=True)
-            add_students('krstudents.csv','KR Defence Coaching',production=True)
+            #add_teachers('kartavyateachers.csv','Kartavya Defence Academy',production=True)
+            #add_teachers('krteachers.csv','KR Defence Coaching',production=True)
+            #add_students('kartavyastudents.csv','Kartavya Defence Academy',production=True)
+            #add_students('krstudents.csv','KR Defence Coaching',production=True)
             #add_questions('Colonel Defence Academy','Defence-Physics')
             #add_questions('Colonel Defence Academy','Defence-English')
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
@@ -134,13 +134,13 @@ def home(request):
             #                  False,fiveOptions=False,explanation_quest=False):
 
             #add_questions('BodhiAI','GroupX-Maths')
-            #add_questions('Colonel Defence Academy','GroupX-Maths')
-            #add_questions('Govindam Defence Academy','GroupX-Maths')
-            #add_questions('Govindam Defence Academy','Defence-English')
-            #add_questions('BodhiAI','Defence-English')
-            #add_questions('BodhiAI','Defence-GK-CA')
-            #add_questions('BodhiAI','Defence-Physics')
-            #add_questions('Govindam Defence Academy','Defence-English')
+            add_questions('Kartavya Defence Academy','GroupX-Maths')
+            add_questions('Kartavya Defence Academy','Defence-Physics')
+            add_questions('Kartavya Defence Academy','Defence-English')
+            add_questions('Kartavya Defence Academy','Defence-GK-CA')
+            add_questions('KR Defence Coaching','Defence-English')
+            add_questions('KR Defence Coaching','Defence-Physics')
+            add_questions('KR Defence Coaching','GroupX-Maths')
             #add_student_subject('Colonel Defence Academy','Defence-Physics',None,allTeacers=True)
             
             #questions = SSCquestions.objects.filter(section_category = 'GroupX-English')
