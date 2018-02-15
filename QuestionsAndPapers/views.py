@@ -967,7 +967,6 @@ def conduct_Test(request):
         if 'takeTest' in request.POST:
             testid = request.POST['takeTest']
             testid = int(testid)
-            print('%s testid -- error(2)' %testid)
             already_taken =\
             SSCOnlineMarks.objects.filter(student=me.profile,test__id =
                                           testid)
@@ -994,6 +993,10 @@ def conduct_Test(request):
             nums = []
             for i in range(lenquest):
                 nums.append(i)
+            current_test = StudentCurrentTest()
+            current_test.student = me.profile
+            current_test.test = SSCKlassTest.objects.get(id=testid)
+            current_test.save()
             context =\
                     {'questPosition':nums,'te_id':testid,'how_many':lenquest,'testTime':timeTest}
             return \
@@ -1083,37 +1086,6 @@ def conduct_Test(request):
         else:
             raise Http404('You are not supposed to be here')
 
-def show_finished_test(request,testid):
-    user = request.user
-    if user.is_authenticated:
-        if user.groups.filter(name= 'Students').exists():
-            me = Studs(user)
-            test_details =\
-            SSCOnlineMarks.objects.get(student=me.profile,test__id = testid)
-            student_type='SSC'
-            total_time = test_details.timeTaken
-            hours = int(total_time/3600)
-            t = int(total_time%3600)
-            mins = int(t/60)
-            seconds =int(t%60)
-            try:
-                if hours == 0:
-                    tt = '{} minutes and {} seconds'.format(mins,seconds)
-                if hours == 0 and mins == 0:
-                    tt = '{} seconds'.format(seconds)
-                if hours > 0:
-                    tt = '{} hours {} minutes and {}\
-                    seconds'.format(hours,mins,seconds)
-            except:
-                pass
-            try:
-                context = \
-                {'student_type':student_type,'marks':test_details,'timetaken':tt}
-            except:
-                context = \
-                {'student_type':student_type,'marks':test_details,'timetaken':'unilimited'}
-
-            return render(request,'questions/student_finished_test.html',context)
 
 def evaluate_test(request):
     user = request.user
@@ -1124,12 +1096,22 @@ def evaluate_test(request):
             test_id = request.POST['testSub']
             test_id = int(test_id)
         except Exception as e:
-            print('no testSub value in error')
-            sys.stdout.flush()
+            test_stu =\
+            StudentCurrentTest.objects.filter(student=me.profile).order_by('-time')
+            print(len(test_stu))
+            test_stu = test_stu[0]
+            print(test_stu.id)
+            test_id = test_stu.test.id
             print(str(e))
-            return HttpResponseRedirect(reverse('basic:home'))
-        time_taken = request.POST['timeTaken']
+        try:
+            time_taken = request.POST['timeTaken']
+        except Exception as e:
+            test = SSCKlassTest.objects.get(id=test_id)
+            time_taken = int(test.totalTime)
+            print(str(e))
+
         print('%s --%s testid and time taken' %(test_id,time_taken))
+
         student_type = 'SSC'
         already_taken =\
         SSCOnlineMarks.objects.filter(student=me.profile,test__id=test_id)
@@ -1325,4 +1307,35 @@ def evaluate_test(request):
     else:
         return HttpResponseRedirect(reverse('basic:home'))
 
+def show_finished_test(request,testid):
+    user = request.user
+    if user.is_authenticated:
+        if user.groups.filter(name= 'Students').exists():
+            me = Studs(user)
+            test_details =\
+            SSCOnlineMarks.objects.get(student=me.profile,test__id = testid)
+            student_type='SSC'
+            total_time = test_details.timeTaken
+            hours = int(total_time/3600)
+            t = int(total_time%3600)
+            mins = int(t/60)
+            seconds =int(t%60)
+            try:
+                if hours == 0:
+                    tt = '{} minutes and {} seconds'.format(mins,seconds)
+                if hours == 0 and mins == 0:
+                    tt = '{} seconds'.format(seconds)
+                if hours > 0:
+                    tt = '{} hours {} minutes and {}\
+                    seconds'.format(hours,mins,seconds)
+            except:
+                pass
+            try:
+                context = \
+                {'student_type':student_type,'marks':test_details,'timetaken':tt}
+            except:
+                context = \
+                {'student_type':student_type,'marks':test_details,'timetaken':'unilimited'}
+
+            return render(request,'questions/student_finished_test.html',context)
 

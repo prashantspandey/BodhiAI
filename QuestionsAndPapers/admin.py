@@ -21,7 +21,8 @@ class SSCQuestionAdmin(admin.ModelAdmin):
     list_filter = ["section_category","topic_category"]
     readonly_fields = ('dateInserted',)
     inlines = [ChoiceInline]
-
+class StudentCurrentTestAdmin(admin.ModelAdmin):
+    readonly_fields = ('time',)
 class SSCcomprehensionQuestions(admin.StackedInline):
     model = SSCquestions
 
@@ -44,3 +45,4 @@ admin.site.register(SSCOfflineMarks)
 admin.site.register(TimesUsed)
 admin.site.register(TimesReported)
 admin.site.register(SscTeacherTestResultLoader)
+admin.site.register(StudentCurrentTest,StudentCurrentTestAdmin)

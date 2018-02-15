@@ -316,4 +316,9 @@ class SscStudentWeakAreaLoader(models.Model):
     def __str__(self):
         return str(self.student) + str(self.weakTopics)
 
-
+class StudentCurrentTest(models.Model):
+    student = models.ForeignKey(Student)
+    test = models.ForeignKey(SSCKlassTest)
+    time = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return str(self.student) + str(self.test.id)
