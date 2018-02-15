@@ -1236,7 +1236,10 @@ def evaluate_test(request):
         try:
             time_taken = float(time_taken)
         except:
-            time_taken = int(time_taken)
+            test = SSCKlassTest.objects.get(id=test_id)
+            time_taken = int(test.totalTime)
+            print(str(e))
+
         try:
             total_time = (test.totalTime * 60)- time_taken
         except Exception as e:
