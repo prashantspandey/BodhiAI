@@ -104,9 +104,9 @@ def home(request):
             #    q.ktest.add(ee)
 
 
-            add_teachers('aravaliteachers.csv','Aravali Defence Academy',production=True)
+            #add_teachers('aravaliteachers.csv','Aravali Defence Academy',production=True)
             #add_teachers('krteachers.csv','KR Defence Coaching',production=True)
-            add_students('aravalistudents.csv','Aravali Defence Academy',production=True)
+            #add_students('aravalistudents.csv','Aravali Defence Academy',production=True)
             #add_students('krstudents.csv','KR Defence Coaching',production=True)
             #add_questions('Colonel Defence Academy','Defence-Physics')
             #add_questions('Colonel Defence Academy','Defence-English')
@@ -139,10 +139,10 @@ def home(request):
             #                  False,fiveOptions=False,explanation_quest=False):
 
             #add_questions('BodhiAI','GroupX-Maths')
-            #add_questions('Aravali Defence Academy','GroupX-Maths')
-            #add_questions('Aravali Defence Academy','Defence-Physics')
-            #add_questions('Aravali Defence Academy','Defence-English')
-            #add_questions('Aravali Defence Academy','Defence-GK-CA')
+            add_questions('Aravali Defence Academy','GroupX-Maths')
+            add_questions('Aravali Defence Academy','Defence-Physics')
+            add_questions('Aravali Defence Academy','Defence-English')
+            add_questions('Aravali Defence Academy','Defence-GK-CA')
             #add_questions('KR Defence Coaching','Defence-English')
             #add_questions('KR Defence Coaching','Defence-Physics')
             #add_questions('KR Defence Coaching','GroupX-Maths')
