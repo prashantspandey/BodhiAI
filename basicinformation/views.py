@@ -63,50 +63,50 @@ def home(request):
             #cl = klass.objects.get(name = 'DefBatchKartavya')
             #cl.name = 'DefBatchKuch'
             #cl.save()
-            te = SSCKlassTest.objects.get(name='GroupYTest1GDA')
-            quests = []
-            for q in te.sscquestions_set.all():
-                quests.append(q)
-            te.pk = None
+            #te = SSCKlassTest.objects.get(name='GroupYTest1GDA')
+            #quests = []
+            #for q in te.sscquestions_set.all():
+            #    quests.append(q)
+            #te.pk = None
         
-            us = User.objects.get(username = 'kar123')
-            te.creator = us
-            te.name = 'GroupYTest1Kuch'
-            te.save()
-            for q in quests:
-                q.ktest.add(te)
+            #us = User.objects.get(username = 'kar123')
+            #te.creator = us
+            #te.name = 'GroupYTest1Kuch'
+            #te.save()
+            #for q in quests:
+            #    q.ktest.add(te)
 
 
-            de = SSCKlassTest.objects.get(name='GroupYTest2GDA')
-            quests = []
-            for q in de.sscquestions_set.all():
-                quests.append(q)
-            de.pk = None
+            #de = SSCKlassTest.objects.get(name='GroupYTest2GDA')
+            #quests = []
+            #for q in de.sscquestions_set.all():
+            #    quests.append(q)
+            #de.pk = None
         
-            us = User.objects.get(username = 'kar123')
-            de.creator = us
-            de.name = 'GroupYTest2Kuch'
-            de.save()
-            for q in quests:
-                q.ktest.add(de)
+            #us = User.objects.get(username = 'kar123')
+            #de.creator = us
+            #de.name = 'GroupYTest2Kuch'
+            #de.save()
+            #for q in quests:
+            #    q.ktest.add(de)
 
-            ee = SSCKlassTest.objects.get(name='GroupYTest3GDA')
-            quests = []
-            for q in ee.sscquestions_set.all():
-                quests.append(q)
-            ee.pk = None
+            #ee = SSCKlassTest.objects.get(name='GroupYTest3GDA')
+            #quests = []
+            #for q in ee.sscquestions_set.all():
+            #    quests.append(q)
+            #ee.pk = None
         
-            us = User.objects.get(username = 'kar123')
-            ee.creator = us
-            ee.name = 'GroupYTest3Kuch'
-            ee.save()
-            for q in quests:
-                q.ktest.add(ee)
+            #us = User.objects.get(username = 'kar123')
+            #ee.creator = us
+            #ee.name = 'GroupYTest3Kuch'
+            #ee.save()
+            #for q in quests:
+            #    q.ktest.add(ee)
 
 
-            #add_teachers('kartavyateachers.csv','Kartavya Defence Academy',production=True)
+            add_teachers('aravaliteachers.csv','Aravali Defence Academy',production=True)
             #add_teachers('krteachers.csv','KR Defence Coaching',production=True)
-            #add_students('kartavyastudents.csv','Kartavya Defence Academy',production=True)
+            add_students('aravalistudents.csv','Aravali Defence Academy',production=True)
             #add_students('krstudents.csv','KR Defence Coaching',production=True)
             #add_questions('Colonel Defence Academy','Defence-Physics')
             #add_questions('Colonel Defence Academy','Defence-English')
@@ -139,10 +139,10 @@ def home(request):
             #                  False,fiveOptions=False,explanation_quest=False):
 
             #add_questions('BodhiAI','GroupX-Maths')
-            #add_questions('Kartavya Defence Academy','GroupX-Maths')
-            #add_questions('Kartavya Defence Academy','Defence-Physics')
-            #add_questions('Kartavya Defence Academy','Defence-English')
-            #add_questions('Kartavya Defence Academy','Defence-GK-CA')
+            #add_questions('Aravali Defence Academy','GroupX-Maths')
+            #add_questions('Aravali Defence Academy','Defence-Physics')
+            #add_questions('Aravali Defence Academy','Defence-English')
+            #add_questions('Aravali Defence Academy','Defence-GK-CA')
             #add_questions('KR Defence Coaching','Defence-English')
             #add_questions('KR Defence Coaching','Defence-Physics')
             #add_questions('KR Defence Coaching','GroupX-Maths')
@@ -1174,7 +1174,8 @@ def real_create_student(stu,schoolName,swami=False,multiTeacher
                     cl = klass.objects.get(school__name =
                                            schoolName,name='DefBatchKr')
 
-
+                elif schoolName == 'Aravali Defence Academy':
+                    cl = klass.objects.get(school__name=schoolName,name=batch)
 
                 stu = Student(studentuser=us, klass=cl,
                                   rollNumber=us.id,
@@ -1184,11 +1185,16 @@ def real_create_student(stu,schoolName,swami=False,multiTeacher
                 stu.save()
                 if multiTeacher:
                     for te in teacher:
+                        print('%s teacher name ' %te)
                         sub = Subject(name='Defence-Physics', student=stu,
                                       teacher=te)
                         sub1 = Subject(name='GroupX-Maths', student=stu,
                                       teacher=te)
                         sub2 = Subject(name='Defence-English', student=stu,
+                                      teacher=te)
+                        sub3 = Subject(name='Defence-GK-CA', student=stu,
+                                      teacher=te)
+                        sub4 = Subject(name='General-Intelligence', student=stu,
                                       teacher=te)
 
                         sub.save()
@@ -1200,6 +1206,12 @@ def real_create_student(stu,schoolName,swami=False,multiTeacher
                         sub2.save()
                         print('%s student-- %s subject -- %s teacher'
                               %(stu,sub2.name,te))
+                        sub3.save()
+                        print('%s student-- %s subject -- %s teacher'
+                              %(stu,sub3.name,te))
+                        sub4.save()
+                        print('%s student-- %s subject -- %s teacher'
+                              %(stu,sub4.name,te))
 
                 else:
                     sub = Subject(name='General-Intelligence', student=stu,
@@ -1707,6 +1719,15 @@ def add_teachers(path_file,schoolName,production=False,jecrc=False,dummy=False):
             teach = list(zip(name,batch,phone))
 
             real_create_teacher('KR Defence Coaching',teach,ph=True)
+        if schoolName == 'Aravali Defence Academy':
+            name = df['Name']
+            many = len(name)
+            phone = df['Phone']
+            batch = many*['None']
+            teach = list(zip(name,batch,phone))
+
+            real_create_teacher('Aravali Defence Academy',teach,ph=True)
+
 
 
 
@@ -1790,6 +1811,17 @@ def add_students(path_file,schoolName,production = False,swami=False,dummy=False
             stu = list(zip(name,batch,phone,teach,email))
             real_create_student(stu,'KR Defence Coaching',multiTeacher=True,delUsers=True)
             return HttpResponse(stu)
+        if schoolName == 'Aravali Defence Academy':
+            name = df['Name']
+            many = len(name)
+            email = many*['']
+            phone = df['Phone']
+            batch = df['batch']
+            teach = many*['']
+            stu = list(zip(name,batch,phone,teach,email))
+            real_create_student(stu,'Aravali Defence Academy',multiTeacher=True,delUsers=False)
+            return HttpResponse(stu)
+
 
 
 
