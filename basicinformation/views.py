@@ -60,19 +60,19 @@ def home(request):
                     {'students':all_students,'teachers':all_teachers,'all_classes':klasses,'tests_created':new_test_teachers}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            te = SSCKlassTest.objects.get(name='GroupYT1')
+            te = SSCKlassTest.objects.get(name='GrouX(MathsandPhysics)T1')
             quests = []
             for q in te.sscquestions_set.all():
                 quests.append(q)
             te.pk = None
         
-            us = User.objects.get(username = 'kr123')
+            us = User.objects.get(username = '9413730423')
             te.creator = us
-            te.name = 'GroupYTest1KR'
+            te.name = 'GroupX(MathsPhysics)T1Col'
             te.save()
             for q in quests:
                 q.ktest.add(te)
-            de = SSCKlassTest.objects.get(name='GroupYT2')
+            de = SSCKlassTest.objects.get(name='GroupX(MathsandPhysics)T1')
             quests = []
             for q in de.sscquestions_set.all():
                 quests.append(q)
@@ -80,20 +80,20 @@ def home(request):
         
             us = User.objects.get(username = 'kr123')
             de.creator = us
-            de.name = 'GroupYTest2Kr'
+            de.name = 'GroupX(MathsPhysics)T1Kr'
             de.save()
             for q in quests:
                 q.ktest.add(de)
 
-            ee = SSCKlassTest.objects.get(name='GroupYT3')
+            ee = SSCKlassTest.objects.get(name='GroupX(MathsandPhysics)T1')
             quests = []
             for q in ee.sscquestions_set.all():
                 quests.append(q)
             ee.pk = None
         
-            us = User.objects.get(username = 'kr123')
+            us = User.objects.get(username = 'kar123')
             ee.creator = us
-            ee.name = 'GroupYTest3Kr'
+            ee.name = 'GroupX(MathsPhysics)T1Kartavya'
             ee.save()
             for q in quests:
                 q.ktest.add(ee)
