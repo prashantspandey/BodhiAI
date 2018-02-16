@@ -63,45 +63,47 @@ def home(request):
             #cl = klass.objects.get(name = 'DefBatchKartavya')
             #cl.name = 'DefBatchKuch'
             #cl.save()
-            #te = SSCKlassTest.objects.get(name='GroupYTest1GDA')
-            #quests = []
-            #for q in te.sscquestions_set.all():
-            #    quests.append(q)
-            #te.pk = None
-        
-            #us = User.objects.get(username = 'kar123')
-            #te.creator = us
-            #te.name = 'GroupYTest1Kuch'
-            #te.save()
-            #for q in quests:
-            #    q.ktest.add(te)
 
 
-            #de = SSCKlassTest.objects.get(name='GroupYTest2GDA')
-            #quests = []
-            #for q in de.sscquestions_set.all():
-            #    quests.append(q)
-            #de.pk = None
+            te = SSCKlassTest.objects.get(name='GroupYTest1GDA')
+            quests = []
+            for q in te.sscquestions_set.all():
+                quests.append(q)
+            te.pk = None
         
-            #us = User.objects.get(username = 'kar123')
-            #de.creator = us
-            #de.name = 'GroupYTest2Kuch'
-            #de.save()
-            #for q in quests:
-            #    q.ktest.add(de)
+            us = User.objects.get(username = 'arat123')
+            te.creator = us
+            te.name = 'GroupYTest1Arav'
+            te.save()
+            for q in quests:
+                q.ktest.add(te)
 
-            #ee = SSCKlassTest.objects.get(name='GroupYTest3GDA')
-            #quests = []
-            #for q in ee.sscquestions_set.all():
-            #    quests.append(q)
-            #ee.pk = None
+
+            de = SSCKlassTest.objects.get(name='GroupYTest2GDA')
+            quests = []
+            for q in de.sscquestions_set.all():
+                quests.append(q)
+            de.pk = None
         
-            #us = User.objects.get(username = 'kar123')
-            #ee.creator = us
-            #ee.name = 'GroupYTest3Kuch'
-            #ee.save()
-            #for q in quests:
-            #    q.ktest.add(ee)
+            us = User.objects.get(username = 'arat123')
+            de.creator = us
+            de.name = 'GroupYTest2Arav'
+            de.save()
+            for q in quests:
+                q.ktest.add(de)
+
+            ee = SSCKlassTest.objects.get(name='GroupYTest3GDA')
+            quests = []
+            for q in ee.sscquestions_set.all():
+                quests.append(q)
+            ee.pk = None
+        
+            us = User.objects.get(username = 'arat123')
+            ee.creator = us
+            ee.name = 'GroupYTest3Arav'
+            ee.save()
+            for q in quests:
+                q.ktest.add(ee)
 
 
             #add_teachers('aravaliteachers.csv','Aravali Defence Academy',production=True)
@@ -139,10 +141,10 @@ def home(request):
             #                  False,fiveOptions=False,explanation_quest=False):
 
             #add_questions('BodhiAI','GroupX-Maths')
-            add_questions('Aravali Defence Academy','GroupX-Maths')
-            add_questions('Aravali Defence Academy','Defence-Physics')
-            add_questions('Aravali Defence Academy','Defence-English')
-            add_questions('Aravali Defence Academy','Defence-GK-CA')
+            #add_questions('Aravali Defence Academy','GroupX-Maths')
+            #add_questions('Aravali Defence Academy','Defence-Physics')
+            #add_questions('Aravali Defence Academy','Defence-English')
+            #add_questions('Aravali Defence Academy','Defence-GK-CA')
             #add_questions('KR Defence Coaching','Defence-English')
             #add_questions('KR Defence Coaching','Defence-Physics')
             #add_questions('KR Defence Coaching','GroupX-Maths')
