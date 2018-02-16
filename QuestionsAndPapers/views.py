@@ -901,7 +901,15 @@ def conduct_Test(request):
 
         if 'onlineTestid' in request.GET:
             testid = request.GET['onlineTestid']
-            testid = int(testid)
+            try:
+                testid = int(testid)
+            except Exception as e:
+                print(str(e))
+                try:
+                    testid = float(testid)
+                except Exception as e:
+                    print(str(e))
+                    return HttpResponseRedirect(reverse('basic:home'))
             TemporaryAnswerHolder.objects.filter(stud=me.profile,test__id=testid).delete()
             taken =\
             SSCOnlineMarks.objects.filter(student=me.profile,test__id=testid)
