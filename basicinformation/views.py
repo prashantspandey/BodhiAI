@@ -60,48 +60,48 @@ def home(request):
                     {'students':all_students,'teachers':all_teachers,'all_classes':klasses,'tests_created':new_test_teachers}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            cl = klass.objects.get(name = 'DefBatchKartavya')
-            cl.name = 'DefBatchKuch'
-            cl.save()
-            #te = SSCKlassTest.objects.get(name='Physics25questionsT1')
-            #quests = []
-            #for q in te.sscquestions_set.all():
-            #    quests.append(q)
-            #te.pk = None
+            #cl = klass.objects.get(name = 'DefBatchKartavya')
+            #cl.name = 'DefBatchKuch'
+            #cl.save()
+            te = SSCKlassTest.objects.get(name='GroupYTest1GDA')
+            quests = []
+            for q in te.sscquestions_set.all():
+                quests.append(q)
+            te.pk = None
         
-            #us = User.objects.get(username = '9413730423')
-            #te.creator = us
-            #te.name = 'GroupX(Physics)T1'
-            #te.save()
-            #for q in quests:
-            #    q.ktest.add(te)
+            us = User.objects.get(username = 'kar123')
+            te.creator = us
+            te.name = 'GroupYTest1Kuch'
+            te.save()
+            for q in quests:
+                q.ktest.add(te)
 
 
-            #de = SSCKlassTest.objects.get(name='Maths25questionsT1')
-            #quests = []
-            #for q in de.sscquestions_set.all():
-            #    quests.append(q)
-            #de.pk = None
+            de = SSCKlassTest.objects.get(name='GroupYTest2GDA')
+            quests = []
+            for q in de.sscquestions_set.all():
+                quests.append(q)
+            de.pk = None
         
-            #us = User.objects.get(username = '9413730423')
-            #de.creator = us
-            #de.name = 'GroupX(Maths)T1'
-            #de.save()
-            #for q in quests:
-            #    q.ktest.add(de)
+            us = User.objects.get(username = 'kar123')
+            de.creator = us
+            de.name = 'GroupYTest2Kuch'
+            de.save()
+            for q in quests:
+                q.ktest.add(de)
 
-            #ee = SSCKlassTest.objects.get(name='GroupX(MathsandPhysics)T1')
-            #quests = []
-            #for q in ee.sscquestions_set.all():
-            #    quests.append(q)
-            #ee.pk = None
+            ee = SSCKlassTest.objects.get(name='GroupYTest3GDA')
+            quests = []
+            for q in ee.sscquestions_set.all():
+                quests.append(q)
+            ee.pk = None
         
-            #us = User.objects.get(username = 'kar123')
-            #ee.creator = us
-            #ee.name = 'GroupX(MathsPhysics)T1Kartavya'
-            #ee.save()
-            #for q in quests:
-            #    q.ktest.add(ee)
+            us = User.objects.get(username = 'kar123')
+            ee.creator = us
+            ee.name = 'GroupYTest3Kuch'
+            ee.save()
+            for q in quests:
+                q.ktest.add(ee)
 
 
             #add_teachers('kartavyateachers.csv','Kartavya Defence Academy',production=True)
