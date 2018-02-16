@@ -60,7 +60,7 @@ def home(request):
                     {'students':all_students,'teachers':all_teachers,'all_classes':klasses,'tests_created':new_test_teachers}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            te = SSCKlassTest.objects.get(name='GrouX(MathsandPhysics)T1')
+            te = SSCKlassTest.objects.get(name='Physics25questionsT1')
             quests = []
             for q in te.sscquestions_set.all():
                 quests.append(q)
@@ -68,35 +68,37 @@ def home(request):
         
             us = User.objects.get(username = '9413730423')
             te.creator = us
-            te.name = 'GroupX(MathsPhysics)T1Col'
+            te.name = 'GroupX(Physics)T1'
             te.save()
             for q in quests:
                 q.ktest.add(te)
-            de = SSCKlassTest.objects.get(name='GroupX(MathsandPhysics)T1')
+
+
+            de = SSCKlassTest.objects.get(name='Maths25questionsT1')
             quests = []
             for q in de.sscquestions_set.all():
                 quests.append(q)
             de.pk = None
         
-            us = User.objects.get(username = 'kr123')
+            us = User.objects.get(username = '9413730423')
             de.creator = us
-            de.name = 'GroupX(MathsPhysics)T1Kr'
+            de.name = 'GroupX(Maths)T1'
             de.save()
             for q in quests:
                 q.ktest.add(de)
 
-            ee = SSCKlassTest.objects.get(name='GroupX(MathsandPhysics)T1')
-            quests = []
-            for q in ee.sscquestions_set.all():
-                quests.append(q)
-            ee.pk = None
+            #ee = SSCKlassTest.objects.get(name='GroupX(MathsandPhysics)T1')
+            #quests = []
+            #for q in ee.sscquestions_set.all():
+            #    quests.append(q)
+            #ee.pk = None
         
-            us = User.objects.get(username = 'kar123')
-            ee.creator = us
-            ee.name = 'GroupX(MathsPhysics)T1Kartavya'
-            ee.save()
-            for q in quests:
-                q.ktest.add(ee)
+            #us = User.objects.get(username = 'kar123')
+            #ee.creator = us
+            #ee.name = 'GroupX(MathsPhysics)T1Kartavya'
+            #ee.save()
+            #for q in quests:
+            #    q.ktest.add(ee)
 
 
             #add_teachers('kartavyateachers.csv','Kartavya Defence Academy',production=True)
@@ -134,13 +136,13 @@ def home(request):
             #                  False,fiveOptions=False,explanation_quest=False):
 
             #add_questions('BodhiAI','GroupX-Maths')
-            add_questions('Kartavya Defence Academy','GroupX-Maths')
-            add_questions('Kartavya Defence Academy','Defence-Physics')
-            add_questions('Kartavya Defence Academy','Defence-English')
-            add_questions('Kartavya Defence Academy','Defence-GK-CA')
-            add_questions('KR Defence Coaching','Defence-English')
-            add_questions('KR Defence Coaching','Defence-Physics')
-            add_questions('KR Defence Coaching','GroupX-Maths')
+            #add_questions('Kartavya Defence Academy','GroupX-Maths')
+            #add_questions('Kartavya Defence Academy','Defence-Physics')
+            #add_questions('Kartavya Defence Academy','Defence-English')
+            #add_questions('Kartavya Defence Academy','Defence-GK-CA')
+            #add_questions('KR Defence Coaching','Defence-English')
+            #add_questions('KR Defence Coaching','Defence-Physics')
+            #add_questions('KR Defence Coaching','GroupX-Maths')
             #add_student_subject('Colonel Defence Academy','Defence-Physics',None,allTeacers=True)
             
             #questions = SSCquestions.objects.filter(section_category = 'GroupX-English')
