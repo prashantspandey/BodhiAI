@@ -900,16 +900,11 @@ def conduct_Test(request):
             raise Http404('You are not supposed to be here')
 
         if 'onlineTestid' in request.GET:
-            testid = request.GET['onlineTestid']
-            try:
+            testid = request.GET.get('onlineTestid',None)
+            if testid is not None:
                 testid = int(testid)
-            except Exception as e:
-                print(str(e))
-                try:
-                    testid = float(testid)
-                except Exception as e:
-                    print(str(e))
-                    return HttpResponseRedirect(reverse('basic:home'))
+            else:
+                return HttpResponseRedirect(reverse('basic:home'))
             TemporaryAnswerHolder.objects.filter(stud=me.profile,test__id=testid).delete()
             taken =\
             SSCOnlineMarks.objects.filter(student=me.profile,test__id=testid)
