@@ -618,6 +618,7 @@ def teacher_update_page(request):
             #subject1 = me.pattern_test_taken_subjects()
             subjects = me.test_taken_subjects(user)
             sub = subject0+subjects
+            sub = list(unique_everseen(sub))
             context = {'subs': sub, 'which_class': which_klass}
             return \
                 render(request, 'basicinformation/teacher_online_analysis.html', context)
