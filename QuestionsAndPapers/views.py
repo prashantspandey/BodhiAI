@@ -1234,7 +1234,7 @@ def evaluate_test(request):
         sys.stdout.flush()
         try:
             time_taken = float(time_taken)
-        except:
+        except Exception as e:
             time_taken = float(100)
             print(str(e))
 
