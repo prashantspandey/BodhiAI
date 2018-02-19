@@ -179,6 +179,7 @@ def add_questions(request):
                 for i in questions_list:
                     tot = tot + i.max_marks
                 teacher_type = 'SSC'
+                newClassTest = SSCKlassTest()
                 newClassTest.max_marks = tot
                 newClassTest.published = timezone.now()
                 newClassTest.name = str(request.user.teacher) + str(timezone.now())
@@ -207,7 +208,7 @@ def publish_test(request):
                 testid = request.POST['testid']
                 myTest = SSCKlassTest.objects.get(id = testid)
                 
-                due_date = datetime.datetime.strptime(date, "%m/%d/%Y")
+                due_date = datetime.strptime(date, "%m/%d/%Y")
                 myTest.due_date = due_date
                 if time:
                     myTest.totalTime = time
