@@ -208,7 +208,7 @@ def publish_test(request):
                 testid = request.POST['testid']
                 myTest = SSCKlassTest.objects.get(id = testid)
                 
-                due_date = datetime.strptime(date, "%m/%d/%Y")
+                due_date = datetime.datetime.strptime(date, "%m/%d/%Y")
                 myTest.due_date = due_date
                 if time:
                     myTest.totalTime = time
