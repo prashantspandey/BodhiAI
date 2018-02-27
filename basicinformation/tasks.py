@@ -3,6 +3,7 @@ from .models import *
 from QuestionsAndPapers.models import *
 from django.utils import timezone
 from more_itertools import unique_everseen
+from django.http import Http404
 from .marksprediction import *
 
 @shared_task
