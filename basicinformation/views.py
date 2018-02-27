@@ -25,6 +25,9 @@ import timeit
 from PIL import Image
 import requests
 from django.contrib import messages
+from .tasks import *
+from celery.result import AsyncResult
+
 
 @ensure_csrf_cookie
 def home(request):
@@ -595,12 +598,11 @@ def teacher_update_page(request):
 
     elif 'onlineTestAnalysis' in request.GET:
         which_klass = request.GET['onlineTestAnalysis']
-        subject0 = me.my_subjects_names()
-        #subject1 = me.pattern_test_taken_subjects()
-        subjects = me.test_taken_subjects(user)
-        sub = subject0+subjects
-        sub = list(unique_everseen(sub))
-        context = {'subs': sub, 'which_class': which_klass}
+        sub = bring_teacher_subjects_analysis.delay(user.id)
+        te_id = sub.task_id
+        res = AsyncResult(te_id)
+        subs = res.get()
+        context = {'subs': subs, 'which_class': which_klass}
         return \
             render(request, 'basicinformation/teacher_online_analysis.html', context)
 

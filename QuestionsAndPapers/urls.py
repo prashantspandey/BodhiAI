@@ -20,7 +20,7 @@ urlpatterns = [
     
     url(r'^one_click_test/$',views.oneclick_test,name='oneClickTest2'),
     url(r'^FinishedResult/(\d+)/$',views.show_finished_test,name='showFinishedTest'),
-    url(r'^EvaluateTest/$',views.evaluate_test,name='EvaluateTest'),
+    #url(r'^EvaluateTest/$',views.evaluate_test,name='EvaluateTest'),
 
     #url(r'^teacher/(?P<grade>\d+)/$', views.current_analysis,
         #name='current_analysis'),
