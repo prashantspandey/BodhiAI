@@ -196,15 +196,15 @@ def home(request):
 
 
         elif user.groups.filter(name='Teachers').exists():
-            #me = Teach(user)
-            #profile = user.teacher
-            #klasses = me.my_classes_names()
-            #subjects = me.my_subjects_names()
-            weak_ar = teacher_home_weak_areas.delay(user.id)
-            te_id = weak_ar.task_id
-            res = AsyncResult(te_id)
+            me = Teach(user)
+            profile = user.teacher
+            klasses = me.my_classes_names()
+            subjects = me.my_subjects_names()
+            #weak_ar = teacher_home_weak_areas.delay(user.id)
+            #te_id = weak_ar.task_id
+            #res = AsyncResult(te_id)
 
-            klasses,subjects = res.get()
+            #klasses,subjects = res.get()
             
             #weak_links = {}
             #weak_klass = []
