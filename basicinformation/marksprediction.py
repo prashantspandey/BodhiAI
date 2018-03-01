@@ -4112,7 +4112,10 @@ class Teach:
 
 
     def my_classes_objects(self, klass_name=None):
-        kl = klass.objects.get(school=self.profile.school,name=klass_name)
+        if klass_name != None:
+            kl = klass.objects.filter(school=self.profile.school)
+        else:
+            kl = klass.objects.get(school=self.profile.school,name=klass_name)
         return kl
         #if klass_name:
         #    subs = self.profile.subject_set.all()

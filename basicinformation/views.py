@@ -196,37 +196,43 @@ def home(request):
 
 
         elif user.groups.filter(name='Teachers').exists():
-            me = Teach(user)
-            profile = user.teacher
-            klasses = me.my_classes_names()
-            subjects = me.my_subjects_names()
-            weak_links = {}
-            weak_klass = []
-            weak_subs = []
-            subs = []
-            try:
-                #for sub in subjects:
-                #    for i in klasses:
-                #        try:
-                #            weak_links[i]= \
-                #            me.online_problematicAreasNames(user,sub,i)
-                #            weak_subs.append(weak_links[i])
-                #            weak_klass.append(i)
-                #            subs.append(sub)
-                #        except Exception as e:
-                #            print(str(e))
-                #weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
-                weak_subs_areas = None
-            except:
-                weak_subs_areas = None
+            #me = Teach(user)
+            #profile = user.teacher
+            #klasses = me.my_classes_names()
+            #subjects = me.my_subjects_names()
+            klasses,subjects = teacher_home_weak_areas.delay(user.id)
+            #te_id = weak_subs.task_id
+            #res = AsyncResult(te_id)
+
+            weak_subs_areas = res.get()
+            
+            #weak_links = {}
+            #weak_klass = []
+            #weak_subs = []
+            #subs = []
+            #try:
+            #    #for sub in subjects:
+            #    #    for i in klasses:
+            #    #        try:
+            #    #            weak_links[i]= \
+            #    #            me.online_problematicAreasNames(user,sub,i)
+            #    #            weak_subs.append(weak_links[i])
+            #    #            weak_klass.append(i)
+            #    #            subs.append(sub)
+            #    #        except Exception as e:
+            #    #            print(str(e))
+            #    #weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
+            #    weak_subs_areas = None
+            #except:
+            #    weak_subs_areas = None
 
             num_klasses = len(klasses)
-            weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
+            #weak_subs_areas = list(zip(subs,weak_klass,weak_subs_areas))
             num_subjects = len(subjects)
             context = {'profile': profile,
                        'klasses': klasses, 'subjects': subjects, 'num_klasses': num_klasses,
                        'isTeacher': True, 'num_subjects':
-                       num_subjects,'weak_links':weak_subs_areas}
+                       num_subjects,'weak_links':weak_subs_areas_dict}
             return render(request, 'basicinformation/teacher1.html', context)
         else:
 
@@ -529,12 +535,13 @@ def teacher_weakAreasinDetail(request):
 
 def teacher_home_page(request):
     user = request.user
+    me = Teach(user)
     if user.is_authenticated:
         if user.groups.filter(name='Teachers').exists():
-            profile = user.teacher
-            klass_dict, all_klasses = teacher_get_students_classwise(request)
+            #klass_dict, all_klasses = teacher_get_students_classwise(request)
+            all_klasses = me.my_classes_names()
             all_klasses = list(unique_everseen(all_klasses))
-            context = {'profile': profile, 'klasses': all_klasses}
+            context = {'profile': me.profile, 'klasses': all_klasses}
             return render(request, 'basicinformation/teacherHomePage.html', context)
         else:
             raise Http404("You don't have the permissions to view this page.")
@@ -544,9 +551,8 @@ def teacher_home_page(request):
 
 def teacher_update_page(request):
     user = request.user
-    profile = user.teacher
-    institution = profile.school.category
-    klass_dict, all_klasses = teacher_get_students_classwise(request)
+    #institution = profile.school.category
+    #klass_dict, all_klasses = teacher_get_students_classwise(request)
     me = Teach(user)
     if 'ajKlass' in request.GET:
         return HttpResponse('Choose from Above')
@@ -647,40 +653,44 @@ def teacher_update_page(request):
             result_loader = SscTeacherTestResultLoader.objects.get(test__id = test_id)
         except:
             new_rl = teacher_test_analysis_new.delay(test_id,user.id)
-            rl_id = new_rl.task_id
-            new_rl = SscTeacherTestResultLoader.objects.get(test__id = test_id)
-            max_marks = new_rl.test.max_marks    
-            average = new_rl.average
-            percent_average = new_rl.percentAverage
-            grade_s = new_rl.grade_s
-            grade_a = new_rl.grade_a
-            grade_b = new_rl.grade_b
-            grade_c = new_rl.grade_c
-            grade_d = new_rl.grade_d
-            grade_e = new_rl.grade_e
-            grade_f = new_rl.grade_f
-            skipped_quests = new_rl.skipped
-            skipped_freq = new_rl.skippedFreq
-            sq = list(zip(skipped_quests,skipped_freq))
-            freqQuests = new_rl.freqAnswersQuestions
-            freqQuestsfreq = new_rl.freqAnswersFreq
-            freq = list(zip(freqQuests,freqQuestsfreq))
-            pro_quests = new_rl.problemQuestions
-            pro_freq  = new_rl.problemQuestionsFreq
-            problem_quests = list(zip(pro_quests,pro_freq))
-
+            te_id = new_rl.task_id
+            res = AsyncResult(te_id)
             result = me.generate_rankTable(test_id)
             try:
                 result = result[result[:,3].argsort()]
             except:
                 result = None
-            context = {'om':
-                       online_marks,'test':new_rl.test,'average':new_rl.average
-                       ,'percentAverage':new_rl.percentAverage,'maxMarks':max_marks,
-                       'grade_s':new_rl.grade_s,'grade_a':new_rl.grade_a,'grade_b':new_rl.grade_b,'grade_c':new_rl.grade_c,
-                       'grade_d':new_rl.grade_d,'grade_e':new_rl.grade_e,'grade_f':new_rl.grade_f,
-                       'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
-            return render(request, 'basicinformation/teacher_online_analysis3.html', context)
+
+            if res.state != "PENDING":
+                new_rl = SscTeacherTestResultLoader.objects.get(test__id = test_id)
+                max_marks = new_rl.test.max_marks    
+                average = new_rl.average
+                percent_average = new_rl.percentAverage
+                grade_s = new_rl.grade_s
+                grade_a = new_rl.grade_a
+                grade_b = new_rl.grade_b
+                grade_c = new_rl.grade_c
+                grade_d = new_rl.grade_d
+                grade_e = new_rl.grade_e
+                grade_f = new_rl.grade_f
+                skipped_quests = new_rl.skipped
+                skipped_freq = new_rl.skippedFreq
+                sq = list(zip(skipped_quests,skipped_freq))
+                freqQuests = new_rl.freqAnswersQuestions
+                freqQuestsfreq = new_rl.freqAnswersFreq
+                freq = list(zip(freqQuests,freqQuestsfreq))
+                pro_quests = new_rl.problemQuestions
+                pro_freq  = new_rl.problemQuestionsFreq
+                problem_quests = list(zip(pro_quests,pro_freq))
+
+                context = {'om':
+                           online_marks,'test':new_rl.test,'average':new_rl.average
+                           ,'percentAverage':new_rl.percentAverage,'maxMarks':max_marks,
+                           'grade_s':new_rl.grade_s,'grade_a':new_rl.grade_a,'grade_b':new_rl.grade_b,'grade_c':new_rl.grade_c,
+                           'grade_d':new_rl.grade_d,'grade_e':new_rl.grade_e,'grade_f':new_rl.grade_f,
+                           'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
+                return render(request, 'basicinformation/teacher_online_analysis3.html', context)
+
         saved_marks = result_loader.onlineMarks.all()
         if len(online_marks) == len(saved_marks):
             max_marks = result_loader.test.max_marks    

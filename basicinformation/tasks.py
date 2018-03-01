@@ -276,3 +276,34 @@ def teacher_return_tests(user_id,subject,klass):
     tests = serializers.serialize('json',online_tests)
     return tests
 
+@shared_task
+def teacher_home_weak_areas(user_id):
+    user = User.objects.get(id = user_id)
+    me = Teach(user)
+    klasses = me.my_classes_names()
+    subjects = me.my_subjects_names()
+    return klasses,subjects
+    #weak_links = {}
+    #weak_klass = []
+    #weak_subs = []
+    #subs = []
+    #print('at 289')
+    #try:
+    #    for sub in subjects:
+    #        for i in klasses:
+    #            try:
+    #                weak_links[i]= \
+    #                me.online_problematicAreasNames(user,sub,i)
+    #                weak_subs.append(weak_links[i])
+    #                weak_klass.append(i)
+    #                subs.append(sub)
+    #            except Exception as e:
+    #                print(str(e))
+    #    print('at 301')
+    #    weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
+    #    weak_subs_areas = serializers.serialize('json',weak_subs_areas)
+    #    return weak_subs_areas
+    #except:
+    #    weak_subs_areas = None
+
+
