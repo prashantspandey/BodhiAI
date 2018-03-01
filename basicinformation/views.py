@@ -200,11 +200,11 @@ def home(request):
             #profile = user.teacher
             #klasses = me.my_classes_names()
             #subjects = me.my_subjects_names()
-            klasses,subjects = teacher_home_weak_areas.delay(user.id)
-            #te_id = weak_subs.task_id
-            #res = AsyncResult(te_id)
+            weak_ar = teacher_home_weak_areas.delay(user.id)
+            te_id = weak_ar.task_id
+            res = AsyncResult(te_id)
 
-            weak_subs_areas = res.get()
+            klasses,subjects = res.get()
             
             #weak_links = {}
             #weak_klass = []
