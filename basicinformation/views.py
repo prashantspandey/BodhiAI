@@ -631,11 +631,9 @@ def teacher_update_page(request):
         SSCOnlineMarks.objects.filter(test__id=test_id,student__school =
                                       me.profile.school)
 
-        #------------------------
         try:
             result_loader = SscTeacherTestResultLoader.objects.get(test__id = test_id)
-        except Exception as e:
-            print(str(e))
+        except:
             new_rl = teacher_test_analysis_new.delay(test_id,user.id)
             rl_id = new_rl.task_id
             res = AsyncResult(rl_id)
