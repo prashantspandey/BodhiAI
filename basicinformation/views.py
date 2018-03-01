@@ -28,7 +28,6 @@ from django.contrib import messages
 from .tasks import *
 from celery.result import AsyncResult
 
-
 @ensure_csrf_cookie
 def home(request):
     user = request.user
@@ -627,52 +626,54 @@ def teacher_update_page(request):
 
     elif 'onlinetestid' in request.GET:
         test_id = request.GET['onlinetestid']
+        me = Teach(user)
         online_marks =\
         SSCOnlineMarks.objects.filter(test__id=test_id,student__school =
                                       me.profile.school)
+
+        #------------------------
         try:
             result_loader = SscTeacherTestResultLoader.objects.get(test__id = test_id)
-        except:
-            result_loader = SscTeacherTestResultLoader()
-            res_test = SSCKlassTest.objects.get(id=test_id)
-            result_loader.test = res_test
-            result_loader.teacher = me.profile
-            max_marks = res_test.max_marks
-            result_loader.average,result_loader.percentAverage =\
-            me.online_findAverageofTest(test_id,percent='p')
-            result_loader.grade_s,result_loader.grade_a,result_loader.grade_b,\
-            result_loader.grade_c,result_loader.grade_d,\
-            result_loader.grade_e,result_loader.grade_f,\
-             = me.online_freqeucyGrades(test_id)
-            skipped_loader = me.online_skippedQuestions(test_id)
-            result_loader.skipped = list(skipped_loader[:,0])
-            result_loader.skippedFreq = list(skipped_loader[:,1])
-            problem_loader = me.online_problematicAreasperTest(test_id)
-            result_loader.problemQuestions = list(problem_loader[:,0])
-            result_loader.problemQuestionsFreq = list(problem_loader[:,1])
-            freqAnswers = me.online_QuestionPercentage(test_id)
-            freqAnswerQuest = freqAnswers[:,0]
-            freqAnswersfreq = freqAnswers[:,1]
-            result_loader.freqAnswersQuestions = list(freqAnswerQuest)
-            result_loader.freqAnswersFreq = list(freqAnswersfreq)
-            result_loader.save()
-            for i in online_marks:
-                result_loader.onlineMarks.add(i)
+        except Exception as e:
+            print(str(e))
+            new_rl = teacher_test_analysis_new.delay(test_id,user.id)
+            rl_id = new_rl.task_id
+            res = AsyncResult(rl_id)
+            rl = res.get()
+            new_rl = SscTeacherTestResultLoader.objects.get(id = rl)
+            max_marks = new_rl.test.max_marks    
+            average = new_rl.average
+            percent_average = new_rl.percentAverage
+            grade_s = new_rl.grade_s
+            grade_a = new_rl.grade_a
+            grade_b = new_rl.grade_b
+            grade_c = new_rl.grade_c
+            grade_d = new_rl.grade_d
+            grade_e = new_rl.grade_e
+            grade_f = new_rl.grade_f
+            skipped_quests = new_rl.skipped
+            skipped_freq = new_rl.skippedFreq
+            sq = list(zip(skipped_quests,skipped_freq))
+            freqQuests = new_rl.freqAnswersQuestions
+            freqQuestsfreq = new_rl.freqAnswersFreq
+            freq = list(zip(freqQuests,freqQuestsfreq))
+            pro_quests = new_rl.problemQuestions
+            pro_freq  = new_rl.problemQuestionsFreq
+            problem_quests = list(zip(pro_quests,pro_freq))
+
+
             result = me.generate_rankTable(test_id)
             try:
                 result = result[result[:,3].argsort()]
             except:
                 result = None
-
             context = {'om':
-                       online_marks,'test':result_loader.test,'average':result_loader.average
-                       ,'percentAverage':result_loader.percentAverage,'maxMarks':max_marks,
-                       'grade_s':result_loader.grade_s,'grade_a':result_loader.grade_a,'grade_b':result_loader.grade_b,'grade_c':result_loader.grade_c,
-                       'grade_d':result_loader.grade_d,'grade_e':result_loader.grade_e,'grade_f':result_loader.grade_f,
-                       'freq':freqAnswers,'sq':skipped_loader,'problem_quests':problem_loader,'ssc':True,'result':result}
+                       online_marks,'test':new_rl.test,'average':new_rl.average
+                       ,'percentAverage':new_rl.percentAverage,'maxMarks':max_marks,
+                       'grade_s':new_rl.grade_s,'grade_a':new_rl.grade_a,'grade_b':new_rl.grade_b,'grade_c':new_rl.grade_c,
+                       'grade_d':new_rl.grade_d,'grade_e':new_rl.grade_e,'grade_f':new_rl.grade_f,
+                       'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
             return render(request, 'basicinformation/teacher_online_analysis3.html', context)
-
-
         saved_marks = result_loader.onlineMarks.all()
         if len(online_marks) == len(saved_marks):
             max_marks = result_loader.test.max_marks    
@@ -706,43 +707,48 @@ def teacher_update_page(request):
                        'grade_d':result_loader.grade_d,'grade_e':result_loader.grade_e,'grade_f':result_loader.grade_f,
                        'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
             return render(request, 'basicinformation/teacher_online_analysis3.html', context)
-
         else:
             result = me.generate_rankTable(test_id)
             try:
                 result = result[result[:,3].argsort()]
             except:
                 result = None
-            
-            
-            result_loader.average,result_loader.percentAverage =\
-            me.online_findAverageofTest(test_id,percent='p')
-            result_loader.grade_s,result_loader.grade_a,result_loader.grade_b,\
-            result_loader.grade_c,result_loader.grade_d,\
-            result_loader.grade_e,result_loader.grade_f,\
-             = me.online_freqeucyGrades(test_id)
-            skipped_loader = me.online_skippedQuestions(test_id)
-            result_loader.skipped = list(skipped_loader[:,0])
-            result_loader.skippedFreq = list(skipped_loader[:,1])
-            problem_loader = me.online_problematicAreasperTest(test_id)
-            result_loader.problemQuestions = list(problem_loader[:,0])
-            result_loader.problemQuestionsFreq = list(problem_loader[:,1])
-            freqAnswers = me.online_QuestionPercentage(test_id)
-            freqAnswerQuest = freqAnswers[:,0]
-            freqAnswersfreq = freqAnswers[:,1]
-            result_loader.freqAnswersQuestions = list(freqAnswerQuest)
-            result_loader.freqAnswersFreq = list(freqAnswersfreq)
-            result_loader.save()
-            max_marks = result_loader.test.max_marks
-            for i in online_marks:
-                result_loader.onlineMarks.add(i)
+            new_rl = teacher_test_analysis_already.delay(test_id,user.id)
+            rl_id = new_rl.task_id
+            max_marks = result_loader.test.max_marks    
+            pro_quests = result_loader.problemQuestions
+            pro_freq  = result_loader.problemQuestionsFreq
+            average = result_loader.average
+            percent_average = result_loader.percentAverage
+            problem_quests = list(zip(pro_quests,pro_freq))
+            grade_s = result_loader.grade_s
+            grade_a = result_loader.grade_a
+            grade_b = result_loader.grade_b
+            grade_c = result_loader.grade_c
+            grade_d = result_loader.grade_d
+            grade_e = result_loader.grade_e
+            grade_f = result_loader.grade_f
+            skipped_quests = result_loader.skipped
+            skipped_freq = result_loader.skippedFreq
+            sq = list(zip(skipped_quests,skipped_freq))
+            freqQuests = result_loader.freqAnswersQuestions
+            freqQuestsfreq = result_loader.freqAnswersFreq
+            freq = list(zip(freqQuests,freqQuestsfreq))
+            result = me.generate_rankTable(test_id)
+            try:
+                result = result[result[:,3].argsort()]
+            except:
+                result = None
             context = {'om':
                        online_marks,'test':result_loader.test,'average':result_loader.average
                        ,'percentAverage':result_loader.percentAverage,'maxMarks':max_marks,
                        'grade_s':result_loader.grade_s,'grade_a':result_loader.grade_a,'grade_b':result_loader.grade_b,'grade_c':result_loader.grade_c,
                        'grade_d':result_loader.grade_d,'grade_e':result_loader.grade_e,'grade_f':result_loader.grade_f,
-                       'freq':freqAnswers,'sq':skipped_loader,'problem_quests':problem_loader,'ssc':True,'result':result}
+                       'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
             return render(request, 'basicinformation/teacher_online_analysis3.html', context)
+
+
+
 
     elif 'onlineIndividualPerformace' in request.GET:
         which_klass = request.GET['onlineIndividualPerformace']

@@ -5,7 +5,6 @@ from django.utils import timezone
 from more_itertools import unique_everseen
 from django.http import Http404
 from .marksprediction import *
-
 @shared_task
 def bring_teacher_subjects_analysis(user_id):
     user = User.objects.get(id=user_id)
@@ -202,4 +201,66 @@ def evaluate_test(user_id,test_id,time_taken):
         except Exception as e:
             print(str(e))
         return test_id
-   
+@shared_task
+def teacher_test_analysis_new(test_id,user_id):
+    user = User.objects.get(id = user_id)
+    me = Teach(user)
+
+    result_loader = SscTeacherTestResultLoader()
+    res_test = SSCKlassTest.objects.get(id=test_id)
+    result_loader.test = res_test
+    result_loader.teacher = me.profile
+    result_loader.average,result_loader.percentAverage =\
+    me.online_findAverageofTest(test_id,percent='p')
+    result_loader.grade_s,result_loader.grade_a,result_loader.grade_b,\
+    result_loader.grade_c,result_loader.grade_d,\
+    result_loader.grade_e,result_loader.grade_f,\
+     = me.online_freqeucyGrades(test_id)
+    skipped_loader = me.online_skippedQuestions(test_id)
+    result_loader.skipped = list(skipped_loader[:,0])
+    result_loader.skippedFreq = list(skipped_loader[:,1])
+    problem_loader = me.online_problematicAreasperTest(test_id)
+    result_loader.problemQuestions = list(problem_loader[:,0])
+    result_loader.problemQuestionsFreq = list(problem_loader[:,1])
+    freqAnswers = me.online_QuestionPercentage(test_id)
+    freqAnswerQuest = freqAnswers[:,0]
+    freqAnswersfreq = freqAnswers[:,1]
+    result_loader.freqAnswersQuestions = list(freqAnswerQuest)
+    result_loader.freqAnswersFreq = list(freqAnswersfreq)
+    result_loader.save()
+
+@shared_task 
+def teacher_test_analysis_already(test_id,user_id):
+    user = User.objects.get(id = user_id)
+    me = Teach(user)
+    result_loader = SscTeacherTestResultLoader.objects.get(test__id = test_id)
+    result_loader.average,result_loader.percentAverage =\
+    me.online_findAverageofTest(test_id,percent='p')
+    result_loader.grade_s,result_loader.grade_a,result_loader.grade_b,\
+    result_loader.grade_c,result_loader.grade_d,\
+    result_loader.grade_e,result_loader.grade_f,\
+     = me.online_freqeucyGrades(test_id)
+    skipped_loader = me.online_skippedQuestions(test_id)
+    result_loader.skipped = list(skipped_loader[:,0])
+    result_loader.skippedFreq = list(skipped_loader[:,1])
+    problem_loader = me.online_problematicAreasperTest(test_id)
+    result_loader.problemQuestions = list(problem_loader[:,0])
+    result_loader.problemQuestionsFreq = list(problem_loader[:,1])
+    freqAnswers = me.online_QuestionPercentage(test_id)
+    freqAnswerQuest = freqAnswers[:,0]
+    freqAnswersfreq = freqAnswers[:,1]
+    result_loader.freqAnswersQuestions = list(freqAnswerQuest)
+    result_loader.freqAnswersFreq = list(freqAnswersfreq)
+    test = SSCKlassTest.objects.get(id = test_id)
+    result_loader.test = test
+    result_loader.teacher = me.profile
+    result_loader.save()
+    online_marks =\
+    SSCOnlineMarks.objects.filter(test__id=test_id,student__school =
+                              me.profile.school)
+
+
+    for i in online_marks:
+        result_loader.onlineMarks.add(i)
+ 
+
