@@ -200,6 +200,7 @@ def home(request):
             profile = user.teacher
             klasses = me.my_classes_names()
             subjects = me.my_subjects_names()
+            weak_subs_areas_dict = []
             #weak_ar = teacher_home_weak_areas.delay(user.id)
             #te_id = weak_ar.task_id
             #res = AsyncResult(te_id)
