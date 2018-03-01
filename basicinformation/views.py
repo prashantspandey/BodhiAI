@@ -27,7 +27,7 @@ import requests
 from django.contrib import messages
 from .tasks import *
 from celery.result import AsyncResult
-
+from django.core import serializers
 @ensure_csrf_cookie
 def home(request):
     user = request.user
@@ -609,19 +609,31 @@ def teacher_update_page(request):
         onlineSubject = request.GET['onlineschoolSubject']
         sub = onlineSubject.split(',')[0]
         which_class = onlineSubject.split(',')[1]
-        kl = me.my_classes_objects(which_class)
+        trt = teacher_return_tests.delay(user.id,sub,which_class)
+        te_id = trt.task_id
+        res = AsyncResult(te_id)
+        tests = res.get()
+        o_tests = []
+        for te in serializers.deserialize('json',tests):
+            o_tests.append(te.object)
+        #print(res)
+        #print(res.state)
+        #tests = []
+        #for re in res:
+        #    tests.append(SSCKlassTest.objects.get(id = re))
+        #kl = me.my_classes_objects(which_class)
 
-        online_tests = SSCKlassTest.objects.filter(creator=
-                                            user,
-                                               klas=kl, sub=
-                                            sub,mode='BodhiOnline')
-        if len(online_tests) == 0 and sub == 'Defence-MultipleSubjects':
-            online_tests = SSCKlassTest.objects.filter(creator=
-                                            user,
-                                                sub=
-                                            sub)
-
-        context = {'tests': online_tests}
+        #online_tests = SSCKlassTest.objects.filter(creator=
+        #                                    user,
+        #                                       klas=kl, sub=
+        #                                    sub,mode='BodhiOnline')
+        #if len(online_tests) == 0 and sub == 'Defence-MultipleSubjects':
+        #    online_tests = SSCKlassTest.objects.filter(creator=
+        #                                    user,
+        #                                        sub=
+        #                                    sub)
+        #print('%s res' %tests)
+        context = {'tests': o_tests}
         return render(request, 'basicinformation/teacher_online_analysis2.html', context)
 
     elif 'onlinetestid' in request.GET:
@@ -636,9 +648,7 @@ def teacher_update_page(request):
         except:
             new_rl = teacher_test_analysis_new.delay(test_id,user.id)
             rl_id = new_rl.task_id
-            res = AsyncResult(rl_id)
-            rl = res.get()
-            new_rl = SscTeacherTestResultLoader.objects.get(id = rl)
+            new_rl = SscTeacherTestResultLoader.objects.get(test__id = test_id)
             max_marks = new_rl.test.max_marks    
             average = new_rl.average
             percent_average = new_rl.percentAverage
@@ -658,7 +668,6 @@ def teacher_update_page(request):
             pro_quests = new_rl.problemQuestions
             pro_freq  = new_rl.problemQuestionsFreq
             problem_quests = list(zip(pro_quests,pro_freq))
-
 
             result = me.generate_rankTable(test_id)
             try:

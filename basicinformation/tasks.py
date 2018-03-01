@@ -1,10 +1,14 @@
 from celery import shared_task
+from django.shortcuts import render, HttpResponseRedirect, reverse, redirect
 from .models import *
 from QuestionsAndPapers.models import *
 from django.utils import timezone
 from more_itertools import unique_everseen
 from django.http import Http404
 from .marksprediction import *
+from django.core import serializers
+
+
 @shared_task
 def bring_teacher_subjects_analysis(user_id):
     user = User.objects.get(id=user_id)
@@ -55,7 +59,6 @@ def evaluate_test(user_id,test_id,time_taken):
                         answers_ids.append(int(j.answers))
                         time_ids.append(j.time)
                     except Exception as e:
-                        print('line 1166')
                         print(str(e))
                
                 
@@ -64,7 +67,6 @@ def evaluate_test(user_id,test_id,time_taken):
         
                 
             except Exception as e:
-                print('line 1176')
                 print(str(e))
                 skipped_ids.append(i)
 
@@ -228,7 +230,6 @@ def teacher_test_analysis_new(test_id,user_id):
     result_loader.freqAnswersQuestions = list(freqAnswerQuest)
     result_loader.freqAnswersFreq = list(freqAnswersfreq)
     result_loader.save()
-
 @shared_task 
 def teacher_test_analysis_already(test_id,user_id):
     user = User.objects.get(id = user_id)
@@ -262,5 +263,16 @@ def teacher_test_analysis_already(test_id,user_id):
 
     for i in online_marks:
         result_loader.onlineMarks.add(i)
- 
+@shared_task
+def teacher_return_tests(user_id,subject,klass):
+    user = User.objects.get(id = user_id)
+    me = Teach(user)
+    kl = me.my_classes_objects(klass)
+    online_tests = SSCKlassTest.objects.filter(creator =
+                                               user,klas=kl,sub=subject,mode='BodhiOnline')
+    if len(online_tests) == 0 and subject == 'Defence-MultipleSubjects':
+        online_tests = SSCKlassTest.objects.filter(creator = user,sub =
+                                                   subject)
+    tests = serializers.serialize('json',online_tests)
+    return tests
 
