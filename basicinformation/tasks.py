@@ -306,4 +306,64 @@ def teacher_home_weak_areas(user_id):
     #except:
     #    weak_subs_areas = None
 
+@shared_task
+def test_get_QuestionPosition(user_id,testid,pos):
+    user = User.objects.get(id = user_id)
+    test = SSCKlassTest.objects.get(id = testid)
+    quest = []
+    # gets the number of questions in the test
+    for q in test.sscquestions_set.all():
+        quest.append(q)
+    tosend = quest[int(pos)]
+    how_many = len(quest)
+    try:
+    # if this question was already answered then send the selected
+    # choice to template
+        temp_marks = TemporaryAnswerHolder.objects.filter(stud =
+                                                      user.student,test__id
+                                                      =testid,quests=tosend.id).order_by('-time')
+        Quests = []
+        for i in temp_marks:
+            # try except block to get attempted answer of already
+            # skipped answers (otherwise throws an error)
+            try:
+                #answer_sel = i.answers
+                Quests.append(int(i.answers))
+                break
+            except Exception as e:
+                print(str(e))
+        answer_sel = Quests[-1]
+        return tosend.id,testid,answer_sel,how_many
+    except:
+        return tosend.id,testid,-5,how_many
+
+@shared_task
+def test_get_next_question(user_id,test_id,question_id,choice_id,questTime):
+    user = User.objects.get(id = user_id)
+    test = SSCKlassTest.objects.get(id = test_id)
+    questnum = []
+# get the number of questions in the test
+    for q in test.sscquestions_set.all():
+        questnum.append(q)
+    how_many = len(questnum)
+
+    try:
+        temp_marks = TemporaryAnswerHolder.objects.filter(stud =
+                                                      user.student,test__id=int(test_id))
+       
+    except:
+        pass
+# saves choice to temporary holder 
+    my_marks = TemporaryAnswerHolder()
+    my_marks.stud = user.student
+    my_marks.test = test
+    my_marks.quests= question_id
+    my_marks.answers = choice_id
+    try:
+        my_marks.time = int(questTime)
+    except:
+        my_marks.time = int(0)
+    my_marks.save()
+
+    
 

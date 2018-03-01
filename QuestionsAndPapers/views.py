@@ -936,37 +936,19 @@ def conduct_Test(request):
             questPos = request.GET['IndividualTestQuestPos']
             pos = questPos.split(',')[0]
             testid = questPos.split(',')[1]
-            test = SSCKlassTest.objects.get(id = int(testid))
-            quest = []
-            # gets the number of questions in the test
-            for q in test.sscquestions_set.all():
-                quest.append(q)
-            tosend = quest[int(pos)]
-            qu = str(tosend.id)
-            how_many = len(quest)
-            try:
-            # if this question was already answered then send the selected
-            # choice to template
-                temp_marks = TemporaryAnswerHolder.objects.filter(stud =
-                                                              user.student,test__id
-                                                              =testid,quests=qu).order_by('time')
-                Quests = []
-                for i in temp_marks:
-                    # try except block to get attempted answer of already
-                    # skipped answers (otherwise throws an error)
-                    try:
-                        Quests.append(int(i.answers))
-                    except Exception as e:
-                        print(str(e))
-                answer_sel = Quests[-1]
-                context = \
-                {'question':tosend,'testid':testid,'sel':answer_sel}
-            except Exception as e:
-            # if question has not been answered then just send the question
-                hom_many = len(quest)
-                context = {'question':tosend,'testid':testid,'how_many':how_many}
+            get_place = test_get_QuestionPosition.delay(user.id,int(testid),pos)
+            t_id = get_place.task_id
+            res = AsyncResult(t_id)
+            tosend,test_id,answer_sel,how_many = res.get()
+            tosend = SSCquestions.objects.get(id = tosend)
+            if answer_sel != -5:
+                context = {'question':tosend,'testid':testid,'sel':answer_sel}
+            else:
+                context =\
+                {'question':tosend,'testid':testid,'how_many':how_many}
             return \
         render(request,'questions/student_individual_questionTestquestion.html',context)
+
         if 'questionid'  in  request.POST:
             # gets the values of choice id and time taken to choose that value
             try:
@@ -980,38 +962,9 @@ def conduct_Test(request):
             test_id = request.POST['testid']
             if choice_id == -1:
                 questTime = -1
-            if me.institution == 'School':
-                pass
-            elif me.institution == 'SSC':
-                test = SSCKlassTest.objects.get(id = test_id)
-                questnum = []
-            # get the number of questions in the test
-                for q in test.sscquestions_set.all():
-                    questnum.append(q)
-                how_many = len(questnum)
-
-                try:
-                    temp_marks = TemporaryAnswerHolder.objects.filter(stud =
-                                                                  user.student,test__id=int(test_id))
-                   
-                except:
-                    pass
-            # saves choice to temporary holder 
-                test = SSCKlassTest.objects.get(id = int(test_id))
-                my_marks = TemporaryAnswerHolder()
-                my_marks.stud = user.student
-                my_marks.test = test
-                my_marks.quests= question_id
-                my_marks.answers = choice_id
-                try:
-                    my_marks.time = int(questTime)
-                except:
-                    my_marks.time = int(0)
-                my_marks.save()
-                all_quests = []
-                for i in temp_marks:
-                   all_quests.append(i.quests)
-                return HttpResponse(how_many)
+            save_quest =\
+            test_get_next_question.delay(user.id,test_id,question_id,choice_id,questTime)
+            return HttpResponse(test_id)
         if 'testSub' in request.POST:
             test_id = request.POST['testSub']
             time_taken = request.POST['timeTaken']
