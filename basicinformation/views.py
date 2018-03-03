@@ -28,6 +28,7 @@ from django.contrib import messages
 from .tasks import *
 from celery.result import AsyncResult
 from django.core import serializers
+from time import sleep
 @ensure_csrf_cookie
 def home(request):
     user = request.user
@@ -661,36 +662,41 @@ def teacher_update_page(request):
                 result = result[result[:,3].argsort()]
             except:
                 result = None
-
-            if res.state != "PENDING":
+            try:
                 new_rl = SscTeacherTestResultLoader.objects.get(test__id = test_id)
-                max_marks = new_rl.test.max_marks    
-                average = new_rl.average
-                percent_average = new_rl.percentAverage
-                grade_s = new_rl.grade_s
-                grade_a = new_rl.grade_a
-                grade_b = new_rl.grade_b
-                grade_c = new_rl.grade_c
-                grade_d = new_rl.grade_d
-                grade_e = new_rl.grade_e
-                grade_f = new_rl.grade_f
-                skipped_quests = new_rl.skipped
-                skipped_freq = new_rl.skippedFreq
-                sq = list(zip(skipped_quests,skipped_freq))
-                freqQuests = new_rl.freqAnswersQuestions
-                freqQuestsfreq = new_rl.freqAnswersFreq
-                freq = list(zip(freqQuests,freqQuestsfreq))
-                pro_quests = new_rl.problemQuestions
-                pro_freq  = new_rl.problemQuestionsFreq
-                problem_quests = list(zip(pro_quests,pro_freq))
+            except SscTeacherTestResultLoader.DoesNotExist:
+                sleep(0.5)
+                new_rl = SscTeacherTestResultLoader.objects.get(test__id = test_id)
+                  
+            max_marks = new_rl.test.max_marks    
+            average = new_rl.average
+            percent_average = new_rl.percentAverage
+            grade_s = new_rl.grade_s
+            grade_a = new_rl.grade_a
+            grade_b = new_rl.grade_b
+            grade_c = new_rl.grade_c
+            grade_d = new_rl.grade_d
+            grade_e = new_rl.grade_e
+            grade_f = new_rl.grade_f
+            skipped_quests = new_rl.skipped
+            skipped_freq = new_rl.skippedFreq
+            sq = list(zip(skipped_quests,skipped_freq))
+            freqQuests = new_rl.freqAnswersQuestions
+            freqQuestsfreq = new_rl.freqAnswersFreq
+            freq = list(zip(freqQuests,freqQuestsfreq))
+            pro_quests = new_rl.problemQuestions
+            pro_freq  = new_rl.problemQuestionsFreq
+            problem_quests = list(zip(pro_quests,pro_freq))
 
-                context = {'om':
-                           online_marks,'test':new_rl.test,'average':new_rl.average
-                           ,'percentAverage':new_rl.percentAverage,'maxMarks':max_marks,
-                           'grade_s':new_rl.grade_s,'grade_a':new_rl.grade_a,'grade_b':new_rl.grade_b,'grade_c':new_rl.grade_c,
-                           'grade_d':new_rl.grade_d,'grade_e':new_rl.grade_e,'grade_f':new_rl.grade_f,
-                           'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
-                return render(request, 'basicinformation/teacher_online_analysis3.html', context)
+            context = {'om':
+                       online_marks,'test':new_rl.test,'average':new_rl.average
+                       ,'percentAverage':new_rl.percentAverage,'maxMarks':max_marks,
+                       'grade_s':new_rl.grade_s,'grade_a':new_rl.grade_a,'grade_b':new_rl.grade_b,'grade_c':new_rl.grade_c,
+                       'grade_d':new_rl.grade_d,'grade_e':new_rl.grade_e,'grade_f':new_rl.grade_f,
+                       'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
+            return render(request, 'basicinformation/teacher_online_analysis3.html', context)
+            
+
 
         saved_marks = result_loader.onlineMarks.all()
         if len(online_marks) == len(saved_marks):
