@@ -189,6 +189,7 @@ def add_questions(request):
                 newClassTest.save()
                 for zz in questions_list:
                     zz.ktest.add(newClassTest)
+                teacher_type = "SSC"
 
             context = {'test':newClassTest,'teacher_type':teacher_type}
             return render(request,'questions/publish_test.html',context)
