@@ -661,8 +661,8 @@ def teacher_update_page(request):
     # else generate new rank table, sort it and display it 
             else:
                 asyn_rt = generate_testRankTable.delay(user.id,test_id)
-                result = None
-                while result is None:
+                result = 'None'
+                while result is 'None':
                     try:
                         result = TestRankTable.objects.filter(test__id =\
                                                       test_id).order_by('-time')[0]
@@ -675,8 +675,8 @@ def teacher_update_page(request):
 
         except:
             asyn_rt = generate_testRankTable.delay(user.id,test_id)
-            result = None
-            while result is None:
+            result = 'None'
+            while result is 'None':
                 try:
                     result = TestRankTable.objects.filter(test__id =\
                                                   test_id).order_by('-time')[0]
@@ -684,13 +684,15 @@ def teacher_update_page(request):
                 except: pass
 
     # try if result loader exists for the given test
-        try:
-            result_loader = SscTeacherTestResultLoader.objects.get(test__id = test_id)
-        except:
-    # if result_loader doesn't exist then-
+    # in case of except
+        # if result_loader doesn't exist then-
     # case 1 : teacher is clicking on the analysis for this test for 1st time
     #   hence, create a new result loader with this test
     #   and show it in the template
+
+        try:
+            result_loader = SscTeacherTestResultLoader.objects.get(test__id = test_id)
+        except:
 
             new_rl = teacher_test_analysis_new.delay(test_id,user.id)
             te_id = new_rl.task_id

@@ -4112,7 +4112,7 @@ class Teach:
 
 
     def my_classes_objects(self, klass_name=None):
-        if klass_name != None:
+        if klass_name is None:
             kl = klass.objects.filter(school=self.profile.school)
         else:
             kl = klass.objects.get(school=self.profile.school,name=klass_name)
@@ -4128,14 +4128,14 @@ class Teach:
         #    else:
         #        return None
 
-        subs = self.profile.subject_set.all()
-        if subs:
-            klasses = []
-            for sub in subs:
-                klasses.append(sub.student.klass)
-            return klasses
-        else:
-            return None
+        #subs = self.profile.subject_set.all()
+        #if subs:
+        #    klasses = []
+        #    for sub in subs:
+        #        klasses.append(sub.student.klass)
+        #    return klasses
+        #else:
+        #    return None
 
     def my_classes_names(self):
         subs = self.profile.subject_set.all()
@@ -5134,7 +5134,10 @@ class Teach:
         result =\
         list(zip(names,totalMarks,scores,rank,percentage,numCorrect,numIncorrect,numSkipped))
         result = np.array(result)
-        result = result[result[:,3].argsort()]
+        try:
+            result = result[result[:,3].argsort()]
+        except:
+            result = None
         return result
 
 

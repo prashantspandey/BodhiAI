@@ -372,4 +372,107 @@ def test_get_next_question(user_id,test_id,question_id,choice_id,questTime):
     my_marks.save()
 
     
+@shared_task
+def create_Normaltest(user_id,which_klass,quest_file_name):
+    with open(quest_file_name,'rb') as ql:
+        questions_list= pickle.load(ql)
+    if len(questions_list)!=0:
+        user = User.objects.get(id = user_id)
+        me = Teach(user)
+        klass = me.my_classes_objects(which_klass)
+        tot = 0 
+        for i in questions_list:
+            tot = tot + i.max_marks
+        newClassTest = SSCKlassTest()
+        newClassTest.max_marks = tot
+        newClassTest.published = timezone.now()
+        newClassTest.name = str(me.profile) + str(timezone.now())
+        newClassTest.klas = klass
+        newClassTest.creator = user
+        newClassTest.save()
+        for zz in questions_list:
+            zz.ktest.add(newClassTest)
+        return newClassTest.id
+
+
+@shared_task
+def publish_NormalTest(user_id,testid,date,time):
+    user = User.objects.get(id = user_id)
+    me = Teach(user)
+    if date is None:
+        date = timezone.now()
+    myTest = SSCKlassTest.objects.get(id = testid)
+    
+    due_date = datetime.strptime(date, "%m/%d/%Y")
+    myTest.due_date = due_date
+    if time:
+        myTest.totalTime = time
+    else:
+        myTest.totalTime = 10000
+    if me.institution == 'School':
+        for sub in myTest.questions_set.all():
+            subject = sub.sub
+            break
+        myTest.sub = subject
+    elif me.institution == 'SSC':
+        subs = []
+        kl = myTest.klas
+        for sub in myTest.sscquestions_set.all():
+            timesus = TimesUsed.objects.filter(teacher =
+                                              me.profile,quest =
+                                              sub,batch = kl)
+            if len(timesus) == 1:
+                for i in timesus:
+                    i.numUsed = i.numUsed + 1
+                    i.save()
+                    
+            else:
+                tused = TimesUsed()
+                tused.numUsed = 1
+                tused.teacher = me.profile
+                tused.quest = sub
+                tused.batch = kl
+                tused.save()
+
+            subs.append(sub.section_category)
+        subs = list(unique_everseen(subs))
+        if len(subs)==1:
+            myTest.sub = subs[0]
+            kl = myTest.klas
+            students = Student.objects.filter(klass = kl,school =
+                                              me.profile.school)
+            for i in students:
+                subjs = Subject.objects.filter(teacher =
+                                              me.profile,student=i,name
+                                              = myTest.sub)
+                if subjs:
+                    studs = Student.objects.get(subject = subjs)
+                    myTest.testTakers.add(studs)
+                    myTest.save()
+
+        else:
+            students = Student.objects.filter(klass = kl,school = me.profile.school)
+            for i in students:
+                all_subs = []
+                for su in subs:
+                    subjs = Subject.objects.filter(teacher =
+                                              me.profile,student=i,name
+                                              = su)
+                    all_subs.append(subjs)
+                if len(all_subs) != 0:
+                    for s in all_subs:
+                        try:
+                            studs = Student.objects.get(subject = s)
+                            myTest.testTakers.add(studs)
+                            myTest.save()
+                        except:
+                            pass
+            if 'Defence-Physics' in subs or 'Defence-English' in\
+            subs or 'Defence-GK-CA' in subs:
+                myTest.sub = 'Defence-MultipleSubjects'
+            else:
+                myTest.sub = 'SSCMultipleSections'
+        
+    myTest.mode = 'BodhiOnline'
+    myTest.save()
 

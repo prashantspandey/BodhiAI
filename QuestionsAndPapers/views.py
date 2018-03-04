@@ -171,27 +171,21 @@ def add_questions(request):
         return render(request,'questions/addedQuestions.html',context)
     if request.POST:
         if os.path.exists(quest_file_name):
-            with open(quest_file_name,'rb') as ql:
-                questions_list= pickle.load(ql)
-            if len(questions_list)!=0:
-                me = Teach(request.user)
-                which_klass = request.POST['which_klass']
-                klass = me.my_classes_objects(which_klass)
-                tot = 0 
-                for i in questions_list:
-                    tot = tot + i.max_marks
-                teacher_type = 'SSC'
-                newClassTest = SSCKlassTest()
-                newClassTest.max_marks = tot
-                newClassTest.published = timezone.now()
-                newClassTest.name = str(request.user.teacher) + str(timezone.now())
-                newClassTest.klas = klass
-                newClassTest.creator = request.user
-                newClassTest.save()
-                for zz in questions_list:
-                    zz.ktest.add(newClassTest)
-                context = {'test':newClassTest,'teacher_type':teacher_type}
-                return render(request,'questions/publish_test.html',context)
+            which_klass = request.POST['which_klass']
+            create_test = create_Normaltest.delay(user.id,which_klass,quest_file_name)
+            te_id = create_test.task_id
+            result = AsyncResult(te_id)
+            test_id = result.get()
+            teacher_type = 'SSC'
+            classTest = None
+            while classTest is None:
+                try:
+                    classTest = SSCKlassTest.objects.get(id = test_id)
+                except:
+                    pass
+
+            context = {'test':classTest,'teacher_type':teacher_type}
+            return render(request,'questions/publish_test.html',context)
         else:
             return HttpResponse('Please select at-least one question')
 
@@ -200,90 +194,16 @@ def publish_test(request):
     user = request.user
     if user.is_authenticated:
         if user.groups.filter(name= 'Teachers').exists():
-            me = Teach(user)
             if 'publishTest' in request.POST:
+                testid = request.POST['testid']
                 date = request.POST['dueDate']
                 time = request.POST['timePicker']
-                school = user.teacher.school
-                if not date:
-                    date = timezone.now()
-                testid = request.POST['testid']
-                myTest = SSCKlassTest.objects.get(id = testid)
-                
-                due_date = datetime.datetime.strptime(date, "%m/%d/%Y")
-                myTest.due_date = due_date
-                if time:
-                    myTest.totalTime = time
-                else:
-                    myTest.totalTime = 10000
-                if me.institution == 'School':
-                    for sub in myTest.questions_set.all():
-                        subject = sub.sub
-                        break
-                    myTest.sub = subject
-                elif me.institution == 'SSC':
-                    subs = []
-                    kl = myTest.klas
-                    for sub in myTest.sscquestions_set.all():
-                        timesus = TimesUsed.objects.filter(teacher =
-                                                          me.profile,quest =
-                                                          sub,batch = kl)
-                        if len(timesus) == 1:
-                            for i in timesus:
-                                i.numUsed = i.numUsed + 1
-                                i.save()
-                                
-                        else:
-                            tused = TimesUsed()
-                            tused.numUsed = 1
-                            tused.teacher = me.profile
-                            tused.quest = sub
-                            tused.batch = kl
-                            tused.save()
-
-                        subs.append(sub.section_category)
-                    subs = list(unique_everseen(subs))
-                    if len(subs)==1:
-                        myTest.sub = subs[0]
-                        kl = myTest.klas
-                        students = Student.objects.filter(klass = kl,school = school)
-                        for i in students:
-                            subjs = Subject.objects.filter(teacher =
-                                                          me.profile,student=i,name
-                                                          = myTest.sub)
-                            if subjs:
-                                studs = Student.objects.get(subject = subjs)
-                                myTest.testTakers.add(studs)
-                                myTest.save()
-
-                    else:
-                        students = Student.objects.filter(klass = kl,school = school)
-                        for i in students:
-                            all_subs = []
-                            for su in subs:
-                                subjs = Subject.objects.filter(teacher =
-                                                          me.profile,student=i,name
-                                                          = su)
-                                all_subs.append(subjs)
-                            if len(all_subs) != 0:
-                                for s in all_subs:
-                                    try:
-                                        studs = Student.objects.get(subject = s)
-                                        myTest.testTakers.add(studs)
-                                        myTest.save()
-                                    except:
-                                        pass
-                        if 'Defence-Physics' in subs or 'Defence-English' in\
-                        subs or 'Defence-GK-CA' in subs:
-                            myTest.sub = 'Defence-MultipleSubjects'
-                        else:
-                            myTest.sub = 'SSCMultipleSections'
-                    
-                myTest.mode = 'BodhiOnline'
-                myTest.save()
+                publish_test =\
+                publish_NormalTest.delay(user.id,testid,date,time)
                 return \
             render(request,'questions/teacher_successfully_published.html')
             if 'pdfTest' in request.POST:
+                me = Teach(user)
                 testid = request.POST['testid']
                 if me.institution == 'School':
                     teacher_type = 'School'
