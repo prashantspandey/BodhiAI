@@ -175,18 +175,20 @@ def add_questions(request):
                 questions_list= pickle.load(ql)
 
             which_klass = request.POST['which_klass']
-            create_test =\
-            create_Normaltest.delay(user.id,which_klass,questions_list)
-            te_id = create_test.task_id
-            result = AsyncResult(te_id)
-            test_id = result.get()
-            teacher_type = 'SSC'
-            classTest = None
-            while classTest is None:
-                try:
-                    classTest = SSCKlassTest.objects.get(id = test_id)
-                except:
-                    pass
+            if len(questions_list)!=0:
+                klass = me.my_classes_objects(which_klass)
+                tot = 0 
+                for i in questions_list:
+                    tot = tot + i.max_marks
+                newClassTest = SSCKlassTest()
+                newClassTest.max_marks = tot
+                newClassTest.published = timezone.now()
+                newClassTest.name = str(me.profile) + str(timezone.now())
+                newClassTest.klas = klass
+                newClassTest.creator = user
+                newClassTest.save()
+                for zz in questions_list:
+                    zz.ktest.add(newClassTest)
 
             context = {'test':classTest,'teacher_type':teacher_type}
             return render(request,'questions/publish_test.html',context)
