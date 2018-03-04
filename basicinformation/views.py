@@ -856,7 +856,10 @@ def teacher_download_result(request):
     me = Teach(user)
     if 'downloadresult' in request.GET:
         test_id = request.GET['downloadresult']
-        result = me.generate_rankTable(test_id)
+        result = TestRankTable.objects.filter(test__id =\
+                                                  test_id).order_by('-time')[0]
+        result = me.combine_rankTable(result)
+       
         if len(result) == 0:
             result = me.generate_rankTable(test_id,mode='offline')
         try:
