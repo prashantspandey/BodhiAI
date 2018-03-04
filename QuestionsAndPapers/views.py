@@ -190,7 +190,7 @@ def add_questions(request):
                 for zz in questions_list:
                     zz.ktest.add(newClassTest)
 
-            context = {'test':classTest,'teacher_type':teacher_type}
+            context = {'test':newClassTest,'teacher_type':teacher_type}
             return render(request,'questions/publish_test.html',context)
         else:
             return HttpResponse('Please select at-least one question')
