@@ -23,6 +23,9 @@ class SSCQuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
 class StudentCurrentTestAdmin(admin.ModelAdmin):
     readonly_fields = ('time',)
+class TestRankTableAdmin(admin.ModelAdmin):
+    readonly_fields = ('time',)
+
 class SSCcomprehensionQuestions(admin.StackedInline):
     model = SSCquestions
 
@@ -46,3 +49,4 @@ admin.site.register(TimesUsed)
 admin.site.register(TimesReported)
 admin.site.register(SscTeacherTestResultLoader)
 admin.site.register(StudentCurrentTest,StudentCurrentTestAdmin)
+admin.site.register(TestRankTable,TestRankTableAdmin)

@@ -322,3 +322,19 @@ class StudentCurrentTest(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return str(self.student) + str(self.test.id)
+
+class TestRankTable(models.Model):
+    teacher = models.ForeignKey(Teacher,null=True)
+    test = models.ForeignKey(SSCKlassTest,null=True)
+    names = ArrayField(models.CharField(max_length=100))
+    totalMarks = ArrayField(models.IntegerField(null=True))
+    scores = ArrayField(models.FloatField(null=True))
+    percentage = ArrayField(models.FloatField(null=True))
+    numCorrect = ArrayField(models.IntegerField(null=True))
+    numIncorrect = ArrayField(models.IntegerField(null=True))
+    numSkipped = ArrayField(models.IntegerField(null=True))
+    rank = ArrayField(models.IntegerField(null=True,blank = True))
+    time = models.DateTimeField(auto_now = True,null=True)
+
+    def __str__(self):
+        return str(self.teacher)+str(self.test.published)

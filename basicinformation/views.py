@@ -647,27 +647,60 @@ def teacher_update_page(request):
     elif 'onlinetestid' in request.GET:
         test_id = request.GET['onlinetestid']
         me = Teach(user)
+        # get the number of students who took test
         online_marks =\
         SSCOnlineMarks.objects.filter(test__id=test_id,student__school =
                                       me.profile.school)
+    # try to get result table associated with particular test
+        try:
+            result = TestRankTable.objects.get(test__id = test_id)
+    # if no new student has taken the test then simply sort the old rank table 
+            if len(result.names) == len(online_marks):
+                result = me.combine_rankTable(result)
 
+    # else generate new rank table, sort it and display it 
+            else:
+                asyn_rt = generate_testRankTable.delay(user.id,test_id)
+                result = None
+                while result is None:
+                    try:
+                        result = TestRankTable.objects.filter(test__id =\
+                                                      test_id).order_by('-time')[0]
+                        result = combine_rankTable(result)
+
+                    except :
+                        pass
+    # if no result table is found associated to particular test then generate
+    # new rank table, sort it and display it
+
+        except:
+            asyn_rt = generate_testRankTable.delay(user.id,test_id)
+            result = None
+            while result is None:
+                try:
+                    result = TestRankTable.objects.filter(test__id =\
+                                                  test_id).order_by('-time')[0]
+                    result = me.combine_rankTable(result)
+                except: pass
+
+    # try if result loader exists for the given test
         try:
             result_loader = SscTeacherTestResultLoader.objects.get(test__id = test_id)
         except:
+    # if result_loader doesn't exist then-
+    # case 1 : teacher is clicking on the analysis for this test for 1st time
+    #   hence, create a new result loader with this test
+    #   and show it in the template
+
             new_rl = teacher_test_analysis_new.delay(test_id,user.id)
             te_id = new_rl.task_id
             res = AsyncResult(te_id)
-            result = me.generate_rankTable(test_id)
-            try:
-                result = result[result[:,3].argsort()]
-            except:
-                result = None
-            try:
-                new_rl = SscTeacherTestResultLoader.objects.get(test__id = test_id)
-            except SscTeacherTestResultLoader.DoesNotExist:
-                sleep(0.5)
-                new_rl = SscTeacherTestResultLoader.objects.get(test__id = test_id)
-                  
+            new_rl = None
+            while new_rl is None:
+                try:
+                    new_rl = SscTeacherTestResultLoader.objects.get(test__id = test_id)
+                except SscTeacherTestResultLoader.DoesNotExist:
+                    pass
             max_marks = new_rl.test.max_marks    
             average = new_rl.average
             percent_average = new_rl.percentAverage
@@ -696,10 +729,14 @@ def teacher_update_page(request):
                        'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
             return render(request, 'basicinformation/teacher_online_analysis3.html', context)
             
-
+# result loader is found but don't know if more students have taken
+# the test, hence compare number of students in result loader with number of
+# online marks calculated above 
 
         saved_marks = result_loader.onlineMarks.all()
         if len(online_marks) == len(saved_marks):
+# case 2 : if no new student has taken the test then just load and display
+# result_loder
             max_marks = result_loader.test.max_marks    
             pro_quests = result_loader.problemQuestions
             pro_freq  = result_loader.problemQuestionsFreq
@@ -719,11 +756,6 @@ def teacher_update_page(request):
             freqQuests = result_loader.freqAnswersQuestions
             freqQuestsfreq = result_loader.freqAnswersFreq
             freq = list(zip(freqQuests,freqQuestsfreq))
-            result = me.generate_rankTable(test_id)
-            try:
-                result = result[result[:,3].argsort()]
-            except:
-                result = None
             context = {'om':
                        online_marks,'test':result_loader.test,'average':result_loader.average
                        ,'percentAverage':result_loader.percentAverage,'maxMarks':max_marks,
@@ -731,12 +763,9 @@ def teacher_update_page(request):
                        'grade_d':result_loader.grade_d,'grade_e':result_loader.grade_e,'grade_f':result_loader.grade_f,
                        'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
             return render(request, 'basicinformation/teacher_online_analysis3.html', context)
+# case 3 : if more students have taken the test then result_loader has to be
+# updated and then displyed in the template
         else:
-            result = me.generate_rankTable(test_id)
-            try:
-                result = result[result[:,3].argsort()]
-            except:
-                result = None
             new_rl = teacher_test_analysis_already.delay(test_id,user.id)
             rl_id = new_rl.task_id
             max_marks = result_loader.test.max_marks    
@@ -758,11 +787,6 @@ def teacher_update_page(request):
             freqQuests = result_loader.freqAnswersQuestions
             freqQuestsfreq = result_loader.freqAnswersFreq
             freq = list(zip(freqQuests,freqQuestsfreq))
-            result = me.generate_rankTable(test_id)
-            try:
-                result = result[result[:,3].argsort()]
-            except:
-                result = None
             context = {'om':
                        online_marks,'test':result_loader.test,'average':result_loader.average
                        ,'percentAverage':result_loader.percentAverage,'maxMarks':max_marks,

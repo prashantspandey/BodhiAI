@@ -5100,15 +5100,43 @@ class Teach:
             numCorrect.append(len(i.rightAnswers))
             numIncorrect.append(len(i.wrongAnswers))
             numSkipped.append(len(i.skippedAnswers))
-            right_answers = 0
-            wrong_answers = 0
-            skipped_answers = 0
+            #right_answers = 0
+            #wrong_answers = 0
+            #skipped_answers = 0
         # counts number of right,wrong and skipped answers
      
         rank = self.find_classRank(scores)
         result =\
         list(zip(names,totalMarks,scores,rank,percentage,numCorrect,numIncorrect,numSkipped))
-        return np.array(result)
+    # save it to database
+        rank_table = TestRankTable()
+        rank_table.teacher = self.profile
+        rank_table.test = SSCKlassTest.objects.get(id = test_id)
+        rank_table.names = names
+        rank_table.totalMarks = totalMarks
+        rank_table.scores = scores
+        rank_table.percentage = percentage
+        rank_table.numCorrect = numCorrect
+        rank_table.numIncorrect = numIncorrect
+        rank_table.numSkipped = numSkipped
+        rank_table.rank = rank
+        rank_table.save()
+        
+    def combine_rankTable(self,result):
+        names = result.names
+        totalMarks = result.totalMarks
+        scores = result.scores
+        rank = [i for i in result.rank]
+        percentage = result.percentage
+        numCorrect = result.numCorrect
+        numIncorrect = result.numIncorrect
+        numSkipped = result.numSkipped
+        result =\
+        list(zip(names,totalMarks,scores,rank,percentage,numCorrect,numIncorrect,numSkipped))
+        result = np.array(result)
+        result = result[result[:,3].argsort()]
+        return result
+
 
 
     def test_taken_subjects(self,user):

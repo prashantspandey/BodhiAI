@@ -263,6 +263,12 @@ def teacher_test_analysis_already(test_id,user_id):
 
     for i in online_marks:
         result_loader.onlineMarks.add(i)
+
+@shared_task
+def generate_testRankTable(user_id,test_id):
+    user = User.objects.get(id = user_id)
+    me = Teach(user)
+    me.generate_rankTable(test_id)
 @shared_task
 def teacher_return_tests(user_id,subject,klass):
     user = User.objects.get(id = user_id)
