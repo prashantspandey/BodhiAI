@@ -171,6 +171,8 @@ def add_questions(request):
         return render(request,'questions/addedQuestions.html',context)
     if request.POST:
         if os.path.exists(quest_file_name):
+            print(type(quest_file_name))
+            print(quest_file_name)
             which_klass = request.POST['which_klass']
             create_test = create_Normaltest.delay(user.id,which_klass,quest_file_name)
             te_id = create_test.task_id
