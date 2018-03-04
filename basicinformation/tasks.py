@@ -373,10 +373,7 @@ def test_get_next_question(user_id,test_id,question_id,choice_id,questTime):
 
     
 @shared_task
-def create_Normaltest(user_id,which_klass,quest_file_name):
-    print(user_id,which_klass,quest_file_name)
-    with open(str(quest_file_name),'rb') as ql:
-        questions_list= pickle.load(ql)
+def create_Normaltest(user_id,which_klass,questions_list):
     if len(questions_list)!=0:
         user = User.objects.get(id = user_id)
         me = Teach(user)

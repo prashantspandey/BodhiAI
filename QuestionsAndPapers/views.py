@@ -171,10 +171,12 @@ def add_questions(request):
         return render(request,'questions/addedQuestions.html',context)
     if request.POST:
         if os.path.exists(quest_file_name):
-            print(type(quest_file_name))
-            print(quest_file_name)
+            with open(str(quest_file_name),'rb') as ql:
+                questions_list= pickle.load(ql)
+
             which_klass = request.POST['which_klass']
-            create_test = create_Normaltest.delay(user.id,which_klass,quest_file_name)
+            create_test =\
+            create_Normaltest.delay(user.id,which_klass,questions_list)
             te_id = create_test.task_id
             result = AsyncResult(te_id)
             test_id = result.get()
