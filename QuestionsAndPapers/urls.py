@@ -5,6 +5,8 @@ app_name = 'QuestionsAndPapers'
 
 urlpatterns = [
     #url(r'^$', views.home, name='home'),
+    url(r'^createTest_Initial/$',views.create_test_Initial,name=\
+        'createTest_initial'),
     url(r'^createTest/$',views.create_test,name= 'createTest'),
     url(r'^addQuestions/$',views.add_questions,name= 'addQuestions'),
     url(r'^seeTests/$',views.see_Test,name= 'seeTests'),

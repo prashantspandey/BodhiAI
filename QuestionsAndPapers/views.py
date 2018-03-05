@@ -19,100 +19,98 @@ import sys
 from basicinformation.tasks import *
 from celery.result import AsyncResult
 # Create your views here.
-
-def create_test(request):
+def create_test_Initial(request):
     user = request.user
     if user.is_authenticated:
         if user.groups.filter(name= 'Teachers').exists():
             me = Teach(user)
             quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
-            school = me.my_school()
             all_klasses = me.my_classes_names()
-            try:
-                if 'klass_test' in request.GET:
-                    try:
-                        if os.path.exists(quest_file_name):
-                            os.remove(quest_file_name)
-                    except:
-                        pass
-
-                    ttt = request.GET['klass_test']
-                    quest = SSCquestions.objects.filter(school= school)
-                    if len(quest)!=0:
-                        unique_chapters = me.my_subjects_names()
-                        #unique_chapters = []
-                        #for i in quest:
-                        #    unique_chapters.append(i.section_category)
-                        #unique_chapters = list(unique_everseen(unique_chapters))
-                        
-                        test_type = 'SSC'
-                        return render(request, 'questions/klass_available.html',
-                                  {'fin':
-                                   unique_chapters,'which_klass':ttt,'test_type':test_type})
-                    else:
-                        noTest = 'Not Questions for this class'
-                        context = {'noTest':noTest}
-                        return
-                    render(request,'questions/klass_available.html',context)
-                if 'category_test' in request.GET:
-                    category_klass = request.GET['category_test']
-                    split_category = category_klass.split(',')[0]
-                    split_klass = category_klass.split(',')[1]
-                    quest = SSCquestions.objects.filter(section_category =
-                                                        split_category,school
-                                                        =school)
-                    all_categories = []
-                    for i in quest:
-                        all_categories.append(i.topic_category)
-                    all_categories = list(unique_everseen(all_categories))
-                    #all_categories = me.return_TopicNames(split_category)
-                    all_categories.sort()
-                    all_categories = \
-                    me.change_topicNumbersNames(all_categories,split_category)
-                    context = \
-                            {'categories':all_categories,'which_klass':split_klass,'section_category':split_category}
-                    return \
-                    render(request,'questions/klass_categories.html',context)
-                    
-
-                if 'chapter_test' in request.GET:
-                    quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
-                    which_chap = request.GET['chapter_test']
-                    splitChap = which_chap.split(",")[0]
-                    splitClass = which_chap.split(",")[1]
-                    splitSection = which_chap.split(",")[2]
-                    klasses = klass.objects.filter(name=splitClass)
-                    
-                    if os.path.exists(quest_file_name):
-                        with open(quest_file_name,'rb') as fi:
-                            questions_list = pickle.load(fi)
-                        idlist = []
-                        for qq in questions_list:
-                            idlist.append(qq.id)
-
-                        klass_question = \
-                        SSCquestions.objects.filter(topic_category = splitChap,school =
-                                                        school,section_category=splitSection)
-                        context = \
-                        {'que':klass_question,'idlist':idlist,'which_class':splitClass }
-                        return render(request,'questions/klass_questions.html',context)
-                    else:
-                        klass_question =\
-                        SSCquestions.objects.filter(topic_category =
-                                                    splitChap,school =
-                                                    school,section_category=splitSection)
-                        context = \
-                        {'que':klass_question,'which_class':splitClass }
-                        return render(request,'questions/klass_questions.html',context)
-
-
-            except Exception as e:
-                print(str(e))
-
             context = {'klasses':all_klasses}
             return render(request,'questions/createTest.html',context)
+
+def create_test(request):
+    user = request.user
+    quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
+    me = Teach(user)
+    if 'klass_test' in request.GET:
+        try:
+            if os.path.exists(quest_file_name):
+                os.remove(quest_file_name)
+        except:
+            pass
+
+        ttt = request.GET['klass_test']
+        quest = SSCquestions.objects.filter(school=
+                                            me.profile.school)
+        if len(quest)!=0:
+            unique_chapters = me.my_subjects_names()
+            #unique_chapters = []
+            #for i in quest:
+            #    unique_chapters.append(i.section_category)
+            #unique_chapters = list(unique_everseen(unique_chapters))
+            
+            test_type = 'SSC'
+            return render(request, 'questions/klass_available.html',
+                      {'fin':
+                       unique_chapters,'which_klass':ttt,'test_type':test_type})
         else:
-            raise Http404("You don't have necessary permissions.")
+            noTest = 'Not Questions for this class'
+            context = {'noTest':noTest}
+            return
+        render(request,'questions/klass_available.html',context)
+    if 'category_test' in request.GET:
+        category_klass = request.GET['category_test']
+        split_category = category_klass.split(',')[0]
+        split_klass = category_klass.split(',')[1]
+        quest = SSCquestions.objects.filter(section_category =
+                                            split_category,school
+                                            =me.profile.school)
+        all_categories = []
+        for i in quest:
+            all_categories.append(i.topic_category)
+        all_categories = list(unique_everseen(all_categories))
+        #all_categories = me.return_TopicNames(split_category)
+        all_categories = \
+        me.change_topicNumbersNames(all_categories,split_category)
+        all_categories.sort()
+        context = \
+                {'categories':all_categories,'which_klass':split_klass,'section_category':split_category}
+        return \
+        render(request,'questions/klass_categories.html',context)
+        
+
+    if 'chapter_test' in request.GET:
+        quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
+        which_chap = request.GET['chapter_test']
+        splitChap = which_chap.split(",")[0]
+        splitClass = which_chap.split(",")[1]
+        splitSection = which_chap.split(",")[2]
+        klasses = klass.objects.filter(name=splitClass)
+        
+        if os.path.exists(quest_file_name):
+            with open(quest_file_name,'rb') as fi:
+                questions_list = pickle.load(fi)
+            idlist = []
+            for qq in questions_list:
+                idlist.append(qq.id)
+
+            klass_question = \
+            SSCquestions.objects.filter(topic_category = splitChap,school =
+                                            me.profile.school,section_category=splitSection)
+            context = \
+            {'que':klass_question,'idlist':idlist,'which_class':splitClass }
+            return render(request,'questions/klass_questions.html',context)
+        else:
+            klass_question =\
+            SSCquestions.objects.filter(topic_category =
+                                        splitChap,school =
+                                        me.profile.school,section_category=splitSection)
+            context = \
+            {'que':klass_question,'which_class':splitClass }
+            return render(request,'questions/klass_questions.html',context)
+
+
 def add_questions(request):
     user = request.user
     me = Teach(user)
