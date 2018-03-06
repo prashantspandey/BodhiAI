@@ -30,7 +30,7 @@
 
 
     <!-- Favicon -->
-   <!-- <link rel="icon" href="images/favicon.png">-->
+	    <link rel="icon" href="{% static 'basicinformation/images/favicon.ico' %}">
    <link rel="apple-touch-icon" href="{% static 'basicinformation/images/apple-touch-icon.png' %}">
     <link rel="apple-touch-icon" sizes="72x72" href="{% static 'basicinformation/images/icon-72x72.png' %}">
     <link rel="apple-touch-icon" sizes="114x114" href="{% static 'basicinformation/images/icon-114x114.png' %}">
@@ -107,9 +107,6 @@
 			    <form class="form-group" action="{% url 'InterestedPeople' %}" method="get">
 				    <input  type="tel" name="tel" placeholder="Enter Your Mobile Number">     
 				<button type="submit"><img src="{% static 'basicinformation/images/icons/submit-1.png' %}" alt=""></button>
-                                <div class="clearfix"></div>
-                                <p class="newsletter-success"></p>
-                                <p class="newsletter-error"></p>
                             </form>
                             <div class="play-button-2">
                                 <a class="play-video" href="https://www.youtube.com/watch?v=veNT-ieO3EY">
@@ -122,6 +119,10 @@
                     </div>
                 </div>
             </div>
+			    <br>
+			    <br>
+			    <br>
+
             <div class="mock-slider">
                 <div class="container">
                     <div class="row">
@@ -131,13 +132,13 @@
                             <div class="slider-main">
                                  <div id="mock-slider-1" class="slider-mocks">
                                     <div class="item">
-					    <img src="{% static 'basicinformation/images/banner/slider-1.jpg.png' %}" alt="">
+					    <img src="{% static 'basicinformation/images/banner/slider.jpg.png' %}" alt="">
                                     </div>
                                     <div class="item">
-					    <img src="{% static 'basicinformation/images/banner/slider-1.jpg.png' %}" alt="">
+					    <img src="{% static 'basicinformation/images/banner/student_analysis.png' %}" alt="">
                                     </div>
                                     <div class="item">
-					    <img src="{% static 'basicinformation/images/banner/slider-1.jpg.png' %}" alt="">
+					    <img src="{% static 'basicinformation/images/banner/home.png' %}" alt="">
                                     </div>
                                 </div>   
                             </div>
@@ -155,9 +156,9 @@
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <div class="section-header text-center">
                         <h3 class="section-title">How It Works ?</h3>
-                        <p class="section-text">Automated test means more test for frequent evaluation<br>
-                        	Customised test for each student results in better results<br>
-                        More test and better results means more admissions !!</p>
+			<p class="section-text"><strong>Automated test means more tests for frequent evaluation<br>
+                        	Customised tests for each student results in better results<br>
+				More tests and better results means more admissions !!</strong></p>
                     </div>
                 </div>
             </div>
