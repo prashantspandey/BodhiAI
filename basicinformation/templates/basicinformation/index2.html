@@ -53,13 +53,12 @@
                     <span class="icon-bar"></span>
                 </button>
 		<a class="#" href="index2.html#"><img src="{% static 'basicinformation/images/logo.png' %}" alt="BodhiAI Logo"></a>
-				<!-- <a class="navbar-brand" href="home_software_landing_2.html#"><img src="images/logo.png" alt="SaaS Trade Logo"></a> -->
             </div>
 
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right navbar-buttons">
-                    <li class="solid-item"><a class="solid-btn-white" href="index2.html#">Sign in</a></li>
-                    <li class="solid-item"><a class="solid-btn-gradient" href="index2.html#">Free trial</a></li>
+			<li class="solid-item"><a class="solid-btn-white" href="{%url 'membership:login' %}">Sign in</a></li>
+			<li class="solid-item"><a class="solid-btn-gradient" href="{%url 'membership:register' %}">Free Trial</a></li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
