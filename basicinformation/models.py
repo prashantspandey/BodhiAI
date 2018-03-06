@@ -86,7 +86,12 @@ class SchoolManagement(models.Model):
     def __str__(self):
         return 'management of {}'.format(self.school.name)
 
+class InterestedPeople(models.Model):
+    number = models.BigIntegerField()
+    time = models.DateTimeField()
 
+    def __str__(self):
+        return str(self.number)+str(self.time)
 #class ImprovementStudent(models.Model):
 #    testid = ArrayField(models.IntegerField())
 #    percent = ArrayField(models.CharField(max_length=10))
