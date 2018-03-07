@@ -25,7 +25,12 @@ def create_test_Initial(request):
         if user.groups.filter(name= 'Teachers').exists():
             me = Teach(user)
             quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
-            all_klasses = me.my_classes_names()
+            #all_klasses = me.my_classes_names()
+            klasses = TeacherClasses.objects.filter(teacher = me.profile)
+            all_klasses = []
+            for ak in klasses:
+                all_klasses.append(ak.klass)
+            print(all_klasses)
             context = {'klasses':all_klasses}
             return render(request,'questions/createTest.html',context)
 

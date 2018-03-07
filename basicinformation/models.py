@@ -92,6 +92,17 @@ class InterestedPeople(models.Model):
 
     def __str__(self):
         return str(self.number)+str(self.time)
+
+
+class TeacherClasses(models.Model):
+    teacher = models.ForeignKey(Teacher)
+    klass = models.CharField(max_length=50)
+    numStudents = models.IntegerField()
+
+    def __str__(self):
+        return str(self.teacher)+str(self.klass)
+
+
 #class ImprovementStudent(models.Model):
 #    testid = ArrayField(models.IntegerField())
 #    percent = ArrayField(models.CharField(max_length=10))

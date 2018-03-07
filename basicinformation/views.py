@@ -199,9 +199,23 @@ def home(request):
         elif user.groups.filter(name='Teachers').exists():
             me = Teach(user)
             profile = user.teacher
-            klasses = me.my_classes_names()
             subjects = me.my_subjects_names()
             weak_subs_areas_dict = []
+            teach_klass = TeacherClasses.objects.filter(teacher=me.profile)
+            klasses = []
+            if len(teach_klass) != 0:
+                for kl in teach_klass:
+                    klasses.append(kl.klass)
+            else:
+                klasses = me.my_classes_names()
+                for kl in klasses:
+                    new_teach_klass = TeacherClasses()
+                    new_teach_klass.teacher = me.profile
+                    new_teach_klass.klass = kl
+                    new_teach_klass.numStudents = 0
+                    new_teach_klass.save()
+
+
             #weak_ar = teacher_home_weak_areas.delay(user.id)
             #te_id = weak_ar.task_id
             #res = AsyncResult(te_id)
@@ -541,8 +555,12 @@ def teacher_home_page(request):
     if user.is_authenticated:
         if user.groups.filter(name='Teachers').exists():
             #klass_dict, all_klasses = teacher_get_students_classwise(request)
-            all_klasses = me.my_classes_names()
-            all_klasses = list(unique_everseen(all_klasses))
+            #all_klasses = me.my_classes_names()
+            klasses = TeacherClasses.objects.filter(teacher=me.profile)
+            all_klasses = []
+            for ak in klasses:
+                all_klasses.append(ak.klass)
+            #all_klasses = list(unique_everseen(all_klasses))
             context = {'profile': me.profile, 'klasses': all_klasses}
             return render(request, 'basicinformation/teacherHomePage.html', context)
         else:
