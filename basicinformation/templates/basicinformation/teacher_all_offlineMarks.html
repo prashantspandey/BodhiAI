@@ -12,7 +12,6 @@
      $(document).ready(function () {
     		var ctx{{forloop.counter}} = document.getElementById("myChart{{forloop.counter}}");
 	     te = document.getElementById('#myChart{{forloop.counter}}');
-	     console.log(te)
 	     var myChart1{{forloop.counter}} = new Chart(ctx{{forloop.counter}}, {
             type: 'bar',
             data: {

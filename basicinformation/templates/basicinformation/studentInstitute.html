@@ -1,5 +1,4 @@
 {%extends 'basicinformation/base.html' %}
-{%load mathjax %}
 {% load staticfiles %}
 
 <html lang="en">
@@ -7,7 +6,6 @@
     <meta charset="UTF-8">
     <title>{%block title %}BodhiAI|Student Page{%endblock %}</title>
     {%block scripts %}
-          {% mathjax_scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'basicinformation/css/studentInstitute.css' %}">
 <link rel="stylesheet"  href="{% static 'basicinformation/css/animate.css' %}">

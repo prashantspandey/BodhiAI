@@ -57,8 +57,11 @@
 
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right navbar-buttons">
-			<li class="solid-item"><a class="solid-btn-white" href="{%url 'membership:login' %}">Sign in</a></li>
+			<li class="solid-item"><a class="solid-btn-white" href="{%url 'membership:login' %}">Log in</a></li>
 			<li class="solid-item"><a class="solid-btn-gradient" href="{%url 'membership:register' %}">Free Trial</a></li>
+			{% if user.is_authenticated %}
+			<li class="solid-item"><a class="solid-btn-gradient" href="{%url 'membership:logout' %}">logout</a></li>
+			{%endif%}
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -102,7 +105,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2 col-sm-12 text-center">
-                            <h1 class="banner-title">AI Based Score Improvement Platform For <span class="theme-color typer" data-words="Educational Institutes,Colleges,Coaching Institutes,Defence Academy" data-delay="100" data-deleteDelay="1000">Educational Institutes.</span><br/></h1><h4>More Test | Better Results | More Admissions</h4>
+                            <h1 class="banner-title">AI Based Score Improvement Platform For <span class="theme-color typer" data-words="Educational Institutes,Colleges,Coaching Institutes,Defence Academy" data-delay="100" data-deleteDelay="1000">Educational Institutes.</span><br/></h1><h4>More Tests | Better Results | More Admissions</h4>
 			    <form class="form-group" action="{% url 'InterestedPeople' %}" method="get">
 				    <input  type="tel" name="tel" placeholder="Enter Your Mobile Number">     
 				<button type="submit"><img src="{% static 'basicinformation/images/icons/submit-1.png' %}" alt=""></button>

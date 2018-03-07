@@ -16,7 +16,6 @@
 for(i=1 ; i<=10; i++){
          $(eval("'#subjectButton'+i")).click(function(){
           which_sub = $(this).text();
-	 console.log(which_sub)
 
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
 	  $('#loadingstudentImprovement1').show();
