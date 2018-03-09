@@ -783,7 +783,7 @@ def conduct_Test(request):
             TemporaryAnswerHolder.objects.filter(stud=me.profile,test__id=testid).delete()
             taken =\
             SSCOnlineMarks.objects.filter(student=me.profile,test__id=testid)
-            if len(taken)>0:
+            if len(taken) > 0:
                 student_type = 'SSC'
                 taken = taken[0]
                 total_time = taken.timeTaken
@@ -841,10 +841,14 @@ def conduct_Test(request):
 
             quest = []
             test = SSCKlassTest.objects.get(id = testid)
-            for q in test.sscquestions_set.all():
-                quest.append(q.topic_category)
+            try:
+                test_detail = TestDetails.objects.get(test = test)
+                lenquest = test_detail.num_questions
+            except:
+                for q in test.sscquestions_set.all():
+                    quest.append(q.topic_category)
 
-            lenquest = len(quest)
+                lenquest = len(quest)
             if test.totalTime:
                 timeTest = test.totalTime
             else:

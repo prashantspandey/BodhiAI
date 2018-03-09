@@ -318,16 +318,26 @@ def test_get_QuestionPosition(user_id,testid,pos):
     test = SSCKlassTest.objects.get(id = testid)
     quest = []
     # gets the number of questions in the test
-    for q in test.sscquestions_set.all():
-        quest.append(q)
-    tosend = quest[int(pos)]
-    how_many = len(quest)
+    try:
+        test_detail = TestDetails.objects.get(test = test)
+        how_many = test_detail.num_questions
+        quests = test_detail.questions
+        tosend = quests[int(pos)]
+        
+    except:
+        for q in test.sscquestions_set.all():
+            quest.append(q)
+        how_many = len(quest)
+        tosend = quest[int(pos)]
+        tosend = tosend.id
     try:
     # if this question was already answered then send the selected
     # choice to template
         temp_marks = TemporaryAnswerHolder.objects.filter(stud =
                                                       user.student,test__id
-                                                      =testid,quests=tosend.id).order_by('-time')
+                                                      =testid,quests=tosend).order_by('-time')
+
+
         Quests = []
         for i in temp_marks:
             # try except block to get attempted answer of already
@@ -339,9 +349,9 @@ def test_get_QuestionPosition(user_id,testid,pos):
             except Exception as e:
                 print(str(e))
         answer_sel = Quests[-1]
-        return tosend.id,testid,answer_sel,how_many
+        return tosend,testid,answer_sel,how_many
     except:
-        return tosend.id,testid,-5,how_many
+        return tosend,testid,-5,how_many
 
 @shared_task
 def test_get_next_question(user_id,test_id,question_id,choice_id,questTime):
@@ -349,9 +359,13 @@ def test_get_next_question(user_id,test_id,question_id,choice_id,questTime):
     test = SSCKlassTest.objects.get(id = test_id)
     questnum = []
 # get the number of questions in the test
-    for q in test.sscquestions_set.all():
-        questnum.append(q)
-    how_many = len(questnum)
+    try:
+        test_detail = TestDetails.objects.get(test = test)
+        how_many = test_detail.num_questions
+    except:
+        for q in test.sscquestions_set.all():
+            questnum.append(q)
+        how_many = len(questnum)
 
     try:
         temp_marks = TemporaryAnswerHolder.objects.filter(stud =
@@ -415,7 +429,9 @@ def publish_NormalTest(user_id,testid,date,time):
     elif me.institution == 'SSC':
         subs = []
         kl = myTest.klas
+        all_questions = []
         for sub in myTest.sscquestions_set.all():
+            all_questions.append(sub.id)
             timesus = TimesUsed.objects.filter(teacher =
                                               me.profile,quest =
                                               sub,batch = kl)
@@ -434,6 +450,12 @@ def publish_NormalTest(user_id,testid,date,time):
 
             subs.append(sub.section_category)
         subs = list(unique_everseen(subs))
+        test_details = TestDetails()
+        test_details.test = myTest
+        test_details.num_questions = len(all_questions)
+        test_details.questions = all_questions
+        test_details.save()
+
         if len(subs)==1:
             myTest.sub = subs[0]
             kl = myTest.klas

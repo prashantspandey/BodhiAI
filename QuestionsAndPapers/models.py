@@ -52,6 +52,14 @@ class SSCKlassTest(models.Model):
     def __str__(self):
         return self.name
 
+class TestDetails(models.Model):
+    test = models.ForeignKey(SSCKlassTest)
+    num_questions = models.IntegerField()
+    questions = ArrayField(models.IntegerField())
+
+    def __str__(self):
+        return str(self.test.id) + str(self.num_questions)
+
 class Comprehension(models.Model):
     text = models.TextField()
     picture = models.URLField(max_length=500,null=True,blank=True)
