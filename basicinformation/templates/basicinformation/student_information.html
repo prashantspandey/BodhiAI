@@ -3,7 +3,7 @@
 {%load crispy_forms_tags%}
 <html>
 	<head>
-    <title> {%block title %} Register at BodhiAI {%endblock%} </title>
+    <title> {%block title %} Student Information {%endblock%} </title>
     {%block scripts %}
 <link rel='stylesheet' href="{%static 'basicinformation/css/animate.css'%}">
 	<style type="text/css">
@@ -19,11 +19,7 @@
   {% csrf_token %}
   {{form|crispy}}
   <div style='text-align:center;'>
-	  <div class="form-group">
-		    <label for="usr">Code:</label>
-		      <input type="text" class="form-control" id="course" name='course'>
-	  </div>
-  <button type="submit" class="btn btn-primary btn-lg">Register</button>
+  <button type="submit" class="btn btn-primary btn-lg">Submit</button>
   </div>
 
 

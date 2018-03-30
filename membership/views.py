@@ -45,7 +45,20 @@ def user_register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST or None)
         if form.is_valid():
+            try:
+                course = request.POST['course']
+                print('%s course' %course)
+                new_user = form.save(course = course)
+                new_user = authenticate(username=form.cleaned_data['username'],
+                                                                            password=form.cleaned_data['password1'],
+                                                                            )
+                login(request, new_user)
+                return HttpResponseRedirect(reverse('basic:jitoHome'))
+
+            except Exception as e:
+               print(str(e)) 
             new_user = form.save()
+            
             new_user = authenticate(username=form.cleaned_data['username'],
                                                                         password=form.cleaned_data['password1'],
                                                                         )

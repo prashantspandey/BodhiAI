@@ -23,16 +23,25 @@ class RegisterForm(UserCreationForm):
             'password1',
             'password2'
         )
-    def save(self,commit = True):
+    def save(self,commit = True,*args,**kwargs):
         user = super(RegisterForm, self).save(commit=False)
         user.first_name = self.cleaned_data['first_name']
         user.email = self.cleaned_data['email']
-
+        try:
+            course = kwargs.get('course')
+            print('found course')
+        except:
+            course = None
+            print('couldnot  found course')
         if commit:
             user.save()
             gr = Group.objects.get(name='Students')
             gr.user_set.add(user)
-            school = School.objects.get(name='BodhiAI')
+            if str(course) == 'jito':
+                print('this is user save course %s' %course)
+                return user
+            else:
+                school = School.objects.get(name='BodhiAI')
             print('%s-- school' %school)
             cl = klass.objects.get(school__name='BodhiAI')
             print('%s -- class' %cl)
@@ -54,6 +63,22 @@ class RegisterForm(UserCreationForm):
             subgk.save()
 
 
+
         return user
+
+class StudentInformationForm(forms.ModelForm):
+    #kl = forms.ChoiceField(label='Class',widget=forms.Select())
+    class Meta:
+        model = StudentCustomProfile
+        fields = ['address', 'phone','kl','fatherName','fullName']
+        labels = {
+                'address':'Address',
+                'phone':'Phone',
+                'kl': 'Class',
+                'fatherName':'Father\'s Name',
+                'fullName':'Full Name',
+        }
+
+
 
 

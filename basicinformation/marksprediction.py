@@ -937,7 +937,9 @@ class Studs:
 
 # return all tests that are not taken by the student to be shown on home page
 
-    def allOnlinetests(self):
+    def allOnlinetests(self,schoolName = None,klas = None):
+        if schoolName is None:
+            schoolName = 'BodhiAI'
         if self.profile.school.category == 'School':
             my_tests = KlassTest.objects.filter(testTakers=self.profile)
         elif self.profile.school.category == 'SSC':
@@ -945,14 +947,20 @@ class Studs:
             #  adding all tests papers created by BodhiAI 
             #for all the students who register 
 
-            if self.profile.school.name== 'BodhiAI':
+            if self.profile.school.name== schoolName:
                 # gets all the questions created by BodhiAI and also gets all
                 # the OnlineMarks by student to compare what tests has the
                 # student taken. If student has not taken any test then that
                 # test is added to new_test list and is checked for
                 # legitimitacy and then finally returned.
-                all_tests = SSCKlassTest.objects.filter(creator__username =
-                                                        'BodhiAI')
+                if schoolName == 'JITO':
+                    all_tests = SSCKlassTest.objects.filter(Q(creator__username =
+                                                        schoolName)&Q(klas=klas))
+                    print(all_tests)
+                    print(klas)
+                else:
+                    all_tests = SSCKlassTest.objects.filter(creator__username =
+                                                        schoolName)
                 already_taken_marks =\
                 SSCOnlineMarks.objects.filter(student=self.profile)
                 already_taken_tests = []
@@ -999,8 +1007,8 @@ class Studs:
             if i.sub != None or i.sub != '':
                 sub_list.append(i.sub)
         return list(unique_everseen(sub_list))
-    def subjects_OnlineTest(self):
-        my_tests = self.allOnlinetests()
+    def subjects_OnlineTest(self,schoolName = None,klas = None):
+        my_tests = self.allOnlinetests(schoolName=schoolName,klas = klas)
         subs = []
         if my_tests:
             for i in my_tests:
@@ -2811,6 +2819,78 @@ class Studs:
 
             return list(zip(namedarr,timing))
 
+        if subject == 'MathsIITJEE10':
+            for i,j in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+                    timing.append(j)
+
+            return list(zip(namedarr,timing))
+
+        if subject == 'MathsIITJEE11':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+                    timing.append(j)
+
+            return list(zip(namedarr,timing))
+
+        if subject == 'MathsIITJEE12':
+            for i,j in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+                    timing.append(j)
+
+            return list(zip(namedarr,timing))
+
+        if subject == 'PhysicsIITJEE10':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+                    timing.append(j)
+
+            return list(zip(namedarr,timing))
+
+        if subject == 'PhysicsIITJEE11':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+                    timing.append(j)
+
+            return list(zip(namedarr,timing))
+        if subject == 'PhysicsIITJEE12':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+                    timing.append(j)
+
+            return list(zip(namedarr,timing))
+
+        if subject == 'ChemistryIITJEE10':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+                    timing.append(j)
+
+            return list(zip(namedarr,timing))
+
+        if subject == 'ChemistryIITJEE11':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+                    timing.append(j)
+
+            return list(zip(namedarr,timing))
+
+        if subject == 'ChemistryIITJEE12':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+                    timing.append(j)
+
+            return list(zip(namedarr,timing))
+
+
 
 
 
@@ -3305,7 +3385,61 @@ class Studs:
 
 
 
-            return namedar
+            return namedarr
+        if subject == 'MathsIITJEE10':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+            return namedarr
+
+        if subject == 'MathsIITJEE11':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+            return namedarr
+
+        if subject == 'MathsIITJEE12':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+            return namedarr
+
+        if subject == 'PhysicsIITJEE10':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+            return namedarr
+
+        if subject == 'PhysicsIITJEE11':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+            return namedarr
+
+        if subject == 'PhysicsIITJEE12':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+            return namedarr
+
+        if subject == 'ChemistryIITJEE10':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+            return namedarr
+
+        if subject == 'ChemistryIITJEE11':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+            return namedarr
+
+        if subject == 'ChemistryIITJEE12':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('All Categories')
+            return namedarr
+
 
 
     def changeIndividualNames(self,i,subject):
@@ -3781,6 +3915,48 @@ class Studs:
                     return 'Properties of Triangle'
                 if i == '24.1':
                     return 'Height&Distance'
+
+        if subject == 'MathsIITJEE10':
+            if i == '1.1':
+                return 'All Categories'
+
+
+        if subject == 'MathsIITJEE11':
+                if i == '1.1':
+                    return 'All Categories'
+
+
+        if subject == 'MathsIITJEE12':
+            if i == '1.1':
+                return 'All Categories'
+
+
+        if subject == 'PhysicsIITJEE10':
+                if i == '1.1':
+                    return 'All Categories'
+
+
+        if subject == 'PhysicsIITJEE11':
+            if i == '1.1':
+                return 'All Categories'
+
+        if subject == 'PhysicsIITJEE12':
+                if i == '1.1':
+                    return 'All Categories'
+
+
+        if subject == 'ChemistryIITJEE10':
+            if i == '1.1':
+                return 'All Categories'
+
+
+        if subject == 'ChemistryIITJEE11':
+                if i == '1.1':
+                    return 'All Categories'
+
+        if subject == 'ChemistryIITJEE12':
+                if i == '1.1':
+                    return 'All Categories'
 
 
 
@@ -5882,6 +6058,74 @@ class Teach:
 
             return list(zip(names,numbers))
 
+        if subject == 'MathsIITJEE10':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+
+        if subject == 'MathsIITJEE11':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+            return list(zip(names,numbers))
+
+        if subject == 'MathsIITJEE12':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+
+        if subject == 'PhysicsIITJEE10':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+            return list(zip(names,numbers))
+
+        if subject == 'PhysicsIITJEE11':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+
+        if subject == 'PhysicsIITJEE12':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+            return list(zip(names,numbers))
+
+
+        if subject == 'ChemistryIITJEE10':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+
+        if subject == 'ChemistryIITJEE11':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+            return list(zip(names,numbers))
+
+
+        if subject == 'ChemistryIITJEE12':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+            return list(zip(names,numbers))
 
 
     
@@ -6517,7 +6761,7 @@ class Teach:
 
 
         if subject == 'GroupX-Maths':
-            for i,j in arr:
+            for i in arr:
                 if i == '1.1':
                     names.append('Sets-Relations-Functions')
                     numbers.append(i)
@@ -6593,6 +6837,70 @@ class Teach:
 
             changed = list(zip(names,numbers))
             return changed
+
+        if subject == 'MathsIITJEE10':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+        if subject == 'MathsIITJEE11':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+            return list(zip(names,numbers))
+
+        if subject == 'MathsIITJEE12':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+        if subject == 'PhysicsIITJEE10':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+            return list(zip(names,numbers))
+
+        if subject == 'PhysicsIITJEE11':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+        if subject == 'PhysicsIITJEE12':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+            return list(zip(names,numbers))
+
+        if subject == 'ChemistryIITJEE10':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+        if subject == 'ChemistryIITJEE11':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+            return list(zip(names,numbers))
+
+        if subject == 'ChemistryIITJEE12':
+            for i in arr:
+                if i == '1.1':
+                    names.append('All Categories')
+                    numbers.append(i)
+            return list(zip(names,numbers))
+
 
 
 
@@ -7090,6 +7398,57 @@ class Teach:
                     numbers.append('24.1')
 
             return numbers
+        if subject == 'MathsIITJEE10':
+            for i in arr:
+                if i == 'All Categories':
+                    numbers.append('1.1')
+            return numbers
+        if subject == 'MathsIITJEE11':
+            for i in arr:
+                if i == 'All Categories':
+                    numbers.append('1.1')
+            return numbers
+
+        if subject == 'MathsIITJEE12':
+            for i in arr:
+                if i == 'All Categories':
+                    numbers.append('1.1')
+            return numbers
+        if subject == 'PhysicsIITJEE10':
+            for i in arr:
+                if i == 'All Categories':
+                    numbers.append('1.1')
+            return numbers
+
+        if subject == 'PhysicsIITJEE11':
+            for i in arr:
+                if i == 'All Categories':
+                    numbers.append('1.1')
+            return numbers
+        if subject == 'PhysicsIITJEE12':
+            for i in arr:
+                if i == 'All Categories':
+                    numbers.append('1.1')
+            return numbers
+        if subject == 'ChemistryIITJEE10':
+            for i in arr:
+                if i == 'All Categories':
+                    numbers.append('1.1')
+            return numbers
+        if subject == 'ChemistryIITJEE11':
+            for i in arr:
+                if i == 'All Categories':
+                    numbers.append('1.1')
+            return numbers
+
+        if subject == 'ChemistryIITJEE12':
+            for i in arr:
+                if i == 'All Categories':
+                    numbers.append('1.1')
+            return numbers
+
+
+
 
     def return_TopicNames(self,subject):
         if subject == 'Defence-GK-CA':

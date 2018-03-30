@@ -8,8 +8,7 @@
 	 $('#loadingCreateTest1').hide();
 
    var pr
-		 	for(i=1 ; i<=10; i++){
-		 	$(eval("'#chapterButton'+i")).click(function(){
+		 	$('.chapterButton').click(function(){
           chap = $(this).text();
           which_klass = $('#which_klass').text()
          $(this).removeClass("btn btn-default").addClass("btn btn-success");
@@ -27,7 +26,6 @@
        
 		 });
 
-		 };
 });
 
 
@@ -45,7 +43,7 @@
   {%else%}
     <div class="panel-body" >
   {% for i in fin %}
-  <button type="button" class="btn btn-default text-center" id="chapterButton{{forloop.counter}}">{{i}}</button>
+  <button type="button" class="btn btn-default text-center chapterButton" id="chapterButton{{forloop.counter}}">{{i}}</button>
   {%endfor%}
   </div>
   {%endif%}

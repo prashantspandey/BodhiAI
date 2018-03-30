@@ -5,6 +5,7 @@ app_name = 'basic'
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
+    url(r'jito/$', views.jitoData, name='jitoHome'),
     url(r'^teacher/(?P<grade>\d+)/$', views.current_analysis,
         name='current_analysis'),
 

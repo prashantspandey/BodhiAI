@@ -25,12 +25,13 @@ def create_test_Initial(request):
         if user.groups.filter(name= 'Teachers').exists():
             me = Teach(user)
             quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
-            #all_klasses = me.my_classes_names()
-            klasses = TeacherClasses.objects.filter(teacher = me.profile)
-            all_klasses = []
-            for ak in klasses:
-                all_klasses.append(ak.klass)
-            print(all_klasses)
+            all_klasses = me.my_classes_names()
+            print('%s all klasses' %all_klasses)
+            #klasses = TeacherClasses.objects.filter(teacher = me.profile)
+            #all_klasses = []
+            #for ak in klasses:
+            #    all_klasses.append(ak.klass)
+            #print(all_klasses)
             context = {'klasses':all_klasses}
             return render(request,'questions/createTest.html',context)
 
@@ -68,6 +69,7 @@ def create_test(request):
         category_klass = request.GET['category_test']
         split_category = category_klass.split(',')[0]
         split_klass = category_klass.split(',')[1]
+        print('category %s' %split_category)
         quest = SSCquestions.objects.filter(section_category =
                                             split_category,school
                                             =me.profile.school)

@@ -29,6 +29,96 @@ from .tasks import *
 from celery.result import AsyncResult
 from django.core import serializers
 from time import sleep
+from membership.forms import StudentInformationForm
+
+
+def jitoData(request):
+    user = request.user
+    if user.is_authenticated:
+        try:
+            student_information = StudentCustomProfile.objects.get(student = user)
+            return HttpResponse('hello')
+        except:
+            if request.POST:
+                print('in form')
+                form = StudentInformationForm(request.POST or None)
+                if form.is_valid():
+                    address = form.cleaned_data['address']
+                    phone = form.cleaned_data['phone']
+                    kl = form.cleaned_data['kl']
+                    fatherName = form.cleaned_data['fatherName']
+                    fullName = form.cleaned_data['fullName']
+                    student_info = StudentCustomProfile()
+                    student_info.fatherName = fatherName
+                    student_info.kl = kl
+                    student_info.fullName = fullName
+                    student_info.address = address
+                    student_info.phone = phone
+                    student_info.student = user
+                    student_info.save()
+                    school = School.objects.get(name='JITO')
+                    jito_teacher = Teacher.objects.get(name='JITO')
+                    print('%s kl'  %kl)
+                    if str(kl) == str(10):
+                        cl = klass.objects.get(name = '10th')
+                    elif str(kl) == str(11):
+                        cl = klass.objects.get(name = '11th')
+                    elif str(kl) == str(12):
+                        cl = klass.objects.get(name = '12th')
+                    stu = Student(studentuser = user,klass=cl,name =
+                                  fullName,school = school)
+
+                    stu.save()
+                    if str(kl) == str(10):
+                        submaths = Subject(name='MathsIITJEE10',student =
+                                           stu,teacher=jito_teacher)
+                        subphy = Subject(name='PhysicsIITJEE10',student =
+                                           stu,teacher=jito_teacher)
+                        subchem = Subject(name='ChemistryIITJEE10',student =
+                                           stu,teacher=jito_teacher)
+                        subability = Subject(name='MentalAbilityIITJEE10',student =
+                                           stu,teacher=jito_teacher)
+
+
+                    elif str(kl) == str(11):
+                        submaths = Subject(name='MathsIITJEE11',student =
+                                           stu,teacher=jito_teacher)
+                        subphy = Subject(name='PhysicsIITJEE11',student =
+                                           stu,teacher=jito_teacher)
+                        subchem = Subject(name='ChemistryIITJEE11',student =
+                                           stu,teacher=jito_teacher)
+                        subability = Subject(name='MentalAbilityIITJEE11',student =
+                                           stu,teacher=jito_teacher)
+
+
+                    elif str(kl) == str(12):
+                        submaths = Subject(name='MathsIITJEE12',student =
+                                           stu,teacher=jito_teacher)
+                        submaths = Subject(name='MathsIITJEE12',student =
+                                           stu,teacher=jito_teacher)
+                        subphy = Subject(name='PhysicsIITJEE12',student =
+                                           stu,teacher=jito_teacher)
+                        subchem = Subject(name='ChemistryIITJEE12',student =
+                                           stu,teacher=jito_teacher)
+                        subability = Subject(name='MentalAbilityIITJEE12',student =
+                                           stu,teacher=jito_teacher)
+                    submaths.save()
+                    subphy.save()
+                    subchem.save()
+                    subability.save()
+
+
+
+                    print(fullName,fatherName,kl,phone,address)
+                    return HttpResponseRedirect(reverse('basic:home'))
+                else:
+                    context = {'form':form}
+                    return\
+                render(request,'basicinformation/student_information.html',context)
+            else:
+                form = StudentInformationForm()
+                context = {'form':form}
+                return render(request,'basicinformation/student_information.html',context)
 @ensure_csrf_cookie
 def home(request):
     user = request.user
@@ -68,45 +158,45 @@ def home(request):
             #cl.save()
 
 
-            te = SSCKlassTest.objects.get(name='GroupYTest1GDA')
-            quests = []
-            for q in te.sscquestions_set.all():
-                quests.append(q)
-            te.pk = None
+            #te = SSCKlassTest.objects.get(name='GroupYTest1GDA')
+            #quests = []
+            #for q in te.sscquestions_set.all():
+            #    quests.append(q)
+            #te.pk = None
         
-            us = User.objects.get(username = 'arat123')
-            te.creator = us
-            te.name = 'GroupYTest1Arav'
-            te.save()
-            for q in quests:
-                q.ktest.add(te)
+            #us = User.objects.get(username = 'arat123')
+            #te.creator = us
+            #te.name = 'GroupYTest1Arav'
+            #te.save()
+            #for q in quests:
+            #    q.ktest.add(te)
 
 
-            de = SSCKlassTest.objects.get(name='GroupYTest2GDA')
-            quests = []
-            for q in de.sscquestions_set.all():
-                quests.append(q)
-            de.pk = None
+            #de = SSCKlassTest.objects.get(name='GroupYTest2GDA')
+            #quests = []
+            #for q in de.sscquestions_set.all():
+            #    quests.append(q)
+            #de.pk = None
         
-            us = User.objects.get(username = 'arat123')
-            de.creator = us
-            de.name = 'GroupYTest2Arav'
-            de.save()
-            for q in quests:
-                q.ktest.add(de)
+            #us = User.objects.get(username = 'arat123')
+            #de.creator = us
+            #de.name = 'GroupYTest2Arav'
+            #de.save()
+            #for q in quests:
+            #    q.ktest.add(de)
 
-            ee = SSCKlassTest.objects.get(name='GroupYTest3GDA')
-            quests = []
-            for q in ee.sscquestions_set.all():
-                quests.append(q)
-            ee.pk = None
+            #ee = SSCKlassTest.objects.get(name='GroupYTest3GDA')
+            #quests = []
+            #for q in ee.sscquestions_set.all():
+            #    quests.append(q)
+            #ee.pk = None
         
-            us = User.objects.get(username = 'arat123')
-            ee.creator = us
-            ee.name = 'GroupYTest3Arav'
-            ee.save()
-            for q in quests:
-                q.ktest.add(ee)
+            #us = User.objects.get(username = 'arat123')
+            #ee.creator = us
+            #ee.name = 'GroupYTest3Arav'
+            #ee.save()
+            #for q in quests:
+            #    q.ktest.add(ee)
 
 
             #add_teachers('aravaliteachers.csv','Aravali Defence Academy',production=True)
@@ -118,24 +208,23 @@ def home(request):
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
             
-            #sheet_links =\
-            #['1english.csv','2english.csv','3english.csv','4english.csv','5english.csv']
+            sheet_links =\
+            ['physics_class_12_1.csv']
             #sheet_link2=['7english.csv','8english.csv','9english.csv','10english.csv']
             #sheet_link3 =\
             #['1gk.csv','2gk.csv','3gk.csv','4gk.csv','5gk.csv','7gk.csv','8gk.csv','9gk.csv','10gk.csv']
-            sheet_link3 =\
-            ['ch5.csv','ch6.csv','ch7.csv']
-            sheet_link4 =\
-            ['ch8.csv','ch9.csv','ch10.csv','ch11.csv']
+            #sheet_link3 =\
+            #['ch5.csv','ch6.csv','ch7.csv']
+            #sheet_link4 =\
+            #['ch8.csv','ch9.csv','ch10.csv','ch11.csv']
             #questions = SSCquestions.objects.filter(school__name='Govindam Defence Academy')
             #for i in questions:
             #    i.max_marks = int(1)
             #    i.save()
 
             #sheet_link5 = ['33t2.csv','34t2.csv']
-            #add_to_database_questions(sheet_link4,'Colonel Defence\
-            #                          Academy',onlyImage=True,production =\
-            #                          True)
+            add_to_database_questions(sheet_links,'JITO',onlyImage=True,production =\
+                                      True)
             #add_to_database_questions(sheet_link3,'Colonel Defence\
             #                          Academy',onlyImage=True,production =\
             #                          True)
@@ -156,7 +245,7 @@ def home(request):
             #questions = SSCquestions.objects.filter(section_category = 'GroupX-English')
             #print(len(questions))
             #delete_sectionQuestions('GroupX-English')
-            return HttpResponse('hello')
+            return HttpResponse("Done")
 
         if user.groups.filter(name='Students').exists():
             profile = user.student
@@ -165,7 +254,6 @@ def home(request):
 
             # if B2C customer then add tests  to profile
             if profile.school.name == 'BodhiAI':
-                #replace_quest_image()
                 # checks if test is legitimate, if not then delete the test
                 bad_tests = SSCKlassTest.objects.filter(Q(sub='')| Q(totalTime
                                                                     = 0))
@@ -177,6 +265,9 @@ def home(request):
                         print(str(e))
                 
                 me.subjects_OnlineTest()
+            elif profile.school.name == 'JITO':
+                me.subjects_OnlineTest(schoolName = 'JITO',klas =me.profile.klass)
+
             subjects = user.student.subject_set.all()
 
             # gets marks of all the tests taken by student to be displayed on home page
@@ -1377,19 +1468,10 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
                 print(str(e))
                 all_options = [optA,optB,optC,optD,optE]
         new_questions = SSCquestions()
-        if lang == 'Hindi':
-            new_questions.language = 'Hindi'
-        if lang == 'Bi':
-            new_questions.language = 'Bi'
-        if lang == 'English':
-            new_questions.language = 'English'
+        new_questions.language = lang
 
-        if used_for == 'Groupx':
-            new_questions.usedFor = 'Groupx'
-        if used_for == 'Groupy':
-            new_questions.usedFor = 'Groupx'
-        if used_for == 'SSC':
-            new_questions.usedFor = 'SSC'
+        new_questions.usedFor = used_for
+
         if source:
             new_questions.source = source
 
@@ -1412,6 +1494,22 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
             new_questions.section_category = 'GroupX-Maths'
         elif sectionType == 'groupgk':
             new_questions.section_category = 'Defence-GK-CA'
+        elif sectionType == 'jeeMaths10':
+            new_questions.section_category = 'MathsIITJEE10'
+        elif sectionType == 'jeeMaths11':
+            new_questions.section_category = 'MathsIITJEE11'
+        elif sectionType == 'jeeMaths12':
+            new_questions.section_category = 'MathsIITJEE12'
+        elif sectionType == 'jeePhysics10':
+            new_questions.section_category = 'PhysicsIITJEE10'
+        elif sectionType == 'jeePhysics11':
+            new_questions.section_category = 'PhysicsIITJEE11'
+        elif sectionType == 'jeePhysics12':
+            new_questions.section_category = 'PhysicsIITJEE12'
+
+
+
+
 
         if question != None:
             new_questions.text = str(question)
@@ -1972,10 +2070,10 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/defence_maths/lucent/'+sh,error_bad_lines=False )
+                pd.read_csv('/app/question_data/jito_IITJEE/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/defence_maths/lucent/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/jito_IITJEE/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
@@ -1986,8 +2084,8 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
             right_answer = []
             quest_category = []
             temp = []
-            used_for = df['usedfor']
-            #lang = df['lang']
+            used_for = df['usedFor']
+            lang = df['lang']
             source = df['source']
             if onlyImage:
                 images = df['QuestionLink']
@@ -2008,15 +2106,15 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                 ichanged2 = ichanged.replace('Answer',' ')
                 ichanged3 = ichanged2.replace('Explanation',' ')
 
-                if 'a'  in ichanged.lower():
+                if 'a'  in ichanged.lower() or '1' in ichanged.lower():
                     right_answer.append(1)
-                elif 'b' in ichanged.lower():
+                elif 'b'  in ichanged.lower() or '2' in ichanged.lower():
                     right_answer.append(2)
-                elif 'c'  in ichanged.lower():
+                elif 'c'  in ichanged.lower() or '3' in ichanged.lower():
                     right_answer.append(3)
-                elif 'd'  in ichanged.lower():
+                elif 'd'  in ichanged.lower() or '4' in ichanged.lower():
                     right_answer.append(4)
-                elif 'e' in ichanged.lower():
+                elif 'e'  in ichanged.lower() or '5' in ichanged.lower():
                     right_answer.append(5)
             if onlyImage:
                 print('%s num images' %len(images))
@@ -2034,9 +2132,9 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         
             for ind in range(len(optA)):
                 if onlyImage:
-                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(used_for[ind]),None,source[ind],fouroptions=True)
+                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(lang[ind]),used_for[ind],source[ind],fouroptions=True)
                 else:
-                    write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],used_for,lang[ind],source[ind],fouroptions=True)
+                    write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],fouroptions=True)
 
 
 def delete_sectionQuestions(section):

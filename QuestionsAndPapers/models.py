@@ -30,7 +30,11 @@ class SSCKlassTest(models.Model):
         (('General-Intelligence','General-Intelligence'),('General-Knowledge','General-Knowledge')
          ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English'),('Defence-English','Defence-English'),
         ('Defence-Physics','Defence-Physics'),('GroupX-Maths','GroupX-Maths'),('Defence-GK-CA','Defence-GK-CA'),
-        ('SSCMultipleSections','SSCMultipleSections'),('Defence-MultipleSubjects','Defence-MultipleSubjects'))
+        ('SSCMultipleSections','SSCMultipleSections'),('Defence-MultipleSubjects','Defence-MultipleSubjects'),('IITJEE10-MultipleSubjects','IITJEE10-MultipleSubjects')
+        ,('IITJEE11-MultipleSubjects','IITJEE11-MultipleSubjects'),('IITJEE12-MultipleSubjects','IITJEE12-MultipleSubjects'),('MathsIITJEE10','MathsIITJEE10')
+         ,('MathsIITJEE11','MathsIITJEE11'),('MathsIITJEE12','MathsIITJEE12'),('ChemistryIITJEE10','ChemistryIITJEE10'),('ChemistryIITJEE11','ChemistryIITJEE11')
+         ,('ChemistryIITJEE12','ChemistryIITJEE12'),('PhysicsIITJEE10','PhysicsIITJEE10'),('PhysicsIITJEE11','PhysicsIITJEE11')
+         ,('PhysicsIITJEE12','PhysicsIITJEE12'))
     course_choices = (('SSC','SSC'),('Railways','Railways'))
 
     #max_marks = models.DecimalField(max_digits=4,decimal_places=2)
@@ -120,12 +124,15 @@ class SSCquestions(models.Model):
     models.DecimalField(max_digits=2,decimal_places=2,default=0.25)
     tier_choices = (('1','Tier1'),('2','Tier2'),('3','Tier3'))
     usedFor_choices =\
-    (('SSC','SSC'),('Aptitude','Aptitude'),('Groupx','Groupx'),('Groupy','Groupy'),('RPSC','RPSC'),('RAS','RAS'))
+    (('SSC','SSC'),('Aptitude','Aptitude'),('Groupx','Groupx'),('Groupy','Groupy'),('RPSC','RPSC'),('RAS','RAS'),('IITJEE','IITJEE'))
     language_choices = (('English','English'),('Hindi','Hindi'),('Bi','Bi'))
     section_choices = \
         (('General-Intelligence','General-Intelligence'),('General-Knowledge','General-Knowledge')
          ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English'),('Defence-English','Defence-English'),
-        ('Defence-Physics','Defence-Physics'),('GroupX-Maths','GroupX-Maths'),('Defence-GK-CA','Defence-GK-CA'))
+        ('Defence-Physics','Defence-Physics'),('GroupX-Maths','GroupX-Maths'),('Defence-GK-CA','Defence-GK-CA'),('MathsIITJEE10','MathsIITJEE10'),('MathsIITJEE11','MathsIITJEE11')
+         ,('MathsIITJEE12','MathsIITJEE12'),('ChemistryIITJEE10','ChemistryIITJEE10'),('ChemistryIITJEE11','ChemistryIITJEE11')
+         ,('ChemistryIITJEE12','ChemistryIITJEE12'),('PhysicsIITJEE10','PhysicsIITJEE10'),('PhysicsIITJEE11','PhysicsIITJEE11')
+         ,('PhysicsIITJEE12','PhysicsIITJEE12'))
     diffculty_choices = (('easy','easy'),('medium','medium'),('hard','hard'))
     text = models.TextField(blank=True,null=True)
     tier_category = models.CharField(max_length=20,choices = tier_choices)
@@ -135,12 +142,11 @@ class SSCquestions(models.Model):
     topic_category = models.CharField(max_length=5,choices = topic_choice)
     school = models.ManyToManyField(School)
     picture = models.URLField(max_length=500,null=True,blank=True)
-    usedFor = models.CharField(max_length=30,choices=
-                              usedFor_choices,null=True,blank=True)
+    usedFor = models.CharField(max_length=30,null=True,blank=True)
     source = models.CharField(max_length= 50,null=True,blank=True)
     dateInserted = models.DateTimeField(auto_now_add=True,null=True,blank=True)
-    language = models.CharField(max_length = 20,choices =
-                                language_choices,null=True,blank=True )
+    language = models.CharField(max_length = 20,null=True,blank=True )
+
 
 
 
