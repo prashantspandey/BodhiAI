@@ -512,5 +512,5 @@ def student_score_email(subject,score,name,email,time):
     '''%(name,score,time)
 
     send_mail(subject,contact_message,from_email,[to_email],fail_silently
-                        = True)
+                        = False)
 
