@@ -1506,6 +1506,12 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
             new_questions.section_category = 'PhysicsIITJEE11'
         elif sectionType == 'jeePhysics12':
             new_questions.section_category = 'PhysicsIITJEE12'
+        elif sectionType == 'jeeChemistry10':
+            new_questions.section_category = 'ChemistryIITJEE10'
+        elif sectionType == 'jeeChemistry11':
+            new_questions.section_category = 'ChemistryIITJEE11'
+        elif sectionType == 'jeeChemistry12':
+            new_questions.section_category = 'ChemistryIITJEE12'
 
 
 
