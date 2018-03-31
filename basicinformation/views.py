@@ -2069,6 +2069,7 @@ def add_questions(institute,section):
         print(len(questions))
         for i in questions:
             i.school.add(school)
+        print('%s num questions' %len(questions))
 
                     
 def change_password(institute,acc):
