@@ -209,7 +209,7 @@ def home(request):
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
             
             sheet_links =\
-            ['math_class_10.csv','math_class_11.csv','math_class_12.csv','chem_class_12.csv','chem_class_11.csv','physics_class_10.csv',]
+            ['chem_class_12.csv','chem_class_11.csv','physics_class_10.csv',]
             #sheet_link2=['7english.csv','8english.csv','9english.csv','10english.csv']
             #sheet_link3 =\
             #['1gk.csv','2gk.csv','3gk.csv','4gk.csv','5gk.csv','7gk.csv','8gk.csv','9gk.csv','10gk.csv']

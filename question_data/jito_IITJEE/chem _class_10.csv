@@ -1,4 +1,4 @@
-num,ans,link,category,sectionType,lang,optionA,optionB,optionC,optionD,source,usedFor
+num,correct,QuestionLink,category,sectionType,lang,optionA,optionB,optionC,optionD,source,usedFor
 1,2,https://i.imgur.com/Ut770wW.png,1.1,jeeChemistry10,English,A,B,C,D,JITO,IITJEE10
 2,4,https://i.imgur.com/SjEJUtk.png,1.1,jeeChemistry10,English,A,B,C,D,JITO,IITJEE10
 3,1,https://i.imgur.com/Wd6399N.png,1.1,jeeChemistry10,English,A,B,C,D,JITO,IITJEE10
