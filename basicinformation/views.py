@@ -203,7 +203,7 @@ def home(request):
             #add_teachers('krteachers.csv','KR Defence Coaching',production=True)
             #add_students('aravalistudents.csv','Aravali Defence Academy',production=True)
             #add_students('krstudents.csv','KR Defence Coaching',production=True)
-            #add_questions('Colonel Defence Academy','Defence-Physics')
+            add_questions('JITO','General-Inelligence')
             #add_questions('Colonel Defence Academy','Defence-English')
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
@@ -223,8 +223,8 @@ def home(request):
             #    i.save()
 
             #sheet_link5 = ['33t2.csv','34t2.csv']
-            add_to_database_questions(sheet_links,'JITO',onlyImage=True,production =\
-                                      True)
+            #add_to_database_questions(sheet_links,'JITO',onlyImage=True,production =\
+            #                          True)
             #add_to_database_questions(sheet_link3,'Colonel Defence\
             #                          Academy',onlyImage=True,production =\
             #                          True)
