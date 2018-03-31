@@ -85,6 +85,7 @@ def create_test(request):
         all_categories = \
         me.change_topicNumbersNames(all_categories,split_category)
         all_categories.sort()
+        print('%s all_categories' %all_categories)
         context = \
                 {'categories':all_categories,'which_klass':split_klass,'section_category':split_category}
         return \
