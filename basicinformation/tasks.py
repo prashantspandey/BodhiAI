@@ -7,7 +7,7 @@ from more_itertools import unique_everseen
 from django.http import Http404
 from .marksprediction import *
 from django.core import serializers
-
+from django.core.mail import send_mail
 
 @shared_task
 def bring_teacher_subjects_analysis(user_id):
@@ -495,4 +495,22 @@ def publish_NormalTest(user_id,testid,date,time):
         
     myTest.mode = 'BodhiOnline'
     myTest.save()
+
+
+@shared_task
+def student_score_email(subject,score,name,email,time):
+    
+    subject = subject
+    from_email = 'bodhiaiindia@gmail.com'
+    to_email = email
+    contact_message = '''
+    Hello %s , Welcome to BodhiAI. 
+    You recently took a test for JITO. 
+    Here is your result:
+    You got  %s
+    Total time taken : %s
+    '''%(name,score,time)
+
+    send_mail(subject,contact_message,from_email,[to_email],fail_silently
+                        = True)
 

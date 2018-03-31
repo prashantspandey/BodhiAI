@@ -18,6 +18,9 @@ from decimal import *
 import sys
 from basicinformation.tasks import *
 from celery.result import AsyncResult
+from django.core.mail import send_mail
+
+
 # Create your views here.
 def create_test_Initial(request):
     user = request.user
@@ -925,9 +928,6 @@ def show_finished_test(request,testid):
                 test_id = test_stu.test.id
                 test_details =\
                 SSCOnlineMarks.objects.get(student=me.profile,test__id = testid)
-
-
-            student_type='SSC'
             total_time = test_details.timeTaken
             hours = int(total_time/3600)
             t = int(total_time%3600)
@@ -944,11 +944,36 @@ def show_finished_test(request,testid):
             except:
                 pass
             try:
+                custom_profile = StudentCustomProfile.objects.get(student =
+                                                              request.user)
+                print('%s found coustom profile' %custom_profile.fullName)
+                subject = 'BodhiAI score'
+                
+                res =\
+                student_score_email.delay(subject,test_details.marks,custom_profile.fullName,request.user.email,tt)
+            except Exception as e:
+                print(str(e))
+
+            #subject = 'BodhiAI score'
+            #from_email = 'bodhiaiindia@gmail.com'
+            #to_email = 'prashantbodhi@gmail.com'
+            #contact_message = '''
+            #Hello %s , Welcome to BodhiAI. 
+            #You recently took a test for JITO. 
+            #Here is your result:
+            #You got  %s
+            #Total time taken : %s
+            #'''%(me.profile,test_details.marks,tt)
+            #send_mail(subject,contact_message,from_email,[to_email],fail_silently
+            #          = False)
+            student_type='SSC'
+            try:
                 context = \
                 {'student_type':student_type,'marks':test_details,'timetaken':tt}
             except:
                 context = \
                 {'student_type':student_type,'marks':test_details,'timetaken':'unliimited'}
+
 
             return render(request,'questions/student_finished_test.html',context)
 
