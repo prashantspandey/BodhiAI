@@ -501,7 +501,7 @@ def publish_NormalTest(user_id,testid,date,time):
 def student_score_email(subject,score,name,email,time):
     
     subject = subject
-    from_email = 'bodhiaiindia@gmail.com'
+    from_email = 'prashantbodhi@gmail.com'
     to_email = email
     contact_message = '''
     Hello %s , Welcome to BodhiAI. 
