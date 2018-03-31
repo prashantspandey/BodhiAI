@@ -78,6 +78,9 @@ def jitoData(request):
                                            stu,teacher=jito_teacher)
                         subability = Subject(name='MentalAbilityIITJEE10',student =
                                            stu,teacher=jito_teacher)
+                        subintelligence = Subject(name='General-Intelligence',student =
+                                           stu,teacher=jito_teacher)
+
 
 
                     elif str(kl) == str(11):
@@ -89,6 +92,9 @@ def jitoData(request):
                                            stu,teacher=jito_teacher)
                         subability = Subject(name='MentalAbilityIITJEE11',student =
                                            stu,teacher=jito_teacher)
+                        subintelligence = Subject(name='General-Intelligence',student =
+                                           stu,teacher=jito_teacher)
+
 
 
                     elif str(kl) == str(12):
@@ -102,11 +108,15 @@ def jitoData(request):
                                            stu,teacher=jito_teacher)
                         subability = Subject(name='MentalAbilityIITJEE12',student =
                                            stu,teacher=jito_teacher)
+                        subintelligence = Subject(name='General-Intelligence',student =
+                                           stu,teacher=jito_teacher)
+
+
                     submaths.save()
                     subphy.save()
                     subchem.save()
                     subability.save()
-
+                    subintelligence.save()
 
 
                     print(fullName,fatherName,kl,phone,address)
