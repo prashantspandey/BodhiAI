@@ -2049,6 +2049,7 @@ def add_students(path_file,schoolName,production = False,swami=False,dummy=False
 
 
 def add_questions(institute,section):
+    print('here in add questions')
     if institute == 'JECRC':
        questions = SSCquestions.objects.filter(school__name = 'Swami Reasoning World')
        school = School.objects.get(name = institute)
@@ -2063,6 +2064,7 @@ def add_questions(institute,section):
        for i in questions:
            i.school.add(school)
     else:
+        print('here in jito')
         questions =\
         SSCquestions.objects.filter(section_category=section)
         school = School.objects.get(name = institute)
