@@ -29,8 +29,8 @@ ALLOWED_HOSTS =\
         ['https://bodhiai.herokuapp.com/','https://bodhiai.herokuapp.com','https://bodhiai.herokuapp.com/bodhi','bodhiai.herokuapp.com','bodhiai.in','www.bodhiai.in','http://bodhiai.in','bodhiai.in/','https://bodhiai.in','https://www.bodhiai.in']
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'bodhiaiindia@gmail.com'
-EMAIL_HOST_PASSWORD = 'bodhipasswordftw'
+EMAIL_HOST_USER = 'prashantbodhi@gmail.com'
+EMAIL_HOST_PASSWORD = 'dnpandey'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
