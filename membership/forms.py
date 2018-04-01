@@ -37,7 +37,7 @@ class RegisterForm(UserCreationForm):
             user.save()
             gr = Group.objects.get(name='Students')
             gr.user_set.add(user)
-            if str(course) == 'jito':
+            if str(course.lower()) == 'jito':
                 print('this is user save course %s' %course)
                 return user
             else:

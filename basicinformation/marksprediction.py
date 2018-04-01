@@ -2,6 +2,7 @@ import numpy as np
 import pickle
 import math
 import itertools
+import random
 from datetime import datetime, date
 from django.utils import timezone
 from .models import Subject
@@ -982,7 +983,11 @@ class Studs:
                     
                 for t in takeable_tests:
                     t.testTakers.add(self.profile)
-                return takeable_tests
+                if schoolName == 'JITO':
+                    tests_random = random.choice(takeable_tests)
+                    return tests_random
+                else:
+                    return takeable_tests
             else:
                 all_tests = SSCKlassTest.objects.filter(testTakers =
                                                         self.profile)
