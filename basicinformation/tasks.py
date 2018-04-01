@@ -498,11 +498,12 @@ def publish_NormalTest(user_id,testid,date,time):
 
 
 @shared_task
-def student_score_email(subject,score,name,email,time):
+def student_score_email(subject,score,name,email,time,fatherName,phone,address):
     
     subject = subject
     from_email = 'prashantbodhi@gmail.com'
-    to_email = [email,'jitohostelkota@gmail.com']
+    to_email = email
+    to_mail2 = 'jitohostelkota@gmail.com'
     contact_message = '''
     Hello %s , Welcome to BodhiAI. 
     You recently took a test for JITO. 
@@ -512,7 +513,20 @@ def student_score_email(subject,score,name,email,time):
 
     Thankyou !!
     '''%(name,score,time)
+    subject2 = '''
+    Hello Jito Hostel , Thankyou for using BodhiAI, a student just took a test,
+    here are his/her details: 
+        Name : %s
+        Father\'s name:%s
+        Email:%s
+        Phone: %s
+        Marks: %s
+        Address: %s
+    '''%(name,fatherName,to_email,phone,score,address)
+
 
     send_mail(subject,contact_message,from_email,[to_email],fail_silently
+                        = False)
+    send_mail(subject2,contact_message,from_email,[to_mail2],fail_silently
                         = False)
 

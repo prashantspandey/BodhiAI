@@ -213,7 +213,8 @@ def home(request):
             #add_teachers('krteachers.csv','KR Defence Coaching',production=True)
             #add_students('aravalistudents.csv','Aravali Defence Academy',production=True)
             #add_students('krstudents.csv','KR Defence Coaching',production=True)
-            add_questions('JITO','General-Intelligence')
+            #add_questions('JITO','General-Intelligence')
+            change_question_marks('General-Intelligence')
             #add_questions('Colonel Defence Academy','Defence-English')
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
@@ -2614,7 +2615,12 @@ def some_AI_function():
     pass
                 
                 
-
+def change_question_marks(subject):
+    questions = SSCquestions.objects.filter(section_category = subject)
+    for i in questions:
+        i.max_marks = int(1)
+        i.negative_marks = 0
+        i.save()
 
 
 

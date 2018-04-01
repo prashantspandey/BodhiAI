@@ -952,7 +952,7 @@ def show_finished_test(request,testid):
                 subject = 'BodhiAI score'
                 
                 res =\
-                student_score_email.delay(subject,test_details.marks,custom_profile.fullName,request.user.email,tt)
+                student_score_email.delay(subject,test_details.marks,custom_profile.fullName,request.user.email,tt,custom_profile.fatherName,custom_profile.phone,custom_profile.address)
             except Exception as e:
                 print(str(e))
 
