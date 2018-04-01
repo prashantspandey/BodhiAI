@@ -490,6 +490,13 @@ def publish_NormalTest(user_id,testid,date,time):
             if 'Defence-Physics' in subs or 'Defence-English' in\
             subs or 'Defence-GK-CA' in subs:
                 myTest.sub = 'Defence-MultipleSubjects'
+            elif 'JEE10' in subs[0]:
+                myTest.sub = 'IITJEE10-MultipleSubjects'
+            elif 'JEE11' in subs[0]:
+                myTest.sub = 'IITJEE11-MultipleSubjects'
+            elif 'JEE12' in subs[0]:
+                myTest.sub = 'IITJEE12-MultipleSubjects'
+
             else:
                 myTest.sub = 'SSCMultipleSections'
         

@@ -252,6 +252,14 @@ def publish_test(request):
                     subs = list(unique_everseen(subs))
                     if len(subs)==1:
                         myTest.sub = subs[0]
+                    elif me.profile.school.name == "JITO":
+                        if '10' in str(subs[0]): 
+                            myTest.sub = "IITJEE10-MultipleSubjects"
+                        if '11' in str(subs[0]): 
+                            myTest.sub = "IITJEE11-MultipleSubjects"
+                        if '12' in str(subs[0]): 
+                            myTest.sub = "IITJEE12-MultipleSubjects"
+
                     else:
                         myTest.sub = 'SSCMultipleSections'
 

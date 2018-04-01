@@ -300,7 +300,7 @@ def home(request):
 
         elif user.groups.filter(name='Teachers').exists():
             me = Teach(user)
-            profile = user.teacher
+            #profile = user.teacher
             subjects = me.my_subjects_names()
             weak_subs_areas_dict = []
             teach_klass = TeacherClasses.objects.filter(teacher=me.profile)
