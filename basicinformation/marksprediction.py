@@ -982,10 +982,14 @@ class Studs:
                         pass
                     
                 if schoolName == 'JITO':
-                    test_random = random.choice(takeable_tests)
-                    test_random.testTakers.add(self.profile)
-                    take_test = [test_random]
-                    return take_test
+                    try:
+                        test_random = random.choice(takeable_tests)
+                        test_random.testTakers.add(self.profile)
+                        take_test = [test_random]
+                        return take_test
+
+                    except:
+                        return takeable_tests
                 else:
                     for t in takeable_tests:
                         t.testTakers.add(self.profile)
