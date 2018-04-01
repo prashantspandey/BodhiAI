@@ -513,7 +513,7 @@ def student_score_email(subject,score,name,email,time,fatherName,phone,address):
 
     Thankyou !!
     '''%(name,score,time)
-    subject2 = '''
+    contact_message2 = '''
     Hello Jito Hostel , Thankyou for using BodhiAI, a student just took a test,
     here are his/her details: 
         Name : %s
@@ -527,6 +527,6 @@ def student_score_email(subject,score,name,email,time,fatherName,phone,address):
 
     send_mail(subject,contact_message,from_email,[to_email],fail_silently
                         = False)
-    send_mail(subject2,contact_message,from_email,[to_mail2],fail_silently
+    send_mail(subject,contact_message2,from_email,[to_mail2],fail_silently
                         = False)
 
