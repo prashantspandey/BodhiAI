@@ -981,13 +981,14 @@ class Studs:
                     else:
                         pass
                     
-                for t in takeable_tests:
-                    t.testTakers.add(self.profile)
                 if schoolName == 'JITO':
-                    tests_random = []
-                    tests_random.append(random.choice(takeable_tests))
-                    return tests_random
+                    test_random = random.choice(takeable_tests)
+                    test_random.testTakers.add(self.profile)
+                    take_test = [test_random]
+                    return take_test
                 else:
+                    for t in takeable_tests:
+                        t.testTakers.add(self.profile)
                     return takeable_tests
             else:
                 all_tests = SSCKlassTest.objects.filter(testTakers =
