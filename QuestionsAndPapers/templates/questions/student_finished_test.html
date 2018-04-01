@@ -13,7 +13,12 @@
 	<h2 style='text-align:center;'> You got {{marks}} out of {{marks.test.max_marks}} </h2>
 	<h2 style='text-align:center;'> Total time to complete test: {{timetaken}} </h2>
 	<h2 style='text-align:center;'> Test Taken on: {{marks.testTaken}} </h2>
-
+	{% if request.user.student.school.name == 'JITO' %}
+	<h4 > Your score has been e-mailed to your email address </h4>
+	{%endblock%}
+	</body>
+</html>
+	{%endif%}
 
 	{%if student_type == 'School' %}
 

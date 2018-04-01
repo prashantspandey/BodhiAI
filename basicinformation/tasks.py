@@ -502,13 +502,15 @@ def student_score_email(subject,score,name,email,time):
     
     subject = subject
     from_email = 'prashantbodhi@gmail.com'
-    to_email = email
+    to_email = [email,'jitohostelkota@gmail.com']
     contact_message = '''
     Hello %s , Welcome to BodhiAI. 
     You recently took a test for JITO. 
     Here is your result:
     You got  %s
     Total time taken : %s
+
+    Thankyou !!
     '''%(name,score,time)
 
     send_mail(subject,contact_message,from_email,[to_email],fail_silently
