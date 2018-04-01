@@ -984,7 +984,8 @@ class Studs:
                 for t in takeable_tests:
                     t.testTakers.add(self.profile)
                 if schoolName == 'JITO':
-                    tests_random = random.choice(takeable_tests)
+                    tests_random = []
+                    tests_random.append(random.choice(takeable_tests))
                     return tests_random
                 else:
                     return takeable_tests
