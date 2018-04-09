@@ -235,7 +235,7 @@ def home(request):
 
             #sheet_link5 = ['33t2.csv','34t2.csv']
             adding_quest = add_to_database_questions_text.delay(sheet_links,'SIEL',production =\
-                                      False)
+                                      True)
             #add_to_database_questions(sheet_link3,'Colonel Defence\
             #                          Academy',onlyImage=True,production =\
             #                          True)
