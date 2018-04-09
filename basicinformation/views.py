@@ -214,13 +214,13 @@ def home(request):
             #add_students('aravalistudents.csv','Aravali Defence Academy',production=True)
             #add_students('krstudents.csv','KR Defence Coaching',production=True)
             #add_questions('JITO','General-Intelligence')
-            change_question_marks('General-Intelligence')
+            #change_question_marks('General-Intelligence')
             #add_questions('Colonel Defence Academy','Defence-English')
             #sheet_links = ['groupx03math.csv','groupx03physics.csv']
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
             
             sheet_links =\
-            ['chem_class_10.csv']
+            ['english_all.csv']
             #sheet_link2=['7english.csv','8english.csv','9english.csv','10english.csv']
             #sheet_link3 =\
             #['1gk.csv','2gk.csv','3gk.csv','4gk.csv','5gk.csv','7gk.csv','8gk.csv','9gk.csv','10gk.csv']
@@ -234,8 +234,8 @@ def home(request):
             #    i.save()
 
             #sheet_link5 = ['33t2.csv','34t2.csv']
-            #add_to_database_questions(sheet_links,'JITO',onlyImage=True,production =\
-            #                          True)
+            adding_quest = add_to_database_questions_text.delay(sheet_links,'SIEL',production =\
+                                      False)
             #add_to_database_questions(sheet_link3,'Colonel Defence\
             #                          Academy',onlyImage=True,production =\
             #                          True)
@@ -1447,134 +1447,6 @@ def read_questions(fi):
     return questText
 
 
-def\
-write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questCategory,exp,sectionType,lang,used_for,source,fouroptions=False,replace=False):
-    if replace:
-        quest = SSCquestions.objects.filter(picture = image)
-        for n,qu in enumerate(quest):
-            for num,ch in enumerate(qu.choices_set.all()):
-                print(num)
-                if num+1 == correctOpt:
-                    ch.predicament ='Correct'
-                else:
-                    ch.predicament = 'Wrong'
-                ch.save()
-            
-    else:
-
-
-        school = School.objects.filter(name = school)
-        if fouroptions == True:
-            all_options = [optA,optB,optC,optD]
-        else:
-            try:
-                if optE:
-                    if math.isnan(optE):
-                        all_options = [optA,optB,optC,optD]
-                    else:
-                        all_options = [optA,optB,optC,optD,optE]
-                else:
-                        all_options = [optA,optB,optC,optD,optE]
-            except Exception as e:
-                print(str(e))
-                all_options = [optA,optB,optC,optD,optE]
-        new_questions = SSCquestions()
-        new_questions.language = lang
-
-        new_questions.usedFor = used_for
-
-        if source:
-            new_questions.source = source
-
-        new_questions.tier_category = '1'
-        new_questions.max_marks = int(1)
-        new_questions.negative_marks = 0.0
-        if sectionType == 'English':
-            new_questions.section_category = 'English'
-        elif sectionType == 'Reasoning':
-            new_questions.section_category = 'General-Intelligence'
-        elif sectionType == 'Maths':
-            new_questions.section_category = 'Quantitative-Analysis'
-        elif sectionType == 'GK':
-            new_questions.section_category = 'General-Knowledge'
-        elif sectionType == 'groupxen':
-            new_questions.section_category = 'Defence-English'
-        elif sectionType == 'groupxphy':
-            new_questions.section_category = 'Defence-Physics'
-        elif sectionType == 'groupxmath':
-            new_questions.section_category = 'GroupX-Maths'
-        elif sectionType == 'groupgk':
-            new_questions.section_category = 'Defence-GK-CA'
-        elif sectionType == 'jeeMaths10':
-            new_questions.section_category = 'MathsIITJEE10'
-        elif sectionType == 'jeeMaths11':
-            new_questions.section_category = 'MathsIITJEE11'
-        elif sectionType == 'jeeMaths12':
-            new_questions.section_category = 'MathsIITJEE12'
-        elif sectionType == 'jeePhysics10':
-            new_questions.section_category = 'PhysicsIITJEE10'
-        elif sectionType == 'jeePhysics11':
-            new_questions.section_category = 'PhysicsIITJEE11'
-        elif sectionType == 'jeePhysics12':
-            new_questions.section_category = 'PhysicsIITJEE12'
-        elif sectionType == 'jeeChemistry10':
-            new_questions.section_category = 'ChemistryIITJEE10'
-        elif sectionType == 'jeeChemistry11':
-            new_questions.section_category = 'ChemistryIITJEE11'
-        elif sectionType == 'jeeChemistry12':
-            new_questions.section_category = 'ChemistryIITJEE12'
-
-
-
-
-
-        if question != None:
-            new_questions.text = str(question)
-        new_questions.topic_category = str(questCategory)
-        if image:
-            new_questions.picture = image
-        new_questions.save()
-        for sch in school:
-            new_questions.school.add(sch)
-        #for j in range(1,9):
-        #    if questCategory == str(j):
-        #        mn = questCategory + '.'+'1'
-        #        new_questions.topic_category = str(mn)
-        #        new_questions.topic_category = str(mn)
-        #        new_questions.save()
-        #    else:
-        #        new_questions.topic_category = str(questCategory)
-        #        new_questions.save()
-        #print(new_questions.topic_category)
-        for n,i in enumerate(all_options):
-            new_choices = Choices()
-            new_choices.sscquest = new_questions
-            if 'https:' in str(i):
-                new_choices.picture = str(i)
-            else:
-                itext = str(i).replace('[','')
-                itext2 = itext.replace(']','')
-                itext3 = itext2.replace(')','')
-                itext4 = itext3.replace(u'\\xa0',u' ')
-                itext5 = itext4.replace('\"','')
-                new_choices.text = itext5
-            if 'https:' in str(exp):
-                pass
-            else:
-                exptext = str(exp).replace('[','')
-                exptext2 = exptext.replace(']','')
-                exptext3 = exptext2.replace(u'\\xa0',u' ')
-                exptext4 = exptext3.replace('\"','')
-            if correctOpt == n+1:
-                new_choices.predicament = 'Correct'
-                if 'https:' in str(exp):
-                    new_choices.explanationPicture = exp
-                else:
-                    new_choices.explanation = exptext4
-            else:
-                new_choices.predicament = 'Wrong'
-            new_choices.save()
-
 def write_passages(passages):
     for i in passages:
         new_passage = Comprehension()
@@ -2152,9 +2024,9 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         
             for ind in range(len(optA)):
                 if onlyImage:
-                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(lang[ind]),used_for[ind],source[ind],fouroptions=True)
+                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(lang[ind]),used_for[ind],source[ind],direction=direction[ind],fouroptions='4' )
                 else:
-                    write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],fouroptions=True)
+                    write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],direction[ind],fouroptions='3')
 
 
 def delete_sectionQuestions(section):

@@ -2129,38 +2129,74 @@ class Studs:
         if subject == 'English':
             for i,j in arr:
                 if i == '1.1':
-                    namedarr.append('Word Meanings')
+                    namedarr.append('Antonym')
                     timing.append(j)
                 elif i == '1.2':
-                    namedarr.append('Idiom/Phrase Meaning')
+                    namedarr.append('Synonym')
+                    timing.append(j)
+                elif i == '1.3':
+                    namedarr.append('One word substitution')
+                    timing.append(j)
+                elif i == '1.4':
+                    namedarr.append('Idioms & Phrases')
+                    timing.append(j)
+                elif i == '1.5':
+                    namedarr.append('Phrasal Verbs')
+                    timing.append(j)
+                elif i == '1.6':
+                    namedarr.append('Use of some verbs with particular nouns')
+                    timing.append(j)
+                elif i == '1.7':
+                    namedarr.append('Tense')
                     timing.append(j)
                 elif i == '2.1':
-                    namedarr.append('Antonyms')
+                    namedarr.append('Noun')
                     timing.append(j)
-                elif i == '3.1':
-                    namedarr.append('Alternate Phrases/Underlined')
+                elif i == '2.2':
+                    namedarr.append('Pronoun')
                     timing.append(j)
-                elif i == '3.2':
-                    namedarr.append('Alternate words/Fill in the blanks')
+                elif i == '2.3':
+                    namedarr.append('Adjective')
                     timing.append(j)
-                elif i == '4.1':
-                    namedarr.append('Re-Arrangement')
+                elif i == '2.4':
+                    namedarr.append('Articles')
                     timing.append(j)
-                elif i == '5.1':
-                    namedarr.append('Spelling')
+                elif i == '2.5':
+                    namedarr.append('Verb')
                     timing.append(j)
-                elif i == '6.1':
-                    namedarr.append('Substitution')
+                elif i == '2.6':
+                    namedarr.append('Adverb')
                     timing.append(j)
-                elif i == '7.1':
-                    namedarr.append('Random')
+                elif i == '2.7':
+                    namedarr.append('Time & Tense')
                     timing.append(j)
-                elif i == '8.1':
-                    namedarr.append('Spot the Error')
+                elif i == '2.8':
+                    namedarr.append('Voice')
                     timing.append(j)
-                elif i == '9.1':
-                    namedarr.append('Passage')
+                elif i == '2.9':
+                    namedarr.append('Non-Finites')
                     timing.append(j)
+                elif i == '2.10':
+                    namedarr.append('Narration')
+                    timing.append(j)
+                elif i == '2.11':
+                    namedarr.append('Preposition')
+                    timing.append(j)
+                elif i == '2.12':
+                    namedarr.append('Conjunction')
+                    timing.append(j)
+                elif i == '2.13':
+                    namedarr.append('Subject verb agreement')
+                    timing.append(j)
+                elif i == '2.14':
+                    namedarr.append('Common Errors')
+                    timing.append(j)
+                elif i == '2.15':
+                    namedarr.append('Superfluous Expressions & Slang')
+                    timing.append(j)
+
+
+
             return list(zip(namedarr,timing))
         if subject == 'General-Intelligence':
             for i,j in arr:
@@ -2911,27 +2947,51 @@ class Studs:
         if subject == 'English':
             for i in arr:
                 if i == '1.1':
-                    namedarr.append('Word Meanings')
+                    namedarr.append('Antonym')
                 elif i == '1.2':
-                    namedarr.append('Idiom/Phrase Meaning')
+                    namedarr.append('Synonym')
+                elif i == '1.3':
+                    namedarr.append('One word substitution')
+                elif i == '1.4':
+                    namedarr.append('Idioms & Phrases')
+                elif i == '1.5':
+                    namedarr.append('Phrasal Verbs')
+                elif i == '1.6':
+                    namedarr.append('Use of some verbs with particular nouns')
+                elif i == '1.7':
+                    namedarr.append('Tense')
                 elif i == '2.1':
-                    namedarr.append('Antonyms')
-                elif i == '3.1':
-                    namedarr.append('Alternate Phrases/Underlined')
-                elif i == '3.2':
-                    namedarr.append('Alternate words/Fill in the blanks')
-                elif i == '4.1':
-                    namedarr.append('Re-Arrangement')
-                elif i == '5.1':
-                    namedarr.append('Spelling')
-                elif i == '6.1':
-                    namedarr.append('Substitution')
-                elif i == '7.1':
-                    namedarr.append('Random')
-                elif i == '8.1':
-                    namedarr.append('Spot the Error')
-                elif i == '9.1':
-                    namedarr.append('Passage')
+                    namedarr.append('Noun')
+                elif i == '2.2':
+                    namedarr.append('Pronoun')
+                elif i == '2.3':
+                    namedarr.append('Adjective')
+                elif i == '2.4':
+                    namedarr.append('Articles')
+                elif i == '2.5':
+                    namedarr.append('Verb')
+                elif i == '2.6':
+                    namedarr.append('Adverb')
+                elif i == '2.7':
+                    namedarr.append('Time & Tense')
+                elif i == '2.8':
+                    namedarr.append('Voice')
+                elif i == '2.9':
+                    namedarr.append('Non-Finites')
+                elif i == '2.10':
+                    namedarr.append('Narration')
+                elif i == '2.11':
+                    namedarr.append('Preposition')
+                elif i == '2.12':
+                    namedarr.append('Conjunction')
+                elif i == '2.13':
+                    namedarr.append('Subject verb agreement')
+                elif i == '2.14':
+                    namedarr.append('Common Errors')
+                elif i == '2.15':
+                    namedarr.append('Superfluous Expressions & Slang')
+
+
             return namedarr
         if subject == 'General-Intelligence':
             for i in arr:
@@ -3456,27 +3516,52 @@ class Studs:
     def changeIndividualNames(self,i,subject):
         if subject == 'English':
             if i == '1.1':
-                return 'Word Meanings'
+                return 'Antonym'
             elif i == '1.2':
-                return 'Idiom/Phrase Meaning'
+                return 'Synonym'
+            elif i == '1.3':
+                return 'One word substitution'
+            elif i == '1.4':
+                return 'Idioms & Phrases'
+            elif i == '1.5':
+                return 'Phrasal Verbs'
+            elif i == '1.6':
+                return 'Use of some verbs with particular nouns'
+            elif i == '1.7':
+                return 'Tense'
             elif i == '2.1':
-                return 'Antonyms'
-            elif i == '3.1':
-                return 'Alternate Phrases/Underlined'
-            elif i == '3.2':
-                return 'Alternate words/Fill in the blanks'
-            elif i == '4.1':
-                return 'Re-Arrangement'
-            elif i == '5.1':
-                return 'Spelling'
-            elif i == '6.1':
-                return 'Substitution'
-            elif i == '7.1':
-                return 'Random'
-            elif i == '8.1':
-                return 'Spot the Error'
-            elif i == '9.1':
-                return 'Passage'
+                return 'Noun'
+            elif i == '2.2':
+                return 'Pronoun'
+            elif i == '2.3':
+                return 'Adjective'
+            elif i == '2.4':
+                return 'Articles'
+            elif i == '2.5':
+                return 'Verb'
+            elif i == '2.6':
+                return 'Adverb'
+            elif i == '2.7':
+                return 'Time & Tense'
+            elif i == '2.8':
+                return 'Voice'
+            elif i == '2.9':
+                return 'Non-Finites'
+            elif i == '2.10':
+                return 'Narration'
+            elif i == '2.11':
+                return 'Preposition'
+            elif i == '2.12':
+                return 'Conjunction'
+            elif i == '2.13':
+                return 'Subject verb agreement'
+            elif i == '2.14':
+                return 'Common Errors'
+            elif i == '2.15':
+                return 'Superfluous Expressions & Slang'
+
+
+
         if subject == 'General-Intelligence':
             if i == '1.1':
                 return 'Paper Cutting and Folding'
@@ -5356,38 +5441,73 @@ class Teach:
         if subject == 'English':
             for i in arr:
                 if i == '1.1':
-                    names.append('Word Meanings')
+                    names.append('Antonym')
                     numbers.append(i)
                 elif i == '1.2':
-                    names.append('Idiom/Phrase Meaning')
+                    names.append('Synonym')
+                    numbers.append(i)
+                elif i == '1.3':
+                    names.append('One word substitution')
+                    numbers.append(i)
+                elif i == '1.4':
+                    names.append('Idioms & Phrases')
+                    numbers.append(i)
+                elif i == '1.5':
+                    names.append('Phrasal Verbs')
+                    numbers.append(i)
+                elif i == '1.6':
+                    names.append('Use of some verbs with particular nouns')
+                    numbers.append(i)
+                elif i == '1.7':
+                    names.append('Tense')
                     numbers.append(i)
                 elif i == '2.1':
-                    names.append('Antonyms')
+                    names.append('Noun')
                     numbers.append(i)
-                elif i == '3.1':
-                    names.append('Alternate Phrases/Underlined')
+                elif i == '2.2':
+                    names.append('Pronoun')
                     numbers.append(i)
-                elif i == '3.2':
-                    names.append('Alternate words/Fill in the blanks')
+                elif i == '2.3':
+                    names.append('Adjective')
                     numbers.append(i)
-                elif i == '4.1':
-                    names.append('Re-Arrangement')
+                elif i == '2.4':
+                    names.append('Articles')
                     numbers.append(i)
-                elif i == '5.1':
-                    names.append('Spelling')
+                elif i == '2.5':
+                    names.append('Verb')
                     numbers.append(i)
-                elif i == '6.1':
-                    names.append('Substitution')
+                elif i == '2.6':
+                    names.append('Adverb')
                     numbers.append(i)
-                elif i == '7.1':
-                    names.append('Random')
+                elif i == '2.7':
+                    names.append('Time & Tense')
                     numbers.append(i)
-                elif i == '8.1':
-                    names.append('Spot the Error')
+                elif i == '2.8':
+                    names.append('Voice')
                     numbers.append(i)
-                elif i == '9.1':
-                    names.append('Passage')
+                elif i == '2.9':
+                    names.append('Non-Finites')
                     numbers.append(i)
+                elif i == '2.10':
+                    names.append('Narration')
+                    numbers.append(i)
+                elif i == '2.11':
+                    names.append('Preposition')
+                    numbers.append(i)
+                elif i == '2.12':
+                    names.append('Conjunction')
+                    numbers.append(i)
+                elif i == '2.13':
+                    names.append('Subject verb agreement')
+                    numbers.append(i)
+                elif i == '2.14':
+                    names.append('Common Errors')
+                    numbers.append(i)
+                elif i == '2.15':
+                    names.append('Superfluous Expressions & Slang')
+                    numbers.append(i)
+
+
             changed = list(zip(names,numbers))
             return changed
         if subject == 'General-Intelligence':
@@ -6147,38 +6267,74 @@ class Teach:
         if subject == 'English':
             for i,j in arr:
                 if i == '1.1':
-                    names.append('Word Meanings')
+                    names.append('Antonym')
                     numbers.append(j)
                 elif i == '1.2':
-                    names.append('Idiom/Phrase Meaning')
+                    names.append('Synonym')
+                    numbers.append(j)
+                elif i == '1.3':
+                    names.append('One word substitution')
+                    numbers.append(j)
+                elif i == '1.4':
+                    names.append('Idioms & Phrases')
+                    numbers.append(j)
+                elif i == '1.5':
+                    names.append('Phrasal Verbs')
+                    numbers.append(j)
+                elif i == '1.6':
+                    names.append('Use of some verbs with particular nouns')
+                    numbers.append(j)
+                elif i == '1.7':
+                    names.append('Tense')
                     numbers.append(j)
                 elif i == '2.1':
-                    names.append('Antonyms')
+                    names.append('Noun')
                     numbers.append(j)
-                elif i == '3.1':
-                    names.append('Alternate Phrases/Underlined')
+                elif i == '2.2':
+                    names.append('Pronoun')
                     numbers.append(j)
-                elif i == '3.2':
-                    names.append('Alternate words/Fill in the blanks')
+                elif i == '2.3':
+                    names.append('Adjective')
                     numbers.append(j)
-                elif i == '4.1':
-                    names.append('Re-Arrangement')
+                elif i == '2.4':
+                    names.append('Articles')
                     numbers.append(j)
-                elif i == '5.1':
-                    names.append('Spelling')
+                elif i == '2.5':
+                    names.append('Verb')
                     numbers.append(j)
-                elif i == '6.1':
-                    names.append('Substitution')
+                elif i == '2.6':
+                    names.append('Adverb')
                     numbers.append(j)
-                elif i == '7.1':
-                    names.append('Random')
+                elif i == '2.7':
+                    names.append('Time & Tense')
                     numbers.append(j)
-                elif i == '8.1':
-                    names.append('Spot the Error')
+                elif i == '2.8':
+                    names.append('Voice')
                     numbers.append(j)
-                elif i == '9.1':
-                    names.append('Passage')
+                elif i == '2.9':
+                    names.append('Non-Finites')
                     numbers.append(j)
+                elif i == '2.10':
+                    names.append('Narration')
+                    numbers.append(j)
+                elif i == '2.11':
+                    names.append('Preposition')
+                    numbers.append(j)
+                elif i == '2.12':
+                    names.append('Conjunction')
+                    numbers.append(j)
+                elif i == '2.13':
+                    names.append('Subject verb agreement')
+                    numbers.append(j)
+                elif i == '2.14':
+                    names.append('Common Errors')
+                    numbers.append(j)
+                elif i == '2.15':
+                    names.append('Superfluous Expressions & Slang')
+                    numbers.append(j)
+
+
+
             changed = list(zip(names,numbers))
             return changed
         if subject == 'General-Intelligence':
@@ -6919,28 +7075,52 @@ class Teach:
         numbers = []
         if subject == 'English':
             for i in arr:
-                if i == 'Word Meanings':
+                if i == 'Antonym':
                     numbers.append('1.1')
-                elif i == 'Idiom/Phrase Meaning':
+                elif i == 'Synonym':
                     numbers.append('1.2')
-                elif i == 'Antonyms':
+                elif i == 'One word substitution':
+                    numbers.append('1.3')
+                elif i == 'Idioms & Phrases':
+                    numbers.append('1.4')
+                elif i == 'Phrasal Verbs':
+                    numbers.append('1.5')
+                elif i == 'Use of some verbs with particular nouns':
+                    numbers.append('1.6')
+                elif i == 'Tense':
+                    numbers.append('1.7')
+                elif i == 'Noun':
                     numbers.append('2.1')
-                elif i == 'Alternate Phrases/Underlined':
-                    numbers.append('3.1')
-                elif i == 'Alternate words/Fill in the blanks':
-                    numbers.append('3.2')
-                elif i == 'Re-Arrangement':
-                    numbers.append('4.1')
-                elif i == 'Spelling':
-                    numbers.append('5.1')
-                elif i == 'Substitution':
-                    numbers.append('6.1')
-                elif i == 'Random':
-                    numbers.append('7.1')
-                elif i == 'Spot the Error':
-                    numbers.append('8.1')
-                elif i == 'Passage':
-                    numbers.append('9.1')
+                elif i == 'Pronoun':
+                    numbers.append('2.2')
+                elif i == 'Adjective':
+                    numbers.append('2.3')
+                elif i == 'Articles':
+                    numbers.append('2.4')
+                elif i == 'Verb':
+                    numbers.append('2.5')
+                elif i == 'Adverb':
+                    numbers.append('2.6')
+                elif i == 'Time & Tense':
+                    numbers.append('2.7')
+                elif i == 'Voice':
+                    numbers.append('2.8')
+                elif i == 'Non-Finites':
+                    numbers.append('2.9')
+                elif i == 'Narration':
+                    numbers.append('2.10')
+                elif i == 'Preposition':
+                    numbers.append('2.11')
+                elif i == 'Conjunction':
+                    numbers.append('2.12')
+                elif i == 'Subject verb agreement':
+                    numbers.append('2.13')
+                elif i == 'Common Errors':
+                    numbers.append('2.14')
+                elif i == 'Superfluous Expressions & Slang':
+                    numbers.append('2.15')
+
+
             return numbers
         if subject == 'General-Intelligence':
             for i in arr:
