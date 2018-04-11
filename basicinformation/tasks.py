@@ -562,15 +562,21 @@ def add_to_database_questions_text(sheet_link,school,production=False,explanatio
             lang = "English"
             source = "SIEL"
             quest_text = df['Question']
-            try:
-                direction = df['Direction']
-                print(direction)
-            except:
-                direction = None
             optA = df['optA']
+            num_a = len(optA)
             optB = df['optB']
             optC = df['optC']
             optD = df['optD']
+            try:
+                direction = df['Direction']
+            except:
+                direction =['lll']
+
+            try:
+                optE = df['optE']
+            except:
+                optE = ['lll']
+                print(optE)
             sectionType = "English"
             quest_category = df['cat_num']
             for i in df['correct']:
@@ -593,18 +599,44 @@ def add_to_database_questions_text(sheet_link,school,production=False,explanatio
             print('%s optB' %len(optB))
             print('%s optC' %len(optC))
             print('%s optD' %len(optD))
+            try:
+                print('%s optE' %len(optE))
+            except Exception as e:
+                print(str(e))
             print('%s correct answers' %len(right_answer))
             print('%s number of categories' %len(quest_category))
-            #print('%s languages ' %len(lang))
-        
             for ind in range(len(optA)):
-                if str(optD[ind]).lower() == 'noopt' and direction[ind]:
-                    write_questions(school,quest_text[ind],optA[ind],optB[ind],optC[ind],None,None,None,right_answer[ind],quest_category[ind],None,sectionType,lang,used_for,source,'3',direction[ind])
-                elif direction[ind]:
-                    write_questions(school,quest_text[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType,lang,used_for,source,'4',direction[ind])
-                else:
-                    write_questions(school,quest_text[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType,lang,used_for,source,'4')
+                try:
+                    if str(optE[ind]).lower() == 'noopt':
+                        print('only four options')
+                        if direction[0] != 'lll':
+                            write_questions(school,quest_text[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType,lang,used_for,source,'4',direction[ind])
+                        else:
+                            write_questions(school,quest_text[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType,lang,used_for,source,'4')
+                
+                    else:
+                        if direction[0] != 'lll':
+                            write_questions(school,quest_text[ind],optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],None,right_answer[ind],quest_category[ind],None,sectionType,lang,used_for,source,'5',direction[ind])
+                        else:
+                            write_questions(school,quest_text[ind],optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],None,right_answer[ind],quest_category[ind],None,sectionType,lang,used_for,source,'5')
 
+
+                except Exception as e:
+                    print(str(e))
+                    if str(optD[ind]).lower() == 'noopt':
+                        print('only 3 options')
+                        if direction[0] != 'lll':
+                            write_questions(school,quest_text[ind],optA[ind],optB[ind],optC[ind],None,None,None,right_answer[ind],quest_category[ind],None,sectionType,lang,used_for,source,'3',direction[ind])
+                        else:
+                            write_questions(school,quest_text[ind],optA[ind],optB[ind],optC[ind],None,None,None,right_answer[ind],quest_category[ind],None,sectionType,lang,used_for,source,'3')
+
+                    else:
+                        if direction[ind] != 'lll':
+                            write_questions(school,quest_text[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType,lang,used_for,source,'4',direction[ind])
+                        else:
+                            write_questions(school,quest_text[ind],optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType,lang,used_for,source,'4')
+
+                        print('most 4 options')
 
 @shared_task
 def\
@@ -693,11 +725,15 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
 
         #if question != None:
         #    new_questions.text = str(question)
+        print(direction,question)
         if direction and question is None:
-            print('%s direction' %direction)
             new_questions.text = str(direction)
         elif question != None and direction:
             new_questions.text = str(direction) +'\n'+str(question)
+        elif direction == None or direction == '' or direction == 'lll':
+            new_questions.text = str(question)
+        elif question and direction == False:
+            new_questions.text = str(question)
 
         new_questions.topic_category = str(questCategory)
         if image:

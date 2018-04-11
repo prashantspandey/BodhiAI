@@ -220,8 +220,8 @@ def home(request):
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
             
             sheet_links =\
-            ['english_all.csv']
-            #sheet_link2=['7english.csv','8english.csv','9english.csv','10english.csv']
+            ['adjectives.csv','antonym.csv','voice2.csv','voice.csv','articles.csv','tense.csv','conjunction.csv','idioms.csv','narration.csv','non_finites.csv','noun.csv','one_word.csv','phrasal_verbs.csv','preposition.csv','pronoun.csv','subject_verb.csv','synonym.csv','tense.csv','time_tense.csv','verb.csv','verb2.csv','verb_with_nouns.csv']
+            #sheet_links=['articles.csv']
             #sheet_link3 =\
             #['1gk.csv','2gk.csv','3gk.csv','4gk.csv','5gk.csv','7gk.csv','8gk.csv','9gk.csv','10gk.csv']
             #sheet_link3 =\
@@ -234,8 +234,9 @@ def home(request):
             #    i.save()
 
             #sheet_link5 = ['33t2.csv','34t2.csv']
+            delete_sectionQuestions('SIEL')
             adding_quest = add_to_database_questions_text.delay(sheet_links,'SIEL',production =\
-                                      True)
+                                      False)
             #add_to_database_questions(sheet_link3,'Colonel Defence\
             #                          Academy',onlyImage=True,production =\
             #                          True)
@@ -255,7 +256,6 @@ def home(request):
             
             #questions = SSCquestions.objects.filter(section_category = 'GroupX-English')
             #print(len(questions))
-            #delete_sectionQuestions('GroupX-English')
             return HttpResponse("Done")
 
         if user.groups.filter(name='Students').exists():
@@ -2029,8 +2029,9 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                     write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],direction[ind],fouroptions='3')
 
 
-def delete_sectionQuestions(section):
-    questions = SSCquestions.objects.filter(section_category = section)
+def delete_sectionQuestions(section,school):
+    questions = SSCquestions.objects.filter(section_category =
+                                            section,school=school)
     print(len(questions))
     for i in questions:
         i.delete()
