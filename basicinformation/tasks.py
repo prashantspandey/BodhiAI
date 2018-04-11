@@ -782,13 +782,17 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
 
 
 @shared_task
-def delete_sectionQuestions(section,school):
-    questions = SSCquestions.objects.filter(section_category =
-                                            section,school__name=school)
-    print(len(questions))
-    for i in questions:
-        print('Deleting %s' %i.id)
-        i.delete()
+def delete_sectionQuestions(section,school,topic = None):
+    if topic:
+        for tp in topic:
+            questions = SSCquestions.objects.filter(section_category =
+                                                section,school__name=school,topic =
+                                               tp)
+            print(len(questions))
+            for i in questions:
+                print('Deleting %s' %i.id)
+                i.delete()
+
 
 
 

@@ -2176,22 +2176,22 @@ class Studs:
                 elif i == '2.9':
                     namedarr.append('Non-Finites')
                     timing.append(j)
-                elif i == '2.10':
+                elif i == '3.1':
                     namedarr.append('Narration')
                     timing.append(j)
-                elif i == '2.11':
+                elif i == '3.2':
                     namedarr.append('Preposition')
                     timing.append(j)
-                elif i == '2.12':
+                elif i == '3.3':
                     namedarr.append('Conjunction')
                     timing.append(j)
-                elif i == '2.13':
+                elif i == '3.4':
                     namedarr.append('Subject verb agreement')
                     timing.append(j)
-                elif i == '2.14':
+                elif i == '3.5':
                     namedarr.append('Common Errors')
                     timing.append(j)
-                elif i == '2.15':
+                elif i == '3.6':
                     namedarr.append('Superfluous Expressions & Slang')
                     timing.append(j)
 
@@ -2978,17 +2978,17 @@ class Studs:
                     namedarr.append('Voice')
                 elif i == '2.9':
                     namedarr.append('Non-Finites')
-                elif i == '2.10':
+                elif i == '3.1':
                     namedarr.append('Narration')
-                elif i == '2.11':
+                elif i == '3.2':
                     namedarr.append('Preposition')
-                elif i == '2.12':
+                elif i == '3.3':
                     namedarr.append('Conjunction')
-                elif i == '2.13':
+                elif i == '3.4':
                     namedarr.append('Subject verb agreement')
-                elif i == '2.14':
+                elif i == '3.5':
                     namedarr.append('Common Errors')
-                elif i == '2.15':
+                elif i == '3.6':
                     namedarr.append('Superfluous Expressions & Slang')
 
 
@@ -3547,17 +3547,17 @@ class Studs:
                 return 'Voice'
             elif i == '2.9':
                 return 'Non-Finites'
-            elif i == '2.10':
+            elif i == '3.1':
                 return 'Narration'
-            elif i == '2.11':
+            elif i == '3.2':
                 return 'Preposition'
-            elif i == '2.12':
+            elif i == '3.3':
                 return 'Conjunction'
-            elif i == '2.13':
+            elif i == '3.4':
                 return 'Subject verb agreement'
-            elif i == '2.14':
+            elif i == '3.5':
                 return 'Common Errors'
-            elif i == '2.15':
+            elif i == '3.6':
                 return 'Superfluous Expressions & Slang'
 
 
@@ -5488,22 +5488,22 @@ class Teach:
                 elif i == '2.9':
                     names.append('Non-Finites')
                     numbers.append(i)
-                elif i == '2.10':
+                elif i == '3.1':
                     names.append('Narration')
                     numbers.append(i)
-                elif i == '2.11':
+                elif i == '3.2':
                     names.append('Preposition')
                     numbers.append(i)
-                elif i == '2.12':
+                elif i == '3.3':
                     names.append('Conjunction')
                     numbers.append(i)
-                elif i == '2.13':
+                elif i == '3.4':
                     names.append('Subject verb agreement')
                     numbers.append(i)
-                elif i == '2.14':
+                elif i == '3.5':
                     names.append('Common Errors')
                     numbers.append(i)
-                elif i == '2.15':
+                elif i == '3.6':
                     names.append('Superfluous Expressions & Slang')
                     numbers.append(i)
 
@@ -6314,22 +6314,22 @@ class Teach:
                 elif i == '2.9':
                     names.append('Non-Finites')
                     numbers.append(j)
-                elif i == '2.10':
+                elif i == '3.1':
                     names.append('Narration')
                     numbers.append(j)
-                elif i == '2.11':
+                elif i == '3.2':
                     names.append('Preposition')
                     numbers.append(j)
-                elif i == '2.12':
+                elif i == '3.3':
                     names.append('Conjunction')
                     numbers.append(j)
-                elif i == '2.13':
+                elif i == '3.4':
                     names.append('Subject verb agreement')
                     numbers.append(j)
-                elif i == '2.14':
+                elif i == '3.5':
                     names.append('Common Errors')
                     numbers.append(j)
-                elif i == '2.15':
+                elif i == '3.6':
                     names.append('Superfluous Expressions & Slang')
                     numbers.append(j)
 
@@ -7108,17 +7108,17 @@ class Teach:
                 elif i == 'Non-Finites':
                     numbers.append('2.9')
                 elif i == 'Narration':
-                    numbers.append('2.10')
+                    numbers.append('3.1')
                 elif i == 'Preposition':
-                    numbers.append('2.11')
+                    numbers.append('3.2')
                 elif i == 'Conjunction':
-                    numbers.append('2.12')
+                    numbers.append('3.3')
                 elif i == 'Subject verb agreement':
-                    numbers.append('2.13')
+                    numbers.append('3.4')
                 elif i == 'Common Errors':
-                    numbers.append('2.14')
+                    numbers.append('3.5')
                 elif i == 'Superfluous Expressions & Slang':
-                    numbers.append('2.15')
+                    numbers.append('3.6')
 
 
             return numbers
