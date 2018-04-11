@@ -234,7 +234,7 @@ def home(request):
             #    i.save()
 
             #sheet_link5 = ['33t2.csv','34t2.csv']
-            delete_sectionQuestions('English','SIEL')
+            d_q =  delete_sectionQuestions.delay('English','SIEL')
             adding_quest = add_to_database_questions_text.delay(sheet_links,'SIEL',production =\
                                       False)
             #add_to_database_questions(sheet_link3,'Colonel Defence\
@@ -2028,13 +2028,6 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                 else:
                     write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],direction[ind],fouroptions='3')
 
-
-def delete_sectionQuestions(section,school):
-    questions = SSCquestions.objects.filter(section_category =
-                                            section,school__name=school)
-    print(len(questions))
-    for i in questions:
-        i.delete()
 
 
 def add_student_subject(institute,subject,teach,allTeacers=False):
