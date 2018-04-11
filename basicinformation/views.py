@@ -2031,7 +2031,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
 
 def delete_sectionQuestions(section,school):
     questions = SSCquestions.objects.filter(section_category =
-                                            section,school_name=school)
+                                            section,school__name=school)
     print(len(questions))
     for i in questions:
         i.delete()
