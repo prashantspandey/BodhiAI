@@ -234,9 +234,9 @@ def home(request):
             #    i.save()
 
             #sheet_link5 = ['33t2.csv','34t2.csv']
-            d_q =  delete_sectionQuestions.delay('English','SIEL')
+            #d_q =  delete_sectionQuestions.delay('English','SIEL')
             adding_quest = add_to_database_questions_text.delay(sheet_links,'SIEL',production =\
-                                      False)
+                                      True)
             #add_to_database_questions(sheet_link3,'Colonel Defence\
             #                          Academy',onlyImage=True,production =\
             #                          True)
