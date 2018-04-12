@@ -2,6 +2,8 @@ from django.contrib.auth.models import User,Group
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from basicinformation.models import *
+from basicinformation.tasks import *
+
 
 class LoginForm(forms.ModelForm):
     password = forms.CharField(max_length=50, widget=forms.PasswordInput)
@@ -56,7 +58,7 @@ class RegisterForm(UserCreationForm):
                 subgi.save()
                 subenglish.save()
                 subgk.save()
-                mail_at = signup_mail.delay(stu.email,stu.name)
+                mail_at = signup_mail.delay(user.email,stu.name)
             elif str(course.lower()) == 'jito':
                 if str(course.lower()) == 'jito':
                     return user

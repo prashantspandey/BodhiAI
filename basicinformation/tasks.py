@@ -506,21 +506,32 @@ def publish_NormalTest(user_id,testid,date,time):
     myTest.save()
 
 @shared_task
-def signup_mail(mail,name):
+def signup_mail(mail,name,institute = None):
     subject = 'Welcome to BodhiAI'
     from_email = 'prashantbodhi@gmail.com'
-    to_mail = mail
-    contact_message = '''
-    Hello %s ! Welcome to BodhiAI,
-    the best score improvement platform for students.
-    I am Prashant from BodhiAI, and I hope 
-    that you have a fantastic time here. 
-    If you have any feedback, just drop an email to me 
-    or phone me at: +91-7003973879.
-    Thanks!!
-    '''%(name)
+    to_email = mail
+    if institute != None:
+        contact_message = '''
+        Hello %s ! Welcome to %s  app- powered By:BodhiAI,
+        the best Score Improvement platform for students.
+        I am Prashant from BodhiAI, and I hope 
+        that you have a fantastic time here. 
+        If you have any feedback, just drop an email to me 
+        or phone me at: +91-7003973879.
+        Thanks!!
+        '''%(name,institute)
+    else:
+        contact_message = '''
+        Hello %s ! Welcome to BodhiAI,
+        the best score improvement platform for students.
+        I am Prashant from BodhiAI, and I hope 
+        that you have a fantastic time here. 
+        If you have any feedback, just drop an email to me 
+        or phone me at: +91-7003973879.
+        Thanks!!
+        '''%(name)
     send_mail(subject,contact_message,from_email,[to_email],fail_silently
-                        = True)
+                        = False)
 
 @shared_task
 def student_score_email(subject,score,name,email,time,fatherName,phone,address):

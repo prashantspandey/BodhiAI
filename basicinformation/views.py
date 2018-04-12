@@ -160,6 +160,8 @@ def studentInformation(request):
                         confirmation.name = user.first_name
                         confirmation.phone = phone
                         confirmation.save()
+                        mail_at =\
+                        signup_mail.delay(user.email,user.first_name,institute='SIEL')
                     else:
                         return HttpResponseRedirect(reverse('basic:home'))
                     logout(request)

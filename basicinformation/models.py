@@ -7,7 +7,8 @@ class School(models.Model):
     category_choices = (('School','School'),('SSC','SSC'))
     name = models.CharField(max_length=200)
     pincode = models.IntegerField()
-    category = models.CharField(max_length = 10, choices = category_choices)
+    category = models.CharField(max_length = 10, choices =
+                                category_choices,null=True,blank=True)
     logo = models.URLField(max_length = 500,null=True,blank=True)
     
     def __str__(self):
