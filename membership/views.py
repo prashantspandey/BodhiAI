@@ -65,6 +65,16 @@ def user_register(request):
                                                                             )
                     login(request, new_user)
                     return HttpResponseRedirect(reverse('basic:jitoHome'))
+                elif str(course).lower() == 'siel':
+                    print('I am here in siel')
+                    new_user = form.save(course = course)
+
+                    new_user = authenticate(username=form.cleaned_data['username'],
+                                                                            password=form.cleaned_data['password1'],
+                                                                            )
+                    login(request, new_user)
+                    return HttpResponseRedirect(reverse('basic:studentInfo'))
+
                 else:
                     print('I am here')
                     new_user = form.save()

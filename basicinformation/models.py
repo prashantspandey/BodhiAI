@@ -54,17 +54,6 @@ class Subject(models.Model):
     student = models.ForeignKey(Student)
     teacher = models.ForeignKey(Teacher,blank=True,null=True)
     name = models.CharField(max_length=200)
-    #test1 = models.IntegerField(null=True, blank=True)
-    #test2 = models.IntegerField(null=True, blank=True)
-    #test3 = models.IntegerField(null=True, blank=True)
-    #hy = models.IntegerField(null=True, blank=True)
-    #test4 = models.IntegerField(null=True, blank=True)
-    #lab1 = models.IntegerField(null=True, blank=True)
-    #lab2 = models.IntegerField(null=True, blank=True)
-    #lab3 = models.IntegerField(null=True, blank=True)
-    #finalexam = models.IntegerField(null=True, blank=True)
-    #predicted_hy = models.IntegerField(null=True,blank= True)
-    #prdicted_final = models.IntegerField(null= True, blank=True)
 
     def __str__(self):
         return \
@@ -84,6 +73,34 @@ class StudentCustomProfile(models.Model):
      
     def __str__(self):
         return str(self.fullName)+' ' + str(self.fatherName)
+
+class StudentConfirmation(models.Model):
+    name = models.CharField(max_length = 200)
+    student = models.OneToOneField(User,null=True,blank=True)
+    teacher = models.OneToOneField(Teacher,null=True,blank=True)
+    batch = models.ForeignKey(klass,null=True,blank=True)
+    school = models.ForeignKey(School)
+    phone = models.BigIntegerField(null=True, blank=True,
+                            validators=[MaxValueValidator(9999999999),MinValueValidator(1000000000)])
+    confirm = models.NullBooleanField()
+
+    def __str__(self):
+        return str(self.student) + str(self.school.name) 
+
+
+
+class StudentProfile(models.Model):
+    student = models.OneToOneField(User,null=True,blank=True)
+    phone = models.BigIntegerField(null=True, blank=True,
+                            validators=[MaxValueValidator(9999999999),MinValueValidator(1000000000)])
+    school = models.ForeignKey(School,null=True,blank=True)
+    batch = models.ForeignKey(klass,null=True,blank=True)
+    code = models.CharField(max_length = 100)
+
+     
+    def __str__(self):
+        return str(self.student.first_name)
+
 
 class SchoolManagement(models.Model):
     management = models.OneToOneField(User)

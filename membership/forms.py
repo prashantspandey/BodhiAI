@@ -67,6 +67,8 @@ class RegisterForm(UserCreationForm):
                     return user
                 else:
                     print('Course is  none')
+            elif str(course).lower() == 'siel':
+                return user
             else:
                 print('Indeed i am none')
                 school = School.objects.get(name='BodhiAI')
@@ -108,6 +110,15 @@ class StudentInformationForm(forms.ModelForm):
                 'kl': 'Class',
                 'fatherName':'Father\'s Name',
                 'fullName':'Full Name',
+        }
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = StudentProfile
+        fields = ['phone','code']
+        labels = {
+                'phone':'Phone',
+                'code':'Code',
         }
 
 

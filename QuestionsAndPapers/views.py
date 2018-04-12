@@ -98,7 +98,8 @@ def create_test(request):
         splitChap = which_chap.split(",")[0]
         splitClass = which_chap.split(",")[1]
         splitSection = which_chap.split(",")[2]
-        klasses = klass.objects.filter(name=splitClass)
+        print(which_chap)
+        #klasses = klass.objects.filter(name=splitClass)
         
         if os.path.exists(quest_file_name):
             with open(quest_file_name,'rb') as fi:

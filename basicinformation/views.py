@@ -1,5 +1,9 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse, redirect
 import os.path
+from django.contrib.auth import (
+                                logout,
+                                 )
+
 import pickle
 from django.http import Http404, HttpResponse
 from django.conf import settings
@@ -29,7 +33,7 @@ from .tasks import *
 from celery.result import AsyncResult
 from django.core import serializers
 from time import sleep
-from membership.forms import StudentInformationForm
+from membership.forms import StudentInformationForm,StudentForm
 
 
 def jitoData(request):
@@ -129,6 +133,90 @@ def jitoData(request):
                 form = StudentInformationForm()
                 context = {'form':form}
                 return render(request,'basicinformation/student_information.html',context)
+
+
+def studentInformation(request):
+    user = request.user
+    if user.is_authenticated:
+        try:
+            student_information = StudentProfile.objects.get(student = user)
+            return HttpResponse('hello')
+        except:
+            if request.POST:
+                form = StudentForm(request.POST or None)
+                if form.is_valid():
+                    phone = form.cleaned_data['phone']
+                    code = form.cleaned_data['code']
+                    student_info = StudentProfile()
+                    student_info.phone = phone
+                    student_info.student = user
+                    student_info.code = code
+                    student_info.save()
+                    confirmation = StudentConfirmation()
+                    confirmation.student = user
+                    if code.lower() == "siel":
+                        school = School.objects.get(name = "SIEL")
+                        confirmation.school = school
+                        confirmation.name = user.first_name
+                        confirmation.phone = phone
+                        confirmation.save()
+                    else:
+                        return HttpResponseRedirect(reverse('basic:home'))
+                    logout(request)
+
+                    return\
+                render(request,'basicinformation/confirmation_student.html')
+                else:
+                    context = {'form':form}
+                    return\
+                render(request,'basicinformation/student_info.html',context)
+            else:
+                form = StudentForm()
+                context = {'form':form}
+                return render(request,'basicinformation/student_info.html',context)
+
+    else:
+        return HttpResponseRedirect(reverse('basic:home'))
+
+def teacher_student_confirmation(request):
+    user = request.user
+    if user.is_authenticated:
+        me = Teach(user)
+        confirmations = StudentConfirmation.objects.filter(school =
+                                                           me.profile.school,confirm=None)
+        batches = klass.objects.filter(school=me.profile.school)
+        context = {'confirmations':confirmations,'batches':batches}
+        return\
+    render(request,'basicinformation/confirmation_teacher.html',context)
+    else:
+        return HttpResponseRedirect(reverse('basic:home'))
+def teacher_confirmation(request):
+    if 'batchChoice' in request.POST:
+        me = Teach(request.user)
+        batch_id = request.POST['batchChoice']
+        confirmation_id = request.POST['confirmationId']
+        batch = klass.objects.get(id = batch_id)
+        confirmation = StudentConfirmation.objects.get(id = confirmation_id)
+        confirmation.batch = batch
+        #confirmation.teacher = me.profile
+        confirmation.confirm = True
+        confirmation.save()
+        try:
+            stud = Student(studentuser = confirmation.student,klass = batch,name =
+                           confirmation.student.first_name,school =
+                           confirmation.school)
+            stud.save()
+        except:
+            return HttpResponse('Either student is already registered or there\
+                                was some error.')
+        subenglish = Subject(name='English',student = stud,teacher =
+                             me.profile)
+        subenglish.save()
+        return HttpResponseRedirect(reverse('basic:addStudents'))
+    else:
+        return HttpResponse('Please choose a batch for student')
+
+
 @ensure_csrf_cookie
 def home(request):
     user = request.user

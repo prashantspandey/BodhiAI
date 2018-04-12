@@ -80,7 +80,8 @@
 	 <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" role="button" aria-haspopup ="true" aria-expanded="false"><strong>Profile</strong> 
 		 <span class="caret"></span></a>
 		    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-			    <a  class='dropdown-item'  href="{% url 'membership:changePassword' %}"><strong>Change Password</strong></a>
+			    <a  class='dropdown-item'  href="{% url 'membership:changePassword' %}"><strong>Change Password</strong></a><br>
+			    <a  class='dropdown-item'  href="{% url 'basic:addStudents' %}"><strong>Add Students</strong></a>
 		    </div>
  </li>
 	               	{%if user.student %}

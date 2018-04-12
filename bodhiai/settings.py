@@ -25,8 +25,7 @@ SECRET_KEY = '$x7qlgtufkr7v#zzrn)9zq_trt+juze+86674$-&^ia5dj=%un'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS =\
-        ['https://bodhiai.herokuapp.com/','https://bodhiai.herokuapp.com','https://bodhiai.herokuapp.com/bodhi','bodhiai.herokuapp.com','bodhiai.in','www.bodhiai.in','http://bodhiai.in','bodhiai.in/','https://bodhiai.in','https://www.bodhiai.in']
+ALLOWED_HOSTS = []
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'prashantbodhi@gmail.com'
@@ -34,6 +33,8 @@ EMAIL_HOST_PASSWORD = 'dnpandey'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -51,7 +52,6 @@ INSTALLED_APPS = [
     'Private_Messages'
 ]
 
-MATHJAX_ENABLED=True
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -60,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+   
 ]
 
 ROOT_URLCONF = 'bodhiai.urls'
@@ -90,10 +90,10 @@ WSGI_APPLICATION = 'bodhiai.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd8pul6emrt8f43',
-        'HOST':'ec2-107-21-108-204.compute-1.amazonaws.com',        
-        'USER':'ekbdxvoiwyyfyz',
-        'PASSWORD':'f6f07d23ae886e4a7395b1e345b7561653caa7dc2849dced51f8069359325a3a',
+        'NAME': 'bodhieducation3',
+        'HOST':'localhost',        
+        'USER':'postgres',
+        'PASSWORD':'dnpandey',
         
     }
 }
@@ -106,9 +106,9 @@ AUTH_PASSWORD_VALIDATORS = [
 #    {
 #        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
 #    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
+#    {
+#        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+#    },
 #    {
 #        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
 #    },
@@ -135,11 +135,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-#STATIC_URL = '/static/'
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
