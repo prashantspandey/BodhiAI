@@ -234,11 +234,11 @@ def home(request):
             #    i.save()
 
             #sheet_link5 = ['33t2.csv','34t2.csv']
-            section_list = ['2.10','2.11','2.12','2.13']
-            d_q =  delete_sectionQuestions.delay('English','SIEL',topic =
-                                                 section_list)
-            #adding_quest = add_to_database_questions_text.delay(sheet_links,'SIEL',production =\
-            #                          True)
+            #section_list = ['2.10','2.11','2.12','2.13']
+            #d_q =  delete_sectionQuestions.delay('English','SIEL',topic =
+            #                                     section_list)
+            adding_quest = add_to_database_questions_text.delay(sheet_links,'SIEL',production =\
+                                      True)
             #add_to_database_questions(sheet_link3,'Colonel Defence\
             #                          Academy',onlyImage=True,production =\
             #                          True)
