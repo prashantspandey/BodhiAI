@@ -786,7 +786,7 @@ def delete_sectionQuestions(section,school,topic = None):
     if topic:
         for tp in topic:
             questions = SSCquestions.objects.filter(section_category =
-                                                section,school__name=school,topic =
+                                                section,school__name=school,topic_category =
                                                tp)
             print(len(questions))
             for i in questions:
