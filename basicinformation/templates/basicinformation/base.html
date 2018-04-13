@@ -81,7 +81,7 @@
 		 <span class="caret"></span></a>
 		    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 			    <a  class='dropdown-item'  href="{% url 'membership:changePassword' %}"><strong>Change Password</strong></a><br>
-			    <a  class='dropdown-item'  href="{% url 'basic:addStudents' %}"><strong>Add Students</strong></a>
+			    {%if user.teacher %}			    <a  class='dropdown-item'  href="{% url 'basic:addStudents' %}"><strong>Add Students</strong></a>{%endif%}
 		    </div>
  </li>
 	               	{%if user.student %}

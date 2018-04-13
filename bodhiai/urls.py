@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^membership/', include('membership.urls')),
     url(r'^questions/',include('QuestionsAndPapers.urls')),
     url(r'^pMessages/',include('Private_Messages.urls')),
+    url(r'^api/basicinformation/',include('basicinformation.api.urls',namespace='basic-api')),
     url(r'^admin/', admin.site.urls),
     url(r'^interested/', views.interested_people,name='InterestedPeople'),
 ]

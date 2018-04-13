@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'django_mathjax',
+    'rest_framework',
     'basicinformation',
     'membership',
     'QuestionsAndPapers',
