@@ -327,8 +327,8 @@ def home(request):
             #section_list = ['3.2']
             #d_q =  delete_sectionQuestions.delay('English','SIEL',topic =
             #                                     section_list)
-            adding_quest = add_to_database_questions_text.delay(sheet_links,'SIEL',production =\
-                                      True)
+            #adding_quest = add_to_database_questions_text.delay(sheet_links,'SIEL',production =\
+            #                          True)
             #add_to_database_questions(sheet_link3,'Colonel Defence\
             #                          Academy',onlyImage=True,production =\
             #                          True)
