@@ -737,7 +737,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         
             for ind in range(len(optA)):
                 if onlyImage:
-                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(lang[ind]),used_for[ind],source[ind],direction=direction[ind],fouroptions='4' )
+                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,quest_category[ind],str(lang[ind]),used_for[ind],source[ind],direction=direction[ind],fouroptions='4' )
                 else:
                     write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],direction[ind],fouroptions='3')
 
