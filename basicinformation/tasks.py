@@ -665,6 +665,89 @@ def add_to_database_questions_text(sheet_link,school,production=False,explanatio
 
                         print('most 4 options')
 
+
+
+@shared_task
+def add_to_database_questions(sheet_link,school,production=False,onlyImage =
+                              False,fiveOptions=False,explanation_quest=False):
+        for sh in sheet_link:
+            if production:
+                df=\
+                pd.read_csv('/app/question_data/swami_reasoning/'+sh,error_bad_lines=False )
+            else:
+                df=\
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swami_reasoning/'+sh,error_bad_lines=False )
+
+            quests = []
+            optA = []
+            optB = []
+            optC = []
+            optD = []
+            optE = []
+            right_answer = []
+            quest_category = []
+            temp = []
+            used_for = 
+            lang = df['lang']
+            source = 'Rakesh Yadav'
+            if onlyImage:
+                images = df['QuestionLink']
+            else:
+                quest_text = df['Question']
+            optA = df['optionA']
+            optB = df['optionB']
+            optC = df['optionC']
+            optD = df['optionD']
+            #sectionType = df['category']
+            direction = df['Direction']
+
+            if fiveOptions:
+                optE = df['optionE'] 
+            if explanation_quest:
+                exp = df['Explanation']
+            quest_category = df['category']
+            for i in df['correct']:
+                ichanged = str(i).replace(u'\\xa0',u' ')
+                ichanged2 = ichanged.replace('Answer',' ')
+                ichanged3 = ichanged2.replace('Explanation',' ')
+
+                if 'a'  in ichanged.lower() or '1' in ichanged.lower():
+                    right_answer.append(1)
+                elif 'b'  in ichanged.lower() or '2' in ichanged.lower():
+                    right_answer.append(2)
+                elif 'c'  in ichanged.lower() or '3' in ichanged.lower():
+                    right_answer.append(3)
+                elif 'd'  in ichanged.lower() or '4' in ichanged.lower():
+                    right_answer.append(4)
+                elif 'e'  in ichanged.lower() or '5' in ichanged.lower():
+                    right_answer.append(5)
+            if onlyImage:
+                print('%s num images' %len(images))
+            else:
+                print('%s num quest text' %len(quest_text))
+            print('%s optA' %len(optA))
+            print('%s optB' %len(optB))
+            print('%s optC' %len(optC))
+            print('%s optD' %len(optD))
+            print('%s correct answers' %len(right_answer))
+            print('%s number of categories' %len(quest_category))
+            #print('%s languages ' %len(lang))
+            print('%s sources' %len(source))
+            print('%s sheet ' %sh)
+        
+            for ind in range(len(optA)):
+                if onlyImage:
+                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(lang[ind]),used_for[ind],source[ind],direction=direction[ind],fouroptions='4' )
+                else:
+                    write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],direction[ind],fouroptions='3')
+
+
+
+
+
+
+
+
 @shared_task
 def\
 write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questCategory,exp,sectionType,lang,used_for,source,fouroptions,direction=False,replace=False):
