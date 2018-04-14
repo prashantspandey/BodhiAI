@@ -687,9 +687,9 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
             right_answer = []
             quest_category = []
             temp = []
-            used_for = 'sscReasoning'
-            lang = 'Bi'
-            source = 'Rakesh Yadav'
+            used_for = df['userFor']
+            lang = df['lang']
+            source = df['source']
             if onlyImage:
                 images = df['QuestionLink']
             else:
@@ -698,7 +698,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
             optB = df['optB']
             optC = df['optC']
             optD = df['optD']
-            #sectionType = df['category']
+            sectionType = df['sectionType']
             direction = df['Direction']
 
             if fiveOptions:
@@ -737,7 +737,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         
             for ind in range(len(optA)):
                 if onlyImage:
-                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,quest_category[ind],str(lang[ind]),used_for[ind],source[ind],direction=direction[ind],fouroptions='4' )
+                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(lang[ind]),used_for[ind],source[ind],direction=direction[ind],fouroptions='4' )
                 else:
                     write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],direction[ind],fouroptions='3')
 
