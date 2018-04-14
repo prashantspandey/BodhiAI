@@ -311,7 +311,7 @@ def home(request):
             
             sheet_links =\
             ['chapter5.csv']
-            replace_quest_image(sheet_links,production=True)
+            #replace_quest_image(sheet_links,production=True)
             #sheet_links=['articles.csv']
             #sheet_link3 =\
             #['1gk.csv','2gk.csv','3gk.csv','4gk.csv','5gk.csv','7gk.csv','8gk.csv','9gk.csv','10gk.csv']
