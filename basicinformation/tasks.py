@@ -687,7 +687,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
             right_answer = []
             quest_category = []
             temp = []
-            used_for = df['userFor']
+            used_for = df['usedFor']
             lang = df['lang']
             source = df['source']
             if onlyImage:
