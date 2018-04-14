@@ -688,7 +688,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
             quest_category = []
             temp = []
             used_for = 'sscReasoning'
-            lang = df['lang']
+            lang = 'Bi'
             source = 'Rakesh Yadav'
             if onlyImage:
                 images = df['QuestionLink']
