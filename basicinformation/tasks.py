@@ -694,10 +694,10 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                 images = df['QuestionLink']
             else:
                 quest_text = df['Question']
-            optA = df['optionA']
-            optB = df['optionB']
-            optC = df['optionC']
-            optD = df['optionD']
+            optA = df['optA']
+            optB = df['optB']
+            optC = df['optC']
+            optD = df['optD']
             #sectionType = df['category']
             direction = df['Direction']
 
