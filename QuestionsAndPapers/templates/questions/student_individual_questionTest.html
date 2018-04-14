@@ -14,11 +14,11 @@
 
 	 var pr
 	$('.numberQuestion').click(function(){
-         $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
+         $(eval("'#'+pr")).removeClass("btn btn-primary").addClass("btn btn-default");
 		quest_pos = $(this).attr('value');
 			var  howmany = {{how_many}}	 
 			 teid = {{te_id}}
-			 $(this).removeClass("btn btn-default").addClass("btn btn-success");
+			 $(this).removeClass("btn btn-default").addClass("btn btn-primary");
 		$('#showIndividualQuestions').removeClass("hidden");
 	$('#showIndividualQuestions').html('').load('{% url 'QuestionsAndPapers:conductTest' %}?IndividualTestQuestPos='+encodeURIComponent(quest_pos)+','+teid);
 

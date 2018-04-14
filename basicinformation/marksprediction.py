@@ -2311,6 +2311,10 @@ class Studs:
                 elif i == '22.1':
                     namedarr.append('Calender Test')
                     timing.append(j)
+                elif i == '28.1':
+                    namedarr.append('Symbols & Notations')
+                    timing.append(j)
+
 
 
 
@@ -3069,6 +3073,9 @@ class Studs:
                     namedarr.append('Seating Arrangement')
                 elif i == '22.1':
                     namedarr.append('Calender Test')
+                elif i == '28.1':
+                    namedarr.append('Symbols & Notations')
+
 
 
 
@@ -3637,6 +3644,8 @@ class Studs:
                 return 'Seating Arrangement'
             elif i == '22.1':
                 return 'Calender Test'
+            elif i == '28.1':
+                return 'Symbols & Notations'
 
 
 
@@ -5623,6 +5632,10 @@ class Teach:
                 elif i == '22.1':
                     names.append('Calender Test')
                     numbers.append(i)
+                elif i == '28.1':
+                    names.append('Symbols & Notations')
+                    numbers.append(i)
+
 
 
 
@@ -6450,6 +6463,10 @@ class Teach:
                 elif i == '22.1':
                     names.append('Calender Test')
                     numbers.append(j)
+                elif i == '28.1':
+                    names.append('Symbols & Notations')
+                    numbers.append(j)
+
 
 
 
@@ -7194,10 +7211,13 @@ class Teach:
                     numbers.append('18.1')
                 elif i == 'Blood Relation':
                     numbers.append('19.1')
-                elif i == '20.1':
-                    numbers.append('Seating Arrangement')
-                elif i == '22.1':
-                    numbers.append('Calender Test')
+                elif i == 'Seating Arrangement':
+                    numbers.append('20.1')
+                elif i == 'Calender Test':
+                    numbers.append('22.1')
+                elif i == 'Symbols & Notations':
+                    numbers.append('28.1')
+
 
 
 

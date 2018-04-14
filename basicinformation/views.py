@@ -310,7 +310,8 @@ def home(request):
             #sheet_links = ['groupx04math.csv','groupx04physics.csv']
             
             sheet_links =\
-            ['preposition.csv','preposition2.csv']
+            ['maths_class10_replace.csv']
+            replace_quest_image(sheet_links,production=True)
             #sheet_links=['articles.csv']
             #sheet_link3 =\
             #['1gk.csv','2gk.csv','3gk.csv','4gk.csv','5gk.csv','7gk.csv','8gk.csv','9gk.csv','10gk.csv']
@@ -322,7 +323,7 @@ def home(request):
             #for i in questions:
             #    i.max_marks = int(1)
             #    i.save()
-
+            
             #sheet_link5 = ['33t2.csv','34t2.csv']
             #section_list = ['3.2']
             #d_q =  delete_sectionQuestions.delay('English','SIEL',topic =
@@ -1789,26 +1790,45 @@ def trial_ai(request):
 
 
 
-def replace_quest_image():
-    image_questions = SSCquestions.objects.all()
-    all_quests = []
-    for i in image_questions:
-        if i.picture != None:
-            all_quests.append(i)
-    for num,i in enumerate(all_quests):
-        if num == 5:
-            break
-        img = Image.open(requests.get(i.picture,stream=True).raw)
-        img = img.convert("RGBA")
-        datas = img.getdata()
-        newData = []
-        for item in datas:
-            if item[0] == 255 and item[1] == 255 and item[2]:
-                newData.append((255,255,255,0))
-            else:
-                newData.append(item)
-                img.putdata(newData)
-        img.show()
+def replace_quest_image(sheet_link,production=False):
+    for sh in sheet_link:
+        if production:
+            df=\
+            pd.read_csv('/app/question_data/jito_IITJEE/'+sh,error_bad_lines=False )
+        else:
+            df=\
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/jito_IITJEE/'+sh,error_bad_lines=False )
+    old_links = df['oldLink']
+    new_links = df['newLink']
+    link_list = list(zip(old_links,new_links))
+
+
+    for old,new in link_list:
+        print('%s old link, %s new link' %(old,new))
+        image_question = SSCquestions.objects.filter(picture = old)
+        print(len(image_question))
+        for i in image_question:
+            i.picture = new
+            i.save()
+    #image_questions = SSCquestions.objects.all()
+    #all_quests = []
+    #for i in image_questions:
+    #    if i.picture != None:
+    #        all_quests.append(i)
+    #for num,i in enumerate(all_quests):
+    #    if num == 5:
+    #        break
+    #    img = Image.open(requests.get(i.picture,stream=True).raw)
+    #    img = img.convert("RGBA")
+    #    datas = img.getdata()
+    #    newData = []
+    #    for item in datas:
+    #        if item[0] == 255 and item[1] == 255 and item[2]:
+    #            newData.append((255,255,255,0))
+    #        else:
+    #            newData.append(item)
+    #            img.putdata(newData)
+    #    img.show()
 
 def real_create_teacher(name,teach,ph = False):
     school = School.objects.get(name=name)

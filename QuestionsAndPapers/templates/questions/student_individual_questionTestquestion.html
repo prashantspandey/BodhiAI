@@ -62,12 +62,10 @@ $.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
 	"questTimer":String(questTimer),
 	   "csrfmiddlewaretoken":'{{ csrf_token }}'}),
 			function(data){
-	console.log(data)
 		quest_pos = parseInt(quest_pos);
 	if (data == quest_pos + 1){
 		$('#answerButton').text('Press the Submit Button to submit the test');
 		$('#answerButton').prop("disabled",true);
-		console.log('equal')
 				}
 	else {	
 
@@ -75,14 +73,13 @@ $.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
 				 quest_pos = quest_pos + 1
 	$('#showIndividualQuestions').html('').load('{% url 'QuestionsAndPapers:conductTest' %}?IndividualTestQuestPos='+encodeURIComponent(quest_pos)+','+teid);
 				 quest_pos = quest_pos + 1
-				          $(eval("'#num'+quest_pos")).removeClass("btn btn-default").addClass("btn btn-success");
+				          $(eval("'#num'+quest_pos")).removeClass("btn btn-default").addClass("btn btn-primary");
 				 quest_pos = quest_pos - 1
 	if (selec == undefined){
-         $(eval("'#num'+quest_pos")).removeClass("btn btn-success").addClass("btn btn-warning");
+         $(eval("'#num'+quest_pos")).removeClass("btn btn-primary").addClass("btn btn-warning");
 	} 
 	else{
-         $(eval("'#num'+quest_pos")).removeClass("btn btn-success").addClass("btn btn-primary");
-				 console.log('questpos',eval("'num'+quest_pos"))
+         $(eval("'#num'+quest_pos")).removeClass("btn btn-primary").addClass("btn btn-success");
 	};
 	};	
 			});
@@ -96,7 +93,6 @@ quidid = {{question.id}}
 testid = {{testid}}
 
 questTimer = $('#qtk').text();
-console.log(questTimer);
 $.post('{%url "QuestionsAndPapers:conductTest"%}',$.param({"choiceid":selec,
 	   "questionid":quidid,
 	   "testid":testid,
