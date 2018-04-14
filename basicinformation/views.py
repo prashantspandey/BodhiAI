@@ -330,7 +330,7 @@ def home(request):
             #                                     section_list)
             #adding_quest = add_to_database_questions_text.delay(sheet_links,'SIEL',production =\
             #                          True)
-            add_to_database_questions(sheet_links,'Swami Reasoning World',onlyImage=True,production =\
+            quest_added = add_to_database_questions.delay(sheet_links,'Swami Reasoning World',onlyImage=True,production =\
                                       True)
 
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
