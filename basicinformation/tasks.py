@@ -687,7 +687,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
             right_answer = []
             quest_category = []
             temp = []
-            used_for = 
+            used_for = 'sscReasoning'
             lang = df['lang']
             source = 'Rakesh Yadav'
             if onlyImage:
