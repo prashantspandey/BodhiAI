@@ -22,6 +22,9 @@ urlpatterns = [
     
     url(r'^one_click_test/$',views.oneclick_test,name='oneClickTest2'),
     url(r'^FinishedResult/(\d+)/$',views.show_finished_test,name='showFinishedTest'),
+    url(r'^smart-test/$',views.student_smart_tests,name='smart_test'),
+    url(r'^smart-test_num/$',views.student_smart_tests2,name='smart_test2'),
+
     #url(r'^EvaluateTest/$',views.evaluate_test,name='EvaluateTest'),
 
     #url(r'^teacher/(?P<grade>\d+)/$', views.current_analysis,

@@ -33,4 +33,4 @@ whitenoise==3.3.0
 xhtml2pdf==0.2b1
 XlsxWriter==1.0.2
 djangorestframework==3.8.2
-
+django-rest-auth==0.9.3

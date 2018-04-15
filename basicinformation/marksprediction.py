@@ -746,6 +746,8 @@ class Studs:
     def __init__(self, user):
         self.profile = user.student
         self.institution = self.profile.school.category
+
+
     def get_dob(self):
         return self.profile.dob
 
@@ -957,8 +959,6 @@ class Studs:
                 if schoolName == 'JITO':
                     all_tests = SSCKlassTest.objects.filter(Q(creator__username =
                                                         schoolName)&Q(klas=klas))
-                    print(all_tests)
-                    print(klas)
                 else:
                     all_tests = SSCKlassTest.objects.filter(creator__username =
                                                         schoolName)

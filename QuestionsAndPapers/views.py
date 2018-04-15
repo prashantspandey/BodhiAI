@@ -677,6 +677,35 @@ def pattern_test(request):
 
 
 
+def student_smart_tests(request):
+    user = request.user
+    if user.is_authenticated:
+        me = Studs(user)
+        subjects = me.my_subjects_names()
+        context = {'subjects':subjects}
+        return\
+    render(request,'questions/student_smart_test1.html',context)
+
+def student_smart_tests2(request):
+    if 'which_sub' in request.GET:
+        subject = request.GET['which_sub']
+        quest_nums = ['10','15','20','25']
+        print('%s which sub' %subject)
+        context = {'subject':subject,'quest_num':quest_nums}
+        return\
+    render(request,'questions/student_smart_test2.html',context)
+    if 'what_number' in request.GET:
+        quest_num = request.GET['what_number']
+        print(quest_num)
+        return HttpResponse(quest_num)
+
+
+
+
+
+
+
+
 
 def see_Test(request):
     user = request.user

@@ -691,6 +691,11 @@ def student_improvement_sub(request):
 
 
 
+
+
+
+# teacher analysis methods
+
 def current_analysis(request, grade):
     user = request.user
     if user.is_authenticated:
