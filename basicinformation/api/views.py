@@ -9,7 +9,9 @@ from QuestionsAndPapers.models import SSCKlassTest
 from basicinformation.marksprediction import *
 import json
 from rest_framework.response import Response
-
+from rest_framework.permissions import (
+    IsAuthenticated
+)
 
 
 
@@ -22,7 +24,7 @@ class StudentListAPIView(generics.ListAPIView):
 # Return all the information about tests that a student has to take to be
 # displayed on the home screen
 
-class FrontPageTestAPIView(generics.ListAPIView):
+class FrontPageTestAPIView(APIView):
     def get(self,request,format=None):
         me = Studs(self.request.user)
         tests = me.toTake_Tests(6)
@@ -39,4 +41,4 @@ class FrontPageTestAPIView(generics.ListAPIView):
             psudo_test =\
             {'topics':j_topics,'subject':j_subject,'test_id':j_testid,'creator':j_creator,'num_questions':j_questions}
             all_tests.append(psudo_test)
-        return Response(psudo_test)
+        return Response(all_tests)
