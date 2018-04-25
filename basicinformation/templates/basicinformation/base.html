@@ -164,8 +164,11 @@
 	<br>
 	{% if not onLogin %}
 <div style='text-align:center;'>
+	{%if user.student.school.name == 'SIEL' or user.teacher.school.name == 'SIEL'%}
+	<img src="{%static 'basicinformation/img/siel_logo.jpg'' %}" alt="Bodhi AI" style='height:10%;'> 
+	{%else%}
 	<img src="{%static 'basicinformation/images/bodhiaitransparent.png' %}" alt="Bodhi AI" style='height:10%;'> 
-
+	{%endif%}
 			  </div>
 			  {%endif%}
 	</div>

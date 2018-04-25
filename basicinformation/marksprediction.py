@@ -2079,7 +2079,7 @@ class Studs:
 
 
 # gets marks of all the tests taken by student to be displayed on home page
-    def test_information(self,subjects):
+    def test_information(self,subjects,all_subjects = None):
         if 'Defence' in subjects:
             multiple_marks = SSCOnlineMarks.objects.filter(test__sub =
                                                                'Defence-MultipleSubjects',student=self.profile)
@@ -2090,10 +2090,12 @@ class Studs:
 
         teacher_name = {}
         subject_marks = {} 
+        if all_subjects:
+            subjects = all_subjects
         for sub in subjects:
-            teacher_name[sub.name] = sub.teacher
+            #teacher_name[sub.name] = sub.teacher
             # get all the marks objects subjectwise
-            marks = SSCOnlineMarks.objects.filter(test__sub = sub.name,student =
+            marks = SSCOnlineMarks.objects.filter(test__sub = sub,student =
                                                  self.profile).order_by('testTaken')
             if len(marks) >0:
                 one_marks = []
@@ -2106,7 +2108,7 @@ class Studs:
                         print(str(e))
                         one_marks.append(float(0))
                     time.append(i.testTaken)
-                    subject_marks[sub.name] = {'marks':one_marks,'time':time}
+                    subject_marks[sub] = {'marks':one_marks,'time':time}
             if len(multiple_marks) > 0:
                 multiple_one_marks = []
                 multiple_time = []
@@ -2117,7 +2119,52 @@ class Studs:
                     multiple_time.append(i.testTaken)
                     subject_marks['SSCMultipleSections'] =\
                     {'marks':multiple_one_marks,'time':multiple_time}
+
         return subject_marks
+
+# same as above but for api view
+    def test_marks_api(self,subjects):
+        if 'Defence' in subjects:
+            multiple_marks = SSCOnlineMarks.objects.filter(test__sub =
+                                                               'Defence-MultipleSubjects',student=self.profile)
+        else:
+
+            multiple_marks = SSCOnlineMarks.objects.filter(test__sub =
+                                                           'SSCMultipleSections',student=self.profile)
+
+        prev_performance = []
+        for sub in subjects:
+            # get all the marks objects subjectwise
+            marks = SSCOnlineMarks.objects.filter(test__sub = sub,student =
+                                                 self.profile).order_by('testTaken')
+            if len(marks) >0:
+                one_marks = []
+                time = []
+                # add date and marks to a dictionary with index subject
+                for i in marks:
+                    subject_marks = {}
+                    try:
+                        one_marks.append(float(i.marks)/float(i.test.max_marks)*100)
+                    except Exception as e:
+                        print(str(e))
+                        one_marks.append(float(0))
+                    time.append(i.testTaken)
+                    subject_marks = {'subject':sub,'marks':one_marks,'time':time}
+                prev_performance.append(subject_marks)
+            if len(multiple_marks) > 0:
+                multiple_one_marks = []
+                multiple_time = []
+                # add date and marks to a dictionary with index
+                # subject(multiple sections)
+                for i in multiple_marks:
+                    multiple_one_marks.append(float(i.marks)/float(i.test.max_marks)*100)
+                    multiple_time.append(i.testTaken)
+                    subject_marks =\
+                            {'subject':sub,'marks':multiple_one_marks,'time':multiple_time}
+                    #prev_performance.append(subject_marks)
+                    
+
+        return prev_performance
 
 
 
