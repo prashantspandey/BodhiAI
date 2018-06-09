@@ -34,7 +34,7 @@ from celery.result import AsyncResult
 from django.core import serializers
 from time import sleep
 from membership.forms import StudentInformationForm,StudentForm
-
+from .tasks import *
 
 def jitoData(request):
     user = request.user
@@ -411,6 +411,8 @@ def home(request):
 
 
             #weak_ar = teacher_home_weak_areas.delay(user.id)
+            #weak_ar = teacher_home_weak_areas(user.id)
+            #print(weak_ar)
             #te_id = weak_ar.task_id
             #res = AsyncResult(te_id)
 
@@ -421,29 +423,38 @@ def home(request):
             #weak_subs = []
             #subs = []
             #try:
-            #    #for sub in subjects:
-            #    #    for i in klasses:
-            #    #        try:
-            #    #            weak_links[i]= \
-            #    #            me.online_problematicAreasNames(user,sub,i)
-            #    #            weak_subs.append(weak_links[i])
-            #    #            weak_klass.append(i)
-            #    #            subs.append(sub)
-            #    #        except Exception as e:
-            #    #            print(str(e))
-            #    #weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
-            #    weak_subs_areas = None
+            #    for sub in subjects:
+            #        for i in klasses:
+            #            try:
+            #                print('%s this is i' %i)
+            #                weak_links[i]= \
+            #                me.online_problematicAreasNames(user,sub,i)
+            #                kk = me.online_problematicAreasNames(user,sub,i)
+            #                weak_subs.append(weak_links[i])
+
+            #                weak_klass.append(i)
+            #                subs.append(sub)
+
+
+            #                #print(weak_links)
+            #                #print(weak_subs)
+            #            except Exception as e:
+            #                print(str(e))
+            #    weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
+            #    #weak_subs_areas = None
             #except:
             #    weak_subs_areas = None
 
-            num_klasses = len(klasses)
+            #num_klasses = len(klasses)
             #weak_subs_areas = list(zip(subs,weak_klass,weak_subs_areas))
-            num_subjects = len(subjects)
+            #print('This is the weak areas %s' %weak_subs_areas)
+            #num_subjects = len(subjects)
+            teacherName = me.profile
             context = {'profile': profile,
-                       'klasses': klasses, 'subjects': subjects, 'num_klasses': num_klasses,
-                       'isTeacher': True, 'num_subjects':
-                       num_subjects,'weak_links':weak_subs_areas_dict}
-            return render(request, 'basicinformation/teacher1.html', context)
+                       'klasses': klasses, 'subjects': subjects,
+                       'isTeacher': True,'teacherName':teacherName}
+            #return render(request, 'basicinformation/teacher1.html', context)
+            return render(request, 'basicinformation/home_overview.html', context)
         else:
 
             return render(request, 'basicinformation/home.html')

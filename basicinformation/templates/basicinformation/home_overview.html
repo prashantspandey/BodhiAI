@@ -1,0 +1,914 @@
+{% extends 'basicinformation/base2.html' %}
+{% load staticfiles %}
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>{%block title%} Teacher Home Page {%endblock%}</title>
+        <meta name="description" content="Dashboard UI Kit">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        {%block scripts %}
+   <script src="{%static 'basicinformation/js1/main.min-v=2.0.js' %}"></script>
+        
+        <script>
+            window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+            ga('create','UA-88739867-2','auto');ga('send','pageview')
+        </script>
+       
+        <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    
+      
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600" rel="stylesheet">
+
+        <!-- Favicon -->
+        <link rel="test-icon" href="{%static 'basicinformation/images1/test.png'  %}">
+        <link rel="shortcut icon" href="{%static 'favicon.ico' %}" type="image/x-icon">
+
+        <!-- Stylesheet -->
+        <link rel="stylesheet" href="{%static 'basicinformation/css1/main.min-v=2.0.css' %}">
+		<script>
+			$(document).ready(function(){
+				$("#loadingdiv").show()	
+				$("#loadingdiv_weak_area").show()	
+				$.ajax({
+					url:"{% url 'basic-api:last_performance_teacher' %}",
+					method:"GET",
+					success: function(data){
+							var numTaken = data.test_takers;
+							var test_published = data.date;
+							var subject = data.subject;
+							var allMarks = data.marks;
+						function getPreviousData(numTaken){
+							var data = [];
+							for (var i=0;i < numTaken; i++){
+								var obj = {x:i,y:allMarks[i]};
+								data.push(obj)
+							}
+							return data
+						};
+						marks_data = getPreviousData(numTaken)
+							var ctx_last_test = document.getElementById("last_test_canvas");
+								var myLineChart = new Chart(ctx_last_test,{
+									type: 'scatter',
+									data:{
+										datasets: [{
+											data: marks_data,
+											label:"Student Marks",
+											borderColor:"#000",
+											pointBorderWidth:4,
+											pointRadius:4,
+										}],
+									},
+									options: {   responsive: true,
+		    								maintainAspectRatio: false,
+		    
+
+    										scales: {
+        									xAxes: [{
+            display: false,
+        }]
+    }
+}
+										
+		    
+
+								});
+						$("#last_test_htag").append(
+							subject + "<br>"+
+							'Test was published on ' + test_published+"<br>"+
+							'Test taken by '+numTaken+ ' students.'
+							)
+					},
+					complete: function(){
+						$("#loadingdiv").hide();
+					},
+					error: function(data){
+						console.log(data);
+
+					}
+				})
+					<!-- for teacher weak areas -->
+				$.ajax({
+					url:"{% url 'basic-api:teacher_weak_areas_brief'  %}",
+					method:"GET",
+					success: function(data){
+						weak_data_sub = [];
+						weak_data_area = [];
+						weak_data_batch = [];
+						$.each(data,function(key,value){
+							weak_data_sub.push(value[0])
+							weak_data_area.push(value[2])
+							weak_data_batch.push(value[1])
+
+
+						});
+
+						function get_weak_areas(num){
+							weak_areas = [];
+							for (var i = 0;i < num; i++){
+								var obj = {sub: weak_data_sub[i],area: weak_data_area[i]}
+								weak_areas.push(obj)
+
+							}
+							return weak_areas
+						};
+
+						 	weak_area = get_weak_areas(data.length)
+							
+							for(var i=0;i<weak_area.length;i++){
+						$("#weak_subject").append(
+							"<div class='panel panel-default'>"+
+							"<div class='panel-heading'>"+"Batch: "+weak_data_batch[i]+"<div>"+
+							"<div class='panel-body'>"+
+							"Subject :"+weak_data_sub[i]+"<br>"+
+							
+
+                                            "<span class='c-badge c-badge--small c-badge--danger'>"+"Topics :"+weak_data_area[i]+"</span>"+"<br>"+"<br>"+
+
+							"</div>"+
+							"</div>"+
+							"<hr>"
+							
+							
+						
+							)
+
+							}
+
+					},
+					complete: function(){
+						$("#loadingdiv_weak_area").hide();
+					},
+					error:function(data){
+							console.log(data)
+					},
+
+			});
+				<!-- for latest messages -->
+				$.ajax({
+					url:"{% url 'message-api:messageList'  %}",
+					method:"GET",
+					success: function(data){
+						$.each(data,function(key,value){
+							console.log(value.body)
+					$("#latest_communication").append(
+                            "<div class='c-todo ' >"+
+						 "<input class='c-todo__input' id='todo2' type='checkbox' name='exampe-list2'>"+
+                                "<label class='c-todo__label'>"+
+                                    "Subject: "+value.subject+
+                               " </label>"+
+
+
+						 "<input class='c-todo__input' id='todo1' type='checkbox' name='exampe-list'>"+
+
+                                "<label class='c-todo__label'>"+
+                                    "Message: "+value.body+
+                               " </label>"+
+
+				"<span class='c-badge c-badge--info c-badge--small'>"+"Date: "+value.sent_date+"</span>"+
+
+						"</div>"	
+
+
+
+							
+				)
+						});
+					},
+					error:function(data){
+						console.log(data)
+					},
+
+			});
+				$.ajax({
+					url:"{% url 'basic-api:teacher_tests_overview'  %}",
+					method:"GET",
+					success: function(data){
+						$.each(data,function(key,value){
+							console.log(value.publised)
+							$("#tests_overview").append(
+				"<table class='c-table'>"+
+                                "<tbody>"+
+                                    "<tr class='c-table__row u-border-top-zero'>"+
+                                        "<td class='c-table__cell'>"+"Published on: "+value.publised+"</td>"+
+                                        "<td class='c-table__cell'>"+"Batch: "+value.class+"</td>"+
+                                        "<td class='c-table__cell'>"+"Number of Questions: "+value.num_questions+"</td>"+
+                                        "<td class='c-table__cell'>"+"Maximum marks: "+value.total_marks+"</td>"+
+                                        "<td class='c-table__cell'>"+"Subject: "+value.subject+"</td>"+
+                                        "<td class='c-table__cell'>"+"Average marks: "+value.average+" %"+"</td>"+
+                                        "<td class='c-table__cell u-text-right'>"+
+                                            "<span class='c-badge c-badge--small c-badge--danger'>"+value.students_taken+" students"+"</span>"+
+                                        "</td>"+
+                                        "<td class='c-table__cell'>"+
+                    "<a class='c-btn c-btn--fancy c-btn--fullwidth' href='ui-overview.html#'>"+"View"+"</a>"+
+                "</div></td>"+
+                              "      </tr>"+
+								"</tbody>"+
+								"</table>"
+
+
+								)
+						});
+					},
+					error:function(data){
+						console.log(data)
+					},
+					});
+
+			});
+
+    function anotherPageLoader(){
+	$('#pageLoader').removeClass("hidden");	
+    };
+
+		</script>
+        {%endblock%}
+    </head>
+    {% block content %}
+<div class='hidden' id ='pageLoader' style='text-align:center;'>
+	<h4 class='text-center;'> Please wait.....</h4>
+	<img src="{% static 'basicinformation/images/bodhigif.gif' %}">
+</div>
+
+
+    <div style="padding:25px;">
+             <div class="row">
+		     <div class="col-sm-12 col-lg-4 " >
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards" >
+			    <img class="u-mb-small " src="{%static 'basicinformation/images/create_test.png' %}" alt="create_test"><br>
+			    <a class="c-btn c-btn--Primary" href="{%url 'QuestionsAndPapers:createTest_initial' %}" onclick="anotherPageLoader()">Create Test</a>
+
+		     </div>
+		     </div>
+		     <div class="col-sm-12 col-lg-4 " >
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards" >
+			    <img class="u-mb-small " src="{%static 'basicinformation/images/one_click_test.png' %}" alt="one_click_test"><br>
+			    <a class="c-btn c-btn--info" href="{% url 'QuestionsAndPapers:oneClickTest' %}" onclick="anotherPageLoader()">One Click Test</a>
+
+		     </div>
+		     </div>
+		     <div class="col-sm-12 col-lg-4 " >
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards" >
+			    <img class="u-mb-small " src="{%static 'basicinformation/images/pattern_test.png' %}" alt="pattern_test"><br>
+			    <a class="c-btn c-btn--Primary" href="{%url 'QuestionsAndPapers:patternTest' %}">Pattern Test</a>
+		     </div>
+		     </div>
+
+
+	     </div>
+             <div class="row">
+		     <div class="col-sm-12 col-lg-4 " >
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards" id="previousTestPerformance">
+                        <h4 class="u-h6 u-text-bold u-mb-small" >
+				Previous Test Performance
+			</h4>
+				<div id='loadingdiv'>
+					<h4>
+						Loading...
+					</h4>
+			<img src = "{%static 'basicinformation/images/bodhigif.gif' %}" width=30%;>
+				</div>
+				<div>
+			<canvas id = "last_test_canvas" height = "400">
+			</canvas>
+		    </div>
+
+
+                        <h4 class="u-h6 u-text-bold u-mb-small" id ="last_test_htag">
+                            
+                        </h4>
+			<a class="c-btn c-btn--info" href="{%url 'basic:teacherHomePage' %}">See in detail</a>
+                    </div>
+                    
+                </div>
+
+                <div class="col-sm-12 col-lg-4">
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards">
+                        <h4 class="u-h6 u-text-bold u-mb-small" id="weak_area">
+				Weak Areas 
+			</h4>
+				<div id='loadingdiv_weak_area'>
+					<h4>
+						Loading...
+					</h4>
+			<img src = "{%static 'basicinformation/images/bodhigif.gif' %}" width=30%;>
+				</div>
+
+
+                        <h4 class="u-h6 u-text-bold u-mb-small" id="weak_subject">
+
+
+			</h4>
+                        <h4 class="u-h6 u-text-bold u-mb-small" id="weak_area">
+                        </h4>
+                        <a class="c-btn c-btn--info" href="index.html#">View full report</a>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-lg-4">
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards">
+
+                        <img class="u-mb-small" src="{%static 'basicinformation/images1/communication.png' %}" alt="iPhone icon">
+
+                        <h4 class="u-h6 u-text-bold u-mb-small">
+                            Create Announcements to be broadcasted to batches.OR
+			    Send personal messages to students.
+                        </h4>
+			<a class="c-btn c-btn--info" href="{%url 'pms:createAnnouncement' %}">Create Announcement</a>
+			<a class="c-btn c-btn--info" href="{%url 'pms:messages' %}">Send Messages</a>
+
+                    </div>
+
+                </div>
+            </div>
+<!--                <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-4">
+                        <div class="c-graph-card" data-mh="graph-cards">
+                            <div class="c-graph-card__content">
+                                <h3 class="c-graph-card__title">Next Payout</h3>
+                                <p class="c-graph-card__date">Activity from 4 Jan 2017 to 10 Jan 2017</p>
+                                <h4 class="c-graph-card__number">$2,190</h4>
+                                <p class="c-graph-card__status">You’ve made $230 Today</p>
+                            </div>
+                            
+                            <div class="c-graph-card__chart">
+                                <canvas id="js-chart-payout" width="300" height="74"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4">
+                        <div class="c-graph-card" data-mh="graph-cards">
+                            <div class="c-graph-card__content">
+                                <h3 class="c-graph-card__title">Total Earnings</h3>
+                                <p class="c-graph-card__date">In 15 Months</p>
+                                <h4 class="c-graph-card__number">$23,580</h4>
+                                <p class="c-graph-card__status">Last Month you’ve made $2,980</p>
+                            </div>
+                            
+                            <div class="c-graph-card__chart">
+                                <canvas id="js-chart-earnings" width="300" height="74"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4">
+                        <div class="c-progress-card" data-mh="graph-cards">
+                            <h3 class="c-progress-card__title">All Tasks Overview</h3>
+                            <p class="c-progress-card__date">Next 4 Weeks</p>
+
+                            <div class="c-progress-card__item">
+                                <div class="c-progress-card__label">Week 3</div>
+
+                                <div class="c-progress-card__progress c-progress c-progress--small">
+                                    <div class="c-progress__bar u-bg-success" style="width:100%;">
+                                        <div class="c-progress__bar u-bg-fancy" style="width: 70%">
+                                            <div class="c-progress__bar u-bg-info" style="width: 50%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>					-->
+                            <!-- // .c-progress-card__item -->
+
+ <!--                           <div class="c-progress-card__item">
+                                <div class="c-progress-card__label">Week 4</div>
+
+                                <div class="c-progress-card__progress c-progress c-progress--small">
+                                    <div class="c-progress__bar u-bg-success" style="width:100%;">
+                                        <div class="c-progress__bar u-bg-fancy" style="width: 70%">
+                                            <div class="c-progress__bar u-bg-info" style="width: 50%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>					-->
+                            <!-- // .c-progress-card__item -->
+
+ <!--                           <div class="c-progress-card__item">
+                                <div class="c-progress-card__label">Week 5</div>
+
+                                <div class="c-progress-card__progress c-progress c-progress--small">
+                                    <div class="c-progress__bar u-bg-success" style="width:100%;">
+                                        <div class="c-progress__bar u-bg-fancy" style="width: 70%">
+                                            <div class="c-progress__bar u-bg-info" style="width: 50%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>						-->
+                            <!-- // .c-progress-card__item -->
+
+<!--                            <div class="c-progress-card__item">
+                                <div class="c-progress-card__label">Week 6</div>
+
+                                <div class="c-progress-card__progress c-progress c-progress--small">
+                                    <div class="c-progress__bar u-bg-success" style="width:100%;">
+                                        <div class="c-progress__bar u-bg-fancy" style="width: 70%">
+                                            <div class="c-progress__bar u-bg-info" style="width: 50%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>							-->
+                            <!-- // .c-progress-card__item -->
+                            
+ <!--                           <ul class="c-progress-card__legends">
+                                <li class="u-text-mute u-text-xsmall">
+                                    <i class="c-progress-card__legend u-bg-fancy"></i>Progress
+                                </li>
+                                <li class="u-text-mute u-text-xsmall">
+                                    <i class="c-progress-card__legend u-bg-info"></i>Due
+                                </li>
+                                <li class="u-text-mute u-text-xsmall">
+                                    <i class="c-progress-card__legend u-bg-success"></i>OA
+                                </li>
+                                <li class="u-text-mute u-text-xsmall">
+                                    <i class="c-progress-card__legend u-bg-danger"></i>Delegated
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <span class="c-divider has-text u-mb-medium">Active Projects</span>
+
+                <div class="row">
+                    <div class="col-sm-6 col-lg-6 col-xl-3">
+
+                        <div class="c-project-card u-mb-medium">
+                            <img class="c-project-card__img" src="{%static 'basicinformation/images1/project-card1.jpg' %}" alt="About the image">
+
+                            <div class="c-project-card__content">
+                                <div class="c-project-card__head">
+                                    <h4 class="c-project-card__title">Magazine Images</h4>
+                                    <p class="c-project-card__info">Kinfolk  |  Last Update: 21 Dec 2016</p>
+                                </div>
+                                
+
+                                <div class="c-project-card__meta">
+                                    <p>4,870 USD
+                                        <small class="u-block u-text-mute">Budget / Salary</small>
+                                    </p>
+                                    <p>Early Dec 2017
+                                        <small class="u-block u-text-danger">10 Days Remaining</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6 col-xl-3">
+
+                        <div class="c-project-card u-mb-medium">
+                            <img class="c-project-card__img" src="{%static 'basicinformation/images1/project-card2.jpg' %}" alt="About the image">
+
+                            <div class="c-project-card__content">
+                                <div class="c-project-card__head">
+                                    <h4 class="c-project-card__title">Design Competition 2018</h4>
+                                    <p class="c-project-card__info">Gourmet| Last Update: 29 Dec 2017</p>
+                                </div>
+                                
+
+                                <div class="c-project-card__meta">
+                                    <p>9,680 USD 
+                                        <small class="u-block u-text-mute">Budget / Salary</small>
+                                    </p>
+                                    <p>Late January
+                                        <small class="u-block u-text-mute">Deadline</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6 col-xl-3">
+
+                        <div class="c-project-card u-mb-medium">
+                            <img class="c-project-card__img" src="{%static 'basicinformation/images1/project-card3.jpg' %}" alt="About the image">
+
+                            <div class="c-project-card__content">
+                                <div class="c-project-card__head">
+                                    <h4 class="c-project-card__title">New Dashboard</h4>
+                                    <p class="c-project-card__info">Tapdaq  |  Last Update: 28 Nov 2017</p>
+                                </div>
+                                
+
+                                <div class="c-project-card__meta">
+                                    <p>4,870 USD
+                                        <small class="u-block u-text-mute">Budget / Salary</small>
+                                    </p>
+                                    <p>Early Dec 2017
+                                        <small class="u-block u-text-danger">15 Days Remaining</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6 col-xl-3">
+
+                        <div class="c-project-card u-mb-medium">
+                            <img class="c-project-card__img" src="{%static 'basicinformation/images1/project-card4.jpg' %}" alt="About the image">
+
+                            <div class="c-project-card__content">
+                                <div class="c-project-card__head">
+                                    <h4 class="c-project-card__title">Mobile App</h4>
+                                    <p class="c-project-card__info">Cofee & Co.  |  Last Update: 1 Dec 2016</p>
+                                </div>
+                                
+
+                                <div class="c-project-card__meta">
+                                    <p>8,760 USD
+                                        <small class="u-block u-text-mute">Budget / Salary</small>
+                                    </p>
+                                    <p>Early Dec 2017
+                                        <small class="u-block u-text-mute">6 Days Remaining</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>							-->
+                <!-- // .row -->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="c-card c-card--responsive u-mb-medium" id="tests_overview">
+                            <div class="c-card__header c-card__header--transparent o-line">
+                                <h5 class="c-card__title">Test Overview</h5>
+                                <a class="c-card__meta" href="{%static 'home_overview.html#' %}">View all Tests</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="c-card u-mb-medium" id = "latest_communication">
+                            <div class="c-card__header c-card__header--transparent o-line">
+                                <h5 class="c-card__title">Inbox</h5>
+                                <a class="c-card__meta" href="{%static 'home_overview.html#' %}">See all</a>
+                            </div>
+
+
+                            </div><!-- // .c-todo -->
+
+                            </div><!-- // .c-todo -->
+                        </div>
+                    </div>
+                </div><!-- // .row -->
+<h4 class="u-mb-medium">Results overview</h4>
+            <div class="row u-mb-medium">
+                <div class="col-sm-12">
+
+                    <div class="c-table-responsive@desktop">
+                        <table class="c-table c-table--zebra u-mb-small" id="datatable2">
+                            <thead class="c-table__head">
+                                <tr class="c-table__row">
+                                  <th class="c-table__cell c-table__cell--head">Test Mode</th>
+                                  <th class="c-table__cell c-table__cell--head">Test Date</th>
+                                  <th class="c-table__cell c-table__cell--head">Topper + Batch</th>
+                                  <th class="c-table__cell c-table__cell--head">Test Taken By</th>
+                                  <th class="c-table__cell c-table__cell--head">Status</th>
+                                  <th class="c-table__cell c-table__cell--head">
+                                      <span class="u-hidden-visually">Actions</span>
+                                  </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="c-table__row c-table__row--danger">
+                                    <td class="c-table__cell">chemistry
+                                        <small class="u-block u-text-mute">one click</small>
+                                    </td>
+
+                                    <td class="c-table__cell">17th Oct, 17
+                                        <small class="u-block u-text-danger">Overdue</small>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        <div class="o-media">
+                                            <div class="o-media__img u-mr-xsmall">
+                                                <div class="c-avatar c-avatar--xsmall">
+                                                    <img class="c-avatar__img" src="{%static 'basicinformation/images1/avatar1-72.jpg'%}" alt="Adam's Face">
+                                                </div>
+                                            </div>
+                                            <div class="o-media__body">
+                                                Norman Hammond<small class="u-block u-text-mute">UK Design Team</small>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="c-table__cell">250 students
+                                        <small class="u-block u-text-mute">out of 290</small>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        <i class="fa fa-circle-o u-color-info u-mr-xsmall"></i>Early Stages
+                                    </td>
+
+                                    <td class="c-table__cell u-text-right">
+                                        <div class="c-dropdown dropdown">
+                                            <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+                                            
+                                            <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton10">
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">Edit Profile</a>
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">View Activity</a>
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">Manage Roles</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="c-table__row">
+                                    <td class="c-table__cell">Physics
+                                        <small class="u-block u-text-mute">pattern test</small>
+                                    </td>
+
+                                    <td class="c-table__cell">2nd Jan, 18
+                                        <small class="u-block u-text-mute">in 3 months</small>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        <div class="o-media">
+                                            <div class="o-media__img u-mr-xsmall">
+                                                <div class="c-avatar c-avatar--xsmall">
+                                                    <img class="c-avatar__img" src="{%static 'basicinformation/images1/avatar2-72.jpg'%}" alt="Adam's Face">
+                                                </div>
+                                            </div>
+                                            <div class="o-media__body">
+                                                Joseph Mullins<small class="u-block u-text-mute">External Company</small>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="c-table__cell">250 students
+                                        <small class="u-block u-text-mute">Out of 300</small>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>QA
+                                    </td>
+
+                                    <td class="c-table__cell u-text-right">
+                                        <div class="c-dropdown dropdown">
+                                            <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton11" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+                                            
+                                            <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton11">
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">Edit Profile</a>
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">View Activity</a>
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">Manage Roles</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="c-table__row">
+                                    <td class="c-table__cell">Maths
+                                        <small class="u-block u-text-mute">custom</small>
+                                    </td>
+
+                                    <td class="c-table__cell">1st Apr, 18
+                                        <small class="u-block u-text-mute">in 5 months</small>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        <div class="o-media">
+                                            <div class="o-media__img u-mr-xsmall">
+                                                <div class="c-avatar c-avatar--xsmall">
+                                                    <img class="c-avatar__img" src="{%static 'basicinformation/images1/avatar3-72.jpg'%}" alt="Adam's Face">
+                                                </div>
+                                            </div>
+                                            <div class="o-media__body">
+                                                Ina Higgins
+                                            <small class="u-block u-text-mute">UX Warriors</small>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="c-table__cell">40 students
+                                        <small class="u-block u-text-mute">Out of 300</small>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        <i class="fa fa-circle-o u-color-primary u-mr-xsmall"></i>Waiting for Client
+                                    </td>
+
+                                    <td class="c-table__cell u-text-right">
+                                        <div class="c-dropdown dropdown">
+                                            <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton12" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+                                            
+                                            <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton12">
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">Edit Profile</a>
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">View Activity</a>
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">Manage Roles</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="c-table__row c-table__row--danger">
+                                    <td class="c-table__cell">Reasoning
+                                        <small class="u-block u-text-mute">Custom test</small>
+                                    </td>
+
+                                    <td class="c-table__cell">23th Dec, 18
+                                        <small class="u-block u-text-danger">Overdue</small>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        <div class="o-media">
+                                            <div class="o-media__img u-mr-xsmall">
+                                                <div class="c-avatar c-avatar--xsmall">
+                                                    <img class="c-avatar__img" src="{%static 'basicinformation/images1/avatar4-72.jpg'%}" alt="Adam's Face">
+                                                </div>
+                                            </div>
+                                            <div class="o-media__body">
+                                                Stella Munoz
+                                            <small class="u-block u-text-mute">Dribbble Researchers</small>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="c-table__cell">2,500 student
+                                        <small class="u-block u-text-mute">out of 2500</small>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        <i class="fa fa-circle-o u-color-success u-mr-xsmall"></i>Finishing
+                                    </td>
+
+                                    <td class="c-table__cell u-text-right">
+                                        <div class="c-dropdown dropdown">
+                                            <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton40" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+                                            
+                                            <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton40">
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">Edit Profile</a>
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">View Activity</a>
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">Manage Roles</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="c-table__row">
+                                    <td class="c-table__cell">English
+                                        <small class="u-block u-text-mute">Pattern</small>
+                                    </td>
+
+                                    <td class="c-table__cell">10th Apr, 17
+                                        <small class="u-block u-text-mute">in 4 Months</small>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        <div class="o-media">
+                                            <div class="o-media__img u-mr-xsmall">
+                                                <div class="c-avatar c-avatar--xsmall">
+                                                    <img class="c-avatar__img" src="{%static 'basicinformation/images1/avatar5-72.jpg'%}" alt="Adam's Face">
+                                                </div>
+                                            </div>
+                                            <div class="o-media__body">
+                                                Dylan Shelton
+                                            <small class="u-block u-text-mute">SF Dev Team</small>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="c-table__cell">800 students
+                                        <small class="u-block u-text-mute">Out of 3000</small>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        <i class="fa fa-circle-o u-color-info u-mr-xsmall"></i>Early Stages
+                                    </td>
+
+                                    <td class="c-table__cell u-text-right">
+                                        <div class="c-dropdown dropdown">
+                                            <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton70" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+                                            
+                                            <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton70">
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">Edit Profile</a>
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">View Activity</a>
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">Manage Roles</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="c-table__row">
+                                    <td class="c-table__cell">Gate
+                                        <small class="u-block u-text-mute">one click</small>
+                                    </td>
+
+                                    <td class="c-table__cell">1st Mar, 18
+                                         <small class="u-block u-text-mute">in 6 Months</small>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        <div class="o-media">
+                                            <div class="o-media__img u-mr-xsmall">
+                                                <div class="c-avatar c-avatar--xsmall">
+                                                    <img class="c-avatar__img" src="{%static 'basicinformation/images1/avatar6-72.jpg'%}" alt="Adam's Face">
+                                                </div>
+                                            </div>
+                                            <div class="o-media__body">
+                                                Ellen Santiago
+                                            <small class="u-block u-text-mute">UK Design Team</small>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="c-table__cell">2,180 students
+                                        <small class="u-block u-text-danger">Out of 3000</small>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        <i class="fa fa-circle-o u-color-success u-mr-xsmall"></i>Finishing
+                                    </td>
+
+                                    <td class="c-table__cell u-text-right">
+                                        <div class="c-dropdown dropdown">
+                                            <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton50" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+                                            
+                                            <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton50">
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">Edit Profile</a>
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">View Activity</a>
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">Manage Roles</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="c-table__row">
+                                    <td class="c-table__cell">GK
+                                        <small class="u-block u-text-mute">Pattren test</small>
+                                    </td>
+
+                                    <td class="c-table__cell">1st Jan, 18
+                                         <small class="u-block u-text-mute">in 2 Months</small>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        <div class="o-media">
+                                            <div class="o-media__img u-mr-xsmall">
+                                                <div class="c-avatar c-avatar--xsmall">
+                                                    <img class="c-avatar__img" src="{%static 'basicinformation/images1/avatar7-72.jpg'%}" alt="Adam's Face">
+                                                </div>
+                                            </div>
+                                            <div class="o-media__body">
+                                                Maurice Briggs
+                                            <small class="u-block u-text-mute">Moscow Office</small>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        4,670 students<small class="u-block u-text-mute">Out of 5000</small>
+                                    </td>
+
+                                    <td class="c-table__cell">
+                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>Designing
+                                    </td>
+
+                                    <td class="c-table__cell u-text-right">
+                                        <div class="c-dropdown dropdown">
+                                            <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton60" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+                                            
+                                            <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton60">
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">Edit Profile</a>
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">View Activity</a>
+                                                <a class="c-dropdown__item dropdown-item" href="ui-overview.html#">Manage Roles</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>                
+            </div>                
+
+            </div><!-- // .container -->
+            
+        </main><!-- // .o-page__content -->
+    {%endblock%}    
+
+
+
+
+
+
+
+
+
+       
+       
+    </body>
+</html>
