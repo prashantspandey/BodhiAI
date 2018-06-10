@@ -19,7 +19,6 @@
         <script src="https://www.google-analytics.com/analytics.js" async defer></script>
     
       
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600" rel="stylesheet">
 
         <!-- Favicon -->
         <link rel="test-icon" href="{%static 'basicinformation/images1/test.png'  %}">
@@ -38,6 +37,7 @@
 							var numTaken = data.test_takers;
 							var test_published = data.date;
 							var subject = data.subject;
+							var test_id = data.test_id;
 							var allMarks = data.marks;
 						function getPreviousData(numTaken){
 							var data = [];
@@ -77,7 +77,10 @@
 						$("#last_test_htag").append(
 							subject + "<br>"+
 							'Test was published on ' + test_published+"<br>"+
-							'Test taken by '+numTaken+ ' students.'
+							'Test taken by '+numTaken+ ' students.'+
+				"<form action={% url 'basic:teacher_update_page' %} method='get'>"+
+		"<button type='submit' name='onlinetestid' class='btn btn-primary' value="+test_id+">"+"See in Detail"+"</button>"
+
 							)
 					},
 					complete: function(){
@@ -201,7 +204,8 @@
                                             "<span class='c-badge c-badge--small c-badge--danger'>"+value.students_taken+" students"+"</span>"+
                                         "</td>"+
                                         "<td class='c-table__cell'>"+
-                    "<a class='c-btn c-btn--fancy c-btn--fullwidth' href='ui-overview.html#'>"+"View"+"</a>"+
+				"<form action={% url 'basic:teacher_update_page' %} method='get'>"+
+		"<button type='submit' name='onlinetestid' class='btn btn-primary' value="+key+">"+"View"+"</button>"+
                 "</div></td>"+
                               "      </tr>"+
 								"</tbody>"+
@@ -278,7 +282,6 @@
                         <h4 class="u-h6 u-text-bold u-mb-small" id ="last_test_htag">
                             
                         </h4>
-			<a class="c-btn c-btn--info" href="{%url 'basic:teacherHomePage' %}">See in detail</a>
                     </div>
                     
                 </div>
@@ -543,7 +546,7 @@
                         <div class="c-card c-card--responsive u-mb-medium" id="tests_overview">
                             <div class="c-card__header c-card__header--transparent o-line">
                                 <h5 class="c-card__title">Test Overview</h5>
-                                <a class="c-card__meta" href="{%static 'home_overview.html#' %}">View all Tests</a>
+                                <a class="c-card__meta" href="{% url 'basic:teacherHomePage' %}">View all Tests</a>
                             </div>
                             
                         </div>
@@ -553,7 +556,7 @@
                         <div class="c-card u-mb-medium" id = "latest_communication">
                             <div class="c-card__header c-card__header--transparent o-line">
                                 <h5 class="c-card__title">Inbox</h5>
-                                <a class="c-card__meta" href="{%static 'home_overview.html#' %}">See all</a>
+                                <a class="c-card__meta" href="{%url 'pms:messages' %}">See all</a>
                             </div>
 
 

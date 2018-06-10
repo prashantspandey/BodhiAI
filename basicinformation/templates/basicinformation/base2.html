@@ -12,10 +12,8 @@
 <link rel="stylesheet" type="text/css" href="{% static 'basicinformation/css/base.css' %}">
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-{%block scripts %}
-    {%endblock scripts%}
-
     <title>{%block title%} Title {%endblock title%}</title>
+
     <link rel="shortcut icon" href ="{%static 'basicinformation/images/favicon.ico' %}" />
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,23 +29,19 @@
 
   ga('create', 'UA-104062998-1', 'auto');
   ga('send', 'pageview');
-  
+   </script>  
        <!-- Google Font -->
-       <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600" rel="stylesheet">
+       <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600" rel="stylesheet"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-       <!-- Favicon -->
-       <link rel="apple-touch-icon" href="{%static 'apple-touch-icon.png'  %}">
-       <link rel="shortcut icon" href="{%static 'favicon.ico' %}" type="image/x-icon">
 
        <!-- Stylesheet -->
-       <link rel="stylesheet" href="{%static 'basicinformation/css/main.min-v=2.0.css' %}">
+       <link rel="stylesheet" href="{%static 'basicinformation/css1/main.min-v=2.0.css' %}">
+ {%block scripts %}
 
-
-</script>
+{%endblock scripts%}
+      
 </head>
 <body>
 

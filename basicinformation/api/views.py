@@ -90,6 +90,7 @@ class LastClassTestPerformanceTeacherAPI(APIView):
                                               self.request.user).order_by('published')[3]
         counter = 0
         quest_marks = 0
+        test_id = new_test.id
         for quest in new_test.sscquestions_set.all():
             counter = counter + 1
             quest_marks = quest_marks + quest.max_marks
@@ -103,7 +104,7 @@ class LastClassTestPerformanceTeacherAPI(APIView):
         for test in my_tests:
             marks.append((test.marks/quest_marks)*100)
         info =\
-        {'subject':subject,'date':publised_date,'test_takers':len(my_tests),'marks':marks,'num_questions':counter}
+                {'subject':subject,'date':publised_date,'test_takers':len(my_tests),'marks':marks,'num_questions':counter,'test_id':test_id}
         return Response(info)
 
 
