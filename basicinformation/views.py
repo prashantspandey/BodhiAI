@@ -871,7 +871,7 @@ def teacher_update_page(request):
         context = {'tests': o_tests}
         return render(request, 'basicinformation/teacher_online_analysis2.html', context)
 
-    elif 'onlinetestid' in request.GET:0
+    elif 'onlinetestid' in request.GET:
         test_id = request.GET['onlinetestid']
         me = Teach(user)
         # get the number of students who took test
