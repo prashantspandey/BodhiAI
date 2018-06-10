@@ -1045,7 +1045,8 @@ def teacher_update_page(request):
                        'grade_s':new_rl.grade_s,'grade_a':new_rl.grade_a,'grade_b':new_rl.grade_b,'grade_c':new_rl.grade_c,
                        'grade_d':new_rl.grade_d,'grade_e':new_rl.grade_e,'grade_f':new_rl.grade_f,
                        'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
-            return render(request, 'basicinformation/teacher_online_analysis3.html', context)
+            return render(request,
+                          'basicinformation/teacher_online_analysis_direct.html', context)
  
 # result loader is found but don't know if more students have taken
 # the test, hence compare number of students in result loader with number of
