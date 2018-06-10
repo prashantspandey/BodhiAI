@@ -44,7 +44,6 @@ def jitoData(request):
             return HttpResponse('hello')
         except:
             if request.POST:
-                print('in form')
                 form = StudentInformationForm(request.POST or None)
                 if form.is_valid():
                     address = form.cleaned_data['address']
@@ -872,7 +871,7 @@ def teacher_update_page(request):
         context = {'tests': o_tests}
         return render(request, 'basicinformation/teacher_online_analysis2.html', context)
 
-    elif 'onlinetestid' in request.GET:
+    elif 'onlinetestid' in request.GET:0
         test_id = request.GET['onlinetestid']
         me = Teach(user)
         # get the number of students who took test
@@ -958,7 +957,96 @@ def teacher_update_page(request):
                        'grade_d':new_rl.grade_d,'grade_e':new_rl.grade_e,'grade_f':new_rl.grade_f,
                        'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
             return render(request, 'basicinformation/teacher_online_analysis3.html', context)
-            
+
+
+
+    elif 'onlinetestid_direct' in request.GET:
+        test_id = request.GET['onlinetestid_direct']
+        me = Teach(user)
+        # get the number of students who took test
+        online_marks =\
+        SSCOnlineMarks.objects.filter(test__id=test_id,student__school =
+                                      me.profile.school)
+    # try to get result table associated with particular test
+        try:
+            result = TestRankTable.objects.get(test__id = test_id)
+    # if no new student has taken the test then simply sort the old rank table 
+            if len(result.names) == len(online_marks):
+                result = me.combine_rankTable(result)
+
+    # else generate new rank table, sort it and display it 
+            else:
+                asyn_rt = generate_testRankTable.delay(user.id,test_id)
+                result = 'None'
+                while result is 'None':
+                    try:
+                        result = TestRankTable.objects.filter(test__id =\
+                                                      test_id).order_by('-time')[0]
+                        result = combine_rankTable(result)
+
+                    except :
+                        pass
+    # if no result table is found associated to particular test then generate
+    # new rank table, sort it and display it
+
+        except:
+            asyn_rt = generate_testRankTable.delay(user.id,test_id)
+            result = 'None'
+            while result is 'None':
+                try:
+                    result = TestRankTable.objects.filter(test__id =\
+                                                  test_id).order_by('-time')[0]
+                    result = me.combine_rankTable(result)
+                except: pass
+
+    # try if result loader exists for the given test
+    # in case of except
+        # if result_loader doesn't exist then-
+    # case 1 : teacher is clicking on the analysis for this test for 1st time
+    #   hence, create a new result loader with this test
+    #   and show it in the template
+
+        try:
+            result_loader = SscTeacherTestResultLoader.objects.get(test__id = test_id)
+        except:
+
+            new_rl = teacher_test_analysis_new.delay(test_id,user.id)
+            te_id = new_rl.task_id
+            res = AsyncResult(te_id)
+            new_rl = None
+            while new_rl is None:
+                try:
+                    new_rl = SscTeacherTestResultLoader.objects.get(test__id = test_id)
+                except SscTeacherTestResultLoader.DoesNotExist:
+                    pass
+            max_marks = new_rl.test.max_marks    
+            average = new_rl.average
+            percent_average = new_rl.percentAverage
+            grade_s = new_rl.grade_s
+            grade_a = new_rl.grade_a
+            grade_b = new_rl.grade_b
+            grade_c = new_rl.grade_c
+            grade_d = new_rl.grade_d
+            grade_e = new_rl.grade_e
+            grade_f = new_rl.grade_f
+            skipped_quests = new_rl.skipped
+            skipped_freq = new_rl.skippedFreq
+            sq = list(zip(skipped_quests,skipped_freq))
+            freqQuests = new_rl.freqAnswersQuestions
+            freqQuestsfreq = new_rl.freqAnswersFreq
+            freq = list(zip(freqQuests,freqQuestsfreq))
+            pro_quests = new_rl.problemQuestions
+            pro_freq  = new_rl.problemQuestionsFreq
+            problem_quests = list(zip(pro_quests,pro_freq))
+
+            context = {'om':
+                       online_marks,'test':new_rl.test,'average':new_rl.average
+                       ,'percentAverage':new_rl.percentAverage,'maxMarks':max_marks,
+                       'grade_s':new_rl.grade_s,'grade_a':new_rl.grade_a,'grade_b':new_rl.grade_b,'grade_c':new_rl.grade_c,
+                       'grade_d':new_rl.grade_d,'grade_e':new_rl.grade_e,'grade_f':new_rl.grade_f,
+                       'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
+            return render(request, 'basicinformation/teacher_online_analysis3.html', context)
+ 
 # result loader is found but don't know if more students have taken
 # the test, hence compare number of students in result loader with number of
 # online marks calculated above 
@@ -1023,7 +1111,8 @@ def teacher_update_page(request):
                        'grade_s':result_loader.grade_s,'grade_a':result_loader.grade_a,'grade_b':result_loader.grade_b,'grade_c':result_loader.grade_c,
                        'grade_d':result_loader.grade_d,'grade_e':result_loader.grade_e,'grade_f':result_loader.grade_f,
                        'freq':freq,'sq':sq,'problem_quests':problem_quests,'ssc':True,'result':result}
-            return render(request, 'basicinformation/teacher_online_analysis3.html', context)
+            return render(request,
+                          'basicinformation/teacher_online_analysis_direct.html', context)
 
 
 
