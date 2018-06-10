@@ -1,28 +1,12 @@
 {% extends 'basicinformation/base2.html' %}
 {%load staticfiles %}
+<html>
+	<head>
 
-
-
-<hr style='width:3px'>
-<div class="container">
-	<h2 class='text-center' style='font-weight:bold;'> Test Analysis </h2>
-	<hr>
-		<table class='table table-striped table-bordered table-hover'>
-			<tr>
-				<th class='primary'> Average Marks</th>
-				<th> Average Marks Percentage</th>
-			</tr>
-			<tr>
-				<th>{{average|floatformat:2}}/{{maxMarks}}</th>
-				<th> {{percentAverage|floatformat:2}}% </th>
-			</tr>
-		</table>
-</div>
-<div  class="col-md-8  col-xs-12">
+	{%block scripts %}
     <script>
 
 $(document).ready(function () {
-	  $('#loadinganalysis3').hide();
 	    var ctx = document.getElementById("analysis"); var myChart1 = new Chart(ctx, { type: 'bar',
             data: {
                 labels: ["S","A","B","C","D","E","F"],
@@ -64,6 +48,28 @@ $(document).ready(function () {
     });
 
 </script>
+{%endblock%}
+	</head>
+	<body>
+{%block content%}
+
+<hr style='width:3px'>
+
+<div class="container">
+	<h2 class='text-center' style='font-weight:bold;'> Test Analysis </h2>
+	<hr>
+		<table class='table table-striped table-bordered table-hover'>
+			<tr>
+				<th class='primary'> Average Marks</th>
+				<th> Average Marks Percentage</th>
+			</tr>
+			<tr>
+				<th>{{average|floatformat:2}}/{{maxMarks}}</th>
+				<th> {{percentAverage|floatformat:2}}% </th>
+			</tr>
+		</table>
+</div>
+<div  class="col-md-8  col-xs-12">
 </div>
 <div class='col-md-offset-1 col-md-10 col-xs-12'>
 	<h2 style='text-align:center;font-weight:bold;'>Students Grade wise</h2>
@@ -265,6 +271,8 @@ $(document).ready(function () {
 </div>
 {%endif%}
 
-
+{%endblock content%}
+</body>
+</html>
 
 
