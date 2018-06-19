@@ -30,6 +30,10 @@
 			$(document).ready(function(){
 				$("#loadingdiv").show()	
 				$("#loadingdiv_weak_area").show()	
+
+				function hideWeakAreaGif(){
+					$("#loadingdiv_weak_area_detail").removeClass("hidden");
+				};
 				$.ajax({
 					url:"{% url 'basic-api:last_performance_teacher' %}",
 					method:"GET",
@@ -128,6 +132,12 @@
 							
 
                                             "<span class='c-badge c-badge--small c-badge--danger'>"+"Topics :"+weak_data_area[i]+"</span>"+"<br>"+"<br>"+
+			"<form action={% url 'basic:TeacherWeakAreas' %} method='get'>"+
+			"<input type='text' value="+weak_data_batch[i]+" name='weakAreasClass' class='hidden' >"+
+			"<input type='text' value="+weak_data_sub[i]+" name='weakAreasSub' class='hidden' >"+
+			"<input type='submit' class='btn btn-warning' name='weakAreasButton' value='See full Report' onclick='hideWeakAreaGif()'>"+
+		"</form>"+
+
 
 							"</div>"+
 							"</div>"+
@@ -154,7 +164,6 @@
 					method:"GET",
 					success: function(data){
 						$.each(data,function(key,value){
-							console.log(value.body)
 					$("#latest_communication").append(
                             "<div class='c-todo ' >"+
 						 "<input class='c-todo__input' id='todo2' type='checkbox' name='exampe-list2'>"+
@@ -189,12 +198,11 @@
 					method:"GET",
 					success: function(data){
 						$.each(data,function(key,value){
-							console.log(value.publised)
 							$("#tests_overview").append(
 				"<table class='c-table'>"+
                                 "<tbody>"+
                                     "<tr class='c-table__row u-border-top-zero'>"+
-                                        "<td class='c-table__cell'>"+"Published on: "+value.publised+"</td>"+
+                                        "<td class='c-table__cell'>"+"Published on: "+JSON.stringify(value.published)+"</td>"+
                                         "<td class='c-table__cell'>"+"Batch: "+value.class+"</td>"+
                                         "<td class='c-table__cell'>"+"Number of Questions: "+value.num_questions+"</td>"+
                                         "<td class='c-table__cell'>"+"Maximum marks: "+value.total_marks+"</td>"+
@@ -290,7 +298,14 @@
                     <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards">
                         <h4 class="u-h6 u-text-bold u-mb-small" id="weak_area">
 				Weak Areas 
-			</h4>
+					<div id='loadingdiv_weak_area_detail' class='hidden'>
+					<h4>
+						Loading...
+					</h4>
+			<img src = "{%static 'basicinformation/images/bodhigif.gif' %}" width=30%;>
+				</div>
+
+		</h4>
 				<div id='loadingdiv_weak_area'>
 					<h4>
 						Loading...
@@ -305,7 +320,6 @@
 			</h4>
                         <h4 class="u-h6 u-text-bold u-mb-small" id="weak_area">
                         </h4>
-                        <a class="c-btn c-btn--info" href="index.html#">View full report</a>
                     </div>
                 </div>
 

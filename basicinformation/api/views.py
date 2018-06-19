@@ -38,50 +38,10 @@ class StudentDetailAPIView(APIView):
         {'username':username,'email':email,'firstName':first_name,'school':school_name,'subjects':subjects}
         return Response(my_details)
 
+# ALL TEACHER APIs
 
-        
-
-# Return all the information about tests that a student has to take to be
-# displayed on the home screen
-
-class FrontPageTestAPIView(APIView):
-    def get(self,request,format=None):
-        me = Studs(self.request.user)
-        tests = me.toTake_Tests(20)
-        all_tests = []
-        for key,value in tests.items():
-            topics = value['topics']
-            subject = value['subject']
-            test_id = key
-            j_topics = json.dumps(topics)
-            j_subject = json.dumps(subject)
-            j_testid = json.dumps(test_id)
-            j_creator = json.dumps(value['creator'])
-            j_questions = json.dumps(value['num_questions'])
-            psudo_test =\
-            {'topics':j_topics,'subject':j_subject,'test_id':j_testid,'creator':j_creator,'num_questions':j_questions}
-            all_tests.append(psudo_test)
-        return Response(all_tests)
-
-class PreviousSubjectPerformance(APIView):
-    serializers = SSCOnlineMarksModelSerializer
-    def get(self,request,format=None):
-        me = Studs(self.request.user)
-        all_subjects = me.my_subjects_names()
-        test_info = me.test_marks_api(all_subjects)
-        #online_marks = SSCOnlineMarks.objects.filter(student = me.profile)
-        print(test_info)
-        return Response(test_info)
-
-class UplodatQuestionsAPI(APIView):
-    def post(self,request,*args,**kwargs):
-        name = request.POST['name']
-        studs = Student.objects.all()
-        num_studs = len(studs)
-        text = 'Success! Hello %s, there are %s students at BodhiAI'\
-        %(name,num_studs)
-        return Response(text)
-
+#----------------------------------------------------------------------------------------
+# returns the details about the last test created by teacher.
 
 class LastClassTestPerformanceTeacherAPI(APIView):
     def get(self,request,format = None):
@@ -102,13 +62,14 @@ class LastClassTestPerformanceTeacherAPI(APIView):
                                                  =new_test )
         marks = []
         for test in my_tests:
-            marks.append((test.marks/quest_marks)*100)
+            marks.append((test.marks/test.test.max_marks)*100)
         info =\
                 {'subject':subject,'date':publised_date,'test_takers':len(my_tests),'marks':marks,'num_questions':counter,'test_id':test_id}
         return Response(info)
 
+#---------------------------------------------------------------------------------------
 
-
+# returns the names of  weak areas by subject and batch taught by the teacher.
 class TeacherWeakAreasBrief(APIView):
     def get(self,request,format=None):
         me = Teach(self.request.user)
@@ -166,6 +127,12 @@ class TeacherWeakAreasBrief(APIView):
 
         return Response(weak_subs_areas)
 
+#---------------------------------------------------------------------------------------
+
+# returns details about last few tests given out by the teacher(eg. date
+# published,total marks,subject,class,number of students who have taken the
+# test etc...)
+
 
 class TeacherTestsOverview(APIView):
     def get(self,request,format=None):
@@ -173,11 +140,9 @@ class TeacherTestsOverview(APIView):
                                                self.request.user).order_by('published')[:3]
         test_details = {}
         max_marks = 0
-        counter = 0
         for test in new_test:
-            for quest in test.sscquestions_set.all():
-                max_marks = max_marks + quest.max_marks
-                counter = counter + 1
+            max_marks = test.max_marks
+            counter = len(test.sscquestions_set.all())
             student_marks = SSCOnlineMarks.objects.filter(test = test)
             taken_students = len(student_marks)
             all_marks = []
@@ -192,5 +157,90 @@ class TeacherTestsOverview(APIView):
             test_details[test.id] =\
                     {'published':test.published,'num_questions':counter,'total_marks':max_marks,'class':test.klas.name,'subject':test.sub,'average':average_marks,'students_taken':taken_students}
         return Response(test_details)
+
+# ALL STUDENT APIs
+
+
+
+# Helper functions for Students APIs
+#-------------------------------------------------------------------
+def get_subject(user):
+    me = Studs(user)
+    taken_tests =\
+    SSCOnlineMarks.objects.filter(student=me.profile).order_by('testTaken')
+    prev_performance = {}
+    subjects = []
+    for test in taken_tests:
+        subjects.append(test.test.sub)
+    subjects = list(unique_everseen(subjects))
+    return subjects
+
+#--------------------------------------------------------------------
+# returns the marks of all the tests taken by student.
+
+class StudentPreviousPerformanceBriefAPIView(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        taken_tests =\
+        SSCOnlineMarks.objects.filter(student=me.profile).order_by('testTaken')
+        prev_performance = {}
+        subjects = []
+        for test in taken_tests:
+            subjects.append(test.test.sub)
+        subjects = list(unique_everseen(subjects))
+        for sub in subjects:
+            marks = []
+            date = []
+            for test in taken_tests:
+                if test.test.sub == sub:
+                    percentage = (test.marks/test.test.max_marks)*100
+                    marks.append(percentage)
+                    date.append(test.testTaken)
+                prev_performance[sub]  = {'marks':marks,'date':date}
+        return Response(prev_performance)
+
+
+#---------------------------------------------------------------------
+# Gets all the area proficiecy in all the subjects a student studies
+
+class StudentTopicWiseProficiency(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        subjects = get_subject(self.request.user)
+        strong_areas = {}
+        for subject in subjects:
+
+            freq = me.weakAreas_IntensityAverage(subject)
+            strongAreas = []
+            strongFreq = []
+            try:
+               for i,j in freq:
+                    strongAreas.append(i)
+                    strongFreq.append(float(100-j))
+            except Exception as e:
+                print(str(e))
+            if freq == 0:
+               context = {'noMistake':'noMistake'}
+               return render(request,'basicinformation/student_weakAreas.html',context)
+            # changing topic categories numbers to names
+            freq_Names = me.changeTopicNumbersNames(freq,subject)
+            skills = list(zip(strongAreas,strongFreq))
+            skills_names = me.changeTopicNumbersNames(skills,subject)
+            strong_areas[subject] = {'strongTopics':skills_names}
+        return Response(strong_areas)
+
+
+
+#---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
 
 

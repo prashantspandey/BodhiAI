@@ -1,0 +1,222 @@
+{%extends 'basicinformation/base2.html' %}
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{%block title %}BodhiAI|Student Page{%endblock %}</title>
+    {%block scripts %}
+    <link rel='stylesheet' type='text/css' href='{% static "basicinformation/css1/studentHomePage.css" %}'> <script>
+		$.ajaxSetup({
+  data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+});
+	function loadTopicProficiency(){
+		$("#proficiencyGif").removeClass('hidden');
+	$.ajax({
+		url:"{%url 'basic-api:StudentProficiency' %}",
+		method:"GET",
+		success: function(data){
+			$.each(data,function(key,value){
+				allTopics = value.strongTopics
+				try{
+				console.log(allTopics[0])
+				}
+				catch(err)
+				{
+					console.log(err)
+				}
+				
+
+			});
+		},
+		complete: function(data){
+			$("#proficiencyGif").hide();
+		},
+		error: function(){
+			console.log(data);
+		}
+
+	});
+	};
+
+	     function loadTopics(test_id){
+		     $.ajax({
+		     	url:"{% url 'paper-api:AllTopics' %}",
+			method:"POST",
+			data: {'test_id':test_id},
+			success: function(topics){
+				$("#"+test_id+"newTopics").empty();
+				$.each(topics, function(key,value){
+					$("#"+test_id+"newTopics").append(
+						value + "<br>"
+						)
+				});
+			},
+			complete: function(data){
+
+				$("#"+test_id+"testID").addClass('hidden');
+			},
+			error: function(data){
+				console.log('error')
+			}
+		
+		});
+		};
+function plusDivs(n){
+	showDivs(slideIndex += n);
+};
+function showDivs(n){
+	var i;
+	var x = document.getElementsByClassName("myTests");
+	if (n > x.length) { slideIndex = 1}
+	if (n < 1) {slideIndex = x.length};
+	for (i =0;i < x.length; i++){
+		x[i].style.display = "none";
+	}
+	x[slideIndex-1].style.display = "block";
+}
+    
+	</script>
+     <script>
+     $(document).ready(function () {
+	     $("#tests").append(
+		"<div id='testgif'>"+
+	"<img src={% static 'basicinformation/loaders/segment.gif' %}>"+
+		"</div>"
+
+		     )
+
+	     $.ajax({
+		     	url:"{% url 'paper-api:PaperDetails' %}",
+			method:"GET", success: function(data){
+
+				$.each(data, function(key,value){
+
+					var topics = value.topics.toString()
+					var all_topics = topics.replace(/,/g,"<br>");
+					console.log(all_topics)
+					$(".myTests").append(
+	  "<div class='col-sm-2 col-md-4 animated zoomIn' id ='newTests'>"+
+			"<div class='thumbnail' id='tests'>"+
+			"<div class='caption'>"+
+			"<h3 class='text-center' style='font-weight:bold;'>"+value.subject+"</h3>"+
+				"<h4 class='text-center'>"+value.num_questions+' questions'+" </h4>"+
+			"	<h4 class='text-center'>Created By:  </h4>"+
+				"<h4 class='text-center'><strong>"+value.creator+"</strong>  </h4>"+
+			"<h4> Topics </h4>"+
+			"<ul id="+key+"newTopics>"+
+						all_topics+
+
+			"</ul>"+
+					"<button name='test_id' value="+key+" onclick='loadTopics("+key+")' class='btn btn-success' id="+key+"testID>"+"Show all topics"+"</button>"+
+			"<div class='text-center'>"+
+				"<form action = {% url 'QuestionsAndPapers:conductTest' %} method='get'>"+
+					"<button type='submit' name='onlineTestid' class='btn btn-primary' value="+key+" onclick='testTake()'>"+"Take Test"+"</button>"+
+				"</form>"+
+			"</div>"+
+
+
+				"</div>"+
+				"</div>"
+
+						)
+				});
+			},
+     			complete: function(data){
+
+				$("#tests").hide();
+				showDivs(1);
+	   		},
+			error: function(data){
+
+			}		
+	     });	     
+	     $.ajax({
+		     	url:"{% url 'basic-api:StudentPreviousPerformance' %}",
+			method:"GET", 
+		     	success: function(data){
+				$.each(data, function(key,value){
+				$("#pastPerformance").append(
+					"<div class='col-md-12 well'>"+
+					"<h4 class='text-center'>"+"Past performance in "+key+"</h4>"+
+					"<canvas id='"+key+"chart' height='200' >"+
+					"</canvas>"+"<br>"+"<br>"+
+
+					"</div>"
+						)
+				var ctx_previous_performance = document.getElementById(""+key+"chart")
+				ctx_previous_performance.height = 500;
+				ctx_previous_performance.width = 1000;
+				var myLineChart = new Chart(ctx_previous_performance,{
+				type: 'line',
+					data:{
+						labels:value.date,
+						datasets:[{
+							label:key,
+							data:value.marks,
+							borderColor: '#00F',
+							fill: false,
+
+						}],
+					},
+
+				options: {   responsive: true,
+		    	maintainAspectRatio: true,
+		    
+
+    			scales: {
+        		xAxes: [{
+            display: true,
+		                    yAxes: [{
+                        ticks: {
+				steps:20,
+				stepValue:10,
+				max:100,
+
+                        }
+                    }]
+
+        }]
+    }
+}
+});
+					
+				});
+			}
+	     });
+	
+
+     });
+     </script>
+     {%endblock%}
+
+</head>
+<body>
+	{%block content%}
+<div class='container'>
+<div class='myTests'>
+
+
+<button class="w3-button w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+<button class="w3-button w3-display-right" onclick="plusDivs(+1)">&#10095;</button>
+</div>
+<div id="pastPerformance">
+</div>
+<div id="topicProficiency" class='text-center'>
+
+<button class="c-btn c-btn--success" onclick="loadTopicProficiency()">See Proficiency</button>
+		<div id='proficiencyGif' class='hidden text-center'>
+	<img src={% static 'basicinformation/loaders/segment.gif' %}>
+		</div>
+
+</div>
+
+</div>
+
+
+
+	{%endblock%}
+
+</body> </html>
+
+

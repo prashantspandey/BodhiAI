@@ -7755,6 +7755,1382 @@ def visible_tests(test_id):
     else:
         return test
 
+# ---------------------------
+# changing names without using a student or teacher class
+def change_topicNumbersNames(arr,subject):
+    names = []
+    numbers = []
+    if subject == 'English':
+        for i in arr:
+            if i == '1.1':
+                names.append('Antonym')
+                numbers.append(i)
+            elif i == '1.2':
+                names.append('Synonym')
+                numbers.append(i)
+            elif i == '1.3':
+                names.append('One word substitution')
+                numbers.append(i)
+            elif i == '1.4':
+                names.append('Idioms & Phrases')
+                numbers.append(i)
+            elif i == '1.5':
+                names.append('Phrasal Verbs')
+                numbers.append(i)
+            elif i == '1.6':
+                names.append('Use of some verbs with particular nouns')
+                numbers.append(i)
+            elif i == '1.7':
+                names.append('Tense')
+                numbers.append(i)
+            elif i == '2.1':
+                names.append('Noun')
+                numbers.append(i)
+            elif i == '2.2':
+                names.append('Pronoun')
+                numbers.append(i)
+            elif i == '2.3':
+                names.append('Adjective')
+                numbers.append(i)
+            elif i == '2.4':
+                names.append('Articles')
+                numbers.append(i)
+            elif i == '2.5':
+                names.append('Verb')
+                numbers.append(i)
+            elif i == '2.6':
+                names.append('Adverb')
+                numbers.append(i)
+            elif i == '2.7':
+                names.append('Time & Tense')
+                numbers.append(i)
+            elif i == '2.8':
+                names.append('Voice')
+                numbers.append(i)
+            elif i == '2.9':
+                names.append('Non-Finites')
+                numbers.append(i)
+            elif i == '3.1':
+                names.append('Narration')
+                numbers.append(i)
+            elif i == '3.2':
+                names.append('Preposition')
+                numbers.append(i)
+            elif i == '3.3':
+                names.append('Conjunction')
+                numbers.append(i)
+            elif i == '3.4':
+                names.append('Subject verb agreement')
+                numbers.append(i)
+            elif i == '3.5':
+                names.append('Common Errors')
+                numbers.append(i)
+            elif i == '3.6':
+                names.append('Superfluous Expressions & Slang')
+                numbers.append(i)
+
+
+        changed = list(zip(names,numbers))
+        return changed
+    if subject == 'General-Intelligence':
+        for i in arr:
+            if i == '1.1':
+                names.append('Paper cutting and Folding')
+                numbers.append(i)
+            elif i == '1.2':
+                names.append('Mirror and Water Image')
+                numbers.append(i)
+            elif i == '1.3':
+                names.append('Embedded Figures')
+                numbers.append(i)
+            elif i == '1.4':
+                names.append('Figure Completion')
+                numbers.append(i)
+            elif i == '1.5':
+                names.append('Counting of embedded figures')
+                numbers.append(i)
+            elif i == '1.6':
+                names.append('Counting of figures')
+                numbers.append(i)
+            elif i == '2.1':
+                names.append('Analogy')
+                numbers.append(i)
+            elif i == '2.2':
+                names.append('Multiple Analogy')
+                numbers.append(i)
+            elif i == '2.3':
+                names.append('Choosing the analogous pair')
+                numbers.append(i)
+            elif i == '2.4':
+                names.append('Number analogy (series pattern)')
+                numbers.append(i)
+            elif i =='2.5':
+                names.append('Number analogy (missing)')
+                numbers.append(i)
+            elif i == '2.6':
+                names.append('Alphabet based analogy')
+                numbers.append(i)
+            elif i == '2.7':
+                names.append('Mixed analogy')
+                numbers.append(i)
+            elif i == '3.1':
+                names.append('Series Completion (Diagram)')
+                numbers.append(i)
+            elif i == '3.2':
+                names.append('Analogy (Diagram)')
+                numbers.append(i)
+            elif i == '3.3':
+                names.append('Classification (Diagram)')
+                numbers.append(i)
+            elif i == '3.4':
+                names.append('Dice & Boxes')
+                numbers.append(i)
+            elif i == '2.8':
+                names.append('Ruled based analogy')
+                numbers.append(i)
+            elif i == '2.9':
+                names.append('Alphabet Test')
+                numbers.append(i)
+            elif i == '4.1':
+                names.append('Ranking')
+                numbers.append(i)
+            elif i == '5.1':
+                names.append('Matrix')
+                numbers.append(i)
+            elif i == '6.1':
+                names.append('Word Creation')
+                numbers.append(i)
+            elif i == '7.1':
+                names.append('Odd one out')
+                numbers.append(i)
+            elif i == '8.1':
+                names.append('Height')
+                numbers.append(i)
+            elif i == '9.1':
+                names.append('Direction')
+                numbers.append(i)
+            elif i =='10.1':
+                names.append('Statement & Conclusion')
+                numbers.append(i)
+            elif i == '11.1':
+                names.append('Venn Diagram')
+                numbers.append(i)
+            elif i == '12.1':
+                names.append('Missing number')
+                numbers.append(i)
+            elif i == '13.1':
+                names.append('Logical Sequence of words')
+                numbers.append(i)
+            elif i == '14.1':
+                names.append('Clock/Time')
+                numbers.append(i)
+            elif i == '15.1':
+                names.append('Mathematical Operations')
+                numbers.append(i)
+            elif i == '16.1':
+                names.append('Coding Decoding')
+                numbers.append(i)
+            elif i == '17.1':
+                names.append('Series Test')
+                numbers.append(i)
+            elif i == '18.1':
+                names.append('Syllogism')
+                numbers.append(i)
+            elif i == '19.1':
+                names.append('Blood Relation')
+                numbers.append(i)
+            elif i == '20.1':
+                names.append('Seating Arrangement')
+                numbers.append(i)
+            elif i == '22.1':
+                names.append('Calender Test')
+                numbers.append(i)
+            elif i == '28.1':
+                names.append('Symbols & Notations')
+                numbers.append(i)
+
+
+
+
+
+
+
+
+
+
+
+
+        changed = list(zip(names,numbers))
+        return changed
+    if subject == 'Quantitative-Analysis':
+        for i in arr:
+            if i == '1.1':
+                names.append('Probability')
+                numbers.append(i)
+            elif i == '2.1':
+                names.append('Percentage')
+                numbers.append(i)
+            elif i == '3.1':
+                names.append('Pipes & Cisterns')
+                numbers.append(i)
+            elif i == '4.1':
+                names.append('Simplification')
+                numbers.append(i)
+            elif i == '5.1':
+                names.append('Permutations')
+                numbers.append(i)
+            elif i == '6.1':
+                names.append('Simple Interest')
+                numbers.append(i)
+            elif i == '7.1':
+                names.append('Partnership')
+                numbers.append(i)
+            elif i == '8.1':
+                names.append('Averages')
+                numbers.append(i)
+            elif i == '9.1':
+                names.append('Compound Interest')
+                numbers.append(i)
+            elif i == '11.1':
+                names.append('Mixture and Alligations')
+                numbers.append(i)
+            elif i == '12.1':
+                names.append('LCM & HCF')
+                numbers.append(i)
+            elif i == '13.1':
+                names.append('Inequalities')
+                numbers.append(i)
+            elif i == '14.1':
+                names.append('Ranking')
+                numbers.append(i)
+            elif i == '15.1':
+                names.append('Chain Rule')
+                numbers.append(i)
+            elif i == '16.1':
+                names.append('Mensuration')
+                numbers.append(i)
+            elif i == '17.1':
+                names.append('Ratio & Proportions')
+                numbers.append(i)
+            elif i == '18.1':
+                names.append('Time & Distance')
+                numbers.append(i)
+            elif i == '19.1':
+                names.append('Time & Work')
+                numbers.append(i)
+            elif i == '20.1':
+                names.append('Number Series')
+                numbers.append(i)
+            elif i == '21.1':
+                names.append('Number System')
+                numbers.append(i)
+            elif i == '22.1':
+                names.append('Quadratic Equations')
+                numbers.append(i)
+            elif i == '23.1':
+                names.append('Data Sufficiency')
+                numbers.append(i)
+
+        changed = list(zip(names,numbers))
+        return changed
+    if subject == 'General-Knowledge':
+        for i in arr:
+            if i == '1.1':
+                names.append('Inventions & Innovators')
+            if i == '2.1':
+                names.append('Bird Sanctuary')
+                numbers.append(i)
+            if i == '3.1':
+                names.append('Books & Authors')
+                numbers.append(i)
+            if i == '4.1':
+                names.append('Countries, Capitals & Currencies')
+                numbers.append(i)
+            if i == '5.1':
+                names.append('Current Affairs')
+                numbers.append(i)
+            if i == '6.1':
+                names.append('Economics')
+                numbers.append(i)
+            if i == '7.1':
+                names.append('General Science')
+                numbers.append(i)
+            if i == '8.1':
+                names.append('Biology')
+                numbers.append(i)
+            if i == '9.1':
+                names.append('Chemistry')
+                numbers.append(i)
+            if i == '10.1':
+                names.append('Science & Technology')
+                numbers.append(i)
+            if i == '11.1':
+                names.append('Physics')
+                numbers.append(i)
+            if i == '12.1':
+                names.append('Geography')
+                numbers.append(i)
+            if i == '13.1':
+                names.append('National Organizations')
+                numbers.append(i)
+            if i == '14.1':
+                names.append('History')
+                numbers.append(i)
+            if i == '15.1':
+                names.append('Honors & Awards')
+                numbers.append(i)
+            if i == '16.1':
+                names.append('Important Dates')
+                numbers.append(i)
+            if i == '17.1':
+                names.append('Indian Agriculture')
+                numbers.append(i)
+            if i == '18.1':
+                names.append('Indian Constitution')
+                numbers.append(i)
+            if i == '19.1':
+                names.append('Indian Culture')
+                numbers.append(i)
+            if i == '20.1':
+                names.append('Indian Museums')
+                numbers.append(i)
+            if i == '21.1':
+                names.append('Polity (India)')
+                numbers.append(i)
+            if i == '22.1':
+                names.append('Sports')
+                numbers.append(i)
+            if i == '23.1':
+                names.append('Superlatives(India)')
+                numbers.append(i)
+            if i == '24.1':
+                names.append('Symbols of States (India)')
+                numbers.append(i)
+            if i == '25.1':
+                names.append('Tiger Reserve')
+                numbers.append(i)
+            if i == '26.1':
+                names.append('UNESCO Word Heritage Sites(India)')
+                numbers.append(i)
+            if i == '27.1':
+                names.append('World Organizations')
+                numbers.append(i)
+            if i == '28.1':
+                names.append('Polity (World)')
+                numbers.append(i)
+        changed = list(zip(names,numbers))
+        return changed
+# categories for GroupX 
+
+    if subject == 'Defence-English':
+        for i in arr:
+            if i == '1.1':
+                names.append('Comprehension')
+                numbers.append(i)
+            if i == '2.1':
+                names.append('Judge Comprehension')
+                numbers.append(i)
+            if i == '3.1':
+                names.append('Inferences')
+                numbers.append(i)
+            if i == '4.1':
+                names.append('Vocabulary')
+                numbers.append(i)
+            if i == '5.1':
+                names.append('Composition')
+                numbers.append(i)
+            if i == '6.1':
+                names.append('Subject and Verb')
+                numbers.append(i)
+            if i == '7.1':
+                names.append('Verb and their use')
+                numbers.append(i)
+            if i == '8.1':
+                names.append('Sequence of tenses')
+                numbers.append(i)
+            if i == '9.1':
+                names.append('Transformation')
+                numbers.append(i)
+            if i == '10.1':
+                names.append('Grammer')
+                numbers.append(i)
+            if i == '11.1':
+                names.append('Spellings')
+                numbers.append(i)
+            if i == '12.1':
+                names.append('Word formation')
+                numbers.append(i)
+            if i == '11.1':
+                names.append('Antonyms& Synonyms')
+                numbers.append(i)
+            if i == '11.1':
+                names.append('Word Substitution')
+                numbers.append(i)
+            if i == '12.1':
+                names.append('Correct use of words')
+                numbers.append(i)
+            if i == '13.1':
+                names.append('Confusing words')
+                numbers.append(i)
+            if i == '14.1':
+                names.append('Word order')
+                numbers.append(i)
+            if i == '15.1':
+                names.append('Correct use of Adverbs')
+                numbers.append(i)
+            if i == '16.1':
+                names.append('Idioms and Phrases')
+                numbers.append(i)
+            if i == '17.1':
+                names.append('Use of simple idioms')
+                numbers.append(i)
+            if i == '18.1':
+                names.append('Use of common proverbs')
+                numbers.append(i)
+            if i == '19.1':
+                names.append('Direct/Indirect sentences')
+                numbers.append(i)
+            if i == '20.1':
+                names.append('Direct to Indirect form')
+                numbers.append(i)
+            if i == '21.1':
+                names.append('Indirect to Direct')
+                numbers.append(i)
+            if i == '22.1':
+                names.append('Active and Passive voice')
+                numbers.append(i)
+            if i == '23.1':
+                names.append('Active to Passive voice')
+                numbers.append(i)
+            if i == '22.1':
+                names.append('Passive to Active voice')
+                numbers.append(i)
+            if i == '50.1':
+                names.append('To be categorized')
+                numbers.append(i)
+
+        return list(zip(names,numbers))
+
+
+    if subject == 'Defence-Physics':
+        for i in arr:
+            if i == '1.1':
+                names.append('Unit of Dimension')
+                numbers.append(i)
+            if i == '2.1':
+                names.append('Scalers&Vectors')
+                numbers.append(i)
+            if i == '3.1':
+                names.append('Motion in straight line')
+                numbers.append(i)
+            if i == '4.1':
+                names.append('Law of Motion')
+                numbers.append(i)
+            if i == '5.1':
+                names.append('Projectile Motion')
+                numbers.append(i)
+            if i == '6.1':
+                names.append('Circular Motion')
+                numbers.append(i)
+            if i == '7.1':
+                names.append('Friction ')
+                numbers.append(i)
+            if i == '8.1':
+                names.append('Work power & Energy')
+                numbers.append(i)
+            if i == '9.1':
+                names.append('Collision')
+                numbers.append(i)
+            if i == '10.1':
+                names.append('Rotational motion % Moment of Inertia')
+                numbers.append(i)
+            if i == '11.1':
+                names.append('Gravitation')
+                numbers.append(i)
+            if i == '12.1':
+                names.append('Elasticity')
+                numbers.append(i)
+            if i == '13.1':
+                names.append('Fluid Pressure ')
+                numbers.append(i)
+            if i == '14.1':
+                names.append('Viscocity& Flow of fluids')
+                numbers.append(i)
+            if i == '15.1':
+                names.append('Surface Tension')
+                numbers.append(i)
+            if i == '16.1':
+                names.append('Oscillations')
+                numbers.append(i)
+            if i == '17.1':
+                names.append('Thermometry')
+                numbers.append(i)
+            if i == '18.1':
+                names.append('Thermal Expansion')
+                numbers.append(i)
+            if i == '19.1':
+                names.append('Calorimetry')
+                numbers.append(i)
+            if i == '20.1':
+                names.append('Transmission of Heat')
+                numbers.append(i)
+            if i == '21.1':
+                names.append('Thermodynamics')
+                numbers.append(i)
+            if i == '22.1':
+                names.append('Kinetic Theory of gases')
+                numbers.append(i)
+            if i == '23.1':
+                names.append('Wave Motion')
+                numbers.append(i)
+            if i == '24.1':
+                names.append('Superposition of waves')
+                numbers.append(i)
+            if i == '25.1':
+                names.append('Speed of Sound')
+                numbers.append(i)
+            if i == '26.1':
+                names.append('Vibrations in air columns')
+                numbers.append(i)
+            if i == '27.1':
+                names.append('Vibration of Strings')
+                numbers.append(i)
+            if i == '28.1':
+                names.append('Dopplers Effect')
+                numbers.append(i)
+            if i == '29.1':
+                names.append('Musical Sound& Ultra sound')
+                numbers.append(i)
+            if i == '30.1':
+                names.append('Electric charge & Electric Field')
+                numbers.append(i)
+            if i == '31.1':
+                names.append('Gauss Theorem')
+                numbers.append(i)
+            if i == '32.1':
+                names.append('Electric Capacitance')
+                numbers.append(i)
+            if i == '33.1':
+                names.append('Electric Conduction')
+                numbers.append(i)
+            if i == '34.1':
+                names.append('Ohms Law')
+                numbers.append(i)
+            if i == '35.1':
+                names.append('Electromotive force & Electric cell')
+                numbers.append(i)
+            if i == '36.1':
+                names.append('Kirchoffs law & wheatstone bridge')
+                numbers.append(i)
+            if i == '37.1':
+                names.append('Potentiometer')
+                numbers.append(i)
+            if i == '38.1':
+                names.append('Heating effect of current')
+                numbers.append(i)
+            if i == '39.1':
+                names.append('Chemical effect of current')
+                numbers.append(i)
+            if i == '40.1':
+                names.append('Magnetic effect of current')
+                numbers.append(i)
+            if i == '41.1':
+                names.append('Electrical Instruments')
+                numbers.append(i)
+            if i == '42.1':
+                names.append('Magnetic Field')
+                numbers.append(i)
+            if i == '43.1':
+                names.append('Magnetic effects of matter & terrestrial\
+                                magnetism')
+                numbers.append(i)
+            if i == '44.1':
+                names.append('Electromagnetic Induction')
+                numbers.append(i)
+            if i == '45.1':
+                names.append('Alternating Current')
+                numbers.append(i)
+            if i == '46.1':
+                names.append('Reflection of light')
+                numbers.append(i)
+            if i == '47.1':
+                names.append('Refraction of light')
+                numbers.append(i)
+            if i == '48.1':
+                names.append('Refraction at Spherical surface & by\
+                                lenses')
+                numbers.append(i)
+            if i == '49.1':
+                names.append('Prism & scattering of light')
+                numbers.append(i)
+            if i == '50.1':
+                names.append('Optical instruments')
+                numbers.append(i)
+            if i == '51.1':
+                names.append('Human eye & defects of vision')
+                numbers.append(i)
+            if i == '52.1':
+                names.append('Wave theory of light')
+                numbers.append(i)
+            if i == '53.1':
+                names.append('Interferance & Deflection of light')
+                numbers.append(i)
+            if i == '54.1':
+                names.append('Polarization of light')
+                numbers.append(i)
+            if i == '55.1':
+                names.append('Photometry')
+                numbers.append(i)
+            if i == '56.1':
+                names.append('Dual nature of radiation & matter')
+                numbers.append(i)
+            if i == '57.1':
+                names.append('Electromagnetic waves')
+                numbers.append(i)
+            if i == '58.1':
+                names.append('Structure of Atom')
+                numbers.append(i)
+            if i == '59.1':
+                names.append('Radioactivity')
+                numbers.append(i)
+            if i == '60.1':
+                names.append('Nuclear fission & fusion')
+                numbers.append(i)
+            if i == '61.1':
+                names.append('Semi-conductor,diode & Transistors')
+                numbers.append(i)
+            if i == '62.1':
+                names.append('Digital electronics & logic gates')
+                numbers.append(i)
+
+        return list(zip(names,numbers))
+
+    if subject == 'Defence-GK-CA':
+        for i in arr:
+            if i == '1.1':
+                names.append('General Science')
+                numbers.append(i)
+            if i == '1.2':
+                names.append('Civics')
+                numbers.append(i)
+            if i == '1.3':
+                names.append('Geography')
+                numbers.append(i)
+            if i == '1.4':
+                names.append('Current Events')
+                numbers.append(i)
+            if i == '1.5':
+                names.append('History')
+                numbers.append(i)
+            if i == '1.6':
+                names.append('Basic Computer Operation')
+                numbers.append(i)
+            if i == '1.7':
+                names.append('General Knowledge')
+                numbers.append(i)
+
+        return list(zip(names,numbers))
+
+
+
+
+
+
+    if subject == 'GroupX-Maths':
+        for i in arr:
+            if i == '1.1':
+                names.append('Sets-Relations-Functions')
+                numbers.append(i)
+            if i == '2.1':
+                names.append('Trigonometric functions')
+                numbers.append(i)
+            if i == '3.1':
+                names.append('Inverse Trigonometric functions')
+                numbers.append(i)
+            if i == '4.1':
+                names.append('Complex numbers')
+                numbers.append(i)
+            if i == '5.1':
+                names.append('Quadratic eqations')
+                numbers.append(i)
+            if i == '6.1':
+                names.append('Sequence & Series')
+                numbers.append(i)
+            if i == '7.1':
+                names.append('Permutations')
+                numbers.append(i)
+            if i == '8.1':
+                names.append('Combination')
+                numbers.append(i)
+            if i == '9.1':
+                names.append('Binomial Theorem')
+                numbers.append(i)
+            if i == '10.1':
+                names.append('Coordinate Geometry')
+                numbers.append(i)
+            if i == '11.1':
+                names.append('Exponential Series')
+                numbers.append(i)
+            if i == '12.1':
+                names.append('Logarithmic Series')
+                numbers.append(i)
+            if i == '13.1':
+                names.append('Matrices')
+                numbers.append(i)
+            if i == '14.1':
+                names.append('Determinants')
+                numbers.append(i)
+            if i == '15.1':
+                names.append('Limit & Continuity')
+                numbers.append(i)
+            if i == '16.1':
+                names.append('Differentiation')
+                numbers.append(i)
+            if i == '17.1':
+                names.append('Application of Differentiation')
+                numbers.append(i)
+            if i == '18.1':
+                names.append('Indefinite Integrals')
+                numbers.append(i)
+            if i == '19.1':
+                names.append('Definite Integrals')
+                numbers.append(i)
+            if i == '20.1':
+                names.append('Application of Integration')
+                numbers.append(i)
+            if i == '21.1':
+                names.append('Diferential Equations')
+                numbers.append(i)
+            if i == '22.1':
+                names.append('Probability Statistics')
+                numbers.append(i)
+            if i == '23.1':
+                names.append('Properties of Triangle')
+                numbers.append(i)
+            if i == '24.1':
+                names.append('Height&Distance')
+                numbers.append(i)
+
+
+
+        return list(zip(names,numbers))
+
+    if subject == 'MathsIITJEE10':
+        for i in arr:
+            if i == '1.1':
+                names.append('All Categories')
+                numbers.append(i)
+
+        return list(zip(names,numbers))
+
+    if subject == 'MathsIITJEE11':
+        for i in arr:
+            if i == '1.1':
+                names.append('All Categories')
+                numbers.append(i)
+        return list(zip(names,numbers))
+
+    if subject == 'MathsIITJEE12':
+        for i in arr:
+            if i == '1.1':
+                names.append('All Categories')
+                numbers.append(i)
+
+        return list(zip(names,numbers))
+
+    if subject == 'PhysicsIITJEE10':
+        for i in arr:
+            if i == '1.1':
+                names.append('All Categories')
+                numbers.append(i)
+        return list(zip(names,numbers))
+
+    if subject == 'PhysicsIITJEE11':
+        for i in arr:
+            if i == '1.1':
+                names.append('All Categories')
+                numbers.append(i)
+
+        return list(zip(names,numbers))
+
+    if subject == 'PhysicsIITJEE12':
+        for i in arr:
+            if i == '1.1':
+                names.append('All Categories')
+                numbers.append(i)
+        return list(zip(names,numbers))
+
+
+    if subject == 'ChemistryIITJEE10':
+        for i in arr:
+            if i == '1.1':
+                names.append('All Categories')
+                numbers.append(i)
+
+        return list(zip(names,numbers))
+
+    if subject == 'ChemistryIITJEE11':
+        for i in arr:
+            if i == '1.1':
+                names.append('All Categories')
+                numbers.append(i)
+        return list(zip(names,numbers))
+
+
+    if subject == 'ChemistryIITJEE12':
+        for i in arr:
+            if i == '1.1':
+                names.append('All Categories')
+                numbers.append(i)
+        return list(zip(names,numbers))
+
+
+def changeIndividualNames(i,subject):
+    if subject == 'English':
+        if i == '1.1':
+            return 'Antonym'
+        elif i == '1.2':
+            return 'Synonym'
+        elif i == '1.3':
+            return 'One word substitution'
+        elif i == '1.4':
+            return 'Idioms & Phrases'
+        elif i == '1.5':
+            return 'Phrasal Verbs'
+        elif i == '1.6':
+            return 'Use of some verbs with particular nouns'
+        elif i == '1.7':
+            return 'Tense'
+        elif i == '2.1':
+            return 'Noun'
+        elif i == '2.2':
+            return 'Pronoun'
+        elif i == '2.3':
+            return 'Adjective'
+        elif i == '2.4':
+            return 'Articles'
+        elif i == '2.5':
+            return 'Verb'
+        elif i == '2.6':
+            return 'Adverb'
+        elif i == '2.7':
+            return 'Time & Tense'
+        elif i == '2.8':
+            return 'Voice'
+        elif i == '2.9':
+            return 'Non-Finites'
+        elif i == '3.1':
+            return 'Narration'
+        elif i == '3.2':
+            return 'Preposition'
+        elif i == '3.3':
+            return 'Conjunction'
+        elif i == '3.4':
+            return 'Subject verb agreement'
+        elif i == '3.5':
+            return 'Common Errors'
+        elif i == '3.6':
+            return 'Superfluous Expressions & Slang'
+
+
+
+    if subject == 'General-Intelligence':
+        if i == '1.1':
+            return 'Paper Cutting and Folding'
+        elif i == '1.2':
+            return 'Mirror and Water Image'
+        elif i == '1.3':
+            return 'Embedded Figures'
+        elif i == '1.4':
+            return 'Figure Completion'
+        elif i == '1.5':
+            return 'Counting Embedded Figures'
+        elif i == '1.6':
+            return 'Counting in figures'
+        elif i == '2.1':
+            return 'Analogy'
+        elif i == '2.2':
+            return 'Multiple Analogy'
+        elif i == '2.3':
+            return 'Choosing the analogous pair'
+        elif i == '2.4':
+            return 'Number analogy (series pattern)'
+        elif i =='2.5':
+            return 'Number analogy (missing)'
+        elif i == '2.6':
+            return 'Alphabet based analogy'
+        elif i == '2.7':
+            return 'Mixed analogy'
+        elif i == '3.1':
+            return 'Series Completion (Diagram)'
+        elif i == '3.2':
+            return 'Analogy (Diagram)'
+        elif i == '3.3':
+            return 'Classification (Diagram)'
+        elif i == '3.4':
+            return 'Dice & Boxes'
+        elif i == '2.8':
+            return 'Ruled based analogy'
+        elif i == '2.9':
+            return 'Alphabet Test'
+        elif i == '4.1':
+            return 'Ranking'
+        elif i == '5.1':
+            return 'Matrix'
+        elif i == '6.1':
+            return 'Word Creation'
+        elif i == '7.1':
+            return 'Odd one out'
+        elif i == '8.1':
+            return 'Height'
+        elif i == '9.1':
+            return 'Direction'
+        elif i =='10.1':
+            return 'Statement & Conclusion'
+        elif i == '11.1':
+            return 'Venn Diagram'
+        elif i == '12.1':
+            return 'Missing number'
+        elif i == '13.1':
+            return 'Logical Sequence of words'
+        elif i == '14.1':
+            return 'Clock/Time'
+        elif i == '15.1':
+            return 'Mathematical Operations'
+        elif i == '16.1':
+            return 'Coding Decoding'
+        elif i == '17.1':
+            return 'Series Test'
+        elif i == '18.1':
+            return 'Syllogism'
+        elif i == '19.1':
+            return 'Blood Relation'
+        elif i == '20.1':
+            return 'Seating Arrangement'
+        elif i == '22.1':
+            return 'Calender Test'
+        elif i == '28.1':
+            return 'Symbols & Notations'
+
+
+
+
+
+
+
+
+
+
+
+
+    if subject == 'Quantitative-Analysis':
+            if i == '1.1':
+                return 'Probability'
+            elif i == '2.1':
+                return 'Percentage'
+            elif i == '3.1':
+                return 'Pipes & Cisterns'
+            elif i == '4.1':
+                return 'Simplification'
+            elif i == '5.1':
+                return 'Permutations'
+            elif i == '6.1':
+                return 'Simple Interest'
+            elif i == '7.1':
+                return 'Partnership'
+            elif i == '8.1':
+                return 'Averages'
+            elif i == '9.1':
+                return 'Compound Interest'
+            elif i == '11.1':
+                return 'Mixture and Alligations'
+            elif i == '12.1':
+                return 'LCM & HCF'
+            elif i == '13.1':
+                return 'Inequalities'
+            elif i == '14.1':
+                return 'Ranking'
+            elif i == '15.1':
+                return 'Chain Rule'
+            elif i == '16.1':
+                return 'Mensuration'
+            elif i == '17.1':
+                return 'Ratio & Proportions'
+            elif i == '18.1':
+                return 'Time & Distance'
+            elif i == '19.1':
+                return 'Time & Work'
+            elif i == '20.1':
+                return 'Number Series'
+            elif i == '21.1':
+                return 'Number System'
+            elif i == '22.1':
+                return 'Quadratic Equations'
+            elif i == '23.1':
+                return 'Data Sufficiency'
+    if subject == 'General-Knowledge':
+            if i == '1.1':
+                return 'Inventions & Innovators'
+            if i == '2.1':
+               return 'Bird Sanctuary'
+            if i == '3.1':
+               return 'Books & Authors'
+            if i == '4.1':
+               return 'Countries, Capitals & Currencies'
+            if i == '5.1':
+               return 'Current Affairs'
+            if i == '6.1':
+               return 'Economics'
+            if i == '7.1':
+               return 'General Science'
+            if i == '8.1':
+               return 'Biology'
+            if i == '9.1':
+               return 'Chemistry'
+            if i == '10.1':
+               return 'Science & Technology'
+            if i == '11.1':
+               return 'Physics'
+            if i == '12.1':
+               return 'Geography'
+            if i == '13.1':
+               return 'National Organizations'
+            if i == '14.1':
+               return 'History'
+            if i == '15.1':
+               return 'Honors & Awards'
+            if i == '16.1':
+               return 'Important Dates'
+            if i == '17.1':
+               return 'Indian Agriculture'
+            if i == '18.1':
+               return 'Indian Constitution'
+            if i == '19.1':
+               return 'Indian Culture'
+            if i == '20.1':
+               return 'Indian Museums'
+            if i == '21.1':
+               return 'Polity (India)'
+            if i == '22.1':
+               return 'Sports'
+            if i == '23.1':
+               return 'Superlatives(India)'
+            if i == '24.1':
+               return 'Symbols of States (India)'
+            if i == '25.1':
+               return 'Tiger Reserve'
+            if i == '26.1':
+               return 'UNESCO Word Heritage Sites(India)'
+            if i == '27.1':
+               return 'World Organizations'
+            if i == '28.1':
+               return 'Polity (World)'
+# group x subjects
+
+    if subject == 'Defence-English':
+            if i == '1.1':
+                return 'Comprehension'
+            if i == '2.1':
+                return 'Judge Comprehension'
+            if i == '3.1':
+                return 'Inferences'
+            if i == '4.1':
+                return 'Vocabulary'
+            if i == '5.1':
+                return 'Composition'
+            if i == '6.1':
+                return 'Subject and Verb'
+            if i == '7.1':
+                return 'Verb and their use'
+            if i == '8.1':
+                return 'Sequence of tenses'
+            if i == '9.1':
+                return 'Transformation'
+            if i == '10.1':
+                return 'Grammer'
+            if i == '11.1':
+                return 'Spellings'
+            if i == '12.1':
+                return 'Word formation'
+            if i == '11.1':
+                return 'Antonyms& Synonyms'
+            if i == '11.1':
+                return 'Word Substitution'
+            if i == '12.1':
+                return 'Correct use of words'
+            if i == '13.1':
+                return 'Confusing words'
+            if i == '14.1':
+                return 'Word order'
+            if i == '15.1':
+                return 'Correct use of Adverbs'
+            if i == '16.1':
+                return 'Idioms and Phrases'
+            if i == '17.1':
+                return 'Use of simple idioms'
+            if i == '18.1':
+                return 'Use of common proverbs'
+            if i == '19.1':
+                return 'Direct/Indirect sentences'
+            if i == '20.1':
+                return 'Direct to Indirect form'
+            if i == '21.1':
+                return 'Indirect to Direct'
+            if i == '22.1':
+                return 'Active and Passive voice'
+            if i == '23.1':
+                return 'Active to Passive voice'
+            if i == '22.1':
+                return 'Passive to Active voice'
+            if i == '50.1':
+                return 'To be categorized'
+
+
+    if subject == 'Defence-Physics':
+            if i == '1.1':
+                return 'Unit of Dimension'
+            if i == '2.1':
+                return 'Scalers&Vectors'
+            if i == '3.1':
+                return 'Motion in straight line'
+            if i == '4.1':
+                return 'Law of Motion'
+            if i == '5.1':
+                return 'Projectile Motion'
+            if i == '6.1':
+                return 'Circular Motion'
+            if i == '7.1':
+                return 'Friction '
+            if i == '8.1':
+                return 'Work power & Energy'
+            if i == '9.1':
+                return 'Collision'
+            if i == '10.1':
+                return 'Rotational motion % Moment of Inertia'
+            if i == '11.1':
+                return 'Gravitation'
+            if i == '12.1':
+                return 'Elasticity'
+            if i == '13.1':
+                return 'Fluid Pressure '
+            if i == '14.1':
+                return 'Viscocity& Flow of fluids'
+            if i == '15.1':
+                return 'Surface Tension'
+            if i == '16.1':
+                return 'Oscillations'
+            if i == '17.1':
+                return 'Thermometry'
+            if i == '18.1':
+                return 'Thermal Expansion'
+            if i == '19.1':
+                return 'Calorimetry'
+            if i == '20.1':
+                return 'Transmission of Heat'
+            if i == '21.1':
+                return 'Thermodynamics'
+            if i == '22.1':
+                return 'Kinetic Theory of gases'
+            if i == '23.1':
+                return 'Wave Motion'
+            if i == '24.1':
+                return 'Superposition of waves'
+            if i == '25.1':
+                return 'Speed of Sound'
+            if i == '26.1':
+                return 'Vibrations in air columns'
+            if i == '27.1':
+                return 'Vibration of Strings'
+            if i == '28.1':
+                return 'Dopplers Effect'
+            if i == '29.1':
+                return 'Musical Sound& Ultra sound'
+            if i == '30.1':
+                return 'Electric charge & Electric Field'
+            if i == '31.1':
+                return 'Gauss Theorem'
+            if i == '32.1':
+                return 'Electric Capacitance'
+            if i == '33.1':
+                return 'Electric Conduction'
+            if i == '34.1':
+                return 'Ohms Law'
+            if i == '35.1':
+                return 'Electromotive force & Electric cell'
+            if i == '36.1':
+                return 'Kirchoffs law & wheatstone bridge'
+            if i == '37.1':
+                return 'Potentiometer'
+            if i == '38.1':
+                return 'Heating effect of current'
+            if i == '39.1':
+                return 'Chemical effect of current'
+            if i == '40.1':
+                return 'Magnetic effect of current'
+            if i == '41.1':
+                return 'Electrical Instruments'
+            if i == '42.1':
+                return 'Magnetic Field'
+            if i == '43.1':
+                return 'Magnetic effects of matter & terrestrial\
+                                magnetism'
+            if i == '44.1':
+                return 'Electromagnetic Induction'
+            if i == '45.1':
+                return 'Alternating Current'
+            if i == '46.1':
+                return 'Reflection of light'
+            if i == '47.1':
+                return 'Refraction of light'
+            if i == '48.1':
+                return 'Refraction at Spherical surface & by\
+                                lenses'
+            if i == '49.1':
+                return 'Prism & scattering of light'
+            if i == '50.1':
+                return 'Optical instruments'
+            if i == '51.1':
+                return 'Human eye & defects of vision'
+            if i == '52.1':
+                return 'Wave theory of light'
+            if i == '53.1':
+                return 'Interferance & Deflection of light'
+            if i == '54.1':
+                return 'Polarization of light'
+            if i == '55.1':
+                return 'Photometry'
+            if i == '56.1':
+                return 'Dual nature of radiation & matter'
+            if i == '57.1':
+                return 'Electromagnetic waves'
+            if i == '58.1':
+                return 'Structure of Atom'
+            if i == '59.1':
+                return 'Radioactivity'
+            if i == '60.1':
+                return 'Nuclear fission & fusion'
+            if i == '61.1':
+                return 'Semi-conductor,diode & Transistors'
+            if i == '62.1':
+                return 'Digital electronics & logic gates'
+    if subject == 'Defence-GK-CA':
+            if i == '1.1':
+                return 'General Science'
+            if i == '1.2':
+                return 'Civics'
+            if i == '1.3':
+                return 'Geography'
+            if i == '1.4':
+                return 'Current Events'
+            if i == '1.5':
+                return 'History'
+            if i == '1.6':
+                return 'Basic Computer Operation'
+            if i == '1.7':
+                return 'General Knowledge' 
+
+
+
+
+
+
+
+
+    if subject == 'GroupX-Maths':
+            if i == '1.1':
+                return 'Sets-Relations-Functions'
+            if i == '2.1':
+                return 'Trigonometric functions'
+            if i == '3.1':
+                return 'Inverse Trigonometric functions'
+            if i == '4.1':
+                return 'Complex numbers'
+            if i == '5.1':
+                return 'Quadratic eqations'
+            if i == '6.1':
+                return 'Sequence & Series'
+            if i == '7.1':
+                return 'Permutations'
+            if i == '8.1':
+                return 'Combination'
+            if i == '9.1':
+                return 'Binomial Theorem'
+            if i == '10.1':
+                return 'Coordinate Geometry'
+            if i == '11.1':
+                return 'Exponential Series'
+            if i == '12.1':
+                return 'Logarithmic Series'
+            if i == '13.1':
+                return 'Matrices'
+            if i == '14.1':
+                return 'Determinants'
+            if i == '15.1':
+                return 'Limit & Continuity'
+            if i == '16.1':
+                return 'Differentiation'
+            if i == '17.1':
+                return 'Application of Differentiation'
+            if i == '18.1':
+                return 'Indefinite Integrals'
+            if i == '19.1':
+                return 'Definite Integrals'
+            if i == '20.1':
+                return 'Application of Integration'
+            if i == '21.1':
+                return 'Diferential Equations'
+            if i == '22.1':
+                return 'Probability Statistics'
+            if i == '23.1':
+                return 'Properties of Triangle'
+            if i == '24.1':
+                return 'Height&Distance'
+
+    if subject == 'MathsIITJEE10':
+        if i == '1.1':
+            return 'All Categories'
+
+
+    if subject == 'MathsIITJEE11':
+            if i == '1.1':
+                return 'All Categories'
+
+
+    if subject == 'MathsIITJEE12':
+        if i == '1.1':
+            return 'All Categories'
+
+
+    if subject == 'PhysicsIITJEE10':
+            if i == '1.1':
+                return 'All Categories'
+
+
+    if subject == 'PhysicsIITJEE11':
+        if i == '1.1':
+            return 'All Categories'
+
+    if subject == 'PhysicsIITJEE12':
+            if i == '1.1':
+                return 'All Categories'
+
+
+    if subject == 'ChemistryIITJEE10':
+        if i == '1.1':
+            return 'All Categories'
+
+
+    if subject == 'ChemistryIITJEE11':
+            if i == '1.1':
+                return 'All Categories'
+
+    if subject == 'ChemistryIITJEE12':
+            if i == '1.1':
+                return 'All Categories'
+
+
+
+
 
 
 #-------------------------------

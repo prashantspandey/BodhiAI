@@ -386,7 +386,7 @@ def home(request):
                 context = \
                     {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
 
-            return render(request, 'basicinformation/studentInstitute.html', context)
+            return render(request, 'basicinformation/student_home_page.html', context)
 
 
         elif user.groups.filter(name='Teachers').exists():
@@ -746,6 +746,7 @@ def teacher_weakAreasinDetail(request):
         if 'weakAreasButton' in request.GET:
             which_class = request.GET['weakAreasClass']
             which_sub = request.GET['weakAreasSub']
+            print(which_class,which_sub)
             me = Teach(user)
             before = timeit.default_timer()
             res = \

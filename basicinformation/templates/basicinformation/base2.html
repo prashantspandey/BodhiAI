@@ -44,20 +44,37 @@
 </head>
 <body>
 
-        <div class="o-page__sidebar js-page-sidebar">
-            <div class="c-sidebar--light">
+        <div class="o-page__sidebar js-page-sidebar" >
+            <div class="c-sidebar--light" style="height:100%; background: #FAFAFA;">
                 <a class="c-sidebar__brand" href="{%url 'basic:home' %}">
-                    <img class="c-sidebar__brand-img" src="{%static 'basicinformation/images/logo.png' alt='Logo' %}" > Teacher Panel
+			{%if user.is_authenticated %}
+			<img class="c-sidebar__brand-img" src="{%static 'basicinformation/images/logo.png' alt='Logo' %}" >{%if user.teacher %} Teacher Panel{%elif user.student%} Student Panel{%endif%}
+			{%else%}
+			<img class="c-sidebar__brand-img" src="{%static 'basicinformation/images/logo.png' alt='Logo' %}" >Welcome to BodhiAI
+			{%endif%}
                 </a>
+			{%if user.is_authenticated %}
+		<span class="c-sidebar__divider"></span>
+              <h4 class="c-sidebar__title">Home</h4>
+                <ul class="c-sidebar__list">
+                    <li class="c-sidebar__item">
+                        <a class="c-sidebar__link"  href="{%url 'basic:home' %}">
+                            <i class="glyphicon glyphicon-home">___</i>Home
+                        </a>
+                    </li>
+		    {%else%}
+		    {%endif%}
+
 
 
                 
+			{%if user.is_authenticated %}
 		<span class="c-sidebar__divider"></span>
-              <h4 class="c-sidebar__title">Test Section</h4>
+		<h4 class="c-sidebar__title">{%if user.teacher %}Test Section{%elif user.student %}Tests {%endif%}</h4>
                 <ul class="c-sidebar__list">
                     <li class="c-sidebar__item">
                         <a class="c-sidebar__link"  href="{%url 'QuestionsAndPapers:createTest_initial' %}">
-                            <i class="glyphicon glyphicon-book">___</i> Create Test
+				<i class="glyphicon glyphicon-book">___</i> {%if user.teacher %}Create Test{%elif user.student%} All Tests{%endif%}
                         </a>
                     </li>
 
@@ -73,8 +90,10 @@
                         </a>
                     </li>
                 </ul>     
+		{%else%}
+		{%endif%}
 
-
+			{%if user.is_authenticated %}
 		<span class="c-sidebar__divider"></span>
                 <h4 class="c-sidebar__title">Communicate</h4>
                 <ul class="c-sidebar__list">
@@ -118,6 +137,9 @@
                         </a>
                     </li>
                 </ul>
+		{%else%}
+		{%endif%}
+
 
             </div><!-- // .c-sidebar -->
         </div><!-- // .o-page__sidebar -->

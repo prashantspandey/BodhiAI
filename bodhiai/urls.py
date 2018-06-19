@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^pMessages/',include('Private_Messages.urls')),
     url(r'^api/basicinformation/',include('basicinformation.api.urls',namespace='basic-api')),
     url(r'^api/messages/',include('Private_Messages.api.urls',namespace='message-api')),
+    url(r'^api/papers/',include('QuestionsAndPapers.api.urls',namespace='paper-api')),
     url(r'^admin/', admin.site.urls),
     url(r'^interested/', views.interested_people,name='InterestedPeople'),
     url(r'^rest-auth/',include('rest_auth.urls')),
