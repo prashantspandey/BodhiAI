@@ -122,6 +122,7 @@ adaptiveHeight: true,
 				});
 
 				$("#tests").hide();
+				$("#testGif").addClass('hidden');
 	   		},
 			error: function(data){
 
@@ -265,7 +266,13 @@ adaptiveHeight: true,
 <body>
 	{%block content%}
 	<div class='container'>
+		<div >
+		<div id='testGif' class='text-center'>
+	<img src={% static 'basicinformation/loaders/segment.gif' %}>
+		</div>
+
 <div class='testSlider'>
+</div>
 </div>
 		<div class='text-center'>
 <button class="w3-button w3-display-left prev" >&#10094;</button>
