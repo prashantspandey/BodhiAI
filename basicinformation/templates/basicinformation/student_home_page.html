@@ -15,7 +15,9 @@
 		$.ajaxSetup({
   data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
 });
-
+	function testTake(){
+		$("#testGif").removeClass('hidden');
+	};
 
 	     function loadTopics(test_id){
 		     $.ajax({
