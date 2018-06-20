@@ -39,7 +39,7 @@ class StudentPaperDetailsAPIView(APIView):
                 tests.append(te.id)
                 topics,num_questions = self.find_topics(te)
                 test_details[te.id] =\
-                        {'topics':topics[:3],'num_questions':num_questions,'subject':te.sub,'published':te.published,'creator':te.creator.teacher.name}
+                        {'topics':topics[:2],'num_questions':num_questions,'subject':te.sub,'published':te.published,'creator':te.creator.teacher.name}
 
         return Response(test_details)
 

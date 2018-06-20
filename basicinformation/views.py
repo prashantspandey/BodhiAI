@@ -497,11 +497,10 @@ def student_select_topicTest(request):
 def student_moreTests(request):
     user = request.user
     if user.is_authenticated:
-        if 'homePageMoreTests' in request.GET:
-            me = Studs(user)
-            new_tests = me.toTake_Tests(0,allTests = True)
-            context = {'newTests':new_tests}
-            return render(request,'basicinformation/studentMoreTests.html',context)
+        me = Studs(user)
+        new_tests = me.toTake_Tests(0,allTests = True)
+        context = {'newTests':new_tests}
+        return render(request,'basicinformation/studentMoreTests.html',context)
 
 
 def student_self_analysis(request):

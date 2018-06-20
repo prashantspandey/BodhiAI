@@ -10,7 +10,10 @@
 
         {%block scripts %}
    <script src="{%static 'basicinformation/js1/main.min-v=2.0.js' %}"></script>
-        
+     <link rel='stylesheet' type='text/css' href='{% static "basicinformation/slick/slick.css" %}'> 
+    <link rel='stylesheet' type='text/css' href='{% static "basicinformation/slick/slick-theme.css" %}'> 
+    <script type="text/javascript" src="{% static "basicinformation/slick/slick.min.js" %}"></script>
+       
         <script>
             window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
             ga('create','UA-88739867-2','auto');ga('send','pageview')
@@ -34,6 +37,7 @@
 				function hideWeakAreaGif(){
 					$("#loadingdiv_weak_area_detail").removeClass("hidden");
 				};
+		<!-- Ajax for Performance graph of last test -->
 				$.ajax({
 					url:"{% url 'basic-api:last_performance_teacher' %}",
 					method:"GET",
@@ -95,7 +99,7 @@
 
 					}
 				})
-					<!-- for teacher weak areas -->
+					<!-- for teacher weak areas batch wise -->
 				$.ajax({
 					url:"{% url 'basic-api:teacher_weak_areas_brief'  %}",
 					method:"GET",
@@ -152,13 +156,30 @@
 					},
 					complete: function(){
 						$("#loadingdiv_weak_area").hide();
+				$('#weak_subject').slick({
+				   dots: true,
+					arrows:true,
+  infinite: true,
+adaptiveHeight: true,
+  autoplay: true,
+  autoplaySpeed: 2000,
+  speed: 500,
+  cssEase: 'linear',
+      prevArrow: $('.prev'),
+      nextArrow: $('.next'),
+
+					slidesToScroll:1,
+				});
+
+
+
 					},
 					error:function(data){
 							console.log(data)
 					},
 
 			});
-				<!-- for latest messages -->
+				<!-- for latest messages to current teacher-->
 				$.ajax({
 					url:"{% url 'message-api:messageList'  %}",
 					method:"GET",
@@ -193,6 +214,7 @@
 					},
 
 			});
+		<!-- Ajax for overview of last 3 tests creted by the teacher -->
 				$.ajax({
 					url:"{% url 'basic-api:teacher_tests_overview'  %}",
 					method:"GET",
@@ -281,7 +303,7 @@
 					</h4>
 			<img src = "{%static 'basicinformation/images/bodhigif.gif' %}" width=30%;>
 				</div>
-				<div>
+				<div class='well'>
 			<canvas id = "last_test_canvas" height = "400">
 			</canvas>
 		    </div>
@@ -314,10 +336,13 @@
 				</div>
 
 
-                        <h4 class="u-h6 u-text-bold u-mb-small" id="weak_subject">
+                        <div class="u-h6 u-text-bold u-mb-small" id="weak_subject">
 
 
-			</h4>
+			</div>
+		<button class="w3-button w3-display-left prev" >&#10094;</button>
+		<button class="w3-button w3-display-right next" >&#10095;</button>
+
                         <h4 class="u-h6 u-text-bold u-mb-small" id="weak_area">
                         </h4>
                     </div>
