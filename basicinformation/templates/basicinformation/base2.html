@@ -45,7 +45,7 @@
 <body>
 
         <div class="o-page__sidebar js-page-sidebar" >
-            <div class="c-sidebar--light" style="height:100%; background: #FAFAFA;">
+            <div class="c-sidebar--light" style="background: #FAFAFA;">
                 <a class="c-sidebar__brand" href="{%url 'basic:home' %}">
 			{%if user.is_authenticated %}
 			<img class="c-sidebar__brand-img" src="{%static 'basicinformation/images/logo.png' alt='Logo' %}" >{%if user.teacher %} Teacher Panel{%elif user.student%} Student Panel{%endif%}
