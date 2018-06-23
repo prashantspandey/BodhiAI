@@ -56,6 +56,41 @@ class StudentPaperDetailsAPIView(APIView):
 
 
 #---------------------------------------------------------------------------------------
+class StudentPaperDetailsAndroidAPIView(APIView):
+
+    def get(self,request,format=None):
+        user = self.request.user
+        me = Studs(user)
+        my_tests = SSCOnlineMarks.objects.filter(student = me.profile)
+        taken_ids = []
+        for test in my_tests:
+            taken_ids.append(test.test.id)
+        new_tests = SSCKlassTest.objects.filter(testTakers = me.profile)
+        tests = []
+        test_details = {}
+        details = []
+        for te in new_tests:
+            if te.id not in taken_ids:
+                tests.append(te.id)
+                topics,num_questions = self.find_topics(te)
+                test_details =\
+                        {'id':te.id,'topics':topics[:2],'num_questions':num_questions,'subject':te.sub,'published':te.published,'creator':te.creator.teacher.name}
+                details.append(test_details)
+
+        return Response(details)
+
+    def find_topics(self,test):
+        topics = []
+        tp_num = []
+        for quest in test.sscquestions_set.all():
+            tp_number = quest.topic_category
+            tp_name = changeIndividualNames(tp_number,quest.section_category)
+            topics.append(tp_name)
+        topics = list(unique_everseen(topics))
+        num_questions = len(test.sscquestions_set.all())
+        return topics,num_questions
+
+#---------------------------------------------------------------------------------------
 
 # When student clicks on show more topics then this api returns all the topcis
 # of a particular test
