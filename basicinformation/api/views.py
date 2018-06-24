@@ -201,6 +201,33 @@ class StudentPreviousPerformanceBriefAPIView(APIView):
 
 
 #---------------------------------------------------------------------
+#Same as above but for android
+
+class StudentPreviousPerformanceBriefAndroidAPIView(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        taken_tests =\
+        SSCOnlineMarks.objects.filter(student=me.profile).order_by('testTaken')
+        past_performance = []
+        prev_performance = {}
+        subjects = []
+        for test in taken_tests:
+            subjects.append(test.test.sub)
+        subjects = list(unique_everseen(subjects))
+        for sub in subjects:
+            marks = []
+            date = []
+            for test in taken_tests:
+                if test.test.sub == sub:
+                    percentage = (test.marks/test.test.max_marks)*100
+                    marks.append(percentage)
+                    date.append(test.testTaken)
+                prev_performance= {'sub':sub,'marks':marks,'date':date}
+                past_performance.append(prev_performance)
+        return Response(past_performance)
+
+#---------------------------------------------------------------------
+
 # Gets all the area proficiecy in all the subjects a student studies
 
 class StudentTopicWiseProficiency(APIView):
