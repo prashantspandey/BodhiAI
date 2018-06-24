@@ -125,10 +125,11 @@ class  IndividualTestDetailsAPIView(APIView):
             topics.append(name)
         topics = list(unique_everseen(topics))
         subject = test.sub
+        num_questions = len(test.sscquestions_set.all())
         totalTime = test.totalTime
         maxMarks = test.max_marks
         published = test.published
-        details ={'id':test_id,'topics':topics,'subject':subject,'time':totalTime,'maxMarks':maxMarks,'publised':published}
+        details ={'id':test_id,'topics':topics,'numQuestions':num_questions,'subject':subject,'time':totalTime,'maxMarks':maxMarks,'publised':published}
         return Response(details)
 
 
