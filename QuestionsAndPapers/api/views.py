@@ -116,7 +116,7 @@ class StudentShowAllTopicsOfTest(APIView):
 class  IndividualTestDetailsAPIView(APIView):
 
     def post(self,request,*args,**kwargs):
-        test_id = request.POST['test_id']
+        test_id = request.POST['testid']
         test = SSCKlassTest.objects.get(id= test_id)
         topics = []
         for quest in test.sscquestions_set.all():
@@ -128,8 +128,7 @@ class  IndividualTestDetailsAPIView(APIView):
         totalTime = test.totalTime
         maxMarks = test.max_marks
         published = test.published
-        details =\
-        {'id':test_id,'topics':topics,'subject':subject,'time':totalTime,'maxMarks':maxMarks,'publised':published}
+        details ={'id':test_id,'topics':topics,'subject':subject,'time':totalTime,'maxMarks':maxMarks,'publised':published}
         return Response(details)
 
 
