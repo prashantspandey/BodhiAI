@@ -111,5 +111,26 @@ class StudentShowAllTopicsOfTest(APIView):
 
 #---------------------------------------------------------------------------------------
 
+# Get all the details of a test (post: test_id)
+
+class  IndividualTestDetailsAPIView(APIView):
+
+    def post(self,request,*args,**kwargs):
+        test_id = request.POST['test_id']
+        test = SSCKlassTest.objects.get(id= test_id)
+        topics = []
+        for quest in test.sscquestions_set.all():
+            number = quest.topic_category
+            name = changeIndividualNames(number,quest.section_category)
+            topics.append(name)
+        topics = list(unique_everseen(topics))
+        subject = test.sub
+        totalTime = test.totalTime
+        maxMarks = test.max_marks
+        published = test.published
+        details =\
+        {'id':test_id,'topics':topics,'subject':subject,'time':totalTime,'maxMarks':maxMarks,'publised':published}
+        return Response(details)
+
 
 
