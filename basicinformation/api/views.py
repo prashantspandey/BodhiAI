@@ -209,6 +209,8 @@ class StudentPreviousPerformanceBriefAndroidAPIView(APIView):
         taken_tests =\
         SSCOnlineMarks.objects.filter(student=me.profile).order_by('testTaken')
         past_performance = []
+        prev_performance = {}
+        overall = {}
         subjects = []
         for test in taken_tests:
             subjects.append(test.test.sub)
@@ -217,13 +219,12 @@ class StudentPreviousPerformanceBriefAndroidAPIView(APIView):
             marks = []
             date = []
             for test in taken_tests:
-                prev_performance = {}
-                if test.test.sub == sub:
+                if test.test.sub == sub :
                     percentage = (test.marks/test.test.max_marks)*100
                     marks.append(percentage)
                     date.append(test.testTaken)
-                prev_performance= {'sub':sub,'marks':marks,'date':date}
-                past_performance.append(prev_performance)
+                prev_performance= {'subject':sub,'marks':marks, 'date':date}
+            past_performance.append(prev_performance)
         return Response(past_performance)
 
 #---------------------------------------------------------------------
