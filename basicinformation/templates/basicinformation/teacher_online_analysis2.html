@@ -4,22 +4,13 @@
          $(document).ready(function () {
 	  $('#loadinganalysis2').hide();
     var pr
-
-	$(".testButton").click(function(){
-        $(eval("'#'+pr")).removeClass("btn btn-success").addClass("btn btn-default");
-which_testid = $(this).attr('value');
-	  $('#loadinganalysis3').show();
-         $(this).removeClass("btn btn-default").addClass("btn btn-success");
-
+	$('select[name="testid"]').change(function(){
+		var testid = $(this).val();
          $('#onlinetestanalysis').removeClass("hidden");
-         $('#onlinetestanalysis').html('').load('{% url 'basic:teacher_update_page' %}?onlinetestid='+which_testid);
-
-
-
-    pr = $(this).attr('id');
-
-
+         $('#onlinetestanalysis').html('').load('{% url 'basic:teacher_update_page' %}?onlinetestid='+testid);
+	  $('#loadinganalysis3').show();
 	});
+
 
 });
     </script>
@@ -30,20 +21,27 @@ which_testid = $(this).attr('value');
 	  {%if not tests%}
 	  <h3 style="text-align:center;font-weight:bold;"> No tests taken yet.To create a test click on "Create Test" in the nav-bar at top. </h3>
 	  {%else%}
+
+	 <!--
 {% for i in tests %}
 
 <div class="btn-group" role="group" aria-label="...">
 	<button type="button" class="btn btn-default testButton" value ="{{i.id}}" id="onlineTestid{{forloop.counter}}">{{i.published}}</button>
 </div>
 {%endfor%}
+	 -->
+	 <select class="form-control" id="onlineTestid{{forloop.counter}}" name="testid" value="{{teest.id}}">
+	 {% for test in tests %}
+	 <option value="{{test.id}}">{{test.published}} </option>
+
+	 {%endfor%}
+	 </select>
 {%endif%}
         </div>
-
 <div id = 'loadinganalysis3' style='text-align:center;display:none;'>
  <h4 style='text-center;'>Please wait... </h4>
          <img src="{%static 'basicinformation/images/bodhigif.gif' %}" >
   </div> 
-
 <div class='hidden' id = 'onlinetestanalysis'>
 {%include 'basicinformation/teacher_online_analysis3.html' %}
 </div>

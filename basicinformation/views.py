@@ -538,7 +538,7 @@ def student_subject_analysis(request):
 
             if mode == 'online':
                 tests = SSCOnlineMarks.objects.filter(test__sub=subject,
-                                                          student=me.profile)
+                                                          student=me.profile).order_by('test__published')
 
                 context = {'tests': tests,'subject':subject}
                 return \
@@ -851,35 +851,16 @@ def teacher_update_page(request):
         o_tests = []
         for te in serializers.deserialize('json',tests):
             o_tests.append(te.object)
-        #print(res)
-        #print(res.state)
-        #tests = []
-        #for re in res:
-        #    tests.append(SSCKlassTest.objects.get(id = re))
-        #kl = me.my_classes_objects(which_class)
-
-        #online_tests = SSCKlassTest.objects.filter(creator=
-        #                                    user,
-        #                                       klas=kl, sub=
-        #                                    sub,mode='BodhiOnline')
-        #if len(online_tests) == 0 and sub == 'Defence-MultipleSubjects':
-        #    online_tests = SSCKlassTest.objects.filter(creator=
-        #                                    user,
-        #                                        sub=
-        #                                    sub)
-        #print('%s res' %tests)
         context = {'tests': o_tests}
         return render(request, 'basicinformation/teacher_online_analysis2.html', context)
 
     elif 'onlinetestid' in request.GET:
-        print('875')
         test_id = request.GET['onlinetestid']
         me = Teach(user)
         # get the number of students who took test
         online_marks =\
         SSCOnlineMarks.objects.filter(test__id=test_id,student__school =
                                       me.profile.school)
-        print('at 881')
     # try to get result table associated with particular test
         try:
             result = TestRankTable.objects.get(test__id = test_id)
@@ -1206,7 +1187,7 @@ def teacher_update_page(request):
         klass = sub_class.split(',')[1]
         online_tests = SSCKlassTest.objects.filter(creator =
                                                        user,klas__name =
-                                                       klass,sub=sub)
+                                                       klass,sub=sub).order_by('published')
         context = {'tests': online_tests}
         return render(request,
                       'basicinformation/teacher_online_individualPerformance2.html', context)

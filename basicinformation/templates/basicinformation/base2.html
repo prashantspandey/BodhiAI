@@ -44,8 +44,8 @@
 </head>
 <body>
 
-        <div class="o-page__sidebar js-page-sidebar" >
-            <div class="c-sidebar--light" style="background: #FAFAFA;">
+        <div class="o-page__sidebar js-page-sidebar sticky" >
+            <div class="c-sidebar--light " style="background: #FAFAFA;height:100%;overflow-y:scroll;">
                 <a class="c-sidebar__brand" href="{%url 'basic:home' %}">
 			{%if user.is_authenticated %}
 			<img class="c-sidebar__brand-img" src="{%static 'basicinformation/images/logo.png' alt='Logo' %}" >{%if user.teacher %} Teacher Panel{%elif user.student%} Student Panel{%endif%}
@@ -59,7 +59,7 @@
                 <ul class="c-sidebar__list">
                     <li class="c-sidebar__item">
                         <a class="c-sidebar__link"  href="{%url 'basic:home' %}">
-                            <i class="fa fa-home"> Home</i>
+				<i class="fa fa-home"> <strong>Home</strong></i>
                         </a>
                     </li>
 		    {%else%}
@@ -74,13 +74,13 @@
                 <ul class="c-sidebar__list">
                     <li class="c-sidebar__item">
 			    <a class="c-sidebar__link"  href="{%if user.teacher%}{%url 'QuestionsAndPapers:createTest_initial' %}{%elif user.student%}{%url 'basic:studentMoreTests'%}{%endif%}">
-				<i class="fa fa-pencil-square-o"> {%if user.teacher %}Create Test{%elif user.student%}  All Tests{%endif%}</i>
+				    <i class="fa fa-pencil-square-o"> {%if user.teacher %}<strong>Create Test</strong>{%elif user.student%}  <strong>All Tests</strong>{%endif%}</i>
                         </a>
                     </li>
 		    {%if user.student%}
                     <li class="c-sidebar__item">
                         <a class="c-sidebar__link"  href="#">
-				<i class="fa fa-puzzle-piece">  Smart Test</i>
+				<i class="fa fa-puzzle-piece"> <strong> Smart Test</strong></i>
                         </a>
                     </li>
 		    {%endif%}
@@ -88,13 +88,13 @@
 			{%if user.teacher %}
                     <li class="c-sidebar__item">
                         <a class="c-sidebar__link" href="{%url 'QuestionsAndPapers:oneClickTest' %}">
-                            <i class="fa fa-mouse-pointer"> One Click Test</i><span class="c-badge c-badge--info c-badge--xsmall u-ml-xsmall">NEW</span>
+				<i class="fa fa-mouse-pointer"> <strong>One Click Test</strong></i><span class="c-badge c-badge--info c-badge--xsmall u-ml-xsmall">NEW</span>
                         </a>
                     </li>
 
                     <li class="c-sidebar__item">
                         <a class="c-sidebar__link"  href="{%url 'QuestionsAndPapers:patternTest' %}">
-				<i class="fa fa-graduation-cap"> Create Pattern Test</i>
+				<i class="fa fa-graduation-cap"> <strong>Create Pattern Test</strong></i>
                         </a>
                     </li>
 		    {%endif%}
@@ -108,34 +108,34 @@
                 <ul class="c-sidebar__list">
                     <li class="c-sidebar__item">
                         <a class="c-sidebar__link" href="{%url 'pms:messages' %}">
-                            <i class="fa fa-comments-o u-mr-xsmall"></i>Messages
-                        </a>
+				<i class="fa fa-comments-o u-mr-xsmall"></i><strong>Messages
+				</strong></a>
                     </li>
 		    {%if user.teacher%}
                      <li class="c-sidebar__item">
                         <a class="c-sidebar__link" href="{%url 'pms:createAnnouncement' %}">
-                            <i class="fa fa-bullhorn u-mr-xsmall"></i>Create Announcements
-                        </a>
+				<i class="fa fa-bullhorn u-mr-xsmall"></i><strong>Create Announcements
+				</strong></a>
                     </li> 
 		    {%endif%}
-                                    <h4 class="c-sidebar__title">Student Performances</h4>
+		    <h4 class="c-sidebar__title">Student Performances</h4>
                 <ul class="c-sidebar__list">
                     <li class="c-sidebar__item">
 			    <a class="c-sidebar__link" href="{%if user.teacher%}{%url 'basic:teacherHomePage' %}{%elif user.student%}{%url 'basic:studentAnalysis' %} {%endif%}">
-				    <i class="fa fa-area-chart">{%if user.teacher%}  Student Performance{%elif user.student %}  My Performance {%endif%}</i>
+				    <i class="fa fa-area-chart">{%if user.teacher%}  <strong>Student Performance</strong>{%elif user.student %}  <strong>My Performance </strong>{%endif%}</i>
                         </a>
                     </li>   
 		    {%if user.student%}
                     <li class="c-sidebar__item">
 			    <a class="c-sidebar__link" href="{%url 'basic:studentWeakAreas' %}">
-				    <i class="fa fa-bar-chart">  My Weak Areas </i>
+				    <i class="fa fa-bar-chart">  <strong>My Weak Areas </strong></i>
                         </a>
                     </li>   
 		    {%endif%}
 		    {%if user.student %}
                     <li class="c-sidebar__item">
 			    <a class="c-sidebar__link" href="{%url 'basic:studentImprovement' %}">
-				    <i class="fa fa-line-chart">  Progress </i>
+				    <i class="fa fa-line-chart">  <strong>Progress </strong></i>
                         </a>
                     </li>   
 
@@ -147,22 +147,22 @@
 			{%if user.teacher%}
                    <li class="c-sidebar__item">
                         <a class="c-sidebar__link"  href="{%url 'basic:addStudents' %}">
-                            <i class="fa fa-user-plus u-mr-xsmall"></i>Add Students
-                        </a>
+				<i class="fa fa-user-plus u-mr-xsmall"></i><strong>Add Students
+				</strong></a>
                     </li>
 		    {%endif%}
 
 			
                     <li class="c-sidebar__item">
                         <a class="c-sidebar__link"  href="{%url 'membership:changePassword' %}">
-                            <i class="fa fa-refresh u-mr-xsmall"></i>Reset Password
-                        </a>
+				<i class="fa fa-refresh u-mr-xsmall"></i><strong>Reset Password
+				</strong></a>
                     </li>
 
                     <li class="c-sidebar__item">
                         <a class="c-sidebar__link" href="{%url 'membership:logout' %}">
-                            <i class="fa fa-sign-in u-mr-xsmall"></i>Logout
-                        </a>
+				<i class="fa fa-sign-in u-mr-xsmall"></i><strong>Logout
+				</strong></a>
                     </li>
                 </ul>
 		{%else%}

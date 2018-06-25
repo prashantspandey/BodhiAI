@@ -6,26 +6,14 @@
 	
  $(document).ready(function () {
 	 $('#loadingCreateTest1').hide();
-
-   var pr
-		$('.teacherCategory').click(function(){
-		category = $(this).attr('value');
+    $('select[name="questionCategoriesChoice"]').change(function(){
+       var categoryChoice = $(this).val();
           which_klass = $('#which_klass').text()
           which_section = $('#which_section').text()
-         $(this).removeClass("btn btn-default").addClass("btn btn-success");
-	    	 $('#loadingCreateTest2').show();
  		  $('#allQuestions').removeClass("hidden");
-               $('#allQuestions').html('').load('{% url 'QuestionsAndPapers:createTest' %}?chapter_test='+encodeURIComponent(category+','+which_klass+','+which_section));
+            $('#allQuestions').html('').load('{% url 'QuestionsAndPapers:createTest' %}?chapter_test='+encodeURIComponent(categoryChoice+','+which_klass+','+which_section));
 
-    pr = $(this).attr('id');
-		});
-
-
-
-
-         
-       
-
+    });
 });
 
 
@@ -34,20 +22,28 @@
 
 </head>
 
-<div class="panel-heading" style="text-align:center;">{%if test_type == 'School' %}Sections Available: {%elif test_type == 'SSC' %} Category/Type:{%endif%}	</div>
+<div class="panel-heading" style="text-align:center;">Chapters/Topics:	
 
 <div class="btn-group" role="group" aria-label="...">
 	  {% if noTest %}
   <h3 style='font-weight:bold;text-align:center;'> No Questions available </h3>
   {%else%}
     <div class="panel-body" >
+        <!--
   {% for i,k in categories %}
   <button type="button" class="btn btn-default text-center teacherCategory"  value = '{{k}}' id="categoryButton{{forloop.counter}}">{{i}}</button>
   {%endfor%}
+        -->
+        <select class="form-control" name="questionCategoriesChoice">
+            {% for i,j in categories %}
+            <option value="{{j}}"> {{i}} </option>
+            {%endfor%}
+        </select>
   </div>
   {%endif%}
   <div class="hidden" id="which_klass">{{which_klass}}</div>
   <div class="hidden" id="which_section">{{section_category}}</div>
+</div>
 </div>
 <div id = 'loadingCreateTest2' style='text-align:center;display:none;'>
 <h4 style='text-center;'>Please wait... </h4>

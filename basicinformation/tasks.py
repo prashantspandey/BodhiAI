@@ -277,10 +277,10 @@ def teacher_return_tests(user_id,subject,klass):
     me = Teach(user)
     kl = me.my_classes_objects(klass)
     online_tests = SSCKlassTest.objects.filter(creator =
-                                               user,klas=kl,sub=subject,mode='BodhiOnline')
+                                               user,klas=kl,sub=subject,mode='BodhiOnline').order_by('published')
     if len(online_tests) == 0 and subject == 'Defence-MultipleSubjects':
         online_tests = SSCKlassTest.objects.filter(creator = user,sub =
-                                                   subject)
+                                                   subject).order_by('published')
     tests = serializers.serialize('json',online_tests)
     return tests
 

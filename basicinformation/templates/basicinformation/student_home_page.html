@@ -89,7 +89,8 @@
 				});
 			},
      			complete: function(data){
-
+$(".prev").removeClass('hidden');
+$(".next").removeClass('hidden');
 				$('.testSlider').slick({
 					arrows:true,
  infinite: true,
@@ -99,8 +100,6 @@ adaptiveHeight: true,
  speed: 500,
  cssEase: 'linear',
 					slidesToScroll:1,
-	centerMode: true,
-      centerPadding: '30px',
       prevArrow: $('.prev'),
       nextArrow: $('.next'),
 
@@ -144,7 +143,9 @@ adaptiveHeight: true,
 					if (topicScore > 0){
 					$(".proficiencySlider").append(
 						"<div class=' text-center'>"+
-						"<h4 >"+topicName+" ("+key+")"+"---"+topicScore+"%</h4>"+
+						"<h4 class='text-center'><strong>"+key+"</strong></h4>"+
+						"<h4 style='color:red;'>"+topicName+"</h4>"+
+						"<div class='numberCircle'>"+topicScore+"%"+"</div>"+"<br>"+
 
 					"<div class='col-md- 8 progress'>"+
   				"<div class='progress-bar "+type+"' role='progressbar' aria-valuenow='"+topicScore+"'  aria-valuemin='0' aria-valuemax='100' style='width:"+topicScore+"%'>"+
@@ -153,6 +154,7 @@ adaptiveHeight: true,
   		"</div>"+
 			"</div>"
 						)
+
 					};
 				});
 				
@@ -258,6 +260,104 @@ adaptiveHeight: true,
 
 	},
 	     });
+		     $.ajax({
+		     	url:"{% url 'basic-api:StudentPreviousPerformanceDetailed' %}",
+			method:"GET", success: function(data){
+				$.each(data, function(key,value){
+					$('#detailedPerformance').append(
+						"<div class='text-center'>"+
+						"<h5 style='color:#2962FF;'><strong>"+value.subject+"</strong></h5>"+
+						"<div class='numberCircle'>"+ value.percent+ "%"+"</div>"+
+						"<h6 class='text-center' >"+"Total Questions: "+"</h6>"+
+						"<p style='color:red;'>"+value.total_questions+"</p>"+
+						"<h6 class='text-center' >"+"Attempted Questions: "+"</h6>"+
+						"<p style='color:red;'>"+value.attempted+"</p>"+
+						"<h6 class='text-center'>"+"Right: "+"</h6>"+
+						"<p style='color:red;'>"+value.rightAnswers+"</p>"+
+						"<h6 class='text-center'>"+"Wrong: "+"</h6>"+
+						"<p style='color:red;'>"+value.wrongAnswers+"</p>"+
+						"<h6 class='text-center'>"+"Time Taken: "+"</h6>"+
+						"<p style='color:red;'>"+value.time+" minutes"+"</p>"+
+						"<h6 class='text-center'>"+"Date Taken: "+"</h6>"+
+						"<p style='color:red;'>"+value.published+"</p>"+
+
+
+						"</div>"
+
+							)
+				});
+			},
+			     complete: function(data){
+				     $("#detailedPerformanceGif").addClass('hidden');
+					$(".prevGraphDetailedPerformance").removeClass('hidden');
+					$(".nextGraphDetailedPerformance").removeClass('hidden');
+				$('#detailedPerformance').slick({
+     				centerPadding: '30px',
+      				prevArrow: $('.prevGraphDetailedPerformance'),
+      				nextArrow: $('.nextGraphDetailedPerformance'),
+
+
+
+					arrows:true,
+  				infinite: true,
+				adaptiveHeight: true,
+  				autoplay: true,
+  				autoplaySpeed: 2000,
+  				speed: 500,
+  			cssEase: 'linear',
+					slidesToScroll:1,
+
+
+});
+
+			     },
+		     });
+
+		     $.ajax({
+		     	url:"{% url 'basic-api:StudentTimingTopicWise'  %}",
+			method:"GET", success: function(data){
+				$.each(data,function(key,value){
+					var all_topics = value;
+					$.each(value,function(k,v){
+						$("#areawiseTiming").append(
+							"<div class='text-center'>"+
+							"<h5 style='color:red;font-weight:bold;'>"+v[0]+"</h5>"+
+						"<div class='numberCircle'>"+ v[1]+ " s"+"</div>"+
+							"</div>"
+
+							)
+					});
+				});
+			},
+			     complete: function(data){
+
+			$("#areawiseTimingGif").addClass('hidden');	
+      			$('.prevTimingAreaWise').removeClass('hidden');
+      			$('.nextTimingAreaWise').removeClass('hidden');
+				$('#areawiseTiming').slick({
+     				centerPadding: '30px',
+      				prevArrow: $('.prevTimingAreaWise'),
+      				nextArrow: $('.nextTimingAreaWise'),
+
+
+
+					arrows:true,
+  				infinite: true,
+				adaptiveHeight: true,
+  				autoplay: true,
+  				autoplaySpeed: 2000,
+  				speed: 500,
+  			cssEase: 'linear',
+					slidesToScroll:1,
+
+
+});
+
+
+			     },
+
+		     });
+
 	
 
      });
@@ -277,38 +377,104 @@ adaptiveHeight: true,
 </div>
 </div>
 		<div class='text-center'>
-<button class="w3-button w3-display-left prev" >&#10094;</button>
-<button class="w3-button w3-display-right next" >&#10095;</button>
+<button class="w3-button w3-display-left prev hidden" >&#10094;</button>
+<button class="w3-button w3-display-right next hidden" >&#10095;</button>
+		</div>
+
 		</div>
 <br>
 <br>
+<div>
+             <div class="row"  >
+		     <div class="col-sm-12 col-lg-4" >
+                    <div class="c-card u-p-medium u-text-center u-mb-medium"  data-mh="landing-cards">
+			<div id='detailedPerformanceGif' class='text-center'>
+		<img src={% static 'basicinformation/loaders/segment.gif' %}>
+			</div>
+
+	<h3 class='text-center'> Test Performances</h3>
+                        <div class="u-h6 u-text-bold u-mb-small text-center" id="detailedPerformance">
+				
+			</div>
+<button class="w3-button w3-display-left prevGraphDetailedPerformance hidden" >&#10094;</button>
+<button class="w3-button w3-display-right nextGraphDetailedPerformance hidden" >&#10095;</button>
+		     </div>
+		     </div>
+
+
+
+		     <div class="col-sm-12 col-lg-4" id="accuracyParent">
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards" >
+			<div id='proficiencyGif' class='text-center'>
+		<img src={% static 'basicinformation/loaders/segment.gif' %}>
+			</div>
+	<h3 class='text-center'> Your accuracy (topic-wise) </h3>
+	<br>
+	<br>
+	<br>
+                        <div class="u-h6 u-text-bold u-mb-small text-center proficiencySlider" >
+			</div>
+<button class="w3-button w3-display-left prevProficiency hidden" >&#10094;</button>
+<button class="w3-button w3-display-right nextProficiency hidden" >&#10095;</button>
+<br>
+<br>
+<br>
+<a href="{%url 'basic:studentWeakAreas' %}" class="btn btn-info" role="button">See in detail</a>
+		</div>
+		     </div>
+
+
+		     <div class="col-sm-12 col-lg-4 " >
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards" >
+
+	<h3 class='text-center'> Your average timing per question(topic-wise) in seconds</h3>
+	<br>
+	<br>
+	<br>
+			<div id='areawiseTimingGif' class='text-center'>
+		<img src={% static 'basicinformation/loaders/segment.gif' %}>
+			</div>
+
+                        <div class="u-h6 u-text-bold u-mb-small text-center" id="areawiseTiming">
+				
+			</div>
+<button class="w3-button w3-display-left prevTimingAreaWise hidden" >&#10094;</button>
+<button class="w3-button w3-display-right nextTimingAreaWise hidden" >&#10095;</button>
+<br>
+<br>
+<br>
+
+<a href="{%url 'basic:studentWeakAreas' %}" class="btn btn-info" role="button">See in detail</a>
+
+		     </div>
+		     </div>
+		     </div>
+
+
+ 
+
+
+
 
 	<div class='' id="subPerformance">
    </div>
 
    <div class='col-md-12 text-center'>
-	<button class="w3-button w3-display-left prevGraph" >&#10094;</button>
-<button class="w3-button w3-display-right nextGraph" >&#10095;</button>
+	<button class="w3-button w3-display-left prevGraph hidden" >&#10094;</button>
+<button class="w3-button w3-display-right nextGraph hidden" >&#10095;</button>
 
    </div>
 
 <br>
 <br>
-		<div id='proficiencyGif' class='text-center'>
-	<img src={% static 'basicinformation/loaders/segment.gif' %}>
-		</div>
-		<div >
-	<h3 class='text-center'> You score topic wise in percentage </h3>
-<div id="topicProficiency" class='well text-center proficiencySlider'>
-</div>
-		</div>
+
+
+<br>
+<br>
 <br>
 <br>
 <div class='col-md-12 text-center'>
-<button class="w3-button w3-display-left prevProficiency hidden" >&#10094;</button>
-<button class="w3-button w3-display-right nextProficiency hidden" >&#10095;</button>
 </div>
-	   </div>
 
 
 

@@ -73,7 +73,6 @@ def create_test(request):
         category_klass = request.GET['category_test']
         split_category = category_klass.split(',')[0]
         split_klass = category_klass.split(',')[1]
-        print('category %s' %split_category)
         quest = SSCquestions.objects.filter(section_category =
                                             split_category,school
                                             =me.profile.school)
@@ -98,7 +97,6 @@ def create_test(request):
         splitChap = which_chap.split(",")[0]
         splitClass = which_chap.split(",")[1]
         splitSection = which_chap.split(",")[2]
-        print(which_chap)
         #klasses = klass.objects.filter(name=splitClass)
         
         if os.path.exists(quest_file_name):

@@ -244,7 +244,8 @@ class StudentTopicWiseProficiency(APIView):
             try:
                for i,j in freq:
                     strongAreas.append(i)
-                    strongFreq.append(float(100-j))
+                    calc = float(100-j)
+                    strongFreq.append(round(calc,1))
             except Exception as e:
                 print(str(e))
             if freq == 0:
@@ -261,8 +262,53 @@ class StudentTopicWiseProficiency(APIView):
 
 #---------------------------------------------------------------------
 
+# Shows basic details of taken test by students 
+
+class StudentTakenTestsDetailsAPIView(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        marks = SSCOnlineMarks.objects.filter(student=
+                                              me.profile).order_by('test__published')
+        marks_dic = {}
+        all_marks = []
+        #percent = []
+        #attempted = []
+        #right = []
+        #wrong = []
+        for m in marks:
+            percent_calc = ((m.marks/m.test.max_marks)*100)
+            percent = percent_calc
+            attempted = (len(m.allAnswers))
+            right = (len(m.rightAnswers))
+            wrong = (len(m.wrongAnswers))
+            published = m.testTaken
+            time = m.timeTaken
+            total_questions = len(m.test.sscquestions_set.all())
+            marks_dic =\
+                    {'subject':m.test.sub,'percent':round(percent,1),'attempted':attempted,'rightAnswers':right,'wrongAnswers':wrong,'total_questions':total_questions,'published':published,'time':time}
+            all_marks.append(marks_dic)
+
+        return Response(all_marks)
 
 
+#---------------------------------------------------------------------
+
+# Show average time taken to solve a questions in each topic
+
+class StudentAverageTimeTopicAPIView(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        subjects = get_subject(self.request.user)
+        timing = []
+        for subject in subjects:
+            timing_areawise,freq_timer = me.areawise_timing(subject)
+            freq_timer = me.changeTopicNumbersNames(freq_timer,subject)
+            timing_names = me.changeTopicNumbersNames(timing_areawise,subject)
+            timing.append(timing_names)
+        return Response(timing)
+
+
+#---------------------------------------------------------------------
 
 
 

@@ -1862,7 +1862,7 @@ class Studs:
             dim3.append(j)
             try:
                 average_time = float(k_val/n)
-                dim4.append(average_time)
+                dim4.append(round(average_time,2))
                 freq.append(n)
             except:
                 pass
