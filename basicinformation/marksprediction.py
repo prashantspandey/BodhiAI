@@ -4194,14 +4194,17 @@ class Studs:
                     total.append(j)
             total.sort(key=lambda r:r.testTaken)
 
-            topics = []
-            day = []
-            ra = []
-            wa = []
-            overall_accuracy = []
             # put all right and wrong questions in a separate list(also adding
             # topics)
+
+            overall_accuracy = []
+
             for i in total:
+                topics = []
+                day = []
+                ra = []
+                wa = []
+
                 for r in i.rightAnswers:
                     rq = SSCquestions.objects.get(choices__id = r)
                     if rq.section_category == subject:
