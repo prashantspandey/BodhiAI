@@ -9,3 +9,20 @@ class SchoolDisplaySerializer(serializers.ModelSerializer):
             'name',
         ]
 
+
+class SSCQuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SSCquestions
+        fields = [
+            'comprehension',
+            'max_marks',
+            'negative_marks',
+            'text',
+            'section_category',
+            'topic_category',
+            'picture',
+            'source',
+            'language',
+
+        ]
+

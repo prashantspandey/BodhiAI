@@ -249,6 +249,56 @@ adaptiveHeight: true,
 						console.log(data)
 					},
 					});
+				$.ajax({
+					url:"{% url 'basic-api:TeacherHardQuestions'  %}",
+					method:"GET",
+					success: function(data){
+						$.each(data,function(key,value){
+							if (value.text != null) {
+								$("#hardQuestionsDiv").append(
+								
+									"<div>"+
+						"<h4 class='text-center'>"+value.wrong_frequency+" students did this question wrong."+"</h4>"+
+						"<h4 class='text-center'>"+value.text+"</h4>"+
+									"</div>"
+			    			
+								)
+
+							
+
+							} else {
+							$("#hardQuestionsDiv").append(
+									"<div>"+
+						"<h4 class='text-center'>"+value.wrong_frequency+" students did this question wrong."+"</h4>"+
+			    "<img class='img-responsive' src='"+value.picture+"'>"+
+									"<div>"
+								)
+
+						}
+
+						});
+					},
+					complete: function(data){
+						$("#hardQuestionsGif").addClass('hidden');
+						$("#hardQuestionsHeading").removeClass('hidden');
+				$('#hardQuestionsDiv').slick({
+				   arrows:true,
+  				   infinite: true,
+				adaptiveHeight: true,
+  				autoplay: true,
+  				autoplaySpeed: 2000,
+  				speed: 500,
+  				cssEase: 'linear',
+      				prevArrow: $('.prevHardQuestions'),
+      				nextArrow: $('.nextHardQuestions'),
+
+					slidesToScroll:1,
+				});
+
+
+					}
+					});
+
 
 			});
 
@@ -360,6 +410,29 @@ adaptiveHeight: true,
                     </div>
 
                 </div>
+
+                <div class="col-sm-12 col-lg-4">
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards">
+                        <h4 class="u-h6 u-text-bold u-mb-small hidden" id="hardQuestionsHeading">
+                            Overall Tough Questions
+                        </h4>
+
+				<div id='hardQuestionsGif'>
+			<img src = "{%static 'basicinformation/loaders/segment.gif' %}" width=30%;>
+				</div>
+
+
+
+			<div class='well' id = "hardQuestionsDiv">
+					
+			</div>
+		<button class="w3-button w3-display-left prevHardQuestions" >&#10094;</button>
+		<button class="w3-button w3-display-right nextHardQuestions" >&#10095;</button>
+
+                    </div>
+
+                </div>
+
             </div>
 <!--                <div class="container-fluid">
                 <div class="row">

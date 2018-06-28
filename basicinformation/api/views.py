@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from basicinformation.models import *
 from django.http import Http404, HttpResponse
 from .serializers import *
+from QuestionsAndPapers.api.views import *
 from basicinformation.marksprediction import *
 from QuestionsAndPapers.models import *
 from basicinformation.models import *
@@ -158,6 +159,60 @@ class TeacherTestsOverview(APIView):
                     {'published':test.published,'num_questions':counter,'total_marks':max_marks,'class':test.klas.name,'subject':test.sub,'average':average_marks,'students_taken':taken_students}
         return Response(test_details)
 
+
+
+
+#-------------------------------------------------------------------
+# Show hard questions in a test of all tests
+
+class TeachersHardQuestionsAPIView(APIView):
+    def get(self,request,format=None):
+        my_tests_marks = SSCOnlineMarks.objects.filter(test__creator =
+                                                       self.request.user)
+
+        all_wrong_answers = []
+        for mark in my_tests_marks:
+            if mark.wrongAnswers:
+                for choiceid in mark.wrongAnswers:
+                    question = SSCquestions.objects.get(choices__id = choiceid)
+                    all_wrong_answers.append(question.id)
+
+        unique,counts = np.unique(all_wrong_answers,return_counts = True)
+        hard_quests_freq = np.asarray((unique,counts)).T
+        hard_quests_freq_final = np.sort(hard_quests_freq,0)[::1]
+        hard_quest_ids = hard_quests_freq_final[-10:]
+        print(hard_quest_ids)
+        text = []
+        picture = []
+        choice = []
+        wrong_freq = []
+        all_questions = []
+        for i,j in hard_quest_ids:
+            choices_list = []
+            question = SSCquestions.objects.get(id = i)
+            text.append(question.text)
+            picture.append(question.picture)
+            choices = Choices.objects.filter(sscquest = question)
+            for ch in choices:
+                if ch.text:
+                    choices_list.append(ch.text)
+                elif ch.picture:
+                    choices_list.append(ch.picture)
+            choice.append(choices_list)
+            wrong_freq.append(j)
+            hard_quest_dict =\
+            {'text':question.text,'picture':question.picture,'choices':choices_list,'wrong_frequency':j}
+            all_questions.append(hard_quest_dict) 
+
+
+
+        return Response(all_questions)       
+        
+
+
+
+
+#-------------------------------------------------------------------
 # ALL STUDENT APIs
 
 
@@ -309,8 +364,6 @@ class StudentAverageTimeTopicAPIView(APIView):
 
 
 #---------------------------------------------------------------------
-
-
 
 
 

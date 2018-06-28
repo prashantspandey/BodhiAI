@@ -937,7 +937,13 @@ class Studs:
             conversion = '404'
         return conversion
 
+    def isQuestionTaken(self,question):
+        all_test = SSCOnlineMarks.objects.filter(student = self.profile)
+        for test in all_test:
+            if question in test.test.sscquestions_set.all():
+                return True
 
+            
 # return all tests that are not taken by the student to be shown on home page
 
     def allOnlinetests(self,schoolName = None,klas = None):
@@ -4993,8 +4999,7 @@ class Teach:
             online_marks = SSCOnlineMarks.objects.filter(test__id = test_id)
             wrong_answers = []
             for om in online_marks:
-                for wa in om.wrongAnswers:
-                    wrong_answers.append(wa)
+                wrong_answers.extend(om.wrongAnswers)
             wq = []
             for i in wrong_answers:
                 qu = SSCquestions.objects.get(choices__id = i)

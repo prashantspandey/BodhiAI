@@ -352,3 +352,13 @@ class TestRankTable(models.Model):
 
     def __str__(self):
         return str(self.teacher)+str(self.test.published)
+
+class StudentSmartTestTopics(models.Model):
+    student = models.ForeignKey(Student)
+    topics = ArrayField(models.CharField(max_length=100))
+    weakness = ArrayField(models.IntegerField(null=True))
+    test = models.OneToOneField(SSCKlassTest)
+
+    def __str__(self):
+        return str(self.student) + " "+ str(self.topics) + " " +\
+    str(self.weakness)
