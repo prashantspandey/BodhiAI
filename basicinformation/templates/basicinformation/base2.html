@@ -52,7 +52,7 @@
 
         <div  class="o-page__sidebar js-page-sidebar sticky" >
             <div id="wholeSideBar" class="c-sidebar--light" style="height:100%;overflow-y:scroll;">
-                <a class="c-sidebar__brand" href="{%url 'basic:home' %}" style='background-color:#fd9a18;'>
+                <a class="c-sidebar__brand" href="{%url 'basic:home' %}" style='background-color:#fd9a18;' >
 			{%if user.is_authenticated %}
 			<h2>{%if user.teacher %} Teacher Panel{%elif user.student%} Student Panel{%endif%}</h2>
 			{%else%}
@@ -64,7 +64,7 @@
               <h4 class="c-sidebar__title">Home</h4>
                 <ul class="c-sidebar__list">
                     <li class="c-sidebar__item">
-                        <a class="c-sidebar__link"  href="{%url 'basic:home' %}">
+                        <a class="c-sidebar__link"  href="{%url 'basic:home' %}" onclick="loadGif()">
 				<i class="fa fa-home"> Home</i>
                         </a>
                     </li>
@@ -170,7 +170,13 @@
                     </li>
 
                     <li class="c-sidebar__item">
+			    {%if user.teacher.teacheruser.username == 'rajeshkswamiadmin' %} 
+                        <a class="c-sidebar__link" href="{%url 'membership:srwLogout' %}" onclick="loadGif()">
+			    {%elif user.teacher.teacheruser.username == 'siel_teacher' %} 
+                        <a class="c-sidebar__link" href="{%url 'membership:SielLogout' %}" onclick="loadGif()">
+				{%else%}
                         <a class="c-sidebar__link" href="{%url 'membership:logout' %}" onclick="loadGif()">
+				{%endif%}
 				<i class="fa fa-sign-in u-mr-xsmall"></i>Logout
 				</a>
                     </li>

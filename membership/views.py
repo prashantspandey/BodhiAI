@@ -167,6 +167,29 @@ def srw_user_login(request):
     return render(request, 'membership/swami_login.html', context)
 
 
+#---------------------------------------------------------------------------------------------
+
+# client user logouts
+
+def siel_logout(request):
+    if request.user.is_authenticated:
+        logout(request)
+        messages.add_message(request, messages.INFO, "Successfully Logged Out")
+        return HttpResponseRedirect(reverse('membership:SielLogin'))
+    else:
+        messages.add_message(request, messages.INFO, "You were not logged in.")
+        return HttpResponseRedirect(reverse('membership:SielLogin'))
+
+def srw_logout(request):
+    print('in srw logout')
+    if request.user.is_authenticated:
+        logout(request)
+        messages.add_message(request, messages.INFO, "Successfully Logged Out")
+        return HttpResponseRedirect(reverse('membership:SwamiLogin'))
+    else:
+        messages.add_message(request, messages.INFO, "You were not logged in.")
+        return HttpResponseRedirect(reverse('membership:SwamiLogin'))
+
 
 
 

@@ -10,6 +10,7 @@
 
         {%block scripts %}
    <script src="{%static 'basicinformation/js1/main.min-v=2.0.js' %}"></script>
+    <link rel='stylesheet' type='text/css' href='{% static "basicinformation/css1/studentHomePage.css" %}'> 
      <link rel='stylesheet' type='text/css' href='{% static "basicinformation/slick/slick.css" %}'> 
     <link rel='stylesheet' type='text/css' href='{% static "basicinformation/slick/slick-theme.css" %}'> 
     <script type="text/javascript" src="{% static "basicinformation/slick/slick.min.js" %}"></script>
@@ -34,8 +35,8 @@
 				$("#loadingdiv").show()	
 				$("#loadingdiv_weak_area").show()	
 
-				function hideWeakAreaGif(){
-					$("#loadingdiv_weak_area_detail").removeClass("hidden");
+				function showWeakAreaGif(){
+					$("#loadingdiv_weak_area_detail").removeClass('hidden');
 				};
 		<!-- Ajax for Performance graph of last test -->
 				$.ajax({
@@ -139,7 +140,8 @@
 			"<form action={% url 'basic:TeacherWeakAreas' %} method='get'>"+
 			"<input type='text' value="+weak_data_batch[i]+" name='weakAreasClass' class='hidden' >"+
 			"<input type='text' value="+weak_data_sub[i]+" name='weakAreasSub' class='hidden' >"+
-			"<input type='submit' class='btn btn-warning' name='weakAreasButton' value='See full Report' onclick='hideWeakAreaGif()'>"+
+							"<button type='submit' class='btn btn-warning' name='weakAreasButton'  onclick='showWeakAreaGif()'>"+"See full Report"+"</button>"+
+
 		"</form>"+
 
 
@@ -157,7 +159,6 @@
 					complete: function(){
 						$("#loadingdiv_weak_area").hide();
 				$('#weak_subject').slick({
-				   dots: true,
 					arrows:true,
   infinite: true,
 adaptiveHeight: true,
@@ -184,30 +185,62 @@ adaptiveHeight: true,
 					url:"{% url 'message-api:messageList'  %}",
 					method:"GET",
 					success: function(data){
+						if (data.length == null){
 						$.each(data,function(key,value){
+							if (value.subject){
 					$("#latest_communication").append(
-                            "<div class='c-todo ' >"+
-						 "<input class='c-todo__input' id='todo2' type='checkbox' name='exampe-list2'>"+
-                                "<label class='c-todo__label'>"+
-                                    "Subject: "+value.subject+
-                               " </label>"+
+                    "<div class='c-card u-p-medium u-text-center u-mb-medium' data-mh='landing-cards' style='background-color:#EDE7F6;'>"+
+						"<span class='c-badge c-badge--primary c-badge--large'>"+ "Subject" +"</span>"+
+						"<p>"+value.subject+"</p>"+
 
 
-						 "<input class='c-todo__input' id='todo1' type='checkbox' name='exampe-list'>"+
-
-                                "<label class='c-todo__label'>"+
-                                    "Message: "+value.body+
-                               " </label>"+
-
-				"<span class='c-badge c-badge--info c-badge--small'>"+"Date: "+value.sent_date+"</span>"+
-
-						"</div>"	
-
-
-
-							
+						"<span class='c-badge c-badge--success c-badge--large'>"+ "Message" +"</span>"+
+						"<p>"+value.body+"</p>"+
+						"</div>"
 				)
+							}
+							else{
+
+							$("#latest_communication").append(
+                    "<div class='c-card u-p-medium u-text-center u-mb-medium' data-mh='landing-cards' style='background-color:#EDE7F6;'>"+
+
+
+						"<span class='c-badge c-badge--success c-badge--large'>"+ "Message" +"</span>"+
+						"<p>"+value.body+"</p>"+
+						"</div>"
+				)
+
+							}
+							
 						});
+							}
+							else{
+							$("#latest_communication").append(
+							
+								"<div>"+
+								"<h5 class='text-center'>"+"Sorry !! No messages to show."+"</h5>"+
+								"</div>"
+								)
+
+							}
+					},
+					complete: function(data){
+					$('#communicationGif').addClass('hidden')
+					$('#latest_communication').slick({
+				   arrows:true,
+  				   infinite: true,
+				adaptiveHeight: true,
+  				autoplay: true,
+  				autoplaySpeed: 4000,
+  				speed: 500,
+  				cssEase: 'linear',
+      				prevArrow: $('.prevCommunication'),
+      				nextArrow: $('.nextCommunication'),
+
+					slidesToScroll:1,
+				});
+
+
 					},
 					error:function(data){
 						console.log(data)
@@ -220,30 +253,51 @@ adaptiveHeight: true,
 					method:"GET",
 					success: function(data){
 						$.each(data,function(key,value){
+							if (value){
 							$("#tests_overview").append(
-				"<table class='c-table'>"+
-                                "<tbody>"+
-                                    "<tr class='c-table__row u-border-top-zero'>"+
-                                        "<td class='c-table__cell'>"+"Published on: "+JSON.stringify(value.published)+"</td>"+
-                                        "<td class='c-table__cell'>"+"Batch: "+value.class+"</td>"+
-                                        "<td class='c-table__cell'>"+"Number of Questions: "+value.num_questions+"</td>"+
-                                        "<td class='c-table__cell'>"+"Maximum marks: "+value.total_marks+"</td>"+
-                                        "<td class='c-table__cell'>"+"Subject: "+value.subject+"</td>"+
-                                        "<td class='c-table__cell'>"+"Average marks: "+value.average+" %"+"</td>"+
-                                        "<td class='c-table__cell u-text-right'>"+
-                                            "<span class='c-badge c-badge--small c-badge--danger'>"+value.students_taken+" students"+"</span>"+
-                                        "</td>"+
-                                        "<td class='c-table__cell'>"+
+                    "<div class='c-card u-p-medium u-text-center u-mb-medium' data-mh='landing-cards' style='background-color:#72a2ef4d;'>"+
+						"<div class='text-center'>"+
+						"<h5 style='color:#2962FF;'><strong>"+value.subject +"</strong></h5>"+
+						"<h5 style='color:#2962FF;'>"+"Average Marks in test: "+"</h5>"+
+								"<div class='numberCircle'>"+ value.average+"</div>"+"<br>"+"<br>"+
+						"<h6 class='text-center' >"+"Published on: "+JSON.stringify(value.published)+"</h6>"+
+						"<p style='color:red;'>"+"Number of Questions: "+value.num_questions+"</p>"+
+						"<h6 class='text-center' >"+"Batch: "+value.class+"</h6>"+
+						"<p style='color:red;'>"+"Maximum marks: "+value.total_marks+"</p>"+
+								"<span class='c-badge c-badge--small c-badge--warning'>"+value.students_taken+" students took the test"+"</span>"+"<br>"+"<br>"+
 				"<form action={% url 'basic:teacher_update_page' %} method='get'>"+
 		"<button type='submit' name='directtestid' class='btn btn-primary' value="+key+">"+"View"+"</button>"+
-                "</div></td>"+
-                              "      </tr>"+
-								"</tbody>"+
-								"</table>"
+						"</div>"+
+						"</div>"
 
 
 								)
+							}
+							else{
+							$("#tests_overview").append(
+								"<h2 class='text-center'>"+"Take at-least one test to see it's overview"+"</h2>"
+								)
+
+							}
 						});
+					},
+					complete: function(data){
+					$('#summaryGif').addClass('hidden')
+				$('#tests_overview').slick({
+				   arrows:true,
+  				   infinite: true,
+				adaptiveHeight: true,
+  				autoplay: true,
+  				autoplaySpeed: 5000,
+  				speed: 500,
+  				cssEase: 'linear',
+      				prevArrow: $('.prevSummary'),
+      				nextArrow: $('.nextSummary'),
+
+					slidesToScroll:1,
+				});
+
+
 					},
 					error:function(data){
 						console.log(data)
@@ -254,12 +308,16 @@ adaptiveHeight: true,
 					method:"GET",
 					success: function(data){
 						$.each(data,function(key,value){
+							console.log(value)
+							if (value){
+							var opts = value.choices.toString();
+							var all_opts = opts.replace(/,/g,"<br>");
 							if (value.text != null) {
 								$("#hardQuestionsDiv").append(
-								
 									"<div>"+
 						"<h4 class='text-center'>"+value.wrong_frequency+" students did this question wrong."+"</h4>"+
-						"<h4 class='text-center'>"+value.text+"</h4>"+
+						"<h4 class='text-center' style='color:red;'>"+value.text+"</h4>"+
+									"<p style='color:blue;'>"+all_opts+"</li>"+
 									"</div>"
 			    			
 								)
@@ -275,6 +333,14 @@ adaptiveHeight: true,
 								)
 
 						}
+						}
+								else{
+							$("#hardQuestionsDiv").append(
+						"<h2 class='text-center'>"+"Student's haven't taken a test or haven't made a mistake yet."+"</h4>"
+								)
+
+
+								}
 
 						});
 					},
@@ -286,7 +352,7 @@ adaptiveHeight: true,
   				   infinite: true,
 				adaptiveHeight: true,
   				autoplay: true,
-  				autoplaySpeed: 2000,
+  				autoplaySpeed: 5000,
   				speed: 500,
   				cssEase: 'linear',
       				prevArrow: $('.prevHardQuestions'),
@@ -343,6 +409,47 @@ adaptiveHeight: true,
 
 	     </div>
              <div class="row">
+                <div class="col-sm-12 col-lg-4">
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards">
+
+				<div id='summaryGif'>
+			<img src = "{%static 'basicinformation/loaders/segment.gif' %}" width=30%;>
+				</div>
+
+
+				<h2 class='text-center'> Test Summary </h2>	
+			<div  id = "tests_overview">
+					
+			</div>
+		<button class="w3-button w3-display-left prevSummary" >&#10094;</button>
+		<button class="w3-button w3-display-right nextSummary" >&#10095;</button>
+
+                    </div>
+
+                </div>
+                <div class="col-sm-12 col-lg-4">
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards">
+                        <h4 class="u-h6 u-text-bold u-mb-small hidden" id="hardQuestionsHeading">
+                            Overall Tough Questions
+                        </h4>
+
+				<div id='hardQuestionsGif'>
+			<img src = "{%static 'basicinformation/loaders/segment.gif' %}" width=30%;>
+				</div>
+
+
+
+			<div class='well' id = "hardQuestionsDiv">
+					
+			</div>
+		<button class="w3-button w3-display-left prevHardQuestions" >&#10094;</button>
+		<button class="w3-button w3-display-right nextHardQuestions" >&#10095;</button>
+
+                    </div>
+
+                </div>
+
+
 		     <div class="col-sm-12 col-lg-4 " >
                     <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards" id="previousTestPerformance">
                         <h4 class="u-h6 u-text-bold u-mb-small" >
@@ -368,18 +475,8 @@ adaptiveHeight: true,
                     <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards">
                         <h4 class="u-h6 u-text-bold u-mb-small" id="weak_area">
 				Weak Areas 
-					<div id='loadingdiv_weak_area_detail' class='hidden'>
-					<h4>
-						Loading...
-					</h4>
-			<img src = "{%static 'basicinformation/loaders/segment.gif' %}" width=30%;>
-				</div>
-
 		</h4>
 				<div id='loadingdiv_weak_area'>
-					<h4>
-						Loading...
-					</h4>
 			<img src = "{%static 'basicinformation/loaders/segment.gif' %}" width=30%;>
 				</div>
 
@@ -388,6 +485,11 @@ adaptiveHeight: true,
 
 
 			</div>
+				<div id='loadingdiv_weak_area_detail' class='hidden'>
+			<img src = "{%static 'basicinformation/loaders/segment.gif' %}" width=30%;>
+				</div>
+
+
 		<button class="w3-button w3-display-left prev" >&#10094;</button>
 		<button class="w3-button w3-display-right next" >&#10095;</button>
 
@@ -414,21 +516,21 @@ adaptiveHeight: true,
 
                 <div class="col-sm-12 col-lg-4">
                     <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards">
-                        <h4 class="u-h6 u-text-bold u-mb-small hidden" id="hardQuestionsHeading">
+                        <h4 class="u-h6 u-text-bold u-mb-small hidden">
                             Overall Tough Questions
                         </h4>
 
-				<div id='hardQuestionsGif'>
+				<div id='communicationGif'>
 			<img src = "{%static 'basicinformation/loaders/segment.gif' %}" width=30%;>
 				</div>
 
 
-
-			<div class='well' id = "hardQuestionsDiv">
+				<h2 class='text-center'> Messages from your students </h2>	
+			<div  id = "latest_communication">
 					
 			</div>
-		<button class="w3-button w3-display-left prevHardQuestions" >&#10094;</button>
-		<button class="w3-button w3-display-right nextHardQuestions" >&#10095;</button>
+		<button class="w3-button w3-display-left prevCommunication" >&#10094;</button>
+		<button class="w3-button w3-display-right nextCommunication" >&#10095;</button>
 
                     </div>
 
@@ -649,33 +751,7 @@ adaptiveHeight: true,
 
                     </div>
                 </div>							-->
-                <!-- // .row -->
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="c-card c-card--responsive u-mb-medium" id="tests_overview">
-                            <div class="c-card__header c-card__header--transparent o-line">
-                                <h5 class="c-card__title">Test Overview</h5>
-                                <a class="c-card__meta" href="{% url 'basic:teacherHomePage' %}">View all Tests</a>
-                            </div>
-                            
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="c-card u-mb-medium" id = "latest_communication">
-                            <div class="c-card__header c-card__header--transparent o-line">
-                                <h5 class="c-card__title">Inbox</h5>
-                                <a class="c-card__meta" href="{%url 'pms:messages' %}">See all</a>
-                            </div>
-
-
-                            </div><!-- // .c-todo -->
-
-                            </div><!-- // .c-todo -->
-                        </div>
-                    </div>
-                </div><!-- // .row -->
+  
             </div>                
 
             </div><!-- // .container -->

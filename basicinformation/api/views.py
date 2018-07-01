@@ -47,8 +47,8 @@ class StudentDetailAPIView(APIView):
 class LastClassTestPerformanceTeacherAPI(APIView):
     def get(self,request,format = None):
         #me = Teach(self.request.user)
-        new_test = SSCKlassTest.objects.filter(creator =
-                                              self.request.user).order_by('published')[3]
+        new_test =\
+        SSCKlassTest.objects.filter(creator=self.request.user).order_by('published')[0]
         counter = 0
         quest_marks = 0
         test_id = new_test.id
@@ -156,7 +156,7 @@ class TeacherTestsOverview(APIView):
 
 
             test_details[test.id] =\
-                    {'published':test.published,'num_questions':counter,'total_marks':max_marks,'class':test.klas.name,'subject':test.sub,'average':average_marks,'students_taken':taken_students}
+                    {'published':test.published,'num_questions':counter,'total_marks':max_marks,'class':test.klas.name,'subject':test.sub,'average':round(average_marks,2),'students_taken':taken_students}
         return Response(test_details)
 
 
@@ -174,14 +174,17 @@ class TeachersHardQuestionsAPIView(APIView):
         for mark in my_tests_marks:
             if mark.wrongAnswers:
                 for choiceid in mark.wrongAnswers:
-                    question = SSCquestions.objects.get(choices__id = choiceid)
+                    try:
+                        question = SSCquestions.objects.get(choices__id = choiceid)
+                    except Exception as e:
+                        print(str(e))
+                        continue
                     all_wrong_answers.append(question.id)
 
         unique,counts = np.unique(all_wrong_answers,return_counts = True)
         hard_quests_freq = np.asarray((unique,counts)).T
         hard_quests_freq_final = np.sort(hard_quests_freq,0)[::1]
         hard_quest_ids = hard_quests_freq_final[-10:]
-        print(hard_quest_ids)
         text = []
         picture = []
         choice = []
@@ -202,10 +205,10 @@ class TeachersHardQuestionsAPIView(APIView):
             wrong_freq.append(j)
             hard_quest_dict =\
             {'text':question.text,'picture':question.picture,'choices':choices_list,'wrong_frequency':j}
+            print(hard_quest_dict)
             all_questions.append(hard_quest_dict) 
-
-
-
+        print('I am in tough questions')
+        print(all_questions)
         return Response(all_questions)       
         
 
