@@ -5,7 +5,8 @@ app_name = 'membership'
 
 urlpatterns = [
     url(r'^$', membershipviews.user_login, name='login'),
-    url(r'^siel_login/$', membershipviews.siel_user_login, name='Siellogin'),
+    url(r'^siel_login/$', membershipviews.siel_user_login, name='SielLogin'),
+    url(r'^swami_login/$', membershipviews.srw_user_login, name='SwamiLogin'),
     url(r'^register/', membershipviews.user_register, name='register'),
     url(r'^logout/$', membershipviews.user_logout, name='logout'),
     url(r'^change_password/$', membershipviews.user_changePassword,
