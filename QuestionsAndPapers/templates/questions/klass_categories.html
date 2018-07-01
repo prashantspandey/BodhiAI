@@ -10,6 +10,7 @@
        var categoryChoice = $(this).val();
           which_klass = $('#which_klass').text()
           which_section = $('#which_section').text()
+	 $('#loadingCreateTest2').show();
  		  $('#allQuestions').removeClass("hidden");
             $('#allQuestions').html('').load('{% url 'QuestionsAndPapers:createTest' %}?chapter_test='+encodeURIComponent(categoryChoice+','+which_klass+','+which_section));
 
@@ -35,6 +36,7 @@
   {%endfor%}
         -->
         <select class="form-control" name="questionCategoriesChoice">
+            <option disabled selected value> -- Choose a chapter/topic --  </option>
             {% for i,j in categories %}
             <option value="{{j}}"> {{i}} </option>
             {%endfor%}
@@ -47,7 +49,7 @@
 </div>
 <div id = 'loadingCreateTest2' style='text-align:center;display:none;'>
 <h4 style='text-center;'>Please wait... </h4>
-        <img src="{%static 'basicinformation/images/bodhigif.gif' %}" >
+        <img src="{%static 'basicinformation/loaders/segment.gif' %}" >
  </div>
 
 <div class="hidden panel panel-default" id="allQuestions" >

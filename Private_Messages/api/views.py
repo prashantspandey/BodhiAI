@@ -14,6 +14,6 @@ class TeacherLatestInbox(generics.ListAPIView):
     serializer_class = PrivateMessageModalSerializer
     def get_queryset(self):
         return PrivateMessage.objects.filter(receiver =
-                                             self.request.user)[:5]
+                                             self.request.user)
 
 

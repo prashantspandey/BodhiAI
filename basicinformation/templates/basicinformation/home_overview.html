@@ -185,7 +185,8 @@ adaptiveHeight: true,
 					url:"{% url 'message-api:messageList'  %}",
 					method:"GET",
 					success: function(data){
-						if (data.length == null){
+						if (data.length != 0){
+							
 						$.each(data,function(key,value){
 							if (value.subject){
 					$("#latest_communication").append(
@@ -196,6 +197,7 @@ adaptiveHeight: true,
 
 						"<span class='c-badge c-badge--success c-badge--large'>"+ "Message" +"</span>"+
 						"<p>"+value.body+"</p>"+
+
 						"</div>"
 				)
 							}
@@ -308,7 +310,6 @@ adaptiveHeight: true,
 					method:"GET",
 					success: function(data){
 						$.each(data,function(key,value){
-							console.log(value)
 							if (value){
 							var opts = value.choices.toString();
 							var all_opts = opts.replace(/,/g,"<br>");

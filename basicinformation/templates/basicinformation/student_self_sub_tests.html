@@ -49,6 +49,7 @@ var pr
 	  -->
 	  <button type="button" class="hidden " value='{{subject}}'  id="which_subject">{{subject}}</button>
 	 <select class="form-control"  name="studentTestid" value="{{test.id}}">
+	 <option disabled selected value> -- Choose a Test -- </option>
 	 {% for test in tests %}
 	 <option value="{{test.test.id}}">{{test.test.published}} </option>
 

@@ -31,6 +31,7 @@
 {%endfor%}
 	 -->
 	 <select class="form-control" id="onlineTestid{{forloop.counter}}" name="testid" value="{{teest.id}}">
+	 <option disabled selected value>-- Choose a Test -- </option>
 	 {% for test in tests %}
 	 <option value="{{test.id}}">{{test.published}} </option>
 
