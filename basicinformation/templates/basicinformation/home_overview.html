@@ -129,7 +129,7 @@
 							
 							for(var i=0;i<weak_area.length;i++){
 						$("#weak_subject").append(
-							"<div class='panel panel-default'>"+
+							"<div class='panel panel-default' style='backgroundcolor:#fd9a18;'>"+
 							"<div class='panel-heading'>"+"Batch: "+weak_data_batch[i]+"<div>"+
 							"<div class='panel-body'>"+
 							"Subject :"+weak_data_sub[i]+"<br>"+
@@ -310,13 +310,14 @@ adaptiveHeight: true,
         {%endblock%}
     </head>
     {% block content %}
+    <body style='background-color:#154569;'>
 <div class='hidden' id ='pageLoader' style='text-align:center;'>
 	<h4 class='text-center;'> Please wait.....</h4>
 	<img src="{% static 'basicinformation/loaders/segment.gif' %}">
 </div>
 
 
-    <div style="padding:25px;">
+    <div style="padding:25px;" >
              <div class="row">
 		     <div class="col-sm-12 col-lg-4 " >
                     <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards" >
@@ -350,7 +351,7 @@ adaptiveHeight: true,
 				<div id='loadingdiv'>
 			<img src = "{%static 'basicinformation/loaders/segment.gif' %}" width=30%;>
 				</div>
-				<div class='well'>
+				<div class='well' >
 			<canvas id = "last_test_canvas" height = "400">
 			</canvas>
 		    </div>
