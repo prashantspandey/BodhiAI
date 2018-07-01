@@ -118,6 +118,30 @@ def user_changePassword(request):
     context = {'form':form}
     return render(request,'membership/change_password.html',context)
 
+#--------------------------------------------------------------------------------------------------
+# client user logins
+
+def siel_user_login(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('basic:home'))
+    form = LoginForm(request.POST or None)
+    context = {'form': form,'onLogin':True}
+
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+
+            if user.is_active:
+                login(request, user)
+                messages.add_message(request, messages.INFO, 'Successfully Logged in !')
+                return HttpResponseRedirect(reverse('basic:home'))
+
+
+    return render(request, 'membership/siel_login.html', context)
+
 
 
 
