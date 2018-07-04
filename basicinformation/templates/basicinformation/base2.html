@@ -51,10 +51,10 @@
 <body >
 
         <div  class="o-page__sidebar js-page-sidebar sticky" >
-            <div id="wholeSideBar" class="c-sidebar--light" style="height:100%;overflow-y:scroll;">
-                <a class="c-sidebar__brand" href="{%url 'basic:home' %}" style='background-color:#fd9a18;' >
+            <div id="wholeSideBar" class="c-sidebar" style="height:100%;overflow-y:scroll;">
+                <a class="c-sidebar__brand" href="{%url 'basic:home' %}"  >
 			{%if user.is_authenticated %}
-			<h2>{%if user.teacher %} Teacher Panel{%elif user.student%} Student Panel{%endif%}</h2>
+			<h2 style='#ffffff;'>{%if user.teacher %} Teacher Panel</strong>{%elif user.student%} Student Panel{%endif%}</h2>
 			{%else%}
 			<h2>Welcome</h2>
 			{%endif%}

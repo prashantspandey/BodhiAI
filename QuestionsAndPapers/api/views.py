@@ -7,6 +7,7 @@ from django.http import Http404, HttpResponse
 from .serializers import *
 from basicinformation.marksprediction import *
 from QuestionsAndPapers.models import *
+from basicinformation.tasks import *
 import json
 from more_itertools import unique_everseen
 from rest_framework.response import Response
@@ -133,4 +134,42 @@ class  IndividualTestDetailsAPIView(APIView):
         return Response(details)
 
 
+#-------------------------------------------------------------------------------------
+# All test taking APIs
+
+#When Start test button is clicked ('TakeTest') post request
+
+class ConductTestFirstAPIview(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Studs(self.request.user)
+        testid = request.POST['takeTest']
+        testid = int(testid)
+        already_taken =\
+        SSCOnlineMarks.objects.filter(student=me.profile,test__id =
+                                      testid)
+
+        quest = []
+        test = SSCKlassTest.objects.get(id = testid)
+        try:
+            test_detail = TestDetails.objects.get(test = test)
+            lenquest = test_detail.num_questions
+        except:
+            for q in test.sscquestions_set.all():
+                quest.append(q.topic_category)
+
+            lenquest = len(quest)
+        if test.totalTime:
+            timeTest = test.totalTime
+        else:
+            timeTest = 1000
+        nums = []
+        for i in range(lenquest):
+            nums.append(i)
+        current_test = StudentCurrentTest()
+        current_test.student = me.profile
+        current_test.test = SSCKlassTest.objects.get(id=testid)
+        current_test.save()
+        context =\
+                {'questPosition':nums,'te_id':testid,'how_many':lenquest,'testTime':timeTest}
+        return Response(context)
 
