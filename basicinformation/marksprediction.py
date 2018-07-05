@@ -2376,73 +2376,67 @@ class Studs:
         if subject == 'Quantitative-Analysis':
             for i,j in arr:
                 if i == '1.1':
-                    namedarr.append('Probability')
+                    namedarr.append('Age')
                     timing.append(j)
                 elif i == '2.1':
-                    namedarr.append('Percentage')
+                    namedarr.append('Alligation')
                     timing.append(j)
                 elif i == '3.1':
-                    namedarr.append('Pipes & Cisterns')
+                    namedarr.append('Area')
                     timing.append(j)
                 elif i == '4.1':
-                    namedarr.append('Simplification')
+                    namedarr.append('Average')
                     timing.append(j)
                 elif i == '5.1':
-                    namedarr.append('Permutations')
+                    namedarr.append('Boat & Stream')
                     timing.append(j)
                 elif i == '6.1':
-                    namedarr.append('Simple Interest')
+                    namedarr.append('Discount')
                     timing.append(j)
                 elif i == '7.1':
-                    namedarr.append('Partnership')
+                    namedarr.append('Fraction')
                     timing.append(j)
                 elif i == '8.1':
-                    namedarr.append('Averages')
+                    namedarr.append('LCM & LCF')
                     timing.append(j)
                 elif i == '9.1':
-                    namedarr.append('Compound Interest')
+                    namedarr.append('Number System')
+                    timing.append(j)
+                elif i == '10.1':
+                    namedarr.append('Percentage')
                     timing.append(j)
                 elif i == '11.1':
-                    namedarr.append('Mixture and Alligations')
+                    namedarr.append('Pipes & Cistern')
                     timing.append(j)
                 elif i == '12.1':
-                    namedarr.append('LCM & HCF')
+                    namedarr.append('Profit & Loss')
                     timing.append(j)
                 elif i == '13.1':
-                    namedarr.append('Inequalities')
+                    namedarr.append('Ratio')
                     timing.append(j)
                 elif i == '14.1':
-                    namedarr.append('Ranking')
+                    namedarr.append('Simple Interest')
                     timing.append(j)
                 elif i == '15.1':
-                    namedarr.append('Chain Rule')
+                    namedarr.append('Simplification')
                     timing.append(j)
                 elif i == '16.1':
-                    namedarr.append('Mensuration')
+                    namedarr.append('Speed & Distance')
                     timing.append(j)
                 elif i == '17.1':
-                    namedarr.append('Ratio & Proportions')
+                    namedarr.append('Square & Cube root')
                     timing.append(j)
                 elif i == '18.1':
-                    namedarr.append('Time & Distance')
+                    namedarr.append('Surds & Indices')
                     timing.append(j)
                 elif i == '19.1':
                     namedarr.append('Time & Work')
                     timing.append(j)
                 elif i == '20.1':
-                    namedarr.append('Number Series')
+                    namedarr.append('Train')
                     timing.append(j)
                 elif i == '21.1':
-                    namedarr.append('Number System')
-                    timing.append(j)
-                elif i == '22.1':
-                    namedarr.append('Quadratic Equations')
-                    timing.append(j)
-                elif i == '23.1':
-                    namedarr.append('Data Sufficiency')
-                    timing.append(j)
-                elif i == '24.1':
-                    namedarr.append('Profit & Loss')
+                    namedarr.append('Volume')
                     timing.append(j)
             return list(zip(namedarr,timing))
         if subject == 'General-Knowledge':
@@ -3713,49 +3707,48 @@ class Studs:
 
         if subject == 'Quantitative-Analysis':
                 if i == '1.1':
-                    return 'Probability'
+                    return 'Age'
                 elif i == '2.1':
-                    return 'Percentage'
+                    return 'Alligation'
                 elif i == '3.1':
-                    return 'Pipes & Cisterns'
+                    return 'Area'
                 elif i == '4.1':
-                    return 'Simplification'
+                    return 'Average'
                 elif i == '5.1':
-                    return 'Permutations'
+                    return 'Boat & Stream'
                 elif i == '6.1':
-                    return 'Simple Interest'
+                    return 'Discount'
                 elif i == '7.1':
-                    return 'Partnership'
+                    return 'Fraction'
                 elif i == '8.1':
-                    return 'Averages'
+                    return 'LCM & LCF'
                 elif i == '9.1':
-                    return 'Compound Interest'
+                    return 'Number System'
+                elif i == '10.1':
+                    return 'Percentage'
                 elif i == '11.1':
-                    return 'Mixture and Alligations'
+                    return 'Pipes & Cistern'
                 elif i == '12.1':
-                    return 'LCM & HCF'
+                    return 'Profit & Loss'
                 elif i == '13.1':
-                    return 'Inequalities'
+                    return 'Ratio'
                 elif i == '14.1':
-                    return 'Ranking'
+                    return 'Simple Interest'
                 elif i == '15.1':
-                    return 'Chain Rule'
+                    return 'Simplification'
                 elif i == '16.1':
-                    return 'Mensuration'
+                    return 'Speed & Distance'
                 elif i == '17.1':
-                    return 'Ratio & Proportions'
+                    return 'Square & Cube root'
                 elif i == '18.1':
-                    return 'Time & Distance'
+                    return 'Surds & Indices'
                 elif i == '19.1':
                     return 'Time & Work'
                 elif i == '20.1':
-                    return 'Number Series'
+                    return 'Train'
                 elif i == '21.1':
-                    return 'Number System'
-                elif i == '22.1':
-                    return 'Quadratic Equations'
-                elif i == '23.1':
-                    return 'Data Sufficiency'
+                    return 'Volume'
+
         if subject == 'General-Knowledge':
                 if i == '1.1':
                     return 'Inventions & Innovators'
@@ -5705,73 +5698,75 @@ class Teach:
             changed = list(zip(names,numbers))
             return changed
         if subject == 'Quantitative-Analysis':
+
+
+
             for i in arr:
+
                 if i == '1.1':
-                    names.append('Probability')
+                    names.append('Age')
                     numbers.append(i)
                 elif i == '2.1':
-                    names.append('Percentage')
+                    names.append('Alligation')
                     numbers.append(i)
                 elif i == '3.1':
-                    names.append('Pipes & Cisterns')
+                    names.append('Area')
                     numbers.append(i)
                 elif i == '4.1':
-                    names.append('Simplification')
+                    names.append('Average')
                     numbers.append(i)
                 elif i == '5.1':
-                    names.append('Permutations')
+                    names.append('Boat & Stream')
                     numbers.append(i)
                 elif i == '6.1':
-                    names.append('Simple Interest')
+                    names.append('Discount')
                     numbers.append(i)
                 elif i == '7.1':
-                    names.append('Partnership')
+                    names.append('Fraction')
                     numbers.append(i)
                 elif i == '8.1':
-                    names.append('Averages')
+                    names.append('LCM & LCF')
                     numbers.append(i)
                 elif i == '9.1':
-                    names.append('Compound Interest')
+                    names.append('Number System')
+                    numbers.append(i)
+                elif i == '10.1':
+                    names.append('Percentage')
                     numbers.append(i)
                 elif i == '11.1':
-                    names.append('Mixture and Alligations')
+                    names.append('Pipes & Cistern')
                     numbers.append(i)
                 elif i == '12.1':
-                    names.append('LCM & HCF')
+                    names.append('Profit & Loss')
                     numbers.append(i)
                 elif i == '13.1':
-                    names.append('Inequalities')
+                    names.append('Ratio')
                     numbers.append(i)
                 elif i == '14.1':
-                    names.append('Ranking')
+                    names.append('Simple Interest')
                     numbers.append(i)
                 elif i == '15.1':
-                    names.append('Chain Rule')
+                    names.append('Simplification')
                     numbers.append(i)
                 elif i == '16.1':
-                    names.append('Mensuration')
+                    names.append('Speed & Distance')
                     numbers.append(i)
                 elif i == '17.1':
-                    names.append('Ratio & Proportions')
+                    names.append('Square & Cube root')
                     numbers.append(i)
                 elif i == '18.1':
-                    names.append('Time & Distance')
+                    names.append('Surds & Indices')
                     numbers.append(i)
                 elif i == '19.1':
                     names.append('Time & Work')
                     numbers.append(i)
                 elif i == '20.1':
-                    names.append('Number Series')
+                    names.append('Train')
                     numbers.append(i)
                 elif i == '21.1':
-                    names.append('Number System')
+                    names.append('Volume')
                     numbers.append(i)
-                elif i == '22.1':
-                    names.append('Quadratic Equations')
-                    numbers.append(i)
-                elif i == '23.1':
-                    names.append('Data Sufficiency')
-                    numbers.append(i)
+
  
             changed = list(zip(names,numbers))
             return changed
@@ -6529,72 +6524,71 @@ class Teach:
             return changed
         if subject == 'Quantitative-Analysis':
             for i,j in arr:
+
                 if i == '1.1':
-                    names.append('Probability')
+                    names.append('Age')
                     numbers.append(j)
                 elif i == '2.1':
-                    names.append('Percentage')
+                    names.append('Alligation')
                     numbers.append(j)
                 elif i == '3.1':
-                    names.append('Pipes & Cisterns')
+                    names.append('Area')
                     numbers.append(j)
                 elif i == '4.1':
-                    names.append('Simplification')
+                    names.append('Average')
                     numbers.append(j)
                 elif i == '5.1':
-                    names.append('Permutations')
+                    names.append('Boat & Stream')
                     numbers.append(j)
                 elif i == '6.1':
-                    names.append('Simple Interest')
+                    names.append('Discount')
                     numbers.append(j)
                 elif i == '7.1':
-                    names.append('Partnership')
+                    names.append('Fraction')
                     numbers.append(j)
                 elif i == '8.1':
-                    names.append('Averages')
+                    names.append('LCM & LCF')
                     numbers.append(j)
                 elif i == '9.1':
-                    names.append('Compound Interest')
+                    names.append('Number System')
+                    numbers.append(j)
+                elif i == '10.1':
+                    names.append('Percentage')
                     numbers.append(j)
                 elif i == '11.1':
-                    names.append('Mixture and Alligations')
+                    names.append('Pipes & Cistern')
                     numbers.append(j)
                 elif i == '12.1':
-                    names.append('LCM & HCF')
+                    names.append('Profit & Loss')
                     numbers.append(j)
                 elif i == '13.1':
-                    names.append('Inequalities')
+                    names.append('Ratio')
                     numbers.append(j)
                 elif i == '14.1':
-                    names.append('Ranking')
+                    names.append('Simple Interest')
                     numbers.append(j)
                 elif i == '15.1':
-                    names.append('Chain Rule')
+                    names.append('Simplification')
                     numbers.append(j)
                 elif i == '16.1':
-                    names.append('Mensuration')
+                    names.append('Speed & Distance')
                     numbers.append(j)
                 elif i == '17.1':
-                    names.append('Ratio & Proportions')
+                    names.append('Square & Cube root')
                     numbers.append(j)
                 elif i == '18.1':
-                    names.append('Time & Distance')
+                    names.append('Surds & Indices')
                     numbers.append(j)
                 elif i == '19.1':
                     names.append('Time & Work')
                     numbers.append(j)
                 elif i == '20.1':
-                    names.append('Number Series')
+                    names.append('Train')
                     numbers.append(j)
                 elif i == '21.1':
-                    names.append('Number System')
-                    numbers.append(i)
-                elif i == '22.1':
-                    names.append('Quadratic Equation')
-                    numbers.append(i)
-                elif i == '23.1':
-                    names.append('Data Sufficiency')
-                    numbers.append(i)
+                    names.append('Volume')
+                    numbers.append(j)
+
             changed = list(zip(names,numbers))
             return changed
         if subject == 'General-Knowledge':
@@ -7291,50 +7285,49 @@ class Teach:
             return numbers
         if subject == 'Quantitative-Analysis':
             for i in arr:
-                if i == 'Probability':
+                if i == 'Age':
                     numbers.append('1.1')
-                elif i == 'Percentage':
+                elif i == 'Alligation':
                     numbers.append('2.1')
-                elif i == 'Pipes & Cisterns':
+                elif i == 'Area':
                     numbers.append('3.1')
-                elif i == 'Simplification':
+                elif i == 'Average':
                     numbers.append('4.1')
-                elif i == 'Permutations':
+                elif i == 'Boat & Stream':
                     numbers.append('5.1')
-                elif i == 'Simple Interest':
+                elif i == 'Discount':
                     numbers.append('6.1')
-                elif i == 'Partnership':
+                elif i == 'Fraction':
                     numbers.append('7.1')
-                elif i == 'Averages':
+                elif i == 'LCM & LCF':
                     numbers.append('8.1')
-                elif i == 'Compound Interest':
+                elif i == 'Number System':
                     numbers.append('9.1')
-                elif i == 'Mixture and Alligations':
+                elif i == 'Percentage':
+                    numbers.append('10.1')
+                elif i == 'Pipes & Cistern':
                     numbers.append('11.1')
-                elif i == 'LCM & HCF':
+                elif i == 'Profit & Loss':
                     numbers.append('12.1')
-                elif i == 'Inequalities':
+                elif i == 'Ratio':
                     numbers.append('13.1')
-                elif i == 'Ranking':
+                elif i == 'Simple Interest':
                     numbers.append('14.1')
-                elif i == 'Chain Rule':
+                elif i == 'Simplification':
                     numbers.append('15.1')
-                elif i == 'Mensuration':
+                elif i == 'Speed & Distance':
                     numbers.append('16.1')
-                elif i == 'Ratio & Proportions':
+                elif i == 'Square & Cube root':
                     numbers.append('17.1')
-                elif i == 'Time & Distance':
+                elif i == 'Surds & Indices':
                     numbers.append('18.1')
                 elif i == 'Time & Work':
                     numbers.append('19.1')
-                elif i == 'Number Series':
+                elif i == 'Train':
                     numbers.append('20.1')
-                elif i == 'Number System':
+                elif i == 'Volume':
                     numbers.append('21.1')
-                elif i == 'Quadratic Equations':
-                    numbers.append('22.1')
-                elif i == 'Data Sufficiency':
-                    numbers.append('23.1')
+
             return numbers
         if subject == 'General-Knowledge':
             for i in arr:
@@ -7972,6 +7965,70 @@ def change_topicNumbersNames(arr,subject):
         return changed
     if subject == 'Quantitative-Analysis':
         for i in arr:
+            if i == '1.1':
+                names.append('Age')
+                numbers.append(i)
+            elif i == '2.1':
+                names.append('Alligation')
+                numbers.append(i)
+            elif i == '3.1':
+                names.append('Area')
+                numbers.append(i)
+            elif i == '4.1':
+                names.append('Average')
+                numbers.append(i)
+            elif i == '5.1':
+                names.append('Boat & Stream')
+                numbers.append(i)
+            elif i == '6.1':
+                names.append('Discount')
+                numbers.append(i)
+            elif i == '7.1':
+                names.append('Fraction')
+                numbers.append(i)
+            elif i == '8.1':
+                names.append('LCM & LCF')
+                numbers.append(i)
+            elif i == '9.1':
+                names.append('Number System')
+                numbers.append(i)
+            elif i == '10.1':
+                names.append('Percentage')
+                numbers.append(i)
+            elif i == '11.1':
+                names.append('Pipes & Cistern')
+                numbers.append(i)
+            elif i == '12.1':
+                names.append('Profit & Loss')
+                numbers.append(i)
+            elif i == '13.1':
+                names.append('Ratio')
+                numbers.append(i)
+            elif i == '14.1':
+                names.append('Simple Interest')
+                numbers.append(i)
+            elif i == '15.1':
+                names.append('Simplification')
+                numbers.append(i)
+            elif i == '16.1':
+                names.append('Speed & Distance')
+                numbers.append(i)
+            elif i == '17.1':
+                names.append('Square & Cube root')
+                numbers.append(i)
+            elif i == '18.1':
+                names.append('Surds & Indices')
+                numbers.append(i)
+            elif i == '19.1':
+                names.append('Time & Work')
+                numbers.append(i)
+            elif i == '20.1':
+                names.append('Train')
+                numbers.append(i)
+            elif i == '21.1':
+                names.append('Volume')
+                numbers.append(i)
+
             if i == '1.1':
                 names.append('Probability')
                 numbers.append(i)
@@ -8733,49 +8790,48 @@ def changeIndividualNames(i,subject):
 
     if subject == 'Quantitative-Analysis':
             if i == '1.1':
-                return 'Probability'
+                return 'Age'
             elif i == '2.1':
-                return 'Percentage'
+                return 'Alligation'
             elif i == '3.1':
-                return 'Pipes & Cisterns'
+                return 'Area'
             elif i == '4.1':
-                return 'Simplification'
+                return 'Average'
             elif i == '5.1':
-                return 'Permutations'
+                return 'Boat & Stream'
             elif i == '6.1':
-                return 'Simple Interest'
+                return 'Discount'
             elif i == '7.1':
-                return 'Partnership'
+                return 'Fraction'
             elif i == '8.1':
-                return 'Averages'
+                return 'LCM & LCF'
             elif i == '9.1':
-                return 'Compound Interest'
+                return 'Number System'
+            elif i == '10.1':
+                return 'Percentage'
             elif i == '11.1':
-                return 'Mixture and Alligations'
+                return 'Pipes & Cistern'
             elif i == '12.1':
-                return 'LCM & HCF'
+                return 'Profit & Loss'
             elif i == '13.1':
-                return 'Inequalities'
+                return 'Ratio'
             elif i == '14.1':
-                return 'Ranking'
+                return 'Simple Interest'
             elif i == '15.1':
-                return 'Chain Rule'
+                return 'Simplification'
             elif i == '16.1':
-                return 'Mensuration'
+                return 'Speed & Distance'
             elif i == '17.1':
-                return 'Ratio & Proportions'
+                return 'Square & Cube root'
             elif i == '18.1':
-                return 'Time & Distance'
+                return 'Surds & Indices'
             elif i == '19.1':
                 return 'Time & Work'
             elif i == '20.1':
-                return 'Number Series'
+                return 'Train'
             elif i == '21.1':
-                return 'Number System'
-            elif i == '22.1':
-                return 'Quadratic Equations'
-            elif i == '23.1':
-                return 'Data Sufficiency'
+                return 'Volume'
+
     if subject == 'General-Knowledge':
             if i == '1.1':
                 return 'Inventions & Innovators'

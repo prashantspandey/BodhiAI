@@ -252,85 +252,13 @@ def home(request):
                     {'students':all_students,'teachers':all_teachers,'all_classes':klasses,'tests_created':new_test_teachers}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            #cl = klass.objects.get(name = 'DefBatchKartavya')
-            #cl.name = 'DefBatchKuch'
-            #cl.save()
-
-
-            #te = SSCKlassTest.objects.get(name='GroupYTest1GDA')
-            #quests = []
-            #for q in te.sscquestions_set.all():
-            #    quests.append(q)
-            #te.pk = None
-        
-            #us = User.objects.get(username = 'arat123')
-            #te.creator = us
-            #te.name = 'GroupYTest1Arav'
-            #te.save()
-            #for q in quests:
-            #    q.ktest.add(te)
-
-
-            #de = SSCKlassTest.objects.get(name='GroupYTest2GDA')
-            #quests = []
-            #for q in de.sscquestions_set.all():
-            #    quests.append(q)
-            #de.pk = None
-        
-            #us = User.objects.get(username = 'arat123')
-            #de.creator = us
-            #de.name = 'GroupYTest2Arav'
-            #de.save()
-            #for q in quests:
-            #    q.ktest.add(de)
-
-            #ee = SSCKlassTest.objects.get(name='GroupYTest3GDA')
-            #quests = []
-            #for q in ee.sscquestions_set.all():
-            #    quests.append(q)
-            #ee.pk = None
-        
-            #us = User.objects.get(username = 'arat123')
-            #ee.creator = us
-            #ee.name = 'GroupYTest3Arav'
-            #ee.save()
-            #for q in quests:
-            #    q.ktest.add(ee)
-
-
-            #add_teachers('aravaliteachers.csv','Aravali Defence Academy',production=True)
-            #add_teachers('krteachers.csv','KR Defence Coaching',production=True)
-            #add_students('aravalistudents.csv','Aravali Defence Academy',production=True)
-            #add_students('krstudents.csv','KR Defence Coaching',production=True)
-            #add_questions('JITO','General-Intelligence')
-            #change_question_marks('General-Intelligence')
-            #add_questions('Colonel Defence Academy','Defence-English')
-            #sheet_links = ['groupx03math.csv','groupx03physics.csv']
-            #sheet_links = ['groupx04math.csv','groupx04physics.csv']
             
             sheet_links =\
-            ['chapter5.csv']
-            #replace_quest_image(sheet_links,production=True)
-            #sheet_links=['articles.csv']
-            #sheet_link3 =\
-            #['1gk.csv','2gk.csv','3gk.csv','4gk.csv','5gk.csv','7gk.csv','8gk.csv','9gk.csv','10gk.csv']
-            #sheet_link3 =\
-            #['ch5.csv','ch6.csv','ch7.csv']
-            #sheet_link4 =\
-            #['ch8.csv','ch9.csv','ch10.csv','ch11.csv']
-            #questions = SSCquestions.objects.filter(school__name='Govindam Defence Academy')
-            #for i in questions:
-            #    i.max_marks = int(1)
-            #    i.save()
-            
-            #sheet_link5 = ['33t2.csv','34t2.csv']
-            #section_list = ['3.2']
-            #d_q =  delete_sectionQuestions.delay('English','SIEL',topic =
-            #                                     section_list)
-            #adding_quest = add_to_database_questions_text.delay(sheet_links,'SIEL',production =\
+            ['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
+            adding_quest =\
+            add_to_database_questions.delay(sheet_links,'BodhiAI',production=True,onlyImage=True)
+            #quest_added = add_to_database_questions.delay(sheet_links,'Swami Reasoning World',onlyImage=True,production =\
             #                          True)
-            quest_added = add_to_database_questions.delay(sheet_links,'Swami Reasoning World',onlyImage=True,production =\
-                                      True)
 
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):

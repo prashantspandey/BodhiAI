@@ -673,10 +673,10 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/swami_reasoning/'+sh,error_bad_lines=False )
+                pd.read_csv('/app/question_data/ssc_maths/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swami_reasoning/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/ssc_maths/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
@@ -687,19 +687,20 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
             right_answer = []
             quest_category = []
             temp = []
-            used_for = df['usedFor']
-            lang = df['lang']
-            source = df['source']
-            if onlyImage:
-                images = df['QuestionLink']
-            else:
-                quest_text = df['Question']
             optA = df['optA']
             optB = df['optB']
             optC = df['optC']
             optD = df['optD']
-            sectionType = df['sectionType']
-            direction = df['Direction']
+
+            used_for = len(optD)*['usedFor']
+            lang = df['lang']
+            source = len(used_for)*['SSCMaths']
+            if onlyImage:
+                images = df['QuestionLink']
+            else:
+                quest_text = df['Question']
+            sectionType = len(lang)*['Maths']
+            #direction = df['Direction']
 
             if fiveOptions:
                 optE = df['optionE'] 
@@ -737,7 +738,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         
             for ind in range(len(optA)):
                 if onlyImage:
-                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(lang[ind]),used_for[ind],source[ind],direction=direction[ind],fouroptions='4' )
+                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(lang[ind]),used_for[ind],source[ind],fouroptions='4' )
                 else:
                     write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],direction[ind],fouroptions='3')
 

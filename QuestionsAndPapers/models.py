@@ -132,7 +132,7 @@ class SSCquestions(models.Model):
         ('Defence-Physics','Defence-Physics'),('GroupX-Maths','GroupX-Maths'),('Defence-GK-CA','Defence-GK-CA'),('MathsIITJEE10','MathsIITJEE10'),('MathsIITJEE11','MathsIITJEE11')
          ,('MathsIITJEE12','MathsIITJEE12'),('ChemistryIITJEE10','ChemistryIITJEE10'),('ChemistryIITJEE11','ChemistryIITJEE11')
          ,('ChemistryIITJEE12','ChemistryIITJEE12'),('PhysicsIITJEE10','PhysicsIITJEE10'),('PhysicsIITJEE11','PhysicsIITJEE11')
-         ,('PhysicsIITJEE12','PhysicsIITJEE12'))
+         ,('PhysicsIITJEE12','PhysicsIITJEE12'),('Design and analysis of algorithm','Design and analysis of algorithm'))
     diffculty_choices = (('easy','easy'),('medium','medium'),('hard','hard'))
     text = models.TextField(blank=True,null=True)
     tier_category = models.CharField(max_length=20,choices = tier_choices)
