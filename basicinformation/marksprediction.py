@@ -6378,7 +6378,7 @@ class Teach:
                 if i == '4.1':
                     names.append('Greedy Method')
                     numbers.append(i)
-                return list(zip(names,numbers))
+            return list(zip(names,numbers))
 
 
     
