@@ -7790,7 +7790,7 @@ class Teach:
                 if i == 'Dynamic Programming':
                     numbers.append('2.1')
                 if i == 'Introduction':
-                    numbers.append('')
+                    numbers.append('3.1')
                 if i == 'Greedy Method':
                     numbers.append('4.1')
                 return numbers
@@ -9311,7 +9311,6 @@ def changeIndividualNames(i,subject):
                 return 'Introduction'
             if i == '4.1':
                 return 'Greedy Method'
-            return list(zip(namedarr,timing))
 
 
 
