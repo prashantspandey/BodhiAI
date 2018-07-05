@@ -2926,7 +2926,7 @@ class Studs:
             return list(zip(namedarr,timing))
 
         if subject == 'MathsIITJEE11':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     namedarr.append('All Categories')
                     timing.append(j)
@@ -2942,7 +2942,7 @@ class Studs:
             return list(zip(namedarr,timing))
 
         if subject == 'PhysicsIITJEE10':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     namedarr.append('All Categories')
                     timing.append(j)
@@ -2950,14 +2950,14 @@ class Studs:
             return list(zip(namedarr,timing))
 
         if subject == 'PhysicsIITJEE11':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     namedarr.append('All Categories')
                     timing.append(j)
 
             return list(zip(namedarr,timing))
         if subject == 'PhysicsIITJEE12':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     namedarr.append('All Categories')
                     timing.append(j)
@@ -2965,7 +2965,7 @@ class Studs:
             return list(zip(namedarr,timing))
 
         if subject == 'ChemistryIITJEE10':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     namedarr.append('All Categories')
                     timing.append(j)
@@ -2973,7 +2973,7 @@ class Studs:
             return list(zip(namedarr,timing))
 
         if subject == 'ChemistryIITJEE11':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     namedarr.append('All Categories')
                     timing.append(j)
@@ -2981,13 +2981,30 @@ class Studs:
             return list(zip(namedarr,timing))
 
         if subject == 'ChemistryIITJEE12':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     namedarr.append('All Categories')
                     timing.append(j)
 
             return list(zip(namedarr,timing))
 
+# for knimbus subjects
+        if subject == 'Design and analysis of algorithm':
+            for i,j in arr:
+                if i == '1.1':
+                    namedarr.append('Divide and Conquer')
+                    timing.append(j)
+                if i == '2.1':
+                    namedarr.append('Dynamic Programming')
+                    timing.append(j)
+                if i == '3.1':
+                    namedarr.append('Introduction')
+                    timing.append(j)
+                if i == '4.1':
+                    namedarr.append('Greedy Method')
+                    timing.append(j)
+
+                return list(zip(namedarr,timing))
 
 
 
@@ -3564,6 +3581,19 @@ class Studs:
                 if i == '1.1':
                     namedarr.append('All Categories')
             return namedarr
+# for knimbus subjects
+        if subject == 'Design and analysis of algorithm':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('Divide and Conquer')
+                if i == '2.1':
+                    namedarr.append('Dynamic Programming')
+                if i == '3.1':
+                    namedarr.append('Introduction')
+                if i == '4.1':
+                    namedarr.append('Greedy Method')
+
+                return namedarr
 
 
 
@@ -4108,6 +4138,19 @@ class Studs:
         if subject == 'ChemistryIITJEE12':
                 if i == '1.1':
                     return 'All Categories'
+
+# for knimbus students
+        if subject == 'Design and analysis of algorithm':
+                if i == '1.1':
+                    return 'Divide and Conquer'
+                if i == '2.1':
+                    return 'Dynamic Programming'
+                if i == '3.1':
+                    return 'Introduction'
+                if i == '4.1':
+                    return 'Greedy Method'
+
+
 
 
 
@@ -6320,6 +6363,22 @@ class Teach:
                     names.append('All Categories')
                     numbers.append(i)
             return list(zip(names,numbers))
+# for knimbus subjects
+        if subject == 'Design and analysis of algorithm':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Divide and Conquer')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('Dynamic Programming')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Introduction')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Greedy Method')
+                    numbers.append(i)
+                return list(zip(names,numbers))
 
 
     
@@ -7134,6 +7193,24 @@ class Teach:
                     numbers.append(i)
             return list(zip(names,numbers))
 
+# for knimbus subjects
+        if subject == 'Design and analysis of algorithm':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Divide and Conquer')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('Dynamic Programming')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Introduction')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Greedy Method')
+                    numbers.append(i)
+                return list(zip(names,numbers))
+
+
 
 
 
@@ -7705,6 +7782,20 @@ class Teach:
                 if i == 'All Categories':
                     numbers.append('1.1')
             return numbers
+# for knimbus subjects
+        if subject == 'Design and analysis of algorithm':
+            for i in arr:
+                if i == 'Divide and Conquer':
+                    numbers.append('1.1')
+                if i == 'Dynamic Programming':
+                    numbers.append('2.1')
+                if i == 'Introduction':
+                    numbers.append('')
+                if i == 'Greedy Method':
+                    numbers.append('4.1')
+                return numbers
+
+
 
 
 
@@ -8648,6 +8739,24 @@ def change_topicNumbersNames(arr,subject):
                 names.append('All Categories')
                 numbers.append(i)
         return list(zip(names,numbers))
+# for knimbus subjects
+        if subject == 'Design and analysis of algorithm':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Divide and Conquer')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('Dynamic Programming')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Introduction')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Greedy Method')
+                    numbers.append(i)
+
+                return list(zip(names,numbers))
+
 
 
 def changeIndividualNames(i,subject):
@@ -9191,6 +9300,19 @@ def changeIndividualNames(i,subject):
     if subject == 'ChemistryIITJEE12':
             if i == '1.1':
                 return 'All Categories'
+# or knimbus subjects
+    if subject == 'Design and analysis of algorithm':
+        for i in arr:
+            if i == '1.1':
+                return 'Divide and Conquer'
+            if i == '2.1':
+                return 'Dynamic Programming'
+            if i == '3.1':
+                return 'Introduction'
+            if i == '4.1':
+                return 'Greedy Method'
+            return list(zip(namedarr,timing))
+
 
 
 
