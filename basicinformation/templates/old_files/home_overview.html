@@ -87,7 +87,7 @@
 							subject + "<br>"+
 							'Test was published on ' + test_published+"<br>"+
 							'Test taken by '+numTaken+ ' students.'+
-				"<form action={% url 'basic:teacher_update_page' %} method='get'>"+"<br>"+
+				"<form action={% url 'basic:teacher_update_page' %} method='get'>"+
 		"<button type='submit' name='directtestid' class='btn btn-primary' value="+test_id+">"+"See in Detail"+"</button>"
 
 							)
@@ -130,7 +130,7 @@
 							
 							for(var i=0;i<weak_area.length;i++){
 						$("#weak_subject").append(
-							"<div class='panel panel-default' style='backgroundcolor:#fd9a18;'>"+
+							"<div  >"+
 							"<div class='panel-heading'>"+"Batch: "+weak_data_batch[i]+"<div>"+
 							"<div class='panel-body'>"+
 							"Subject :"+weak_data_sub[i]+"<br>"+
@@ -185,12 +185,16 @@ adaptiveHeight: true,
 					url:"{% url 'message-api:messageList'  %}",
 					method:"GET",
 					success: function(data){
+						
 						if (data.length != 0){
 							
 						$.each(data,function(key,value){
 							if (value.subject){
 					$("#latest_communication").append(
-                    "<div class='c-card u-p-medium u-text-center u-mb-medium' data-mh='landing-cards' style='background-color:#e39e54;'>"+
+                    "<div class='c-card u-p-medium u-text-center u-mb-medium' data-mh='landing-cards' style='background-color:#EDE7F6;'>"+
+						"<img src='{% static 'basicinformation/images/messages.png' %}' height='23;'>"+
+						"<span class='c-badge c-badge--warning c-badge--large'>"+ "From: " +"</span>"+"<br>"+
+						"<p>"+value.sender.first_name+"</p>"+
 						"<span class='c-badge c-badge--primary c-badge--large'>"+ "Subject" +"</span>"+
 						"<p>"+value.subject+"</p>"+
 
@@ -206,6 +210,8 @@ adaptiveHeight: true,
 							$("#latest_communication").append(
                     "<div class='c-card u-p-medium u-text-center u-mb-medium' data-mh='landing-cards' style='background-color:#EDE7F6;'>"+
 
+				"<span class='c-badge c-badge--warning c-badge--large'>"+ "From: " +"</span>"+"<br>"+
+						"<p>"+value.sender.first_name+"</p>"+
 
 						"<span class='c-badge c-badge--success c-badge--large'>"+ "Message" +"</span>"+
 						"<p>"+value.body+"</p>"+
@@ -254,23 +260,20 @@ adaptiveHeight: true,
 					url:"{% url 'basic-api:teacher_tests_overview'  %}",
 					method:"GET",
 					success: function(data){
-						console.log(data)
 						$.each(data,function(key,value){
 							if (value){
 							$("#tests_overview").append(
-                    "<div class='c-card u-p-medium u-text-center u-mb-medium' data-mh='landing-cards' style='background-color:#d2d4dc;'>"+
 						"<div class='text-center'>"+
-						"<h5 style='color:#111111;'><strong>"+value.subject +"</strong></h5>"+
-						"<h5 style='color:#333333;'>"+"Average Marks in test: "+"</h5>"+
+						"<h5 style='color:#2962FF;'><strong>"+value.subject +"</strong></h5>"+
+						"<h5 style='color:#2962FF;'>"+"Average Marks in test: "+"</h5>"+
 								"<div class='numberCircle'>"+ value.average+"</div>"+"<br>"+"<br>"+
-						
-						
+						"<h6 class='text-center' >"+"Published on: "+JSON.stringify(value.published)+"</h6>"+
+						"<p style='color:red;'>"+"Number of Questions: "+value.num_questions+"</p>"+
 						"<h6 class='text-center' >"+"Batch: "+value.class+"</h6>"+
-						
+						"<p style='color:red;'>"+"Maximum marks: "+value.total_marks+"</p>"+
 								"<span class='c-badge c-badge--small c-badge--warning'>"+value.students_taken+" students took the test"+"</span>"+"<br>"+"<br>"+
 				"<form action={% url 'basic:teacher_update_page' %} method='get'>"+
 		"<button type='submit' name='directtestid' class='btn btn-primary' value="+key+">"+"View"+"</button>"+
-						"</div>"+
 						"</div>"
 
 
@@ -378,8 +381,7 @@ adaptiveHeight: true,
         {%endblock%}
     </head>
     {% block content %}
-
-    <body style="background-color: #f0f3f4">
+    <body >
 <div class='hidden' id ='pageLoader' style='text-align:center;'>
 	<h4 class='text-center;'> Please wait.....</h4>
 	<img src="{% static 'basicinformation/loaders/segment.gif' %}">
@@ -388,35 +390,31 @@ adaptiveHeight: true,
 
     <div style="padding:25px;" >
              <div class="row">
-	<div class="col-lg-3 col-6">
-	<div class="thumbnail">
-		<a href="{%url 'QuestionsAndPapers:createTest_initial' %}" onclick="anotherPageLoader()"><img class="u-mb-small" src="{%static 'basicinformation/images/three2.png' %}" alt="choose questions"></a>
-		</div>
-	</div>
-	<div class="col-lg-3 col-6">
-	<div class="thumbnail">
-		<a href="{%url 'QuestionsAndPapers:patternTest' %}" onclick="anotherPageLoader()"><img class="u-mb-small" src="{%static 'basicinformation/images/three1.png' %}" alt="create_test"></a>
-	</div>
-</div>
+		     <div class="col-sm-12 col-lg-4 " >
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards" >
+			    <img class="u-mb-small " src="{%static 'basicinformation/images/create_test.png' %}" alt="create_test"><br>
+			    <a class="c-btn c-btn--Primary" href="{%url 'QuestionsAndPapers:createTest_initial' %}" onclick="anotherPageLoader()">Create Test</a>
+
+		     </div>
+		     </div>
+		     <div class="col-sm-12 col-lg-4 " >
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards" >
+			    <img class="u-mb-small " src="{%static 'basicinformation/images/one_click_test.png' %}" alt="one_click_test"><br>
+			    <a class="c-btn c-btn--info" href="{% url 'QuestionsAndPapers:oneClickTest' %}" onclick="anotherPageLoader()">One Click Test</a>
+
+		     </div>
+		     </div>
+		     <div class="col-sm-12 col-lg-4 " >
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards" >
+			    <img class="u-mb-small " src="{%static 'basicinformation/images/pattern_test.png' %}" alt="pattern_test"><br>
+			    <a class="c-btn c-btn--Primary" href="{%url 'QuestionsAndPapers:patternTest' %}">Pattern Test</a>
+		     </div>
+		     </div>
 
 
-<div class="col-lg-3 col-6" style="height: ">
-	<div class="thumbnail">
-		<a href="{% url 'QuestionsAndPapers:oneClickTest' %}" onclick="anotherPageLoader()"><img class="u-mb-small" src="{%static 'basicinformation/images/three.png' %}" alt="create_test"></a>
-		</div>
-	</div>
-
-
-<div class="col-lg-3 col-6" style="height: " >
-	<div class="thumbnail">
-		<a href="{% url 'pms:createAnnouncement' %}"><img class="u-mb-small"  src="{%static 'basicinformation/images/three5.png' %}" alt="Create Announcement"></a>
-		</div>
-	</div>
-</div>
-
+	     </div>
              <div class="row">
                 <div class="col-sm-12 col-lg-4">
-                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards">
 
 				<div id='summaryGif'>
 			<img src = "{%static 'basicinformation/loaders/segment.gif' %}" width=30%;>
@@ -427,16 +425,15 @@ adaptiveHeight: true,
 			<div  id = "tests_overview">
 					
 			</div>
+			<div class='text-center'>
 		<button class="w3-button w3-display-left prevSummary" >&#10094;</button>
 		<button class="w3-button w3-display-right nextSummary" >&#10095;</button>
+                </div>
 
-                    </div>
 
                 </div>
                 <div class="col-sm-12 col-lg-4">
-                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards">
                         <h4 class="u-h6 u-text-bold u-mb-small hidden" id="hardQuestionsHeading">
-                            Overall Tough Questions
                         </h4>
 
 				<div id='hardQuestionsGif'>
@@ -445,18 +442,38 @@ adaptiveHeight: true,
 
 
 
-			<div class='well' id = "hardQuestionsDiv">
+			<div class='well' id = "hardQuestionsDiv" style='background-color:#fff'>
 					
 			</div>
+			<div class='text-center'>
 		<button class="w3-button w3-display-left prevHardQuestions" >&#10094;</button>
 		<button class="w3-button w3-display-right nextHardQuestions" >&#10095;</button>
+			</div>
 
-                    </div>
 
                 </div>
 
 
-		     
+		     <div class="col-sm-12 col-lg-4 " >
+                    <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards" id="previousTestPerformance">
+                        <h4 class="u-h6 u-text-bold u-mb-small" >
+				Previous Test Performance
+			</h4>
+				<div id='loadingdiv'>
+			<img src = "{%static 'basicinformation/loaders/segment.gif' %}" width=30%;>
+				</div>
+				<div class='well' style='background-color:#fff'>
+			<canvas id = "last_test_canvas" height = "400">
+			</canvas>
+		    </div>
+
+
+                        <h4 class="u-h6 u-text-bold u-mb-small" id ="last_test_htag">
+                            
+                        </h4>
+                    </div>
+                    
+                </div>
 
                 <div class="col-sm-12 col-lg-4">
                     <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards">
@@ -485,9 +502,23 @@ adaptiveHeight: true,
                     </div>
                 </div>
 
-
                 <div class="col-sm-12 col-lg-4">
                     <div class="c-card u-p-medium u-text-center u-mb-medium" data-mh="landing-cards">
+
+                        <img class="u-mb-small" src="{%static 'basicinformation/images1/communication.png' %}" alt="iPhone icon">
+
+                        <h4 class="u-h6 u-text-bold u-mb-small">
+                            Create Announcements to be broadcasted to batches.OR
+			    Send personal messages to students.
+                        </h4>
+			<a class="c-btn c-btn--info" href="{%url 'pms:createAnnouncement' %}">Create Announcement</a>
+			<a class="c-btn c-btn--info" href="{%url 'pms:messages' %}">Send Messages</a>
+
+                    </div>
+
+                </div>
+
+                <div class="col-sm-12 col-lg-4">
                         <h4 class="u-h6 u-text-bold u-mb-small hidden">
                             Overall Tough Questions
                         </h4>
@@ -501,12 +532,13 @@ adaptiveHeight: true,
 			<div  id = "latest_communication">
 					
 			</div>
+			<div class='text-center'>
 		<button class="w3-button w3-display-left prevCommunication" >&#10094;</button>
 		<button class="w3-button w3-display-right nextCommunication" >&#10095;</button>
 
                     </div>
+                    </div>
 
-                </div>
 
             </div>
 <!--                <div class="container-fluid">
