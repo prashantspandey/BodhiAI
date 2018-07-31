@@ -46,25 +46,22 @@
  {%block scripts %}
 
 {%endblock scripts%}
-
       
 </head>
 <body >
 
         <div  class="o-page__sidebar js-page-sidebar sticky" >
             <div id="wholeSideBar" class="c-sidebar" style="height:100%;overflow-y:scroll;">
-            
                 <a class="c-sidebar__brand" href="{%url 'basic:home' %}"  >
-
 			{%if user.is_authenticated %}
-			<h2 style="color: #ffe5e5" ;>{%if user.teacher %} Teacher Panel</strong>{%elif user.student%} Student Panel{%endif%}</h2>
+			<h2 style='#ffffff;'>{%if user.teacher %} Teacher Panel</strong>{%elif user.student%} Student Panel{%endif%}</h2>
 			{%else%}
 			<h2>Welcome</h2>
 			{%endif%}
                 </a>
 			{%if user.is_authenticated %}
 		<span class="c-sidebar__divider"></span>
-              
+              <h4 class="c-sidebar__title">Home</h4>
                 <ul class="c-sidebar__list">
                     <li class="c-sidebar__item">
                         <a class="c-sidebar__link"  href="{%url 'basic:home' %}" onclick="loadGif()">
@@ -192,26 +189,21 @@
         </div><!-- // .o-page__sidebar -->
 
         <main class="o-page__content">
-            <header class="c-navbar u-mb-medium" style='background-color:#f38b3e;'>
-               <div id="tog">
+            <header class="c-navbar u-mb-medium" style='background-color:#fd9a18;'>
                 <button class="c-sidebar-toggle u-mr-small">
                     <span class="c-sidebar-toggle__bar"></span>
                     <span class="c-sidebar-toggle__bar"></span>
                     <span class="c-sidebar-toggle__bar"></span>
                 </button><!-- // .c-sidebar-toggle -->
-            </div>
-
 
 		<h2 class="c-navbar__title u-mr-auto"><strong>Welcome {{teacherName}}<strong></h2>
                 
                       </div>
             </header>
-            
 
 	    {%block content %}
 
 	    {%endblock%}
-        
 
 
 </body>

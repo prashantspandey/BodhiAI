@@ -252,11 +252,15 @@ def home(request):
                     {'students':all_students,'teachers':all_teachers,'all_classes':klasses,'tests_created':new_test_teachers}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
-            
-            sheet_links =\
-            ['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
-            adding_quest =\
-            add_to_database_questions.delay(sheet_links,'BodhiAI',production=True,onlyImage=True)
+            #sheet_links =\
+            #['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
+            sheet_links = \
+                    ['blood_relation_ry.csv','calender_ry.csv','clock_ry.csv','coding_decoding_ry.csv','figure_completion_ry.csv','papercutting_folding_ry.csv','ranking_ry.csv','statement_ry.csv','sylloligm_ry.csv','symbol_notation_ry.csv','word_formation_ry.csv']
+            sheet_links2 = \
+                    ['statement_ry.csv']
+            #adding_quest =\
+            add_to_database_questions.delay(sheet_links2,'BodhiAI',production=False,onlyImage=True,fiveOptions
+                                           = True)
             #quest_added = add_to_database_questions.delay(sheet_links,'Swami Reasoning World',onlyImage=True,production =\
             #                          True)
 
@@ -318,8 +322,56 @@ def home(request):
 
 
         elif user.groups.filter(name='Teachers').exists():
+            #ai_tukka_questions.delay(user.id)
+            #ai_sharedTask.delay(user.id)
             me = Teach(user)
             profile = user.teacher
+            #marks = SSCOnlineMarks.objects.filter(test__creator= user)
+            #questions = []
+
+            #for mark in marks:
+            #    for chid in mark.rightAnswers:
+            #        question = SSCquestions.objects.get(choices__id = chid)
+            #        questions.append(question.id)
+            #    for chid in mark.wrongAnswers:
+            #        question = SSCquestions.objects.get(choices__id = chid)
+            #        questions.append(question.id)
+            #    for quid in mark.skippedAnswers:
+            #        questions.append(quid)
+
+            #unique,counts = np.unique(questions,return_counts=True)
+            #cat_quests = np.asarray((unique,counts)).T
+            #right_answers = []
+            #wrong_answers = []
+            #skipped_answers = []
+            #for i,j in cat_quests:
+            #    right = 0
+            #    wrong = 0
+            #    skipped = 0
+            #    qu = SSCOnlineMarks.objects.filter(test__creator = user)
+            #    for ma in qu:
+            #        for chid in ma.rightAnswers:
+            #            quest_obj = SSCquestions.objects.get(choices__id = chid)
+            #            quid = quest_obj.id
+            #            if i == quid:
+            #                right = right + 1
+            #        for chid in ma.wrongAnswers:
+            #            quest_obj = SSCquestions.objects.get(choices__id = chid)
+            #            quid = quest_obj.id
+            #            if i == quid:
+            #                wrong = wrong + 1
+            #        if i in ma.skippedAnswers:
+            #            skipped = skipped + 1
+            #    right_answers.append(right)
+            #    wrong_answers.append(wrong)
+            #    skipped_answers.append(skipped)
+            #overall =\
+            #list(zip(cat_quests,right_answers,wrong_answers,skipped_answers))
+            #overall = np.array(overall)
+            #df = pd.DataFrame(overall)
+            #df.to_csv("questions.csv")
+
+
             subjects = me.my_subjects_names()
             weak_subs_areas_dict = []
             teach_klass = TeacherClasses.objects.filter(teacher=me.profile)

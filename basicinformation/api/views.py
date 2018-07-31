@@ -111,6 +111,7 @@ class TeacherWeakAreasBrief(APIView):
                         weak_links[i]= \
                         me.online_problematicAreasNames(self.request.user,sub,i)
                         kk = me.online_problematicAreasNames(self.request.user,sub,i)
+                        kk = kk.tolist()
                         weak_subs.append(weak_links[i])
 
                         weak_klass.append(i)
@@ -122,9 +123,11 @@ class TeacherWeakAreasBrief(APIView):
                     except Exception as e:
                         print(str(e))
             weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
+            print(type(weak_subs_areas))
             #weak_subs_areas = None
         except:
             weak_subs_areas = None
+
 
         return Response(weak_subs_areas)
 
@@ -151,7 +154,6 @@ class TeacherWeakAreasBriefAndroid(APIView):
 
 
         weak_ar = teacher_home_weak_areas(self.request.user.id)
-        
         weak_links = {}
         weak_klass = []
         weak_subs = []
@@ -179,7 +181,6 @@ class TeacherWeakAreasBriefAndroid(APIView):
             weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
         except:
             weak_subs_areas = None
-
         return Response(final)
 
 #---------------------------------------------------------------------------------------
@@ -249,56 +250,35 @@ class TeacherTestsOverviewAndroid(APIView):
 
 # Show hard questions in a test of all tests
 
+
+#This has been put into celery#
 class TeachersHardQuestionsAPIView(APIView):
     def get(self,request,format=None):
-        my_tests_marks = SSCOnlineMarks.objects.filter(test__creator =
-                                                       self.request.user)
-
-        all_wrong_answers = []
-        for mark in my_tests_marks:
-            if mark.wrongAnswers:
-                for choiceid in mark.wrongAnswers:
-                    try:
-                        question = SSCquestions.objects.get(choices__id = choiceid)
-                    except Exception as e:
-                        print(str(e))
-                        continue
-                    all_wrong_answers.append(question.id)
-
-        unique,counts = np.unique(all_wrong_answers,return_counts = True)
-        hard_quests_freq = np.asarray((unique,counts)).T
-        hard_quests_freq_final = np.sort(hard_quests_freq,0)[::1]
-        hard_quest_ids = hard_quests_freq_final[-10:]
-        text = []
-        picture = []
-        choice = []
-        wrong_freq = []
-        all_questions = []
-        for i,j in hard_quest_ids:
-            choices_list = []
-            question = SSCquestions.objects.get(id = i)
-            text.append(question.text)
-            picture.append(question.picture)
-            choices = Choices.objects.filter(sscquest = question)
-            for ch in choices:
-                if ch.text:
-                    choices_list.append(ch.text)
-                elif ch.picture:
-                    choices_list.append(ch.picture)
-            choice.append(choices_list)
-            wrong_freq.append(j)
-            hard_quest_dict =\
-            {'text':question.text,'picture':question.picture,'choices':choices_list,'wrong_frequency':j}
-            print(hard_quest_dict)
-            all_questions.append(hard_quest_dict) 
-        print('I am in tough questions')
-        print(all_questions)
-        return Response(all_questions)       
-        
+        res = TeacherHardQuestionsAsync.delay(self.request.user.id)
+        res_id = res.task_id
+        quest = AsyncResult(res_id)
+        questions = quest.get()
+        return Response(questions)
+       
 
 
 
 
+#-------------------------------------------------------------------
+
+class TeacherSubjectsAPIView(APIView):
+    def get(self,request,format=None):
+        me = Teach(self.request.user)
+        subjects = me.my_subjects_names()
+        sub_dict = {'subjects':subjects}
+        return Response(sub_dict)
+
+class TeacherBatchesAPIView(APIView):
+    def get(self,request,format=None):
+        me = Teach(self.request.user)
+        klasses = me.my_classes_names()
+        class_dict = {'Batches':klasses}
+        return Response(class_dict)
 #-------------------------------------------------------------------
 # ALL STUDENT APIs
 

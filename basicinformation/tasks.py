@@ -1,4 +1,5 @@
 from celery import shared_task
+from rest_framework.response import Response
 from django.shortcuts import render, HttpResponseRedirect, reverse, redirect
 from .models import *
 from QuestionsAndPapers.models import *
@@ -9,8 +10,11 @@ from .marksprediction import *
 from django.core import serializers
 from django.core.mail import send_mail
 import pandas as pd
-import numpy as np
-from .views import *
+import numpy as np 
+from .views import * 
+import pickle
+import json
+
 @shared_task
 def bring_teacher_subjects_analysis(user_id):
     user = User.objects.get(id=user_id)
@@ -676,7 +680,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                 pd.read_csv('/app/question_data/ssc_maths/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/ssc_maths/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/swami_reasoning/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
@@ -691,19 +695,21 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
             optB = df['optB']
             optC = df['optC']
             optD = df['optD']
-
-            used_for = len(optD)*['usedFor']
+           
+            try:
+                direction = df['Direction']
+            except:
+                direction = len(optD) * ['None']
+            used_for = len(optD)*['SSCMaths']
             lang = df['lang']
-            source = len(used_for)*['SSCMaths']
+            source = len(used_for)*['RakeshYadav']
             if onlyImage:
                 images = df['QuestionLink']
             else:
                 quest_text = df['Question']
-            sectionType = len(lang)*['Maths']
+            sectionType = len(lang)*['Reasoning']
             #direction = df['Direction']
 
-            if fiveOptions:
-                optE = df['optionE'] 
             if explanation_quest:
                 exp = df['Explanation']
             quest_category = df['category']
@@ -722,6 +728,9 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                     right_answer.append(4)
                 elif 'e'  in ichanged.lower() or '5' in ichanged.lower():
                     right_answer.append(5)
+            if fiveOptions:
+                optE = df['optE']
+
             if onlyImage:
                 print('%s num images' %len(images))
             else:
@@ -738,7 +747,8 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         
             for ind in range(len(optA)):
                 if onlyImage:
-                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(lang[ind]),used_for[ind],source[ind],fouroptions='4' )
+                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(lang[ind]),used_for[ind],source[ind],fouroptions='5',direction
+                                    = direction[ind] )
                 else:
                     write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],direction[ind],fouroptions='3')
 
@@ -771,10 +781,14 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
             all_options = [optA,optB,optC,optD]
         elif fouroptions == '3':
             all_options = [optA,optB,optC]
+        elif fouroptions == '5':
+            all_options = [optA,optB,optC,optD,optE]
+
 
         else:
             try:
                 if optE:
+                    print('Found optE in final')
                     if math.isnan(optE):
                         all_options = [optA,optB,optC,optD]
                     else:
@@ -847,8 +861,25 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
             new_questions.text = str(question)
 
         new_questions.topic_category = str(questCategory)
+        if direction:
+            try:
+                if direction != 'None' and  type(direction) == str:
+                    print('%s inside' %direction)
+                    print(type(direction))
+                    direct = Comprehension()
+                    direct.picture = direction
+                    direct.save()
+                else:
+                    print('%s outside' %direction)
+            except:
+                pass
+
         if image:
             new_questions.picture = image
+            try:
+                new_questions.comprehension = direct
+            except:
+                pass
         new_questions.save()
         for sch in school:
             new_questions.school.add(sch)
@@ -907,4 +938,299 @@ def delete_sectionQuestions(section,school,topic = None):
 
 
 
+@shared_task
+def ai_tukka_questions(user_id):
+        user = User.objects.get(id = user_id)
+        me = Teach(user)
+        profile = user.teacher
+        marks = SSCOnlineMarks.objects.filter(test__creator= user)
+        questions = []
+
+        for mark in marks:
+            for chid in mark.rightAnswers:
+                question = SSCquestions.objects.get(choices__id = chid)
+                questions.append(question.id)
+            for chid in mark.wrongAnswers:
+                question = SSCquestions.objects.get(choices__id = chid)
+                questions.append(question.id)
+            for quid in mark.skippedAnswers:
+                questions.append(quid)
+
+        unique,counts = np.unique(questions,return_counts=True)
+        cat_quests = np.asarray((unique,counts)).T
+        right_answers = []
+        wrong_answers = []
+        skipped_answers = []
+        tp_category = []
+        for i,j in cat_quests:
+            right = 0
+            wrong = 0
+            skipped = 0
+            qu = SSCOnlineMarks.objects.filter(test__creator = user)
+            for ma in qu:
+                for chid in ma.rightAnswers:
+                    quest_obj = SSCquestions.objects.get(choices__id = chid)
+                    quid = quest_obj.id
+                    if i == quid:
+                        tp_category.append(quest_obj.topic_category)
+                        print('right')
+                        right = right + 1
+                for chid in ma.wrongAnswers:
+                    quest_obj = SSCquestions.objects.get(choices__id = chid)
+                    quid = quest_obj.id
+                    if i == quid:
+                        tp_category.append(quest_obj.topic_category)
+                        print('wrong')
+                        wrong = wrong + 1
+                if i in ma.skippedAnswers:
+                    skipped = skipped + 1
+                    que = SSCquestions.objects.get(id = i)
+                    tp_category.append(que.topic_category)
+                    print('skipped')
+            right_answers.append(right)
+            wrong_answers.append(wrong)
+            skipped_answers.append(skipped)
+        overall =\
+        list(zip(cat_quests,right_answers,wrong_answers,skipped_answers,tp_category))
+        overall = np.array(overall)
+        print('found overall')
+        df = pd.DataFrame(overall)
+        df.to_csv("questions2.csv")
+
+
+@shared_task
+def ai_sharedTask(user_id):
+    user = User.objects.get(id = user_id)
+    me = Teach(user)
+    my_students = Student.objects.filter(school = me.profile.school)
+    subject = 'General-Intelligence'
+    student_accuracy = {}
+    all_sections = []
+    all_quests = SSCquestions.objects.filter(section_category = subject)
+    for i in all_quests:
+        all_sections.append(i.topic_category)
+        print(i.topic_category)
+
+    all_sections = list(unique_everseen(all_sections))
+    overall_dict = {}
+    for which_student,student in enumerate(my_students):
+        #sub = Subjects.objects.filter(teacher=
+        #                              me.profile,name=subject,student=student)
+        marks = SSCOnlineMarks.objects.filter(student= student,test__creator =
+                                              user)
+        acc_dict = {}
+        for topic in all_sections:
+            right = 0
+            wrong = 0
+            skipped = 0
+            quest_count = 0
+            right_timing = 0
+            wrong_timing = 0
+            all_right_questions = []
+            all_wrong_questions = []
+            all_skipped_questions = []
+            all_marks_right = []
+            all_marks_wrong = []
+            attempt = 0
+            for which_mark,mark in enumerate(marks):
+                for chid in mark.rightAnswers:
+                    quest = SSCquestions.objects.get(choices__id = chid)
+                    all_right_questions.append(quest)
+                    all_marks_right.append(mark)
+                for chid in mark.wrongAnswers:
+                    quest = SSCquestions.objects.get(choices__id = chid)
+                    all_wrong_questions.append(quest)
+                    all_marks_wrong.append(mark)
+                for quid in mark.skippedAnswers:
+                    quest = SSCquestions.objects.get(id = quid)
+                    all_skipped_questions.append(quest)
+        # find the number of tests attemped in a topic
+                for q in mark.test.sscquestions_set.all():
+                    if q.topic_category == str(topic):
+                        attempt = attempt + 1
+                        break
+            
+
+
+            for num,quest in enumerate(all_right_questions):
+                if str(quest.topic_category) == str(topic):
+                    try:
+
+                        right_ind_time =\
+                        SSCansweredQuestion.objects.get(onlineMarks =
+                                                        all_marks_right[num],quest = quest)
+                        right_ind_timing = right_ind_time.time
+                        print('%s right timing' %right_ind_timing)
+                    except Exception as e:
+                        print(str(e))
+                        right_ind_timing = 0
+                    
+                    right_timing = right_timing + right_ind_timing
+                    right = right + 1
+            for num2,quest in enumerate(all_wrong_questions):
+                if str(quest.topic_category) == str(topic):
+                    wrong = wrong + 1 
+                    try:
+                        wrong_ind_time = \
+                        SSCansweredQuestion.objects.get(onlineMarks =
+                                                        all_marks_wrong[num2],quest=quest)
+                        wrong_ind_timing = wrong_ind_time.time
+                        print('%s wrong timing' %wrong_ind_timing)
+                    except Exception as e:
+                        print(str(e))
+                        wrong_ind_timing = 0
+                    wrong_timing = wrong_timing + wrong_ind_timing
+            for quest in all_skipped_questions:
+                if str(quest.topic_category) == str(topic):
+                    skipped = skipped + 1
+            try:
+                overall_right_timing = right_timing/len(all_right_questions)
+            except:
+                overall_right_timing = None
+            try:
+                overall_wrong_timing = wrong_timing/len(all_wrong_questions)
+            except:
+                overall_wrong_timing = None
+            try:
+                total_attempted = right + wrong + skipped
+                only_attempted = right + wrong
+                right_percent = (right / total_attempted)* 100
+                wrong_percent = (wrong / total_attempted)* 100
+                skipped_percent = (skipped / total_attempted)* 100
+                only_right_percent = (right / only_attempted)* 100
+                only_wrong_percent = (right / only_attempted)* 100
+
+                accuracy = ((right - wrong) / (right + wrong))*100
+                acc_dict[topic] =\
+                        {'accuracy':accuracy,'skipped':skipped,'rightTiming':overall_right_timing,'wrongTiming':overall_wrong_timing,'RightPercentofTotal':right_percent,'WrongPercentofTotal':wrong_percent,'SkippedPercent':skipped_percent,'RightPercentAttempted':only_right_percent,'WrongPercentAttempted':only_wrong_percent,'TotalAppeared':total_attempted,'TestAttempted':attempt}
+            except:
+                accuracy = None
+
+        overall_dict[student.id] = acc_dict
+        dump_file = json.dumps(overall_dict)
+
+    with open('student_details.pickle','wb') as od:
+        pickle.dump(overall_dict,od)
+
+#@shared_task
+#def ai_average_timing(user_id):
+#    user = User.objects.get(id = user_id)
+#    me = Teach(user)
+#    my_students = Student.objects.filter(school = me.profile.school)
+#    subject = 'General-Intelligence'
+#    all_quests = SSCquestions.objects.filter(section_category = subject)
+#    for i in all_quests:
+#        all_sections.append(i.topic_category)
+#        print(i.topic_category)
+#
+#    all_sections = list(unique_everseen(all_sections))
+#    for topic in all_sections:
+
+
+#__________________________________________________________________________________________--
+# All APIs
+@shared_task
+def TeacherWeakAreasBriefAsync(user_id):
+        user = User.objects.get(id = user_id)
+        me = Teach(user)
+        subjects = me.my_subjects_names()
+        weak_subs_areas_dict = []
+        teach_klass = TeacherClasses.objects.filter(teacher=me.profile)
+        klasses = []
+        if len(teach_klass) != 0:
+            for kl in teach_klass:
+                klasses.append(kl.klass)
+        else:
+            klasses = me.my_classes_names()
+            for kl in klasses:
+                new_teach_klass = TeacherClasses()
+                new_teach_klass.teacher = me.profile
+                new_teach_klass.klass = kl
+                new_teach_klass.numStudents = 0
+                new_teach_klass.save()
+
+
+        #weak_ar = teacher_home_weak_areas.delay(self.request.user.id)
+        weak_ar = teacher_home_weak_areas(user_id)
+        #print(weak_ar)
+        #te_id = weak_ar.task_id
+        #res = AsyncResult(te_id)
+
+        #klasses,subjects = res.get()
+        
+        weak_links = {}
+        weak_klass = []
+        weak_subs = []
+        subs = []
+        try:
+            for sub in subjects:
+                for i in klasses:
+                    try:
+                        print('%s this is i' %i)
+                        weak_links[i]= \
+                        me.online_problematicAreasNames(user,sub,i)
+                        kk = me.online_problematicAreasNames(user,sub,i)
+                        kk = kk.tolist()
+                        weak_subs.append(weak_links[i])
+
+                        weak_klass.append(i)
+                        subs.append(sub)
+
+
+                        #print(weak_links)
+                        #print(weak_subs)
+                    except Exception as e:
+                        print(str(e))
+
+            weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
+            #weak_subs_areas = None
+        except:
+            weak_ar = None
+
+        return weak_subs_areas
+
+@shared_task
+def TeacherHardQuestionsAsync(user_id):
+    user = User.objects.get(id = user_id)
+    my_tests_marks = SSCOnlineMarks.objects.filter(test__creator =
+                                                   user)
+
+    all_wrong_answers = []
+    for mark in my_tests_marks:
+        if mark.wrongAnswers:
+            for choiceid in mark.wrongAnswers:
+                try:
+                    question = SSCquestions.objects.get(choices__id = choiceid)
+                except Exception as e:
+                    print(str(e))
+                    continue
+                all_wrong_answers.append(question.id)
+
+    unique,counts = np.unique(all_wrong_answers,return_counts = True)
+    hard_quests_freq = np.asarray((unique,counts)).T
+    hard_quests_freq_final = np.sort(hard_quests_freq,0)[::1]
+    hard_quest_ids = hard_quests_freq_final[-10:]
+    text = []
+    picture = []
+    choice = []
+    wrong_freq = []
+    all_questions = []
+    for i,j in hard_quest_ids:
+        choices_list = []
+        question = SSCquestions.objects.get(id = i)
+        text.append(question.text)
+        picture.append(question.picture)
+        choices = Choices.objects.filter(sscquest = question)
+        for ch in choices:
+            if ch.text:
+                choices_list.append(ch.text)
+            elif ch.picture:
+                choices_list.append(ch.picture)
+        choice.append(choices_list)
+        wrong_freq.append(j)
+        hard_quest_dict =\
+        {'text':question.text,'picture':question.picture,'choices':choices_list,'wrong_frequency':int(j)}
+        all_questions.append(hard_quest_dict) 
+    return all_questions
+ 
 
