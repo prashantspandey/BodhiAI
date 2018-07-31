@@ -1131,6 +1131,7 @@ def ai_sharedTask(user_id):
 # All APIs
 @shared_task
 def TeacherWeakAreasBriefAsync(user_id):
+        print('here in weak areas')
         user = User.objects.get(id = user_id)
         me = Teach(user)
         subjects = me.my_subjects_names()
@@ -1150,44 +1151,38 @@ def TeacherWeakAreasBriefAsync(user_id):
                 new_teach_klass.save()
 
 
-        #weak_ar = teacher_home_weak_areas.delay(self.request.user.id)
         weak_ar = teacher_home_weak_areas(user_id)
-        #print(weak_ar)
-        #te_id = weak_ar.task_id
-        #res = AsyncResult(te_id)
-
-        #klasses,subjects = res.get()
-        
         weak_links = {}
         weak_klass = []
         weak_subs = []
         subs = []
+        final = []
+        weak_response = {}
         try:
-            for sub in subjects:
+            for num,sub in enumerate(subjects):
                 for i in klasses:
                     try:
-                        print('%s this is i' %i)
                         weak_links[i]= \
                         me.online_problematicAreasNames(user,sub,i)
                         kk = me.online_problematicAreasNames(user,sub,i)
-                        kk = kk.tolist()
-                        weak_subs.append(weak_links[i])
+                        #weak_subs.append(weak_links[i])
 
-                        weak_klass.append(i)
-                        subs.append(sub)
+                        #weak_klass.append(i)
+                        #subs.append(sub)
 
-
-                        #print(weak_links)
-                        #print(weak_subs)
+                        weak_response =\
+                        {'subject':sub,'klass':i,'weakTopics':weak_links[i]}
+                        final.append(weak_response)
                     except Exception as e:
                         print(str(e))
-
             weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
-            #weak_subs_areas = None
         except:
-            weak_ar = None
+            weak_subs_areas = None
 
-        return weak_subs_areas
+        weak_subs_areas_serialized = pickle.dumps(final,protocol = 0)
+        #wsas = serializers.serialize('json',weak_subs_areas_serialized)
+        wsas = weak_subs_areas_serialized.decode('utf-8')
+        return wsas
 
 @shared_task
 def TeacherHardQuestionsAsync(user_id):
