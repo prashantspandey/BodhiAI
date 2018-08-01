@@ -5512,6 +5512,29 @@ class Teach:
             result = None
         return result
 
+    def combine_rankTableDict(self,result):
+        names = result.names
+        totalMarks = result.totalMarks
+        scores = result.scores
+        rank = [i for i in result.rank]
+        percentage = result.percentage
+        numCorrect = result.numCorrect
+        numIncorrect = result.numIncorrect
+        numSkipped = result.numSkipped
+        result =\
+        list(zip(names,totalMarks,scores,rank,percentage,numCorrect,numIncorrect,numSkipped))
+        result_dict =\
+        {'names':names,'totalMarks':totalMarks,'scores':scores,'rank':rank,'percentage':percentage,'numCorrect':numCorrect,'numIncorrect':numIncorrect,'numSkipped':numSkipped}
+        return result_dict
+        #result = np.array(result)
+        #try:
+        #    result = result[result[:,3].argsort()]
+        #except:
+        #    result = None
+        #return result
+
+
+
 
 
     def test_taken_subjects(self,user):

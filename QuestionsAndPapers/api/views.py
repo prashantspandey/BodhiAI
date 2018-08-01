@@ -173,3 +173,170 @@ class ConductTestFirstAPIview(APIView):
                 {'questPosition':nums,'te_id':testid,'how_many':lenquest,'testTime':timeTest}
         return Response(context)
 
+
+class TeacherOneClickTestOneAPIView(APIView):
+    def get(self,request,format=None):
+        me = Teach(self.request.user)
+        testholder = TemporaryOneClickTestHolder.objects.filter(teacher= me.profile)
+        if testholder:
+            testholder.delete()
+        my_batches = me.my_classes_names()
+        context = {'myBatches':my_batches}
+        return Response(context)
+
+
+class TeacherOneClickTestSubjectsAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        clickBatch = request.POST['oneclickbatches']
+        me = Teach(self.request.user)
+        testholder = TemporaryOneClickTestHolder.objects.filter(teacher= me.profile)
+        if testholder:
+            testholder.delete()
+        my_subs = me.my_subjects_names()
+        context = {'subjects': my_subs,'oneClickBatch':clickBatch}
+        return Response(context)
+ 
+class TeacherOneClickTestChaptersAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        subandbatch = request.POST['questionsubjects']
+        me = Teach(self.request.user)
+        sub = subandbatch.split(',')[0]
+        batch = subandbatch.split(',')[1]
+        school = me.my_school()
+        all_topics = []
+        sub_topics = SSCquestions.objects.filter(section_category =
+                                                 sub,school = school)
+        for i in sub_topics:
+            all_topics.append(i.topic_category)
+        all_topics = list(unique_everseen(all_topics))
+        topics = me.change_topicNumbersNames(all_topics,sub)
+        topics = np.array(topics)
+        context = {'chapters':topics,'subject':sub,'oneclickbatch':batch}
+        return Response(context)
+
+class TeacherOneClickCreateAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        topicnumber = request.GET.getlist('oneclicktopicsnum');
+        tnum = str(topicnumber).split('and')[0]
+        tnum = tnum.replace('[','')
+        tnum = tnum.replace('\'','')
+        tnum_list = tnum.split(',')
+        tname  = str(topicnumber).split('and')[1]
+        tname_list = tname.split(',')
+
+        subject = str(topicnumber).split('and')[2]
+        batch = str(topicnumber).split('and')[3]
+        batch = batch.replace(']','')
+        batch = batch.replace('\'','')
+
+        topics_total = list(zip(tnum_list,tname_list))
+        topics_total = np.array(topics_total)
+
+        final_num = []
+        final_name = []
+        for num,cat in topics_total:
+            if int(num) != 0:
+                final_num.append(int(num))
+                final_name.append(cat)
+        final_topic = list(zip(final_num,final_name))
+        if len(final_topic)==0:
+            return HttpResponse('Please fill in the number of questions from a\
+                          topic')
+
+        # creation of one click paper
+        
+        # class object to find out how many times has the teacher used a
+        # question for that certain class
+        kl = klass.objects.get(school = me.my_school(),name= batch)
+        test_quest = []  # the question containing list
+
+        for num,cat in final_topic:
+            questions = SSCquestions.objects.filter(topic_category =
+                                                    cat,section_category =
+                                                    subject,school=me.my_school())
+            cat_quest = []
+            used_quests = [] # used question containing list
+            for count,quest in enumerate(questions):
+                # get the number of times used object associated with the
+                # question
+
+                t_used=\
+                TimesUsed.objects.filter(teacher=me.profile,quest=quest,batch=kl)
+
+                #if quest has not been used in the batch before then add that
+                #question
+
+                if len(t_used) == 0 and count < num:
+                    cat_quest.append(quest)
+                # otherwise add used questions to the used_quest list
+                if len(t_used) != 0:
+                    used_quests.append(quest)
+            # check if there are not enough new(unused) questions 
+            if len(cat_quest) < num:
+                try:
+                    # if yes then add already used questions to list until
+                    # list is equal to number of required questions
+                    for count,q in enumerate(used_quests):
+                        if count < len(cat_quest):
+                            cat_quest.append(q)
+                except Exception as e:
+                    print(str(e))
+            # finally add all questions to final questions list
+            test_quest.extend(cat_quest)
+        # setting up the test
+        test = SSCKlassTest()
+        test.name=str('oneclick')+str(me.profile)+str(batch)+str(timezone.now())
+        test.mode = 'BodhiOnline'
+        marks = 0
+        for qu in test_quest:
+            marks += qu.max_marks
+        test.max_marks = marks
+        test.course = 'SSC'
+        test.creator = user
+        test.sub = subject
+        kl = klass.objects.get(school = me.my_school(),name= batch)
+        test.klas = kl
+        totalTime = len(test_quest)*0.6 # one question requires 36 secs
+
+        test.totalTime = totalTime
+        test.save()
+        # add questions to testpaper
+        for q in test_quest:
+            try:
+                # modify times used object associated with each question as
+                # they are added to the test paper
+                times_used = TimesUsed.objects.get(batch =
+                                               kl,quest=q,teacher=me.profile)
+                times_used.numUsed += 1
+                times_used.save()
+            except:
+                # if new question then create the TimesUsed object for that
+                # question
+                times_used = TimesUsed()
+                times_used.batch = kl
+                times_used.numUsed =1
+                times_used.quest = q
+                times_used.teacher = me.profile
+                times_used.save()
+            
+            # add many to many field of question to specific test
+            q.ktest.add(test)
+
+        # getting all the students in a specific class to be given the test
+        # to
+        students = Student.objects.filter(klass = kl,school =
+                                          me.my_school())
+        # add testtakers(students of a specific batch) to test paper
+        for st in students:
+            # looks for common subject between student and teacher
+            subs = Subject.objects.filter(student=st,teacher =
+                                          me.profile,name=subject)
+            # if common subject found that means student is connected to
+            # teacher and he should be added to test
+            if subs:
+                stu = Student.objects.get(subject = subs)
+                test.testTakers.add(stu)
+                test.save()
+
+
+

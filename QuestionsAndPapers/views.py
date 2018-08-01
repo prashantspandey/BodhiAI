@@ -293,11 +293,13 @@ def oneclick_test(request):
             if testholder:
                 testholder.delete()
             clickBatch = request.GET['oneclickbatches']
+            print('%s first one click ' %clickBatch)
             my_subs = me.my_subjects_names()
             context = {'subjects': my_subs,'oneClickBatch':clickBatch}
             return render(request,'questions/oneclick_test2.html',context)
         if 'questionsubjects' in request.GET:
             subandbatch = request.GET['questionsubjects']
+            print('%s second one click ' %subandbatch)
             sub = subandbatch.split(',')[0]
             batch = subandbatch.split(',')[1]
             school = me.my_school()
@@ -309,11 +311,13 @@ def oneclick_test(request):
             all_topics = list(unique_everseen(all_topics))
             topics = me.change_topicNumbersNames(all_topics,sub)
             topics = np.array(topics)
+            print(topics)
 
             context = {'topics':topics,'subject':sub,'oneclickbatch':batch}
             return render(request,'questions/oneclick_test3.html',context)
         if 'oneclicktopicsnum' in request.GET:
             topicnumber = request.GET.getlist('oneclicktopicsnum');
+            print('%s third one click ' %topicnumber)
             tnum = str(topicnumber).split('and')[0]
             tnum = tnum.replace('[','')
             tnum = tnum.replace('\'','')

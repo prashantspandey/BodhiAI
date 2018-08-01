@@ -8,4 +8,9 @@ urlpatterns = [
     url(r'individual_test_details/$',views.IndividualTestDetailsAPIView.as_view(),name='IndividualTestDetails'),
     # test taking apis
     url(r'individual_test_first/$',views.ConductTestFirstAPIview.as_view(),name='ConductTestFirst'),
+    # Once click test apis
+    url(r'teacher_one_click_first/$',views.TeacherOneClickTestOneAPIView.as_view(),name='OneClickOne'),
+    url(r'teacher_one_click_subject/$',views.TeacherOneClickTestSubjectsAPIView.as_view(),name='OneClickSubjects'),
+    url(r'teacher_one_click_chapters/$',views.TeacherOneClickTestChaptersAPIView.as_view(),name='OneClickChapters'),
+    url(r'teacher_one_click_create/$',views.TeacherOneClickCreateAPIView.as_view(),name='OneClickCreate'),
 ]

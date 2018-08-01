@@ -1,6 +1,5 @@
 from django.conf.urls import url
 from basicinformation.api import views
-
 urlpatterns = [
     url(r'^$',views.StudentListAPIView.as_view(),name='studentList'),
     url(r'student_info/$',views.StudentDetailAPIView.as_view(),name='studentInfo'),
@@ -12,6 +11,9 @@ urlpatterns = [
     url(r'teacher_hard_questions/$',views.TeachersHardQuestionsAPIView.as_view(),name='TeacherHardQuestions'),
     url(r'teacher_subjectNames/$',views.TeacherSubjectsAPIView.as_view(),name='TeacherSubjects'),
     url(r'teacher_classNames/$',views.TeacherBatchesAPIView.as_view(),name='TeacherBatches'),
+    url(r'teacher_generateRankTable/$',views.GenerateRankTableAPIView.as_view(),name='TeacherGenerateRankTable'),
+    url(r'teacher_TestBasicDetails/$',views.TeacherTestBasicDetailsAPIView.as_view(),name='TeacherTestBasicDetails'),
+    url(r'teacher_TestQuestionsDetails/$',views.TeacherTestQuestionsAPIView.as_view(),name='TeacherTestQuestionsDetails'),
     url(r'student_previous_performance/$',views.StudentPreviousPerformanceBriefAPIView.as_view(),name='StudentPreviousPerformance'),
     url(r'student_previous_performance_android/$',views.StudentPreviousPerformanceBriefAndroidAPIView.as_view(),name='StudentPreviousPerformanceAndroid'),
     url(r'student_proficiency/$',views.StudentTopicWiseProficiency.as_view(),name='StudentProficiency'),
