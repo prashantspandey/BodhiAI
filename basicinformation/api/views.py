@@ -9,7 +9,7 @@ from QuestionsAndPapers.api.views import *
 from basicinformation.marksprediction import *
 from QuestionsAndPapers.models import *
 from basicinformation.models import *
-from basicinformation.marksprediction import *
+from basicinformation.marksprediction import * 
 import json
 from rest_framework.response import Response
 from rest_framework.permissions import (
@@ -181,7 +181,7 @@ class TeacherWeakAreasBriefAndroid(APIView):
                     try:
                         weak_links[i]= \
                         me.online_problematicAreasNames(self.request.user,sub,i)
-                        kk = me.online_problematicAreasNames(self.request.user,sub,i)
+                        #kk = me.online_problematicAreasNames(self.request.user,sub,i)
 
 
                         weak_response =\
@@ -197,6 +197,7 @@ class TeacherWeakAreasBriefAndroid(APIView):
         #weak_subs_areas_serialized = pickle.dumps(final,protocol = 0)
         ##wsas = serializers.serialize('json',weak_subs_areas_serialized)
         #wsas = weak_subs_areas_serialized.decode('utf-8')
+
         return Response(final)
 
         #me = Teach(self.request.user)
