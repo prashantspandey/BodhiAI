@@ -168,7 +168,7 @@ class TeacherWeakAreasBriefAndroid(APIView):
                 new_teach_klass.save()
 
 
-        weak_ar = teacher_home_weak_areas(self.request.user.id)
+        #weak_ar = teacher_home_weak_areas(self.request.user.id)
         weak_links = {}
         weak_klass = []
         weak_subs = []
@@ -182,20 +182,17 @@ class TeacherWeakAreasBriefAndroid(APIView):
                         weak_links[i]= \
                         me.online_problematicAreasNames(self.request.user,sub,i)
                         kk = me.online_problematicAreasNames(self.request.user,sub,i)
-                        #weak_subs.append(weak_links[i])
 
-                        #weak_klass.append(i)
-                        #subs.append(sub)
 
                         weak_response =\
                         {'subject':sub,'klass':i,'weakTopics':weak_links[i]}
                         final.append(weak_response)
                     except Exception as e:
                         print(str(e))
-            weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
+            #weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
         except:
-            weak_subs_areas = None
-        print(final)
+            pass
+            #weak_subs_areas = None
 
         #weak_subs_areas_serialized = pickle.dumps(final,protocol = 0)
         ##wsas = serializers.serialize('json',weak_subs_areas_serialized)
