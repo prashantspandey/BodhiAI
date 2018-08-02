@@ -362,3 +362,14 @@ class StudentSmartTestTopics(models.Model):
     def __str__(self):
         return str(self.student) + " "+ str(self.topics) + " " +\
     str(self.weakness)
+
+class TeacherBatchWeakAreas(models.Model):
+    teacher = models.ForeignKey(Teacher,null=True)
+    batch = models.CharField(max_length=20,null=True)
+    subject = models.CharField(max_length = 100,null=True)
+    weak_sections = ArrayField(models.CharField(max_length=100))
+    date = models.DateField(auto_now_add= True,null=True)
+
+    def __str__(self):
+        return str(self.batch)+" " + str(self.subject)
+

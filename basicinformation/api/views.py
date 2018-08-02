@@ -135,13 +135,13 @@ class TeacherWeakAreasBrief(APIView):
 # returns the names of  weak areas by subject and batch taught by the teacher.
 class TeacherWeakAreasBriefAndroid(APIView):
     def get(self,request,format=None):
-        #res = TeacherWeakAreasBriefAsync.delay(self.request.user.id)
-        #te_id = res.task_id
-        #res_final = AsyncResult(te_id)
-        #ars = res_final.get()
-        #ars_encode = bytes(ars,'utf-8')
-        #ars_dict = pickle.loads(ars_encode)
-        #return Response(ars_dict)
+        res = TeacherWeakAreasBriefAsync.delay(self.request.user.id)
+        te_id = res.task_id
+        res_final = AsyncResult(te_id)
+        ars = res_final.get()
+        ars_encode = bytes(ars,'utf-8')
+        ars_dict = pickle.loads(ars_encode)
+        return Response(ars_dict)
 
 
 
@@ -149,104 +149,6 @@ class TeacherWeakAreasBriefAndroid(APIView):
 
 
 
-        #user = User.objects.get(id = user_id)
-        me = Teach(self.request.user)
-        subjects = me.my_subjects_names()
-        weak_subs_areas_dict = []
-        teach_klass = TeacherClasses.objects.filter(teacher=me.profile)
-        klasses = []
-        if len(teach_klass) != 0:
-            for kl in teach_klass:
-                klasses.append(kl.klass)
-        else:
-            klasses = me.my_classes_names()
-            for kl in klasses:
-                new_teach_klass = TeacherClasses()
-                new_teach_klass.teacher = me.profile
-                new_teach_klass.klass = kl
-                new_teach_klass.numStudents = 0
-                new_teach_klass.save()
-
-
-        #weak_ar = teacher_home_weak_areas(self.request.user.id)
-        weak_links = {}
-        weak_klass = []
-        weak_subs = []
-        subs = []
-        final = []
-        weak_response = {}
-        try:
-            for num,sub in enumerate(subjects):
-                for i in klasses:
-                    try:
-                        weak_links[i]= \
-                        me.online_problematicAreasNames(self.request.user,sub,i)
-                        #kk = me.online_problematicAreasNames(self.request.user,sub,i)
-
-
-                        weak_response =\
-                        {'subject':sub,'klass':i,'weakTopics':weak_links[i]}
-                        final.append(weak_response)
-                    except Exception as e:
-                        print(str(e))
-            #weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
-        except:
-            pass
-            #weak_subs_areas = None
-
-        #weak_subs_areas_serialized = pickle.dumps(final,protocol = 0)
-        ##wsas = serializers.serialize('json',weak_subs_areas_serialized)
-        #wsas = weak_subs_areas_serialized.decode('utf-8')
-
-        return Response(final)
-
-        #me = Teach(self.request.user)
-        #subjects = me.my_subjects_names()
-        #weak_subs_areas_dict = []
-        #teach_klass = TeacherClasses.objects.filter(teacher=me.profile)
-        #klasses = []
-        #if len(teach_klass) != 0:
-        #    for kl in teach_klass:
-        #        klasses.append(kl.klass)
-        #else:
-        #    klasses = me.my_classes_names()
-        #    for kl in klasses:
-        #        new_teach_klass = TeacherClasses()
-        #        new_teach_klass.teacher = me.profile
-        #        new_teach_klass.klass = kl
-        #        new_teach_klass.numStudents = 0
-        #        new_teach_klass.save()
-
-
-        #weak_ar = teacher_home_weak_areas(self.request.user.id)
-        #weak_links = {}
-        #weak_klass = []
-        #weak_subs = []
-        #subs = []
-        #final = []
-        #weak_response = {}
-        #try:
-        #    for num,sub in enumerate(subjects):
-        #        for i in klasses:
-        #            try:
-        #                weak_links[i]= \
-        #                me.online_problematicAreasNames(self.request.user,sub,i)
-        #                kk = me.online_problematicAreasNames(self.request.user,sub,i)
-        #                #weak_subs.append(weak_links[i])
-
-        #                #weak_klass.append(i)
-        #                #subs.append(sub)
-
-        #                weak_response =\
-        #                {'subject':sub,'klass':i,'weakTopics':weak_links[i]}
-        #                final.append(weak_response)
-        #                print(weak_response)
-        #            except Exception as e:
-        #                print(str(e))
-        #    weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
-        #except:
-        #    weak_subs_areas = None
-        #return Response(final)
 
 #---------------------------------------------------------------------------------------
 

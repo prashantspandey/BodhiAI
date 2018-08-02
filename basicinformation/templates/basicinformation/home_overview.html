@@ -42,29 +42,30 @@
 				function showWeakAreaGif(){
 					$("#loadingdiv_weak_area_detail").removeClass('hidden');
 				};
-				$.ajax({
-					url:"{% url 'paper-api:OneClickChapters' %}",
-					method:"POST",
-					data: {'questionsubjects':"English,SSC"},
-					success: function(data){
-						console.log(data);
-					
-					},
-					error: function(data){
-						
-					},
-				});
-					$.ajax({
-					url:"{% url 'paper-api:OneClickOne' %}",
-					method:"Get",
-					success: function(data){
-						console.log(data);
-					
-					},
-					error: function(data){
-						
-					},
-				});
+
+			//	$.ajax({
+			//		url:"{% url 'paper-api:OneClickChapters' %}",
+			//		method:"POST",
+			//		data: {'questionsubjects':"English,SSC"},
+			//		success: function(data){
+			//			console.log(data);
+			//		
+			//		},
+			//		error: function(data){
+			//			
+			//		},
+			//	});
+			//		$.ajax({
+			//		url:"{% url 'paper-api:OneClickOne' %}",
+			//		method:"Get",
+			//		success: function(data){
+			//			console.log(data);
+			//		
+			//		},
+			//		error: function(data){
+			//			
+			//		},
+			//	});
 
 		<!-- Ajax for Performance graph of last test -->
 				$.ajax({

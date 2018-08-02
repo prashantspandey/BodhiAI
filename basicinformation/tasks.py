@@ -1131,9 +1131,84 @@ def ai_sharedTask(user_id):
 # All APIs
 @shared_task
 def TeacherWeakAreasBriefAsync(user_id):
-        print('here in weak areas')
-        user = User.objects.get(id = user_id)
-        me = Teach(user)
+    user = User.objects.get(id = user_id)
+    me = Teach(user)
+    try:
+        saved_areas = TeacherBatchWeakAreas.objects.filter(teacher =
+                                                    me.profile).order_by('-date')[0]
+
+        latest_test = SSCOnlineMarks.objects.filter(test__creator =
+                                             user).order_by('-test__published')[0]
+        print(saved_areas.date)
+        print(latest_test.test.published)
+        if latest_test.test.published <= saved_areas.date:
+            print('yes dates are same')
+            final = []
+            weak_response = {}
+            all_saved_areas =\
+            TeacherBatchWeakAreas.objects.filter(teacher=me.profile,date=saved_areas.date)
+            for sar in all_saved_areas:
+                weak_response =\
+                {'subject':sar.subject,'klass':sar.batch,'weakTopics':sar.weak_sections}
+                final.append(weak_response)
+            weak_subs_areas_serialized = pickle.dumps(final,protocol = 0)
+            wsas = weak_subs_areas_serialized.decode('utf-8')
+            return wsas
+        else:
+            print('no dates are not same')
+            subjects = me.my_subjects_names()
+            weak_subs_areas_dict = []
+            teach_klass = TeacherClasses.objects.filter(teacher=me.profile)
+            klasses = []
+            if len(teach_klass) != 0:
+                for kl in teach_klass:
+                    klasses.append(kl.klass)
+            else:
+                klasses = me.my_classes_names()
+                for kl in klasses:
+                    new_teach_klass = TeacherClasses()
+                    new_teach_klass.teacher = me.profile
+                    new_teach_klass.klass = kl
+                    new_teach_klass.numStudents = 0
+                    new_teach_klass.save()
+
+
+            final = []
+            weak_response = {}
+            weak_links = {}
+            weak_klass = []
+            weak_subs = []
+            subs = []
+            try:
+                for num,sub in enumerate(subjects):
+                    for i in klasses:
+                        try:
+                            weak_links[i]= \
+                            me.online_problematicAreasNames(user,sub,i)
+                            weak_response =\
+                            {'subject':sub,'klass':i,'weakTopics':weak_links[i]}
+                            new_saved_area = TeacherBatchWeakAreas()
+                            new_saved_area.batch = i
+                            new_saved_area.subject = sub
+                            new_saved_area.weak_sections =\
+                            weak_links[i].tolist()
+                            new_saved_area.teacher = me.profile
+                            new_saved_area.save()
+                            final.append(weak_response)
+                        except Exception as e:
+                            print(str(e))
+            except:
+                pass
+            
+            weak_subs_areas_serialized = pickle.dumps(final,protocol = 0)
+            wsas = weak_subs_areas_serialized.decode('utf-8')
+            return wsas
+
+
+
+    except Exception as e:
+        print(str(e))
+        print('above exception happened')
         subjects = me.my_subjects_names()
         weak_subs_areas_dict = []
         teach_klass = TeacherClasses.objects.filter(teacher=me.profile)
@@ -1151,38 +1226,148 @@ def TeacherWeakAreasBriefAsync(user_id):
                 new_teach_klass.save()
 
 
-        weak_ar = teacher_home_weak_areas(user_id)
+        final = []
+        weak_response = {}
         weak_links = {}
         weak_klass = []
         weak_subs = []
         subs = []
-        final = []
-        weak_response = {}
         try:
             for num,sub in enumerate(subjects):
                 for i in klasses:
                     try:
                         weak_links[i]= \
                         me.online_problematicAreasNames(user,sub,i)
-                        kk = me.online_problematicAreasNames(user,sub,i)
-                        #weak_subs.append(weak_links[i])
-
-                        #weak_klass.append(i)
-                        #subs.append(sub)
-
                         weak_response =\
                         {'subject':sub,'klass':i,'weakTopics':weak_links[i]}
+                        new_saved_area = TeacherBatchWeakAreas()
+                        new_saved_area.batch = i
+                        new_saved_area.subject = sub
+                        new_saved_area.weak_sections =\
+                        weak_links[i].tolist()
+                        new_saved_area.teacher = me.profile
+                        new_saved_area.save()
                         final.append(weak_response)
                     except Exception as e:
                         print(str(e))
-            weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
         except:
-            weak_subs_areas = None
-
+            pass
+        
         weak_subs_areas_serialized = pickle.dumps(final,protocol = 0)
-        #wsas = serializers.serialize('json',weak_subs_areas_serialized)
         wsas = weak_subs_areas_serialized.decode('utf-8')
         return wsas
+
+
+
+
+#@shared_task
+#def online_problematicAreasAsync(user_id,subject,klass):
+#        user = User.objects.get(id = user_id)
+#        if self.institution == 'School':
+#            online_marks = OnlineMarks.objects.filter(test__creator= user,test__sub=
+#                                                  subject,test__klas__name = klass)
+#        elif self.institution == 'SSC':
+#            online_marks = SSCOnlineMarks.objects.filter(test__creator= user,test__sub=
+#                                                  subject,test__klas__name = klass)
+#
+#            if 'Defence' in klass:
+#                all_onlineMarks = SSCOnlineMarks.objects.filter(test__creator =
+#                                                                user,test__sub =
+#                                                                'Defence-MultipleSubjects',test__klas__name=
+#                                                                klass)
+#            else:
+#
+#                all_onlineMarks = SSCOnlineMarks.objects.filter(test__creator =
+#                                                                user,test__sub =
+#                                                                'SSCMultipleSections',test__klas__name=
+#                                                                klass)
+#            offline_marks = SSCOfflineMarks.objects.filter(test__creator =
+#                                                           user,test__sub =
+#                                                           subject,test__klas__name
+#                                                           = klass)
+#
+#            all_offlinemarks = SSCOfflineMarks.objects.filter(test__creator =
+#                                                               user,test__sub =
+#                                                               'SSCMultipleSections',test__klas__name
+#                                                            = klass)
+#
+#        wrong_answers = []
+#        skipped_answers = []
+#        if online_marks:
+#            for om in online_marks:
+#                for wa in om.wrongAnswers:
+#                    wrong_answers.append(wa)
+#                for sp in om.skippedAnswers:
+#                    skipped_answers.append(sp) 
+#            
+#            
+#        if all_onlineMarks:
+#            for om in all_onlineMarks:
+#                for wa in om.wrongAnswers:
+#                    wrong_answers.append(wa)
+#                for sp in om.skippedAnswers:
+#                    skipped_answers.append(sp)
+#        if offline_marks:
+#            for om in offline_marks:
+#                for wa in om.wrongAnswers:
+#                    wrong_answers.append(wa)
+#                for sp in om.skippedAnswers:
+#                    skipped_answers.append(sp) 
+#        if all_offlinemarks:
+#            for om in all_offlinemarks:
+#                for wa in om.wrongAnswers:
+#                    wrong_answers.append(wa)
+#                for sp in om.skippedAnswers:
+#                    skipped_answers.append(sp)
+#
+#
+#        wq = []
+#        for i in wrong_answers:
+#            if self.institution == 'School':
+#                qu = Questions.objects.get(choices__id = i)
+#            elif self.institution == 'SSC':
+#                try:
+#                    qu = SSCquestions.objects.get(choices__id = i)
+#                except Exception as e:
+#                    print(str(e))
+#                    continue
+#            if qu.section_category == subject:
+#                quid = qu.id
+#                wq.append(quid)
+#        for i in skipped_answers:
+#            if self.institution == 'School':
+#                try:
+#                    qu = Questions.objects.get(id = i)
+#                except Exception as e:
+#                    print(str(e))
+#                    continue
+#            elif self.institution == 'SSC':
+#                try:
+#                    qu = SSCquestions.objects.get(id = i)
+#                except Exception as e:
+#                    print(str(e))
+#                    continue
+#            if qu.section_category == subject:
+#                quid = qu.id
+#                wq.append(quid)
+#
+#        unique, counts = np.unique(wq, return_counts=True)
+#        waf = np.asarray((unique, counts)).T
+#        nw_ind = []
+#        kk = np.sort(waf,0)[::-1]
+#        for u in kk[:,1]:
+#            for z,w in waf:
+#                if u == w:
+#                    if z in nw_ind:
+#                        continue
+#                    else:
+#                        nw_ind.append(z)
+#                        break
+#        final_freq = np.asarray((nw_ind,kk[:,1])).T
+#        final_freq_serialized = pickle.dumps(final_freq,protocol = 0)
+#        wsas = final_freq_serialized.decode('utf-8')
+#        return ff_serialized
+
 
 @shared_task
 def TeacherHardQuestionsAsync(user_id):

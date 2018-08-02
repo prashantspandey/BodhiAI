@@ -5115,13 +5115,14 @@ class Teach:
             return final_freq
 
 
-    def online_problematicAreas(self,user,subject,klass):
+    def online_problematicAreas(self,user,subject,klass,api=None):
         if self.institution == 'School':
             online_marks = OnlineMarks.objects.filter(test__creator= user,test__sub=
                                                   subject,test__klas__name = klass)
         elif self.institution == 'SSC':
             online_marks = SSCOnlineMarks.objects.filter(test__creator= user,test__sub=
                                                   subject,test__klas__name = klass)
+
             if 'Defence' in klass:
                 all_onlineMarks = SSCOnlineMarks.objects.filter(test__creator =
                                                                 user,test__sub =
@@ -5142,6 +5143,7 @@ class Teach:
                                                                user,test__sub =
                                                                'SSCMultipleSections',test__klas__name
                                                             = klass)
+
         wrong_answers = []
         skipped_answers = []
         if online_marks:
@@ -5218,7 +5220,8 @@ class Teach:
         return final_freq
         
     def online_problematicAreasNames(self,user,subject,klass):
-        arr = self.online_problematicAreas(user,subject,klass)
+        arr = self.online_problematicAreas(user.id,subject,klass)
+
         if self.institution == 'School':
             how_many = 0
             areas = []
