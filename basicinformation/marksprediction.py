@@ -4520,6 +4520,12 @@ class Teach:
             return klasses
         else:
             return None
+    def my_classes_names_cache(self):
+        klass = TeacherClasses.objects.filter(teacher = self.profile)
+        klasses = []
+        for kl in klass:
+            klasses.append(kl.klass)
+        return list(unique_everseen(klasses))
 
     def my_subjects_names(self):
         subs = self.profile.subject_set.all()

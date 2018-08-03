@@ -3,7 +3,7 @@
 
 <script>
     $(document).ready(function() {
-        $('#loadingCreateTest2').hide();
+            $('#loadingCreateTest3').hide();
         var removedquests = 'ids';
         var clicked_id = 0
         $(".addbutton").click(function() {
@@ -13,9 +13,7 @@
             $(eval("'#'+now")).addClass('hidden');
             $(eval("'#r'+now")).removeClass("hidden");
             $('#addedQuestions').removeClass("hidden");
-            $('#addedQuestions').html('').load('{% url '
-                QuestionsAndPapers: addQuestions ' %}?question_id=' + encodeURIComponent(now) + ',' + which_klass);
-
+            $('#addedQuestions').html('').load('{% url 'QuestionsAndPapers:addQuestions' %}?question_id='+encodeURIComponent(now)+','+which_klass);
             $(eval("'#r'+now")).click(function() {
                 rem_id = $(this).attr('id')
                 rem_id = rem_id.replace('r', '')
@@ -26,8 +24,7 @@
                 $('#addedQuestions').removeClass("hidden");
                 which_klass = $('#tells_klass').text()
 
-                $('#addedQuestions').html('').load('{% url '
-                    QuestionsAndPapers: addQuestions ' %}?remove_id=' + encodeURIComponent(rem_id) + ',' + which_klass);
+                $('#addedQuestions').html('').load('{% url 'QuestionsAndPapers:addQuestions' %}?remove_id='+encodeURIComponent(rem_id)+','+which_klass);
             });
 
 

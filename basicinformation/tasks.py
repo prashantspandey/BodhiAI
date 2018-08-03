@@ -997,6 +997,21 @@ def ai_tukka_questions(user_id):
         df = pd.DataFrame(overall)
         df.to_csv("questions2.csv")
 
+@shared_task
+def Teacher_Classes(user_id):
+    user = User.objects.get(id = user_id)
+    me = Teach(user)
+    klasses = me.my_classes_names()
+    for kl in klasses:
+        try:
+            dc = TeacherClasses.objects.get(teacher = me.profile,klass=kl)
+        except:
+            database_class = TeacherClasses()
+            database_class.numStudents = 0
+            database_class.klass = kl
+            database_class.teacher = me.profile
+            database_class.save()
+
 
 @shared_task
 def ai_sharedTask(user_id):

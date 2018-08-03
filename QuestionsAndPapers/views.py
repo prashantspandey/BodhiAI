@@ -28,13 +28,7 @@ def create_test_Initial(request):
         if user.groups.filter(name= 'Teachers').exists():
             me = Teach(user)
             quest_file_name = 'question_paper'+str(user.teacher)+'.pkl'
-            all_klasses = me.my_classes_names()
-            print('%s all klasses' %all_klasses)
-            #klasses = TeacherClasses.objects.filter(teacher = me.profile)
-            #all_klasses = []
-            #for ak in klasses:
-            #    all_klasses.append(ak.klass)
-            #print(all_klasses)
+            all_klasses = me.my_classes_names_cache()
             context = {'klasses':all_klasses}
             return render(request,'questions/createTest.html',context)
 
@@ -55,10 +49,6 @@ def create_test(request):
         print('%s qustion' %len(quest))
         if len(quest)!=0:
             unique_chapters = me.my_subjects_names()
-            #unique_chapters = []
-            #for i in quest:
-            #    unique_chapters.append(i.section_category)
-            #unique_chapters = list(unique_everseen(unique_chapters))
             
             test_type = 'SSC'
             return render(request, 'questions/klass_available.html',
@@ -281,7 +271,7 @@ def create_oneclick_test(request):
             if testholder:
                 testholder.delete()
             #num_quests = [10,25,30,35,40,45,50]
-            my_batches = me.my_classes_names()
+            my_batches = me.my_classes_names_cache()
             context = {'myBatches':my_batches}
             return render(request,'questions/oneclick_test1.html',context)
 def oneclick_test(request):
@@ -627,7 +617,7 @@ def create_pattern_test(request):
             testholder = TemporaryOneClickTestHolder.objects.filter(teacher = me.profile)
             if testholder:
                 testholder.delete()
-            my_batches = me.my_classes_names()
+            my_batches = me.my_classes_names_cache()
             context = {'batches':my_batches}
             return render(request,'questions/create_pattern_test1.html',context)
 def pattern_test(request):

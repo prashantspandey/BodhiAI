@@ -5,14 +5,14 @@
 <script>
 	
  $(document).ready(function () {
-	 $('#loadingCreateTest1').hide();
+	 $('#loadingCreateTest2').hide();
     $('select[name="questionCategoriesChoice"]').change(function(){
        var categoryChoice = $(this).val();
           which_klass = $('#which_klass').text()
           which_section = $('#which_section').text()
-	 $('#loadingCreateTest2').show();
+	 $('#loadingCreateTest3').show();
  		  $('#allQuestions').removeClass("hidden");
-            $('#allQuestions').html('').load('{% url 'QuestionsAndPapers:createTest' %}?chapter_test='+encodeURIComponent(categoryChoice+','+which_klass+','+which_section));
+        $('#allQuestions').html('').load('{% url 'QuestionsAndPapers:createTest' %}?chapter_test='+encodeURIComponent(categoryChoice+','+which_klass+','+which_section));
 
     });
 });
@@ -46,13 +46,15 @@
   <div class="hidden" id="which_klass">{{which_klass}}</div>
   <div class="hidden" id="which_section">{{section_category}}</div>
 </div>
-</div>
-<div id = 'loadingCreateTest2' style='text-align:center;display:none;'>
-<h4 style='text-center;'>Please wait... </h4>
+    <div id='loadingCreateTest3' style='text-align:center;display:none;'>
         <img src="{%static 'basicinformation/loaders/segment.gif' %}" >
  </div>
 
+
+</div>
+
 <div class="hidden panel panel-default" id="allQuestions" >
+
 {%include 'questions/klass_questions.html' %}
 </div>
   

@@ -372,7 +372,7 @@ def home(request):
             #df.to_csv("questions.csv")
 
 
-            subjects = me.my_subjects_names()
+            subjects = Teacher_Classes.delay(user.id)
             weak_subs_areas_dict = []
             teach_klass = TeacherClasses.objects.filter(teacher=me.profile)
             klasses = []
@@ -430,7 +430,7 @@ def home(request):
             #num_subjects = len(subjects)
             teacherName = me.profile
             context = {'profile': profile,
-                       'klasses': klasses, 'subjects': subjects,
+                       'klasses': klasses,
                        'isTeacher': True,'teacherName':teacherName}
             #return render(request, 'basicinformation/teacher1.html', context)
             return render(request, 'basicinformation/home_overview.html', context)
