@@ -131,16 +131,16 @@
 				})
 					<!-- for teacher weak areas batch wise -->
 				$.ajax({
-					url:"{% url 'basic-api:teacher_weak_areas_brief'  %}",
+					url:"{% url 'basic-api:teacher_weak_areas_brief_Android'  %}",
 					method:"GET",
 					success: function(data){
 						weak_data_sub = [];
 						weak_data_area = [];
 						weak_data_batch = [];
 						$.each(data,function(key,value){
-							weak_data_sub.push(value[0])
-							weak_data_area.push(value[2])
-							weak_data_batch.push(value[1])
+							weak_data_sub.push(value['subject'])
+							weak_data_area.push(value['weakTopics'])
+							weak_data_batch.push(value['klass'])
 
 
 						});
