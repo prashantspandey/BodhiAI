@@ -339,16 +339,19 @@ adaptiveHeight: true,
 					},
 					});
 				$.ajax({
-					url:"{% url 'basic-api:TeacherHardQuestions'  %}",
+					url:"{% url 'basic-api:TeacherHardQuestionsLatest'  %}",
 					method:"GET",
 					success: function(data){
 						$.each(data,function(key,value){
 							if (value){
 							var opts = value.choices.toString();
 							var all_opts = opts.replace(/,/g,"<br>");
+								var mydate = value.date.substr(0,value.date.indexOf("T"))
+
 							if (value.text != null) {
 								$("#hardQuestionsDiv").append(
 									"<div>"+
+						"<h4 class='text-center'>"+mydate+" "+"</h4>"+
 						"<h4 class='text-center'>"+value.wrong_frequency+" students did this question wrong."+"</h4>"+
 						"<h4 class='text-center' style='color:red;'>"+value.text+"</h4>"+
 									"<p style='color:blue;'>"+all_opts+"</li>"+
