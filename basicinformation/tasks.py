@@ -1396,8 +1396,7 @@ def TeacherHardQuestionsAsync(user_id):
             for choiceid in mark.wrongAnswers:
                 try:
                     question = SSCquestions.objects.get(choices__id = choiceid)
-                except Exception as e:
-                    print(str(e))
+                except:
                     continue
                 all_wrong_answers.append(question.id)
 
@@ -1425,7 +1424,65 @@ def TeacherHardQuestionsAsync(user_id):
         wrong_freq.append(j)
         hard_quest_dict =\
         {'text':question.text,'picture':question.picture,'choices':choices_list,'wrong_frequency':int(j)}
-        all_questions.append(hard_quest_dict) 
+        all_questions.append(hard_quest_dict)
     return all_questions
  
+@shared_task
+def TeacherHardQuestionsLast3TestsAsync(user_id):
+    user = User.objects.get(id = user_id)
+    last_three_tests = SSCKlassTest.objects.filter(creator =
+                                                   user)
+    all_marks = []
+    all_questions = []
+    cont = 0
+    for counter,ltt in enumerate(last_three_tests):
+        if cont ==3 :
+            break
+        online_tests = SSCOnlineMarks.objects.filter(test =
+                                                 ltt)
+        if len(online_tests) == 0:
+            continue
+        else:
+            cont = cont + 1
+            wrong_quests_test = []
+            for te in online_tests:
+                date =te.test.published
+                if te.wrongAnswers:
+                    for choiceid in te.wrongAnswers:
+                        try:
+                            question = SSCquestions.objects.get(choices__id = choiceid)
+                        except:
+                            continue
+                        wrong_quests_test.append(question.id)
+
+
+            unique,counts = np.unique(wrong_quests_test,return_counts = True)
+            hard_quests_freq = np.asarray((unique,counts)).T
+            hard_quests_freq_final = np.sort(hard_quests_freq,0)[::1]
+            hard_quest_ids = hard_quests_freq_final[-3:]
+            text = []
+            picture = []
+            choice = []
+            wrong_freq = []
+            for i,j in hard_quest_ids:
+                choices_list = []
+                try:
+                    question = SSCquestions.objects.get(id = i)
+                    text.append(question.text)
+                    picture.append(question.picture)
+                    choices = Choices.objects.filter(sscquest = question)
+                    for ch in choices:
+                        if ch.text:
+                            choices_list.append(ch.text)
+                        elif ch.picture:
+                            choices_list.append(ch.picture)
+                    choice.append(choices_list)
+                    wrong_freq.append(j)
+                    hard_quest_dict =\
+                            {'text':question.text,'picture':question.picture,'choices':choices_list,'wrong_frequency':int(j),'date':date}
+                    all_questions.append(hard_quest_dict)
+
+                except:
+                    pass
+    return all_questions[::-1]
 

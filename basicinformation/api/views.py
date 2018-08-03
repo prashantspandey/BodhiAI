@@ -227,7 +227,14 @@ class TeachersHardQuestionsAPIView(APIView):
         questions = quest.get()
         return Response(questions)
        
-
+class TeachersHardQuestions3TestsAPIView(APIView):
+    def get(self,request,format=None):
+        res = TeacherHardQuestionsLast3TestsAsync.delay(self.request.user.id)
+        res_id = res.task_id
+        quest = AsyncResult(res_id)
+        questions = quest.get()
+        return Response(questions)
+ 
 
 
 
