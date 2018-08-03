@@ -745,12 +745,12 @@ def teacher_home_page(request):
         if user.groups.filter(name='Teachers').exists():
             #klass_dict, all_klasses = teacher_get_students_classwise(request)
             #all_klasses = me.my_classes_names()
-            klasses = TeacherClasses.objects.filter(teacher=me.profile)
-            all_klasses = []
-            for ak in klasses:
-                all_klasses.append(ak.klass)
-            #all_klasses = list(unique_everseen(all_klasses))
-            context = {'profile': me.profile, 'klasses': all_klasses}
+            #klasses = TeacherClasses.objects.filter(teacher=me.profile)
+            #all_klasses = []
+            #for ak in klasses:
+            #    all_klasses.append(ak.klass)
+            all_klasses = me.my_classes_names_cache()
+            context = {'klasses': all_klasses}
             return render(request, 'basicinformation/teacherHomePage.html', context)
         else:
             raise Http404("You don't have the permissions to view this page.")
