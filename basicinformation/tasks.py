@@ -1431,7 +1431,7 @@ def TeacherHardQuestionsAsync(user_id):
 def TeacherHardQuestionsLast3TestsAsync(user_id):
     user = User.objects.get(id = user_id)
     last_three_tests = SSCKlassTest.objects.filter(creator =
-                                                   user)
+                                                   user).order_by('published')
     all_marks = []
     all_questions = []
     cont = 0
