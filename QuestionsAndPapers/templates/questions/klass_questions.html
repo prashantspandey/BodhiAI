@@ -39,7 +39,8 @@
 <span class="c-divider u-mv-medium"></span>
 <h1 align='center' style="padding:20px;"> Questions </h1>
 
-<form action="{%url 'QuestionsAndPapers:addQuestions'%}" method='post'>{%csrf_token%} {%for i in que %}
+<form action="{%url 'QuestionsAndPapers:addQuestions'%}" method='post'>{%csrf_token%} 
+	{%for i in que %}
     <div class='well col-md-offset-1 col-md-10' style="background:#FAFAFC; padding:5px; margin-top: 140px;" id='questBox'>
         {%if i.comprehension %}
         <img src='{{i.comprehension.picture}}' class="img-responsive"> {%endif%} {%if i.text %}

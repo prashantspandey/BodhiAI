@@ -29,11 +29,6 @@
 
             });
         </script>
-		<style>
-		.panel {
-		height:250px;
-		}
-		</style>
 
 
     </head>
@@ -46,7 +41,7 @@
         {%else%}
         <div class="panel-body">
             {% for i in fin %}
-            <button type="button" class="btn btn-default text-center chapterButton" id="chapterButton{{forloop.counter}}">{{i}}</button> {%endfor%}
+            <button type="button" class="c-btn c-btn--secondary text-center chapterButton" id="chapterButton{{forloop.counter}}">{{i}}</button> {%endfor%}
         </div>
         {%endif%}
         <div class="hidden" id="which_klass">{{which_klass}}</div>
