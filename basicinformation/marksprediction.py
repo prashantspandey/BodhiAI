@@ -5119,7 +5119,99 @@ class Teach:
                             break
             final_freq = np.asarray((nw_ind,kk[:,1])).T
             return final_freq
+    # problematic areas for non cached tests
+    def online_problematicAreasCache(self,user,subject,klass,ids):
 
+        online_marks = []
+        for te in ids:
+            test = SSCOnlineMarks.objects.filter(test__id = te,test__creator =
+                                                 user)
+            onine_marks.append(test)
+
+
+
+        wrong_answers = []
+        skipped_answers = []
+        if online_marks:
+            for om in online_marks:
+                for wa in om.wrongAnswers:
+                    wrong_answers.append(wa)
+                for sp in om.skippedAnswers:
+                    skipped_answers.append(sp) 
+
+        wq = []
+        for i in wrong_answers:
+            if self.institution == 'School':
+                qu = Questions.objects.get(choices__id = i)
+            elif self.institution == 'SSC':
+                try:
+                    qu = SSCquestions.objects.get(choices__id = i)
+                except Exception as e:
+                    print(str(e))
+                    continue
+            if qu.section_category == subject:
+                quid = qu.id
+                wq.append(quid)
+        for i in skipped_answers:
+            if self.institution == 'School':
+                try:
+                    qu = Questions.objects.get(id = i)
+                except Exception as e:
+                    print(str(e))
+                    continue
+            elif self.institution == 'SSC':
+                try:
+                    qu = SSCquestions.objects.get(id = i)
+                except Exception as e:
+                    print(str(e))
+                    continue
+            if qu.section_category == subject:
+                quid = qu.id
+                wq.append(quid)
+
+        unique, counts = np.unique(wq, return_counts=True)
+        waf = np.asarray((unique, counts)).T
+        nw_ind = []
+        kk = np.sort(waf,0)[::-1]
+        for u in kk[:,1]:
+            for z,w in waf:
+                if u == w:
+                    if z in nw_ind:
+                        continue
+                    else:
+                        nw_ind.append(z)
+                        break
+        final_freq = np.asarray((nw_ind,kk[:,1])).T
+
+    def online_problematicAreaswithIntensityCache(self,user,subject,klass,ids):
+        arr = self.online_problematicAreasCache(user,subject,klass,ids)
+        anal = []
+        num = []
+        for u,k in arr:
+            if self.institution == 'School':
+                qu = Questions.objects.get(id = u)
+            elif self.institution == 'SSC':
+                qu = SSCquestions.objects.get(id = u)
+            category = qu.topic_category
+            anal.append(category)
+            num.append(k)
+        analysis = list(zip(anal,num))
+        final_analysis = []
+        final_num = []
+        for u,k in analysis:
+            if u in final_analysis:
+                ind = final_analysis.index(u)
+                temp = final_num[ind]
+                final_num[ind] = temp + k
+            else:
+                final_analysis.append(u)
+                final_num.append(k)
+        # weak areas frequency
+        waf = list(zip(final_analysis,final_num))
+        return waf
+
+
+        
 
     def online_problematicAreas(self,user,subject,klass,api=None):
         if self.institution == 'School':
@@ -5223,6 +5315,7 @@ class Teach:
                         nw_ind.append(z)
                         break
         final_freq = np.asarray((nw_ind,kk[:,1])).T
+        print('%s final freq' %final_freq)
         return final_freq
         
     def online_problematicAreasNames(self,user,subject,klass):
@@ -5254,6 +5347,7 @@ class Teach:
             areas = list(unique_everseen(areas))
             area_names=  self.change_topicNumbersNames(areas,subject)
             area_names = np.array(area_names)
+            print('%s area names' %area_names)
             return area_names[:,0]
 
     def online_problematicAreaswithIntensity(self,user,subject,klass):
@@ -5282,114 +5376,197 @@ class Teach:
         # weak areas frequency
         waf = list(zip(final_analysis,final_num))
         return waf
+
+
     def online_problematicAreaswithIntensityAverage(self,user,subject,klass):
         if self.institution  == 'School':
             pass
         elif self.institution == 'SSC':
-            arr = self.online_problematicAreaswithIntensity(user,subject,klass)
-            total_arr = SSCOnlineMarks.objects.filter(test__creator =
-                                                      user,test__sub =
-                                                      subject,test__klas__name
-                                                     = klass) 
-            if 'Defence' in subject:
-                all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
-                                                              user,test__sub=
-                                                              'Defence-MultipleSubjects',test__klas__name
-                                                         = klass)
-            else:
-                all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
-                                                              user,test__sub=
-                                                              'SSCMultipleSections',test__klas__name
-                                                         = klass)
-            offline_total_arr = SSCOfflineMarks.objects.filter(test__creator =
-                                                               user,test__sub =
-                                                               subject,test__klas__name
-                                                               = klass)
-            all_offline_total_arr =\
-            SSCOfflineMarks.objects.filter(test__creator = user,test__sub =
-                                           'SSCMultipleSections',test__klas__name
-                                           = klass)
-            quest_categories = []
-            if total_arr:
-                for ta in total_arr:
-                    for al in ta.allAnswers:
-                        try:
-                            quest = SSCquestions.objects.get(choices__id = al)
-                        except Exception as e:
-                            print(str(e))
-                            continue
-                        quest_categories.append(quest.topic_category)
-                    for sk in ta.skippedAnswers:
-                        try:
-                            quest = SSCquestions.objects.get(id = sk)
-                        except Exception as e:
-                            print(str(e))
-                            continue
-                        quest_categories.append(quest.topic_category)
-            if all_total_arr:
-                for ta in all_total_arr:
-                    for al in ta.allAnswers:
-                        try:
-                            quest = SSCquestions.objects.get(choices__id = al)
-                        except Exception   as e:
-                            print(str(e))
-                            continue
-                        quest_categories.append(quest.topic_category)
-                    for sk in ta.skippedAnswers:
-                        try:
-                            quest = SSCquestions.objects.get(id = sk)
-                        except Exception   as e:
-                            print(str(e))
-                            continue
-                        quest_categories.append(quest.topic_category)
-            if offline_total_arr:
-                 for ta in offline_total_arr:
-                    for al in ta.allAnswers:
-                        try:
-                            quest = SSCquestions.objects.get(choices__id = al)
-                        except Exception   as e:
-                            print(str(e))
-                            continue
-                        quest_categories.append(quest.topic_category)
-                    for sk in ta.skippedAnswers:
-                        try:
-                            quest = SSCquestions.objects.get(id = sk)
-                        except Exception   as e:
-                            print(str(e))
-                            continue
-                        quest_categories.append(quest.topic_category)
-            if all_offline_total_arr:
-                 for ta in all_offline_total_arr:
-                    for al in ta.allAnswers:
-                        try:
-                            quest = SSCquestions.objects.get(choices__id = al)
-                        except Exception   as e:
-                            print(str(e))
-                            continue
-                        quest_categories.append(quest.topic_category)
-                    for sk in ta.skippedAnswers:
-                        try:
-                            quest = SSCquestions.objects.get(id = sk)
-                        except Exception   as e:
-                            print(str(e))
-                            continue
-                        quest_categories.append(quest.topic_category)
-              
+            try:
+                weak_cache = TeacherWeakAreasDetailCache.objects.get(teacher =
+                                                                     self.profile,subject=subject,klass=klass)
+                print('found cache in weak areas')
+                average_tests = weak_cache.subjectTests
+                defence_tests = weak_cache.defenceTests
+                total_tests = len(weak_cache.testids)
+                total_arr = SSCOnlineMarks.objects.filter(test__creator =
+                                                          user,test__sub =
+                                                          subject,test__klas__name
+                                                         = klass) 
+                if 'Defence' in subject:
+                    all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
+                                                                  user,test__sub=
+                                                                  'Defence-MultipleSubjects',test__klas__name
+                                                             = klass)
+                else:
+                    all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
+                                                                  user,test__sub=
+                                                                  'SSCMultipleSections',test__klas__name
+                                                             = klass)
+                new_test_ids = []
+                for i in total_arr:
+                    new_test_ids.append(i.test.id)
+                for i in all_total_arr:
+                    new_test_ids.append(i.test.id)
+                new_test_ids = list(unique_everseen(new_test_ids))    
+                new_total_tests_num = len(total_arr) + len(all_total_arr)
+                if total_tests == len(new_test_ids):
+                    print('found old weak areas cache')
+                    categories = weak_cache.categories
+                    accuracy = weak_cache.accuracies
+                    return list(zip(categories,accuracy))
+                else:
+                    print('%s total_tests' %total_tests)
+                    print('%s newtotal_tests' %len(new_test_ids))
+                    print('not found old weak areas cache')
+                    new_ids = []
+                    old_ids = []
+                    test_ids = weak_cache.testids
+                    print('%s test ids'%test_ids)
+                    for te in new_test_ids:
+                        if te not in test_ids:
+                            new_ids.append(te)
+                        else:
+                            old_ids.append(te)
+                    new_ids = list(unique_everseen(new_ids))
+                    old_ids = list(unique_everseen(old_ids))
+                    print('new and old ids')
+                    print(type(new_ids),new_ids)
 
-            unique, counts = np.unique(quest_categories, return_counts=True)
-            waf = np.asarray((unique, counts)).T
-            arr = np.array(arr)
-            average_cat = []
-            average_percent = []
-            for i,j in waf:
-                if i in arr[:,0]:
-                    ind = np.where(arr==i)
-                    now_arr = arr[ind[0],1]
-                    average =(int(now_arr[0])/int(j)*100)
-                    average_cat.append(i)
-                    average_percent.append(average)
-            weak_average = list(zip(average_cat,average_percent))
-            return weak_average
+                    arr =\
+                    self.online_problematicAreaswithIntensityCache(user,subject,klass,new_ids)
+                    print('got back the arr')
+                    quest_categories = helper_weakIntesityAverage(arr)
+                    unique, counts = np.unique(quest_categories, return_counts=True)
+                    waf = np.asarray((unique, counts)).T
+                    arr = np.array(arr)
+                    average_cat = []
+                    average_percent = []
+                    wrong_total = []
+                    total_cat = []
+                    for i,j in waf:
+                        if i in arr[:,0]:
+                            ind = np.where(arr==i)
+                            now_arr = arr[ind[0],1]
+                            average =(int(now_arr[0])/int(j)*100)
+                            wrong_total.append(now_arr[0])
+                            total_cat.append(j)
+                            average_cat.append(i)
+                            average_percent.append(average)
+                    overall =\
+                    list(zip(average_cat,average_percent,wrong_total,total_cat))
+                    old_cat = weak_cache.categories
+                    old_acc = weak_cache.accuracies
+                    old_wrong = weak_cache.wrong_total
+                    old_total = weak_cache.total_total
+                    old_overall =\
+                    list(zip(old_cat,old_acc,old_wrong,old_total))
+                    new_cat = []
+                    new_accuracy = []
+                    new_total_wrong = []
+                    new_total_total = []
+                    for i,j,k,l in old_overall:
+                        for l,m,n,o in overall:
+                            if i == l:
+                                new_wrong = k + n
+                                new_total = l + o
+                                average =((new_wrong)/int(new_total)*100)
+                                new_cat.append(i)
+                                new_accuracy.append(average)
+                                new_total_wrong.append(new_wrong)
+                                new_total_total.append(new_total)
+                    for l,m,n,o in overall:
+                        if l not in old_overall[:,0]:
+                            new_cat.append(l)
+                            new_accuracy.append(m)
+                            new_total_wrong.append(n)
+                            new_total_total.append(o)
+                    weak_cache.categories = new_cat
+                    weak_cache.accuracies = new_accuracy
+                    weak_cache.wrong_total = new_total_wrong
+                    weak_cache.total_total = new_total_total
+                    weak_cache.testids = old_ids + new_ids
+                    weak_cache.save()
+                    return list(zip(new_cat,new_accuracy))
+
+
+
+                    
+
+
+
+
+
+
+
+            except Exception as e:
+                print(str(e))
+                print('no weak areas cache')
+                arr = self.online_problematicAreaswithIntensity(user,subject,klass)
+                total_arr = SSCOnlineMarks.objects.filter(test__creator =
+                                                          user,test__sub =
+                                                          subject,test__klas__name
+                                                         = klass) 
+                if 'Defence' in subject:
+                    all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
+                                                                  user,test__sub=
+                                                                  'Defence-MultipleSubjects',test__klas__name
+                                                             = klass)
+                else:
+                    all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
+                                                                  user,test__sub=
+                                                                  'SSCMultipleSections',test__klas__name
+                                                             = klass)
+                #offline_total_arr = SSCOfflineMarks.objects.filter(test__creator =
+                #                                                   user,test__sub =
+                #                                                   subject,test__klas__name
+                #                                                   = klass)
+                #all_offline_total_arr =\
+                #SSCOfflineMarks.objects.filter(test__creator = user,test__sub =
+                #                               'SSCMultipleSections',test__klas__name
+                #                               = klass)
+                overall = [total_arr ,all_total_arr ]
+                te_ids = []
+                for i in overall:
+                    for j in i:
+                        te_ids.append(j.test.id)
+                te_ids = list(unique_everseen(te_ids))
+                quest_categories = helper_weakIntesityAverage(overall)
+                 
+
+                unique, counts = np.unique(quest_categories, return_counts=True)
+                waf = np.asarray((unique, counts)).T
+                arr = np.array(arr)
+                average_cat = []
+                average_percent = []
+                wrong_total = []
+                total_cat = []
+                new_weak_areas_cache = TeacherWeakAreasDetailCache()
+                for i,j in waf:
+                    if i in arr[:,0]:
+                        ind = np.where(arr==i)
+                        now_arr = arr[ind[0],1]
+                        average =(int(now_arr[0])/int(j)*100)
+                        wrong_total.append(now_arr[0])
+                        total_cat.append(j)
+                        average_cat.append(i)
+                        average_percent.append(average)
+                new_weak_areas_cache.teacher = self.profile
+                new_weak_areas_cache.klass = klass
+                new_weak_areas_cache.subject = subject
+                new_weak_areas_cache.categories = average_cat
+                new_weak_areas_cache.accuracies = average_percent
+                new_weak_areas_cache.wrong_total = wrong_total
+                new_weak_areas_cache.total_total = total_cat
+                new_weak_areas_cache.subjectTests = len(total_arr)
+                new_weak_areas_cache.defenceTests = len(all_total_arr)
+                new_weak_areas_cache.testids = te_ids
+                new_weak_areas_cache.save()
+
+
+
+                weak_average = list(zip(average_cat,average_percent))
+                return weak_average
 
     def weakAreas_timing(self,user,subject,klass):
         all_questions = []
@@ -5404,50 +5581,186 @@ class Teach:
                     all_timing.append(aq.time)
 
         elif self.institution == 'SSC':
-            marks = SSCOnlineMarks.objects.filter(test__sub = subject,
-                                                  test__creator =
-                                                  user)
-            if 'Defence' in subject:
-                every_marks = SSCOnlineMarks.objects.filter(test__sub =
-                                                        'Defence-MultipleSubjects',test__creator
-                                                        = user)
-            else:
-                every_marks = SSCOnlineMarks.objects.filter(test__sub =
-                                                            'SSCMultipleSections',test__creator
-                                                            = user)
-            for om in marks:
-                for aq in om.sscansweredquestion_set.all():
-                    all_questions.append(aq.quest.topic_category)
-                    all_timing.append(aq.time)
-            if every_marks:
-                for om in every_marks:
-                    for al in om.sscansweredquestion_set.all():
-                        if al.quest.section_category == subject:
-                            all_questions.append(al.quest.topic_category)
-                            all_timing.append(al.time)
-
-        areawise_timing = list(zip(all_questions,all_timing))
-        dim1 = list(unique_everseen(all_questions))
-        dim3 = []
-        dim4 = []
-        freq = []
-        for j in dim1:
-            k_val = 0
-            n = 0
-            for x,y in areawise_timing:
-                if j == x and y != -1:
-                    k_val += y
-                    n += 1
-            dim3.append(j)
             try:
-                average_time = float(k_val/n)
-                dim4.append(average_time)
-                freq.append(n)
-            except:
-                pass
-        timing = list(zip(dim3,dim4))
-        freq_list = list(zip(dim3,freq))
-        return timing,freq_list
+                weak_cache =\
+                TeacherWeakAreasTimingCache.objects.get(teacher=self.profile,klass
+                                                        = klass,subject =
+                                                        subject)
+                print('found the cache')
+                old_tests = weak_cache.testids
+                total_old_tests = len(old_tests)
+                marks = SSCOnlineMarks.objects.filter(test__sub = subject,
+                                                      test__creator =
+                                                      user)
+                if 'Defence' in subject:
+                    every_marks = SSCOnlineMarks.objects.filter(test__sub =
+                                                            'Defence-MultipleSubjects',test__creator
+                                                            = user)
+                else:
+                    every_marks = SSCOnlineMarks.objects.filter(test__sub =
+                                                                'SSCMultipleSections',test__creator
+                                                                = user)
+                len_marks = len(marks)
+                len_every = len(every_marks)
+                total_new_tests = len_marks + len_every
+                if total_old_tests == total_new_tests:
+                    print('old cache')
+                    cat = weak_cache.categories
+                    time = weak_cache.averagetiming
+                    freq = weak_cache.totalFreq
+
+                    return list(zip(cat,time)),list(zip(cat,freq))
+                else:
+                    print('new cache')
+                    new_ids = []
+                    for te_id in marks.test.id:
+                        if te_id not in old_tests:
+                            new_ids.append(te_id)
+                    for te_id in every_marks.test.id:
+                        if te_id not in old_tests:
+                            new_ids.append(te_id)
+                all_ids = []
+                for ids in marks:
+                    all_ids.append(ids.test.id)
+                for ids in every_marks:
+                    all_ids.append(ids.test.id)
+
+
+                new_marks =[]
+                for te_id in new_ids:
+                    every_marks = SSCOnlineMarks.objects.filter(test_id =
+                                                                te_id)
+                    new_marks.append(every_marks)
+
+
+                for nm in new_marks:
+                    for om in nm:
+                        for al in om.sscansweredquestion_set.all():
+                            if al.quest.section_category == subject:
+                                all_questions.append(al.quest.topic_category)
+                                all_timing.append(al.time)
+
+                areawise_timing = list(zip(all_questions,all_timing))
+                dim1 = list(unique_everseen(all_questions))
+                dim3 = []
+                dim4 = []
+                freq = []
+                category =weak_cache.categories
+                total_timing = weak_cache.totalTiming
+                total_freq = weak_cache.totalFreq
+                overall = list(zip(category,total_timing,total_freq))
+                final_total_time = []
+                final_total_freq = []
+                final_total_cat = []
+                final_average = []
+                for j in dim1:
+                    k_val = 0
+                    n = 0
+                    for x,y in areawise_timing:
+                        if j == x and y != -1:
+                            k_val += y
+                            n += 1
+                    for cat,tt,tf in overall:
+                        if cat == j:
+                            totalTime = tt + k_val
+                            tfreq = tf + n
+                            final_total_time.append(totalTime)
+                            final_total_freq.append(tfreq)
+                            final_average.append(float(totalTime/tfreq))
+                            final_total_cat.append(cat)
+
+
+
+                    dim3.append(j)
+                    try:
+                        average_time = float(k_val/n)
+                        dim4.append(average_time)
+                        freq.append(n)
+                    except:
+                        pass
+                timing = list(zip(dim3,dim4))
+                freq_list = list(zip(dim3,freq))
+                weak_cache.categories = final_total_cat
+                weak_cache.averagetiming = final_average
+                weak_cache.totalTiming = final_total_time
+                weak_cache.totalFreq = final_total_freq
+                weak_cache.testids = all_ids
+                weak_cache.save()
+                return\
+            list(zip(final_total_cat,final_average)),list(zip(final_total_cat,final_total_freq))
+
+
+
+
+
+            except Exception as e:
+                print(str(e))
+                marks = SSCOnlineMarks.objects.filter(test__sub = subject,
+                                                      test__creator =
+                                                      user)
+                if 'Defence' in subject:
+                    every_marks = SSCOnlineMarks.objects.filter(test__sub =
+                                                            'Defence-MultipleSubjects',test__creator
+                                                            = user)
+                else:
+                    every_marks = SSCOnlineMarks.objects.filter(test__sub =
+                                                                'SSCMultipleSections',test__creator
+                                                                = user)
+                for om in marks:
+                    for aq in om.sscansweredquestion_set.all():
+                        all_questions.append(aq.quest.topic_category)
+                        all_timing.append(aq.time)
+                if every_marks:
+                    for om in every_marks:
+                        for al in om.sscansweredquestion_set.all():
+                            if al.quest.section_category == subject:
+                                all_questions.append(al.quest.topic_category)
+                                all_timing.append(al.time)
+                all_ids = []
+                for ids in marks:
+                    all_ids.append(ids.test.id)
+                for ids in every_marks:
+                    all_ids.append(ids.test.id)
+
+                areawise_timing = list(zip(all_questions,all_timing))
+                dim1 = list(unique_everseen(all_questions))
+                dim3 = []
+                dim4 = []
+                freq = []
+                total_cat = []
+                total_freq = []
+                total_time = []
+                for j in dim1:
+                    k_val = 0
+                    n = 0
+                    for x,y in areawise_timing:
+                        if j == x and y != -1:
+                            k_val += y
+                            n += 1
+                    total_freq.append(n)
+                    total_time.append(k_val)
+                    dim3.append(j)
+                    try:
+                        average_time = float(k_val/n)
+                        dim4.append(average_time)
+                        freq.append(n)
+                    except:
+                        pass
+                timing = list(zip(dim3,dim4))
+                freq_list = list(zip(dim3,freq))
+                time_cache = TeacherWeakAreasTimingCache()
+                time_cache.averagetiming = dim4
+                time_cache.categories = dim3
+                time_cache.totalTiming = total_time
+                time_cache.totalFreq = total_freq
+                time_cache.teacher = self.profile
+                time_cache.klass = klass
+                time_cache.testids = all_ids
+                time_cache.subject = subject
+                time_cache.save()
+                print('%s timing' %timing)
+                print('%s freq list' %freq_list)
+                return timing,freq_list
 
     def find_classRank(self,li):
         array = np.array(li)
@@ -9354,7 +9667,27 @@ def changeIndividualNames(i,subject):
 #algorithms for question data analytics in QuestionsAndPapers Model
 
 
-
+def helper_weakIntesityAverage(total_arr):
+    quest_categories = []
+    if total_arr:
+        for ka in total_arr:
+            for ta in ka:
+                for al in ta.allAnswers:
+                    try:
+                        quest = SSCquestions.objects.get(choices__id = al)
+                    except Exception as e:
+                        print(str(e))
+                        continue
+                    quest_categories.append(quest.topic_category)
+                for sk in ta.skippedAnswers:
+                    try:
+                        quest = SSCquestions.objects.get(id = sk)
+                    except Exception as e:
+                        print(str(e))
+                        continue
+                    quest_categories.append(quest.topic_category)
+    return quest_categories
+ 
 
 
 

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
-class KlassTest(models.Model):
+class KlassTest(models.Model): 
     mode_choices =\
     (('BodhiOnline','BodhiOnline'),('BodhiSchool','BodhiSchool'))
     name = models.CharField(max_length=100)
@@ -372,4 +372,36 @@ class TeacherBatchWeakAreas(models.Model):
 
     def __str__(self):
         return str(self.batch)+" " + str(self.subject)
+
+
+class TeacherWeakAreasDetailCache(models.Model):
+    date = models.DateField(auto_now_add= True,null=True)
+    subject = models.CharField(max_length = 100,null=True)
+    klass = models.CharField(max_length = 100,null=True)
+    teacher = models.ForeignKey(Teacher,null=True)
+    categories =  ArrayField(models.CharField(max_length=100))
+    accuracies = ArrayField(models.FloatField())
+    wrong_total = ArrayField(models.IntegerField())
+    total_total = ArrayField(models.IntegerField())
+    subjectTests = models.IntegerField(null=True)
+    defenceTests = models.IntegerField(null=True)
+    testids = ArrayField(models.IntegerField())
+
+    def __str__(self):
+        return str(self.date)+ " " + str(self.teacher)
+
+class TeacherWeakAreasTimingCache(models.Model):
+    date = models.DateField(auto_now_add= True,null=True)
+    subject = models.CharField(max_length = 100,null=True)
+    klass = models.CharField(max_length = 100,null=True)
+    teacher = models.ForeignKey(Teacher,null=True)
+    categories = ArrayField(models.CharField(max_length=100))
+    averagetiming = ArrayField(models.FloatField(),null=True)
+    totalTiming = ArrayField(models.FloatField(),null=True)
+    totalFreq = ArrayField(models.FloatField(null=True),null=True)
+    testids = ArrayField(models.IntegerField(),null=True)
+    def __str__(self):
+        return str(self.date)+ " " + str(self.teacher)
+
+   
 

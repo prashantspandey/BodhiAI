@@ -727,7 +727,6 @@ def teacher_weakAreasinDetail(request):
             which_sub = request.GET['weakAreasSub']
             print(which_class,which_sub)
             me = Teach(user)
-            before = timeit.default_timer()
             res = \
             me.online_problematicAreaswithIntensityAverage(user,which_sub,which_class)
             res = me.change_topicNumbersNamesWeakAreas(res,which_sub)
@@ -735,6 +734,9 @@ def teacher_weakAreasinDetail(request):
             timing = me.change_topicNumbersNamesWeakAreas(timing,which_sub)
             context =\
             {'which_class':which_class,'probAreas':res,'timing':timing}
+            #context =\
+            #{'which_class':which_class,'probAreas':res}
+
             return render(request,'basicinformation/teacher_weakAreasinDetail.html',context)
 
 
