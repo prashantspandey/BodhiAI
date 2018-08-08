@@ -259,8 +259,8 @@ def home(request):
             #sheet_links2 = \
             #        ['statement_ry.csv']
             #adding_quest =\
-            add_to_database_questions.delay(sheet_links,'BodhiAI',production=True,onlyImage=True)
-            #add_questions('Swami Reasoning World','General-Intelligence')
+            #add_to_database_questions.delay(sheet_links,'BodhiAI',production=True,onlyImage=True)
+            add_questions('Swami Reasoning World','General-Intelligence')
             #quest_added = add_to_database_questions.delay(sheet_links,'Swami Reasoning World',onlyImage=True,production =\
             #                          True)
 
