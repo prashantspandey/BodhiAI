@@ -578,7 +578,7 @@ def add_to_database_questions_text(sheet_link,school,production=False,explanatio
                 pd.read_csv('/app/question_data/siel/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/siel/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swami_reasoning/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
@@ -677,7 +677,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/ssc_maths/'+sh,error_bad_lines=False )
+                pd.read_csv('/app/question_data/swami_reasoning/'+sh,error_bad_lines=False )
             else:
                 df=\
                 pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/swami_reasoning/'+sh,error_bad_lines=False )
@@ -700,7 +700,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                 direction = df['Direction']
             except:
                 direction = len(optD) * ['None']
-            used_for = len(optD)*['SSCMaths']
+            used_for = len(optD)*['SSCReasoning']
             lang = df['lang']
             source = len(used_for)*['RakeshYadav']
             if onlyImage:
@@ -747,7 +747,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         
             for ind in range(len(optA)):
                 if onlyImage:
-                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(lang[ind]),used_for[ind],source[ind],fouroptions='5',direction
+                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(lang[ind]),used_for[ind],source[ind],fouroptions='4',direction
                                     = direction[ind] )
                 else:
                     write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],direction[ind],fouroptions='3')
@@ -850,8 +850,8 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
 
         #if question != None:
         #    new_questions.text = str(question)
-        print(direction,question)
-        if direction and question is None:
+        print('%s direction, %s question' %(direction,question))
+        if direction!='None' and question is None:
             new_questions.text = str(direction)
         elif question != None and direction:
             new_questions.text = str(direction) +'\n'+str(question)
@@ -863,7 +863,7 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
         new_questions.topic_category = str(questCategory)
         if direction:
             try:
-                if direction != 'None' and  type(direction) == str:
+                if direction != 'None' :
                     print('%s inside' %direction)
                     print(type(direction))
                     direct = Comprehension()
@@ -876,10 +876,10 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
 
         if image:
             new_questions.picture = image
-            try:
-                new_questions.comprehension = direct
-            except:
-                pass
+            #try:
+            #    new_questions.comprehension = direct
+            #except:
+            #    pass
         new_questions.save()
         for sch in school:
             new_questions.school.add(sch)

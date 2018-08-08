@@ -255,12 +255,12 @@ def home(request):
             #sheet_links =\
             #['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
             sheet_links = \
-                    ['blood_relation_ry.csv','calender_ry.csv','clock_ry.csv','coding_decoding_ry.csv','figure_completion_ry.csv','papercutting_folding_ry.csv','ranking_ry.csv','statement_ry.csv','sylloligm_ry.csv','symbol_notation_ry.csv','word_formation_ry.csv']
-            sheet_links2 = \
-                    ['statement_ry.csv']
+                    ['analogy_1_ry.csv','analogy_2_ry.csv','blood_relation_ry.csv','calender_ry.csv','classification_ry.csv','classification2_ry.csv','clock_ry.csv','coding_decoding_ry.csv','counting_figures_ry.csv','direction_ry.csv','embedded_figures_ry.csv','figure_completion_ry.csv','missing_number_ry.csv','number_series_ry.csv','ranking_ry.csv','symbol_notation_ry.csv','venn_diagram_d.csv']
+            #sheet_links2 = \
+            #        ['statement_ry.csv']
             #adding_quest =\
-            add_to_database_questions.delay(sheet_links2,'BodhiAI',production=False,onlyImage=True,fiveOptions
-                                           = True)
+            add_to_database_questions.delay(sheet_links,'BodhiAI',production=False,onlyImage=True)
+            #add_questions('Swami Reasoning World','General-Intelligence')
             #quest_added = add_to_database_questions.delay(sheet_links,'Swami Reasoning World',onlyImage=True,production =\
             #                          True)
 
@@ -2327,6 +2327,14 @@ def add_questions(institute,section):
        print('%s --num quests' %len(questions))
        for i in questions:
            i.school.add(school)
+    elif institute == 'Swami Reasoning World':
+       questions = SSCquestions.objects.filter(school__name =
+                                               'BodhiAI',section_category=section)
+       school = School.objects.get(name = institute)
+       print('%s --num quests' %len(questions))
+       for i in questions:
+           i.school.add(school)
+       
     else:
         print('here in jito')
         questions =\
