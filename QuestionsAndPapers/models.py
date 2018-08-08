@@ -6,7 +6,7 @@ from django.contrib.postgres.fields import ArrayField
 
 class KlassTest(models.Model): 
     mode_choices =\
-    (('BodhiOnline','BodhiOnline'),('BodhiSchool','BodhiSchool'))
+    (('BodhiOnline','BodhiOnline'),('BodhiSchool','BodhiSchool')) 
     name = models.CharField(max_length=100)
     subject_choices = (('Maths','Maths'),('Science','Science'),('English','English')) 
     max_marks = models.PositiveIntegerField() 
@@ -403,5 +403,34 @@ class TeacherWeakAreasTimingCache(models.Model):
     def __str__(self):
         return str(self.date)+ " " + str(self.teacher)
 
-   
+class StudentTestAnalysis(models.Model):
+    date = models.DateField(auto_now_add= True,null=True)
+    student = models.ForeignKey(Student)
+    test = models.ForeignKey(SSCKlassTest)
+    myPercent = models.FloatField()
+    klassAverage = models.FloatField()
+    klassAveragePercent = models.FloatField()
+    myPercentile = models.FloatField()
+    allKlassMarks = ArrayField(models.FloatField(),null=True)
+    freqAnswerId = ArrayField(models.IntegerField(),null=True)
+    freqAnswer = ArrayField(models.IntegerField(),null=True)
+    weakCategories = ArrayField(models.CharField(max_length=100),null=True)
+    weakAccuracies = ArrayField(models.FloatField(),null=True)
+    numRight = models.IntegerField()
+    numWrong =models.IntegerField()
+    numSkipped = models.IntegerField()
+    overallAccuracy = models.FloatField()
+    subjectwiseAccuracySub =ArrayField(models.CharField(max_length = 50),null=True)
+    subjectwiseAccuracy =ArrayField(models.FloatField(max_length = 50),null=True)
+    areaTimeCategory = ArrayField(models.CharField(max_length=100),null=True)
+    areaTime = ArrayField(models.FloatField(),null=True)
+    hour = models.IntegerField()
+    minute = models.IntegerField()
+    second = models.IntegerField()
+    
+
+
+    def __str__(self):
+        return str(self.student) + str(self.myPercent)
+
 

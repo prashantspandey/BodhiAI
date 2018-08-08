@@ -282,43 +282,42 @@ def home(request):
             return HttpResponse("Done")
 
         if user.groups.filter(name='Students').exists():
-            profile = user.student
             #storage = messages.get_messages(request)
-            me = Studs(request.user)
+            #me = Studs(request.user)
 
-            # if B2C customer then add tests  to profile
-            if profile.school.name == 'BodhiAI':
-                # checks if test is legitimate, if not then delete the test
-                bad_tests = SSCKlassTest.objects.filter(Q(sub='')| Q(totalTime
-                                                                    = 0))
-                if bad_tests:
-                    try:
-                        for i in bad_tests:
-                            i.delete()
-                    except Exception as e:
-                        print(str(e))
-                
-                me.subjects_OnlineTest()
-            elif profile.school.name == 'JITO':
-                me.subjects_OnlineTest(schoolName = 'JITO',klas =me.profile.klass)
+            ## if B2C customer then add tests  to profile
+            #if me.profile.school.name == 'BodhiAI':
+            #    # checks if test is legitimate, if not then delete the test
+            #    bad_tests = SSCKlassTest.objects.filter(Q(sub='')| Q(totalTime
+            #                                                        = 0))
+            #    if bad_tests:
+            #        try:
+            #            for i in bad_tests:
+            #                i.delete()
+            #        except Exception as e:
+            #            print(str(e))
+            #    
+            #    me.subjects_OnlineTest()
+            #elif profile.school.name == 'JITO':
+            #    me.subjects_OnlineTest(schoolName = 'JITO',klas =me.profile.klass)
 
-            subjects = user.student.subject_set.all()
+            ##subjects = user.student.subject_set.all()
 
-            # gets marks of all the tests taken by student to be displayed on home page
-            subject_marks = me.test_information(subjects)
+            ## gets marks of all the tests taken by student to be displayed on home page
+            ##subject_marks = me.test_information(subjects)
 
-           # get new tests to take (practise tests on the student page) 
-            new_tests = me.toTake_Tests(6)
+           ## get new tests to take (practise tests on the student page) 
+            ##new_tests = me.toTake_Tests(6)
 
-            # sending all values to template based on type of student
-            if me.profile.school.name == "BodhiAI":
-                context = \
-                        {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
-            else:
-                context = \
-                    {'profile':profile,'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
+            ## sending all values to template based on type of student
+            ##if me.profile.school.name == "BodhiAI":
+            ##    context = \
+            ##            {'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
+            ##else:
+            ##    context = \
+            ##        {'subjects':subjects,'subjectwiseMarks':subject_marks,'newTests':new_tests}
 
-            return render(request, 'basicinformation/student_home_page.html', context)
+            return render(request, 'basicinformation/student_home_page.html')
 
 
         elif user.groups.filter(name='Teachers').exists():
@@ -540,55 +539,192 @@ def student_subject_analysis(request):
                 mode = 'offline'
             except:
                 test = SSCOnlineMarks.objects.get(student=me.profile, test__id=test_id)
+                te = SSCKlassTest.objects.get(id = test_id)
                 mode = 'online'
 
             student_type = 'SSC'
             if mode == 'online':
-                my_marks_percent = (test.marks / test.test.max_marks) * 100
-                average, percent_average = \
-                    me.online_findAverageofTest(test_id, percent='p')
-                percentile, all_marks = me.online_findPercentile(test_id)
-                percentile = percentile * 100
-                all_marks = [((i / test.test.max_marks) * 100) for i in all_marks]
-                freq = me.online_QuestionPercentage(test_id)
-                # converting test time seconds to hours and minutes
-                test_totalTime = test.timeTaken
-                hours = int(test_totalTime/3600)
-                t = int(test_totalTime%3600)
-                mins = int(t/60)
-                seconds =int(t%60)
-                if hours == 0:
-                    tt = '{} minutes and {} seconds'.format(mins,seconds)
-                if hours == 0 and mins == 0:
-                    tt = '{} seconds'.format(seconds)
-                if hours > 0:
-                    tt = '{} hours {} minutes and {}\
-                    seconds'.format(hours,mins,seconds)
+# Look for a cached test analyis , if found then show it 
+# if there is a change in number of tests then just update a few things and
+# show it
+# If cache not found then calculate the fields, create a cached version and
+# show it on front end.
                 try:
-                    if tt:
-                        pass
-                except:
-                    tt = None
+                    te = SSCKlassTest.objects.get(id = test_id)
+                    analysis = StudentTestAnalysis.objects.get(student =
+                                                                  me.profile,test
+                                                                  =te)
+                    myPercent = analysis.myPercent
+                    classAverage = analysis.klassAverage
+                    classAveragePercent = analysis.klassAveragePercent
+                    myPercentile = analysis.myPercentile
+                    allKlassMarks = analysis.allKlassMarks
+                    freqAnswerId = analysis.freqAnswerId
+                    freqAnswer = analysis.freqAnswer
+                    freq = list(zip(freqAnswerId,freqAnswer))
+                    weakCategories = analysis.weakCategories
+                    weakAccuracies = analysis.weakAccuracies
+                    weak_areas = list(zip(weakCategories,weakAccuracies))
+                    numRight = analysis.numRight
+                    numWrong = analysis.numWrong
+                    numSkipped = analysis.numSkipped
+                    overallAccuracy = analysis.overallAccuracy
+                    subjectwiseAccuracySub = analysis.subjectwiseAccuracySub
+                    subjectwiseAccuracy = analysis.subjectwiseAccuracy
+                    subjectwise_acc =\
+                    list(zip(subjectwiseAccuracySub,subjectwiseAccuracy))
+                    areaTimeCategory = analysis.areaTimeCategory
+                    areaTime = analysis.areaTime
+                    area_timing = list(zip(areaTimeCategory,areaTime))
+                    hours = analysis.hour
+                    mins = analysis.minute
+                    seconds = analysis.second
+                    if hours == 0:
+                        tt = '{} minutes and {} seconds'.format(mins,seconds)
+                    if hours == 0 and mins == 0:
+                        tt = '{} seconds'.format(seconds)
+                    if hours > 0:
+                        tt = '{} hours {} minutes and {}\
+                        seconds'.format(hours,mins,seconds)
 
-                ra,wa,sp,accuracy = me.test_statistics(test_id)
-                weak_areas = me.weakAreas_Intensity(sub,singleTest = test_id)
-                sk_weak = me.skipped_testwise(test_id,me.profile)
-                area_timing,freq = me.areawise_timing(sub,test_id)
-                subjectwise_accuracy = me.test_SubjectAccuracy(test_id)
-                if sub == 'SSCMultipleSections':
-                    weak_names = weak_areas
-                    timing = area_timing
-                else:
-                    weak_names = me.changeTopicNumbersNames(weak_areas,sub)
-                    timing = me.changeTopicNumbersNames(area_timing,sub)
-                context = \
-                    {'test': test, 'average': average, 'percentAverage': percent_average,
-                     'my_percent': my_marks_percent, 'percentile': percentile, 'allMarks': all_marks,
-                     'freq':\
-                     freq,'student_type':student_type,'topicWeakness':weak_names,'topicTiming':timing,
-                     'numberRight':ra,'numberWrong':wa,'numberSkipped':sp,'accuracy':accuracy,'subjectwise_accuracy':subjectwise_accuracy,'tt':tt}
-                return \
-                    render(request, 'basicinformation/student_analyze_test.html', context)
+                    if sub == 'SSCMultipleSections':
+                        weak_names = weak_areas
+                        timing = area_timing
+                    else:
+                        weak_names = me.changeTopicNumbersNames(weak_areas,sub)
+                        timing = me.changeTopicNumbersNames(area_timing,sub)
+                    if len(tests) != len(allKlassMarks):
+                        percentile, all_marks = me.online_findPercentile(test_id)
+                        average, percent_average = \
+                            me.online_findAverageofTest(test_id, percent='p')
+                        percentile = percentile * 100
+                        all_marks = [((i / test.test.max_marks) * 100) for i in all_marks]
+                        analysis.myPercentile = percentile
+                        analysis.allKlassMarks = all_marks
+                        analysis.klassAverage = average
+                        analysis.klassAveragePercent = percent_average
+                        analysis.save()
+                        allKlassMarks = all_marks
+                        myPercentile = percentile
+                        classAverage = average
+                        classAveragePercent = percent_average
+
+                    context = \
+                        {'test': test, 'average': classAverage,
+                         'percentAverage': classAveragePercent,
+                         'my_percent': myPercent, 'percentile': myPercentile,
+                         'allMarks': allKlassMarks,
+                         'freq':\
+                         freq,'student_type':student_type,'topicWeakness':weak_names,'topicTiming':timing,
+                         'numberRight':numRight,'numberWrong':numWrong,'numberSkipped':numSkipped,'accuracy':overallAccuracy,'subjectwise_accuracy':subjectwise_acc,'tt':tt}
+                    return \
+                        render(request, 'basicinformation/student_analyze_test.html', context)
+
+
+
+
+                except Exception as e:
+                    print(str(e))
+                    analysis = StudentTestAnalysis()
+                    my_marks_percent = (test.marks / test.test.max_marks) * 100
+                    analysis.myPercent = my_marks_percent
+                    average, percent_average = \
+                        me.online_findAverageofTest(test_id, percent='p')
+                    analysis.klassAverage = average
+                    analysis.klassAveragePercent = percent_average
+                    percentile, all_marks = me.online_findPercentile(test_id)
+                    percentile = percentile * 100
+                    analysis.myPercentile = percentile
+
+                    all_marks = [((i / test.test.max_marks) * 100) for i in all_marks]
+                    analysis.allKlassMarks = all_marks
+
+                    freq = me.online_QuestionPercentage(test_id)
+                    freq_id = []
+                    freq_freq = []
+                    for i,j in freq:
+                        freq_id.append(i)
+                        freq_freq.append(j)
+                    analysis.freqAnswerId = freq_id
+                    analysis.freqAnswer = freq_freq
+                    # converting test time seconds to hours and minutes
+                    test_totalTime = test.timeTaken
+                    hours = int(test_totalTime/3600)
+                    t = int(test_totalTime%3600)
+                    mins = int(t/60)
+                    seconds =int(t%60)
+                    if hours == 0:
+                        tt = '{} minutes and {} seconds'.format(mins,seconds)
+                        analysis.hour = 0
+                        analysis.minute = mins
+                        analysis.second = seconds
+                    if hours == 0 and mins == 0:
+                        tt = '{} seconds'.format(seconds)
+                        analysis.hour = 0
+                        analysis.minute = 0
+                        analysis.second = seconds
+
+                    if hours > 0:
+                        tt = '{} hours {} minutes and {}\
+                        seconds'.format(hours,mins,seconds)
+                        analysis.hour = hours
+                        analysis.minute = mins
+                        analysis.second = seconds
+
+                    try:
+                        if tt:
+                            pass
+                    except:
+                        tt = None
+
+                    ra,wa,sp,accuracy = me.test_statistics(test_id)
+                    analysis.numRight = ra
+                    analysis.numWrong = wa
+                    analysis.numSkipped = sp
+                    analysis.overallAccuracy = accuracy
+                    weak_areas = me.weakAreas_Intensity(sub,singleTest = test_id)
+                    weak_cat = []
+                    weak_acc = []
+                    for i,j in weak_areas:
+                        weak_cat.append(i)
+                        weak_acc.append(j)
+                    analysis.weakCategories = weak_cat
+                    analysis.weakAccuracies = weak_acc
+                    sk_weak = me.skipped_testwise(test_id,me.profile)
+                    area_timing,freq = me.areawise_timing(sub,test_id)
+                    weak_time_cat = []
+                    weak_time = []
+                    for k,v in area_timing:
+                        weak_time_cat.append(k)
+                        weak_time.append(v)
+                    analysis.areaTimeCategory = weak_time_cat
+                    analysis.areaTime = weak_time
+                    subjectwise_accuracy = me.test_SubjectAccuracy(test_id)
+                    sub_weak = []
+                    sub_weak_acc = []
+                    for i,j in subjectwise_accuracy.items():
+                        sub_weak.append(i)
+                        sub_weak_acc.append(j)
+                    analysis.subjectwiseAccuracySub = sub_weak
+                    analysis.subjectwiseAccuracy = sub_weak_acc
+                    analysis.student = me.profile
+                    analysis.test = te
+                    analysis.save()
+
+                    if sub == 'SSCMultipleSections':
+                        weak_names = weak_areas
+                        timing = area_timing
+                    else:
+                        weak_names = me.changeTopicNumbersNames(weak_areas,sub)
+                        timing = me.changeTopicNumbersNames(area_timing,sub)
+                    context = \
+                        {'test': test, 'average': average, 'percentAverage': percent_average,
+                         'my_percent': my_marks_percent, 'percentile': percentile, 'allMarks': all_marks,
+                         'freq':\
+                         freq,'student_type':student_type,'topicWeakness':weak_names,'topicTiming':timing,
+                         'numberRight':ra,'numberWrong':wa,'numberSkipped':sp,'accuracy':accuracy,'subjectwise_accuracy':subjectwise_accuracy,'tt':tt}
+                    return \
+                        render(request, 'basicinformation/student_analyze_test.html', context)
 
         # for offline tests conducted in institute (with OMR) (no timing in
         # these)

@@ -1160,6 +1160,8 @@ class Studs:
             percentile = ((less_marks-same_marks) / num_students)
         else:
             percentile = ((less_marks + (0.5 * same_marks)) / num_students)
+        print(percentile)
+        print(all_marks)
         return percentile, all_marks
 
     def online_QuestionPercentage(self, test_id):
@@ -1874,7 +1876,6 @@ class Studs:
                 pass
         timing = list(zip(dim3,dim4))
         freq_list = list(zip(dim3,freq))
-        print(timing,freq_list)
         return timing,freq_list
 
     def offline_weakAreas(self,subject,singleTest = None):
@@ -4473,6 +4474,7 @@ class Studs:
             quest_cat.append(cat)
         unique,count = np.unique(quest_cat,return_counts=True)
         sk_cat = np.asarray((unique,count)).T
+        return sk_cat
 
 
         
@@ -5382,13 +5384,24 @@ class Teach:
         if self.institution  == 'School':
             pass
         elif self.institution == 'SSC':
+#1. Look for cache of weak areas for subject and class, get all the
+# that have been taken at-least once. If sum of all tests is equal
+# to all tests in cache, then just send back the data from cache.
+#2. If number of tests taken by students has increased then
+# calculate the weak areas for only new tests and then calculate
+# the overall weak areas then save it into cache
+#3. Weak areas is running for the first time, calculate all the
+# weak areas and create a cache in the database.
             try:
                 weak_cache = TeacherWeakAreasDetailCache.objects.get(teacher =
                                                                      self.profile,subject=subject,klass=klass)
-                print('found cache in weak areas')
                 average_tests = weak_cache.subjectTests
                 defence_tests = weak_cache.defenceTests
+# total_tests is the number of tests the data is based on in
+# the cache
                 total_tests = len(weak_cache.testids)
+# get the total_arr and all_total_arr to count total number of
+# new tests
                 total_arr = SSCOnlineMarks.objects.filter(test__creator =
                                                           user,test__sub =
                                                           subject,test__klas__name
@@ -5404,25 +5417,25 @@ class Teach:
                                                                   'SSCMultipleSections',test__klas__name
                                                              = klass)
                 new_test_ids = []
+# put test ids into a list from SSCOnline marks queries to
+# compare number of tests
                 for i in total_arr:
                     new_test_ids.append(i.test.id)
                 for i in all_total_arr:
                     new_test_ids.append(i.test.id)
                 new_test_ids = list(unique_everseen(new_test_ids))    
                 new_total_tests_num = len(total_arr) + len(all_total_arr)
+# compare number of new tests to number of tests in cache and
+# if they are equal then show data from cache
                 if total_tests == len(new_test_ids):
-                    print('found old weak areas cache')
                     categories = weak_cache.categories
                     accuracy = weak_cache.accuracies
                     return list(zip(categories,accuracy))
                 else:
-                    print('%s total_tests' %total_tests)
-                    print('%s newtotal_tests' %len(new_test_ids))
-                    print('not found old weak areas cache')
+# if not equal then only calulate weak areas for new tests
                     new_ids = []
                     old_ids = []
                     test_ids = weak_cache.testids
-                    print('%s test ids'%test_ids)
                     for te in new_test_ids:
                         if te not in test_ids:
                             new_ids.append(te)
@@ -5430,12 +5443,10 @@ class Teach:
                             old_ids.append(te)
                     new_ids = list(unique_everseen(new_ids))
                     old_ids = list(unique_everseen(old_ids))
-                    print('new and old ids')
-                    print(type(new_ids),new_ids)
-
+# get the new weak areas with intensity by sending only the ids
+# of new tests
                     arr =\
                     self.online_problematicAreaswithIntensityCache(user,subject,klass,new_ids)
-                    print('got back the arr')
                     quest_categories = helper_weakIntesityAverage(arr)
                     unique, counts = np.unique(quest_categories, return_counts=True)
                     waf = np.asarray((unique, counts)).T
@@ -5444,6 +5455,8 @@ class Teach:
                     average_percent = []
                     wrong_total = []
                     total_cat = []
+# below is calculation of new weak areas saved into overall
+# list
                     for i,j in waf:
                         if i in arr[:,0]:
                             ind = np.where(arr==i)
@@ -5455,16 +5468,20 @@ class Teach:
                             average_percent.append(average)
                     overall =\
                     list(zip(average_cat,average_percent,wrong_total,total_cat))
+
+# get list of cached data
                     old_cat = weak_cache.categories
                     old_acc = weak_cache.accuracies
                     old_wrong = weak_cache.wrong_total
                     old_total = weak_cache.total_total
                     old_overall =\
                     list(zip(old_cat,old_acc,old_wrong,old_total))
+                    
                     new_cat = []
                     new_accuracy = []
                     new_total_wrong = []
                     new_total_total = []
+# update the old weak areas by adding in the new weak areas
                     for i,j,k,l in old_overall:
                         for l,m,n,o in overall:
                             if i == l:
@@ -5475,6 +5492,8 @@ class Teach:
                                 new_accuracy.append(average)
                                 new_total_wrong.append(new_wrong)
                                 new_total_total.append(new_total)
+# update the old weak areas by adding categories that were
+# not originally in the cached weak areas
                     for l,m,n,o in overall:
                         if l not in old_overall[:,0]:
                             new_cat.append(l)
@@ -5489,19 +5508,10 @@ class Teach:
                     weak_cache.save()
                     return list(zip(new_cat,new_accuracy))
 
-
-
-                    
-
-
-
-
-
-
-
+# this is the normal function when no caching has already been
+# done. this doesnot include offline tests.
             except Exception as e:
                 print(str(e))
-                print('no weak areas cache')
                 arr = self.online_problematicAreaswithIntensity(user,subject,klass)
                 total_arr = SSCOnlineMarks.objects.filter(test__creator =
                                                           user,test__sub =

@@ -4,8 +4,7 @@ from .models import *
 
 class ChoiceInline(admin.TabularInline):
     model = Choices
-    extra = 1
-
+    extra = 1 
 class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
 
@@ -54,3 +53,4 @@ admin.site.register(TestDetails)
 admin.site.register(TeacherBatchWeakAreas)
 admin.site.register(TeacherWeakAreasDetailCache)
 admin.site.register(TeacherWeakAreasTimingCache)
+admin.site.register(StudentTestAnalysis)

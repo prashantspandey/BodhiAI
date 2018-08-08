@@ -180,7 +180,7 @@ class TeacherOneClickTestOneAPIView(APIView):
         testholder = TemporaryOneClickTestHolder.objects.filter(teacher= me.profile)
         if testholder:
             testholder.delete()
-        my_batches = me.my_classes_names()
+        my_batches = me.my_subjects_names()
         context = {'myBatches':my_batches}
         return Response(context)
 
@@ -188,6 +188,7 @@ class TeacherOneClickTestOneAPIView(APIView):
 class TeacherOneClickTestSubjectsAPIView(APIView):
     def post(self,request,*args,**kwargs):
         clickBatch = request.POST['oneclickbatches']
+        print('%s click batch' %clickBatch)
         me = Teach(self.request.user)
         testholder = TemporaryOneClickTestHolder.objects.filter(teacher= me.profile)
         if testholder:
