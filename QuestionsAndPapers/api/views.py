@@ -340,4 +340,55 @@ class TeacherOneClickCreateAPIView(APIView):
                 test.save()
 
 
+# For all normal create test apis
+
+class CreateTestBatchesAPIView(APIView):
+    def get(self,request,format=None):
+        user = self.request.user
+        me = Teach(user)
+        all_klasses = me.my_classes_names_cache()
+        my_batches = {'myBatches':all_klasses}
+        return Response(my_batches)
+
+class CreateTestSubjectsAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        user = self.request.user
+        me = Teach(user)
+        ttt = request.POST['batch']
+        quest = SSCquestions.objects.filter(school=
+                                            me.profile.school)
+        if len(quest)!=0:
+            unique_chapters = me.my_subjects_names()
+            test_type = 'SSC'
+            context = {'subjects':
+                       unique_chapters,'klass':ttt}
+            return Response(context)
+        else:
+            noTest = 'Not Questions for this class'
+            context = {'noTest':noTest}
+            return Response(context)
+
+
+class CreateTestChaptersAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        category_klass = request.POST['getChapters']
+        user = self.request.user
+        me = Teach(user)
+
+        split_category = category_klass.split(',')[0]
+        split_klass = category_klass.split(',')[1]
+        quest = SSCquestions.objects.filter(section_category =
+                                            split_category,school
+                                            =me.profile.school)
+        all_categories = []
+        for i in quest:
+            all_categories.append(i.topic_category)
+        all_categories = list(unique_everseen(all_categories))
+        all_categories = \
+        me.change_topicNumbersNames(all_categories,split_category)
+        all_categories.sort()
+        context = \
+                {'chapters':all_categories,'klass':split_klass,'subject':split_category}
+        return Response(context)
+
 

@@ -13,4 +13,8 @@ urlpatterns = [
     url(r'teacher_one_click_subject/$',views.TeacherOneClickTestSubjectsAPIView.as_view(),name='OneClickSubjects'),
     url(r'teacher_one_click_chapters/$',views.TeacherOneClickTestChaptersAPIView.as_view(),name='OneClickChapters'),
     url(r'teacher_one_click_create/$',views.TeacherOneClickCreateAPIView.as_view(),name='OneClickCreate'),
+    # Normal create test apis
+    url(r'teacher_create_test_batches/$',views.CreateTestBatchesAPIView.as_view(),name='CreateTestBatches'),
+    url(r'teacher_create_test_subjects/$',views.CreateTestSubjectsAPIView.as_view(),name='CreateTestSubjects'),
+    url(r'teacher_create_test_chapters/$',views.CreateTestChaptersAPIView.as_view(),name='CreateTestChapters'),
 ]

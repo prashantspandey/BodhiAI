@@ -44,6 +44,7 @@ def create_test(request):
             pass
 
         ttt = request.GET['klass_test']
+        print(ttt)
         quest = SSCquestions.objects.filter(school=
                                             me.profile.school)
         print('%s qustion' %len(quest))
@@ -61,6 +62,7 @@ def create_test(request):
         render(request,'questions/klass_available.html',context)
     if 'category_test' in request.GET:
         category_klass = request.GET['category_test']
+        print(category_klass)
         split_category = category_klass.split(',')[0]
         split_klass = category_klass.split(',')[1]
         quest = SSCquestions.objects.filter(section_category =
@@ -308,6 +310,7 @@ def oneclick_test(request):
         if 'oneclicktopicsnum' in request.GET:
             topicnumber = request.GET.getlist('oneclicktopicsnum');
             print('%s third one click ' %topicnumber)
+            print(type(topicnumber))
             tnum = str(topicnumber).split('and')[0]
             tnum = tnum.replace('[','')
             tnum = tnum.replace('\'','')
