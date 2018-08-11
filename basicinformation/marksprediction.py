@@ -13,6 +13,7 @@ from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.db.models import Q
+from django.db.models.signals import post_save
 #'''
 #load pickles for data transformation and prediction (hindi)
 #'''
@@ -9700,7 +9701,11 @@ def helper_weakIntesityAverage(total_arr):
  
 
 
-
+#def checking_signals(sender, instance, created, *args, **kwargs):
+#    print('The signal is working')
+#    print(instance.student)
+#
+#post_save.connect(checking_signals, sender = SSCOnlineMarks)
 
 
 

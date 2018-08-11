@@ -610,6 +610,23 @@ class TeacherTestQuestionsAPIView(APIView):
             print(sq,freq)
 
 
+class TeacherWeakAreasDetailAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        req = request.POST['weakAreas']
+        which_class = req.split(',')[0]
+        which_sub = req.split(',')[1]
+        user = request.user
+        me = Teach(user)
+        res = \
+        me.online_problematicAreaswithIntensityAverage(user,which_sub,which_class)
+        res = me.change_topicNumbersNamesWeakAreas(res,which_sub)
+        timing,freq_timing = me.weakAreas_timing(user,which_sub,which_class)
+        timing = me.change_topicNumbersNamesWeakAreas(timing,which_sub)
+        context =\
+        {'which_class':which_class,'probAreas':res,'timing':timing}
+        return Response(context)
+
+
 
 
 #-------------------------------------------------------------------

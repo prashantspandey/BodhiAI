@@ -6,6 +6,7 @@ urlpatterns = [
     url(r'last_test_performance_teacher/$',views.LastClassTestPerformanceTeacherAPI.as_view(),name='last_performance_teacher'),
     url(r'teacher_weak_areas_brief/$',views.TeacherWeakAreasBrief.as_view(),name='teacher_weak_areas_brief'),
     url(r'teacher_weak_areas_brief_android/$',views.TeacherWeakAreasBriefAndroid.as_view(),name='teacher_weak_areas_brief_Android'),
+    url(r'teacher_weak_areas_detail/$',views.TeacherWeakAreasDetailAPIView.as_view(),name='TeacherWeakAreasDetailAPI'),
     url(r'teacher_tests_overview/$',views.TeacherTestsOverview.as_view(),name='teacher_tests_overview'),
     url(r'teacher_tests_overview_android/$',views.TeacherTestsOverviewAndroid.as_view(),name='teacher_tests_overview_Android'),
     url(r'teacher_hard_questions/$',views.TeachersHardQuestionsAPIView.as_view(),name='TeacherHardQuestions'),

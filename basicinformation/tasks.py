@@ -14,6 +14,8 @@ import numpy as np
 from .views import * 
 import pickle
 import json
+from django.db.models.signals import post_save
+
 
 @shared_task
 def bring_teacher_subjects_analysis(user_id):
@@ -1485,4 +1487,8 @@ def TeacherHardQuestionsLast3TestsAsync(user_id):
                 except:
                     pass
     return all_questions[::-1]
+
+
+#_--------------------------------------------------------------------------------------------
+
 
