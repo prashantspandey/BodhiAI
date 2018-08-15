@@ -949,7 +949,7 @@ class Studs:
         kl = self.profile.klass
         all_tests = SSCKlassTest.objects.filter(creator = teacher.teacheruser,klas = kl)
         for i in all_tests:
-            i.testTaker.add(self.profile)
+            i.testTakers.add(self.profile)
 
 
 # return all tests that are not taken by the student to be shown on home page
