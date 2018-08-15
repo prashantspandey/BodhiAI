@@ -299,7 +299,8 @@ def home(request):
 
         if user.groups.filter(name='Students').exists():
             #storage = messages.get_messages(request)
-            #me = Studs(request.user)
+            me = Studs(request.user)
+            me.allOnlinetests()
 
             ## if B2C customer then add tests  to profile
             #if me.profile.school.name == 'BodhiAI':
