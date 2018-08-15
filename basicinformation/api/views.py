@@ -39,6 +39,15 @@ class StudentDetailAPIView(APIView):
         {'username':username,'email':email,'firstName':first_name,'school':school_name,'subjects':subjects}
         return Response(my_details)
 
+#----------------------------------------------------------------------------------------
+# Find out if student of teacher
+class TeacherorStudentAPIView(APIView):
+    def get(self,request,format = None):
+        user = self.request.user
+        user_type =user.groups.all()[0]
+        user_type = user_type.name
+        context = {'userType':user_type}
+        return Response(context)
 # ALL TEACHER APIs
 
 #----------------------------------------------------------------------------------------
@@ -107,7 +116,6 @@ class TeacherWeakAreasBrief(APIView):
             for sub in subjects:
                 for i in klasses:
                     try:
-                        print('%s this is i' %i)
                         weak_links[i]= \
                         me.online_problematicAreasNames(self.request.user,sub,i)
                         kk = me.online_problematicAreasNames(self.request.user,sub,i)

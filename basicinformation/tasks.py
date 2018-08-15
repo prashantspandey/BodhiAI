@@ -1004,15 +1004,18 @@ def Teacher_Classes(user_id):
     user = User.objects.get(id = user_id)
     me = Teach(user)
     klasses = me.my_classes_names()
-    for kl in klasses:
-        try:
-            dc = TeacherClasses.objects.get(teacher = me.profile,klass=kl)
-        except:
-            database_class = TeacherClasses()
-            database_class.numStudents = 0
-            database_class.klass = kl
-            database_class.teacher = me.profile
-            database_class.save()
+    if len(klasses) != None:
+        for kl in klasses:
+            try:
+                dc = TeacherClasses.objects.get(teacher = me.profile,klass=kl)
+                print('found the classes')
+            except:
+                database_class = TeacherClasses()
+                database_class.numStudents = 0
+                database_class.klass = kl
+                database_class.teacher = me.profile
+                database_class.save()
+                print('class not found but saved in database')
 
 
 @shared_task

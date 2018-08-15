@@ -31,6 +31,7 @@ class RegisterForm(UserCreationForm):
         user.email = self.cleaned_data['email']
         try:
             course = kwargs.get('course')
+            print('{} this is the real course'.format(course))
             print('found course')
         except:
             course = None
@@ -39,7 +40,9 @@ class RegisterForm(UserCreationForm):
             user.save()
             gr = Group.objects.get(name='Students')
             gr.user_set.add(user)
+            print('{} this is the real course'.format(course))
             if course == None:
+                print('course is non')
                 school = School.objects.get(name='BodhiAI')
                 cl = klass.objects.get(school__name='BodhiAI')
                 stu = Student(studentuser=user, klass=cl,
@@ -65,6 +68,9 @@ class RegisterForm(UserCreationForm):
                 else:
                     print('Course is  none')
             elif str(course).lower() == 'siel':
+                return user
+            elif str(course).lower() == 'jen':
+                print('returning from jen save')
                 return user
             else:
                 pass

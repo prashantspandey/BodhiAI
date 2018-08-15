@@ -161,6 +161,14 @@ def studentInformation(request):
                         confirmation.save()
                         mail_at =\
                         signup_mail.delay(user.email,user.first_name,institute='SIEL')
+                    elif code.lower() == "jen":
+                        school = School.objects.get(name="JEN")
+                        confirmation.school = school
+                        confirmation.name = user.first_name
+                        confirmation.phone = phone
+                        confirmation.save()
+                        mail_at =\
+                        signup_mail.delay(user.email,user.first_name,institute='JEN')
                     else:
                         return HttpResponseRedirect(reverse('basic:home'))
                     logout(request)
@@ -210,9 +218,17 @@ def teacher_confirmation(request):
         except:
             return HttpResponse('Either student is already registered or there\
                                 was some error.')
-        subenglish = Subject(name='English',student = stud,teacher =
+        print('in locopilit {}'.format(str(confirmation.school).strip()))
+        if confirmation.school == "SIEL":
+            subenglish = Subject(name='English',student = stud,teacher =
                              me.profile)
-        subenglish.save()
+            subenglish.save()
+        elif str(confirmation.school).strip() == "JEN":
+            print('creating subject for JEN coaching')
+            print(me.profile)
+            subLocoPilot = Subject(name="Locopilot",student=stud,teacher=me.profile)
+            subLocoPilot.save()
+            print('subLocoPilot_saved')
         return HttpResponseRedirect(reverse('basic:addStudents'))
     else:
         return HttpResponse('Please choose a batch for student')
@@ -380,12 +396,15 @@ def home(request):
                     klasses.append(kl.klass)
             else:
                 klasses = me.my_classes_names()
-                for kl in klasses:
-                    new_teach_klass = TeacherClasses()
-                    new_teach_klass.teacher = me.profile
-                    new_teach_klass.klass = kl
-                    new_teach_klass.numStudents = 0
-                    new_teach_klass.save()
+                try:
+                    for kl in klasses:
+                        new_teach_klass = TeacherClasses()
+                        new_teach_klass.teacher = me.profile
+                        new_teach_klass.klass = kl
+                        new_teach_klass.numStudents = 0
+                        new_teach_klass.save()
+                except:
+                    klasses = []
 
 
             #weak_ar = teacher_home_weak_areas.delay(user.id)

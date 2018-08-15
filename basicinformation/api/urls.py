@@ -2,6 +2,7 @@ from django.conf.urls import url
 from basicinformation.api import views
 urlpatterns = [
     url(r'^$',views.StudentListAPIView.as_view(),name='studentList'),
+    url(r'user_type/$',views.TeacherorStudentAPIView.as_view(),name='UserType'),
     url(r'student_info/$',views.StudentDetailAPIView.as_view(),name='studentInfo'),
     url(r'last_test_performance_teacher/$',views.LastClassTestPerformanceTeacherAPI.as_view(),name='last_performance_teacher'),
     url(r'teacher_weak_areas_brief/$',views.TeacherWeakAreasBrief.as_view(),name='teacher_weak_areas_brief'),
