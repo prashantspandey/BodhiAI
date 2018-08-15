@@ -4254,7 +4254,6 @@ class Studs:
 
     # for locopilot
         if subject == 'ElectricalLocoPilot':
-            for i in arr:
                 if i == '1.1':
                     return 'चालक,अचालक एवं कुचालक'
                 if i == '2.1':
