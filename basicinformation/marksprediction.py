@@ -747,6 +747,7 @@ class Studs:
     def __init__(self, user):
         self.profile = user.student
         self.institution = self.profile.school.category
+        self.school = self.profile.school.name
 
 
     def get_dob(self):
@@ -948,6 +949,7 @@ class Studs:
 # return all tests that are not taken by the student to be shown on home page
 
     def allOnlinetests(self,schoolName = None,klas = None):
+        print(schoolName)
         if schoolName is None:
             schoolName = 'BodhiAI'
         if self.profile.school.category == 'School':
