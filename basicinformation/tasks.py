@@ -679,10 +679,10 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/swami_reasoning/'+sh,error_bad_lines=False )
+                pd.read_csv('/app/question_data/jen_content/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/swami_reasoning/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/jen_content/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
@@ -702,14 +702,14 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                 direction = df['Direction']
             except:
                 direction = len(optD) * ['None']
-            used_for = len(optD)*['SSCReasoning']
+            used_for = len(optD)*['LOCOPILOT_ELECTRICAL']
             lang = df['lang']
-            source = len(used_for)*['RakeshYadav']
+            source = len(used_for)*['JEN']
             if onlyImage:
                 images = df['QuestionLink']
             else:
                 quest_text = df['Question']
-            sectionType = len(lang)*['Reasoning']
+            sectionType = len(lang)*['locopilot_electrical']
             #direction = df['Direction']
 
             if explanation_quest:
@@ -845,6 +845,8 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
             new_questions.section_category = 'ChemistryIITJEE11'
         elif sectionType == 'jeeChemistry12':
             new_questions.section_category = 'ChemistryIITJEE12'
+        elif sectionType == 'locopilot_electrical':
+            new_questions.section_category = 'ElectricalLocoPilot'
 
 
 

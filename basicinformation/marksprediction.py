@@ -783,7 +783,7 @@ class Studs:
         test4 = subjects.test4
         testpredhhy = subjects.predicted_hy
 
-        return test1,test2,test3,testhy,test4,testpredhy        
+        return test1,test2,test3,testhy,test4,testpredhy
 
 
     def hindi_3testhyprediction(self,test1, test2, test3, DOB, section):
@@ -944,7 +944,7 @@ class Studs:
             if question in test.test.sscquestions_set.all():
                 return True
 
-            
+
 # return all tests that are not taken by the student to be shown on home page
 
     def allOnlinetests(self,schoolName = None,klas = None):
@@ -954,8 +954,8 @@ class Studs:
             my_tests = KlassTest.objects.filter(testTakers=self.profile)
         elif self.profile.school.category == 'SSC':
 
-            #  adding all tests papers created by BodhiAI 
-            #for all the students who register 
+            #  adding all tests papers created by BodhiAI
+            #for all the students who register
 
             if self.profile.school.name== schoolName:
                 # gets all the questions created by BodhiAI and also gets all
@@ -981,13 +981,13 @@ class Studs:
                         pass
                     else:
                         new_tests.append(at)
-                # checks if test is legitimate 
+                # checks if test is legitimate
                 for i in new_tests:
                     if i.sub != None or i.sub != '' or i.totalTime != 0:
                         takeable_tests.append(i)
                     else:
                         pass
-                    
+
                 if schoolName == 'JITO':
                     try:
                         test_random = random.choice(takeable_tests)
@@ -1067,7 +1067,7 @@ class Studs:
         if self.institution == 'SSC':
             takenT = SSCOnlineMarks.objects.filter(student = self.profile)
             return takenT
-        
+
 
 # Tests that are not taken and return a dictionary with test with it's
 # subject,topics,number of questions and teacher name
@@ -1104,10 +1104,10 @@ class Studs:
             else:
                 return {k:new_tests[k] for k in list(new_tests)[:int(num_tests)]}
 
-            
-            
 
-       
+
+
+
 # Finds average of a test
     def online_findAverageofTest(self, test_id, percent=None):
         if percent:
@@ -1214,7 +1214,7 @@ class Studs:
         else:
             percentile = ((less_marks + (0.5 * same_marks)) / num_students)
         return percentile, all_marks
-    
+
 
     def offline_findAverageofTest(self, test_id, percent=None):
         if percent:
@@ -1245,7 +1245,7 @@ class Studs:
             return average
 
 # Finds number of right, wrong and skipped answers, also finds accuracy in a
-# test    
+# test
     def test_statistics(self,testid):
         if self.institution == 'Schoool':
             pass
@@ -1265,7 +1265,7 @@ class Studs:
                 for sp in marks.skippedAnswers:
                     skipped_answers += 1
             # finds accuracy on the basis of counting done above
-                try: 
+                try:
                     accuracy = ((right_answers)/(right_answers+wrong_answers))*100
                 except Exception as e:
                     accuracy = 0
@@ -1289,7 +1289,7 @@ class Studs:
                 for sp in marks.skippedAnswers:
                     skipped_answers += 1
             # finds accuracy on the basis of counting done above
-                try: 
+                try:
                     accuracy = ((right_answers)/(right_answers+wrong_answers))*100
                 except Exception as e:
                     accuracy = 0
@@ -1465,7 +1465,7 @@ class Studs:
             return sub_accuracy
 
 # Finds the overall weak topics of a student,else if singleTest is true then
-# finds weak topics of single  test 
+# finds weak topics of single  test
 
     def weakAreas(self,subject,singleTest = None):
         if self.institution == 'School':
@@ -1585,7 +1585,7 @@ class Studs:
         unique, counts = np.unique(wq, return_counts=True)
         waf = np.asarray((unique, counts)).T
         nw_ind = []
-        # sorts the list 
+        # sorts the list
         kk = np.sort(waf,0)[::-1]
         for u in kk[:,1]:
             for z,w in waf:
@@ -1599,7 +1599,7 @@ class Studs:
         return final_freq
 
 
-        
+
 # Finds the weak topic intensity, i.e. returns a list with topic name and
 # number of wrong questions
     def weakAreas_Intensity(self,subject,singleTest = None):
@@ -1611,7 +1611,7 @@ class Studs:
             catCategory = []
         anal = []
         num = []
-        for u,k in arr: 
+        for u,k in arr:
             if self.institution == 'School':
                 qu = Questions.objects.get(id = u)
             elif self.institution == 'SSC':
@@ -1673,7 +1673,7 @@ class Studs:
                     except Exception as e:
                         print(str(e))
                         continue
-                    all_ids.append(quest.topic_category) 
+                    all_ids.append(quest.topic_category)
                 for sk in mark.skippedAnswers:
                     try:
                         quest = SSCquestions.objects.get(id = sk)
@@ -1691,7 +1691,7 @@ class Studs:
                             print(str(e))
                             continue
                         if quest.section_category == subject:
-                            all_ids.append(quest.topic_category) 
+                            all_ids.append(quest.topic_category)
                     for sk in mark.skippedAnswers:
                         try:
                             quest = SSCquestions.objects.get(id = sk)
@@ -1708,7 +1708,7 @@ class Studs:
                         except Exception as e:
                             print(str(e))
                             continue
-                        all_ids.append(quest.topic_category) 
+                        all_ids.append(quest.topic_category)
                     for sk in mark.skippedAnswers:
                         try:
                             quest = SSCquestions.objects.get(id = sk)
@@ -1725,7 +1725,7 @@ class Studs:
                             print(str(e))
                             continue
                         if quest.section_category == subject:
-                            all_ids.append(quest.topic_category) 
+                            all_ids.append(quest.topic_category)
                     for sk in mark.skippedAnswers:
                         try:
                             quest = SSCquestions.objects.get(id = sk)
@@ -1766,7 +1766,7 @@ class Studs:
                 qu = Questions.objects.get(id = u)
             elif self.institution == 'SSC':
                 qu = SSCquestions.objects.get(id = u)
-            
+
             category = qu.topic_category
             anal.append(category)
             num.append(k)
@@ -1963,7 +1963,7 @@ class Studs:
         unique, counts = np.unique(wq, return_counts=True)
         waf = np.asarray((unique, counts)).T
         nw_ind = []
-        # sorts the list 
+        # sorts the list
         kk = np.sort(waf,0)[::-1]
         for u in kk[:,1]:
             for z,w in waf:
@@ -1985,7 +1985,7 @@ class Studs:
             catCategory = []
         anal = []
         num = []
-        for u,k in arr: 
+        for u,k in arr:
             if self.institution == 'School':
                 qu = Questions.objects.get(id = u)
             elif self.institution == 'SSC':
@@ -2038,7 +2038,7 @@ class Studs:
                     except Exception as e:
                         print(str(e))
                         continue
-                    all_ids.append(quest.topic_category) 
+                    all_ids.append(quest.topic_category)
                 for sk in mark.skippedAnswers:
                     try:
                         quest = SSCquestions.objects.get(id = sk)
@@ -2056,7 +2056,7 @@ class Studs:
                             print(str(e))
                             continue
                         if quest.section_category == subject:
-                            all_ids.append(quest.topic_category) 
+                            all_ids.append(quest.topic_category)
                     for sk in mark.skippedAnswers:
                         try:
                             quest = SSCquestions.objects.get(id = sk)
@@ -2097,7 +2097,7 @@ class Studs:
                                                            'SSCMultipleSections',student=self.profile)
 
         teacher_name = {}
-        subject_marks = {} 
+        subject_marks = {}
         if all_subjects:
             subjects = all_subjects
         for sub in subjects:
@@ -2170,7 +2170,7 @@ class Studs:
                     subject_marks =\
                             {'subject':sub,'marks':multiple_one_marks,'time':multiple_time}
                     #prev_performance.append(subject_marks)
-                    
+
 
         return prev_performance
 
@@ -2529,7 +2529,7 @@ class Studs:
                    timing.append(j)
             return list(zip(namedarr,timing))
 
-# categories for GroupX 
+# categories for GroupX
 
         if subject == 'Defence-English':
             for i,j in arr:
@@ -2990,6 +2990,71 @@ class Studs:
 
             return list(zip(namedarr,timing))
 
+        if subject == 'ElectricalLocoPilot':
+            for i,j in arr:
+                if i == '1.1':
+                    namedarr.append('चालक,अचालक एवं कुचालक')
+                    timing.append(j)
+                if i == '2.1':
+                    namedarr.append('बेसिक इलेक्ट्रिकल')
+                    timing.append(j)
+                if i == '3.1':
+                    namedarr.append('विद्युत सेल')
+                    timing.append(j)
+                if i == '4.1':
+                    namedarr.append('संधारित्र')
+                    timing.append(j)
+                if i == '5.1':
+                    namedarr.append('चुम्बक')
+                    timing.append(j)
+                if i == '6.1':
+                    namedarr.append('डी.सी.जनित्र')
+                    timing.append(j)
+                if i == '7.1':
+                    namedarr.append('डी.सी.मोटर')
+                    timing.append(j)
+                if i == '8.1':
+                    namedarr.append('ए.सी थ्योरी')
+                    timing.append(j)
+                if i == '9.1':
+                    namedarr.append('भू-सम्पर्कन')
+                    timing.append(j)
+                if i == '10.1':
+                    namedarr.append('विद्युय वायरिंग')
+                    timing.append(j)
+                if i == '11.1':
+                    namedarr.append('विद्युत मापक यंत्र')
+                    timing.append(j)
+                if i == '12.1':
+                    namedarr.append('ट्रांसफार्मर')
+                    timing.append(j)
+                if i == '13.1':
+                    namedarr.append('प्रत्यावर्तक')
+                    timing.append(j)
+                if i == '14.1':
+                    namedarr.append('तुल्यकालिक प्रेरण')
+                    timing.append(j)
+                if i == '15.1':
+                    namedarr.append('ए.सी. मोटर')
+                    timing.append(j)
+                if i == '16.1':
+                    namedarr.append('वाइंडिंग')
+                    timing.append(j)
+                if i == '17.1':
+                    namedarr.append('विद्युत उत्पादन,ट्रांसमिशन एवं वितरण')
+                    timing.append(j)
+                if i == '18.1':
+                    namedarr.append('प्रदीप्ति')
+                    timing.append(j)
+                if i == '19.1':
+                    namedarr.append('इलेक्ट्रिक्स')
+                    timing.append(j)
+                if i == '20.1':
+                    namedarr.append('व्यावसायिक एवं सावधानियां')
+                    timing.append(j)
+
+            return list(zip(namedarr,timing))
+
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
             for i,j in arr:
@@ -3199,7 +3264,7 @@ class Studs:
                     namedarr.append('Quadratic Equations')
                 elif i == '23.1':
                     namedarr.append('Data Sufficiency')
-            return namedarr 
+            return namedarr
         if subject == 'General-Knowledge':
             for i in arr:
                 if i == '1.1':
@@ -3583,6 +3648,52 @@ class Studs:
                 if i == '1.1':
                     namedarr.append('All Categories')
             return namedarr
+# for locopilot subjects
+        if subject == 'ElectricalLocoPilot':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('चालक,अचालक एवं कुचालक')
+                if i == '2.1':
+                    namedarr.append('बेसिक इलेक्ट्रिकल')
+                if i == '3.1':
+                    namedarr.append('विद्युत सेल')
+                if i == '4.1':
+                    namedarr.append('संधारित्र')
+                if i == '5.1':
+                    namedarr.append('चुम्बक')
+                if i == '6.1':
+                    namedarr.append('डी.सी.जनित्र')
+                if i == '7.1':
+                    namedarr.append('डी.सी.मोटर')
+                if i == '8.1':
+                    namedarr.append('ए.सी थ्योरी')
+                if i == '9.1':
+                    namedarr.append('भू-सम्पर्कन')
+                if i == '10.1':
+                    namedarr.append('विद्युय वायरिंग')
+                if i == '11.1':
+                    namedarr.append('विद्युत मापक यंत्र')
+                if i == '12.1':
+                    namedarr.append('ट्रांसफार्मर')
+                if i == '13.1':
+                    namedarr.append('प्रत्यावर्तक')
+                if i == '14.1':
+                    namedarr.append('तुल्यकालिक प्रेरण')
+                if i == '15.1':
+                    namedarr.append('ए.सी. मोटर')
+                if i == '16.1':
+                    namedarr.append('वाइंडिंग')
+                if i == '17.1':
+                    namedarr.append('विद्युत उत्पादन,ट्रांसमिशन एवं वितरण')
+                if i == '18.1':
+                    namedarr.append('प्रदीप्ति')
+                if i == '19.1':
+                    namedarr.append('इलेक्ट्रिक्स')
+                if i == '20.1':
+                    namedarr.append('व्यावसायिक एवं सावधानियां')
+
+            return namedarr
+
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
             for i in arr:
@@ -4040,7 +4151,7 @@ class Studs:
                 if i == '1.6':
                     return 'Basic Computer Operation'
                 if i == '1.7':
-                    return 'General Knowledge' 
+                    return 'General Knowledge'
 
 
 
@@ -4141,6 +4252,52 @@ class Studs:
                 if i == '1.1':
                     return 'All Categories'
 
+    # for locopilot
+        if subject == 'ElectricalLocoPilot':
+            for i in arr:
+                if i == '1.1':
+                    return 'चालक,अचालक एवं कुचालक'
+                if i == '2.1':
+                    return 'बेसिक इलेक्ट्रिकल'
+                if i == '3.1':
+                    return 'विद्युत सेल'
+                if i == '4.1':
+                    return 'संधारित्र'
+                if i == '5.1':
+                    return 'चुम्बक'
+                if i == '6.1':
+                    return 'डी.सी.जनित्र'
+                if i == '7.1':
+                    return 'डी.सी.मोटर'
+                if i == '8.1':
+                    return 'ए.सी थ्योरी'
+                if i == '9.1':
+                    return 'भू-सम्पर्कन'
+                if i == '10.1':
+                    return 'विद्युय वायरिंग'
+                if i == '11.1':
+                    return 'विद्युत मापक यंत्र'
+                if i == '12.1':
+                    return 'ट्रांसफार्मर'
+                if i == '13.1':
+                    return 'प्रत्यावर्तक'
+                if i == '14.1':
+                    return 'तुल्यकालिक प्रेरण'
+                if i == '15.1':
+                    return 'ए.सी. मोटर'
+                if i == '16.1':
+                    return 'वाइंडिंग'
+                if i == '17.1':
+                    return 'विद्युत उत्पादन,ट्रांसमिशन एवं वितरण'
+                if i == '18.1':
+                    return 'प्रदीप्ति'
+                if i == '19.1':
+                    return 'इलेक्ट्रिक्स'
+                if i == '20.1':
+                    return 'व्यावसायिक एवं सावधानियां'
+
+
+
 # for knimbus students
         if subject == 'Design and analysis of algorithm':
                 if i == '1.1':
@@ -4185,11 +4342,11 @@ class Studs:
                     for j,k in enumerate(marks):
                         if j == len(marks)-1:
                             break
-                        this = (k.marks/k.test.max_marks)*100 
+                        this = (k.marks/k.test.max_marks)*100
                         that = marks[j+1]
                         that = (that.marks/that.test.max_marks)*100
                         diff = that-this
-                        this_time = k.testTaken 
+                        this_time = k.testTaken
                         that_time = marks[j+1]
                         that_time = that_time.testTaken
                         time_diff = that_time - this_time
@@ -4205,7 +4362,7 @@ class Studs:
             #        for j,k in enumerate(mixed_marks):
             #            if j == len(mixed_marks)-1:
             #                break
-            #            this = (k.marks/k.test.max_marks)*100 
+            #            this = (k.marks/k.test.max_marks)*100
             #            that = marks[j+1]
             #            that = (that.marks/that.test.max_marks)*100
             #            diff = that-this
@@ -4300,11 +4457,11 @@ class Studs:
                 another_dict[i] = {'dic':name}
             final_accuracy = np.array(final_accuracy)
             return another_dict
-                   
 
-            
 
-                  
+
+
+
 
 
 
@@ -4324,7 +4481,7 @@ class Studs:
                 mixed_marks = SSCOnlineMarks.objects.filter(student=
                                                         self.profile,test__sub
                                                         ='SSCMultipleSections').order_by('id')
-            # get all the categories of questions that student has taken 
+            # get all the categories of questions that student has taken
             all_categories = []
             if len(marks) > 1:
                 all_answers = []
@@ -4478,7 +4635,7 @@ class Studs:
         return sk_cat
 
 
-        
+
 
 
 class Teach:
@@ -4967,7 +5124,7 @@ class Teach:
                 grade_a +=1
             elif 90 <= math.ceil(marks) <= 100:
                 grade_s +=1
-        return grade_s,grade_a,grade_b,grade_c,grade_d,grade_e,grade_f 
+        return grade_s,grade_a,grade_b,grade_c,grade_d,grade_e,grade_f
 
     def online_QuestionPercentage(self, test_id):
         if self.institution == 'School':
@@ -4993,7 +5150,7 @@ class Teach:
         freq = np.asarray((unique, counts)).T
         return freq
 
-   
+
 
 
 
@@ -5012,7 +5169,7 @@ class Teach:
         unique, counts = np.unique(skipped_questions, return_counts=True)
         sq = np.asarray((unique, counts)).T
         return sq
-        
+
     def online_problematicAreasperTest(self,test_id):
         if self.institution == 'School':
             online_marks = OnlineMarks.objects.filter(test__id = test_id)
@@ -5140,7 +5297,7 @@ class Teach:
                 for wa in om.wrongAnswers:
                     wrong_answers.append(wa)
                 for sp in om.skippedAnswers:
-                    skipped_answers.append(sp) 
+                    skipped_answers.append(sp)
 
         wq = []
         for i in wrong_answers:
@@ -5214,7 +5371,7 @@ class Teach:
         return waf
 
 
-        
+
 
     def online_problematicAreas(self,user,subject,klass,api=None):
         if self.institution == 'School':
@@ -5252,9 +5409,9 @@ class Teach:
                 for wa in om.wrongAnswers:
                     wrong_answers.append(wa)
                 for sp in om.skippedAnswers:
-                    skipped_answers.append(sp) 
-            
-            
+                    skipped_answers.append(sp)
+
+
         if all_onlineMarks:
             for om in all_onlineMarks:
                 for wa in om.wrongAnswers:
@@ -5266,7 +5423,7 @@ class Teach:
                 for wa in om.wrongAnswers:
                     wrong_answers.append(wa)
                 for sp in om.skippedAnswers:
-                    skipped_answers.append(sp) 
+                    skipped_answers.append(sp)
         if all_offlinemarks:
             for om in all_offlinemarks:
                 for wa in om.wrongAnswers:
@@ -5320,7 +5477,7 @@ class Teach:
         final_freq = np.asarray((nw_ind,kk[:,1])).T
         print('%s final freq' %final_freq)
         return final_freq
-        
+
     def online_problematicAreasNames(self,user,subject,klass):
         arr = self.online_problematicAreas(user.id,subject,klass)
 
@@ -5406,7 +5563,7 @@ class Teach:
                 total_arr = SSCOnlineMarks.objects.filter(test__creator =
                                                           user,test__sub =
                                                           subject,test__klas__name
-                                                         = klass) 
+                                                         = klass)
                 if 'Defence' in subject:
                     all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
                                                                   user,test__sub=
@@ -5424,7 +5581,7 @@ class Teach:
                     new_test_ids.append(i.test.id)
                 for i in all_total_arr:
                     new_test_ids.append(i.test.id)
-                new_test_ids = list(unique_everseen(new_test_ids))    
+                new_test_ids = list(unique_everseen(new_test_ids))
                 new_total_tests_num = len(total_arr) + len(all_total_arr)
 # compare number of new tests to number of tests in cache and
 # if they are equal then show data from cache
@@ -5477,7 +5634,7 @@ class Teach:
                     old_total = weak_cache.total_total
                     old_overall =\
                     list(zip(old_cat,old_acc,old_wrong,old_total))
-                    
+
                     new_cat = []
                     new_accuracy = []
                     new_total_wrong = []
@@ -5517,7 +5674,7 @@ class Teach:
                 total_arr = SSCOnlineMarks.objects.filter(test__creator =
                                                           user,test__sub =
                                                           subject,test__klas__name
-                                                         = klass) 
+                                                         = klass)
                 if 'Defence' in subject:
                     all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
                                                                   user,test__sub=
@@ -5543,7 +5700,7 @@ class Teach:
                         te_ids.append(j.test.id)
                 te_ids = list(unique_everseen(te_ids))
                 quest_categories = helper_weakIntesityAverage(overall)
-                 
+
 
                 unique, counts = np.unique(quest_categories, return_counts=True)
                 waf = np.asarray((unique, counts)).T
@@ -5809,7 +5966,7 @@ class Teach:
             #wrong_answers = 0
             #skipped_answers = 0
         # counts number of right,wrong and skipped answers
-     
+
         rank = self.find_classRank(scores)
         result =\
         list(zip(names,totalMarks,scores,rank,percentage,numCorrect,numIncorrect,numSkipped))
@@ -5826,7 +5983,7 @@ class Teach:
         rank_table.numSkipped = numSkipped
         rank_table.rank = rank
         rank_table.save()
-        
+
     def combine_rankTable(self,result):
         names = result.names
         totalMarks = result.totalMarks
@@ -6166,7 +6323,7 @@ class Teach:
                     names.append('Volume')
                     numbers.append(i)
 
- 
+
             changed = list(zip(names,numbers))
             return changed
         if subject == 'General-Knowledge':
@@ -6256,7 +6413,7 @@ class Teach:
                     numbers.append(i)
             changed = list(zip(names,numbers))
             return changed
-# categories for GroupX 
+# categories for GroupX
 
         if subject == 'Defence-English':
             for i in arr:
@@ -6719,6 +6876,73 @@ class Teach:
                     names.append('All Categories')
                     numbers.append(i)
             return list(zip(names,numbers))
+# for locopilot
+        if subject == 'ElectricalLocoPilot':
+            for i in arr:
+                if i == '1.1':
+                    names.append('चालक,अचालक एवं कुचालक')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('बेसिक इलेक्ट्रिकल')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('विद्युत सेल')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('संधारित्र')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('चुम्बक')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('डी.सी.जनित्र')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('डी.सी.मोटर')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('ए.सी थ्योरी')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('भू-सम्पर्कन')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('विद्युय वायरिंग')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('विद्युत मापक यंत्र')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('ट्रांसफार्मर')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('प्रत्यावर्तक')
+                    numbers.append(i)
+                if i == '14.1':
+                    names.append('तुल्यकालिक प्रेरण')
+                    numbers.append(i)
+                if i == '15.1':
+                    names.append('ए.सी. मोटर')
+                    numbers.append(i)
+                if i == '16.1':
+                    names.append('वाइंडिंग')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('विद्युत उत्पादन,ट्रांसमिशन एवं वितरण')
+                    numbers.append(i)
+                if i == '18.1':
+                    names.append('प्रदीप्ति')
+                    numbers.append(i)
+                if i == '19.1':
+                    names.append('इलेक्ट्रिक्स')
+                    numbers.append(i)
+                if i == '20.1':
+                    names.append('व्यावसायिक एवं सावधानियां')
+                    numbers.append(i)
+            print(list(zip(names,numbers)))
+            return list(zip(names,numbers))
+
+
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
             for i in arr:
@@ -6737,8 +6961,8 @@ class Teach:
             return list(zip(names,numbers))
 
 
-    
-    
+
+
     def change_topicNumbersNamesWeakAreas(self,arr,subject):
         names = []
         numbers = []
@@ -7093,7 +7317,7 @@ class Teach:
                     numbers.append(i)
             changed = list(zip(names,numbers))
             return changed
-# categories for GroupX 
+# categories for GroupX
 
         if subject == 'Defence-English':
             for i in arr:
@@ -7549,6 +7773,74 @@ class Teach:
                     numbers.append(i)
             return list(zip(names,numbers))
 
+# for locopilot subjects
+        if subject == 'ElectricalLocoPilot':
+            for i in arr:
+                if i == '1.1':
+                    names.append('चालक,अचालक एवं कुचालक')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('बेसिक इलेक्ट्रिकल')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('विद्युत सेल')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('संधारित्र')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('चुम्बक')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('डी.सी.जनित्र')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('डी.सी.मोटर')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('ए.सी थ्योरी')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('भू-सम्पर्कन')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('विद्युय वायरिंग')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('विद्युत मापक यंत्र')
+                    numbers.append(i)
+                if i == '12.1':
+                    namedarr.append('ट्रांसफार्मर')
+                    timing.append(i)
+                if i == '13.1':
+                    namedarr.append('प्रत्यावर्तक')
+                    timing.append(i)
+                if i == '14.1':
+                    namedarr.append('तुल्यकालिक प्रेरण')
+                    timing.append(i)
+                if i == '15.1':
+                    namedarr.append('ए.सी. मोटर')
+                    timing.append(i)
+                if i == '16.1':
+                    namedarr.append('वाइंडिंग')
+                    timing.append(i)
+                if i == '17.1':
+                    namedarr.append('विद्युत उत्पादन,ट्रांसमिशन एवं वितरण')
+                    timing.append(i)
+                if i == '18.1':
+                    namedarr.append('प्रदीप्ति')
+                    timing.append(i)
+                if i == '19.1':
+                    namedarr.append('इलेक्ट्रिक्स')
+                    timing.append(i)
+                if i == '20.1':
+                    namedarr.append('व्यावसायिक एवं सावधानियां')
+                    timing.append(i)
+
+            return list(zip(namedarr,timing))
+
+
+
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
             for i in arr:
@@ -7821,7 +8113,7 @@ class Teach:
                 if i == 'Polity (World)':
                     numbers.append('28.1')
             return numbers
-# categories for GroupX 
+# categories for GroupX
 
         if subject == 'Defence-English':
             for i in arr:
@@ -8138,6 +8430,71 @@ class Teach:
                 if i == 'All Categories':
                     numbers.append('1.1')
             return numbers
+
+        if subject == 'ElectricalLocoPilot':
+            for i in arr:
+                if i == 'चालक,अचालक एवं कुचालक':
+                    numbers.append('1.1')
+                if i == 'बेसिक इलेक्ट्रिकल':
+                    numbers.append('2.1')
+                if i == 'विद्युत सेल':
+                    numbers.append('3.1')
+
+                if i == 'संधारित्र':
+                    numbers.append('4.1')
+
+                if i == 'चुम्बक':
+                    numbers.append('5.1')
+
+                if i == 'डी.सी.जनित्र':
+                    numbers.append('6.1')
+
+                if i == 'डी.सी.मोटर':
+                    numbers.append('7.1')
+
+                if i == 'ए.सी थ्योरी':
+                    numbers.append('8.1')
+
+                if i == 'भू-सम्पर्कन':
+                    numbers.append('9.1')
+
+                if i == 'विद्युय वायरिंग':
+                    numbers.append('10.1')
+
+                if i == 'विद्युत मापक यंत्र':
+                    numbers.append('11.1')
+
+                if i == 'ट्रांसफार्मर':
+                    numbers.append('12.1')
+
+                if i == 'प्रत्यावर्तक':
+                    numbers.append('13.1')
+
+                if i == 'तुल्यकालिक प्रेरण':
+                    numbers.append('14.1')
+
+                if i == 'ए.सी. मोटर':
+                    numbers.append('15.1')
+
+                if i == 'वाइंडिंग':
+                    numbers.append('16.1')
+
+                if i == 'विद्युत उत्पादन,ट्रांसमिशन एवं वितरण':
+                    numbers.append('17.1')
+
+                if i == 'प्रदीप्ति':
+                    numbers.append('18.1')
+
+                if i == 'इलेक्ट्रिक्स':
+                    numbers.append('19.1')
+
+                if i == 'व्यावसायिक एवं सावधानियां':
+                    numbers.append('20.1')
+
+
+            return numbers
+
+
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
             for i in arr:
@@ -8632,7 +8989,7 @@ def change_topicNumbersNames(arr,subject):
                 numbers.append(i)
         changed = list(zip(names,numbers))
         return changed
-# categories for GroupX 
+# categories for GroupX
 
     if subject == 'Defence-English':
         for i in arr:
@@ -9095,6 +9452,72 @@ def change_topicNumbersNames(arr,subject):
                 names.append('All Categories')
                 numbers.append(i)
         return list(zip(names,numbers))
+    # for locopilot
+
+    if subject == 'ElectricalLocoPilot':
+        for i in arr:
+            if i == '1.1':
+                names.append('चालक,अचालक एवं कुचालक')
+                numbers.append(i)
+            if i == '2.1':
+                names.append('बेसिक इलेक्ट्रिकल')
+                numbers.append(i)
+            if i == '3.1':
+                names.append('विद्युत सेल')
+                numbers.append(i)
+            if i == '4.1':
+                names.append('संधारित्र')
+                numbers.append(i)
+            if i == '5.1':
+                names.append('चुम्बक')
+                numbers.append(i)
+            if i == '6.1':
+                names.append('डी.सी.जनित्र')
+                numbers.append(i)
+            if i == '7.1':
+                names.append('डी.सी.मोटर')
+                numbers.append(i)
+            if i == '8.1':
+                names.append('ए.सी थ्योरी')
+                numbers.append(i)
+            if i == '9.1':
+                names.append('भू-सम्पर्कन')
+                numbers.append(i)
+            if i == '10.1':
+                names.append('विद्युय वायरिंग')
+                numbers.append(i)
+            if i == '11.1':
+                names.append('विद्युत मापक यंत्र')
+                numbers.append(i)
+            if i == '12.1':
+                names.append('ट्रांसफार्मर')
+                numbers.append(i)
+            if i == '13.1':
+                names.append('प्रत्यावर्तक')
+                numbers.append(i)
+            if i == '14.1':
+                names.append('तुल्यकालिक प्रेरण')
+                numbers.append(i)
+            if i == '15.1':
+                names.append('ए.सी. मोटर')
+                numbers.append(i)
+            if i == '16.1':
+                names.append('वाइंडिंग')
+                numbers.append(i)
+            if i == '17.1':
+                names.append('विद्युत उत्पादन,ट्रांसमिशन एवं वितरण')
+                numbers.append(i)
+            if i == '18.1':
+                names.append('प्रदीप्ति')
+                numbers.append(i)
+            if i == '19.1':
+                names.append('इलेक्ट्रिक्स')
+                numbers.append(i)
+            if i == '20.1':
+                names.append('व्यावसायिक एवं सावधानियां')
+                numbers.append(i)
+
+        return list(zip(names,numbers))
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
             for i in arr:
@@ -9111,7 +9534,7 @@ def change_topicNumbersNames(arr,subject):
                     names.append('Greedy Method')
                     numbers.append(i)
 
-                return list(zip(names,numbers))
+            return list(zip(names,numbers))
 
 
 
@@ -9556,7 +9979,7 @@ def changeIndividualNames(i,subject):
             if i == '1.6':
                 return 'Basic Computer Operation'
             if i == '1.7':
-                return 'General Knowledge' 
+                return 'General Knowledge'
 
 
 
@@ -9656,6 +10079,52 @@ def changeIndividualNames(i,subject):
     if subject == 'ChemistryIITJEE12':
             if i == '1.1':
                 return 'All Categories'
+
+    # for locopilot
+    if subject == 'ElectricalLocoPilot':
+        for i in arr:
+            if i == '1.1':
+                return 'चालक,अचालक एवं कुचालक'
+            if i == '2.1':
+                return 'बेसिक इलेक्ट्रिकल'
+            if i == '3.1':
+                return 'विद्युत सेल'
+            if i == '4.1':
+                return 'संधारित्र'
+            if i == '5.1':
+                return 'चुम्बक'
+            if i == '6.1':
+                return 'डी.सी.जनित्र'
+            if i == '7.1':
+                return 'डी.सी.मोटर'
+            if i == '8.1':
+                return 'ए.सी थ्योरी'
+            if i == '9.1':
+                return 'भू-सम्पर्कन'
+            if i == '10.1':
+                return 'विद्युय वायरिंग'
+            if i == '11.1':
+                return 'विद्युत मापक यंत्र'
+            if i == '12.1':
+                return 'ट्रांसफार्मर'
+            if i == '13.1':
+                return 'प्रत्यावर्तक'
+            if i == '14.1':
+                return 'तुल्यकालिक प्रेरण'
+            if i == '15.1':
+                return 'ए.सी. मोटर'
+            if i == '16.1':
+                return 'वाइंडिंग'
+            if i == '17.1':
+                return 'विद्युत उत्पादन,ट्रांसमिशन एवं वितरण'
+            if i == '18.1':
+                return 'प्रदीप्ति'
+            if i == '19.1':
+                return 'इलेक्ट्रिक्स'
+            if i == '20.1':
+                return 'व्यावसायिक एवं सावधानियां'
+
+
 # or knimbus subjects
     if subject == 'Design and analysis of algorithm':
         for i in arr:
@@ -9698,7 +10167,7 @@ def helper_weakIntesityAverage(total_arr):
                         continue
                     quest_categories.append(quest.topic_category)
     return quest_categories
- 
+
 
 
 #def checking_signals(sender, instance, created, *args, **kwargs):
@@ -9706,9 +10175,3 @@ def helper_weakIntesityAverage(total_arr):
 #    print(instance.student)
 #
 #post_save.connect(checking_signals, sender = SSCOnlineMarks)
-
-
-
-
-
-
