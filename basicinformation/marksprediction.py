@@ -969,7 +969,7 @@ class Studs:
                     all_tests = SSCKlassTest.objects.filter(Q(creator__username =
                                                         schoolName)&Q(klas=klas))
                 else:
-                    all_tests = SSCKlassTest.objects.filter(creator__username =
+                    all_tests = SSCKlassTest.objects.filter(creator=
                                                         schoolName)
                 already_taken_marks =\
                 SSCOnlineMarks.objects.filter(student=self.profile)
