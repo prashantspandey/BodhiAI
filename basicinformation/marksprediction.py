@@ -947,7 +947,7 @@ class Studs:
 
     def studentOldTests(self,teacher):
         kl = self.profile.klass
-        all_tests = SSCKlassTest.objects.filter(creator = teacher,klas = kl)
+        all_tests = SSCKlassTest.objects.filter(creator = teacher.user,klas = kl)
         for i in all_tests:
             i.testTaker.add(self.profile)
 
