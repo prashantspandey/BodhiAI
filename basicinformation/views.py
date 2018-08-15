@@ -226,7 +226,7 @@ def teacher_confirmation(request):
         elif str(confirmation.school).strip() == "JEN":
             print('creating subject for JEN coaching')
             print(me.profile)
-            subLocoPilot = Subject(name="Locopilot",student=stud,teacher=me.profile)
+            subLocoPilot = Subject(name="ElectricalLocoPilot",student=stud,teacher=me.profile)
             subLocoPilot.save()
             print('subLocoPilot_saved')
         return HttpResponseRedirect(reverse('basic:addStudents'))
