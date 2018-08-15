@@ -945,11 +945,11 @@ class Studs:
             if question in test.test.sscquestions_set.all():
                 return True
 
-def studentOldTests(self,teacher):
-    kl = self.klass
-    all_tests = SSCKlassTest.objects.filter(creator = teacher,klas = kl)
-    for i in all_tests:
-        i.testTaker.add(self.profile)
+    def studentOldTests(self,teacher):
+        kl = self.klass
+        all_tests = SSCKlassTest.objects.filter(creator = teacher,klas = kl)
+        for i in all_tests:
+            i.testTaker.add(self.profile)
 
 
 # return all tests that are not taken by the student to be shown on home page
