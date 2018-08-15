@@ -301,7 +301,7 @@ def home(request):
             #storage = messages.get_messages(request)
             me = Studs(request.user)
             teacher_user = Teacher.objects.get(school__name = me.school)
-            me.allOnlinetests(schoolName=teacher_user)
+            me.studentOldTests(teacher_user)
 
             ## if B2C customer then add tests  to profile
             #if me.profile.school.name == 'BodhiAI':
