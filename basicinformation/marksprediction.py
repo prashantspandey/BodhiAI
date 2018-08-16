@@ -7839,34 +7839,34 @@ class Teach:
                     names.append('विद्युत मापक यंत्र')
                     numbers.append(i)
                 if i == '12.1':
-                    namedarr.append('ट्रांसफार्मर')
-                    timing.append(i)
+                    names.append('ट्रांसफार्मर')
+                    numbers.append(i)
                 if i == '13.1':
-                    namedarr.append('प्रत्यावर्तक')
-                    timing.append(i)
+                    names.append('प्रत्यावर्तक')
+                    numbers.append(i)
                 if i == '14.1':
-                    namedarr.append('तुल्यकालिक प्रेरण')
-                    timing.append(i)
+                    names.append('तुल्यकालिक प्रेरण')
+                    numbers.append(i)
                 if i == '15.1':
-                    namedarr.append('ए.सी. मोटर')
-                    timing.append(i)
+                    names.append('ए.सी. मोटर')
+                    numbers.append(i)
                 if i == '16.1':
-                    namedarr.append('वाइंडिंग')
-                    timing.append(i)
+                    names.append('वाइंडिंग')
+                    numbers.append(i)
                 if i == '17.1':
-                    namedarr.append('विद्युत उत्पादन,ट्रांसमिशन एवं वितरण')
-                    timing.append(i)
+                    names.append('विद्युत उत्पादन,ट्रांसमिशन एवं वितरण')
+                    numbers.append(i)
                 if i == '18.1':
-                    namedarr.append('प्रदीप्ति')
-                    timing.append(i)
+                    names.append('प्रदीप्ति')
+                    numbers.append(i)
                 if i == '19.1':
-                    namedarr.append('इलेक्ट्रिक्स')
-                    timing.append(i)
+                    names.append('इलेक्ट्रिक्स')
+                    numbers.append(i)
                 if i == '20.1':
-                    namedarr.append('व्यावसायिक एवं सावधानियां')
-                    timing.append(i)
+                    names.append('व्यावसायिक एवं सावधानियां')
+                    numbers.append(i)
 
-            return list(zip(namedarr,timing))
+            return list(zip(names,numbers))
 
 
 
