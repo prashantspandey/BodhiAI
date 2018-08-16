@@ -294,7 +294,8 @@ def home(request):
             #sheet_links2 = \
             #        ['statement_ry.csv']
             #adding_quest =\
-            add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
+            delete_allQuestions.delay("JEN")
+            #add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
             #add_questions('JEN','ElectricalLocoPilot')
             #quest_added = add_to_database_questions.delay(sheet_links,'Swami Reasoning World',onlyImage=True,production =\
             #                          True)

@@ -940,7 +940,12 @@ def delete_sectionQuestions(section,school,topic = None):
                 i.delete()
 
 
-
+@shared_task
+def delete_allQuestions(school):
+    questions = SSCquestions.objects.filter(school__name=school)
+    for i in questions:
+        i.delete()
+    print('{} questions deleted'.format(len(questions)))
 
 @shared_task
 def ai_tukka_questions(user_id):
