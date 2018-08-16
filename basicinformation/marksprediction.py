@@ -1674,6 +1674,7 @@ class Studs:
                                                                self.profile,
                                                                test__sub =
                                                                'SSCMultipleSections')
+            all_tests_cache = len(marks) + len(all_marks) 
             all_ids = []
             for mark in marks:
                 for total in mark.allAnswers:
@@ -1762,7 +1763,27 @@ class Studs:
                         average =(int(now_arr[0])/int(j)*100)
                         average_cat.append(i)
                         average_percent.append(average)
+
                 weak_average = list(zip(average_cat,average_percent))
+                try:
+                    weak_cache = StudentWeakAreasCache.objects.get(student =
+                                                                   self.profile,subject
+                                                                   = subject,
+                                                                   numTests =
+                                                                   all_tests_cache)
+                except Exception as e:
+                    print(str(e))
+                    weak_cache = StudentWeakAreasCache()
+                    weak_cache.categories = average_cat
+                    weak_cache.accuracies = average_percent
+                    weak_cache.subject = subject
+                    weak_cache.numTests = all_tests_cache
+                    weak_cache.student = self.profile
+                    weak_cache.save()
+
+
+
+
                 return weak_average
             else:
                 return 0

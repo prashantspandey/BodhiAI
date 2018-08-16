@@ -229,7 +229,26 @@ def teacher_confirmation(request):
             subLocoPilot = Subject(name="ElectricalLocoPilot",student=stud,teacher=me.profile)
             subLocoPilot.save()
             print('subLocoPilot_saved')
+        elif str(confirmation.school).strip() == "YSM":
+            print('creating subject for YSM coaching')
+            subGenInte = Subject(name="General-Intelligence",student=stud,teacher=me.profile)
+            subGenInte.save()
+            subMaths = Subject(name="Quantitative-Analysis",student=stud,teacher=me.profile)
+            subEnglish = Subject(name="English",student=stud,teacher=me.profile)
+            subGenKnow = Subject(name="General-Knowledge",student=stud,teacher=me.profile)
+            subMaths.save()
+            subEnglish.save()
+            subGenKnow.save()
+            print('4 subjects saved')
+        elif str(confirmation.school).strip() == "OJAS":
+            print('creating subject for OJAS coaching')
+            subMaths = Subject(name="Quantitative-Analysis",student=stud,teacher=me.profile)
+            subMaths.save()
+            print('math subjects saved')
+
+
         return HttpResponseRedirect(reverse('basic:addStudents'))
+
     else:
         return HttpResponse('Please choose a batch for student')
 

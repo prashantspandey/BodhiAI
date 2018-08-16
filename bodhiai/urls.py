@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^membership/', include('membership.urls')),
     url(r'^questions/',include('QuestionsAndPapers.urls')),
     url(r'^pMessages/',include('Private_Messages.urls')),
+    url(r'^recommendations/',include('Recommendations.urls')),
     url(r'^api/basicinformation/',include('basicinformation.api.urls',namespace='basic-api')),
     url(r'^api/messages/',include('Private_Messages.api.urls',namespace='message-api')),
     url(r'^api/papers/',include('QuestionsAndPapers.api.urls',namespace='paper-api')),

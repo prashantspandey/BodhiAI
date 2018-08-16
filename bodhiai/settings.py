@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth',
     'basicinformation',
+    'Recommendations',
     'membership',
     'QuestionsAndPapers',
     'Private_Messages'

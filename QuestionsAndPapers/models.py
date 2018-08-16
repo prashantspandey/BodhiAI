@@ -434,3 +434,15 @@ class StudentTestAnalysis(models.Model):
         return str(self.student) + str(self.myPercent)
 
 
+class StudentWeakAreasCache(models.Model):
+    date = models.DateField(auto_now_add= True,null=True)
+    student = models.ForeignKey(Student)
+    accuracies =ArrayField(models.FloatField(max_length = 50),null=True)
+    categories =ArrayField(models.FloatField(max_length = 50),null=True)
+    subject = models.CharField(max_length = 100)
+    numTests = models.IntegerField()
+
+    def __str__(self):
+        return str(self.student) + str(self.subject)
+    
+
