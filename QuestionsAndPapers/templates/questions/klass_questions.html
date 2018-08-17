@@ -52,10 +52,7 @@
         <img src='{{i.comprehension.picture}}' class="img-responsive"> {%endif%} {%if i.text %}
         <p id='questP'>{{i.text|linebreaks}} </p>
         {%endif%} {% if i.picture %}
-	<div id="loading_questions">
-		<img src='{%static "basicinformation/loaders/segment.gif" %}' class="img-responsive"> 
-	</div>
-	<div id="image_question">
+		<img src='{%static "basicinformation/loaders/segment.gif" %}' class="img-responsive" id="loading_questions"> 
         <img src='{{i.picture}}' class="img-responsive" id='question_image'> 	
 	{%endif%}
 
