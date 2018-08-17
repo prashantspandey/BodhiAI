@@ -226,6 +226,15 @@ def teacher_confirmation(request):
         elif str(confirmation.school).strip() == "JEN":
             print('creating subject for JEN coaching')
             print(me.profile)
+            subGenInte = Subject(name="General-Intelligence",student=stud,teacher=me.profile)
+            subGenInte.save()
+            subMaths = Subject(name="Quantitative-Analysis",student=stud,teacher=me.profile)
+            subEnglish = Subject(name="English",student=stud,teacher=me.profile)
+            subGenKnow = Subject(name="General-Knowledge",student=stud,teacher=me.profile)
+            subMaths.save()
+            subEnglish.save()
+            subGenKnow.save()
+
             subLocoPilot = Subject(name="ElectricalLocoPilot",student=stud,teacher=me.profile)
             subLocoPilot.save()
             print('subLocoPilot_saved')
