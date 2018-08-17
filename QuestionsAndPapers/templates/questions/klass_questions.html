@@ -29,7 +29,12 @@
 
 
         });
+	$('#image_question').on('load',function(){
+		$("#loading_questions").hide();
 
+
+		
+	});
 
 
     });
@@ -43,11 +48,18 @@
 	{%for i in que %}
     <div class='well col-md-offset-1 col-md-10' style="background:#FAFAFC; padding:5px; margin-top: 140px;" id='questBox'>
         {%if i.comprehension %}
+
         <img src='{{i.comprehension.picture}}' class="img-responsive"> {%endif%} {%if i.text %}
         <p id='questP'>{{i.text|linebreaks}} </p>
         {%endif%} {% if i.picture %}
-        <img src='{{i.picture}}' class="img-responsive"> {%endif%}
+	<div id="loading_questions">
+		<img src='{%static "basicinformation/loaders/segment.gif" %}' class="img-responsive"> 
+	</div>
+	<div id="image_question">
+        <img src='{{i.picture}}' class="img-responsive"> 	</div>{%endif%}
+
         <div class='hidden' id='tells_klass'>{{which_class}}</div>
+	<br>
         <div class="col-md-offset-10">
             <p>Maximum-Marks: {{i.max_marks}}</p>
             {% for tused in i.timesused_set.all %} {% if tused.teacher == user.teacher %}

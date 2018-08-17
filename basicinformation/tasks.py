@@ -925,7 +925,13 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
             else:
                 new_choices.predicament = 'Wrong'
             new_choices.save()
-
+@shared_task
+def allquestions_institute(subject,institute):
+    questions =\
+    SSCquestions.objects.filter(section_category=subject,source='SSCMaths')
+    for i in questions:
+        i.school.add(institute)
+    print('{} questions added to {}'.format(len(questions),institute))
 
 @shared_task
 def delete_sectionQuestions(section,school,topic = None):

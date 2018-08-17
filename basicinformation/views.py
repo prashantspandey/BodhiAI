@@ -304,7 +304,9 @@ def home(request):
             #        ['statement_ry.csv']
             #adding_quest =\
             #delete_allQuestions.delay("JEN")
-            add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
+            sch = School.objects.get(name='JEN')
+            allquestions_institute.delay('Quatitative-Analysis',sch)
+            #add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
             #add_questions('JEN','ElectricalLocoPilot')
             #quest_added = add_to_database_questions.delay(sheet_links,'Swami Reasoning World',onlyImage=True,production =\
             #                          True)
