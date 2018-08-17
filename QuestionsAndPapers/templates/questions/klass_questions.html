@@ -47,16 +47,7 @@
         <p id='questP'>{{i.text|linebreaks}} </p>
         {%endif%} 
 	{% if i.picture %}
-	<img src='{%static "basicinformation/loaders/segment.gif" %}' class="img-responsive" id="loading_questions"> 
         <img src='{{i.picture}}' class="img-responsive" id='question_image'> 	
-	<script>
-	$('#question_image').on('load',function(){
-		$("#loading_questions").hide();
-	});
-
-
-</script>
-
 	{%endif%}
 
         <div class='hidden' id='tells_klass'>{{which_class}}</div>
