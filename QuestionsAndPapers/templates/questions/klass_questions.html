@@ -29,15 +29,16 @@
 
 
         });
+
+    });
+
+</script>
+	<script>
 	$('#question_image').on('load',function(){
 		$("#loading_questions").hide();
-
-
-		
 	});
 
 
-    });
 </script>
 <div class="c-toolbar hidden" id="addedQuestions">
 </div>
@@ -51,8 +52,9 @@
 
         <img src='{{i.comprehension.picture}}' class="img-responsive"> {%endif%} {%if i.text %}
         <p id='questP'>{{i.text|linebreaks}} </p>
-        {%endif%} {% if i.picture %}
-		<img src='{%static "basicinformation/loaders/segment.gif" %}' class="img-responsive" id="loading_questions"> 
+        {%endif%} 
+	{% if i.picture %}
+	<img src='{%static "basicinformation/loaders/segment.gif" %}' class="img-responsive" id="loading_questions"> 
         <img src='{{i.picture}}' class="img-responsive" id='question_image'> 	
 	{%endif%}
 
