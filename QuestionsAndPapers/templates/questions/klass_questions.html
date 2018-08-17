@@ -29,7 +29,7 @@
 
 
         });
-	$('#image_question').on('load',function(){
+	$('#question_image').on('load',function(){
 		$("#loading_questions").hide();
 
 
@@ -56,7 +56,8 @@
 		<img src='{%static "basicinformation/loaders/segment.gif" %}' class="img-responsive"> 
 	</div>
 	<div id="image_question">
-        <img src='{{i.picture}}' class="img-responsive"> 	</div>{%endif%}
+        <img src='{{i.picture}}' class="img-responsive" id='question_image'> 	
+	{%endif%}
 
         <div class='hidden' id='tells_klass'>{{which_class}}</div>
 	<br>

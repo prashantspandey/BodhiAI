@@ -927,10 +927,11 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
             new_choices.save()
 @shared_task
 def allquestions_institute(subject,institute):
+    sch = School.objects.get(name=institute)
     questions =\
     SSCquestions.objects.filter(section_category=subject,source='SSCMaths')
     for i in questions:
-        i.school.add(institute)
+        i.school.add(sch)
     print('{} questions added to {}'.format(len(questions),institute))
 
 @shared_task
