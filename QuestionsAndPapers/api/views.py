@@ -391,4 +391,17 @@ class CreateTestChaptersAPIView(APIView):
                 {'chapters':all_categories,'klass':split_klass,'subject':split_category}
         return Response(context)
 
+class CreateTestQuestionsAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Teach(self.request.user)
+        which_chap = request.POST['chapter_test']
+        questions_list = []
+        splitChap = which_chap.split(",")[0]
+        splitClass = which_chap.split(",")[1]
+        splitSection = which_chap.split(",")[2]
+        qu = \
+    SSCquestions.objects.filter(topic_category=splitChap,school=me.profile.school,section_category=splitSection)
+
+        serializer = SSCQuestionSerializer(qu,many=True)
+        return Response(serializer.data)
 

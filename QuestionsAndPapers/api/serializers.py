@@ -19,7 +19,6 @@ class SSCQuestionSerializer(serializers.ModelSerializer):
             'negative_marks',
             'text',
             'section_category',
-            'topic_category',
             'picture',
             'source',
             'language',

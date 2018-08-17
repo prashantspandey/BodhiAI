@@ -62,7 +62,6 @@ def create_test(request):
         render(request,'questions/klass_available.html',context)
     if 'category_test' in request.GET:
         category_klass = request.GET['category_test']
-        print(category_klass)
         split_category = category_klass.split(',')[0]
         split_klass = category_klass.split(',')[1]
         quest = SSCquestions.objects.filter(section_category =
@@ -89,8 +88,6 @@ def create_test(request):
         splitChap = which_chap.split(",")[0]
         splitClass = which_chap.split(",")[1]
         splitSection = which_chap.split(",")[2]
-        #klasses = klass.objects.filter(name=splitClass)
-        
         if os.path.exists(quest_file_name):
             with open(quest_file_name,'rb') as fi:
                 questions_list = pickle.load(fi)

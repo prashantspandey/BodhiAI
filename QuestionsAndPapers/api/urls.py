@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'teacher_create_test_batches/$',views.CreateTestBatchesAPIView.as_view(),name='CreateTestBatches'),
     url(r'teacher_create_test_subjects/$',views.CreateTestSubjectsAPIView.as_view(),name='CreateTestSubjects'),
     url(r'teacher_create_test_chapters/$',views.CreateTestChaptersAPIView.as_view(),name='CreateTestChapters'),
+    url(r'teacher_create_test_questions/$',views.CreateTestQuestionsAPIView.as_view(),name='CreateTestQuestions'),
 ]
