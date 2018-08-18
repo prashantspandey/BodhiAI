@@ -13,7 +13,6 @@ class LoginForm(forms.ModelForm):
         fields = ['username', 'password']
 
 class RegisterForm(UserCreationForm):
-    email = forms.EmailField(required= True)
 
 
     class Meta:
@@ -21,14 +20,12 @@ class RegisterForm(UserCreationForm):
         fields = (
             'username',
             'first_name',
-            'email',
             'password1',
             'password2'
         )
     def save(self,commit = True,*args,**kwargs):
         user = super(RegisterForm, self).save(commit=False)
         user.first_name = self.cleaned_data['first_name']
-        user.email = self.cleaned_data['email']
         try:
             course = kwargs.get('course')
             print('{} this is the real course'.format(course))
@@ -61,7 +58,7 @@ class RegisterForm(UserCreationForm):
                 subgi.save()
                 subenglish.save()
                 subgk.save()
-                mail_at = signup_mail.delay(user.email,stu.name)
+                #mail_at = signup_mail.delay(user.email,stu.name)
             elif str(course.lower()) == 'jito':
                 if str(course.lower()) == 'jito':
                     return user
