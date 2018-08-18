@@ -5784,8 +5784,8 @@ class Teach:
                                                         = klass,subject =
                                                         subject)
                 print('found the cache')
-                old_tests = weak_cache.testids
-                total_old_tests = len(old_tests)
+                total_old_tests = weak_cache.testids
+
                 marks = SSCOnlineMarks.objects.filter(test__sub = subject,
                                                       test__creator =
                                                       user)

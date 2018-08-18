@@ -140,6 +140,8 @@ class TeacherWeakAreasBrief(APIView):
         return Response(weak_subs_areas)
 
 #---------------------------------------------------------------------------------------
+
+
 # returns the names of  weak areas by subject and batch taught by the teacher.
 class TeacherWeakAreasBriefAndroid(APIView):
     def get(self,request,format=None):

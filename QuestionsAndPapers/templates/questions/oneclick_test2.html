@@ -4,9 +4,9 @@
 <script>
 		 $(document).ready(function () {
 		var pr
-		 	for(i=1 ; i<=10; i++){
-		 	$(eval("'#clicksubs'+i")).click(function(){
+    $(".clicksubs").click(function(){
 
+         $(eval("'#'+pr")).removeClass("btn btn-default").addClass("btn btn-success");
 	ajKl = $(this).attr('value');
 	clickbatch = $('#oneClickBatches').attr('value');
          $('#includeSubs').removeClass("hidden");
@@ -15,12 +15,9 @@
 
         $('#analysisType').removeClass('hidden');
 
-
-
     pr = $(this).attr('id');
 
      		    });
-			};
      		    });
 
 
@@ -34,7 +31,7 @@
 {% for i in subjects %}
 
 <div class="btn-group" role="group" aria-label="...">
-	<label class="radio-inline"><input type="radio" id = 'clicksubs{{forloop.counter}}' name="clicksubs" value='{{i}}'>{{i}}</label>
+	<button type="button" class="btn btn-default text-center clicksubs" id="{{i}}" value="{{i}}" >{{i}} </button>
 </div>
 
 {%endfor%}
