@@ -48,7 +48,6 @@ def user_register(request):
             try:
                 course = request.POST['course']
                 if course == None or course == '':
-                    print('I am here')
                     new_user = form.save()
                     new_user = authenticate(username=form.cleaned_data['username'],
                                                                             password=form.cleaned_data['password1'],

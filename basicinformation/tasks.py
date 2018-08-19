@@ -950,7 +950,7 @@ def delete_sectionQuestions(section,school,topic = None):
 @shared_task
 def delete_allQuestions(school):
     questions =\
-    SSCquestions.objects.filter(school__name=school,section_category='ElectricalLocoPilot')
+    SSCquestions.objects.filter(school__name=school,section_category='ElectricalLocoPilot',topic_category='1.1')
     for i in questions:
         i.delete()
     print('{} questions deleted'.format(len(questions)))
