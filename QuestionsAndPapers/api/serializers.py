@@ -32,7 +32,7 @@ class ChoicesSerializer(serializers.ModelSerializer):
 
 class SSCQuestionSerializer(serializers.ModelSerializer):
     choices = serializers.SerializerMethodField() 
-    timesused = serializers.SerializerMethodField()
+    #timesused = serializers.SerializerMethodField()
     class Meta:
         model = SSCquestions
         depth = 1
@@ -47,7 +47,6 @@ class SSCQuestionSerializer(serializers.ModelSerializer):
             'source',
             'language',
             'choices',
-            'timesused',
 
         ]
 
