@@ -762,6 +762,12 @@ def student_smart_tests2(request):
 
 
 
+def student_topic_test(request):
+    user = request.user
+    me = Studs(user)
+    subjects = me.my_subjects_names()
+    context = {'subjects':subjects}
+    return render(request,'questions/student_topic_test1.html',context)
 
 
 

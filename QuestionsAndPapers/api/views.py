@@ -401,7 +401,10 @@ class CreateTestQuestionsAPIView(APIView):
         splitSection = which_chap.split(",")[2]
         qu = \
     SSCquestions.objects.filter(topic_category=splitChap,school=me.profile.school,section_category=splitSection)
-
         serializer = SSCQuestionSerializer(qu,many=True)
         return Response(serializer.data)
 
+class StudentSubjectsAPIView(APIView):
+    def get(self,request):
+        me = Studs(self.request.user)
+        return response(me.my_subjects_names)
