@@ -679,10 +679,10 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/jen_content/'+sh,error_bad_lines=False )
+                pd.read_csv('/app/question_data/jen_content/fitter/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/jen_content/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/jen_content/fitter/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
@@ -709,7 +709,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                 images = df['QuestionLink']
             else:
                 quest_text = df['Question']
-            sectionType = len(lang)*['locopilot_electrical']
+            sectionType = len(lang)*['locopilot_fitter']
             #direction = df['Direction']
 
             if explanation_quest:
@@ -811,6 +811,7 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
         new_questions.tier_category = '1'
         new_questions.max_marks = int(1)
         new_questions.negative_marks = 0.0
+        print('{} is the section cateogry'.format(sectionType))
         if sectionType == 'English':
             new_questions.section_category = 'English'
         elif sectionType == 'Reasoning':
@@ -847,6 +848,8 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
             new_questions.section_category = 'ChemistryIITJEE12'
         elif sectionType == 'locopilot_electrical':
             new_questions.section_category = 'ElectricalLocoPilot'
+        elif sectionType == 'locopilot_fitter':
+            new_questions.section_category = 'FitterLocoPilot'
 
 
 
@@ -945,7 +948,18 @@ def delete_sectionQuestions(section,school,topic = None):
             for i in questions:
                 print('Deleting %s' %i.id)
                 i.delete()
-
+@shared_task
+def addsubjects(school,batch,teacher):
+    school = School.objects.get(name=school)
+    batch = klass.objects.get(school=school,name=batch)
+    students = Student.objects.filter(school=school,klass=batch)
+    teacher = Teacher.objects.get(school=school,name=teacher)
+    for i in students:
+        sub = Subject()
+        sub.teacher = teacher
+        sub.name = 'FitterLocoPilot'
+        sub.student = i
+        sub.save()
 
 @shared_task
 def delete_allQuestions(school):

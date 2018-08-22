@@ -1674,7 +1674,7 @@ class Studs:
                                                                self.profile,
                                                                test__sub =
                                                                'SSCMultipleSections')
-            all_tests_cache = len(marks) + len(all_marks) 
+            all_tests_cache = len(marks) + len(all_marks)
             all_ids = []
             for mark in marks:
                 for total in mark.allAnswers:
@@ -3085,6 +3085,67 @@ class Studs:
 
             return list(zip(namedarr,timing))
 
+
+
+        if subject == 'FitterLocoPilot':
+            for i,j in arr:
+                if i == '1.1':
+                    namedarr.append('Introduction')
+                    timing.append(j)
+                if i == '2.1':
+                    namedarr.append('Fitter tools')
+                    timing.append(j)
+                if i == '3.1':
+                    namedarr.append('Sheet Metal Shop')
+                    timing.append(j)
+                if i == '4.1':
+                    namedarr.append('Welding Theory')
+                    timing.append(j)
+                if i == '5.1':
+                    namedarr.append('Soldering And Brazing')
+                    timing.append(j)
+                if i == '6.1':
+                    namedarr.append('Physical and Mechanical Properties of Metals')
+                    timing.append(j)
+                if i == '7.1':
+                    namedarr.append('Heat Treatment')
+                    timing.append(j)
+                if i == '8.1':
+                    namedarr.append('Bearings')
+                    timing.append(j)
+                if i == '9.1':
+                    namedarr.append('Drilling Machine')
+                    timing.append(j)
+                if i == '10.1':
+                    namedarr.append('Lathe Machine')
+                    timing.append(j)
+                if i == '11.1':
+                    namedarr.append('Grinding Machine')
+                    timing.append(j)
+                if i == '12.1':
+                    namedarr.append('Power Transmission')
+                    timing.append(j)
+                if i == '13.1':
+                    namedarr.append('Pipe And Pipe Fitting')
+                    timing.append(j)
+                if i == '14.1':
+                    namedarr.append('Screw Threads')
+                    timing.append(j)
+                if i == '15.1':
+                    namedarr.append('Gauge')
+                    timing.append(j)
+                if i == '16.1':
+                    namedarr.append('Limits,Fits And Tolerance')
+                    timing.append(j)
+                if i == '17.1':
+                    namedarr.append('Other Important Questions')
+                    timing.append(j)
+                if i == '18.1':
+                    namedarr.append('Previous Year Exams Questions')
+                    timing.append(j)
+
+            return list(zip(namedarr,timing))
+
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
             for i,j in arr:
@@ -3295,6 +3356,7 @@ class Studs:
                 elif i == '23.1':
                     namedarr.append('Data Sufficiency')
             return namedarr
+
         if subject == 'General-Knowledge':
             for i in arr:
                 if i == '1.1':
@@ -3723,6 +3785,53 @@ class Studs:
                     namedarr.append('व्यावसायिक एवं सावधानियां')
 
             return namedarr
+
+
+        if subject == 'FitterLocoPilot':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('Introduction')
+
+                if i == '2.1':
+                    namedarr.append('Fitter tools')
+
+                if i == '3.1':
+                    namedarr.append('Sheet Metal Shop')
+
+                if i == '4.1':
+                    namedarr.append('Welding Theory')
+
+                if i == '5.1':
+                    namedarr.append('Soldering And Brazing')
+                if i == '6.1':
+                    namedarr.append('Physical and Mechanical Properties of Metals')
+                if i == '7.1':
+                    namedarr.append('Heat Treatment')
+                if i == '8.1':
+                    namedarr.append('Bearings')
+                if i == '9.1':
+                    namedarr.append('Drilling Machine')
+                if i == '10.1':
+                    namedarr.append('Lathe Machine')
+                if i == '11.1':
+                    namedarr.append('Grinding Machine')
+                if i == '12.1':
+                    namedarr.append('Power Transmission')
+                if i == '13.1':
+                    namedarr.append('Pipe And Pipe Fitting')
+                if i == '14.1':
+                    namedarr.append('Screw Threads')
+                if i == '15.1':
+                    namedarr.append('Gauge')
+                if i == '16.1':
+                    namedarr.append('Limits,Fits And Tolerance')
+                if i == '17.1':
+                    namedarr.append('Other Important Questions')
+                if i == '18.1':
+                    namedarr.append('Previous Year Exams Questions')
+
+            return namedarr
+
 
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
@@ -4324,6 +4433,46 @@ class Studs:
                     return 'इलेक्ट्रिक्स'
                 if i == '20.1':
                     return 'व्यावसायिक एवं सावधानियां'
+
+        if subject == 'FitterLocoPilot':
+                if i == '1.1':
+                    return 'Introduction'
+                if i == '2.1':
+                    return 'Fitter tools'
+                if i == '3.1':
+                    return 'Sheet Metal Shop'
+                if i == '4.1':
+                    return 'Welding Theory'
+                if i == '5.1':
+                    return 'Soldering And Brazing'
+                if i == '6.1':
+                    return 'Physical and Mechanical Properties of Metals'
+                if i == '7.1':
+                    return'Heat Treatment'
+                if i == '8.1':
+                    return 'Bearings'
+                if i == '9.1':
+                    return 'Drilling Machine'
+                if i == '10.1':
+                    return 'Lathe Machine'
+                if i == '11.1':
+                    return 'Grinding Machine'
+                if i == '12.1':
+                    return 'Power Transmission'
+                if i == '13.1':
+                    return 'Pipe And Pipe Fitting'
+                if i == '14.1':
+                    return 'Screw Threads'
+                if i == '15.1':
+                    return 'Gauge'
+                if i == '16.1':
+                    return 'Limits,Fits And Tolerance'
+                if i == '17.1':
+                    return 'Other Important Questions'
+                if i == '18.1':
+                    return 'Previous Year Exams Questions'
+
+    
 
 
 
@@ -6968,8 +7117,66 @@ class Teach:
                 if i == '20.1':
                     names.append('व्यावसायिक एवं सावधानियां')
                     numbers.append(i)
-            print(list(zip(names,numbers)))
             return list(zip(names,numbers))
+        if subject == 'FitterLocoPilot':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Introduction')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('Fitter tools')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Sheet Metal Shop')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Welding Theory')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('Soldering And Brazing')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('Physical and Mechanical Properties of Metals')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('Heat Treatment')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('Bearings')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('Drilling Machine')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('Lathe Machine')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Grinding Machine')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Power Transmission')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('Pipe And Pipe Fitting')
+                    numbers.append(i)
+                if i == '14.1':
+                    names.append('Screw Threads')
+                    numbers.append(i)
+                if i == '15.1':
+                    names.append('Gauge')
+                    numbers.append(i)
+                if i == '16.1':
+                    names.append('Limits,Fits And Tolerance')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Other Important Questions')
+                    numbers.append(i)
+                if i == '18.1':
+                    names.append('Previous Year Exams Questions')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+
 
 
 # for knimbus subjects
@@ -7868,6 +8075,65 @@ class Teach:
 
             return list(zip(names,numbers))
 
+        if subject == 'FitterLocoPilot':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Introduction')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('Fitter tools')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Sheet Metal Shop')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Welding Theory')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('Soldering And Brazing')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('Physical and Mechanical Properties of Metals')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('Heat Treatment')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('Bearings')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('Drilling Machine')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('Lathe Machine')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Grinding Machine')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Power Transmission')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('Pipe And Pipe Fitting')
+                    numbers.append(i)
+                if i == '14.1':
+                    names.append('Screw Threads')
+                    numbers.append(i)
+                if i == '15.1':
+                    names.append('Gauge')
+                    numbers.append(i)
+                if i == '16.1':
+                    names.append('Limits,Fits And Tolerance')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Other Important Questions')
+                    numbers.append(i)
+                if i == '18.1':
+                    names.append('Previous Year Exams Questions')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+
 
 
 # for knimbus subjects
@@ -8520,6 +8786,47 @@ class Teach:
                 if i == 'व्यावसायिक एवं सावधानियां':
                     numbers.append('20.1')
 
+
+            return numbers
+
+        if subject == 'FitterLocoPilot':
+            for i in arr:
+                if i == 'Introduction':
+                    numbers.append('1.1')
+                if i == 'Fitter tools':
+                    numbers.append('2.1')
+                if i == 'Sheet Metal Shop':
+                    numbers.append('3.1')
+                if i == 'Welding Theory':
+                    numbers.append('4.1')
+                if i == 'Soldering And Brazing':
+                    numbers.append('5.1')
+                if i == 'Physical and Mechanical Properties of Metals':
+                    numbers.append('6.1')
+                if i == 'Heat Treatment':
+                    numbers.append('7.1')
+                if i == 'Bearings':
+                    numbers.append('8.1')
+                if i == 'Drilling Machine':
+                    numbers.append('9.1')
+                if i == 'Lathe Machine':
+                    numbers.append('10.1')
+                if i == 'Grinding Machine':
+                    numbers.append('11.1')
+                if i == 'Power Transmission':
+                    numbers.append('12.1')
+                if i == 'Pipe And Pipe Fitting':
+                    numbers.append('13.1')
+                if i == 'Screw Threads':
+                    numbers.append('14.1')
+                if i == 'Gauge':
+                    numbers.append('15.1')
+                if i == 'Limits,Fits And Tolerance':
+                    numbers.append('16.1')
+                if i == 'Other Important Questions':
+                    numbers.append('17.1')
+                if i == 'Previous Year Exams Questions':
+                    numbers.append('18.1')
 
             return numbers
 
@@ -9547,6 +9854,67 @@ def change_topicNumbersNames(arr,subject):
                 numbers.append(i)
 
         return list(zip(names,numbers))
+
+        if subject == 'FitterLocoPilot':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Introduction')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('Fitter tools')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Sheet Metal Shop')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Welding Theory')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('Soldering And Brazing')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('Physical and Mechanical Properties of Metals')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('Heat Treatment')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('Bearings')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('Drilling Machine')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('Lathe Machine')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('Grinding Machine')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('Power Transmission')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('Pipe And Pipe Fitting')
+                    numbers.append(i)
+                if i == '14.1':
+                    names.append('Screw Threads')
+                    numbers.append(i)
+                if i == '15.1':
+                    names.append('Gauge')
+                    numbers.append(i)
+                if i == '16.1':
+                    names.append('Limits,Fits And Tolerance')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('Other Important Questions')
+                    numbers.append(i)
+                if i == '18.1':
+                    names.append('Previous Year Exams Questions')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+
+
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
             for i in arr:
@@ -10111,7 +10479,6 @@ def changeIndividualNames(i,subject):
 
     # for locopilot
     if subject == 'ElectricalLocoPilot':
-        for i in arr:
             if i == '1.1':
                 return 'चालक,अचालक एवं कुचालक'
             if i == '2.1':
@@ -10153,10 +10520,48 @@ def changeIndividualNames(i,subject):
             if i == '20.1':
                 return 'व्यावसायिक एवं सावधानियां'
 
+    if subject == 'FitterLocoPilot':
+            if i == '1.1':
+                return 'Introduction'
+            if i == '2.1':
+                return 'Fitter tools'
+            if i == '3.1':
+                return 'Sheet Metal Shop'
+            if i == '4.1':
+                return 'Welding Theory'
+            if i == '5.1':
+                return 'Soldering And Brazing'
+            if i == '6.1':
+                return 'Physical and Mechanical Properties of Metals'
+            if i == '7.1':
+                return'Heat Treatment'
+            if i == '8.1':
+                return 'Bearings'
+            if i == '9.1':
+                return 'Drilling Machine'
+            if i == '10.1':
+                return 'Lathe Machine'
+            if i == '11.1':
+                return 'Grinding Machine'
+            if i == '12.1':
+                return 'Power Transmission'
+            if i == '13.1':
+                return 'Pipe And Pipe Fitting'
+            if i == '14.1':
+                return 'Screw Threads'
+            if i == '15.1':
+                return 'Gauge'
+            if i == '16.1':
+                return 'Limits,Fits And Tolerance'
+            if i == '17.1':
+                return 'Other Important Questions'
+            if i == '18.1':
+                return 'Previous Year Exams Questions'
+
+
 
 # or knimbus subjects
     if subject == 'Design and analysis of algorithm':
-        for i in arr:
             if i == '1.1':
                 return 'Divide and Conquer'
             if i == '2.1':

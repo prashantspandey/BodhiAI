@@ -67,13 +67,16 @@ def create_test(request):
         quest = SSCquestions.objects.filter(section_category =
                                             split_category,school
                                             =me.profile.school)
+        print('{} number of questiosn in subject'.format(len(quest)))
         all_categories = []
         for i in quest:
             all_categories.append(i.topic_category)
         all_categories = list(unique_everseen(all_categories))
+        print('{} all categories'.format(all_categories))
         #all_categories = me.return_TopicNames(split_category)
         all_categories = \
         me.change_topicNumbersNames(all_categories,split_category)
+        print('{} all categories'.format(all_categories))
         all_categories.sort()
         print('%s all_categories' %all_categories)
         context = \
