@@ -305,12 +305,12 @@ def home(request):
             #adding_quest =\
             #delete_allQuestions.delay("JEN")
             #allquestions_institute.delay('English',"JEN")
-            add_to_database_questions.delay(sheet_links2,'JEN',production=True,onlyImage=True)
-            #school_name = 'JEN'
-            #batch = 'LocoPilot'
-            #school = School.objects.get(name=school_name)
-            #teacher = Teacher.objects.get(school=school)
-            #addsubjects.delay(school_name,batch,teacher.name)
+            add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
+            school_name = 'JEN'
+            batch = 'LocoPilot'
+            school = School.objects.get(name=school_name)
+            teacher = Teacher.objects.get(school=school)
+            addsubjects.delay(school_name,batch,teacher.name)
             #add_questions('JEN','ElectricalLocoPilot')
             #quest_added = add_to_database_questions.delay(sheet_links,'Swami Reasoning World',onlyImage=True,production =\
             #                          True)
