@@ -335,6 +335,7 @@ def home(request):
         if user.groups.filter(name='Students').exists():
             #storage = messages.get_messages(request)
             me = Studs(request.user)
+            deleteBadTests.delay()
             teacher_user = Teacher.objects.get(school__name = me.school)
             me.studentOldTests(teacher_user)
 

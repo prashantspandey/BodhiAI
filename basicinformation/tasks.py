@@ -1529,5 +1529,10 @@ def TeacherHardQuestionsLast3TestsAsync(user_id):
 #    subjects = me.my_subjects_names()
 #    for sub in subjects:
 
-
+@shared_task
+def deleteBadTests():
+    quest_bad = SSCKlassTest.objects.all()
+    for quest in quest_bad:
+        if len(quest.sscquestions_set.all()) == 0:
+            quest.delete()
 

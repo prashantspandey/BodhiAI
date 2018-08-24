@@ -951,7 +951,6 @@ class Studs:
         for i in all_tests:
             i.testTakers.add(self.profile)
 
-
 # return all tests that are not taken by the student to be shown on home page
 
     def allOnlinetests(self,schoolName = None,klas = None):
@@ -4585,17 +4584,23 @@ class Studs:
                 wa = []
 
                 for r in i.rightAnswers:
-                    rq = SSCquestions.objects.get(choices__id = r)
-                    if rq.section_category == subject:
-                        ra.append(rq)
-                        cat = rq.topic_category
-                        topics.append(cat)
+                    try:
+                        rq = SSCquestions.objects.get(choices__id = r)
+                        if rq.section_category == subject:
+                            ra.append(rq)
+                            cat = rq.topic_category
+                            topics.append(cat)
+                    except:
+                        pass
                 for w in i.wrongAnswers:
-                    wq = SSCquestions.objects.get(choices__id = w)
-                    if wq.section_category == subject:
-                        wa.append(wq)
-                        cat = wq.topic_category
-                        topics.append(cat)
+                    try:
+                        wq = SSCquestions.objects.get(choices__id = w)
+                        if wq.section_category == subject:
+                            wa.append(wq)
+                            cat = wq.topic_category
+                            topics.append(cat)
+                    except:
+                        pass
                 # get unique topics
                 topics = list(unique_everseen(topics))
                 accuracy_dict = {}
