@@ -725,8 +725,8 @@ class StudentTopicWiseProficiency(APIView):
             strongFreq = []
             try:
                for i,j in freq:
-                    strongAreas.append(i)
                     calc = float(100-j)
+                    strongAreas.append(i)
                     strongFreq.append(round(calc,1))
             except Exception as e:
                 print(str(e))
@@ -737,6 +737,8 @@ class StudentTopicWiseProficiency(APIView):
             freq_Names = me.changeTopicNumbersNames(freq,subject)
             skills = list(zip(strongAreas,strongFreq))
             skills_names = me.changeTopicNumbersNames(skills,subject)
+            if skills_names == None:
+                continue
             strong_areas[subject] = {'strongTopics':skills_names}
         return Response(strong_areas)
 
