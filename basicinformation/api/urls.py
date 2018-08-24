@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'student_previous_performance_android/$',views.StudentPreviousPerformanceBriefAndroidAPIView.as_view(),name='StudentPreviousPerformanceAndroid'),
     url(r'student_proficiency/$',views.StudentTopicWiseProficiency.as_view(),name='StudentProficiency'),
     url(r'student_timing_topicwise/$',views.StudentAverageTimeTopicAPIView.as_view(),name='StudentTimingTopicWise'),
+    url(r'student_timing_topicwise_android/$',views.StudentAverageTimeTopicAndroidAPIView.as_view(),name='StudentTimingTopicWiseAndroid'),
     url(r'student_previous_performance_detailed/$',views.StudentTakenTestsDetailsAPIView.as_view(),name='StudentPreviousPerformanceDetailed'),
 
 
