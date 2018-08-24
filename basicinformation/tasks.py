@@ -1533,6 +1533,6 @@ def TeacherHardQuestionsLast3TestsAsync(user_id):
 def deleteBadTests():
     quest_bad = SSCKlassTest.objects.all()
     for quest in quest_bad:
-        if len(quest.sscquestions_set.all()) == 0:
+        if quest.sub == "":
             quest.delete()
 
