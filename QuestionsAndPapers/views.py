@@ -683,14 +683,20 @@ def student_smart_tests(request):
 
 def student_smart_tests2(request):
     if 'which_sub' in request.GET:
+        me = Studs(request.user)
         subject = request.GET['which_sub']
-        quest_nums = ['10','15','20','25']
-        print('%s which sub' %subject)
-        context = {'subject':subject,'quest_num':quest_nums}
+        test_taken = SSCOnlineMarks.objects.filter(student =
+                                                   me.profile,test__sub=subject)
+        if len(test_taken) == 0:
+            print('no tests taken')
+            context = {'no_test':'Please take at-least one test so that we\
+                       can generate a Smart Test for you.'}
+        else:
+            quest_nums = ['10','15','20','25']
+            context = {'subject':subject,'quest_num':quest_nums}
         return\
     render(request,'questions/student_smart_test2.html',context)
     if 'what_number' in request.GET:
-        me = Studs(request.user)
         quest_num = request.GET['what_number']
         # subject that student has selected
         subject = quest_num.split(',')[0]
