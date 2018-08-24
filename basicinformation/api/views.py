@@ -781,6 +781,7 @@ class StudentAverageTimeTopicAPIView(APIView):
     def get(self,request,format=None):
         me = Studs(self.request.user)
         subjects = get_subject(self.request.user)
+        #average_timing_dict = {}
         timing = []
         for subject in subjects:
             timing_areawise,freq_timer = me.areawise_timing(subject)
@@ -791,6 +792,23 @@ class StudentAverageTimeTopicAPIView(APIView):
 
 
 #---------------------------------------------------------------------
+class StudentAverageTimeTopicAndroidAPIView(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        subjects = get_subject(self.request.user)
+        average_timing_dict = {}
+        timing = []
+        for subject in subjects:
+            timing_areawise,freq_timer = me.areawise_timing(subject)
+            freq_timer = me.changeTopicNumbersNames(freq_timer,subject)
+            timing_names = me.changeTopicNumbersNames(timing_areawise,subject)
+            if timing_names == None:
+                continue
+            average_timing_dict =\
+            {'subject':subject,'topics_timing':timing_names}
+            timing.append(average_timing_dict)
+        return Response(timing)
+
 
 
 
