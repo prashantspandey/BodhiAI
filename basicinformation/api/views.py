@@ -743,6 +743,38 @@ class StudentTopicWiseProficiency(APIView):
         return Response(strong_areas)
 
 
+class StudentTopicWiseProficiencyAndroid(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        subjects = get_subject(self.request.user)
+        strong_areas = {}
+        overall = []
+        for subject in subjects:
+
+            freq = me.weakAreas_IntensityAverage(subject)
+            strongAreas = []
+            strongFreq = []
+            try:
+               for i,j in freq:
+                    calc = float(100-j)
+                    strongAreas.append(i)
+                    strongFreq.append(round(calc,1))
+            except Exception as e:
+                print(str(e))
+            if freq == 0:
+               context = {'noMistake':'noMistake'}
+               return render(request,'basicinformation/student_weakAreas.html',context)
+            # changing topic categories numbers to names
+            freq_Names = me.changeTopicNumbersNames(freq,subject)
+            skills = list(zip(strongAreas,strongFreq))
+            skills_names = me.changeTopicNumbersNames(skills,subject)
+            if skills_names == None:
+                continue
+            strong_areas = {'subject':subject,'strongTopics':skills_names}
+            overall.append(strong_areas)
+        print(overall)
+        return Response(overall)
+
 
 #---------------------------------------------------------------------
 
