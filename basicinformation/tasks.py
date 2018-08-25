@@ -1537,7 +1537,7 @@ def deleteBadTests():
             quest.delete()
 @shared_task
 def add_questions(institute,section):
-    if institite == 'JEN':
+    if institute == 'JEN':
         questions = SSCquestions.objects.filter(school__name =
                                                 'SIEL',section_casection_category
                                                 = section)
