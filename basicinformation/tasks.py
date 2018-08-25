@@ -1541,7 +1541,7 @@ def add_questions(institute,section):
         questions = SSCquestions.objects.filter(school__name =
                                                 'SIEL',section_category
                                                 = section)
-        school = School.objects.get(name=institite)
+        school = School.objects.get(name=institute)
         print('%s --num quests' %len(questions))
         for i in questions:
             i.school.add(school)
