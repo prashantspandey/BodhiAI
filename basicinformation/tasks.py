@@ -1535,4 +1535,45 @@ def deleteBadTests():
     for quest in quest_bad:
         if quest.sub == "":
             quest.delete()
+@shared_task
+def add_questions(institute,section):
+    if institite == 'JEN':
+        questions = SSCquestions.objects.filter(school__name =
+                                                'SIEL',section_casection_category
+                                                = section)
+        school = School.objects.get(name=institite)
+        print('%s --num quests' %len(questions))
+        for i in questions:
+            i.school.add(school)
+    if institute == 'JECRC':
+       questions = SSCquestions.objects.filter(school__name = 'Swami Reasoning World')
+       school = School.objects.get(name = institute)
+       print('%s --num quests' %len(questions))
+       for i in questions:
+           i.school.add(school)
+    elif institute == 'Govindam Defence':
+       questions = SSCquestions.objects.filter(school__name =
+                                               'BodhiAI',section_category='English')
+       school = School.objects.get(name = institute)
+       print('%s --num quests' %len(questions))
+       for i in questions:
+           i.school.add(school)
+    elif institute == 'Swami Reasoning World':
+       questions = SSCquestions.objects.filter(school__name =
+                                               'BodhiAI',section_category=section)
+       school = School.objects.get(name = institute)
+       print('%s --num quests' %len(questions))
+       for i in questions:
+           i.school.add(school)
+       
+    else:
+        print('here in jito')
+        questions =\
+        SSCquestions.objects.filter(section_category=section)
+        school = School.objects.get(name = institute)
+        print(len(questions))
+        for i in questions:
+            i.school.add(school)
+        print('%s num questions' %len(questions))
+
 

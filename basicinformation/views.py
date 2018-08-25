@@ -305,12 +305,12 @@ def home(request):
             #adding_quest =\
             #delete_allQuestions.delay("JEN")
             #allquestions_institute.delay('English',"JEN")
-            add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
-            school_name = 'JEN'
-            batch = 'LocoPilot'
-            school = School.objects.get(name=school_name)
-            teacher = Teacher.objects.get(school=school)
-            addsubjects.delay(school_name,batch,teacher.name)
+            #add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
+            #school_name = 'JEN'
+            #batch = 'LocoPilot'
+            #school = School.objects.get(name=school_name)
+            #teacher = Teacher.objects.get(school=school)
+            #addsubjects.delay(school_name,batch,teacher.name)
             #add_questions('JEN','ElectricalLocoPilot')
             #quest_added = add_to_database_questions.delay(sheet_links,'Swami Reasoning World',onlyImage=True,production =\
             #                          True)
@@ -318,7 +318,7 @@ def home(request):
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
-            #add_questions('BodhiAI','GroupX-Maths')
+            add_questions.delay('JEN','English')
             #add_questions('Aravali Defence Academy','GroupX-Maths')
             #add_questions('Aravali Defence Academy','Defence-Physics')
             #add_questions('Aravali Defence Academy','Defence-English')
@@ -2368,39 +2368,6 @@ def add_students(path_file,schoolName,production = False,swami=False,dummy=False
         stu_details = list(zip(name,batch,phone,teach,email))
         real_create_student(stu_details,'Govindam Defence Academy')
 
-
-def add_questions(institute,section):
-    print('here in add questions')
-    if institute == 'JECRC':
-       questions = SSCquestions.objects.filter(school__name = 'Swami Reasoning World')
-       school = School.objects.get(name = institute)
-       print('%s --num quests' %len(questions))
-       for i in questions:
-           i.school.add(school)
-    elif institute == 'Govindam Defence':
-       questions = SSCquestions.objects.filter(school__name =
-                                               'BodhiAI',section_category='English')
-       school = School.objects.get(name = institute)
-       print('%s --num quests' %len(questions))
-       for i in questions:
-           i.school.add(school)
-    elif institute == 'Swami Reasoning World':
-       questions = SSCquestions.objects.filter(school__name =
-                                               'BodhiAI',section_category=section)
-       school = School.objects.get(name = institute)
-       print('%s --num quests' %len(questions))
-       for i in questions:
-           i.school.add(school)
-       
-    else:
-        print('here in jito')
-        questions =\
-        SSCquestions.objects.filter(section_category=section)
-        school = School.objects.get(name = institute)
-        print(len(questions))
-        for i in questions:
-            i.school.add(school)
-        print('%s num questions' %len(questions))
 
                     
 def change_password(institute,acc):
