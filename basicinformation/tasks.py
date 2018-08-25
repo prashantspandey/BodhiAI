@@ -1539,7 +1539,7 @@ def deleteBadTests():
 def add_questions(institute,section):
     if institute == 'JEN':
         questions = SSCquestions.objects.filter(school__name =
-                                                'SIEL',section_casection_category
+                                                'SIEL',section_category
                                                 = section)
         school = School.objects.get(name=institite)
         print('%s --num quests' %len(questions))
