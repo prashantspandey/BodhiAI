@@ -404,6 +404,35 @@ class CreateTestQuestionsAPIView(APIView):
         serializer = SSCQuestionSerializer(qu,many=True)
         return Response(serializer.data)
 
+
+class CreateTestFinalAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Teach(self.request.user)
+        quest_list  = request.POST['questions_list']
+        all_questions = []
+        total_marks = 0
+
+        if ',' in quest_list:
+            quest_list = quest_list.split(',')
+            for qu in quest_list:
+                print('this is qu {}'.format(qu))
+                questions = SSCquestions.objects.get(id = int(qu))
+                total_marks = total_marks + questions.max_marks
+                all_questions.append(questions)
+
+        else:
+                questions = SSCquestions.objects.get(id = int(quest_list))
+                total_marks = total_marks + questions.max_marks
+                all_questions.append(questions)
+
+        
+        serializer = SSCQuestionSerializer(all_questions,many=True)
+        context =\
+        {'totalMarks':total_marks,'questions':serializer.data,'number_questions':len(all_questions)}
+        return Response(context)
+
+
+
 class StudentSubjectsAPIView(APIView):
     def get(self,request):
         me = Studs(self.request.user)
