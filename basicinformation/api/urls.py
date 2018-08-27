@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'student_timing_topicwise/$',views.StudentAverageTimeTopicAPIView.as_view(),name='StudentTimingTopicWise'),
     url(r'student_timing_topicwise_android/$',views.StudentAverageTimeTopicAndroidAPIView.as_view(),name='StudentTimingTopicWiseAndroid'),
     url(r'student_previous_performance_detailed/$',views.StudentTakenTestsDetailsAPIView.as_view(),name='StudentPreviousPerformanceDetailed'),
+# Time Table APIs
+    url(r'teacher_time_table/$',views.TeacherTimeTableAPIView.as_view(),name='TeacherTimeTable'),
 
 
 ]

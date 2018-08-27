@@ -756,7 +756,9 @@ class Studs:
 
     def get_section(self):
         return self.profile.klass.name[-1]
-
+    
+    def get_batch(self):
+        return self.profile.klass
 
     def my_subjects_objects(self):
         subs = self.profile.subject_set.all()

@@ -437,3 +437,13 @@ class StudentSubjectsAPIView(APIView):
     def get(self,request):
         me = Studs(self.request.user)
         return response(me.my_subjects_names)
+
+
+class StudentTakeTestAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Studs(self.request.user)
+        test_id = request.POST['test_id']
+        test = SSCKlassTest.objects.get(id = test_id)
+        #questions = test.sscquestions_set.all()
+        serializer = TestSerializer(test)
+        return Response(serializer.data)

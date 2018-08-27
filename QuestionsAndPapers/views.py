@@ -5,6 +5,7 @@ from basicinformation.models import *
 from basicinformation.marksprediction import *
 import datetime
 import os.path
+from .forms import *
 from django.utils import timezone
 from django.http import Http404, HttpResponse,HttpResponseRedirect
 from django.contrib.auth.models import User,Group
@@ -1092,3 +1093,30 @@ def show_finished_test(request,testid):
 
             return render(request,'questions/student_finished_test.html',context)
 
+
+def teacher_create_time_table(request):
+    print('in create time table')
+    form = CreateTimeTableForm(request.POST or None)
+    context = {'form':form}
+    if request.POST:
+        me = Teach(request.user)
+        batch = request.POST['batch']
+        sub = request.POST['sub']
+        date = request.POST['date']
+        time = request.POST['time']
+        note = request.POST['note']
+        time_table = TimeTable()
+        print(batch,sub,date,time,note)
+        subs = me.my_subjects_names()
+        if sub in subs:
+            batch = klass.objects.get(id = batch)
+            time_table.batch = batch
+            time_table.teacher = me.profile
+            time_table.sub = sub
+            time_table.time = time
+            time_table.date = datetime.strptime(date,"%d/%m/%Y")
+            time_table.note = note
+            time_table.save()
+            return HttpResponseRedirect(reverse('basic:home'))
+    print('returning form')
+    return render(request, 'questions/CreateTimeTable.html', context)

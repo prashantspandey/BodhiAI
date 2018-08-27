@@ -57,3 +57,22 @@ class SSCQuestionSerializer(serializers.ModelSerializer):
     def get_timesused(self,obj):
         return\
     TimesUsedSerializer(obj.timesused_set.all(),many=True,read_only=True).data
+
+class TestSerializer(serializers.ModelSerializer):
+    sscquestions = serializers.SerializerMethodField() 
+    #sscquestions = SSCQuestionSerializer()
+    class Meta:
+        model = SSCKlassTest
+        fields = [
+            'max_marks',
+            'published',
+            'creator',
+            'sub',
+            'totalTime',
+            'sscquestions',
+
+        ]
+    def get_sscquestions(self,obj):
+        return\
+    SSCQuestionSerializer(obj.sscquestions_set.all(),many=True,read_only=True).data
+ 

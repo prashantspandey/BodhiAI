@@ -1430,6 +1430,10 @@ def teacher_download_result(request):
 
         return response
 
+def teacher_show_time_table(request):
+    me = Teacher(request.user)
+    time_table = TimeTable.objects.filter(teacher = me.profile)
+
 
         
 # functions for school management

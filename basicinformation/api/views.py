@@ -16,7 +16,7 @@ from rest_framework.permissions import (
     IsAuthenticated
 )
 from basicinformation.tasks import *
-
+import datetime
 
 
 class StudentListAPIView(generics.ListAPIView):
@@ -844,9 +844,61 @@ class StudentAverageTimeTopicAndroidAPIView(APIView):
         return Response(timing)
 
 
+# Student performance API
+#---------------------------------------------------------------------
+class StudentPerformanceBatchesAPIView(APIView):
+    def get(self,request,format=None):
+        me = Teach(self.request.user)
+        all_klasses = me.my_classes_names_cache()
+        my_batches = {'myBatches':all_klasses}
+        return Response(my_batches)
 
+#---------------------------------------------------------------------
+# TimeTable APIs
+#---------------------------------------------------------------------
+class TeacherTimeTableAPIView(APIView):
+    def get(self,request,format=None):
+        me = Teach(self.request.user)
+        time_table = TimeTable.objects.filter(teacher = me.profile,active=True)
+        serialzer =TimeTableModelSerializer(time_table,many=True)
+        return Response(serialzer.data)
 
+class TeacherCreateTimeTable(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Teach(self.request.user)
+        date = request.POST['timetable_date']
+        note = request.POST['timetable_note']
+        time = request.POST['timetable_time']
+        batch = request.POST['timetable_batch']
+        subject = request.POST['timetable_sub']
+        time_table = TimeTable()
+        date = datetime.datetime.strptime(date,"%m/%d/%Y")
+        batch = klass.objects.get(school = me.my_school(),name=batch)
+        my_subjects = me.my_subjects_names()
+        time_table.batch = batch
+        time_table.date = date
+        time_table.time = time
+        time_table.note = note
+        time_table.teacher = me.profile
+        if sub in my_subjects:
+            time_table.sub = sub
+            time_table.save()
+            serialzer = TimeTableModelSerializer(time_table)
+            return Response(serialzer.date)
+        else:
+            context = {'error':'There was some error'}
+            return Response(context)
 
+class StudentShowTimeTableAPIView(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        batch = me.get_batch()
+        all_time_tables = []
+        for i in batch:
+            time_table = TimeTable.objects.get(batch = i)
+            serializer = TimeTableModelSerializer(time_table)
+            all_time_tables.append(serialzer)
+        return Response(all_time_tables)
 
 
 

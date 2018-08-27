@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^create_instant_test/$',views.create_oneclick_test,name='oneClickTest'),
     url(r'^create_pattern_test/$',views.create_pattern_test,name='patternTest'),
     url(r'^create_pattern_test2/$',views.pattern_test,name='patternTest2'),
+    url(r'^create_time_table/$',views.teacher_create_time_table,name='CreateTimeTableTeacher'),
     
     url(r'^one_click_test/$',views.oneclick_test,name='oneClickTest2'),
     url(r'^FinishedResult/(\d+)/$',views.show_finished_test,name='showFinishedTest'),

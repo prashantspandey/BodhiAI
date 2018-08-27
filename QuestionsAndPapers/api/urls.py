@@ -21,5 +21,7 @@ urlpatterns = [
     url(r'teacher_create_test_final/$',views.CreateTestFinalAPIView.as_view(),name='CreateTestFinal'),
     # Student profile apis
     url(r'student_subjects/$',views.StudentSubjectsAPIView.as_view(),name='StudentSubjects'),
+    # Student Take test APIs
+    url(r'take_test/$',views.StudentTakeTestAPIView.as_view(),name='StudentTakeTest'),
 
 ]

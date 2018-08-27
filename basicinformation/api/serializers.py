@@ -9,6 +9,25 @@ class SchoolDisplaySerializer(serializers.ModelSerializer):
         fields = [
             'name',
         ]
+
+class TeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = [
+            'name',
+            'school',
+        ]
+
+class BatchSerializer(serializers.ModelSerializer):
+    school = SchoolDisplaySerializer()
+    class Meta:
+        model = klass
+        fields = [
+            'name',
+            'school',
+        ]
+
+
 class StudentModelSerializer(serializers.ModelSerializer):
     #school = SchoolDisplaySerializer()
     #user = serializers.SerializerMethodField()
@@ -38,3 +57,20 @@ class SSCOnlineMarksModelSerializer(serializers.ModelSerializer):
             'marks',
             'testTaken'
         ]
+
+
+class TimeTableModelSerializer(serializers.ModelSerializer):
+    teacher = TeacherSerializer()
+    batch = BatchSerializer()
+    class Meta:
+        model = TimeTable
+        fields = [
+            'date',
+            'time',
+            'teacher',
+            'batch',
+            'sub',
+            'note',
+
+        ]
+        read_only_fields = ('created',)
