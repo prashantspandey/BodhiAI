@@ -1576,4 +1576,112 @@ def add_questions(institute,section):
             i.school.add(school)
         print('%s num questions' %len(questions))
 
+@shared_task
+def create_test_api(user_id,quest_list,date,time):
+    user = User.objects.get(id = user_id)
+    me = Teach(user)
+    date = datetime.strptime(date,"%d,%m,%Y")
+    all_questions = []
+    total_marks = 0
+    if ',' in quest_list:
+        quest_list = quest_list.split(',')
+        for qu in quest_list:
+            questions = SSCquestions.objects.get(id = int(qu))
+            total_marks = total_marks + questions.max_marks
+            all_questions.append(questions)
+
+    else:
+            questions = SSCquestions.objects.get(id = int(quest_list))
+            total_marks = total_marks + questions.max_marks
+            all_questions.append(questions)
+    test = SSCKlassTest()
+    test.due_date = date
+    test.totalTime = time
+    subs = []
+    test.klas = kl
+    test.max_marks = total_marks
+    test.name = str(me.profile)+ str(timezone.now(0))
+    test.creator = user
+    test.save()
+    for qu in quest_list:
+        qu.ktest.add(test)
+
+    for sub in test.sscquestions_set.all():
+        timesus = TimesUsed.objects.filter(teacher =
+                                          me.profile,quest =
+                                          sub,batch = kl)
+        if len(timesus) == 1:
+            for i in timesus:
+                i.numUsed = i.numUsed + 1
+                i.save()
+                
+        else:
+            tused = TimesUsed()
+            tused.numUsed = 1
+            tused.teacher = me.profile
+            tused.quest = sub
+            tused.batch = kl
+            tused.save()
+
+        subs.append(sub.section_category)
+    subs = list(unique_everseen(subs))
+    test_details = TestDetails()
+    test_details.test = myTest
+    test_details.num_questions = len(all_questions)
+    test_details.questions = all_questions
+    test_details.save()
+
+    if len(subs)==1:
+        test.sub = subs[0]
+        kl = myTest.klas
+        students = Student.objects.filter(klass = kl,school =
+                                          me.profile.school)
+        for i in students:
+            subjs = Subject.objects.filter(teacher =
+                                          me.profile,student=i,name
+                                          = myTest.sub)
+            if subjs:
+                studs = Student.objects.get(subject = subjs)
+                test.testTakers.add(studs)
+                test.save()
+
+    else:
+        students = Student.objects.filter(klass = kl,school = me.profile.school)
+        for i in students:
+            all_subs = []
+            for su in subs:
+                subjs = Subject.objects.filter(teacher =
+                                          me.profile,student=i,name
+                                          = su)
+                all_subs.append(subjs)
+            if len(all_subs) != 0:
+                for s in all_subs:
+                    try:
+                        studs = Student.objects.get(subject = s)
+                        test.testTakers.add(studs)
+                        test.save()
+                    except:
+                        pass
+        if 'Defence-Physics' in subs or 'Defence-English' in\
+        subs or 'Defence-GK-CA' in subs:
+            test.sub = 'Defence-MultipleSubjects'
+        elif 'JEE10' in subs[0]:
+            test.sub = 'IITJEE10-MultipleSubjects'
+        elif 'JEE11' in subs[0]:
+            test.sub = 'IITJEE11-MultipleSubjects'
+        elif 'JEE12' in subs[0]:
+            test.sub = 'IITJEE12-MultipleSubjects'
+        elif 'FitterLocoPilot' in subs:
+            test.sub = 'LocoPilot-MultipleSubjects'
+
+        else:
+            test.sub = 'SSCMultipleSections'
+    
+    test.mode = 'BodhiOnline'
+    test.save()
+
+
+
+
+
 
