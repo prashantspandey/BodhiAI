@@ -318,7 +318,7 @@ def home(request):
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
-            add_questions.delay('JEN','English')
+            add_questions.delay('JEN','General-Intelligence')
             #add_questions('Aravali Defence Academy','GroupX-Maths')
             #add_questions('Aravali Defence Academy','Defence-Physics')
             #add_questions('Aravali Defence Academy','Defence-English')
