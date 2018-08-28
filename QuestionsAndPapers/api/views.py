@@ -431,6 +431,13 @@ class CreateTestFinalAPIView(APIView):
         {'totalMarks':total_marks,'questions':serializer.data,'number_questions':len(all_questions)}
         return Response(context)
 
+class CreateTestAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        quest_list = request.POST['quest_list']
+        date = request.POST['date']
+        time = request.POST['time']
+        create_test_api.delay(self.request.user.id,quest_list,date,time)
+        
 
 
 class StudentSubjectsAPIView(APIView):

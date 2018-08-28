@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'teacher_create_test_chapters/$',views.CreateTestChaptersAPIView.as_view(),name='CreateTestChapters'),
     url(r'teacher_create_test_questions/$',views.CreateTestQuestionsAPIView.as_view(),name='CreateTestQuestions'),
     url(r'teacher_create_test_final/$',views.CreateTestFinalAPIView.as_view(),name='CreateTestFinal'),
+    url(r'teacher_create_test/$',views.CreateTestAPIView.as_view(),name='CreateTestAPI'),
     # Student profile apis
     url(r'student_subjects/$',views.StudentSubjectsAPIView.as_view(),name='StudentSubjects'),
     # Student Take test APIs
