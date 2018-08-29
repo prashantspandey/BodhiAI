@@ -435,6 +435,9 @@ class CreateTestAPIView(APIView):
     def post(self,request,*args,**kwargs):
         for kw in kwargs:
             print('{} kwargs'.format(kw))
+        for aw in args:
+            print('{} kwargs'.format(aw))
+
         quest_list = request.POST['quest_list']
         date = request.POST['date']
         time = request.POST['time']
