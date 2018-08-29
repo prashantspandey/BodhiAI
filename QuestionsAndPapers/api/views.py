@@ -217,20 +217,12 @@ class TeacherOneClickTestChaptersAPIView(APIView):
 
 class TeacherOneClickCreateAPIView(APIView):
     def post(self,request,*args,**kwargs):
-        topicnumber = request.GET.getlist('oneclicktopicsnum');
-        tnum = str(topicnumber).split('and')[0]
-        tnum = tnum.replace('[','')
-        tnum = tnum.replace('\'','')
-        tnum_list = tnum.split(',')
-        tname  = str(topicnumber).split('and')[1]
-        tname_list = tname.split(',')
+        topic_name = request.POST['oneclickchapters']
+        topic_number = request.POST['oneclicknumbers']
+        subject = request.POST['subject']
+        batch = request.POST['batch']
 
-        subject = str(topicnumber).split('and')[2]
-        batch = str(topicnumber).split('and')[3]
-        batch = batch.replace(']','')
-        batch = batch.replace('\'','')
-
-        topics_total = list(zip(tnum_list,tname_list))
+        topics_total = list(zip(topic_number,topic_name))
         topics_total = np.array(topics_total)
 
         final_num = []
@@ -240,9 +232,6 @@ class TeacherOneClickCreateAPIView(APIView):
                 final_num.append(int(num))
                 final_name.append(cat)
         final_topic = list(zip(final_num,final_name))
-        if len(final_topic)==0:
-            return HttpResponse('Please fill in the number of questions from a\
-                          topic')
 
         # creation of one click paper
         
@@ -433,7 +422,6 @@ class CreateTestFinalAPIView(APIView):
 
 class CreateTestAPIView(APIView):
     def post(self,request,*args,**kwargs):
-
         quest_list = request.POST['quest_list']
         date = request.POST['date']
         time = request.POST['time']

@@ -956,7 +956,6 @@ class Studs:
 # return all tests that are not taken by the student to be shown on home page
 
     def allOnlinetests(self,schoolName = None,klas = None):
-        print(schoolName)
         if schoolName is None:
             schoolName = 'BodhiAI'
         if self.profile.school.category == 'School':
@@ -976,8 +975,7 @@ class Studs:
                     all_tests = SSCKlassTest.objects.filter(Q(creator__username =
                                                         schoolName)&Q(klas=klas))
                 else:
-                    all_tests = SSCKlassTest.objects.filter(creator=
-                                                        schoolName)
+                    all_tests = SSCKlassTest.objects.filter(creator__username= schoolName)
                 print('new tests length {}'.format(len(all_tests)))
                 already_taken_marks =\
                 SSCOnlineMarks.objects.filter(student=self.profile)

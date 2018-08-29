@@ -26,6 +26,8 @@ urlpatterns = [
     url(r'student_previous_performance_detailed/$',views.StudentTakenTestsDetailsAPIView.as_view(),name='StudentPreviousPerformanceDetailed'),
 # Time Table APIs
     url(r'teacher_time_table/$',views.TeacherTimeTableAPIView.as_view(),name='TeacherTimeTable'),
+# Student Test Performance Detail
+    url(r'student_individual_test_detail/$',views.StudentTestPerformanceDetailedAPIView.as_view(),name='StudentTestPastPerformanceDetail'),
 
 
 ]

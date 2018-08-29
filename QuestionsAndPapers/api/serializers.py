@@ -21,6 +21,7 @@ class ChoicesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Choices
         fields = [
+            'id',
             'text',
             'picture',
             'explanation',
@@ -75,4 +76,23 @@ class TestSerializer(serializers.ModelSerializer):
     def get_sscquestions(self,obj):
         return\
     SSCQuestionSerializer(obj.sscquestions_set.all(),many=True,read_only=True).data
- 
+
+
+class SSCOnlineMarksSerializer(serializers.ModelSerializer):
+    test = TestSerializer()
+    class Meta:
+        model = SSCOnlineMarks
+        fields = [
+            'marks',
+            'testTaken',
+            'timeTaken',
+            'rightAnswers',
+            'wrongAnswers',
+            'skippedAnswers',
+            'test',
+
+
+
+        ]
+
+
