@@ -5563,6 +5563,7 @@ class Teach:
             online_marks = OnlineMarks.objects.filter(test__creator= user,test__sub=
                                                   subject,test__klas__name = klass)
         elif self.institution == 'SSC':
+            print('{} subject,{} klass'.format(subject,klass))
             online_marks = SSCOnlineMarks.objects.filter(test__creator= user,test__sub=
                                                   subject,test__klas__name = klass)
 
@@ -5742,7 +5743,7 @@ class Teach:
                 defence_tests = weak_cache.defenceTests
 # total_tests is the number of tests the data is based on in
 # the cache
-                total_tests = len(weak_cache.testids)
+                total_ssc_marks = len(weak_cache.testids)
 # get the total_arr and all_total_arr to count total number of
 # new tests
                 total_arr = SSCOnlineMarks.objects.filter(test__creator =
@@ -5763,14 +5764,14 @@ class Teach:
 # put test ids into a list from SSCOnline marks queries to
 # compare number of tests
                 for i in total_arr:
-                    new_test_ids.append(i.test.id)
+                    new_test_ids.append(i.id)
                 for i in all_total_arr:
-                    new_test_ids.append(i.test.id)
-                new_test_ids = list(unique_everseen(new_test_ids))
+                    new_test_ids.append(i.id)
+                #new_test_ids = list(unique_everseen(new_test_ids))
                 new_total_tests_num = len(total_arr) + len(all_total_arr)
 # compare number of new tests to number of tests in cache and
 # if they are equal then show data from cache
-                if total_tests == len(new_test_ids):
+                if total_ssc_marks == len(new_test_ids):
                     categories = weak_cache.categories
                     accuracy = weak_cache.accuracies
                     return list(zip(categories,accuracy))
@@ -5784,8 +5785,6 @@ class Teach:
                             new_ids.append(te)
                         else:
                             old_ids.append(te)
-                    new_ids = list(unique_everseen(new_ids))
-                    old_ids = list(unique_everseen(old_ids))
 # get the new weak areas with intensity by sending only the ids
 # of new tests
                     arr =\
@@ -5860,6 +5859,8 @@ class Teach:
                                                           user,test__sub =
                                                           subject,test__klas__name
                                                          = klass)
+                print('{} this is the total number off\
+                      sscmarks'.format(len(total_arr)))
                 if 'Defence' in subject:
                     all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
                                                                   user,test__sub=
@@ -5879,11 +5880,15 @@ class Teach:
                 #                               'SSCMultipleSections',test__klas__name
                 #                               = klass)
                 overall = [total_arr ,all_total_arr ]
-                te_ids = []
+                overall_ids = []
                 for i in overall:
                     for j in i:
-                        te_ids.append(j.test.id)
-                te_ids = list(unique_everseen(te_ids))
+                        overall_ids.append(j.id)
+                #te_ids = []
+                #for i in overall:
+                #    for j in i:
+                #        te_ids.append(j.test.id)
+                #te_ids = list(unique_everseen(te_ids))
                 quest_categories = helper_weakIntesityAverage(overall)
 
 
@@ -5913,7 +5918,7 @@ class Teach:
                 new_weak_areas_cache.total_total = total_cat
                 new_weak_areas_cache.subjectTests = len(total_arr)
                 new_weak_areas_cache.defenceTests = len(all_total_arr)
-                new_weak_areas_cache.testids = te_ids
+                new_weak_areas_cache.testids = overall_ids
                 new_weak_areas_cache.save()
 
 
@@ -5940,7 +5945,7 @@ class Teach:
                                                         = klass,subject =
                                                         subject)
                 print('found the cache')
-                total_old_tests = weak_cache.testids
+                total_old_tests = len(weak_cache.testids)
 
                 marks = SSCOnlineMarks.objects.filter(test__sub = subject,
                                                       test__creator =
@@ -6071,9 +6076,9 @@ class Teach:
                                 all_timing.append(al.time)
                 all_ids = []
                 for ids in marks:
-                    all_ids.append(ids.test.id)
+                    all_ids.append(ids.id)
                 for ids in every_marks:
-                    all_ids.append(ids.test.id)
+                    all_ids.append(ids.id)
 
                 areawise_timing = list(zip(all_questions,all_timing))
                 dim1 = list(unique_everseen(all_questions))
