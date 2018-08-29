@@ -433,6 +433,8 @@ class CreateTestFinalAPIView(APIView):
 
 class CreateTestAPIView(APIView):
     def post(self,request,*args,**kwargs):
+        print(agrs)
+        print(kwargs)
         quest_list = request.POST['quest_list']
         date = request.POST['date']
         time = request.POST['time']
