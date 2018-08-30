@@ -1580,7 +1580,7 @@ def add_questions(institute,section):
 def create_test_api(user_id,quest_list,date,time):
     user = User.objects.get(id = user_id)
     me = Teach(user)
-    date = datetime.strptime(date,"%dd,%mm,%Y")
+    date = datetime.strptime(date,"%d-%m-%Y")
     all_questions = []
     total_marks = 0
     if ',' in quest_list:
