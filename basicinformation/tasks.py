@@ -1635,7 +1635,7 @@ def create_test_api(user_id,quest_list,date,time,kl):
 
     if len(subs)==1:
         test.sub = subs[0]
-        kl = myTest.klas
+        kl = test.klas
         students = Student.objects.filter(klass = kl,school =
                                           me.profile.school)
         for i in students:
