@@ -1580,6 +1580,7 @@ def add_questions(institute,section):
 def create_test_api(user_id,quest_list,date,time,kl):
     user = User.objects.get(id = user_id)
     me = Teach(user)
+    kl = klass.objects.get(school = me.my_school(),name=kl)
     date = datetime.strptime(date,"%d-%m-%Y")
     all_questions = []
     total_marks = 0
