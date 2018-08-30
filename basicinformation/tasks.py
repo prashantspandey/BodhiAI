@@ -1625,11 +1625,12 @@ def create_test_api(user_id,quest_list,date,time,kl):
             tused.save()
 
         subs.append(sub.section_category)
+    
     subs = list(unique_everseen(subs))
     test_details = TestDetails()
     test_details.test = test
     test_details.num_questions = len(all_questions)
-    test_details.questions = all_questions
+    test_details.questions = quest_list
     test_details.save()
 
     if len(subs)==1:
