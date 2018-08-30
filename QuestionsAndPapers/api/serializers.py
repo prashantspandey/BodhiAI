@@ -29,8 +29,20 @@ class ChoicesSerializer(serializers.ModelSerializer):
             'predicament',
 
         ]
-
-
+class QuestionMinimumSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SSCquestions
+        fields = [
+            'id',
+        ]
+class SSCansweredQuestionSerializer(serializers.ModelSerializer):
+    quest = QuestionMinimumSerializer()
+    class Meta:
+        model = SSCansweredQuestion
+        fields = [
+            'time',
+            'quest',
+        ]
 class SSCQuestionSerializer(serializers.ModelSerializer):
     choices = serializers.SerializerMethodField() 
     #timesused = serializers.SerializerMethodField()
@@ -80,6 +92,7 @@ class TestSerializer(serializers.ModelSerializer):
 
 class SSCOnlineMarksSerializer(serializers.ModelSerializer):
     test = TestSerializer()
+    sscansweredquestion = serializers.SerializerMethodField() 
     class Meta:
         model = SSCOnlineMarks
         fields = [
@@ -90,9 +103,14 @@ class SSCOnlineMarksSerializer(serializers.ModelSerializer):
             'wrongAnswers',
             'skippedAnswers',
             'test',
+            'sscansweredquestion',
 
 
 
         ]
+
+    def get_sscansweredquestion(self,obj):
+        return\
+    SSCansweredQuestionSerializer(obj.sscansweredquestion_set.all(),many=True,read_only=True).data
 
 
