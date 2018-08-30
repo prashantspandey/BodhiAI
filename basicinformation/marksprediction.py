@@ -5469,7 +5469,7 @@ class Teach:
         for te in ids:
             test = SSCOnlineMarks.objects.filter(test__id = te,test__creator =
                                                  user)
-            onine_marks.append(test)
+            online_marks.append(test)
 
 
 
