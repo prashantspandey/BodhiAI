@@ -1641,7 +1641,7 @@ def create_test_api(user_id,quest_list,date,time,kl):
         for i in students:
             subjs = Subject.objects.filter(teacher =
                                           me.profile,student=i,name
-                                          = myTest.sub)
+                                          = test.sub)
             if subjs:
                 studs = Student.objects.get(subject = subjs)
                 test.testTakers.add(studs)
