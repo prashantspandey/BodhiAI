@@ -1604,7 +1604,7 @@ def create_test_api(user_id,quest_list,date,time,kl):
     test.name = str(me.profile)+ str(timezone.now())
     test.creator = user
     test.save()
-    for qu in quest_list:
+    for qu in all_questions:
         qu.ktest.add(test)
 
     for sub in test.sscquestions_set.all():
