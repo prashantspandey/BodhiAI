@@ -52,8 +52,13 @@ INSTALLED_APPS = [
     'membership',
     'QuestionsAndPapers',
     'Private_Messages'
-]
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
+    'django.contrib.sites',
 
+]
+SITE_ID=1
 MATHJAX_ENABLED=True
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
