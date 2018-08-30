@@ -426,7 +426,7 @@ class CreateTestAPIView(APIView):
         date = request.POST['date']
         time = request.POST['time']
         klass = request.POST['batch']
-        create_test_api.delay(self.request.user.id,quest_list,date,time)
+        create_test_api.delay(self.request.user.id,quest_list,date,time,batch)
         
 
 
