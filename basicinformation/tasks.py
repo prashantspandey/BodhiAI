@@ -1601,7 +1601,7 @@ def create_test_api(user_id,quest_list,date,time,kl):
     subs = []
     test.klas = kl
     test.max_marks = total_marks
-    test.name = str(me.profile)+ str(timezone.now(0))
+    test.name = str(me.profile)+ str(timezone.now())
     test.creator = user
     test.save()
     for qu in quest_list:
