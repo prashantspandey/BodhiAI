@@ -725,16 +725,17 @@ class StudentTopicWiseProficiency(APIView):
             strongFreq = []
             try:
                for i,j in freq:
-                    calc = float(100-j)
-                    strongAreas.append(i)
-                    strongFreq.append(round(calc,1))
+                    strongAreas.append(str(i))
+                    strongFreq.append(round(j,1))
             except Exception as e:
                 print(str(e))
-            if freq == 0:
-               context = {'noMistake':'noMistake'}
-               return render(request,'basicinformation/student_weakAreas.html',context)
+            #if freq == 0:
+            #   context = {'noMistake':'noMistake'}
+            #   return render(request,'basicinformation/student_weakAreas.html',context)
             # changing topic categories numbers to names
             freq_Names = me.changeTopicNumbersNames(freq,subject)
+            
+            print('{} skill names'.format(freq_Names))
             skills = list(zip(strongAreas,strongFreq))
             skills_names = me.changeTopicNumbersNames(skills,subject)
             if skills_names == None:
@@ -750,15 +751,13 @@ class StudentTopicWiseProficiencyAndroid(APIView):
         strong_areas = {}
         overall = []
         for subject in subjects:
-
             freq = me.weakAreas_IntensityAverage(subject)
             strongAreas = []
             strongFreq = []
             try:
                for i,j in freq:
-                    calc = float(100-j)
-                    strongAreas.append(i)
-                    strongFreq.append(round(calc,1))
+                    strongAreas.append(str(i))
+                    strongFreq.append(round(j,1))
             except Exception as e:
                 print(str(e))
             if freq == 0:
@@ -772,7 +771,6 @@ class StudentTopicWiseProficiencyAndroid(APIView):
                 continue
             strong_areas = {'subject':subject,'strongTopics':skills_names}
             overall.append(strong_areas)
-        print(overall)
         return Response(overall)
 
 

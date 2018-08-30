@@ -440,13 +440,12 @@ class StudentWeakAreasCache(models.Model):
     accuracies =ArrayField(models.FloatField(max_length = 50),null=True)
     categories =ArrayField(models.FloatField(max_length = 50),null=True)
     subject = models.CharField(max_length = 100)
+    allTests =ArrayField(models.IntegerField(),null=True)
     numTests = models.IntegerField()
 
     def __str__(self):
         return str(self.student) + str(self.subject)
     
-
-
 class TimeTable(models.Model):
     created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     date = models.DateField(null=True,blank=True)

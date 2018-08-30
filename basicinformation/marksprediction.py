@@ -1652,13 +1652,221 @@ class Studs:
 
 
     def weakAreas_IntensityAverage(self,subject):
-        arr = self.weakAreas_Intensity(subject)
         if self.institution  == 'School':
             pass
         elif self.institution == 'SSC':
+            try:
+                weak_cache =\
+                StudentWeakAreasCache.objects.get(student=self.profile,subject=subject)
+                cache_tests = weak_cache.numTests
+                marks = SSCOnlineMarks.objects.filter(student =
+                                                  self.profile,test__sub =
+                                                  subject)
+                if 'Defence' in subject:
+                    all_marks = SSCOnlineMarks.objects.filter(student=
+                                                          self.profile,test__sub='Defence-MultipleSubjects')
+                else:
+
+                    all_marks = SSCOnlineMarks.objects.filter(student=
+                                                          self.profile,test__sub='SSCMultipleSections')
+
+
+
+                all_tests_cache = len(marks) + len(all_marks)
+                if cache_tests == all_tests_cache:
+                    average_cat = weak_cache.categories
+                    average_percent = weak_cache.accuracies
+
+                    weak_average = list(zip(average_cat,average_percent))
+                    print('{} this is the weak_average'.format(weak_average))
+                    return weak_average
+                else:
+                    all_old_ids = weak_cache.allTest
+                    new_ids = []
+# putting new tests in a single list
+                    for s_mark in marks:
+                        if s_mark.id in all_old_ids:
+                            continue
+                        else:
+                            new_ids.append(s_mark)
+                    for s_mark in all_marks:
+                        if s_mark.id in all_old_ids:
+                            continue
+                        else:
+                            new_ids.append(s_mark)
+# putting all tests in a single list
+                    all_ids = []
+                    ssc_marks_ids = []
+                    for marks in marks:
+                        all_ids.append(marks)
+                        ssc_marks_ids.append(marks.id)
+                    for marks in all_marks:
+                        all_ids.append(marks)
+                        ssc_marks_ids.append(marks.id)
+                    new_test_arr = helper_weakAreas_Intensity(new_ids,subject)
+                    waf = self.helper_alltestweakness(subject)
+                    arr = np.array(new_test_arr)
+                    average_cat = []
+                    average_percent = []
+                    wrong_total = []
+                    total_cat = []
+
+                    for i,j in waf:
+                        if k in arr[:,0]:
+                            ind = np.where(arr==i)
+                            now_arr = arr[ind[0],1]
+                            average =(int(now_arr[0])/int(j)*100)
+                            wrong_total.append(now_arr[0])
+                            total_cat.append(j)
+                            average_cat.append(i)
+                            average_percent.append(100-average)
+                    overall =\
+                    list(zip(average_cat,average_percent,wrong_total,total_cat))
+                    weak_average = list(zip(average_cat,average_percent))
+                    weak_cache = StudentWeakAreasCache.objects.get(student =
+                                                                   self.profile,subject
+                                                                  = subject)
+                    weak_cache.categories = average_cat
+                    weak_cache.accuracies = average_percent
+                    weak_cache.subject = subject
+                    weak_cache.allTests = ssc_marks_ids
+                    weak_cache.numTests = len(ssc_marks_ids)
+                    weak_cache.student = self.profile
+                    weak_cache.save()
+                    return weak_average
+
+
+
+
+
+            except Exception as e:
+                arr = self.weakAreas_Intensity(subject)
+                
+                marks = SSCOnlineMarks.objects.filter(student =
+                                                  self.profile,test__sub =
+                                                  subject)
+                if 'Defence' in subject:
+                    all_marks = SSCOnlineMarks.objects.filter(student=
+                                                          self.profile,test__sub='Defence-MultipleSubjects')
+                else:
+
+                    all_marks = SSCOnlineMarks.objects.filter(student=
+                                                          self.profile,test__sub='SSCMultipleSections')
+
+                all_ids = []
+                all_tests_ids = []
+                for mark in marks:
+                    all_tests_ids.append(mark.id)
+                    for total in mark.allAnswers:
+                        try:
+                            quest = SSCquestions.objects.get(choices__id = total)
+                        except Exception as e:
+                            print(str(e))
+                            continue
+                        all_ids.append(quest.topic_category)
+                    for sk in mark.skippedAnswers:
+                        try:
+                            quest = SSCquestions.objects.get(id = sk)
+                        except Exception as e:
+                            print(str(e))
+                            continue
+                        all_ids.append(quest.topic_category)
+                # finds question ids from mixed category tests
+                if all_marks:
+                    for mark in all_marks:
+                        all_tests_ids.append(mark.id)
+                        for total in mark.allAnswers:
+                            try:
+                                quest = SSCquestions.objects.get(choices__id = total)
+                            except Exception as e:
+                                print(str(e))
+                                continue
+                            if quest.section_category == subject:
+                                all_ids.append(quest.topic_category)
+                        for sk in mark.skippedAnswers:
+                            try:
+                                quest = SSCquestions.objects.get(id = sk)
+                            except Exception as e:
+                                print(str(e))
+                                continue
+                            if quest.section_category == subject:
+                                all_ids.append(quest.topic_category)
+                #if offline_marks:
+                #    for mark in offline_marks:
+                #        for total in mark.allAnswers:
+                #            try:
+                #                quest = SSCquestions.objects.get(choices__id = total)
+                #            except Exception as e:
+                #                print(str(e))
+                #                continue
+                #            all_ids.append(quest.topic_category)
+                #        for sk in mark.skippedAnswers:
+                #            try:
+                #                quest = SSCquestions.objects.get(id = sk)
+                #            except Exception as e:
+                #                print(str(e))
+                #                continue
+                #            all_ids.append(quest.topic_category)
+                #if offline_all_marks:
+                #    for mark in offline_all_marks:
+                #        for total in mark.allAnswers:
+                #            try:
+                #                quest = SSCquestions.objects.get(choices__id = total)
+                #            except Exception as e:
+                #                print(str(e))
+                #                continue
+                #            if quest.section_category == subject:
+                #                all_ids.append(quest.topic_category)
+                #        for sk in mark.skippedAnswers:
+                #            try:
+                #                quest = SSCquestions.objects.get(id = sk)
+                #            except Exception as e:
+                #                print(str(e))
+                #                continue
+                #            if quest.section_category == subject:
+                #                all_ids.append(quest.topic_category)
+
+
+
+
+
+                unique, counts = np.unique(all_ids, return_counts=True)
+                cat_quests = np.asarray((unique, counts)).T
+                arr = np.array(arr)
+                average_cat = []
+                average_percent = []
+
+                if len(arr)>0:
+                    for i,j in cat_quests:
+                        if i in arr[:,0]:
+                            ind = np.where(arr==i)
+                            now_arr = arr[ind[0],1]
+                            average =(int(now_arr[0])/int(j)*100)
+                            average_cat.append(i)
+                            average_percent.append(100-average)
+
+                    weak_average = list(zip(average_cat,average_percent))
+                    weak_cache = StudentWeakAreasCache()
+                    weak_cache = StudentWeakAreasCache()
+                    weak_cache.categories = average_cat
+                    weak_cache.accuracies = average_percent
+                    weak_cache.subject = subject
+                    weak_cache.allTests = all_tests_ids
+                    weak_cache.numTests = len(all_tests_ids)
+                    weak_cache.student = self.profile
+                    weak_cache.save()
+
+
+
+
+                    return weak_average
+                else:
+                    return 0
+    def helper_alltestweakness(self,subject):
             marks = SSCOnlineMarks.objects.filter(student =
                                                   self.profile,test__sub =
                                                   subject)
+
             if 'Defence' in subject:
                 all_marks = SSCOnlineMarks.objects.filter(student=
                                                       self.profile,test__sub='Defence-MultipleSubjects')
@@ -1666,16 +1874,11 @@ class Studs:
 
                 all_marks = SSCOnlineMarks.objects.filter(student=
                                                       self.profile,test__sub='SSCMultipleSections')
-            offline_marks =\
-            SSCOfflineMarks.objects.filter(student=self.profile,test__sub =
-                                           subject)
-            offline_all_marks = SSCOfflineMarks.objects.filter(student =
-                                                               self.profile,
-                                                               test__sub =
-                                                               'SSCMultipleSections')
-            all_tests_cache = len(marks) + len(all_marks)
+
             all_ids = []
+            all_tests_ids = []
             for mark in marks:
+                all_tests_ids.append(mark.id)
                 for total in mark.allAnswers:
                     try:
                         quest = SSCquestions.objects.get(choices__id = total)
@@ -1693,6 +1896,7 @@ class Studs:
             # finds question ids from mixed category tests
             if all_marks:
                 for mark in all_marks:
+                    all_tests_ids.append(mark.id)
                     for total in mark.allAnswers:
                         try:
                             quest = SSCquestions.objects.get(choices__id = total)
@@ -1709,40 +1913,40 @@ class Studs:
                             continue
                         if quest.section_category == subject:
                             all_ids.append(quest.topic_category)
-            if offline_marks:
-                for mark in offline_marks:
-                    for total in mark.allAnswers:
-                        try:
-                            quest = SSCquestions.objects.get(choices__id = total)
-                        except Exception as e:
-                            print(str(e))
-                            continue
-                        all_ids.append(quest.topic_category)
-                    for sk in mark.skippedAnswers:
-                        try:
-                            quest = SSCquestions.objects.get(id = sk)
-                        except Exception as e:
-                            print(str(e))
-                            continue
-                        all_ids.append(quest.topic_category)
-            if offline_all_marks:
-                for mark in offline_all_marks:
-                    for total in mark.allAnswers:
-                        try:
-                            quest = SSCquestions.objects.get(choices__id = total)
-                        except Exception as e:
-                            print(str(e))
-                            continue
-                        if quest.section_category == subject:
-                            all_ids.append(quest.topic_category)
-                    for sk in mark.skippedAnswers:
-                        try:
-                            quest = SSCquestions.objects.get(id = sk)
-                        except Exception as e:
-                            print(str(e))
-                            continue
-                        if quest.section_category == subject:
-                            all_ids.append(quest.topic_category)
+            #if offline_marks:
+            #    for mark in offline_marks:
+            #        for total in mark.allAnswers:
+            #            try:
+            #                quest = SSCquestions.objects.get(choices__id = total)
+            #            except Exception as e:
+            #                print(str(e))
+            #                continue
+            #            all_ids.append(quest.topic_category)
+            #        for sk in mark.skippedAnswers:
+            #            try:
+            #                quest = SSCquestions.objects.get(id = sk)
+            #            except Exception as e:
+            #                print(str(e))
+            #                continue
+            #            all_ids.append(quest.topic_category)
+            #if offline_all_marks:
+            #    for mark in offline_all_marks:
+            #        for total in mark.allAnswers:
+            #            try:
+            #                quest = SSCquestions.objects.get(choices__id = total)
+            #            except Exception as e:
+            #                print(str(e))
+            #                continue
+            #            if quest.section_category == subject:
+            #                all_ids.append(quest.topic_category)
+            #        for sk in mark.skippedAnswers:
+            #            try:
+            #                quest = SSCquestions.objects.get(id = sk)
+            #            except Exception as e:
+            #                print(str(e))
+            #                continue
+            #            if quest.section_category == subject:
+            #                all_ids.append(quest.topic_category)
 
 
 
@@ -1750,42 +1954,8 @@ class Studs:
 
             unique, counts = np.unique(all_ids, return_counts=True)
             cat_quests = np.asarray((unique, counts)).T
-            arr = np.array(arr)
-            average_cat = []
-            average_percent = []
+            return cat_quests
 
-            if len(arr)>0:
-                for i,j in cat_quests:
-                    if i in arr[:,0]:
-                        ind = np.where(arr==i)
-                        now_arr = arr[ind[0],1]
-                        average =(int(now_arr[0])/int(j)*100)
-                        average_cat.append(i)
-                        average_percent.append(average)
-
-                weak_average = list(zip(average_cat,average_percent))
-                try:
-                    weak_cache = StudentWeakAreasCache.objects.get(student =
-                                                                   self.profile,subject
-                                                                   = subject,
-                                                                   numTests =
-                                                                   all_tests_cache)
-                except Exception as e:
-                    print(str(e))
-                    weak_cache = StudentWeakAreasCache()
-                    weak_cache.categories = average_cat
-                    weak_cache.accuracies = average_percent
-                    weak_cache.subject = subject
-                    weak_cache.numTests = all_tests_cache
-                    weak_cache.student = self.profile
-                    weak_cache.save()
-
-
-
-
-                return weak_average
-            else:
-                return 0
     def weakAreas_timing(self,subject):
         arr = self.weakAreas(subject)
         anal = []
@@ -2212,6 +2382,8 @@ class Studs:
         timing = []
         if subject == 'English':
             for i,j in arr:
+                i = str(i)
+                j = str(j)
                 if i == '1.1':
                     namedarr.append('Antonym')
                     timing.append(j)
@@ -5829,7 +6001,7 @@ class Teach:
                                 new_total = l + o
                                 average =((new_wrong)/int(new_total)*100)
                                 new_cat.append(i)
-                                new_accuracy.append(average)
+                                new_accuracy.append(100-average)
                                 new_total_wrong.append(new_wrong)
                                 new_total_total.append(new_total)
 # update the old weak areas by adding categories that were
@@ -5857,8 +6029,6 @@ class Teach:
                                                           user,test__sub =
                                                           subject,test__klas__name
                                                          = klass)
-                print('{} this is the total number off\
-                      sscmarks'.format(len(total_arr)))
                 if 'Defence' in subject:
                     all_total_arr = SSCOnlineMarks.objects.filter(test__creator =
                                                                   user,test__sub=
@@ -5899,14 +6069,14 @@ class Teach:
                 total_cat = []
                 new_weak_areas_cache = TeacherWeakAreasDetailCache()
                 for i,j in waf:
-                    if i in arr[:,0]:
+                    if k in arr[:,0]:
                         ind = np.where(arr==i)
                         now_arr = arr[ind[0],1]
                         average =(int(now_arr[0])/int(j)*100)
                         wrong_total.append(now_arr[0])
                         total_cat.append(j)
                         average_cat.append(i)
-                        average_percent.append(average)
+                        average_percent.append(100-average)
                 new_weak_areas_cache.teacher = self.profile
                 new_weak_areas_cache.klass = klass
                 new_weak_areas_cache.subject = subject
@@ -10613,9 +10783,111 @@ def helper_weakIntesityAverage(total_arr):
     return quest_categories
 
 
+def helper_weakAreas_Intensity(old_ids,subject):
 
-#def checking_signals(sender, instance, created, *args, **kwargs):
-#    print('The signal is working')
-#    print(instance.student)
-#
+    wrong_Answers = []
+    skipped_Answers = []
+    # if onetest object is present then adds all the wrong and skipped
+    # answers to separate lists
+    for test in old_ids:
+        for wa in test.wrongAnswers:
+            wrong_Answers.append(wa)
+        for sa in test.skippedAnswers:
+            skipped_Answers.append(sa)
+    wq=[]
+    for i in wrong_Answers:
+        if self.institution == 'School':
+            qu = Questions.objects.get(choices__id = i)
+        elif self.institution == 'SSC':
+        # finds the questions objects of wrong questions
+            try:
+                qu = SSCquestions.objects.get(choices__id = i)
+            except Exception as e:
+                print(str(e))
+                continue
+            if subject == 'SSCMultipleSections' or subject ==\
+            'Defence-MultipleSubjects':
+                quid = qu.id
+                wq.append(quid)
+            else:
+                if qu.section_category == subject:
+                    quid = qu.id
+                    wq.append(quid)
+    for i in skipped_Answers:
+        if self.institution == 'School':
+            try:
+                qu = Questions.objects.get(id = i)
+            except Exception as e:
+                print(str(e))
+                continue
+        elif self.institution == 'SSC':
+        # finds the questions objects of skipped questions
+            try:
+                qu = SSCquestions.objects.get(id = i)
+            except Exception as e:
+                print(str(e))
+                continue
+            if subject == 'SSCMultipleSections'or subject ==\
+            'Defence-MultipleSubjects':
+                quid = qu.id
+                wq.append(quid)
+            else:
+                if qu.section_category == subject:
+                    quid = qu.id
+                    wq.append(quid)
+    # finds unique questions with thier frequency
+    unique, counts = np.unique(wq, return_counts=True)
+    waf = np.asarray((unique, counts)).T
+    nw_ind = []
+    # sorts the list
+    kk = np.sort(waf,0)[::-1]
+    for u in kk[:,1]:
+        for z,w in waf:
+            if u == w:
+                if z in nw_ind:
+                    continue
+                else:
+                    nw_ind.append(z)
+                    break
+    final_freq = np.asarray((nw_ind,kk[:,1])).T
+    arr = final_freq
+
+    catSubject = []
+    catCategory = []
+    anal = []
+    num = []
+    for u,k in arr:
+        if self.institution == 'School':
+            qu = Questions.objects.get(id = u)
+        elif self.institution == 'SSC':
+            qu = SSCquestions.objects.get(id = u)
+        if subject == 'SSCMultipleSections'or subject ==\
+            'Defence-MultipleSubjects':
+            quest_cat = qu.topic_category
+            quest_sub = qu.section_category
+            name_cat = self.changeIndividualNames(quest_cat,quest_sub)
+            anal.append(name_cat)
+            num.append(k)
+        else:
+            category = qu.topic_category
+            anal.append(category)
+            num.append(k)
+    analysis = list(zip(anal,num))
+    final_analysis = []
+    final_num = []
+    for u,k in analysis:
+        if u in final_analysis:
+            ind = final_analysis.index(u)
+            temp = final_num[ind]
+            final_num[ind] = temp + k
+        else:
+            final_analysis.append(u)
+            final_num.append(k)
+
+    waf = list(zip(final_analysis,final_num))
+    return waf
+
+
+
+
 #post_save.connect(checking_signals, sender = SSCOnlineMarks)
