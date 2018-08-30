@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'Recommendations',
     'membership',
     'QuestionsAndPapers',
-    'Private_Messages'
+    'Private_Messages',
     'allauth',
     'allauth.account',
     'rest_auth.registration',
