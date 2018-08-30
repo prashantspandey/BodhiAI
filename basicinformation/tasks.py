@@ -1577,7 +1577,7 @@ def add_questions(institute,section):
         print('%s num questions' %len(questions))
 
 @shared_task
-def create_test_api(user_id,quest_list,date,time):
+def create_test_api(user_id,quest_list,date,time,kl):
     user = User.objects.get(id = user_id)
     me = Teach(user)
     date = datetime.strptime(date,"%d-%m-%Y")
