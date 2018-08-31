@@ -6069,7 +6069,7 @@ class Teach:
                 total_cat = []
                 new_weak_areas_cache = TeacherWeakAreasDetailCache()
                 for i,j in waf:
-                    if k in arr[:,0]:
+                    if i in arr[:,0]:
                         ind = np.where(arr==i)
                         now_arr = arr[ind[0],1]
                         average =(int(now_arr[0])/int(j)*100)
