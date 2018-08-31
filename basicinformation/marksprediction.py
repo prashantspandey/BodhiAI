@@ -6147,9 +6147,9 @@ class Teach:
                             new_ids.append(te_id)
                 all_ids = []
                 for ids in marks:
-                    all_ids.append(ids.test.id)
+                    all_ids.append(ids.id)
                 for ids in every_marks:
-                    all_ids.append(ids.test.id)
+                    all_ids.append(ids.id)
 
 
                 new_marks =[]
@@ -6284,8 +6284,6 @@ class Teach:
                 time_cache.testids = all_ids
                 time_cache.subject = subject
                 time_cache.save()
-                print('%s timing' %timing)
-                print('%s freq list' %freq_list)
                 return timing,freq_list
 
     def find_classRank(self,li):
