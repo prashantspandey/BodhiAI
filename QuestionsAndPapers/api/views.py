@@ -466,7 +466,7 @@ class StudentEvaluateTestAPIView(APIView):
             val = int(a)
             inner.append(val)
             if (n+1)%3 == 0:
-                outer.append(inner)
+                outer.append(list(inner))
                 inner = []
 
 
@@ -488,6 +488,7 @@ class StudentEvaluateTestAPIView(APIView):
         details = []
         for test in outer:
             print('{} this is test'.format(test))
+            print(type(test))
             for qid,chid,time in test:
                 print(quid)
                 print(chid)
