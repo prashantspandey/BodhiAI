@@ -577,10 +577,10 @@ def add_to_database_questions_text(sheet_link,school,production=False,explanatio
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/siel/'+sh,error_bad_lines=False )
+                pd.read_csv('/app/question_data/jen_content/general_science/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/swami_reasoning/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/jen_content/general_science/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
@@ -679,10 +679,10 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/jen_content/fitter/'+sh,error_bad_lines=False )
+                pd.read_csv('/app/question_data/jen_content/general_science/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/jen_content/fitter/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/jen_content/general_science/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
