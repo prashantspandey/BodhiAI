@@ -15,8 +15,8 @@ from rest_framework.permissions import (
     IsAuthenticated
 )
 from basicinformation.tasks import *
-
-
+from django.utils import timezone
+import numpy as np
 # ALL STUDENT APIs
 
 #---------------------------------------------------------------------------------------
@@ -452,9 +452,20 @@ class StudentEvaluateTestAPIView(APIView):
         test_id = request.POST['test_id']
         answers = request.POST['answers']
         time = request.POST['total_time']
-        print('test_id')
-        print('answers')
-        print('time')
+        print(test_id)
+        print(answers)
+        print(type(answers))
+        print(time)
+        answers = answers.split(',')
+        inner = []
+        for a in answers:
+            l = a.replace('[','')
+            r = a.replace(']','')
+            s = a.replace(' ','')
+            print('{} this is converted a'.format(a))
+            quest_list = a.split(',')
+            inner.append(quest_list)
+
         me = Studs(self.request.user)
         test = SSCKlassTest.objects.get(id = test_id)
         online_marks = SSCOnlineMarks()
@@ -467,7 +478,7 @@ class StudentEvaluateTestAPIView(APIView):
         skipped_answers = []
         all_answers = []
         details = []
-        for test in answers:
+        for test in inner:
             print(test)
             for qid,chid,time in test:
                 question = SSCquestions.objects.get(id = qid)
