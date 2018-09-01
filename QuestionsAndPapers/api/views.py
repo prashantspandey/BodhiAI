@@ -468,6 +468,7 @@ class StudentEvaluateTestAPIView(APIView):
         all_answers = []
         details = []
         for test in answers:
+            print(test)
             for qid,chid,time in test:
                 question = SSCquestions.objects.get(id = qid)
                 if chid == -1:
