@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '$x7qlgtufkr7v#zzrn)9zq_trt+juze+86674$-&^ia5dj=%un'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS =\
         ['https://bodhiai.herokuapp.com/','https://bodhiai.herokuapp.com','https://bodhiai.herokuapp.com/bodhi','bodhiai.herokuapp.com','bodhiai.in','www.bodhiai.in','http://bodhiai.in','bodhiai.in/','https://bodhiai.in','https://www.bodhiai.in']
