@@ -458,14 +458,21 @@ class StudentEvaluateTestAPIView(APIView):
         print(time)
         answers = answers.split(',')
         inner = []
-        for a in answers:
-            l = a.replace('[','')
-            r = a.replace(']','')
-            s = a.replace(' ','')
-            print('{} this is converted a'.format(a))
-            quest_list = a.split(',')
-            inner.append(quest_list)
+        outer = []
+        tot = 0
+        for n,a in enumerate(answers):
+            a = a.replace('[','')
+            a = a.replace(']','')
+            val = int(a)
+            inner.append(val)
+            if (n+1)%3 == 0:
+                outer.append(inner)
+                inner = []
 
+
+
+
+        print('{} this is inner, {} this is outer'.format(inner,outer))
         me = Studs(self.request.user)
         test = SSCKlassTest.objects.get(id = test_id)
         online_marks = SSCOnlineMarks()
