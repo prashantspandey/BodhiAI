@@ -451,11 +451,7 @@ class StudentEvaluateTestAPIView(APIView):
     def post(self,request,*args,**kwargs):
         test_id = request.POST['test_id']
         answers = request.POST['answers']
-        time = request.POST['total_time']
-        print(test_id)
-        print(answers)
-        print(type(answers))
-        print(time)
+        total_time = request.POST['total_time']
         answers = answers.split(',')
         inner = []
         outer = []
@@ -472,8 +468,6 @@ class StudentEvaluateTestAPIView(APIView):
 
 
 
-        print('{} this is inner, {} this is outer'.format(inner,outer))
-        print(type(outer))
         outer = np.array(outer)
         me = Studs(self.request.user)
         test = SSCKlassTest.objects.get(id = test_id)
@@ -488,23 +482,17 @@ class StudentEvaluateTestAPIView(APIView):
         all_answers = []
         details = []
         for qid,chid,time in outer:
-            print(qid)
-            print(chid)
-            print(time)
             question = SSCquestions.objects.get(id = qid)
             all_answers.append(chid)
             if chid == -1:
                 skipped_answers.append(qid)
             for ch in question.choices_set.all():
-                print(ch)
                 if chid == ch.id:
                     pred = ch.predicament
                     if pred =='Correct':
-                        print('correct')
                         total_marks += question.max_marks
                         right_answers.append(chid)
                     if pred == 'Wrong':
-                        print('wrong')
                         total_marks -= question.negative_marks
                         wrong_answers.append(chid)
             answered_detail = eval('"detail",chid')
@@ -519,14 +507,13 @@ class StudentEvaluateTestAPIView(APIView):
         online_marks.rightAnswers = right_answers
         online_marks.wrongAnswers = wrong_answers
         online_marks.skippedAnswers = skipped_answers
-        online_marks.timeTaken = time
+        online_marks.timeTaken = total_time
         online_marks.save()
         for i in details:
             i.onlineMarks = online_marks
             i.save()
 
-
-        print(online_marks.allAnswers)
-        context = {'checked':'Testing'}
+        serializer = SSCOnlineMarksSerializer(online_marks)
+        context = {'marks':serializer.data}
         return Response(context)
 
