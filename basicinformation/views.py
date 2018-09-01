@@ -224,19 +224,43 @@ def teacher_confirmation(request):
                              me.profile)
             subenglish.save()
         elif str(confirmation.school).strip() == "JEN":
-            print('creating subject for JEN coaching')
-            print(me.profile)
-            subGenInte = Subject(name="General-Intelligence",student=stud,teacher=me.profile)
-            subGenInte.save()
-            subMaths = Subject(name="Quantitative-Analysis",student=stud,teacher=me.profile)
-            subEnglish = Subject(name="English",student=stud,teacher=me.profile)
-            subGenKnow = Subject(name="General-Knowledge",student=stud,teacher=me.profile)
-            subMaths.save()
-            subEnglish.save()
-            subGenKnow.save()
+            if batch.name == 'RailwayGroupDCrashCourse':
+                subGenInte = Subject(name="General-Intelligence",student=stud,teacher=me.profile)
+                subGenInte.save()
+                subMaths = Subject(name="Quantitative-Analysis",student=stud,teacher=me.profile)
+                subGenKnow = Subject(name="General-Knowledge",student=stud,teacher=me.profile)
+                subGenSci = Subject(name="General-Science",student=stud,teacher=me.profile)
+                subMaths.save()
+                subGenSci.save()
+                subGenKnow.save()
 
-            subLocoPilot = Subject(name="ElectricalLocoPilot",student=stud,teacher=me.profile)
-            subLocoPilot.save()
+            if batch.name == 'LocoPilot':
+                subGenInte = Subject(name="General-Intelligence",student=stud,teacher=me.profile)
+                subGenInte.save()
+                subMaths = Subject(name="Quantitative-Analysis",student=stud,teacher=me.profile)
+                subEnglish = Subject(name="English",student=stud,teacher=me.profile)
+                subGenKnow = Subject(name="General-Knowledge",student=stud,teacher=me.profile)
+                subGenSci = Subject(name="General-Science",student=stud,teacher=me.profile)
+                subMaths.save()
+                subEnglish.save()
+                subGenSci.save()
+                subGenKnow.save()
+
+                subLocoPilot = Subject(name="ElectricalLocoPilot",student=stud,teacher=me.profile)
+                subLocoPilot.save()
+            if batch.name == 'SSC':
+                subGenInte = Subject(name="General-Intelligence",student=stud,teacher=me.profile)
+                subGenInte.save()
+                subMaths = Subject(name="Quantitative-Analysis",student=stud,teacher=me.profile)
+                subEnglish = Subject(name="English",student=stud,teacher=me.profile)
+                subGenKnow = Subject(name="General-Knowledge",student=stud,teacher=me.profile)
+                subGenSci = Subject(name="General-Science",student=stud,teacher=me.profile)
+                subMaths.save()
+                subGenSci.save()
+                subEnglish.save()
+                subGenKnow.save()
+
+
             print('subLocoPilot_saved')
         elif str(confirmation.school).strip() == "YSM":
             print('creating subject for YSM coaching')
@@ -245,6 +269,8 @@ def teacher_confirmation(request):
             subMaths = Subject(name="Quantitative-Analysis",student=stud,teacher=me.profile)
             subEnglish = Subject(name="English",student=stud,teacher=me.profile)
             subGenKnow = Subject(name="General-Knowledge",student=stud,teacher=me.profile)
+            subGenSci = Subject(name="General-Science",student=stud,teacher=me.profile)
+            subGenSci.save()
             subMaths.save()
             subEnglish.save()
             subGenKnow.save()
@@ -299,13 +325,13 @@ def home(request):
             #sheet_links =\
             #['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
             sheet_links = \
-                    ['1f.csv','2.csv','3.csv','4.csv','5.csv','6.csv','7.csv','8.csv','9.csv','10.csv','11.csv','12.csv','13.csv','14.csv','15.csv','16.csv','17.csv']
+                    ['phy1.csv','phy2.csv','phy3.csv','phy4.csv','phy5.csv','phy6.csv','phy7.csv','phy8.csv','phy9.csv','phy10.csv','bio1.csv','bio2.csv','bio3.csv','bio4.csv','bio5.csv','bio6.csv','bio7.csv','bio8.csv','bio9.csv','bio10.csv']
             #sheet_links2 = \
             #        ['1f.csv']
             #adding_quest =\
             #delete_allQuestions.delay("JEN")
             #allquestions_institute.delay('English',"JEN")
-            #add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
+            add_to_database_questions.delay(sheet_links,'JEN',production=False,onlyImage=True)
             #school_name = 'JEN'
             #batch = 'LocoPilot'
             #school = School.objects.get(name=school_name)

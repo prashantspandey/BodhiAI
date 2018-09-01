@@ -28,13 +28,18 @@ class SSCKlassTest(models.Model):
     name = models.CharField(max_length=100)
     subject_choices = \
         (('General-Intelligence','General-Intelligence'),('General-Knowledge','General-Knowledge')
-         ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English'),('Defence-English','Defence-English'),
-        ('Defence-Physics','Defence-Physics'),('GroupX-Maths','GroupX-Maths'),('Defence-GK-CA','Defence-GK-CA'),
-        ('SSCMultipleSections','SSCMultipleSections'),('Defence-MultipleSubjects','Defence-MultipleSubjects'),('IITJEE10-MultipleSubjects','IITJEE10-MultipleSubjects')
-        ,('IITJEE11-MultipleSubjects','IITJEE11-MultipleSubjects'),('IITJEE12-MultipleSubjects','IITJEE12-MultipleSubjects'),('MathsIITJEE10','MathsIITJEE10')
-         ,('MathsIITJEE11','MathsIITJEE11'),('MathsIITJEE12','MathsIITJEE12'),('ChemistryIITJEE10','ChemistryIITJEE10'),('ChemistryIITJEE11','ChemistryIITJEE11')
-         ,('ChemistryIITJEE12','ChemistryIITJEE12'),('PhysicsIITJEE10','PhysicsIITJEE10'),('PhysicsIITJEE11','PhysicsIITJEE11')
-         ,('PhysicsIITJEE12','PhysicsIITJEE12'),('ElectricalLocoPilot','ElectricalLocoPilot'),('FitterLocoPilot','FitterLocoPilot'))
+         ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English')
+         ,('Defence-English','Defence-English'),('Defence-Physics','Defence-Physics')
+         ,('GroupX-Maths','GroupX-Maths'),('Defence-GK-CA','Defence-GK-CA'),
+        ('SSCMultipleSections','SSCMultipleSections'),('Defence-MultipleSubjects','Defence-MultipleSubjects')
+         ,('IITJEE10-MultipleSubjects','IITJEE10-MultipleSubjects'),('IITJEE11-MultipleSubjects','IITJEE11-MultipleSubjects')
+         ,('IITJEE12-MultipleSubjects','IITJEE12-MultipleSubjects'),('MathsIITJEE10','MathsIITJEE10')
+         ,('MathsIITJEE11','MathsIITJEE11'),('MathsIITJEE12','MathsIITJEE12')
+         ,('ChemistryIITJEE10','ChemistryIITJEE10'),('ChemistryIITJEE11','ChemistryIITJEE11')
+         ,('ChemistryIITJEE12','ChemistryIITJEE12'),('PhysicsIITJEE10','PhysicsIITJEE10')
+         ,('PhysicsIITJEE11','PhysicsIITJEE11'),('PhysicsIITJEE12','PhysicsIITJEE12')
+         ,('ElectricalLocoPilot','ElectricalLocoPilot'),('FitterLocoPilot','FitterLocoPilot')
+         ,('General-Science','General-Science'))
     course_choices = (('SSC','SSC'),('Railways','Railways'))
 
     #max_marks = models.DecimalField(max_digits=4,decimal_places=2)
@@ -128,11 +133,16 @@ class SSCquestions(models.Model):
     language_choices = (('English','English'),('Hindi','Hindi'),('Bi','Bi'))
     section_choices = \
         (('General-Intelligence','General-Intelligence'),('General-Knowledge','General-Knowledge')
-         ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English'),('Defence-English','Defence-English'),
-        ('Defence-Physics','Defence-Physics'),('GroupX-Maths','GroupX-Maths'),('Defence-GK-CA','Defence-GK-CA'),('MathsIITJEE10','MathsIITJEE10'),('MathsIITJEE11','MathsIITJEE11')
-         ,('MathsIITJEE12','MathsIITJEE12'),('ChemistryIITJEE10','ChemistryIITJEE10'),('ChemistryIITJEE11','ChemistryIITJEE11')
-         ,('ChemistryIITJEE12','ChemistryIITJEE12'),('PhysicsIITJEE10','PhysicsIITJEE10'),('PhysicsIITJEE11','PhysicsIITJEE11')
-         ,('PhysicsIITJEE12','PhysicsIITJEE12'),('Design and analysis of algorithm','Design and analysis of algorithm'),('ElectricalLocoPilot','ElectricalLocoPilot'),('FitterLocoPilot','FitterLocoPilot'))
+         ,('Quantitative-Analysis','Quantitative-Analysis'),('English','English')
+         ,('Defence-English','Defence-English'),('Defence-Physics','Defence-Physics')
+         ,('GroupX-Maths','GroupX-Maths'),('Defence-GK-CA','Defence-GK-CA')
+         ,('MathsIITJEE10','MathsIITJEE10'),('MathsIITJEE11','MathsIITJEE11')
+         ,('MathsIITJEE12','MathsIITJEE12'),('ChemistryIITJEE10','ChemistryIITJEE10')
+         ,('ChemistryIITJEE11','ChemistryIITJEE11'),('ChemistryIITJEE12','ChemistryIITJEE12')
+         ,('PhysicsIITJEE10','PhysicsIITJEE10'),('PhysicsIITJEE11','PhysicsIITJEE11')
+         ,('PhysicsIITJEE12','PhysicsIITJEE12'),('Design and analysis of algorithm','Design and analysis of algorithm')
+         ,('ElectricalLocoPilot','ElectricalLocoPilot'),('FitterLocoPilot','FitterLocoPilot')
+         ,('General-Science','General-Science'))
     diffculty_choices = (('easy','easy'),('medium','medium'),('hard','hard'))
     text = models.TextField(blank=True,null=True)
     tier_category = models.CharField(max_length=20,choices = tier_choices)

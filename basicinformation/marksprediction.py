@@ -756,7 +756,7 @@ class Studs:
 
     def get_section(self):
         return self.profile.klass.name[-1]
-    
+
     def get_batch(self):
         return self.profile.klass
 
@@ -1741,7 +1741,7 @@ class Studs:
 
             except Exception as e:
                 arr = self.weakAreas_Intensity(subject)
-                
+
                 marks = SSCOnlineMarks.objects.filter(student =
                                                   self.profile,test__sub =
                                                   subject)
@@ -2730,6 +2730,71 @@ class Studs:
                    timing.append(j)
             return list(zip(namedarr,timing))
 
+        if subject == 'General-Science':
+            for i,j in arr:
+                if i == '1.1':
+                    namedarr.append('गुरूत्व स्थूल पदार्थ के गुण व प्रकाशन')
+                    timing.append(j)
+                if i == '2.1':
+                    namedarr.append('लेंस व दर्पण')
+                    timing.append(j)
+                if i == '3.1':
+                    namedarr.append('आधुनिक भौतिकी')
+                    timing.append(j)
+                if i == '4.1':
+                    namedarr.append('विमिय तथा द्विविमिय')
+                    timing.append(j)
+                if i == '5.1':
+                    namedarr.append('कॉमन प्रश्नपत्र भौतिक शास्त्रा')
+                    timing.append(j)
+                if i == '6.1':
+                    namedarr.append('दाब घटाव प्रत्यासा')
+                    timing.append(j)
+                if i == '7.1':
+                    namedarr.append('ध्वनि')
+                    timing.append(j)
+                if i == '8.1':
+                    namedarr.append('मात्रक विभाएं मापन')
+                    timing.append(j)
+                if i == '9.1':
+                    namedarr.append('सदिश तथा अदिश')
+                    timing.append(j)
+                if i == '10.1':
+                    namedarr.append('कार्य,ऊर्जा व शक्ति')
+                    timing.append(j)
+                if i == '11.1':
+                    namedarr.append('कोशिका विज्ञान')
+                    timing.append(j)
+                if i == '12.1':
+                    namedarr.append('पादप जगत')
+                    timing.append(j)
+                if i == '13.1':
+                    namedarr.append('पादप शरीर क्रिया विज्ञान')
+                    timing.append(j)
+                if i == '14.1':
+                    namedarr.append('आर्थिक वनस्पति विज्ञान')
+                    timing.append(j)
+                if i == '15.1':
+                    namedarr.append('जन्तु विज्ञान')
+                    timing.append(j)
+                if i == '16.1':
+                    namedarr.append('जन्तु उत्तक एवं पोषण')
+                    timing.append(j)
+                if i == '17.1':
+                    namedarr.append('आनुवांशिकी')
+                    timing.append(j)
+                if i == '18.1':
+                    namedarr.append('मानव स्वास्थ्य एवं रोग')
+                    timing.append(j)
+                if i == '19.1':
+                    namedarr.append('जैव प्रोद्यौगिकी')
+                    timing.append(j)
+                if i == '20.1':
+                    namedarr.append('कम्प्यूटर एवं सूचना प्रोद्यौगिकी')
+                    timing.append(j)
+
+
+            return list(zip(namedarr,timing))
 # categories for GroupX
 
         if subject == 'Defence-English':
@@ -3588,6 +3653,50 @@ class Studs:
                    namedarr.append('Polity (World)')
             return namedarr
 
+        if subject == 'General-Science':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('गुरूत्व स्थूल पदार्थ के गुण व प्रकाशन')
+                if i == '2.1':
+                    namedarr.append('लेंस व दर्पण')
+                if i == '3.1':
+                    namedarr.append('आधुनिक भौतिकी')
+                if i == '4.1':
+                    namedarr.append('विमिय तथा द्विविमिय')
+                if i == '5.1':
+                    namedarr.append('कॉमन प्रश्नपत्र भौतिक शास्त्रा')
+                if i == '6.1':
+                    namedarr.append('दाब घटाव प्रत्यासा')
+                if i == '7.1':
+                    namedarr.append('ध्वनि')
+                if i == '8.1':
+                    namedarr.append('मात्रक विभाएं मापन')
+                if i == '9.1':
+                    namedarr.append('सदिश तथा अदिश')
+                if i == '10.1':
+                    namedarr.append('कार्य,ऊर्जा व शक्ति')
+                if i == '11.1':
+                    namedarr.append('कोशिका विज्ञान')
+                if i == '12.1':
+                    namedarr.append('पादप जगत')
+                if i == '13.1':
+                    namedarr.append('पादप शरीर क्रिया विज्ञान')
+                if i == '14.1':
+                    namedarr.append('आर्थिक वनस्पति विज्ञान')
+                if i == '15.1':
+                    namedarr.append('जन्तु विज्ञान')
+                if i == '16.1':
+                    namedarr.append('जन्तु उत्तक एवं पोषण')
+                if i == '17.1':
+                    namedarr.append('आनुवांशिक')
+                if i == '18.1':
+                    namedarr.append('मानव स्वास्थ्य एवं रोग')
+                if i == '19.1':
+                    namedarr.append('जैव प्रोद्यौगिक')
+                if i == '20.1':
+                    namedarr.append('कम्प्यूटर एवं सूचना प्रोद्यौगिकी')
+
+            return namedarr
 
 # group x subjects
 
@@ -4259,6 +4368,52 @@ class Studs:
                    return 'World Organizations'
                 if i == '28.1':
                    return 'Polity (World)'
+
+        if subject == 'General-Science':
+            for i in arr:
+                if i == '1.1':
+                    return 'गुरूत्व स्थूल पदार्थ के गुण व प्रकाशन'
+                if i == '2.1':
+                    return 'लेंस व दर्पण'
+                if i == '3.1':
+                    return 'आधुनिक भौतिकी'
+                if i == '4.1':
+                    return 'विमिय तथा द्विविमिय'
+                if i == '5.1':
+                    return 'कॉमन प्रश्नपत्र भौतिक शास्त्रा'
+                if i == '6.1':
+                    return 'दाब घटाव प्रत्यासा'
+                if i == '7.1':
+                    return 'ध्वनि'
+                if i == '8.1':
+                    return 'मात्रक विभाएं मापन'
+                if i == '9.1':
+                    return 'सदिश तथा अदिश'
+                if i == '10.1':
+                    return 'कार्य,ऊर्जा व शक्ति'
+                if i == '11.1':
+                    return 'कोशिका विज्ञान'
+                if i == '12.1':
+                    return 'पादप जगत'
+                if i == '13.1':
+                    return 'पादप शरीर क्रिया विज्ञान'
+                if i == '14.1':
+                    return 'आर्थिक वनस्पति विज्ञान'
+                if i == '15.1':
+                    return 'जन्तु विज्ञान'
+                if i == '16.1':
+                    return 'जन्तु उत्तक एवं पोषण'
+                if i == '17.1':
+                    return 'आनुवांशिक'
+                if i == '18.1':
+                    return 'मानव स्वास्थ्य एवं रोग'
+                if i == '19.1':
+                    return 'जैव प्रोद्यौगिक'
+                if i == '20.1':
+                    return 'कम्प्यूटर एवं सूचना प्रोद्यौगिकी'
+
+
+
 # group x subjects
 
         if subject == 'Defence-English':
@@ -4643,7 +4798,7 @@ class Studs:
                 if i == '18.1':
                     return 'Previous Year Exams Questions'
 
-    
+
 
 
 
@@ -6682,6 +6837,8 @@ class Teach:
 
             changed = list(zip(names,numbers))
             return changed
+
+
         if subject == 'General-Knowledge':
             for i in arr:
                 if i == '1.1':
@@ -6769,6 +6926,75 @@ class Teach:
                     numbers.append(i)
             changed = list(zip(names,numbers))
             return changed
+
+        if subject == 'General-Science':
+            for i in arr:
+                if i == '1.1':
+                    names.append('गुरूत्व स्थूल पदार्थ के गुण व प्रकाशन')
+                    numbers.append(i)
+
+                if i == '2.1':
+                    names.append('लेंस व दर्पण')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('आधुनिक भौतिकी')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('विमिय तथा द्विविमिय')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('कॉमन प्रश्नपत्र भौतिक शास्त्र')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('दाब घटाव प्रत्यासा')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('ध्वनि')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('मात्रक विभाएं मापन')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('सदिश तथा अदिश')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('कार्य,ऊर्जा व शक्ति')
+                    numbers.append(i)
+                if i == '11.1':
+                    names.append('कोशिका विज्ञान')
+                    numbers.append(i)
+                if i == '12.1':
+                    names.append('पादप जगत')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('पादप शरीर क्रिया विज्ञान')
+                    numbers.append(i)
+                if i == '14.1':
+                    names.append('आर्थिक वनस्पति विज्ञान')
+                    numbers.append(i)
+                if i == '15.1':
+                    names.append('जन्तु विज्ञान')
+                    numbers.append(i)
+                if i == '16.1':
+                    names.append('जन्तु उत्तक एवं पोषण')
+                    numbers.append(i)
+                if i == '17.1':
+                    names.append('आनुवांशिक')
+                    numbers.append(i)
+                if i == '18.1':
+                    names.append('मानव स्वास्थ्य एवं रोग')
+                    numbers.append(i)
+                if i == '19.1':
+                    names.append('जैव प्रोद्यौगिक')
+                    numbers.append(i)
+                if i == '20.1':
+                    names.append('कम्प्यूटर एवं सूचना प्रोद्यौगिकी')
+                    numbers.append(i)
+
+            changed = list(zip(names,numbers))
+            return changed
+
+
 # categories for GroupX
 
         if subject == 'Defence-English':
@@ -7645,399 +7871,470 @@ class Teach:
             changed = list(zip(names,numbers))
             return changed
         if subject == 'General-Knowledge':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     names.append('Inventions & Innovators')
+                    numbers.append(j)
                 if i == '2.1':
                     names.append('Bird Sanctuary')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '3.1':
                     names.append('Books & Authors')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '4.1':
                     names.append('Countries, Capitals & Currencies')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '5.1':
                     names.append('Current Affairs')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '6.1':
                     names.append('Economics')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '7.1':
                     names.append('General Science')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '8.1':
                     names.append('Biology')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '9.1':
                     names.append('Chemistry')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '10.1':
                     names.append('Science & Technology')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '11.1':
                     names.append('Physics')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '12.1':
                     names.append('Geography')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '13.1':
                     names.append('National Organizations')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '14.1':
                     names.append('History')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '15.1':
                     names.append('Honors & Awards')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '16.1':
                     names.append('Important Dates')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '17.1':
                     names.append('Indian Agriculture')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '18.1':
                     names.append('Indian Constitution')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '19.1':
                     names.append('Indian Culture')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '20.1':
                     names.append('Indian Museums')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '21.1':
                     names.append('Polity (India)')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '22.1':
                     names.append('Sports')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '23.1':
                     names.append('Superlatives(India)')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '24.1':
                     names.append('Symbols of States (India)')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '25.1':
                     names.append('Tiger Reserve')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '26.1':
                     names.append('UNESCO Word Heritage Sites(India)')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '27.1':
                     names.append('World Organizations')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '28.1':
                     names.append('Polity (World)')
-                    numbers.append(i)
+                    numbers.append(j)
             changed = list(zip(names,numbers))
             return changed
+
+
+        if subject == 'General-Science':
+            for i,j in arr:
+                if i == '1.1':
+                    names.append('गुरूत्व स्थूल पदार्थ के गुण व प्रकाशन')
+                    numbers.append(j)
+
+                if i == '2.1':
+                    names.append('लेंस व दर्पण')
+                    numbers.append(j)
+                if i == '3.1':
+                    names.append('आधुनिक भौतिकी')
+                    numbers.append(j)
+                if i == '4.1':
+                    names.append('विमिय तथा द्विविमिय')
+                    numbers.append(j)
+                if i == '5.1':
+                    names.append('कॉमन प्रश्नपत्र भौतिक शास्त्रा')
+                    numbers.append(j)
+                if i == '6.1':
+                    names.append('दाब घटाव प्रत्यासा')
+                    numbers.append(j)
+                if i == '7.1':
+                    names.append('ध्वनि')
+                    numbers.append(j)
+                if i == '8.1':
+                    names.append('मात्रक विभाएं मापन')
+                    numbers.append(j)
+                if i == '9.1':
+                    names.append('सदिश तथा अदिश')
+                    numbers.append(j)
+                if i == '10.1':
+                    names.append('कार्य,ऊर्जा व शक्ति')
+                    numbers.append(j)
+                if i == '11.1':
+                    names.append('कोशिका विज्ञान')
+                    numbers.append(j)
+                if i == '12.1':
+                    names.append('पादप जगत')
+                    numbers.append(j)
+                if i == '13.1':
+                    names.append('पादप शरीर क्रिया विज्ञान')
+                    numbers.append(j)
+                if i == '14.1':
+                    names.append('आर्थिक वनस्पति विज्ञान')
+                    numbers.append(j)
+                if i == '15.1':
+                    names.append('जन्तु विज्ञान')
+                    numbers.append(j)
+                if i == '16.1':
+                    names.append('जन्तु उत्तक एवं पोषण')
+                    numbers.append(j)
+                if i == '17.1':
+                    names.append('आनुवांशिक')
+                    numbers.append(j)
+                if i == '18.1':
+                    names.append('मानव स्वास्थ्य एवं रोग')
+                    numbers.append(j)
+                if i == '19.1':
+                    names.append('जैव प्रोद्यौगिक')
+                    numbers.append(j)
+                if i == '20.1':
+                    names.append('कम्प्यूटर एवं सूचना प्रोद्यौगिकी')
+                    numbers.append(j)
+
+            changed = list(zip(names,numbers))
+            return changed
+
+
 # categories for GroupX
 
         if subject == 'Defence-English':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     names.append('Comprehension')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '2.1':
                     names.append('Judge Comprehension')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '3.1':
                     names.append('Inferences')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '4.1':
                     names.append('Vocabulary')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '5.1':
                     names.append('Composition')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '6.1':
                     names.append('Subject and Verb')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '7.1':
                     names.append('Verb and their use')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '8.1':
                     names.append('Sequence of tenses')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '9.1':
                     names.append('Transformation')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '10.1':
                     names.append('Grammer')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '11.1':
                     names.append('Spellings')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '12.1':
                     names.append('Word formation')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '11.1':
                     names.append('Antonyms& Synonyms')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '11.1':
                     names.append('Word Substitution')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '12.1':
                     names.append('Correct use of words')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '13.1':
                     names.append('Confusing words')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '14.1':
                     names.append('Word order')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '15.1':
                     names.append('Correct use of Adverbs')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '16.1':
                     names.append('Idioms and Phrases')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '17.1':
                     names.append('Use of simple idioms')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '18.1':
                     names.append('Use of common proverbs')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '19.1':
                     names.append('Direct/Indirect sentences')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '20.1':
                     names.append('Direct to Indirect form')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '21.1':
                     names.append('Indirect to Direct')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '22.1':
                     names.append('Active and Passive voice')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '23.1':
                     names.append('Active to Passive voice')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '22.1':
                     names.append('Passive to Active voice')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '50.1':
                     names.append('To be categorized')
-                    numbers.append(i)
+                    numbers.append(j)
 
             changed = list(zip(names,numbers))
             return changed
 
         if subject == 'Defence-Physics':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     names.append('Unit of Dimension')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '2.1':
                     names.append('Scalers&Vectors')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '3.1':
                     namedarr.append('Motion in straight line')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '4.1':
                     names.append('Law of Motion')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '5.1':
                     names.append('Projectile Motion')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '6.1':
                     names.append('Circular Motion')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '7.1':
                     names.append('Friction ')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '8.1':
                     names.append('Work power & Energy')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '9.1':
                     names.append('Collision')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '10.1':
                     names.append('Rotational motion % Moment of Inertia')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '11.1':
                     names.append('Gravitation')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '12.1':
                     names.append('Elasticity')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '13.1':
                     names.append('Fluid Pressure ')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '14.1':
                     names.append('Viscocity& Flow of fluids')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '15.1':
                     names.append('Surface Tension')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '16.1':
                     names.append('Oscillations')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '17.1':
                     names.append('Thermometry')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '18.1':
                     names.append('Thermal Expansion')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '19.1':
                     names.append('Calorimetry')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '20.1':
                     names.append('Transmission of Heat')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '21.1':
                     names.append('Thermodynamics')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '22.1':
                     names.append('Kinetic Theory of gases')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '23.1':
                     names.append('Wave Motion')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '24.1':
                     names.append('Superposition of waves')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '25.1':
                     names.append('Speed of Sound')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '26.1':
                     names.append('Vibrations in air columns')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '27.1':
                     names.append('Vibration of Strings')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '28.1':
                     names.append('Dopplers Effect')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '29.1':
                     names.append('Musical Sound& Ultra sound')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '30.1':
                     names.append('Electric charge & Electric Field')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '31.1':
                     names.append('Gauss Theorem')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '32.1':
                     names.append('Electric Capacitance')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '33.1':
                     names.append('Electric Conduction')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '34.1':
                     names.append('Ohms Law')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '35.1':
                     names.append('Electromotive force & Electric cell')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '36.1':
                     names.append('Kirchoffs law & wheatstone bridge')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '37.1':
                     names.append('Potentiometer')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '38.1':
                     names.append('Heating effect of current')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '39.1':
                     names.append('Chemical effect of current')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '40.1':
                     names.append('Magnetic effect of current')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '41.1':
                     names.append('Electrical Instruments')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '42.1':
                     names.append('Magnetic Field')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '43.1':
                     names.append('Magnetic effects of matter & terrestrial\
                                     magnetism')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '44.1':
                     names.append('Electromagnetic Induction')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '45.1':
                     names.append('Alternating Current')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '46.1':
                     names.append('Reflection of light')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '47.1':
                     names.append('Refraction of light')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '48.1':
                     names.append('Refraction at Spherical surface & by\
                                     lenses')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '49.1':
                     names.append('Prism & scattering of light')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '50.1':
                     names.append('Optical instruments')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '51.1':
                     names.append('Human eye & defects of vision')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '52.1':
                     names.append('Wave theory of light')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '53.1':
                     names.append('Interferance & Deflection of light')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '54.1':
                     names.append('Polarization of light')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '55.1':
                     names.append('Photometry')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '56.1':
                     names.append('Dual nature of radiation & matter')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '57.1':
                     names.append('Electromagnetic waves')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '58.1':
                     names.append('Structure of Atom')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '59.1':
                     names.append('Radioactivity')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '60.1':
                     names.append('Nuclear fission & fusion')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '61.1':
                     names.append('Semi-conductor,diode & Transistors')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '62.1':
                     names.append('Digital electronics & logic gates')
-                    numbers.append(i)
+                    numbers.append(j)
 
             return list(zip(names,numbers))
         if subject == 'Defence-GK-CA':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     names.append('General Science')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '1.2':
                     names.append('Civics')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '1.3':
                     names.append('Geography')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '1.4':
                     names.append('Current Events')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '1.5':
                     names.append('History')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '1.6':
                     names.append('Basic Computer Operation')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '1.7':
                     names.append('General Knowledge')
-                    numbers.append(i)
+                    numbers.append(j)
 
             return list(zip(names,numbers))
 
@@ -8047,116 +8344,116 @@ class Teach:
 
 
         if subject == 'GroupX-Maths':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     names.append('Sets-Relations-Functions')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '2.1':
                     names.append('Trigonometric functions')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '3.1':
                     names.append('Inverse Trigonometric functions')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '4.1':
                     names.append('Complex numbers')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '5.1':
                     names.append('Quadratic eqations')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '6.1':
                     names.append('Sequence & Series')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '7.1':
                     names.append('Permutations')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '8.1':
                     names.append('Combination')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '9.1':
                     names.append('Binomial Theorem')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '10.1':
                     names.append('Coordinate Geometry')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '11.1':
                     names.append('Exponential Series')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '12.1':
                     names.append('Logarithmic Series')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '13.1':
                     names.append('Matrices')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '14.1':
                     names.append('Determinants')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '15.1':
                     names.append('Limit & Continuity')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '16.1':
                     names.append('Differentiation')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '17.1':
                     names.append('Application of Differentiation')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '18.1':
                     names.append('Indefinite Integrals')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '19.1':
                     names.append('Definite Integrals')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '20.1':
                     names.append('Application of Integration')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '21.1':
                     names.append('Diferential Equations')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '22.1':
                     names.append('Probability Statistics')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '23.1':
                     names.append('Properties of Triangle')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '24.1':
                     names.append('Height&Distance')
-                    numbers.append(i)
+                    numbers.append(j)
 
             changed = list(zip(names,numbers))
             return changed
 
         if subject == 'MathsIITJEE10':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     names.append('All Categories')
-                    numbers.append(i)
+                    numbers.append(j)
 
             return list(zip(names,numbers))
         if subject == 'MathsIITJEE11':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     names.append('All Categories')
-                    numbers.append(i)
+                    numbers.append(j)
             return list(zip(names,numbers))
 
         if subject == 'MathsIITJEE12':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     names.append('All Categories')
-                    numbers.append(i)
+                    numbers.append(j)
 
             return list(zip(names,numbers))
         if subject == 'PhysicsIITJEE10':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     names.append('All Categories')
-                    numbers.append(i)
+                    numbers.append(j)
             return list(zip(names,numbers))
 
         if subject == 'PhysicsIITJEE11':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     names.append('All Categories')
-                    numbers.append(i)
+                    numbers.append(j)
 
             return list(zip(names,numbers))
         if subject == 'PhysicsIITJEE12':
@@ -8189,126 +8486,126 @@ class Teach:
 
 # for locopilot subjects
         if subject == 'ElectricalLocoPilot':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     names.append('चालक,अचालक एवं कुचालक')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '2.1':
                     names.append('बेसिक इलेक्ट्रिकल')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '3.1':
                     names.append('विद्युत सेल')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '4.1':
                     names.append('संधारित्र')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '5.1':
                     names.append('चुम्बक')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '6.1':
                     names.append('डी.सी.जनित्र')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '7.1':
                     names.append('डी.सी.मोटर')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '8.1':
                     names.append('ए.सी थ्योरी')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '9.1':
                     names.append('भू-सम्पर्कन')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '10.1':
                     names.append('विद्युय वायरिंग')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '11.1':
                     names.append('विद्युत मापक यंत्र')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '12.1':
                     names.append('ट्रांसफार्मर')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '13.1':
                     names.append('प्रत्यावर्तक')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '14.1':
                     names.append('तुल्यकालिक प्रेरण')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '15.1':
                     names.append('ए.सी. मोटर')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '16.1':
                     names.append('वाइंडिंग')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '17.1':
                     names.append('विद्युत उत्पादन,ट्रांसमिशन एवं वितरण')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '18.1':
                     names.append('प्रदीप्ति')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '19.1':
                     names.append('इलेक्ट्रिक्स')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '20.1':
                     names.append('व्यावसायिक एवं सावधानियां')
-                    numbers.append(i)
+                    numbers.append(j)
 
             return list(zip(names,numbers))
 
         if subject == 'FitterLocoPilot':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     names.append('Introduction')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '2.1':
                     names.append('Fitter tools')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '3.1':
                     names.append('Sheet Metal Shop')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '4.1':
                     names.append('Welding Theory')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '5.1':
                     names.append('Soldering And Brazing')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '6.1':
                     names.append('Physical and Mechanical Properties of Metals')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '7.1':
                     names.append('Heat Treatment')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '8.1':
                     names.append('Bearings')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '9.1':
                     names.append('Drilling Machine')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '10.1':
                     names.append('Lathe Machine')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '11.1':
                     names.append('Grinding Machine')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '12.1':
                     names.append('Power Transmission')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '13.1':
                     names.append('Pipe And Pipe Fitting')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '14.1':
                     names.append('Screw Threads')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '15.1':
                     names.append('Gauge')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '16.1':
                     names.append('Limits,Fits And Tolerance')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '17.1':
                     names.append('Other Important Questions')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '18.1':
                     names.append('Previous Year Exams Questions')
-                    numbers.append(i)
+                    numbers.append(j)
 
             return list(zip(names,numbers))
 
@@ -8316,19 +8613,19 @@ class Teach:
 
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
-            for i in arr:
+            for i,j in arr:
                 if i == '1.1':
                     names.append('Divide and Conquer')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '2.1':
                     names.append('Dynamic Programming')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '3.1':
                     names.append('Introduction')
-                    numbers.append(i)
+                    numbers.append(j)
                 if i == '4.1':
                     names.append('Greedy Method')
-                    numbers.append(i)
+                    numbers.append(j)
                 return list(zip(names,numbers))
 
 
@@ -8586,6 +8883,54 @@ class Teach:
                 if i == 'Polity (World)':
                     numbers.append('28.1')
             return numbers
+
+        if subject == 'General-Science':
+            for i in arr:
+                if i == 'गुरूत्व स्थूल पदार्थ के गुण व प्रकाशन':
+                    numbers.append('1.1')
+                if i == 'लेंस व दर्पण':
+                    numbers.append('2.1')
+                if i == 'आधुनिक भौतिकी':
+                    numbers.append('3.1')
+                if i == 'विमिय तथा द्विविमिय':
+                    numbers.append('4.1')
+                if i == 'कॉमन प्रश्नपत्र भौतिक शास्त्रा':
+                    numbers.append('5.1')
+                if i == 'दाब घटाव प्रत्यासा':
+                    numbers.append('6.1')
+                if i == 'ध्वन':
+                    numbers.append('7.1')
+                if i == 'मात्रक विभाएं मापन':
+                    numbers.append('8.1')
+                if i == 'सदिश तथा अदिश':
+                    numbers.append('9.1')
+                if i == 'कार्य,ऊर्जा व शक्ति':
+                    numbers.append('10.1')
+                if i == 'कोशिका विज्ञान':
+                    numbers.append('11.1')
+                if i == 'पादप जगत':
+                    numbers.append('12.1')
+                if i == 'पादप शरीर क्रिया विज्ञान':
+                    numbers.append('13.1')
+                if i == 'आर्थिक वनस्पति विज्ञान':
+                    numbers.append('14.1')
+                if i == 'जन्तु विज्ञान':
+                    numbers.append('15.1')
+                if i == 'जन्तु उत्तक एवं पोषण':
+                    numbers.append('16.1')
+                if i == 'आनुवांशिक':
+                    numbers.append('17.1')
+                if i == 'मानव स्वास्थ्य एवं रोग':
+                    numbers.append('18.1')
+                if i == 'जैव प्रोद्यौगिक':
+                    numbers.append('19.1')
+                if i == 'कम्प्यूटर एवं सूचना प्रोद्यौगिकी':
+                    numbers.append('20.1')
+
+
+            return numbers
+
+
 # categories for GroupX
 
         if subject == 'Defence-English':
@@ -10352,6 +10697,52 @@ def changeIndividualNames(i,subject):
                return 'World Organizations'
             if i == '28.1':
                return 'Polity (World)'
+
+    if subject == 'General-Science':
+            if i == '1.1':
+                return 'गुरूत्व स्थूल पदार्थ के गुण व प्रकाशन'
+            if i == '1.1':
+                return 'लेंस व दर्पण'
+            if i == '2.1':
+                return 'आधुनिक भौतिकी'
+            if i == '3.1':
+                return 'विमिय तथा द्विविमिय'
+            if i == '4.1':
+                return 'कॉमन प्रश्नपत्र भौतिक शास्त्रा'
+            if i == '5.1':
+                return 'दाब घटाव प्रत्यासा'
+            if i == '6.1':
+                return 'ध्वनि'
+            if i == '7.1':
+                return 'मात्रक विभाएं मापन'
+            if i == '8.1':
+                return 'सदिश तथा अदिश'
+            if i == '9.1':
+                return 'कार्य,ऊर्जा व शक्ति'
+            if i == '10.1':
+                return 'कोशिका विज्ञान'
+            if i == '12.1':
+                return 'पादप जगत'
+            if i == '13.1':
+                return 'पादप शरीर क्रिया विज्ञान'
+            if i == '14.1':
+                return 'आर्थिक वनस्पति विज्ञान'
+            if i == '15.1':
+                return 'जन्तु विज्ञान'
+            if i == '16.1':
+                return 'जन्तु उत्तक एवं पोषण'
+            if i == '17.1':
+                return 'आनुवांशिक'
+            if i == '18.1':
+                return 'मानव स्वास्थ्य एवं रोग'
+            if i == '19.1':
+                return 'जैव प्रोद्यौगिक'
+            if i == '20.1':
+                return 'कम्प्यूटर एवं सूचना प्रोद्यौगिकी'
+
+
+
+
 # group x subjects
 
     if subject == 'Defence-English':

@@ -702,14 +702,14 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                 direction = df['Direction']
             except:
                 direction = len(optD) * ['None']
-            used_for = len(optD)*['LOCOPILOT_ELECTRICAL']
+            used_for = len(optD)*['SSC-GeneralScience']
             lang = df['lang']
             source = len(used_for)*['JEN']
             if onlyImage:
                 images = df['QuestionLink']
             else:
                 quest_text = df['Question']
-            sectionType = len(lang)*['locopilot_fitter']
+            sectionType = len(lang)*['general_science']
             #direction = df['Direction']
 
             if explanation_quest:
@@ -850,6 +850,8 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
             new_questions.section_category = 'ElectricalLocoPilot'
         elif sectionType == 'locopilot_fitter':
             new_questions.section_category = 'FitterLocoPilot'
+        elif sectionType == 'general_science':
+            new_questions.section_category = 'General-Science'
 
 
 
