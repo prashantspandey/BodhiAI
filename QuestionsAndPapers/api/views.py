@@ -486,18 +486,23 @@ class StudentEvaluateTestAPIView(APIView):
         all_answers = []
         details = []
         for test in inner:
-            print(test)
             for qid,chid,time in test:
+                print(quid)
+                print(chid)
+                print(time)
                 question = SSCquestions.objects.get(id = qid)
                 if chid == -1:
                     skipped_answers.append(qid)
                 for ch in question.choices__set.all():
+                    print(ch)
                     if chid == ch.id:
                         pred = ch.predicament
                         if pred =='correct':
+                            print('correct')
                             total_marks += question.max_marks
                             right_answers.append(chid)
                         if pred == 'wrong':
+                            print('wrong')
                             total_marks -= question.negative_marks
                             wrong_answers.append(chid)
                     all_answers.append(chid)
@@ -519,7 +524,7 @@ class StudentEvaluateTestAPIView(APIView):
             i.save()
 
 
-
+        print(online_marks.allAnswers)
         context = {'checked':'Testing'}
         return Response(context)
 
