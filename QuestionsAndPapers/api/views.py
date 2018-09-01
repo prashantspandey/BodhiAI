@@ -3,7 +3,8 @@ from celery.result import AsyncResult
 from rest_framework.decorators import api_view 
 from rest_framework.views import APIView
 from basicinformation.models import *
-from django.http import Http404, HttpResponse from .serializers import *
+from django.http import Http404, HttpResponse 
+from .serializers import *
 from basicinformation.marksprediction import *
 from QuestionsAndPapers.models import *
 from basicinformation.tasks import *
