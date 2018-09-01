@@ -473,6 +473,7 @@ class StudentEvaluateTestAPIView(APIView):
 
 
         print('{} this is inner, {} this is outer'.format(inner,outer))
+        print(type(outer))
         me = Studs(self.request.user)
         test = SSCKlassTest.objects.get(id = test_id)
         online_marks = SSCOnlineMarks()
@@ -486,6 +487,7 @@ class StudentEvaluateTestAPIView(APIView):
         all_answers = []
         details = []
         for test in outer:
+            print('{} this is test'.format(test))
             for qid,chid,time in test:
                 print(quid)
                 print(chid)
