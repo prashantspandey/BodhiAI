@@ -3,8 +3,7 @@ from celery.result import AsyncResult
 from rest_framework.decorators import api_view 
 from rest_framework.views import APIView
 from basicinformation.models import *
-from django.http import Http404, HttpResponse
-from .serializers import *
+from django.http import Http404, HttpResponse from .serializers import *
 from basicinformation.marksprediction import *
 from QuestionsAndPapers.models import *
 from basicinformation.tasks import *
@@ -452,13 +451,52 @@ class StudentEvaluateTestAPIView(APIView):
         test_id = request.POST['test_id']
         answers = request.POST['answers']
         time = request.POST['total_time']
+        print('test_id')
+        print('answers')
+        print('time')
         me = Studs(self.request.user)
         test = SSCKlassTest.objects.get(id = test_id)
         online_marks = SSCOnlineMarks()
         online_marks.test = test
         online_marks.testTaken = timezone.now()
         online_marks.student = me.profile
-        print(answers)
+        online_marks.save()
+        total_marks = 0
+        right_answers = []
+        wrong_answers = []
+        skipped_answers = []
+        all_answers = []
+        for test in answers:
+            for qid,chid,time in test:
+                question = SSCquestions.objects.get(id = qid)
+                if chid == -1:
+                    skipped_answers.append(qid)
+                for ch in question.choices__set.all():
+                    if chid == ch.id:
+                        pred = ch.predicament
+                        if pred =='correct':
+                            total_marks += question.max_marks
+                            right_answers.append(chid)
+                        if pred == 'wrong':
+                            total_marks -= question.negative_marks
+                            wrong_answers.append(chid)
+                    all_answers.append(chid)
+                answered_detail = SSCansweredQuestion()
+                answered_detail.onlineMarks = online_marks
+                answered_detail.quest = question
+                answered_detail.time = time
+                answered_detail.save()
+        online_marks.allAnswers = all_answers
+        online_marks.marks = total_marks
+        online_marks.test = test
+        online_marks.rightAnswers = right_answers
+        online_marks.wrongAnswers = wrong_answers
+        online_marks.skippedAnswers = skipped_answers
+        online_marks.timeTaken = time
+        online_marks.save()
+
+
+
         context = {'checked':'Testing'}
         return Response(context)
 
