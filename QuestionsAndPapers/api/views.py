@@ -514,7 +514,7 @@ class StudentEvaluateTestAPIView(APIView):
         online_marks.skippedAnswers = skipped_answers
         online_marks.timeTaken = time
         online_marks.save()
-        for i in answered_detail:
+        for i in details:
             i.onlineMarks = online_marks
             i.save()
 
