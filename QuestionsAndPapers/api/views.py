@@ -461,12 +461,12 @@ class StudentEvaluateTestAPIView(APIView):
         online_marks.test = test
         online_marks.testTaken = timezone.now()
         online_marks.student = me.profile
-        online_marks.save()
         total_marks = 0
         right_answers = []
         wrong_answers = []
         skipped_answers = []
         all_answers = []
+        details = []
         for test in answers:
             for qid,chid,time in test:
                 question = SSCquestions.objects.get(id = qid)
@@ -482,11 +482,11 @@ class StudentEvaluateTestAPIView(APIView):
                             total_marks -= question.negative_marks
                             wrong_answers.append(chid)
                     all_answers.append(chid)
+                answered_detail = eval('"detail",chid')
                 answered_detail = SSCansweredQuestion()
-                answered_detail.onlineMarks = online_marks
                 answered_detail.quest = question
                 answered_detail.time = time
-                answered_detail.save()
+                details.append(answered_detail)
         online_marks.allAnswers = all_answers
         online_marks.marks = total_marks
         online_marks.test = test
@@ -495,6 +495,9 @@ class StudentEvaluateTestAPIView(APIView):
         online_marks.skippedAnswers = skipped_answers
         online_marks.timeTaken = time
         online_marks.save()
+        for i in answered_detail:
+            i.onlineMarks = online_marks
+            i.save()
 
 
 
