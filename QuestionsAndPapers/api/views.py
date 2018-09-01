@@ -1,6 +1,6 @@
 from rest_framework import generics
 from celery.result import AsyncResult
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view 
 from rest_framework.views import APIView
 from basicinformation.models import *
 from django.http import Http404, HttpResponse
@@ -446,3 +446,19 @@ class StudentTakeTestAPIView(APIView):
         #questions = test.sscquestions_set.all()
         serializer = TestSerializer(test)
         return Response(serializer.data)
+
+class StudentEvaluateTestAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        test_id = request.POST['test_id']
+        answers = request.POST['answers']
+        time = request.POST['total_time']
+        me = Studs(self.request.user)
+        test = SSCKlassTest.objects.get(id = test_id)
+        online_marks = SSCOnlineMarks()
+        online_marks.test = test
+        online_marks.testTaken = timezone.now()
+        online_marks.student = me.profile
+        print(answers)
+        context = {'checked':'Testing'}
+        return Response(context)
+
