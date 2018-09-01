@@ -474,6 +474,7 @@ class StudentEvaluateTestAPIView(APIView):
 
         print('{} this is inner, {} this is outer'.format(inner,outer))
         print(type(outer))
+        outer = np.array(outer)
         me = Studs(self.request.user)
         test = SSCKlassTest.objects.get(id = test_id)
         online_marks = SSCOnlineMarks()
@@ -486,34 +487,31 @@ class StudentEvaluateTestAPIView(APIView):
         skipped_answers = []
         all_answers = []
         details = []
-        for test in outer:
-            print('{} this is test'.format(test))
-            print(type(test))
-            for qid,chid,time in test:
-                print(quid)
-                print(chid)
-                print(time)
-                question = SSCquestions.objects.get(id = qid)
-                if chid == -1:
-                    skipped_answers.append(qid)
-                for ch in question.choices__set.all():
-                    print(ch)
-                    if chid == ch.id:
-                        pred = ch.predicament
-                        if pred =='correct':
-                            print('correct')
-                            total_marks += question.max_marks
-                            right_answers.append(chid)
-                        if pred == 'wrong':
-                            print('wrong')
-                            total_marks -= question.negative_marks
-                            wrong_answers.append(chid)
-                    all_answers.append(chid)
-                answered_detail = eval('"detail",chid')
-                answered_detail = SSCansweredQuestion()
-                answered_detail.quest = question
-                answered_detail.time = time
-                details.append(answered_detail)
+        for qid,chid,time in outer:
+            print(qid)
+            print(chid)
+            print(time)
+            question = SSCquestions.objects.get(id = qid)
+            if chid == -1:
+                skipped_answers.append(qid)
+            for ch in question.choices__set.all():
+                print(ch)
+                if chid == ch.id:
+                    pred = ch.predicament
+                    if pred =='correct':
+                        print('correct')
+                        total_marks += question.max_marks
+                        right_answers.append(chid)
+                    if pred == 'wrong':
+                        print('wrong')
+                        total_marks -= question.negative_marks
+                        wrong_answers.append(chid)
+                all_answers.append(chid)
+            answered_detail = eval('"detail",chid')
+            answered_detail = SSCansweredQuestion()
+            answered_detail.quest = question
+            answered_detail.time = time
+            details.append(answered_detail)
         online_marks.allAnswers = all_answers
         online_marks.marks = total_marks
         online_marks.test = test
