@@ -224,7 +224,7 @@ def teacher_confirmation(request):
                              me.profile)
             subenglish.save()
         elif str(confirmation.school).strip() == "JEN":
-            if batch.name == 'RailwayGroupDCrashCourse':
+            if batch.name == 'RailwayGroupD':
                 subGenInte = Subject(name="General-Intelligence",student=stud,teacher=me.profile)
                 subGenInte.save()
                 subMaths = Subject(name="Quantitative-Analysis",student=stud,teacher=me.profile)
