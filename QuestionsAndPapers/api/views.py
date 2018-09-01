@@ -485,7 +485,7 @@ class StudentEvaluateTestAPIView(APIView):
         skipped_answers = []
         all_answers = []
         details = []
-        for test in inner:
+        for test in outer:
             for qid,chid,time in test:
                 print(quid)
                 print(chid)
