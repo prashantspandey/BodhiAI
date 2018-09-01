@@ -2641,6 +2641,9 @@ class Studs:
                 elif i == '21.1':
                     namedarr.append('Volume')
                     timing.append(j)
+                elif i == '22.1':
+                    namedarr.append('Trigonometry')
+                    timing.append(j)
             return list(zip(namedarr,timing))
         if subject == 'General-Knowledge':
             for i,j in arr:
@@ -4310,6 +4313,8 @@ class Studs:
                     return 'Train'
                 elif i == '21.1':
                     return 'Volume'
+                elif i == '22.1':
+                    return 'Trigonometry'
 
         if subject == 'General-Knowledge':
                 if i == '1.1':
@@ -6833,6 +6838,10 @@ class Teach:
                 elif i == '21.1':
                     names.append('Volume')
                     numbers.append(i)
+                elif i == '22.1':
+                    names.append('Trigonometry')
+                    numbers.append(i)
+
 
 
             changed = list(zip(names,numbers))
@@ -7867,6 +7876,10 @@ class Teach:
                 elif i == '21.1':
                     names.append('Volume')
                     numbers.append(j)
+                elif i == '22.1':
+                    names.append('Trigonometry')
+                    numbers.append(j)
+
 
             changed = list(zip(names,numbers))
             return changed
@@ -8822,6 +8835,8 @@ class Teach:
                     numbers.append('20.1')
                 elif i == 'Volume':
                     numbers.append('21.1')
+                elif i == 'Trigonometry':
+                    numbers.append('22.1')
 
             return numbers
         if subject == 'General-Knowledge':
@@ -9613,17 +9628,6 @@ def change_topicNumbersNames(arr,subject):
                 names.append('Symbols & Notations')
                 numbers.append(i)
 
-
-
-
-
-
-
-
-
-
-
-
         changed = list(zip(names,numbers))
         return changed
     if subject == 'Quantitative-Analysis':
@@ -9691,72 +9695,8 @@ def change_topicNumbersNames(arr,subject):
             elif i == '21.1':
                 names.append('Volume')
                 numbers.append(i)
-
-            if i == '1.1':
-                names.append('Probability')
-                numbers.append(i)
-            elif i == '2.1':
-                names.append('Percentage')
-                numbers.append(i)
-            elif i == '3.1':
-                names.append('Pipes & Cisterns')
-                numbers.append(i)
-            elif i == '4.1':
-                names.append('Simplification')
-                numbers.append(i)
-            elif i == '5.1':
-                names.append('Permutations')
-                numbers.append(i)
-            elif i == '6.1':
-                names.append('Simple Interest')
-                numbers.append(i)
-            elif i == '7.1':
-                names.append('Partnership')
-                numbers.append(i)
-            elif i == '8.1':
-                names.append('Averages')
-                numbers.append(i)
-            elif i == '9.1':
-                names.append('Compound Interest')
-                numbers.append(i)
-            elif i == '11.1':
-                names.append('Mixture and Alligations')
-                numbers.append(i)
-            elif i == '12.1':
-                names.append('LCM & HCF')
-                numbers.append(i)
-            elif i == '13.1':
-                names.append('Inequalities')
-                numbers.append(i)
-            elif i == '14.1':
-                names.append('Ranking')
-                numbers.append(i)
-            elif i == '15.1':
-                names.append('Chain Rule')
-                numbers.append(i)
-            elif i == '16.1':
-                names.append('Mensuration')
-                numbers.append(i)
-            elif i == '17.1':
-                names.append('Ratio & Proportions')
-                numbers.append(i)
-            elif i == '18.1':
-                names.append('Time & Distance')
-                numbers.append(i)
-            elif i == '19.1':
-                names.append('Time & Work')
-                numbers.append(i)
-            elif i == '20.1':
-                names.append('Number Series')
-                numbers.append(i)
-            elif i == '21.1':
-                names.append('Number System')
-                numbers.append(i)
             elif i == '22.1':
-                names.append('Quadratic Equations')
-                numbers.append(i)
-            elif i == '23.1':
-                names.append('Data Sufficiency')
+                names.append('Trigonometry')
                 numbers.append(i)
 
         changed = list(zip(names,numbers))
@@ -10639,7 +10579,8 @@ def changeIndividualNames(i,subject):
                 return 'Train'
             elif i == '21.1':
                 return 'Volume'
-
+            elif i == '22.1':
+                return 'Trigonometry'
     if subject == 'General-Knowledge':
             if i == '1.1':
                 return 'Inventions & Innovators'

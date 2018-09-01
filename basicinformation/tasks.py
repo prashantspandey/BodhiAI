@@ -679,7 +679,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/jen_content/general_science/'+sh,error_bad_lines=False )
+                pd.read_csv('/app/question_data/jen_content/maths/'+sh,error_bad_lines=False )
             else:
                 df=\
                 pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/jen_content/general_science/'+sh,error_bad_lines=False )
@@ -702,14 +702,14 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                 direction = df['Direction']
             except:
                 direction = len(optD) * ['None']
-            used_for = len(optD)*['SSC-GeneralScience']
+            used_for = len(optD)*['SSCMaths']
             lang = df['lang']
-            source = len(used_for)*['JEN']
+            source = len(used_for)*['rk_yadav']
             if onlyImage:
                 images = df['QuestionLink']
             else:
                 quest_text = df['Question']
-            sectionType = len(lang)*['general_science']
+            sectionType = len(lang)*['Maths']
             #direction = df['Direction']
 
             if explanation_quest:
