@@ -37,8 +37,7 @@ class StudentDetailAPIView(APIView):
 
         my_details =\
         {'username':username,'email':email,'firstName':first_name,'school':school_name,'subjects':subjects}
-        return Response(my_details)
-
+        return Response(my_details) 
 #----------------------------------------------------------------------------------------
 # Find out if student of teacher
 class TeacherorStudentAPIView(APIView):
@@ -1098,3 +1097,10 @@ class StudentTestPerformanceDetailedAPIView(APIView):
                 return \
                     Response(context)
 
+
+class CustomRegistratiionAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        if kwargs:
+            for k,v in kwargs.items():
+                print(k)
+                print(v)

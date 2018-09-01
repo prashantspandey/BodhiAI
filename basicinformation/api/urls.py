@@ -28,6 +28,9 @@ urlpatterns = [
     url(r'teacher_time_table/$',views.TeacherTimeTableAPIView.as_view(),name='TeacherTimeTable'),
 # Student Test Performance Detail
     url(r'student_individual_test_detail/$',views.StudentTestPerformanceDetailedAPIView.as_view(),name='StudentTestPastPerformanceDetail'),
+# Custom Registration
+    url(r'custom_registration/$',views.CustomRegistrationAPIView.as_view(),name='CustomRegistration'),
+
 
 
 ]

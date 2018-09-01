@@ -45,10 +45,8 @@ def create_test(request):
             pass
 
         ttt = request.GET['klass_test']
-        print(ttt)
         quest = SSCquestions.objects.filter(school=
                                             me.profile.school)
-        print('%s qustion' %len(quest))
         if len(quest)!=0:
             unique_chapters = me.my_subjects_names()
             
