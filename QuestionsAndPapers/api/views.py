@@ -494,7 +494,7 @@ class StudentEvaluateTestAPIView(APIView):
             question = SSCquestions.objects.get(id = qid)
             if chid == -1:
                 skipped_answers.append(qid)
-            for ch in question.choices__set.all():
+            for ch in question.choices_set.all():
                 print(ch)
                 if chid == ch.id:
                     pred = ch.predicament
