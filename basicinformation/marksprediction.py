@@ -3541,15 +3541,6 @@ class Studs:
                     namedarr.append('Symbols & Notations')
 
 
-
-
-
-
-
-
-
-
-
             return namedarr
         if subject == 'Quantitative-Analysis':
 
@@ -6771,23 +6762,11 @@ class Teach:
                     names.append('Symbols & Notations')
                     numbers.append(i)
 
-
-
-
-
-
-
-
-
-
-
-
             changed = list(zip(names,numbers))
             return changed
+
+
         if subject == 'Quantitative-Analysis':
-
-
-
             for i in arr:
 
                 if i == '1.1':
@@ -8795,19 +8774,6 @@ class Teach:
                     numbers.append('22.1')
                 elif i == 'Symbols & Notations':
                     numbers.append('28.1')
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

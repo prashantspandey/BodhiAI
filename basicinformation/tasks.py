@@ -25,9 +25,7 @@ def bring_teacher_subjects_analysis(user_id):
     subject1 = me.test_taken_subjects(user)
     sub = subject0 + subject1
     sub = list(unique_everseen(sub))
-    return sub
-
-@shared_task
+    return sub @shared_task
 def evaluate_test(user_id,test_id,time_taken):
         # get values of test id and total test time
         user = User.objects.get(id = user_id)
@@ -1683,8 +1681,6 @@ def create_test_api(user_id,quest_list,date,time,kl):
     
     test.mode = 'BodhiOnline'
     test.save()
-
-
 
 
 
