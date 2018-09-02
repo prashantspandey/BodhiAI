@@ -702,14 +702,14 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                 direction = df['Direction']
             except:
                 direction = len(optD) * ['None']
-            used_for = len(optD)*['SSCMaths']
+            used_for = df['usedFor']
             lang = df['lang']
-            source = len(used_for)*['rk_yadav']
+            source = len(used_for)*['JEN']
             if onlyImage:
                 images = df['QuestionLink']
             else:
                 quest_text = df['Question']
-            sectionType = len(lang)*['Maths']
+            sectionType = df['section_type']
             #direction = df['Direction']
 
             if explanation_quest:

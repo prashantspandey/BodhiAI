@@ -3548,53 +3548,61 @@ class Studs:
 
 
             return namedarr
-        if subject == 'Qualitative-Analysis':
+        if subject == 'Quantitative-Analysis':
+
             for i in arr:
+
                 if i == '1.1':
-                    namedarr.append('Probability')
+                    namedarr.append('Age')
                 elif i == '2.1':
-                    namedarr.append('Percentage')
+                    namedarr.append('Alligation')
                 elif i == '3.1':
-                    namedarr.append('Pipes & Cisterns')
+                    namedarr.append('Area')
                 elif i == '4.1':
-                    namedarr.append('Simplification')
+                    namedarr.append('Average')
                 elif i == '5.1':
-                    namedarr.append('Permutations')
+                    namedarr.append('Boat & Stream')
                 elif i == '6.1':
-                    namedarr.append('Simple Interest')
+                    namedarr.append('Discount')
                 elif i == '7.1':
-                    namedarr.append('Partnership')
+                    namedarr.append('Fraction')
                 elif i == '8.1':
-                    namedarr.append('Averages')
+                    namedarr.append('LCM & LCF')
                 elif i == '9.1':
-                    namedarr.append('Compound Interest')
+                    namedarr.append('Number System')
+                elif i == '10.1':
+                    namedarr.append('Percentage')
                 elif i == '11.1':
-                    namedarr.append('Mixture and Alligations')
+                    namedarr.append('Pipes & Cistern')
                 elif i == '12.1':
-                    namedarr.append('LCM & HCF')
+                    namedarr.append('Profit & Loss')
                 elif i == '13.1':
-                    namedarr.append('Inequalities')
+                    namedarr.append('Ratio')
                 elif i == '14.1':
-                    namedarr.append('Ranking')
+                    namedarr.append('Simple Interest')
                 elif i == '15.1':
-                    namedarr.append('Chain Rule')
+                    namedarr.append('Simplification')
                 elif i == '16.1':
-                    namedarr.append('Mensuration')
+                    namedarr.append('Speed & Distance')
                 elif i == '17.1':
-                    namedarr.append('Ratio & Proportions')
+                    namedarr.append('Square & Cube root')
                 elif i == '18.1':
-                    namedarr.append('Time & Distance')
+                    namedarr.append('Surds & Indices')
                 elif i == '19.1':
                     namedarr.append('Time & Work')
                 elif i == '20.1':
-                    namedarr.append('Number Series')
+                    namedarr.append('Train')
                 elif i == '21.1':
-                    namedarr.append('Number System')
+                    namedarr.append('Volume')
                 elif i == '22.1':
-                    namedarr.append('Quadratic Equations')
-                elif i == '23.1':
-                    namedarr.append('Data Sufficiency')
+                    namedarr.append('Trigonometry')
+
+
+
             return namedarr
+
+
+
 
         if subject == 'General-Knowledge':
             for i in arr:
