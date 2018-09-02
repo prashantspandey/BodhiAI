@@ -331,7 +331,8 @@ def home(request):
             #adding_quest =\
             #delete_allQuestions.delay("JEN")
             #allquestions_institute.delay('English',"JEN")
-            add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
+            #add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
+            add_png.delay()
             #school_name = 'JEN'
             #batch = 'LocoPilot'
             #school = School.objects.get(name=school_name)

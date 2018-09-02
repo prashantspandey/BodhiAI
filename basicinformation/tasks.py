@@ -1683,5 +1683,17 @@ def create_test_api(user_id,quest_list,date,time,kl):
     test.save()
 
 
+@shared_task
+def add_png():
+    questions = SSCquestions.objects.all()
+    for i in questions:
+        if i.picture:
+            if i.picture.endswith('.png'):
+                pass
+            else:
+                print('found without png')
+                url = i.picture + '.png'
+                i.picture = url
+                i.save()
 
 
