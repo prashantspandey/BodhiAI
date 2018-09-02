@@ -16,6 +16,7 @@ from rest_framework.permissions import (
 )
 from basicinformation.tasks import *
 from django.utils import timezone
+from django.utils.timezone import localdate
 import numpy as np
 # ALL STUDENT APIs
 
@@ -473,7 +474,7 @@ class StudentEvaluateTestAPIView(APIView):
         test = SSCKlassTest.objects.get(id = test_id)
         online_marks = SSCOnlineMarks()
         online_marks.test = test
-        online_marks.testTaken = timezone.now()
+        online_marks.testTaken = localdate()
         online_marks.student = me.profile
         total_marks = 0
         right_answers = []
