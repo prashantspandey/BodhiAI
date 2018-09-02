@@ -1,5 +1,5 @@
 from rest_framework import generics
-from celery.result import AsyncResult
+from celery.result import AsyncResult 
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from basicinformation.models import *
@@ -58,7 +58,13 @@ class CustomRegistration(APIView):
                subEnglish.save()
                subGenSci.save()
                subGenKnow.save()
-
+               confirmation = StudentConfirmation()
+               confirmation.student = user
+               confirmation.school = school
+               confirmation.name = stud.name
+               confirmation.teacher = teacher
+               confirmation.save()
+                
 
                token = Token.objects.create(user=user)
                json = serializer.data
@@ -66,3 +72,80 @@ class CustomRegistration(APIView):
                {'token':token.key,'class':stud.klass.name,'school':stud.school.name}
                return Response(json,status = status.HTTP_201_CREATED)
        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+class TeacherStudentConfirmationDisplayAPIView(APIView):
+
+    def get(self,request,format=None):
+        me = Teach(self.request.user)
+        confirmations = StudentConfirmation.objects.filter(teacher =
+                                                           me.profile,confirm=None)
+        if len(confirmations) == 0:
+            context = {'response':'No new students waiting for Batch allocation.'}
+            return Response(context)
+        else:
+            serializer = StudentConfirmationSerializer(confirmations,many=True)
+
+            batches = me.my_classes_objects()
+            batch_serializer =BatchSerializer(batches,many=True)
+
+            context =\
+            {'confirmations':serializer.data,'batches':batch_serializer.data}
+            return Response(context)
+
+
+class TeacherStudentConfirmedAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        batch_id = request.POST['batch_id']
+        confirmation_id = request.POST['confirmation_id']
+        batch = klass.objects.get(id = batch_id)
+        me = Teach(self.request.user)
+        confirmation = StudentConfirmation.objects.get(id = confirmation_id)
+        school = confirmation.school
+        student_user = confirmation.student
+        student = Student.objects.get(studentuser = student_user)
+        subs = Subject.objects.filter(student = student)
+        for i in subs:
+            i.delete()
+        if batch.name == 'LocoPilot':
+            subGenInte = Subject(name="General-Intelligence",student=student,teacher=me.profile)
+            subGenInte.save()
+            subMaths = Subject(name="Quantitative-Analysis",student=student,teacher=me.profile)
+            subEnglish = Subject(name="English",student=student,teacher=me.profile)
+            subGenKnow = Subject(name="General-Knowledge",student=student,teacher=me.profile)
+            subGenSci = Subject(name="General-Science",student=student,teacher=me.profile)
+            subMaths.save()
+            subEnglish.save()
+            subGenSci.save()
+            subGenKnow.save()
+
+            subLocoPilot = Subject(name="ElectricalLocoPilot",student=student,teacher=me.profile)
+            subLocoPilot.save()
+
+        elif batch.name == 'SSC':
+            subGenInte = Subject(name="General-Intelligence",student=student,teacher=me.profile)
+            subGenInte.save()
+            subMaths = Subject(name="Quantitative-Analysis",student=student,teacher=me.profile)
+            subEnglish = Subject(name="English",student=student,teacher=me.profile)
+            subGenKnow = Subject(name="General-Knowledge",student=student,teacher=me.profile)
+            subGenSci = Subject(name="General-Science",student=student,teacher=me.profile)
+            subMaths.save()
+            subGenSci.save()
+            subEnglish.save()
+            subGenKnow.save()
+
+
+        elif batch.name == 'RailwayGroupD':
+            subGenInte = Subject(name="General-Intelligence",student=student,teacher=me.profile)
+            subGenInte.save()
+            subMaths = Subject(name="Quantitative-Analysis",student=student,teacher=me.profile)
+            subGenKnow = Subject(name="General-Knowledge",student=student,teacher=me.profile)
+            subGenSci = Subject(name="General-Science",student=student,teacher=me.profile)
+            subMaths.save()
+            subGenSci.save()
+            subGenKnow.save()
+        confirmation.confirm = True
+        confirmation.batch = batch
+        confirmation.save()
+        context = {'success': '{} Successfully added to  {} batch.'.format(student.name,batch.name)}
+        return Response(context)

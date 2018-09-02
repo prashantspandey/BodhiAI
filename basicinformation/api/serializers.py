@@ -23,6 +23,7 @@ class BatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = klass
         fields = [
+            'id',
             'name',
             'school',
         ]

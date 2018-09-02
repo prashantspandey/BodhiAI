@@ -2,6 +2,8 @@ from rest_framework import serializers
 from membership.models import *
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
+from basicinformation.api.serializers import *
+from QuestionsAndPapers.api.serializers import *
 
 class CustomRegistrationSerializer(serializers.ModelSerializer):
    username =\
@@ -25,4 +27,23 @@ class CustomRegistrationSerializer(serializers.ModelSerializer):
            'first_name',
            'password',
 
+       ]
+
+
+class StudentConfirmationSerializer(serializers.ModelSerializer):
+    teacher = TeacherSerializer()
+    student = StudentDetailSerializer()
+    school = SchoolDisplaySerializer()
+    class Meta:
+       model = StudentConfirmation
+
+       fields = [
+           'id',
+           'name',
+           'student',
+           'teacher',
+           'batch',
+           'school',
+           'phone',
+           'confirm',
        ]

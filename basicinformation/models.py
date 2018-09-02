@@ -78,7 +78,7 @@ class StudentCustomProfile(models.Model):
 class StudentConfirmation(models.Model):
     name = models.CharField(max_length = 200)
     student = models.OneToOneField(User,null=True,blank=True)
-    teacher = models.OneToOneField(Teacher,null=True,blank=True)
+    teacher = models.ForeignKey(Teacher,null=True,blank=True)
     batch = models.ForeignKey(klass,null=True,blank=True)
     school = models.ForeignKey(School)
     phone = models.BigIntegerField(null=True, blank=True,
