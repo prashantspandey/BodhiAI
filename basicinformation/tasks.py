@@ -26,6 +26,7 @@ def bring_teacher_subjects_analysis(user_id):
     sub = subject0 + subject1
     sub = list(unique_everseen(sub))
     return sub @shared_task
+@shared_task
 def evaluate_test(user_id,test_id,time_taken):
         # get values of test id and total test time
         user = User.objects.get(id = user_id)
