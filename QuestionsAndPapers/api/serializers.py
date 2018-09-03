@@ -91,7 +91,7 @@ class TestSerializer(serializers.ModelSerializer):
 
 
 class SSCOnlineMarksSerializer(serializers.ModelSerializer):
-    test = TestSerializer(source = 'takenTest')
+    test = TestSerializer()
     sscansweredquestion = serializers.SerializerMethodField() 
     class Meta:
         model = SSCOnlineMarks
