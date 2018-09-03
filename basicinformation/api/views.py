@@ -1089,7 +1089,7 @@ class StudentTestPerformanceDetailedAPIView(APIView):
                 test_serializer = SSCOnlineMarksSerializer(test)
 
                 context = \
-                    {'test': test_serializer.data, 'average': average, 'percentAverage': percent_average,
+                    {'thistest': test_serializer.data, 'average': average, 'percentAverage': percent_average,
                      'my_percent': my_marks_percent, 'percentile': percentile, 'allMarks': all_marks,
                      'freq':\
                      freq,'student_type':student_type,'topicWeakness':weak_names,'topicTiming':timing,
