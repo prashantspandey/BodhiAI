@@ -32,5 +32,4 @@ urlpatterns = [
     url(r'custom_registration/$',views.CustomRegistrationAPIView.as_view(),name='CustomRegistration'),
 
 
-
 ]
