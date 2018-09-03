@@ -15,8 +15,12 @@ class CustomRegistrationSerializer(serializers.ModelSerializer):
    first_name = serializers.CharField(max_length=100)
 
    def create(self,validated_data):
+       print(validated_data['username'])
+       print(validated_data['password'])
+       print(validated_data['first_name'])
        user =\
-       User.objects.create_user(validated_data['username'],validated_data['password'],validated_data['first_name'])
+       User.objects.create_user(username=validated_data['username'],password = validated_data['password'],first_name
+                                =validated_data['first_name'])
        return user
 
    class Meta:

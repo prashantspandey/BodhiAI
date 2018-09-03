@@ -14,3 +14,15 @@ class PrivateMessageModalSerializer(serializers.ModelSerializer):
             'sent_date',
 
         ]
+
+class AnnouncementSerializer(serializers.ModelSerializer):
+    announcer = TeacherSerializer()
+    listener = StudentModelSerializer()
+    class Meta:
+        model = Announcement
+        fields = [
+            'announcer',
+            'listener',
+            'text',
+            'date',
+        ]

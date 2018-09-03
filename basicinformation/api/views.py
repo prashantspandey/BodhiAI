@@ -1098,9 +1098,7 @@ class StudentTestPerformanceDetailedAPIView(APIView):
                     Response(context)
 
 
-class CustomRegistrationAPIView(APIView):
-    def post(self,request,*args,**kwargs):
-        if kwargs:
-            for k,v in kwargs.items():
-                print(k)
-                print(v)
+class ShowAllStudentsAPIView(APIView):
+    def get(self,request,format=None):
+        pass
+

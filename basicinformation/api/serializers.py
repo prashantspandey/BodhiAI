@@ -14,6 +14,7 @@ class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
         fields = [
+            'id',
             'name',
             'school',
         ]
@@ -35,6 +36,7 @@ class StudentModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = [
+            'id',
             'name',
         ]
 
