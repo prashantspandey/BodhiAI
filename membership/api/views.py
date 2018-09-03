@@ -28,8 +28,7 @@ class CustomRegistration(APIView):
    def post(self,request,*args,**kwargs):
        username = request.POST['username']
        password = request.POST['password']
-       name = request.POST['name']
-       institute = request.POST['institute']
+       name = request.POST['name'] institute = request.POST['institute']
        context =\
                {'username':username,'password':password,'first_name':name}
        serializer = CustomRegistrationSerializer(data = context)
@@ -152,5 +151,6 @@ class TeacherStudentConfirmedAPIView(APIView):
         confirmation.confirm = True
         confirmation.batch = batch
         confirmation.save()
+        addOldTests.delay(student.id,me.profile.id)
         context = {'success': '{} Successfully added to  {} batch.'.format(student.name,batch.name)}
         return Response(context)
