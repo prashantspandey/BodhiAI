@@ -1698,11 +1698,14 @@ def add_png():
                 i.save()
 
 @shared_task
-def addOldTests(stud_id,teacher_id):
+def addOldTests(stud_id,teacher_id,kl):
     student = Student.objects.get(id = stud_id)
     teacher = Teacher.objects.get(id = teacher_id)
+    batch = klass.objects.get(id = kl)
+    print(student,teacher,batch)
     all_tests = SSCKlassTest.objects.filter(creator = teacher.teacheruser,klas
-                                            = student.klass)
+                                            = batch)
+    print('{} tests found'.format(len(all_tests)))
     for i in all_tests:
         i.testTakers.add(student)
     
