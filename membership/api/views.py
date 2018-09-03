@@ -1,10 +1,11 @@
 from rest_framework import generics
+from django.contrib.auth.models import Group
 from celery.result import AsyncResult 
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from basicinformation.models import *
-from django.http import Http404, HttpResponse
-from .serializers import *
+from django.http import Http404, HttpResponse 
+from .serializers import * 
 from basicinformation.marksprediction import *
 from QuestionsAndPapers.models import *
 from basicinformation.tasks import *
@@ -41,7 +42,10 @@ class CustomRegistration(APIView):
                stud.studentuser.first_name = name
                stud.name = name
                stud.save()
+               my_group = Group.objects.get(name='Students')
+               my_group.user_set.add(user)
 
+            
                teacher = Teacher.objects.get(school=school)
                subGenInte =\
                Subject(name="General-Intelligence",student=stud,teacher=teacher)
