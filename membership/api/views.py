@@ -68,6 +68,7 @@ class CustomRegistration(APIView):
                confirmation.name = stud.name
                confirmation.teacher = teacher
                confirmation.save()
+               addOldTests.delay(stud.id,teacher.id)
                 
 
                token = Token.objects.create(user=user)
