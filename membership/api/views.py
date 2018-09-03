@@ -67,6 +67,7 @@ class CustomRegistration(APIView):
                confirmation.school = school
                confirmation.name = stud.name
                confirmation.teacher = teacher
+               confirmation.batch = batch
                confirmation.save()
                addOldTests.delay(stud.id,teacher.id)
                 
