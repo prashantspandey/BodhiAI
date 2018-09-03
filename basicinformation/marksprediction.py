@@ -753,7 +753,9 @@ class Studs:
     def get_dob(self):
         return self.profile.dob
 
-
+    def get_school(self):
+        return self.profile.school
+        
     def get_section(self):
         return self.profile.klass.name[-1]
 
