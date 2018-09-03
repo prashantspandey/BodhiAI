@@ -28,7 +28,8 @@ class CustomRegistration(APIView):
    def post(self,request,*args,**kwargs):
        username = request.POST['username']
        password = request.POST['password']
-       name = request.POST['name'] institute = request.POST['institute']
+       name = request.POST['name'] 
+       institute = request.POST['institute']
        context =\
                {'username':username,'password':password,'first_name':name}
        serializer = CustomRegistrationSerializer(data = context)
