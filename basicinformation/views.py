@@ -325,7 +325,7 @@ def home(request):
             #sheet_links =\
             #['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
             sheet_links = \
-                    ['re1.csv','re2.csv','re3.csv','re4.csv','re5.csv','re6.csv','re7.csv','re8.csv','re9.csv','re10.csv','re11.csv','re12.csv','re13.csv','re14.csv','re15.csv']
+                    ['re13.csv','re14.csv','re15.csv']
             #sheet_links2 = \
             #        ['1f.csv']
             #adding_quest =\
