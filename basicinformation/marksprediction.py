@@ -1016,6 +1016,29 @@ class Studs:
                                                         self.profile)
                 return all_tests
 
+    def find_my_rank(self,test_id):
+        all_mark = SSCOnlineMarks.objects.filter(test__id = test_id)
+        my_marks = 0
+        
+        others_marks = []
+        for i in all_mark:
+            if i.student == self.profile:
+                my_marks = i.marks
+                published = i.test.published
+                subject = i.test.sub
+            else:
+                others_marks.append(i.marks)
+        others_marks.append(my_marks)
+        ranked_marks = sorted(others_marks,reverse = True)
+        total = len(ranked_marks)
+        rank = ranked_marks.index(my_marks)
+        rank = rank +1
+        
+        context =\
+                {'rank':rank,'marks':my_marks,'total_students':total,'published':published,'subject':subject}
+        return context
+
+
 
 
     def already_takenTests_Subjects(self):

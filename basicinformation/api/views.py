@@ -9,7 +9,7 @@ from QuestionsAndPapers.api.views import *
 from basicinformation.marksprediction import *
 from QuestionsAndPapers.models import *
 from basicinformation.models import *
-from basicinformation.marksprediction import * 
+from basicinformation.marksprediction import *
 import json
 from rest_framework.response import Response
 from rest_framework.permissions import (
@@ -37,7 +37,7 @@ class StudentDetailAPIView(APIView):
 
         my_details =\
         {'username':username,'email':email,'firstName':first_name,'school':school_name,'subjects':subjects}
-        return Response(my_details) 
+        return Response(my_details)
 #----------------------------------------------------------------------------------------
 # Find out if student of teacher
 class TeacherorStudentAPIView(APIView):
@@ -63,7 +63,7 @@ class LastClassTestPerformanceTeacherAPI(APIView):
         for quest in new_test.sscquestions_set.all():
             counter = counter + 1
             quest_marks = quest_marks + quest.max_marks
-            
+
         publised_date = new_test.published
         subject = new_test.sub
         my_tests = SSCOnlineMarks.objects.filter(test__creator =
@@ -106,7 +106,7 @@ class TeacherWeakAreasBrief(APIView):
         #res = AsyncResult(te_id)
 
         #klasses,subjects = res.get()
-        
+
         weak_links = {}
         weak_klass = []
         weak_subs = []
@@ -235,7 +235,7 @@ class TeachersHardQuestionsAPIView(APIView):
         quest = AsyncResult(res_id)
         questions = quest.get()
         return Response(questions)
-       
+
 class TeachersHardQuestions3TestsAPIView(APIView):
     def get(self,request,format=None):
         res = TeacherHardQuestionsLast3TestsAsync.delay(self.request.user.id)
@@ -243,7 +243,7 @@ class TeachersHardQuestions3TestsAPIView(APIView):
         quest = AsyncResult(res_id)
         questions = quest.get()
         return Response(questions)
- 
+
 
 
 
@@ -303,11 +303,11 @@ class TeacherTestSelectionAPIView(APIView):
         # try to get result table associated with particular test
             try:
                 result = TestRankTable.objects.get(test__id = test_id)
-        # if no new student has taken the test then simply sort the old rank table 
+        # if no new student has taken the test then simply sort the old rank table
                 if len(result.names) == len(online_marks):
                     result = me.combine_rankTable(result)
 
-        # else generate new rank table, sort it and display it 
+        # else generate new rank table, sort it and display it
                 else:
                     asyn_rt = generate_testRankTable.delay(self.request.user.id,test_id)
                     result = 'None'
@@ -352,7 +352,7 @@ class TeacherTestSelectionAPIView(APIView):
                         new_rl = SscTeacherTestResultLoader.objects.get(test__id = test_id)
                     except SscTeacherTestResultLoader.DoesNotExist:
                         pass
-                max_marks = new_rl.test.max_marks    
+                max_marks = new_rl.test.max_marks
                 average = new_rl.average
                 percent_average = new_rl.percentAverage
                 grade_s = new_rl.grade_s
@@ -382,13 +382,13 @@ class TeacherTestSelectionAPIView(APIView):
 
     # result loader is found but don't know if more students have taken
     # the test, hence compare number of students in result loader with number of
-    # online marks calculated above 
+    # online marks calculated above
 
             saved_marks = result_loader.onlineMarks.all()
             if len(online_marks) == len(saved_marks):
     # case 2 : if no new student has taken the test then just load and display
     # result_loder
-                max_marks = result_loader.test.max_marks    
+                max_marks = result_loader.test.max_marks
                 pro_quests = result_loader.problemQuestions
                 pro_freq  = result_loader.problemQuestionsFreq
                 average = result_loader.average
@@ -419,7 +419,7 @@ class TeacherTestSelectionAPIView(APIView):
             else:
                 new_rl = teacher_test_analysis_already.delay(test_id,user.id)
                 rl_id = new_rl.task_id
-                max_marks = result_loader.test.max_marks    
+                max_marks = result_loader.test.max_marks
                 pro_quests = result_loader.problemQuestions
                 pro_freq  = result_loader.problemQuestionsFreq
                 average = result_loader.average
@@ -457,12 +457,12 @@ class GenerateRankTableAPIView(APIView):
     # try to get result table associated with particular test
         try:
             result = TestRankTable.objects.get(test__id = test_id)
-    # if no new student has taken the test then simply sort the old rank table 
+    # if no new student has taken the test then simply sort the old rank table
             if len(result.names) == len(online_marks):
                 result = me.combine_rankTable(result)
                 return Response(result)
 
-    # else generate new rank table, sort it and display it 
+    # else generate new rank table, sort it and display it
             else:
                 asyn_rt = generate_testRankTable.delay(user.id,test_id)
                 result = 'None'
@@ -487,7 +487,7 @@ class GenerateRankTableAPIView(APIView):
                                                   test_id).order_by('-time')[0]
                     result = me.combine_rankTableDict(result)
                     return Response(result)
-                except Exception as e: 
+                except Exception as e:
                     print(str(e))
 
 class TeacherTestBasicDetailsAPIView(APIView):
@@ -511,7 +511,7 @@ class TeacherTestBasicDetailsAPIView(APIView):
                     new_rl = SscTeacherTestResultLoader.objects.get(test__id = test_id)
                 except SscTeacherTestResultLoader.DoesNotExist:
                     pass
-            max_marks = new_rl.test.max_marks    
+            max_marks = new_rl.test.max_marks
             average = new_rl.average
             percent_average = new_rl.percentAverage
             grade_s = new_rl.grade_s
@@ -526,7 +526,7 @@ class TeacherTestBasicDetailsAPIView(APIView):
             return Response(context)
         saved_marks = result_loader.onlineMarks.all()
         if len(online_marks) == len(saved_marks):
-            max_marks = result_loader.test.max_marks    
+            max_marks = result_loader.test.max_marks
             average = result_loader.average
             percent_average = result_loader.percentAverage
             grade_s = result_loader.grade_s
@@ -542,7 +542,7 @@ class TeacherTestBasicDetailsAPIView(APIView):
         else:
             new_rl = teacher_test_analysis_already.delay(test_id,user.id)
             rl_id = new_rl.task_id
-            max_marks = result_loader.test.max_marks    
+            max_marks = result_loader.test.max_marks
             average = result_loader.average
             percent_average = result_loader.percentAverage
             grade_s = result_loader.grade_s
@@ -564,7 +564,7 @@ class TeacherTestQuestionsAPIView(APIView):
         online_marks =\
         SSCOnlineMarks.objects.filter(test__id=test_id,student__school =
                                       me.profile.school)
- 
+
         try:
             result_loader = SscTeacherTestResultLoader.objects.get(test__id = test_id)
         except:
@@ -733,7 +733,7 @@ class StudentTopicWiseProficiency(APIView):
             #   return render(request,'basicinformation/student_weakAreas.html',context)
             # changing topic categories numbers to names
             freq_Names = me.changeTopicNumbersNames(freq,subject)
-            
+
             print('{} skill names'.format(freq_Names))
             skills = list(zip(strongAreas,strongFreq))
             skills_names = me.changeTopicNumbersNames(skills,subject)
@@ -775,7 +775,7 @@ class StudentTopicWiseProficiencyAndroid(APIView):
 
 #---------------------------------------------------------------------
 
-# Shows basic details of taken test by students 
+# Shows basic details of taken test by students
 
 class StudentTakenTestsDetailsAPIView(APIView):
     def get(self,request,format=None):
@@ -914,7 +914,7 @@ class StudentTestPerformanceDetailedAPIView(APIView):
 
         student_type = 'SSC'
         if mode == 'online':
-# Look for a cached test analyis , if found then show it 
+# Look for a cached test analyis , if found then show it
 # if there is a change in number of tests then just update a few things and
 # show it
 # If cache not found then calculate the fields, create a cached version and
@@ -1097,8 +1097,25 @@ class StudentTestPerformanceDetailedAPIView(APIView):
                 return \
                     Response(context)
 
+class StudentFindMyRankAPIView(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        my_tests = SSCOnlineMarks.objects.filter(student = me.profile)
+        all_ids = []
+        all_context = []
+        for i in my_tests:
+            all_ids.append(i.test.id)
+        for teid in all_ids:
+            context = me.find_my_rank(teid)
+            all_context.append(context)
+        if len(all_context) == 0:
+            all_context = "Please take at-least one test so that we can calculate your rank.\
+            कृपया एक टेस्ट लीजिये ताकि हम आपकी रैंक पता लगा पायें "
+            return Response(all_context)
+        else:
+            return Response(all_context)
+
 
 class ShowAllStudentsAPIView(APIView):
     def get(self,request,format=None):
         pass
-

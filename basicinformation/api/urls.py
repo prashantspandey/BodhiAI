@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'student_individual_test_detail/$',views.StudentTestPerformanceDetailedAPIView.as_view(),name='StudentTestPastPerformanceDetail'),
 # Custom Registration
     #url(r'custom_registration/$',views.CustomRegistrationAPIView.as_view(),name='CustomRegistration'),
-
+# Student Test Rank
+    url(r'student_test_rank/$',views.StudentFindMyRankAPIView.as_view(),name='StudentTestRank'),
 
 ]
