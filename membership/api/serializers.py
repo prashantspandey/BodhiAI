@@ -2,8 +2,11 @@ from rest_framework import serializers
 from membership.models import *
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from basicinformation.api.serializers import *
 from QuestionsAndPapers.api.serializers import *
+from rest_framework import exceptions
+
 
 class CustomRegistrationSerializer(serializers.ModelSerializer):
    username =\
@@ -51,3 +54,29 @@ class StudentConfirmationSerializer(serializers.ModelSerializer):
            'phone',
            'confirm',
        ]
+
+class CustomLoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self,data):
+        username = data.get("username","")
+        password = data.get("password","")
+
+        if username and password:
+            user = authenticate(username=username,password=password)
+            if user:
+                if user.is_active:
+                    data["user"] = user
+                else:
+                    message = "User is deactivated / आपको डीएक्टिवेट कर दिया गया है "
+                    raise exceptions.ValidationError(message)
+            else:
+                message = "Wrong username or password !! /यूजरनाम या पासवर्ड गलत है .  "
+                raise exceptions.ValidationError(message)
+            pass
+        else:
+            message = "Please provide both username and password./\
+कृपया उपयोगकर्ता नाम और पासवर्ड दोनों लिखें।"
+            raise exceptions.ValidationError(message)
+        return data

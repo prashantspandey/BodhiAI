@@ -12,5 +12,12 @@ urlpatterns = [
    url(r'teacher_confirmation_final/$',
        views.TeacherStudentConfirmedAPIView.as_view(),name =
        'TeacherConfirmationDone'),
+   url(r'custom_login/$',
+       views.CustomLoginAPIView.as_view(),name =
+       'CustomLogin'),
+   url(r'custom_logout/$',
+       views.CustomLogoutAPIView.as_view(),name =
+       'CustomLogout'),
+
 
 ]

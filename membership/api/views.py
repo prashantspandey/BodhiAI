@@ -19,8 +19,10 @@ from basicinformation.tasks import *
 from django.utils import timezone
 from django.utils.timezone import localdate
 from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
 from rest_framework import status
 from django.contrib.auth.models import User
+from django.contrib.auth import login as django_login, logout as django_logout
 
 
 
@@ -156,3 +158,26 @@ class TeacherStudentConfirmedAPIView(APIView):
         addOldTests.delay(student.id,me.profile.id,batch.id)
         context = {'success': '{} Successfully added to  {} batch.'.format(student.name,batch.name)}
         return Response(context)
+
+
+class CustomLoginAPIView(APIView):
+    def post(self,request):
+        serializer = CustomLoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception = True)
+        user = serializer.validated_data["user"]
+        django_login(request,user)
+        token, created = Token.objects.get_or_create(user=user)
+        groups = user.groups.all()
+        deleteBadTests.delay()
+        token_context  = \
+        {'key':token.key,'user_type':groups[0].name,'name':user.first_name}
+        return Response(token_context,status = 200)
+
+class CustomLogoutAPIView(APIView):
+    authentication_classes = (TokenAuthentication,)
+
+    def post(self,request):
+        django_logout(request)
+        return Response(status=204)
+
+
