@@ -56,7 +56,7 @@ class TeacherCreateAnnouncemntFinalAPIView(APIView):
         message = request.POST['message']
         school = me.my_school()
         batch = klass.objects.get(school=school,name=batch_name)
-        students = Student.objects.filter(school=school,batch=batch)
+        students = Student.objects.filter(school=school,klass=batch)
         announcement = Announcement()
         announcement.announcer = me.profile
         announcement.text = message
