@@ -2649,6 +2649,14 @@ class Studs:
                 elif i == '23.1':
                     namedarr.append('Partnership')
                     timing.append(j)
+                elif i == '24.1':
+                    namedarr.append('Compound Interest')
+                    timing.append(j)
+                elif i == '25.1':
+                    namedarr.append('Decimals')
+                    timing.append(j)
+
+
             return list(zip(namedarr,timing))
         if subject == 'General-Knowledge':
             for i,j in arr:
@@ -3594,6 +3602,10 @@ class Studs:
                     namedarr.append('Trigonometry')
                 elif i == '23.1':
                     namedarr.append('Partnership')
+                elif i == '24.1':
+                    namedarr.append('Compound Interest')
+                elif i == '25.1':
+                    namedarr.append('Decimals')
 
 
 
@@ -4323,6 +4335,11 @@ class Studs:
                     return 'Trigonometry'
                 elif i == '23.1':
                     return 'Partnership'
+                elif i == '24.1':
+                    return 'Compound Interest'
+                elif i == '25.1':
+                    return 'Decimals'
+
 
         if subject == 'General-Knowledge':
                 if i == '1.1':
@@ -6840,6 +6857,12 @@ class Teach:
                 elif i == '23.1':
                     names.append('Partnership')
                     numbers.append(i)
+                elif i == '24.1':
+                    names.append('Coumpound Interest')
+                    numbers.append(i)
+                elif i == '25.1':
+                    names.append('Decimals')
+                    numbers.append(i)
 
 
             changed = list(zip(names,numbers))
@@ -7881,6 +7904,12 @@ class Teach:
                 elif i == '23.1':
                     names.append('Partnership')
                     numbers.append(j)
+                elif i == '24.1':
+                    names.append('Compound Interest')
+                    numbers.append(j)
+                elif i == '25.1':
+                    names.append('Decimals')
+                    numbers.append(j)
 
 
             changed = list(zip(names,numbers))
@@ -8828,6 +8857,11 @@ class Teach:
                     numbers.append('22.1')
                 elif i == 'Partnership':
                     numbers.append('23.1')
+                elif i == '24.1':
+                    numbers.append('Coumpound Interest')
+                elif i == '25.1':
+                    numbers.append('Decimals')
+
 
             return numbers
         if subject == 'General-Knowledge':
@@ -9692,6 +9726,13 @@ def change_topicNumbersNames(arr,subject):
             elif i == '23.1':
                 names.append('Partnership')
                 numbers.append(i)
+            elif i == '24.1':
+                names.append('Coumpound Interest')
+                numbers.append(i)
+            elif i == '25.1':
+                names.append('Decimals')
+                numbers.append(i)
+
 
 
         changed = list(zip(names,numbers))
@@ -10579,6 +10620,12 @@ def changeIndividualNames(i,subject):
                 return 'Trigonometry'
             elif i == '23.1':
                 return 'Partnership'
+            elif i == '24.1':
+                return 'Coumpound Interest'
+            elif i == '25.1':
+                return 'Decimals'
+
+
     if subject == 'General-Knowledge':
             if i == '1.1':
                 return 'Inventions & Innovators'

@@ -678,7 +678,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/jen_content/maths/'+sh,error_bad_lines=False )
+                pd.read_csv('/app/question_data/jen_content/4_sep/'+sh,error_bad_lines=False )
             else:
                 df=\
                 pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/jen_content/general_science/'+sh,error_bad_lines=False )
