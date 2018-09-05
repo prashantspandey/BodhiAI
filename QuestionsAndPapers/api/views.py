@@ -516,5 +516,6 @@ class StudentEvaluateTestAPIView(APIView):
 
         serializer = SSCOnlineMarksSerializer(online_marks)
         context = {'marks':serializer.data}
+        print(context)
         return Response(context)
 
