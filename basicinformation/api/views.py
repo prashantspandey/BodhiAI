@@ -994,6 +994,12 @@ class StudentTestPerformanceDetailedAPIView(APIView):
 
             except Exception as e:
                 print(str(e))
+                old_analysis = StudentTestAnalysis.objects.filter(student =\
+                                                           me.profile,test =te)
+                if len(old_analysis) > 1:
+                    for i in old_analysis:
+                        i.delete()
+
                 analysis = StudentTestAnalysis()
                 my_marks_percent = (test.marks / test.test.max_marks) * 100
                 analysis.myPercent = my_marks_percent
