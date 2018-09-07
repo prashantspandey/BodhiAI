@@ -755,7 +755,7 @@ class Studs:
 
     def get_school(self):
         return self.profile.school
-        
+
     def get_section(self):
         return self.profile.klass.name[-1]
 
@@ -1019,7 +1019,7 @@ class Studs:
     def find_my_rank(self,test_id):
         all_mark = SSCOnlineMarks.objects.filter(test__id = test_id)
         my_marks = 0
-        
+
         others_marks = []
         for i in all_mark:
             if i.student == self.profile:
@@ -1033,7 +1033,7 @@ class Studs:
         total = len(ranked_marks)
         rank = ranked_marks.index(my_marks)
         rank = rank +1
-        
+
         context =\
                 {'rank':rank,'marks':my_marks,'total_students':total,'published':published,'subject':subject}
         return context
@@ -3420,6 +3420,46 @@ class Studs:
                     timing.append(j)
 
             return list(zip(namedarr,timing))
+        if subject == 'Civil':
+            for i,j in arr:
+                if i == '2.1':
+                    namedarr.append('Surveying Engineering')
+                    timing.append(j)
+        if subject == 'Diesel':
+            for i,j in arr:
+                if i == '1.1':
+                    names.append('Introduction to Engine & Development')
+                    numbers.append(j)
+                if i == '2.1':
+                    names.append('Cylinder Head & Valve Assembly')
+                    numbers.append(j)
+                if i == '3.1':
+                    names.append('Piston & Connecting Rod')
+                    numbers.append(j)
+                if i == '4.1':
+                    names.append('Crank Shaft,Cam Shaft Fly Wheel & Bearing')
+                    numbers.append(j)
+                if i == '5.1':
+                    names.append('Gas Turbine Marine & Statonery Engine')
+                    numbers.append(j)
+                if i == '6.1':
+                    names.append('Cooling & Snake System')
+                    numbers.append(j)
+                if i == '7.1':
+                    names.append('Intake & Exhaust System')
+                    numbers.append(j)
+                if i == '8.1':
+                    names.append('Diesel Fuel Supply System')
+                    numbers.append(j)
+                if i == '9.1':
+                    names.append('Emission Charging & Starting System')
+                    numbers.append(j)
+                if i == '10.1':
+                    names.append('Troubleshooting')
+                    numbers.append(j)
+
+            return list(zip(names,numbers))
+
 
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
@@ -4156,6 +4196,38 @@ class Studs:
 
             return namedarr
 
+        if subject == 'Civil':
+            for i in arr:
+                if i == '2.1':
+                    namedarr.append('Surveying Engineering')
+
+
+                return namedarr
+        if subject == 'Diesel':
+            for i in arr:
+                if i == '1.1':
+                    namedarr.append('Introduction to Engine & Development')
+                if i == '2.1':
+                    namedarr.append('Cylinder Head & Valve Assembly')
+                if i == '3.1':
+                    namedarr.append('Piston & Connecting Rod')
+                if i == '4.1':
+                    namedarr.append('Crank Shaft,Cam Shaft Fly Wheel & Bearing')
+                if i == '5.1':
+                    namedarr.append('Gas Turbine Marine & Statonery Engine')
+                if i == '6.1':
+                    namedarr.append('Cooling & Snake System')
+                if i == '7.1':
+                    namedarr.append('Intake & Exhaust System')
+                if i == '8.1':
+                    namedarr.append('Diesel Fuel Supply System')
+                if i == '9.1':
+                    namedarr.append('Emission Charging & Starting System')
+                if i == '10.1':
+                    namedarr.append('Troubleshooting')
+
+            return list(zip(names,numbers))
+
 
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
@@ -4423,7 +4495,6 @@ class Studs:
                    return 'Polity (World)'
 
         if subject == 'General-Science':
-            for i in arr:
                 if i == '1.1':
                     return 'गुरूत्व स्थूल पदार्थ के गुण व प्रकाशन'
                 if i == '2.1':
@@ -4850,7 +4921,31 @@ class Studs:
                     return 'Other Important Questions'
                 if i == '18.1':
                     return 'Previous Year Exams Questions'
+        if subject == 'Civil':
+                if i == '2.1':
+                    return 'Surveying Engineering'
 
+        if subject == 'Diesel':
+                if i == '1.1':
+                    return 'Introduction to Engine & Development'
+                if i == '2.1':
+                    return 'Cylinder Head & Valve Assembly'
+                if i == '3.1':
+                    return 'Piston & Connecting Rod'
+                if i == '4.1':
+                    return 'Crank Shaft,Cam Shaft Fly Wheel & Bearing'
+                if i == '5.1':
+                    return 'Gas Turbine Marine & Statonery Engine'
+                if i == '6.1':
+                    return 'Cooling & Snake System'
+                if i == '7.1':
+                    return 'Intake & Exhaust System'
+                if i == '8.1':
+                    return 'Diesel Fuel Supply System'
+                if i == '9.1':
+                    return 'Emission Charging & Starting System'
+                if i == '10.1':
+                    return 'Troubleshooting'
 
 
 
@@ -7634,7 +7729,47 @@ class Teach:
                     numbers.append(i)
 
             return list(zip(names,numbers))
+        if subject == 'Civil':
+            for i in arr:
+                if i == '2.1':
+                    names.append('Surveying Engineering')
+                    numbers.append(i)
+            return list(zip(names,numbers))
 
+        if subject == 'Diesel':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Introduction to Engine & Development')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('Cylinder Head & Valve Assembly')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Piston & Connecting Rod')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Crank Shaft,Cam Shaft Fly Wheel & Bearing')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('Gas Turbine Marine & Statonery Engine')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('Cooling & Snake System')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('Intake & Exhaust System')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('Diesel Fuel Supply System')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('Emission Charging & Starting System')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('Troubleshooting')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
 
 
 # for knimbus subjects
@@ -8676,7 +8811,47 @@ class Teach:
 
             return list(zip(names,numbers))
 
+        if subject == 'Civil':
+            for i,j in arr:
+                if i == '2.1':
+                    names.append('Surveying Engineering')
+                    numbers.append(j)
 
+            return list(zip(names,numbers))
+        if subject == 'Diesel':
+            for i,j in arr:
+                if i == '1.1':
+                    names.append('Introduction to Engine & Development')
+                    numbers.append(j)
+                if i == '2.1':
+                    names.append('Cylinder Head & Valve Assembly')
+                    numbers.append(j)
+                if i == '3.1':
+                    names.append('Piston & Connecting Rod')
+                    numbers.append(j)
+                if i == '4.1':
+                    names.append('Crank Shaft,Cam Shaft Fly Wheel & Bearing')
+                    numbers.append(j)
+                if i == '5.1':
+                    names.append('Gas Turbine Marine & Statonery Engine')
+                    numbers.append(j)
+                if i == '6.1':
+                    names.append('Cooling & Snake System')
+                    numbers.append(j)
+                if i == '7.1':
+                    names.append('Intake & Exhaust System')
+                    numbers.append(j)
+                if i == '8.1':
+                    names.append('Diesel Fuel Supply System')
+                    numbers.append(j)
+                if i == '9.1':
+                    names.append('Emission Charging & Starting System')
+                    numbers.append(j)
+                if i == '10.1':
+                    names.append('Troubleshooting')
+                    numbers.append(j)
+
+            return list(zip(names,numbers))
 
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
@@ -9416,6 +9591,35 @@ class Teach:
 
             return numbers
 
+        if subject == 'Civil':
+            for i in arr:
+                if i == 'Surveying Engineering':
+                    numbers.append('2.1')
+            return numbers
+        if subject == 'Diesel':
+            for i in arr:
+                if i == 'Introduction to Engine & Development':
+                    numbers.append('1.1')
+                if i == 'Cylinder Head & Valve Assembly':
+                    numbers.append('2.1')
+                if i == 'Piston & Connecting Rod':
+                    numbers.append('3.1')
+                if i == 'Crank Shaft,Cam Shaft Fly Wheel & Bearing':
+                    numbers.append('4.1')
+                if i == 'Gas Turbine Marine & Statonery Engine':
+                    numbers.append('5.1')
+                if i == 'Cooling & Snake System':
+                    numbers.append('6.1')
+                if i == 'Intake & Exhaust System':
+                    numbers.append('7.1')
+                if i == 'Diesel Fuel Supply System':
+                    numbers.append('8.1')
+                if i == 'Emission Charging & Starting System':
+                    numbers.append('9.1')
+                if i == 'Troubleshooting':
+                    numbers.append('10.1')
+
+            return numbers
 
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
@@ -10437,6 +10641,48 @@ def change_topicNumbersNames(arr,subject):
 
             return list(zip(names,numbers))
 
+        if subject == 'Civil':
+            for i in arr:
+                if i == '2.1':
+                    names.append('Surveying Engineering')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+        if subject == 'Diesel':
+            for i in arr:
+                if i == '1.1':
+                    names.append('Introduction to Engine & Development')
+                    numbers.append(i)
+                if i == '2.1':
+                    names.append('Cylinder Head & Valve Assembly')
+                    numbers.append(i)
+                if i == '3.1':
+                    names.append('Piston & Connecting Rod')
+                    numbers.append(i)
+                if i == '4.1':
+                    names.append('Crank Shaft,Cam Shaft Fly Wheel & Bearing')
+                    numbers.append(i)
+                if i == '5.1':
+                    names.append('Gas Turbine Marine & Statonery Engine')
+                    numbers.append(i)
+                if i == '6.1':
+                    names.append('Cooling & Snake System')
+                    numbers.append(i)
+                if i == '7.1':
+                    names.append('Intake & Exhaust System')
+                    numbers.append(i)
+                if i == '8.1':
+                    names.append('Diesel Fuel Supply System')
+                    numbers.append(i)
+                if i == '9.1':
+                    names.append('Emission Charging & Starting System')
+                    numbers.append(i)
+                if i == '10.1':
+                    names.append('Troubleshooting')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+
 
 # for knimbus subjects
         if subject == 'Design and analysis of algorithm':
@@ -11135,7 +11381,32 @@ def changeIndividualNames(i,subject):
                 return 'Other Important Questions'
             if i == '18.1':
                 return 'Previous Year Exams Questions'
-
+        
+        
+    if subject == 'Civil':
+        if i == '2.1':
+            return 'Surveying Engineering'
+    if subject == 'Diesel':
+        if i == '1.1':
+            return 'Introduction to Engine & Development'
+        if i == '2.1':
+            return 'Cylinder Head & Valve Assembly'
+        if i == '3.1':
+            return 'Piston & Connecting Rod'
+        if i == '4.1':
+            return 'Crank Shaft,Cam Shaft Fly Wheel & Bearing'
+        if i == '5.1':
+            return 'Gas Turbine Marine & Statonery Engine'
+        if i == '6.1':
+            return 'Cooling & Snake System'
+        if i == '7.1':
+            return 'Intake & Exhaust System'
+        if i == '8.1':
+            return 'Diesel Fuel Supply System'
+        if i == '9.1':
+            return 'Emission Charging & Starting System'
+        if i == '10.1':
+            return 'Troubleshooting'
 
 
 # or knimbus subjects

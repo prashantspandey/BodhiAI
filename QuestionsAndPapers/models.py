@@ -39,7 +39,7 @@ class SSCKlassTest(models.Model):
          ,('ChemistryIITJEE12','ChemistryIITJEE12'),('PhysicsIITJEE10','PhysicsIITJEE10')
          ,('PhysicsIITJEE11','PhysicsIITJEE11'),('PhysicsIITJEE12','PhysicsIITJEE12')
          ,('ElectricalLocoPilot','ElectricalLocoPilot'),('FitterLocoPilot','FitterLocoPilot')
-         ,('General-Science','General-Science'))
+         ,('General-Science','General-Science'),('LocoPilot_Diesel','LocoPilot_Diesel'))
     course_choices = (('SSC','SSC'),('Railways','Railways'))
 
     #max_marks = models.DecimalField(max_digits=4,decimal_places=2)
@@ -142,7 +142,7 @@ class SSCquestions(models.Model):
          ,('PhysicsIITJEE10','PhysicsIITJEE10'),('PhysicsIITJEE11','PhysicsIITJEE11')
          ,('PhysicsIITJEE12','PhysicsIITJEE12'),('Design and analysis of algorithm','Design and analysis of algorithm')
          ,('ElectricalLocoPilot','ElectricalLocoPilot'),('FitterLocoPilot','FitterLocoPilot')
-         ,('General-Science','General-Science'))
+         ,('General-Science','General-Science'),('LocoPilot_Diesel','LocoPilot_Diesel'))
     diffculty_choices = (('easy','easy'),('medium','medium'),('hard','hard'))
     text = models.TextField(blank=True,null=True)
     tier_category = models.CharField(max_length=20,choices = tier_choices)
