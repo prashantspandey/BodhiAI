@@ -67,16 +67,24 @@ class StudentPaperDetailsAndroidAPIView(APIView):
         taken_ids = []
         for test in my_tests:
             taken_ids.append(test.test.id)
-        new_tests = SSCKlassTest.objects.filter(testTakers = me.profile)
+        new_tests = SSCKlassTest.objects.filter(testTakers =
+                                                me.profile).order_by('-id')
+        total_pages_final = (len(new_tests) /10)
+        if total_pages_final % 10 == 0:
+            total_pages_final = total_pages_final
+        else:
+            total_pages_final = total_pages_final + 1
+
+
         tests = []
         test_details = {}
         details = []
-        for te in new_tests:
+        for te in new_tests[:10]:
             if te.id not in taken_ids:
                 tests.append(te.id)
                 topics,num_questions = self.find_topics(te)
                 test_details =\
-                        {'id':te.id,'topics':topics[:2],'num_questions':num_questions,'subject':te.sub,'published':te.published,'creator':te.creator.teacher.name}
+                        {'id':te.id,'topics':topics[:2],'num_questions':num_questions,'subject':te.sub,'published':te.published,'creator':te.creator.teacher.name,'page':1,'total_pages':total_pages_final}
                 details.append(test_details)
 
         return Response(details)
@@ -91,6 +99,54 @@ class StudentPaperDetailsAndroidAPIView(APIView):
         topics = list(unique_everseen(topics))
         num_questions = len(test.sscquestions_set.all())
         return topics,num_questions
+
+class StudentPaperDetailsAndroidPaginatedAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        user = self.request.user
+        me = Studs(user)
+        page = request.POST['page']
+        current = int(page) * int(10)
+        end = current + 10
+        my_tests = SSCOnlineMarks.objects.filter(student = me.profile)
+        taken_ids = []
+        for test in my_tests:
+            taken_ids.append(test.test.id)
+        new_tests = SSCKlassTest.objects.filter(testTakers =
+                                                me.profile).order_by('-id')
+        total_pages_final = (len(new_tests) /10)
+        if total_pages_final % 10 == 0:
+            total_pages_final = total_pages_final
+        else:
+            total_pages_final = math.ceil(total_pages_final)
+
+        tests = []
+        test_details = {}
+        details = []
+        print('{} from to {} -- {} total'.format(current,end,total_pages_final))
+        for te in new_tests[int(current):int(end)]:
+            if te.id not in taken_ids:
+                tests.append(te.id)
+                topics,num_questions = self.find_topics(te)
+                test_details =\
+                        {'id':te.id,'topics':topics[:2],'num_questions':num_questions,'subject':te.sub,'published':te.published,'creator':te.creator.teacher.name,'page':page,'total_pages':total_pages_final}
+                details.append(test_details)
+        
+        return Response(details)
+
+    def find_topics(self,test):
+        topics = []
+        tp_num = []
+        for quest in test.sscquestions_set.all():
+            tp_number = quest.topic_category
+            tp_name = changeIndividualNames(tp_number,quest.section_category)
+            topics.append(tp_name)
+        topics = list(unique_everseen(topics))
+        num_questions = len(test.sscquestions_set.all())
+        return topics,num_questions
+
+
+
+
 
 #---------------------------------------------------------------------------------------
 
