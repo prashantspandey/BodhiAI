@@ -223,7 +223,8 @@ class TeacherOneClickConfirmAPIView(APIView):
         topicnumber = request.POST['chapters'];
         subject = request.POST['subject']
         batch = request.POST['batch']
-        tps = answers.split(',')
+        print(topicnumber)
+        tps = topicnumber.split(',')
         inner = []
         outer = []
         tot = 0
@@ -237,7 +238,7 @@ class TeacherOneClickConfirmAPIView(APIView):
 
 
         topics_total = np.array(outer)
-
+        print(topic_total)
         final_num = []
         final_name = []
         # creation of one click paper
