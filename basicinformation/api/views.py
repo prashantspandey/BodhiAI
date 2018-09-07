@@ -798,7 +798,7 @@ class StudentTakenTestsDetailsAPIView(APIView):
             time = m.timeTaken
             total_questions = len(m.test.sscquestions_set.all())
             marks_dic =\
-                    {'subject':m.test.sub,'percent':round(percent,1),'attempted':attempted,'rightAnswers':right,'wrongAnswers':wrong,'total_questions':total_questions,'published':published,'time':time,'testid':m.test.id}
+                    {'subject':m.test.sub,'percent':round(percent,1),'attempted':attempted,'rightAnswers':right,'wrongAnswers':wrong,'total_questions':total_questions,'published':published,'time':time,'testid':m.test.id,'answer_id':m.id}
             all_marks.append(marks_dic)
 
         return Response(all_marks)
