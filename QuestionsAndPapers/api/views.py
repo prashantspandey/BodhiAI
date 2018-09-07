@@ -231,7 +231,7 @@ class TeacherOneClickConfirmAPIView(APIView):
         for n,a in enumerate(tps):
             a = a.replace('[','')
             a = a.replace(']','')
-            inner.append(val)
+            inner.append(a)
             if (n+1)%2 == 0:
                 outer.append(list(inner))
                 inner = []
