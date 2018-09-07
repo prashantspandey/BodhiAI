@@ -238,7 +238,7 @@ class TeacherOneClickConfirmAPIView(APIView):
 
 
         topics_total = np.array(outer)
-        print(topic_total)
+        print(topics_total)
         final_num = []
         final_name = []
         # creation of one click paper
