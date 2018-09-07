@@ -216,32 +216,37 @@ class TeacherOneClickTestChaptersAPIView(APIView):
         context = {'chapters':topics,'subject':sub,'oneclickbatch':batch}
         return Response(context)
 
-class TeacherOneClickCreateAPIView(APIView):
+class TeacherOneClickConfirmAPIView(APIView):
     def post(self,request,*args,**kwargs):
-        topic_name = request.POST['oneclickchapters']
-        topic_number = request.POST['oneclicknumbers']
+        user = request.user
+        me = Teach(user)
+        topicnumber = request.POST['chapters'];
         subject = request.POST['subject']
         batch = request.POST['batch']
+        tps = answers.split(',')
+        inner = []
+        outer = []
+        tot = 0
+        for n,a in enumerate(tps):
+            a = a.replace('[','')
+            a = a.replace(']','')
+            inner.append(val)
+            if (n+1)%2 == 0:
+                outer.append(list(inner))
+                inner = []
 
-        topics_total = list(zip(topic_number,topic_name))
-        topics_total = np.array(topics_total)
+
+        topics_total = np.array(outer)
 
         final_num = []
         final_name = []
-        for num,cat in topics_total:
-            if int(num) != 0:
-                final_num.append(int(num))
-                final_name.append(cat)
-        final_topic = list(zip(final_num,final_name))
-
         # creation of one click paper
         
         # class object to find out how many times has the teacher used a
         # question for that certain class
-        kl = klass.objects.get(school = me.my_school(),name= batch)
         test_quest = []  # the question containing list
 
-        for num,cat in final_topic:
+        for cat,num in final_topic:
             questions = SSCquestions.objects.filter(topic_category =
                                                     cat,section_category =
                                                     subject,school=me.my_school())
@@ -275,61 +280,9 @@ class TeacherOneClickCreateAPIView(APIView):
             # finally add all questions to final questions list
             test_quest.extend(cat_quest)
         # setting up the test
-        test = SSCKlassTest()
-        test.name=str('oneclick')+str(me.profile)+str(batch)+str(timezone.now())
-        test.mode = 'BodhiOnline'
-        marks = 0
-        for qu in test_quest:
-            marks += qu.max_marks
-        test.max_marks = marks
-        test.course = 'SSC'
-        test.creator = user
-        test.sub = subject
-        kl = klass.objects.get(school = me.my_school(),name= batch)
-        test.klas = kl
-        totalTime = len(test_quest)*0.6 # one question requires 36 secs
-
-        test.totalTime = totalTime
-        test.save()
-        # add questions to testpaper
-        for q in test_quest:
-            try:
-                # modify times used object associated with each question as
-                # they are added to the test paper
-                times_used = TimesUsed.objects.get(batch =
-                                               kl,quest=q,teacher=me.profile)
-                times_used.numUsed += 1
-                times_used.save()
-            except:
-                # if new question then create the TimesUsed object for that
-                # question
-                times_used = TimesUsed()
-                times_used.batch = kl
-                times_used.numUsed =1
-                times_used.quest = q
-                times_used.teacher = me.profile
-                times_used.save()
-            
-            # add many to many field of question to specific test
-            q.ktest.add(test)
-
-        # getting all the students in a specific class to be given the test
-        # to
-        students = Student.objects.filter(klass = kl,school =
-                                          me.my_school())
-        # add testtakers(students of a specific batch) to test paper
-        for st in students:
-            # looks for common subject between student and teacher
-            subs = Subject.objects.filter(student=st,teacher =
-                                          me.profile,name=subject)
-            # if common subject found that means student is connected to
-            # teacher and he should be added to test
-            if subs:
-                stu = Student.objects.get(subject = subs)
-                test.testTakers.add(stu)
-                test.save()
-
-
+        serializer = SSCQuestionSerializer(test_quest,many=True)
+        return Response(serializer.data)
+   
 # For all normal create test apis
 
 class CreateTestBatchesAPIView(APIView):
