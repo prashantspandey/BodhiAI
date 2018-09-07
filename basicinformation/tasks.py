@@ -1712,7 +1712,7 @@ def addOldTests(stud_id,teacher_id,kl):
         i.testTakers.add(student)
    
 @shared_task
-class CreateOneClickTestFinalAPIView(batch,subject,quest_ids):
+def CreateOneClickTestFinalAPIView(batch,subject,quest_ids):
         quest_ids = request.POST['quest_ids']
         subject = request.POST['subject']
         batch = request.POST['batch']
