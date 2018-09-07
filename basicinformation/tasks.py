@@ -1712,8 +1712,7 @@ def addOldTests(stud_id,teacher_id,kl):
         i.testTakers.add(student)
    
 @shared_task
-class CreateOneClickTestFinalAPIView(APIView):
-    def post(self,request,*args,**kwargs):
+class CreateOneClickTestFinalAPIView(batch,subject,quest_ids):
         quest_ids = request.POST['quest_ids']
         subject = request.POST['subject']
         batch = request.POST['batch']
