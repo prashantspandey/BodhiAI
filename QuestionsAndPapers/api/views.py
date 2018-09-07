@@ -305,6 +305,8 @@ class TeacherOneClickConfirmAPIView(APIView):
         for cat,num in topics_total:
             cat = cat.strip()
             num = int(num)
+            if num == 0:
+                continue
             questions = SSCquestions.objects.filter(topic_category =
                                                     cat,section_category =
                                                     subject,school=me.my_school())
