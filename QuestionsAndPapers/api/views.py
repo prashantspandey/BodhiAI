@@ -247,7 +247,7 @@ class TeacherOneClickConfirmAPIView(APIView):
         # question for that certain class
         test_quest = []  # the question containing list
 
-        for cat,num in final_topic:
+        for cat,num in topics_total:
             questions = SSCquestions.objects.filter(topic_category =
                                                     cat,section_category =
                                                     subject,school=me.my_school())
