@@ -60,6 +60,15 @@ class CustomRegistration(APIView):
                Subject(name="General-Knowledge",student=stud,teacher=teacher)
                subGenSci =\
                Subject(name="General-Science",student=stud,teacher=teacher)
+               subLocoPilot =\
+               Subject(name="ElectricalLocoPilot",student=stud,teacher=teacher)
+               subLocoPilot.save()
+               subLocoPilot_diesel =\
+               Subject(name="LocoPilot_Diesel",student=stud,teacher=teacher)
+               subLocoPilot_Diesel.save()
+
+
+
                subMaths.save()
                subEnglish.save()
                subGenSci.save()
@@ -122,6 +131,15 @@ class TeacherStudentConfirmedAPIView(APIView):
             subEnglish = Subject(name="English",student=student,teacher=me.profile)
             subGenKnow = Subject(name="General-Knowledge",student=student,teacher=me.profile)
             subGenSci = Subject(name="General-Science",student=student,teacher=me.profile)
+            subLocoPilot_Fitter =\
+            Subject(name="FitterLocoPilot",student=student,teacher=me.profile)
+            subLocoPilot_Fitter.save()
+            subLocoPilot_diesel =\
+            Subject(name="LocoPilot_Diesel",student=student,teacher=me.profile)
+            subLocoPilot_Diesel.save()
+
+
+
             subMaths.save()
             subEnglish.save()
             subGenSci.save()
@@ -141,6 +159,18 @@ class TeacherStudentConfirmedAPIView(APIView):
             subGenSci.save()
             subEnglish.save()
             subGenKnow.save()
+            subLocoPilot =\
+            Subject(name="ElectricalLocoPilot",student=student,teacher=me.profile)
+            subLocoPilot.save()
+            subLocoPilot_Fitter =\
+            Subject(name="FitterLocoPilot",student=student,teacher=me.profile)
+            subLocoPilot_Fitter.save()
+            subLocoPilot_diesel =\
+            Subject(name="LocoPilot_Diesel",student=student,teacher=me.profile)
+            subLocoPilot_Diesel.save()
+
+
+
 
 
         elif batch.name == 'RailwayGroupD':
@@ -151,6 +181,20 @@ class TeacherStudentConfirmedAPIView(APIView):
             subGenSci = Subject(name="General-Science",student=student,teacher=me.profile)
             subMaths.save()
             subGenSci.save()
+            subLocoPilot =\
+            Subject(name="ElectricalLocoPilot",student=student,teacher=me.profile)
+            subLocoPilot.save()
+            subLocoPilot_Fitter =\
+            Subject(name="FitterLocoPilot",student=student,teacher=me.profile)
+            subLocoPilot_Fitter.save()
+            subLocoPilot_diesel =\
+            Subject(name="LocoPilot_Diesel",student=student,teacher=me.profile)
+            subLocoPilot_Diesel.save()
+            addOldTests.delay(student.id,me.profile.teacheruser.id,batch.id)
+
+
+
+
             subGenKnow.save()
         confirmation.confirm = True
         confirmation.batch = batch

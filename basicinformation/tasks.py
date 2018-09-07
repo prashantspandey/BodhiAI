@@ -1536,10 +1536,12 @@ def TeacherHardQuestionsLast3TestsAsync(user_id):
 @shared_task
 def deleteBadTests():
     quest_bad = SSCKlassTest.objects.all()
+    print('{} total bad tests'.format(len(quest_bad)))
     for quest in quest_bad:
         if quest.sub == "":
             quest.delete()
         if len(quest.sscquestions_set.all() == 0):
+            print('found bad test')
             quest.delete()
 @shared_task
 def add_questions(institute,section):
