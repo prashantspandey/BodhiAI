@@ -3425,7 +3425,7 @@ class Studs:
                 if i == '2.1':
                     namedarr.append('Surveying Engineering')
                     timing.append(j)
-        if subject == 'Diesel':
+        if subject == 'LocoPilot_Diesel':
             for i,j in arr:
                 if i == '1.1':
                     names.append('Introduction to Engine & Development')
@@ -4203,7 +4203,7 @@ class Studs:
 
 
                 return namedarr
-        if subject == 'Diesel':
+        if subject == 'LocoPilot_Diesel':
             for i in arr:
                 if i == '1.1':
                     namedarr.append('Introduction to Engine & Development')
@@ -4925,7 +4925,7 @@ class Studs:
                 if i == '2.1':
                     return 'Surveying Engineering'
 
-        if subject == 'Diesel':
+        if subject == 'LocoPilot_Diesel':
                 if i == '1.1':
                     return 'Introduction to Engine & Development'
                 if i == '2.1':
@@ -7736,7 +7736,7 @@ class Teach:
                     numbers.append(i)
             return list(zip(names,numbers))
 
-        if subject == 'Diesel':
+        if subject == 'LocoPilot_Diesel':
             for i in arr:
                 if i == '1.1':
                     names.append('Introduction to Engine & Development')
@@ -8818,7 +8818,7 @@ class Teach:
                     numbers.append(j)
 
             return list(zip(names,numbers))
-        if subject == 'Diesel':
+        if subject == 'LocoPilot_Diesel':
             for i,j in arr:
                 if i == '1.1':
                     names.append('Introduction to Engine & Development')
@@ -9596,7 +9596,7 @@ class Teach:
                 if i == 'Surveying Engineering':
                     numbers.append('2.1')
             return numbers
-        if subject == 'Diesel':
+        if subject == 'LocoPilot_Diesel':
             for i in arr:
                 if i == 'Introduction to Engine & Development':
                     numbers.append('1.1')
@@ -10648,7 +10648,7 @@ def change_topicNumbersNames(arr,subject):
                     numbers.append(i)
 
             return list(zip(names,numbers))
-        if subject == 'Diesel':
+        if subject == 'LocoPilot_Diesel':
             for i in arr:
                 if i == '1.1':
                     names.append('Introduction to Engine & Development')
@@ -11386,7 +11386,7 @@ def changeIndividualNames(i,subject):
     if subject == 'Civil':
         if i == '2.1':
             return 'Surveying Engineering'
-    if subject == 'Diesel':
+    if subject == 'LocoPilot_Diesel':
         if i == '1.1':
             return 'Introduction to Engine & Development'
         if i == '2.1':
