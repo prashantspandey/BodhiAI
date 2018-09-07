@@ -70,21 +70,16 @@ class StudentPaperDetailsAndroidAPIView(APIView):
         new_tests = SSCKlassTest.objects.filter(testTakers =
                                                 me.profile).order_by('-id')
         total_pages_final = (len(new_tests) /10)
-        if total_pages_final % 10 == 0:
-            total_pages_final = total_pages_final
-        else:
-            total_pages_final = total_pages_final + 1
-
 
         tests = []
         test_details = {}
         details = []
-        for te in new_tests[:10]:
+        for te in new_tests:
             if te.id not in taken_ids:
                 tests.append(te.id)
                 topics,num_questions = self.find_topics(te)
                 test_details =\
-                        {'id':te.id,'topics':topics[:2],'num_questions':num_questions,'subject':te.sub,'published':te.published,'creator':te.creator.teacher.name,'page':1,'total_pages':total_pages_final}
+                        {'id':te.id,'topics':topics[:2],'num_questions':num_questions,'subject':te.sub,'published':te.published,'creator':te.creator.teacher.name}
                 details.append(test_details)
 
         return Response(details)
