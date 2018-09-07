@@ -223,6 +223,7 @@ class TeacherOneClickConfirmAPIView(APIView):
         topicnumber = request.POST['chapters'];
         subject = request.POST['subject']
         batch = request.POST['batch']
+        kl = klass.objects.get(school = me.my_school(),name=batch)
         print(topicnumber)
         tps = topicnumber.split(',')
         inner = []
