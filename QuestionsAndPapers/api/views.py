@@ -224,7 +224,6 @@ class TeacherOneClickConfirmAPIView(APIView):
         subject = request.POST['subject']
         batch = request.POST['batch']
         kl = klass.objects.get(school = me.my_school(),name=batch)
-        print(topicnumber)
         tps = topicnumber.split(',')
         inner = []
         outer = []
@@ -239,7 +238,6 @@ class TeacherOneClickConfirmAPIView(APIView):
 
 
         topics_total = np.array(outer)
-        print(topics_total)
         final_num = []
         final_name = []
         # creation of one click paper
@@ -264,13 +262,13 @@ class TeacherOneClickConfirmAPIView(APIView):
                 #if quest has not been used in the batch before then add that
                 #question
 
-                if len(t_used) == 0 and count < num:
+                if len(t_used) == 0 and count < int(num):
                     cat_quest.append(quest)
                 # otherwise add used questions to the used_quest list
                 if len(t_used) != 0:
                     used_quests.append(quest)
             # check if there are not enough new(unused) questions 
-            if len(cat_quest) < num:
+            if len(cat_quest) < int(num):
                 try:
                     # if yes then add already used questions to list until
                     # list is equal to number of required questions
