@@ -65,7 +65,7 @@ class CustomRegistration(APIView):
                subLocoPilot.save()
                subLocoPilot_diesel =\
                Subject(name="LocoPilot_Diesel",student=stud,teacher=teacher)
-               subLocoPilot_Diesel.save()
+               subLocoPilot_diesel.save()
 
 
 
