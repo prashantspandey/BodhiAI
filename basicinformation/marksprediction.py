@@ -3428,37 +3428,37 @@ class Studs:
         if subject == 'LocoPilot_Diesel':
             for i,j in arr:
                 if i == '1.1':
-                    names.append('Introduction to Engine & Development')
-                    numbers.append(j)
+                    namedarr.append('Introduction to Engine & Development')
+                    timing.append(j)
                 if i == '2.1':
-                    names.append('Cylinder Head & Valve Assembly')
-                    numbers.append(j)
+                    namedarr.append('Cylinder Head & Valve Assembly')
+                    timing.append(j)
                 if i == '3.1':
-                    names.append('Piston & Connecting Rod')
-                    numbers.append(j)
+                    namedarr.append('Piston & Connecting Rod')
+                    timing.append(j)
                 if i == '4.1':
-                    names.append('Crank Shaft,Cam Shaft Fly Wheel & Bearing')
-                    numbers.append(j)
+                    namedarr.append('Crank Shaft,Cam Shaft Fly Wheel & Bearing')
+                    timing.append(j)
                 if i == '5.1':
-                    names.append('Gas Turbine Marine & Statonery Engine')
-                    numbers.append(j)
+                    namedarr.append('Gas Turbine Marine & Statonery Engine')
+                    timing.append(j)
                 if i == '6.1':
-                    names.append('Cooling & Snake System')
-                    numbers.append(j)
+                    namedarr.append('Cooling & Snake System')
+                    timing.append(j)
                 if i == '7.1':
-                    names.append('Intake & Exhaust System')
-                    numbers.append(j)
+                    namedarr.append('Intake & Exhaust System')
+                    timing.append(j)
                 if i == '8.1':
-                    names.append('Diesel Fuel Supply System')
-                    numbers.append(j)
+                    namedarr.append('Diesel Fuel Supply System')
+                    timing.append(j)
                 if i == '9.1':
-                    names.append('Emission Charging & Starting System')
-                    numbers.append(j)
+                    namedarr.append('Emission Charging & Starting System')
+                    timing.append(j)
                 if i == '10.1':
-                    names.append('Troubleshooting')
-                    numbers.append(j)
+                    namedarr.append('Troubleshooting')
+                    timing.append(j)
 
-            return list(zip(names,numbers))
+            return list(zip(namedarr,timing))
 
 
 # for knimbus subjects
