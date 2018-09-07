@@ -283,6 +283,16 @@ class TeacherOneClickConfirmAPIView(APIView):
         serializer = SSCQuestionSerializer(test_quest,many=True)
         return Response(serializer.data)
    
+class TeacherOneClickFinalAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        subject = request.POST['subject']
+        batch = request.POST['batch']
+        quest_ids = request.POST['quest_ids']
+        CreateOneClickTestFinal.delay(self.request.user.id,batch,subject,quest_ids)
+        context = {'success':'Test successfully created'}
+        return Response(context)
+
+
 # For all normal create test apis
 
 class CreateTestBatchesAPIView(APIView):

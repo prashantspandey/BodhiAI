@@ -1712,10 +1712,8 @@ def addOldTests(stud_id,teacher_id,kl):
         i.testTakers.add(student)
    
 @shared_task
-def CreateOneClickTestFinalAPIView(batch,subject,quest_ids):
-        quest_ids = request.POST['quest_ids']
-        subject = request.POST['subject']
-        batch = request.POST['batch']
+def CreateOneClickTestFinal(user_id,batch,subject,quest_ids):
+        me = Teacher.objects.get(teacheruser_id = user_id)
         test = SSCKlassTest()
         test.name=str('oneclick')+str(me.profile)+str(batch)+str(timezone.now())
         test.mode = 'BodhiOnline'
@@ -1772,6 +1770,4 @@ def CreateOneClickTestFinalAPIView(batch,subject,quest_ids):
                 stu = Student.objects.get(subject = subs)
                 test.testTakers.add(stu)
                 test.save()
-        context = {'success':'Test successfully created'}
-        return Response(context)
 
