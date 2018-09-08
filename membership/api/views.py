@@ -136,7 +136,7 @@ class TeacherStudentConfirmedAPIView(APIView):
             subLocoPilot_Fitter.save()
             subLocoPilot_diesel =\
             Subject(name="LocoPilot_Diesel",student=student,teacher=me.profile)
-            subLocoPilot_Diesel.save()
+            subLocoPilot_diesel.save()
 
 
 
@@ -167,7 +167,7 @@ class TeacherStudentConfirmedAPIView(APIView):
             subLocoPilot_Fitter.save()
             subLocoPilot_diesel =\
             Subject(name="LocoPilot_Diesel",student=student,teacher=me.profile)
-            subLocoPilot_Diesel.save()
+            subLocoPilot_diesel.save()
 
 
 
@@ -189,8 +189,7 @@ class TeacherStudentConfirmedAPIView(APIView):
             subLocoPilot_Fitter.save()
             subLocoPilot_diesel =\
             Subject(name="LocoPilot_Diesel",student=student,teacher=me.profile)
-            subLocoPilot_Diesel.save()
-            addOldTests.delay(student.id,me.profile.teacheruser.id,batch.id)
+            subLocoPilot_diesel.save()
 
 
 
