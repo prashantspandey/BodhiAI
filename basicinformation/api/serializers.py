@@ -84,3 +84,18 @@ class TimeTableModelSerializer(serializers.ModelSerializer):
 
         ]
         read_only_fields = ('created',)
+
+
+class StudentProfileDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentDetails
+        fields = [
+            'id',
+            'fullName',
+            'phone',
+            'address',
+            'email',
+            'fathersName',
+            'parentPhone',
+
+        ]

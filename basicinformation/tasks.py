@@ -1540,7 +1540,7 @@ def deleteBadTests():
     for quest in quest_bad:
         if quest.sub == "":
             quest.delete()
-        if len(quest.sscquestions_set.all() == 0):
+        if len(quest.sscquestions_set.all()) == 0:
             print('found bad test')
             quest.delete()
 @shared_task

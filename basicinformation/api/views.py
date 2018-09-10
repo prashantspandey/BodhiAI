@@ -38,6 +38,42 @@ class StudentDetailAPIView(APIView):
         my_details =\
         {'username':username,'email':email,'firstName':first_name,'school':school_name,'subjects':subjects}
         return Response(my_details)
+
+
+class StudentShowDetialsAPIView(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        try:
+            my_profile = StudentDetails.objects.get(student = self.request.user)
+            serializer_student_profile =\
+            StudentProfileDetailsSerializer(my_profile)
+            return Response(serializer_student_profile.data)
+        except:
+            context = {"new_profile":"New\
+                       Profile",'user_id':self.request.user.id}
+            return Response(context)
+
+
+class StudentFillDetailsAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        name = request.POST['fullName']
+        phone = request.POST['phone']
+        address = request.POST['address']
+        fatherName = request.POST['fathersName']
+        parentPhone = request.POST['parentPhone']
+        email = request.POST['email']
+        my_profile = StudentDetails()
+        my_profile.student = self.request.user
+        my_profile.address = address
+        my_profile.email = email
+        my_profile.phone = phone
+        my_profile.parentPhone = parentPhone
+        my_profile.fullName = name
+        my_profile.save()
+        serialzer = StudentProfileDetailsSerializer(my_profile)
+        return Response(serialzer.data)
+        
+
 #----------------------------------------------------------------------------------------
 # Find out if student of teacher
 class TeacherorStudentAPIView(APIView):

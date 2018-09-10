@@ -34,5 +34,9 @@ urlpatterns = [
     url(r'student_test_rank/$',views.StudentFindMyRankAPIView.as_view(),name='StudentTestRank'),
 # Teacher all Student List
     url(r'teacher_student_list/$',views.TeacherShowAllStudentsAPIView.as_view(),name='TeacherStudentList'),
+# Student Show Profile
+    url(r'student_profile/$',views.StudentShowDetialsAPIView.as_view(),name='StudentDetailsAPI'),
+# Student Write Profile
+    url(r'student_edit_profile/$',views.StudentFillDetailsAPIView.as_view(),name='StudentWriteDetails'),
 
 ]
