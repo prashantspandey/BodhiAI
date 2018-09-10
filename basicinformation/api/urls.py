@@ -32,5 +32,7 @@ urlpatterns = [
     #url(r'custom_registration/$',views.CustomRegistrationAPIView.as_view(),name='CustomRegistration'),
 # Student Test Rank
     url(r'student_test_rank/$',views.StudentFindMyRankAPIView.as_view(),name='StudentTestRank'),
+# Teacher all Student List
+    url(r'teacher_student_list/$',views.TeacherShowAllStudentsAPIView.as_view(),name='TeacherStudentList'),
 
 ]

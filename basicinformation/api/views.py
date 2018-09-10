@@ -1122,6 +1122,13 @@ class StudentFindMyRankAPIView(APIView):
             return Response(all_context)
 
 
-class ShowAllStudentsAPIView(APIView):
+class TeacherShowAllStudentsAPIView(APIView):
     def get(self,request,format=None):
-        pass
+        me = Teach(self.request.user)
+
+        my_students = Student.objects.filter(school = me.my_school())
+        number_students = len(my_students)
+        student_serializer = StudentModelSerializer(my_students,many=True)
+        context =\
+        {'students':student_serializer.data,'number_students':number_students}
+        return Response(context)

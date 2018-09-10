@@ -29,8 +29,15 @@ class BatchSerializer(serializers.ModelSerializer):
             'school',
         ]
 
-
+class BatchNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = klass
+        fields = [
+            'id',
+            'name',
+        ]
 class StudentModelSerializer(serializers.ModelSerializer):
+    klass = BatchNameSerializer()
     #school = SchoolDisplaySerializer()
     #user = serializers.SerializerMethodField()
     class Meta:
@@ -38,16 +45,16 @@ class StudentModelSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'name',
+            'klass',
         ]
 
     #def get_user(self,obj):
     #    return str(obj.studentuser.email)
-
 class StudentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            
+            'id',            
             'username',
             'email',
             'first_name'
