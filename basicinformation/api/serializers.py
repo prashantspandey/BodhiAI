@@ -95,7 +95,7 @@ class StudentProfileDetailsSerializer(serializers.ModelSerializer):
             'phone',
             'address',
             'email',
-            'fathersName',
+            'fatherName',
             'parentPhone',
 
         ]

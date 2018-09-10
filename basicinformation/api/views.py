@@ -42,15 +42,15 @@ class StudentDetailAPIView(APIView):
 
 class StudentShowDetialsAPIView(APIView):
     def get(self,request,format=None):
-        me = Studs(self.request.user)
         try:
             my_profile = StudentDetails.objects.get(student = self.request.user)
             serializer_student_profile =\
             StudentProfileDetailsSerializer(my_profile)
             return Response(serializer_student_profile.data)
-        except:
-            context = {"new_profile":"New\
-                       Profile",'user_id':self.request.user.id}
+        except Exception as e:
+            print(str(e))
+            context =\
+            {"id":None,"fullName":None,"phone":None,"address":None,"email":None,"fatherName":None,"parentPhone":None}
             return Response(context)
 
 
