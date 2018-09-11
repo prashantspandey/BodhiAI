@@ -62,7 +62,12 @@ class StudentFillDetailsAPIView(APIView):
         fatherName = request.POST['fathersName']
         parentPhone = request.POST['parentPhone']
         email = request.POST['email']
-        my_profile = StudentDetails()
+        try:
+            my_profile = StudentDetails.objects.get(student =
+                                                    self.request.user)
+        except:
+
+            my_profile = StudentDetails()
         my_profile.student = self.request.user
         my_profile.address = address
         my_profile.email = email
@@ -1149,10 +1154,11 @@ class StudentFindMyRankAPIView(APIView):
             all_ids.append(i.test.id)
         for teid in all_ids:
             context = me.find_my_rank(teid)
+           
             all_context.append(context)
         if len(all_context) == 0:
-            all_context = "Please take at-least one test so that we can calculate your rank.\
-            कृपया एक टेस्ट लीजिये ताकि हम आपकी रैंक पता लगा पायें "
+            all_context = {'NoTest':"Please take at-least one test so that we can calculate your rank.\
+            कृपया एक टेस्ट लीजिये ताकि हम आपकी रैंक पता लगा पायें "}
             return Response(all_context)
         else:
             return Response(all_context)
