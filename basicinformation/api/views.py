@@ -73,6 +73,7 @@ class StudentFillDetailsAPIView(APIView):
         my_profile.email = email
         my_profile.phone = phone
         my_profile.parentPhone = parentPhone
+        my_profile.fatherName = fatherName
         my_profile.fullName = name
         my_profile.save()
         serialzer = StudentProfileDetailsSerializer(my_profile)
