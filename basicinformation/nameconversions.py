@@ -1,4 +1,3 @@
-
 def changeIndividualNames(i,subject):
     if subject == 'English':
         if i == '1.1':

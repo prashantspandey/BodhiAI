@@ -11,7 +11,7 @@ from QuestionsAndPapers.models import *
 from basicinformation.models import *
 from basicinformation.marksprediction import *
 import json
-from basicinformation.nameconversions.py import *
+from basicinformation.nameconversions import *
 from rest_framework.response import Response
 from rest_framework.permissions import (
     IsAuthenticated
