@@ -11,6 +11,7 @@ from QuestionsAndPapers.models import *
 from basicinformation.models import *
 from basicinformation.marksprediction import *
 import json
+from basicinformation.namedconversions.py import *
 from rest_framework.response import Response
 from rest_framework.permissions import (
     IsAuthenticated
@@ -1174,4 +1175,17 @@ class TeacherShowAllStudentsAPIView(APIView):
         student_serializer = StudentModelSerializer(my_students,many=True)
         context =\
         {'students':student_serializer.data,'number_students':number_students}
+        return Response(context)
+
+
+class StudentAverageTimingDetailAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Studs(self.request.user)
+
+        subject = request.POST['subject']
+        chapter = request.POST['chapter']
+        average_timing = request.POST['average_timing']
+        chapter = me.changeIndividualNames(chapter,subject)
+        result = me.student_weak_timing_details(me.profile.id,subject,chapter)
+        context = {'result':result,'overall_average_timing':average_timing}
         return Response(context)

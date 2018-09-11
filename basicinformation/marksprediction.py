@@ -5292,8 +5292,45 @@ class Studs:
         sk_cat = np.asarray((unique,count)).T
         return sk_cat
 
+    def student_weak_timing_details(student_id,subject,chapter):
+        student = Student.objects.get(id = student_id)
+        my_marks = SSCOnlineMarks.objects.filter(student = student)
+        right_time = []
+        wrong_time = []
+        for mark in my_marks:
+            for rid in mark.rightAnswers:
+                quest = SSCquestions.objects.get(choices__id = rid)
+                if quest.section_category == subject and quest.topic_category\
+                == chapter:
+                    answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                               mark,quest=quest)
+                    right_time.append(answered.time)
+            for wid in mark.wrongAnswers:
+                quest = SSCquestions.objects.get(choices__id = rid)
+                if quest.section_category == subject and quest.topic_category\
+                == chapter:
+                    answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                               mark,quest=quest)
+                    right_time.append(answered.time)
+        len_right = len(right_time)
+        len_wrong = len(wrong_time)
+        if len_right == 0:
+            ave_right = 'No right questions'
+        else:
+            ave_right = sum(right_time) / len_right
+        if len_wrong == 0:
+            ave_wrong = 'No wrong questions'
+        else:
+            ave_wrong = sum(wrong_time) / len_wrong
+        total = len_right + len_wrong
+        context =\
+        {'right_time':ave_right,'ave_wrong':ave_wrong,'total_attempted':total}
+        return context
 
 
+
+
+#------------------------------------------Student Ends
 
 
 class Teach:
@@ -6415,7 +6452,6 @@ class Teach:
                 TeacherWeakAreasTimingCache.objects.get(teacher=self.profile,klass
                                                         = klass,subject =
                                                         subject)
-                print('found the cache')
                 total_old_tests = len(weak_cache.testids)
 
                 marks = SSCOnlineMarks.objects.filter(test__sub = subject,
