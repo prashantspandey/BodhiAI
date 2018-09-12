@@ -924,10 +924,11 @@ class TeacherCreateTimeTable(APIView):
         subject = request.POST['timetable_sub']
         time_table = TimeTable()
         date = datetime.datetime.strptime(date,"%m-%d-%Y")
+        final_date = date.date()
         batch = klass.objects.get(school = me.my_school(),name=batch)
         my_subjects = me.my_subjects_names()
         time_table.batch = batch
-        time_table.date = date
+        time_table.date = final_date
         time_table.timeStart = timeStart
         time_table.timeEnd = timeEnd
         time_table.note = note

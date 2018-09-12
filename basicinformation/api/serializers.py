@@ -84,7 +84,6 @@ class TimeTableModelSerializer(serializers.ModelSerializer):
             'note',
 
         ]
-        read_only_fields = ('created',)
 
 
 class StudentProfileDetailsSerializer(serializers.ModelSerializer):
