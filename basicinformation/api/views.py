@@ -931,8 +931,8 @@ class TeacherCreateTimeTable(APIView):
         time_table.timeEnd = timeEnd
         time_table.note = note
         time_table.teacher = me.profile
-        if sub in my_subjects:
-            time_table.sub = sub
+        if subject in my_subjects:
+            time_table.sub = subject
             time_table.save()
             serialzer = TimeTableModelSerializer(time_table)
             return Response(serialzer.date)
