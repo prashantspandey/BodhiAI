@@ -5292,7 +5292,7 @@ class Studs:
         sk_cat = np.asarray((unique,count)).T
         return sk_cat
 
-    def student_weak_timing_details(student_id,subject,chapter):
+    def student_weak_timing_details(self,student_id,subject,chapter):
         student = Student.objects.get(id = student_id)
         my_marks = SSCOnlineMarks.objects.filter(student = student)
         right_time = []
