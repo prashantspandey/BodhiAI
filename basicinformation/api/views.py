@@ -903,12 +903,22 @@ class TeacherTimeTableAPIView(APIView):
         serialzer =TimeTableModelSerializer(time_table,many=True)
         return Response(serialzer.data)
 
+
+class TeacherTimeTableFirst(APIView):
+    def get(self,request,format=None):
+        me = Teach(self.request.user)
+        batches = me.my_classes_names_cache()
+        context = {'batches':batches}
+        return Response(context)
+
+
 class TeacherCreateTimeTable(APIView):
     def post(self,request,*args,**kwargs):
         me = Teach(self.request.user)
         date = request.POST['timetable_date']
         note = request.POST['timetable_note']
-        time = request.POST['timetable_time']
+        timeStart = request.POST['timetable_timeStart']
+        timeEnd = request.POST['timetable_timeEnd']
         batch = request.POST['timetable_batch']
         subject = request.POST['timetable_sub']
         time_table = TimeTable()
@@ -917,7 +927,8 @@ class TeacherCreateTimeTable(APIView):
         my_subjects = me.my_subjects_names()
         time_table.batch = batch
         time_table.date = date
-        time_table.time = time
+        time_table.timeStart = timeStart
+        time_table.timeEnd = timeEnd
         time_table.note = note
         time_table.teacher = me.profile
         if sub in my_subjects:
@@ -934,10 +945,12 @@ class StudentShowTimeTableAPIView(APIView):
         me = Studs(self.request.user)
         batch = me.get_batch()
         all_time_tables = []
+        all_time_tables_serializer = []
         for i in batch:
-            time_table = TimeTable.objects.get(batch = i)
-            serializer = TimeTableModelSerializer(time_table)
-            all_time_tables.append(serialzer)
+            time_table = TimeTable.objects.filter(batch = i)
+            all_time_tables.append(time_table)
+            for j in all_time_tables:
+                all_time_tables_serializer.append(TimeTableModelSerializer(j))
         return Response(all_time_tables)
 
 

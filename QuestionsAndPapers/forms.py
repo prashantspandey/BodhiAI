@@ -9,7 +9,8 @@ class CreateTimeTableForm(forms.ModelForm):
         model = TimeTable
         fields = [
             'date',
-            'time',
+            'timeStart',
+            'timeEnd',
             'batch',
             'sub',
             'note',

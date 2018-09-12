@@ -26,6 +26,10 @@ urlpatterns = [
     url(r'student_previous_performance_detailed/$',views.StudentTakenTestsDetailsAPIView.as_view(),name='StudentPreviousPerformanceDetailed'),
 # Time Table APIs
     url(r'teacher_time_table/$',views.TeacherTimeTableAPIView.as_view(),name='TeacherTimeTable'),
+# teacher create Time Table
+    url(r'teacher_create_TimeTable/$',views.TeacherCreateTimeTable.as_view(),name='TeacherCreateTimeTable'),
+# teacher get batches for Time Table
+    url(r'teacher_create_TimeTableBatches/$',views.TeacherTimeTableFirst.as_view(),name='TeacherTimeTableBatches'),
 # Student Test Performance Detail
     url(r'student_individual_test_detail/$',views.StudentTestPerformanceDetailedAPIView.as_view(),name='StudentTestPastPerformanceDetail'),
 # Custom Registration

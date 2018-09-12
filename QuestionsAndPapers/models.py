@@ -459,7 +459,8 @@ class StudentWeakAreasCache(models.Model):
 class TimeTable(models.Model):
     created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     date = models.DateField(null=True,blank=True)
-    time = models.CharField(max_length=100,null=True,blank=True)
+    timeStart = models.CharField(max_length=100,null=True,blank=True)
+    timeEnd = models.CharField(max_length=100,null=True,blank=True)
     teacher = models.ForeignKey(Teacher,null=True,blank=True)
     batch = models.ForeignKey(klass)
     sub = models.CharField(max_length =100,null=True,blank=True)

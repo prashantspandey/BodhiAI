@@ -76,7 +76,8 @@ class TimeTableModelSerializer(serializers.ModelSerializer):
         model = TimeTable
         fields = [
             'date',
-            'time',
+            'timeStart',
+            'timeEnd',
             'teacher',
             'batch',
             'sub',
