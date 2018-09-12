@@ -1201,7 +1201,8 @@ class StudentAverageTimingDetailAPIView(APIView):
         subject = request.POST['subject']
         chapter = request.POST['chapter']
         average_timing = request.POST['average_timing']
-        chapter = me.changeIndividualNames(chapter,subject)
+        chapter = changeIndividualNumberNames(chapter,subject)
+        print('chapter {}'.format(chapter))
         result = me.student_weak_timing_details(me.profile.id,subject,chapter)
         context = {'result':result,'overall_average_timing':average_timing}
         return Response(context)

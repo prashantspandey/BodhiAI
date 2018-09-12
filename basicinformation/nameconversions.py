@@ -716,4 +716,720 @@ def changeIndividualNames(i,subject):
 
 
 
+def changeIndividualNumberNames(i,subject):
+    if subject == 'English':
+        if i == 'Antonym':
+            return '1.1'
+        elif i == 'Synonym':
+            return '1.2'
+        elif i == 'One word substitution':
+            return '1.3'
+        elif i == 'Idioms & Phrases':
+            return '1.4'
+        elif i == 'Phrasal Verbs':
+            return '1.5'
+        elif i == 'Use of some verbs with particular nouns':
+            return '1.6'
+        elif i == 'Tense':
+            return '1.7'
+        elif i == 'Noun':
+            return '2.1'
+        elif i == 'Pronoun':
+            return '2.2'
+        elif i == 'Adjective':
+            return '2.3'
+        elif i == 'Articles':
+            return '2.4'
+        elif i == 'Verb':
+            return '2.5'
+        elif i == 'Adverb':
+            return '2.6'
+        elif i == 'Time & Tense':
+            return '2.7'
+        elif i == 'Voice':
+            return '2.8'
+        elif i == 'Non-Finites':
+            return '2.9'
+        elif i == 'Narration':
+            return '3.1'
+        elif i == 'Preposition':
+            return '3.2'
+        elif i == 'Conjunction':
+            return '3.3'
+        elif i == 'Subject verb agreement':
+            return '3.4'
+        elif i == 'Common Errors':
+            return '3.5'
+        elif i == 'Superfluous Expressions & Slang':
+            return '3.6'
+
+
+
+    if subject == 'General-Intelligence':
+        if i == 'Paper Cutting and Folding':
+            return '1.1'
+        elif i == 'Mirror and Water Image':
+            return '1.2'
+        elif i == 'Embedded Figures':
+            return '1.3'
+        elif i == 'Figure Completion':
+            return '1.4'
+        elif i == '1.5':
+            return 'Counting Embedded Figures'
+        elif i == '1.6':
+            return 'Counting in figures'
+        elif i == '2.1':
+            return 'Analogy'
+        elif i == '2.2':
+            return 'Multiple Analogy'
+        elif i == '2.3':
+            return 'Choosing the analogous pair'
+        elif i == '2.4':
+            return 'Number analogy (series pattern)'
+        elif i =='2.5':
+            return 'Number analogy (missing)'
+        elif i =='2.6':
+            return  'Alphabet based analogy'
+        elif i =='2.7':
+            return  'Mixed analogy'
+        elif i =='Series Completion (Diagram)':
+            return  '3.1'
+        elif i =='Analogy (Diagram)':
+            return  '3.2'
+        elif i =='Classification (Diagram)':
+            return  '3.3'
+        elif i =='Dice & Boxes':
+            return  '3.4'
+        elif i =='Ruled based analogy':
+            return  '2.8'
+        elif i =='Alphabet Test':
+            return  '2.9'
+        elif i =='Ranking':
+            return  '4.1'
+        elif i =='Matrix':
+            return  '5.1'
+        elif i =='Word Creation':
+            return  '6.1'
+        elif i =='Odd one out':
+            return  '7.1'
+        elif i =='Height':
+            return  '8.1'
+        elif i =='Direction':
+            return  '9.1'
+        elif i =='Statement & Conclusion':
+            return '10.1'
+        elif i =='Venn Diagram':
+            return  '11.1'
+        elif i =='Missing number':
+            return  '12.1'
+        elif i =='Logical Sequence of words':
+            return  '13.1'
+        elif i =='Clock/Time':
+            return  '14.1'
+        elif i =='Mathematical Operations':
+            return  '15.1'
+        elif i =='Coding Decoding':
+            return  '16.1'
+        elif i =='Series Test':
+            return  '17.1'
+        elif i =='Syllogism':
+            return  '18.1'
+        elif i =='Blood Relation':
+            return  '19.1'
+        elif i =='Seating Arrangement':
+            return  '20.1'
+        elif i =='Calender Test':
+            return  '22.1'
+        elif i =='Symbols & Notations':
+            return  '28.1'
+
+
+
+
+
+
+
+
+
+
+
+
+    if subject == 'Quantitative-Analysis':
+            if i == 'Age':
+                return '1.1'
+            elif i =='Alligation':
+                return  '2.1'
+            elif i =='Area':
+                return  '3.1'
+            elif i =='Average':
+                return  '4.1'
+            elif i =='Boat & Stream':
+                return  '5.1'
+            elif i =='Discount':
+                return  '6.1'
+            elif i =='Fraction':
+                return  '7.1'
+            elif i =='LCM & LCF':
+                return  '8.1'
+            elif i =='Number System':
+                return  '9.1'
+            elif i =='Percentage':
+                return  '10.1'
+            elif i =='Pipes & Cistern':
+                return  '11.1'
+            elif i =='Profit & Loss':
+                return  '12.1'
+            elif i =='Ratio':
+                return  '13.1'
+            elif i =='Simple Interest':
+                return  '14.1'
+            elif i =='Simplification':
+                return  '15.1'
+            elif i =='Speed & Distance':
+                return  '16.1'
+            elif i =='Square & Cube root':
+                return  '17.1'
+            elif i =='Surds & Indices':
+                return  '18.1'
+            elif i =='Time & Work':
+                return  '19.1'
+            elif i =='Train':
+                return  '20.1'
+            elif i =='Volume':
+                return  '21.1'
+            elif i =='Trigonometry':
+                return  '22.1'
+            elif i =='Partnership':
+                return  '23.1'
+            elif i =='Coumpound Interest':
+                return  '24.1'
+            elif i =='Decimals':
+                return  '25.1'
+
+
+    if subject == 'General-Knowledge':
+            if i == 'Inventions & Innovators':
+                return '1.1'
+            if i == 'Bird Sanctuary':
+               return '2.1'
+            if i == 'Books & Authors':
+               return '3.1'
+            if i == 'Countries, Capitals & Currencies':
+               return '4.1'
+            if i == 'Current Affairs':
+               return '5.1'
+            if i == 'Economics':
+               return '6.1'
+            if i == 'General Science':
+               return '7.1'
+            if i == 'Biology':
+               return '8.1'
+            if i == 'Chemistry':
+               return '9.1'
+            if i == 'Science & Technology':
+               return '10.1'
+            if i == 'Physics':
+               return '11.1'
+            if i == 'Geography':
+               return '12.1'
+            if i == 'National Organizations':
+               return '13.1'
+            if i == 'History':
+               return '14.1'
+            if i == 'Honors & Awards':
+               return '15.1'
+            if i == 'Important Dates':
+               return '16.1'
+            if i == 'Indian Agriculture':
+               return '17.1'
+            if i == 'Indian Constitution':
+               return '18.1'
+            if i == 'Indian Culture':
+               return '19.1'
+            if i == 'Indian Museums':
+               return '20.1'
+            if i == 'Polity (India)':
+               return '21.1'
+            if i == 'Sports':
+               return '22.1'
+            if i == 'Superlatives(India)':
+               return '23.1'
+            if i == 'Symbols of States (India)':
+               return '24.1'
+            if i == 'Tiger Reserve':
+               return '25.1'
+            if i == 'UNESCO Word Heritage Sites(India)':
+               return '26.1'
+            if i == 'World Organizations':
+               return '27.1'
+            if i == 'Polity (World)':
+               return '28.1'
+
+    if subject == 'General-Science':
+            if i ==  'गुरूत्व स्थूल पदार्थ के गुण व प्रकाशन':
+                return'1.1'
+            if i ==  'लेंस व दर्पण':
+                return'1.1'
+            if i ==  'आधुनिक भौतिकी':
+                return'2.1'
+            if i ==  'विमिय तथा द्विविमिय':
+                return'3.1'
+            if i ==  'कॉमन प्रश्नपत्र भौतिक शास्त्रा':
+                return'4.1'
+            if i ==  'दाब घटाव प्रत्यासा':
+                return'5.1'
+            if i ==  'ध्वनि':
+                return'6.1'
+            if i ==  'मात्रक विभाएं मापन':
+                return'7.1'
+            if i ==  'सदिश तथा अदिश':
+                return'8.1'
+            if i ==  'कार्य,ऊर्जा व शक्ति':
+                return'9.1'
+            if i ==  'कोशिका विज्ञान':
+                return'10.1'
+            if i ==  'पादप जगत':
+                return'12.1'
+            if i ==  'पादप शरीर क्रिया विज्ञान':
+                return'13.1'
+            if i ==  'आर्थिक वनस्पति विज्ञान':
+                return'14.1'
+            if i ==  'जन्तु विज्ञान':
+                return'15.1'
+            if i ==  'जन्तु उत्तक एवं पोषण':
+                return'16.1'
+            if i ==  'आनुवांशिक':
+                return'17.1'
+            if i ==  'मानव स्वास्थ्य एवं रोग':
+                return'18.1'
+            if i ==  'जैव प्रोद्यौगिक':
+                return'19.1'
+            if i ==  'कम्प्यूटर एवं सूचना प्रोद्यौगिकी':
+                return'20.1'
+
+
+
+
+# group x subjects
+
+    if subject == 'Defence-English':
+            if i ==  'Comprehension':
+                return'1.1'
+            if i ==  'Judge Comprehension':
+                return'2.1'
+            if i ==  'Inferences':
+                return'3.1'
+            if i ==  'Vocabulary':
+                return'4.1'
+            if i ==  'Composition':
+                return'5.1'
+            if i ==  'Subject and Verb':
+                return'6.1'
+            if i ==  'Verb and their use':
+                return'7.1'
+            if i ==  'Sequence of tenses':
+                return'8.1'
+            if i ==  'Transformation':
+                return'9.1'
+            if i ==  'Grammer':
+                return'10.1'
+            if i ==  'Spellings':
+                return'11.1'
+            if i ==  'Word formation':
+                return'12.1'
+            if i ==  'Antonyms& Synonyms':
+                return'11.1'
+            if i ==  'Word Substitution':
+                return'11.1'
+            if i ==  'Correct use of words':
+                return'12.1'
+            if i ==  'Confusing words':
+                return'13.1'
+            if i ==  'Word order':
+                return'14.1'
+            if i ==  'Correct use of Adverbs':
+                return'15.1'
+            if i ==  'Idioms and Phrases':
+                return'16.1'
+            if i ==  'Use of simple idioms':
+                return'17.1'
+            if i ==  'Use of common proverbs':
+                return'18.1'
+            if i ==  'Direct/Indirect sentences':
+                return'19.1'
+            if i ==  'Direct to Indirect form':
+                return'20.1'
+            if i ==  'Indirect to Direct':
+                return'21.1'
+            if i ==  'Active and Passive voice':
+                return'22.1'
+            if i ==  'Active to Passive voice':
+                return'23.1'
+            if i ==  'Passive to Active voice':
+                return'22.1'
+            if i ==  'To be categorized':
+                return'50.1'
+
+
+    if subject == 'Defence-Physics':
+            if i ==  'Unit of Dimension':
+                return'1.1'
+            if i ==  'Scalers&Vectors':
+                return'2.1'
+            if i ==  'Motion in straight line':
+                return'3.1'
+            if i ==  'Law of Motion':
+                return'4.1'
+            if i ==  'Projectile Motion':
+                return'5.1'
+            if i ==  'Circular Motion':
+                return'6.1'
+            if i ==  'Friction ':
+                return'7.1'
+            if i ==  'Work power & Energy':
+                return'8.1'
+            if i ==  'Collision':
+                return'9.1'
+            if i ==  'Rotational motion % Moment of Inertia':
+                return'10.1'
+            if i ==  'Gravitation':
+                return'11.1'
+            if i ==  'Elasticity':
+                return'12.1'
+            if i ==  'Fluid Pressure ':
+                return'13.1'
+            if i ==  'Viscocity& Flow of fluids':
+                return'14.1'
+            if i ==  'Surface Tension':
+                return'15.1'
+            if i ==  'Oscillations':
+                return'16.1'
+            if i ==  'Thermometry':
+                return'17.1'
+            if i ==  'Thermal Expansion':
+                return'18.1'
+            if i ==  'Calorimetry':
+                return'19.1'
+            if i ==  'Transmission of Heat':
+                return'20.1'
+            if i ==  'Thermodynamics':
+                return'21.1'
+            if i ==  'Kinetic Theory of gases':
+                return'22.1'
+            if i ==  'Wave Motion':
+                return'23.1'
+            if i ==  'Superposition of waves':
+                return'24.1'
+            if i ==  'Speed of Sound':
+                return'25.1'
+            if i ==  'Vibrations in air columns':
+                return'26.1'
+            if i ==  'Vibration of Strings':
+                return'27.1'
+            if i ==  'Dopplers Effect':
+                return'28.1'
+            if i ==  'Musical Sound& Ultra sound':
+                return'29.1'
+            if i ==  'Electric charge & Electric Field':
+                return'30.1'
+            if i ==  'Gauss Theorem':
+                return'31.1'
+            if i ==  'Electric Capacitance':
+                return'32.1'
+            if i ==  'Electric Conduction':
+                return'33.1'
+            if i ==  'Ohms Law':
+                return'34.1'
+            if i ==  'Electromotive force & Electric cell':
+                return'35.1'
+            if i ==  'Kirchoffs law & wheatstone bridge':
+                return'36.1'
+            if i ==  'Potentiometer':
+                return'37.1'
+            if i ==  'Heating effect of current':
+                return'38.1'
+            if i ==  'Chemical effect of current':
+                return'39.1'
+            if i ==  'Magnetic effect of current':
+                return'40.1'
+            if i ==  'Electrical Instruments':
+                return'41.1'
+            if i ==  'Magnetic Field':
+                return'42.1'
+            if i == 'Magnetic effects of matter & terrestrial magnetism':
+                return '43.1'
+            if i ==  'Electromagnetic Induction':
+                return'44.1'
+            if i ==  'Alternating Current':
+                return'45.1'
+            if i ==  'Reflection of light':
+                return'46.1'
+            if i ==  'Refraction of light':
+                return'47.1'
+            if i == 'Refraction at Spherical surface & by lenses':
+                return '48.1'
+            if i ==  'Prism & scattering of light':
+                return'49.1'
+            if i ==  'Optical instruments':
+                return'50.1'
+            if i ==  'Human eye & defects of vision':
+                return'51.1'
+            if i ==  'Wave theory of light':
+                return'52.1'
+            if i ==  'Interferance & Deflection of light':
+                return'53.1'
+            if i ==  'Polarization of light':
+                return'54.1'
+            if i ==  'Photometry':
+                return'55.1'
+            if i ==  'Dual nature of radiation & matter':
+                return'56.1'
+            if i ==  'Electromagnetic waves':
+                return'57.1'
+            if i ==  'Structure of Atom':
+                return'58.1'
+            if i ==  'Radioactivity':
+                return'59.1'
+            if i ==  'Nuclear fission & fusion':
+                return'60.1'
+            if i ==  'Semi-conductor,diode & Transistors':
+                return'61.1'
+            if i ==  'Digital electronics & logic gates':
+                return'62.1'
+    if subject == 'Defence-GK-CA':
+            if i ==  'General Science':
+                return'1.1'
+            if i ==  'Civics':
+                return'1.2'
+            if i ==  'Geography':
+                return'1.3'
+            if i ==  'Current Events':
+                return'1.4'
+            if i ==  'History':
+                return'1.5'
+            if i ==  'Basic Computer Operation':
+                return'1.6'
+            if i ==  'General Knowledge':
+                return'1.7'
+
+
+
+
+
+
+
+
+    if subject == 'GroupX-Maths':
+            if i ==  'Sets-Relations-Functions':
+                return'1.1'
+            if i ==  'Trigonometric functions':
+                return'2.1'
+            if i ==  'Inverse Trigonometric functions':
+                return'3.1'
+            if i ==  'Complex numbers':
+                return'4.1'
+            if i ==  'Quadratic eqations':
+                return'5.1'
+            if i ==  'Sequence & Series':
+                return'6.1'
+            if i ==  'Permutations':
+                return'7.1'
+            if i ==  'Combination':
+                return'8.1'
+            if i ==  'Binomial Theorem':
+                return'9.1'
+            if i ==  'Coordinate Geometry':
+                return'10.1'
+            if i ==  'Exponential Series':
+                return'11.1'
+            if i ==  'Logarithmic Series':
+                return'12.1'
+            if i ==  'Matrices':
+                return'13.1'
+            if i ==  'Determinants':
+                return'14.1'
+            if i ==  'Limit & Continuity':
+                return'15.1'
+            if i ==  'Differentiation':
+                return'16.1'
+            if i ==  'Application of Differentiation':
+                return'17.1'
+            if i ==  'Indefinite Integrals':
+                return'18.1'
+            if i ==  'Definite Integrals':
+                return'19.1'
+            if i ==  'Application of Integration':
+                return'20.1'
+            if i ==  'Diferential Equations':
+                return'21.1'
+            if i ==  'Probability Statistics':
+                return'22.1'
+            if i ==  'Properties of Triangle':
+                return'23.1'
+            if i ==  'Height&Distance':
+                return'24.1'
+
+    if subject == 'MathsIITJEE10':
+        if i ==  'All Categories':
+            return'1.1'
+
+
+    if subject == 'MathsIITJEE11':
+            if i ==  'All Categories':
+                return'1.1'
+
+
+    if subject == 'MathsIITJEE12':
+        if i ==  'All Categories':
+            return'1.1'
+
+
+    if subject == 'PhysicsIITJEE10':
+            if i ==  'All Categories':
+                return'1.1'
+
+
+    if subject == 'PhysicsIITJEE11':
+        if i ==  'All Categories':
+            return'1.1'
+
+    if subject == 'PhysicsIITJEE12':
+            if i ==  'All Categories':
+                return'1.1'
+
+
+    if subject == 'ChemistryIITJEE10':
+        if i ==  'All Categories':
+            return'1.1'
+
+
+    if subject == 'ChemistryIITJEE11':
+            if i ==  'All Categories':
+                return'1.1'
+
+    if subject == 'ChemistryIITJEE12':
+            if i ==  'All Categories':
+                return'1.1'
+
+    # for locopilot
+    if subject == 'ElectricalLocoPilot':
+            if i ==  'चालक,अचालक एवं कुचालक':
+                return'1.1'
+            if i ==  'बेसिक इलेक्ट्रिकल':
+                return'2.1'
+            if i ==  'विद्युत सेल':
+                return'3.1'
+            if i ==  'संधारित्र':
+                return'4.1'
+            if i ==  'चुम्बक':
+                return'5.1'
+            if i ==  'डी.सी.जनित्र':
+                return'6.1'
+            if i ==  'डी.सी.मोटर':
+                return'7.1'
+            if i ==  'ए.सी थ्योरी':
+                return'8.1'
+            if i ==  'भू-सम्पर्कन':
+                return'9.1'
+            if i ==  'विद्युय वायरिंग':
+                return'10.1'
+            if i ==  'विद्युत मापक यंत्र':
+                return'11.1'
+            if i ==  'ट्रांसफार्मर':
+                return'12.1'
+            if i ==  'प्रत्यावर्तक':
+                return'13.1'
+            if i ==  'तुल्यकालिक प्रेरण':
+                return'14.1'
+            if i ==  'ए.सी. मोटर':
+                return'15.1'
+            if i ==  'वाइंडिंग':
+                return'16.1'
+            if i ==  'विद्युत उत्पादन,ट्रांसमिशन एवं वितरण':
+                return'17.1'
+            if i ==  'प्रदीप्ति':
+                return'18.1'
+            if i ==  'इलेक्ट्रिक्स':
+                return'19.1'
+            if i ==  'व्यावसायिक एवं सावधानियां':
+                return'20.1'
+
+    if subject == 'FitterLocoPilot':
+            if i ==  'Introduction':
+                return'1.1'
+            if i ==  'Fitter tools':
+                return'2.1'
+            if i ==  'Sheet Metal Shop':
+                return'3.1'
+            if i ==  'Welding Theory':
+                return'4.1'
+            if i ==  'Soldering And Brazing':
+                return'5.1'
+            if i ==  'Physical and Mechanical Properties of Metals':
+                return'6.1'
+            if i == 'Heat Treatment':
+                return'7.1'
+            if i ==  'Bearings':
+                return'8.1'
+            if i ==  'Drilling Machine':
+                return'9.1'
+            if i ==  'Lathe Machine':
+                return'10.1'
+            if i ==  'Grinding Machine':
+                return'11.1'
+            if i ==  'Power Transmission':
+                return'12.1'
+            if i ==  'Pipe And Pipe Fitting':
+                return'13.1'
+            if i ==  'Screw Threads':
+                return'14.1'
+            if i ==  'Gauge':
+                return'15.1'
+            if i ==  'Limits,Fits And Tolerance':
+                return'16.1'
+            if i ==  'Other Important Questions':
+                return'17.1'
+            if i ==  'Previous Year Exams Questions':
+                return'18.1'
+        
+        
+    if subject == 'Civil':
+        if i ==  'Surveying Engineering':
+            return'2.1'
+    if subject == 'LocoPilot_Diesel':
+        if i ==  'Introduction to Engine & Development':
+            return'1.1'
+        if i ==  'Cylinder Head & Valve Assembly':
+            return'2.1'
+        if i ==  'Piston & Connecting Rod':
+            return'3.1'
+        if i ==  'Crank Shaft,Cam Shaft Fly Wheel & Bearing':
+            return'4.1'
+        if i ==  'Gas Turbine Marine & Statonery Engine':
+            return'5.1'
+        if i ==  'Cooling & Snake System':
+            return'6.1'
+        if i ==  'Intake & Exhaust System':
+            return'7.1'
+        if i ==  'Diesel Fuel Supply System':
+            return'8.1'
+        if i ==  'Emission Charging & Starting System':
+            return'9.1'
+        if i ==  'Troubleshooting':
+            return'10.1'
+
+
+# or knimbus subjects
+    if subject == 'Design and analysis of algorithm':
+            if i ==  'Divide and Conquer':
+                return'1.1'
+            if i ==  'Dynamic Programming':
+                return'2.1'
+            if i ==  'Introduction':
+                return'3.1'
+            if i ==  'Greedy Method':
+                return'4.1'
+
+
+
 
