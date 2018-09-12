@@ -1,4 +1,5 @@
 from rest_framework import generics
+from django.utils import timezone
 from celery.result import AsyncResult
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
@@ -931,6 +932,7 @@ class TeacherCreateTimeTable(APIView):
         time_table.timeEnd = timeEnd
         time_table.note = note
         time_table.teacher = me.profile
+        time_table.created = timezone.now()
         if subject in my_subjects:
             time_table.sub = subject
             time_table.save()
