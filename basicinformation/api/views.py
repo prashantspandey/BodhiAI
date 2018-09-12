@@ -922,7 +922,7 @@ class TeacherCreateTimeTable(APIView):
         batch = request.POST['timetable_batch']
         subject = request.POST['timetable_sub']
         time_table = TimeTable()
-        date = datetime.datetime.strptime(date,"%m/%d/%Y")
+        date = datetime.datetime.strptime(date,"%m-%d-%Y")
         batch = klass.objects.get(school = me.my_school(),name=batch)
         my_subjects = me.my_subjects_names()
         time_table.batch = batch
