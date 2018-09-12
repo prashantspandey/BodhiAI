@@ -935,7 +935,7 @@ class TeacherCreateTimeTable(APIView):
             time_table.sub = subject
             time_table.save()
             serialzer = TimeTableModelSerializer(time_table)
-            return Response(serialzer.date)
+            return Response(serialzer.data)
         else:
             context = {'error':'There was some error'}
             return Response(context)
