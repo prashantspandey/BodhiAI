@@ -77,6 +77,7 @@ class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = SSCKlassTest
         fields = [
+            'id',
             'max_marks',
             'published',
             'creator',
@@ -96,6 +97,7 @@ class SSCOnlineMarksSerializer(serializers.ModelSerializer):
     class Meta:
         model = SSCOnlineMarks
         fields = [
+            'id',
             'marks',
             'testTaken',
             'timeTaken',

@@ -1206,3 +1206,28 @@ class StudentAverageTimingDetailAPIView(APIView):
         result = me.student_weak_timing_details(me.profile.id,subject,chapter)
         context = {'result':result,'overall_average_timing':average_timing}
         return Response(context)
+
+
+class TeacherAnalysisShowTestsAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        subject = request.POST['subject']
+        batch = request.POST['batch']
+        all_tests = SSCKlassTest.objects.filter(creator = self.request.user)
+        all_ids = []
+        all_dates = []
+        all_test_dict = {}
+        for i in all_tests:
+            all_ids.append(i.id)
+            all_dates.append(i.published)
+        all_test_dict = {'ids':all_ids,'published':all_dates}
+        return Response(all_test_dict)
+
+class TeacherAnalysisIndividualStudentAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Teach(self.request.user)
+        test_id = request.POST['test_id']
+        mark = SSCOnlineMarks.objects.get(test__id = test_id)
+        serializer = SSCOnlineMarksSerializer(mark)
+        return Response(serializer.data)
+
+
