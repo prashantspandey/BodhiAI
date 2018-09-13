@@ -1219,7 +1219,8 @@ class TeacherAnalysisShowTestsAPIView(APIView):
         for i in all_tests:
             all_ids.append(i.id)
             all_dates.append(i.published)
-        all_test_dict = {'ids':all_ids,'published':all_dates}
+        overall_list = list(zip(all_dates,all_test_dict))
+        all_test_dict = {'ids':overall_list}
         return Response(all_test_dict)
 
 class TeacherAnalysisIndividualSendStudentAPIView(APIView):
