@@ -1222,11 +1222,26 @@ class TeacherAnalysisShowTestsAPIView(APIView):
         all_test_dict = {'ids':all_ids,'published':all_dates}
         return Response(all_test_dict)
 
+class TeacherAnalysisIndividualSendStudentAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        test_id = request.POST['test_id']
+        mark = SSCOnlineMarks.objects.filter(test__id = test_id)
+        students = []
+        for i in mark:
+            serializer = StudentModelSerializer(i.student)
+            students.append(serialzer)
+        context = {'students':students.data}
+
+        return Response(context)
+
+
 class TeacherAnalysisIndividualStudentAPIView(APIView):
     def post(self,request,*args,**kwargs):
         me = Teach(self.request.user)
         test_id = request.POST['test_id']
-        mark = SSCOnlineMarks.objects.get(test__id = test_id)
+        student_id = request.POST['student_id']
+        student = Student.objects.get(id = int(student_id))
+        mark = SSCOnlineMarks.objects.get(test__id = test_id,student = student)
         serializer = SSCOnlineMarksSerializer(mark)
         return Response(serializer.data)
 
