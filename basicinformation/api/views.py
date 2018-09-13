@@ -1219,7 +1219,7 @@ class TeacherAnalysisShowTestsAPIView(APIView):
         for i in all_tests:
             all_ids.append(i.id)
             all_dates.append(i.published)
-        overall_list = list(zip(all_dates,all_dates))
+        overall_list = list(zip(all_ids,all_dates))
         all_test_dict = {'ids':overall_list}
         return Response(all_test_dict)
 
