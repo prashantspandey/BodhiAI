@@ -1230,8 +1230,8 @@ class TeacherAnalysisIndividualSendStudentAPIView(APIView):
         students = []
         for i in mark:
             serializer = StudentModelSerializer(i.student)
-            students.append(serialzer)
-        context = {'students':students.data}
+            students.append(serializer.data)
+        context = {'students':students}
 
         return Response(context)
 
