@@ -39,7 +39,8 @@ class SSCKlassTest(models.Model):
          ,('ChemistryIITJEE12','ChemistryIITJEE12'),('PhysicsIITJEE10','PhysicsIITJEE10')
          ,('PhysicsIITJEE11','PhysicsIITJEE11'),('PhysicsIITJEE12','PhysicsIITJEE12')
          ,('ElectricalLocoPilot','ElectricalLocoPilot'),('FitterLocoPilot','FitterLocoPilot')
-         ,('General-Science','General-Science'),('LocoPilot_Diesel','LocoPilot_Diesel'))
+         ,('General-Science','General-Science'),('LocoPilot_Diesel','LocoPilot_Diesel'),
+        ('CAT_Quantitative_Aptitude','CAT_Quantitative_Aptitude'))
     course_choices = (('SSC','SSC'),('Railways','Railways'))
 
     #max_marks = models.DecimalField(max_digits=4,decimal_places=2)
@@ -142,7 +143,8 @@ class SSCquestions(models.Model):
          ,('PhysicsIITJEE10','PhysicsIITJEE10'),('PhysicsIITJEE11','PhysicsIITJEE11')
          ,('PhysicsIITJEE12','PhysicsIITJEE12'),('Design and analysis of algorithm','Design and analysis of algorithm')
          ,('ElectricalLocoPilot','ElectricalLocoPilot'),('FitterLocoPilot','FitterLocoPilot')
-         ,('General-Science','General-Science'),('LocoPilot_Diesel','LocoPilot_Diesel'))
+         ,('General-Science','General-Science'),('LocoPilot_Diesel','LocoPilot_Diesel'),
+        ('CAT_Quantitative_Aptitude','CAT_Quantitative_Aptitude'))
     diffculty_choices = (('easy','easy'),('medium','medium'),('hard','hard'))
     text = models.TextField(blank=True,null=True)
     tier_category = models.CharField(max_length=20,choices = tier_choices)
@@ -470,3 +472,21 @@ class TimeTable(models.Model):
     def __str__(self):
         return str(self.teacher) + str(self.batch) + str(self.date) +\
     str(self.time)
+
+class StudentAverageTimingDetailCache(models.Model):
+    student = models.ForeignKey(Student)
+    subject = models.CharField(max_length=100)
+    chapter = models.CharField(max_length=100)
+    totalAttempted = models.IntegerField()
+    rightAverage = models.FloatField()
+    wrongAverage = models.FloatField()
+    rightTotal = models.IntegerField()
+    wrongTotal = models.IntegerField()
+    rightTotalTime = models.FloatField()
+    wrongTotalTime = models.FloatField()
+    allMarksIds = ArrayField(models.IntegerField(),null=True)
+
+    def __str__(self):
+        return str(self.student) + " " + str(self.subect) + " " +\
+    str(self.chapter)
+

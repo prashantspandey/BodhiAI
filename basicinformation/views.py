@@ -325,13 +325,13 @@ def home(request):
             #sheet_links =\
             #['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
             sheet_links = \
-                    ['d_2.csv','d_3.csv','d_4.csv','d_5.csv','d_6.csv','d_7.csv','d_8.csv','d_9.csv','d_10.csv']
+                    ['geometry.csv']
             #sheet_links2 = \
             #        ['1f.csv']
             #adding_quest =\
             #delete_allQuestions.delay("JEN")
             #allquestions_institute.delay('English',"JEN")
-            #add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
+            add_to_database_questions.delay(sheet_links,'BodhiAI',production=False,onlyImage=True)
             #add_png.delay()
             #school_name = 'JEN'
             #batch = 'LocoPilot'

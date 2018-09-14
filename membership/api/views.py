@@ -49,30 +49,10 @@ class CustomRegistration(APIView):
 
             
                teacher = Teacher.objects.get(school=school)
-               subGenInte =\
-               Subject(name="General-Intelligence",student=stud,teacher=teacher)
-               subGenInte.save()
-               subMaths =\
-               Subject(name="Quantitative-Analysis",student=stud,teacher=teacher)
-               subEnglish =\
-               Subject(name="English",student=stud,teacher=teacher)
-               subGenKnow =\
-               Subject(name="General-Knowledge",student=stud,teacher=teacher)
-               subGenSci =\
-               Subject(name="General-Science",student=stud,teacher=teacher)
-               subLocoPilot =\
-               Subject(name="ElectricalLocoPilot",student=stud,teacher=teacher)
-               subLocoPilot.save()
-               subLocoPilot_diesel =\
-               Subject(name="LocoPilot_Diesel",student=stud,teacher=teacher)
-               subLocoPilot_diesel.save()
-
-
-
-               subMaths.save()
-               subEnglish.save()
-               subGenSci.save()
-               subGenKnow.save()
+               if institute == 'YSM' or institute == 'BodhiAI':
+                   add_subjects('SSC',stud,teacher)
+               elif institute == 'JEN':
+                   add_subjects('Loco',stud,teacher)
                confirmation = StudentConfirmation()
                confirmation.student = user
                confirmation.school = school
@@ -223,4 +203,42 @@ class CustomLogoutAPIView(APIView):
         django_logout(request)
         return Response(status=204)
 
+
+def add_subjects(course,stud,teacher):
+    if course == 'SSC':
+        subGenInte = Subject(name="General-Intelligence",student=student,teacher=me.profile)
+        subGenInte.save()
+        subMaths = Subject(name="Quantitative-Analysis",student=student,teacher=me.profile)
+        subEnglish = Subject(name="English",student=student,teacher=me.profile)
+        subGenKnow = Subject(name="General-Knowledge",student=student,teacher=me.profile)
+        subGenSci = Subject(name="General-Science",student=student,teacher=me.profile)
+        subMaths.save()
+        subGenSci.save()
+        subEnglish.save()
+        subGenKnow.save()
+    elif course == 'Loco':
+       subGenInte =\
+       Subject(name="General-Intelligence",student=stud,teacher=teacher)
+       subGenInte.save()
+       subMaths =\
+       Subject(name="Quantitative-Analysis",student=stud,teacher=teacher)
+       subEnglish =\
+       Subject(name="English",student=stud,teacher=teacher)
+       subGenKnow =\
+       Subject(name="General-Knowledge",student=stud,teacher=teacher)
+       subGenSci =\
+       Subject(name="General-Science",student=stud,teacher=teacher)
+       subLocoPilot =\
+       Subject(name="ElectricalLocoPilot",student=stud,teacher=teacher)
+       subLocoPilot.save()
+       subLocoPilot_diesel =\
+       Subject(name="LocoPilot_Diesel",student=stud,teacher=teacher)
+       subLocoPilot_diesel.save()
+
+
+
+       subMaths.save()
+       subEnglish.save()
+       subGenSci.save()
+       subGenKnow.save()
 

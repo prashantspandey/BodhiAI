@@ -579,7 +579,7 @@ def add_to_database_questions_text(sheet_link,school,production=False,explanatio
                 pd.read_csv('/app/question_data/jen_content/general_science/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/jen_content/general_science/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/cat/aptitude/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
@@ -681,7 +681,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                 pd.read_csv('/app/question_data/jen_content/diesel/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/jen_content/diesel/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/cat/aptitude/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
@@ -701,9 +701,13 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                 direction = df['Direction']
             except:
                 direction = len(optD) * ['None']
+            try:
+                difficulty = df['difficulty']
+            except:
+                difficulty = len(optD) * ['None']
             used_for = df['usedFor']
             lang = df['lang']
-            source = len(used_for)*['JEN']
+            source = df['usedFor']
             if onlyImage:
                 images = df['QuestionLink']
             else:
@@ -749,7 +753,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
             for ind in range(len(optA)):
                 if onlyImage:
                     write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(lang[ind]),used_for[ind],source[ind],fouroptions='4',direction
-                                    = direction[ind] )
+                                    = direction[ind],difficulty= difficulty[ind] )
                 else:
                     write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],direction[ind],fouroptions='3')
 
@@ -762,7 +766,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
 
 @shared_task
 def\
-write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questCategory,exp,sectionType,lang,used_for,source,fouroptions,direction=False,replace=False):
+write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questCategory,exp,sectionType,lang,used_for,source,fouroptions,direction=False,replace=False,difficulty=None):
     if replace:
         quest = SSCquestions.objects.filter(picture = image)
         for n,qu in enumerate(quest):
@@ -853,6 +857,8 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
             new_questions.section_category = 'General-Science'
         elif sectionType == 'locopilot_diesel':
             new_questions.section_category = 'LocoPilot_Diesel'
+        elif sectionType.strip() == 'cat_quant':
+            new_questions.section_category = 'CAT_Quantitative_Aptitude'
 
 
 
@@ -884,7 +890,11 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
                     print('%s outside' %direction)
             except:
                 pass
-
+        if difficulty:
+            if difficulty != 'None':
+                new_questions.diffculty_category = difficulty
+            else:
+                print('direction but something wrong')
         if image:
             new_questions.picture = image
             #try:
@@ -1775,4 +1785,129 @@ def CreateOneClickTestFinal(user_id,batch,subject,quest_ids):
                 stu = Student.objects.get(subject = subs)
                 test.testTakers.add(stu)
                 test.save()
+
+
+@shared_task
+def CreateUpdateStudentAvergeTimingDetail(student_id,subject,mark_id):
+    student = Student.objects.get(id = student_id)
+    this_marks = SSCOnlineMarks.objects.get(id = marks_id)
+    chapters = []
+    for quest in this_marks.test.sscquestions_set.all():
+        chapters.append(quest.topic_category)
+
+    for chapter in chapters:
+        try:
+            timing_cache = StudentAverageTimingDetailAPIView.objects.get(student =
+                                                                     student,subject
+                                                                     =
+                                                                     subject,chapter
+                                                                     = chapter)
+            old_right_ave = timing_cache.rightAverage
+            old_wrong_ave = timing_cache.wrongAverage
+            old_total_attempted = timing_cache.totalAttempted
+            old_total_ids = timing_cache.allMarksIds
+            old_right_total = timing_cache.rightTotalTime
+            old_wrong_total = timing_cache.wrongTotalTime
+            old_total_right = timing_cache.rightTotal
+            old_total_wrong = timing_cache.wrongTotal
+
+
+
+            right_time = []
+            wrong_time = []
+            for rid in this_marks.rightAnswers:
+                quest = SSCquestions.objects.get(choices__id = rid)
+                if quest.section_category == subject and quest.topic_category\
+                == chapter:
+                    answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                               mark,quest=quest)
+                    right_time.append(answered.time)
+            for wid in this_marks.wrongAnswers:
+                quest = SSCquestions.objects.get(choices__id = rid)
+                if quest.section_category == subject and quest.topic_category\
+                == chapter:
+                    answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                               mark,quest=quest)
+                    wrong_time.append(answered.time)
+            len_right = len(right_time)
+            len_wrong = len(wrong_time)
+            if len_right == 0:
+                ave_right = 0
+            else:
+                ave_right = sum(right_time) / len_right
+            if len_wrong == 0:
+                ave_wrong = 0
+            else:
+                ave_wrong = sum(wrong_time) / len_wrong
+            total = len_right + len_wrong
+            new_right_total = len_right + old_total_right
+            new_wrong_total = len_wrong + old_total_wrong
+            new_average_right = sum(right_time) + old_right_total
+            new_average_wrong = sum(wrong_time) + old_wrong_total
+            new_right_average_timing = new_average_right / new_right_total
+            new_wrong_average_timing = new_average_wrong / new_wrong_total
+            new_total_attempted = total + old_total_attempted
+            old_marks_ids =list(old_total_ids)
+            old_marks_ids.append(this.marks.id)
+            new_total_ids = old_marks_ids
+            timing_cache.rightTotal = new_right_total
+            timing_cache.wrongTotal = new_wrong_total
+            timing_cache.totalAttempted = new_total_attempted
+            timing_cache.rightTotalTime = new_average_right
+            timing_cache.wrongTotalTime = new_average_wrong
+            timing_cache.rightAverage = new_right_average_timing
+            timing_cache.wrongAverage = new_wrong_average_timing
+            timing_cache.allMarksIds = new_total_ids
+            timing_cache.save()
+
+        except:
+            my_marks = SSCOnlineMarks.objects.filter(student = student)
+
+            right_time = []
+            wrong_time = []
+            all_ids = []
+            for mark in my_marks:
+                all_ids.append(mark.id)
+                for rid in mark.rightAnswers:
+                    quest = SSCquestions.objects.get(choices__id = rid)
+                    if quest.section_category == subject and quest.topic_category\
+                    == chapter:
+                        answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                                   mark,quest=quest)
+                        right_time.append(answered.time)
+                for wid in mark.wrongAnswers:
+                    quest = SSCquestions.objects.get(choices__id = rid)
+                    if quest.section_category == subject and quest.topic_category\
+                    == chapter:
+                        answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                                   mark,quest=quest)
+                        wrong_time.append(answered.time)
+            len_right = len(right_time)
+            len_wrong = len(wrong_time)
+            if len_right == 0:
+                ave_right = 0
+            else:
+                ave_right = sum(right_time) / len_right
+            if len_wrong == 0:
+                ave_wrong = 0
+            else:
+                ave_wrong = sum(wrong_time) / len_wrong
+            
+            total = len_right + len_wrong
+            new_timing_cache = StudentAverageTimingDetailAPIView()
+            new_timing_cache.student = student
+            new_timing_cache.chapter = chapter
+            new_timing_cache.subect = subject
+            new_timing_cache.rightAverage = ave_right
+            new_timing_cache.wrongAverage = ave_wrong
+            new_timing_cache.allMarksIds =all_ids
+            new_timing_cache.totalAttempted = total
+            new_timing_cache.rightTotal = len_right
+            new_timing_cache.wrongTotal = len_wrong
+            new_timing_cache.rightTotalTime = right_time
+            new_timing_cache.wrongTotalTime = wrong_time
+            new_timing_cache.save()
+
+
+
 

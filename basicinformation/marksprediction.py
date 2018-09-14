@@ -3479,7 +3479,13 @@ class Studs:
 
                 return list(zip(namedarr,timing))
 
+        if subject == 'CAT_Quantitative_Aptitude':
+            for i,j in arr:
+                if i == '11.1':
+                    namedarr.append('Geometry')
+                    timing.append(j)
 
+                return list(zip(namedarr,timing))
 
 
 
@@ -4243,6 +4249,12 @@ class Studs:
 
                 return namedarr
 
+        if subject == 'CAT_Quantitative_Aptitude':
+            for i in arr:
+                if i == '11.1':
+                    namedarr.append('Geometry')
+
+                return namedarr
 
 
     def changeIndividualNames(self,i,subject):
@@ -4961,6 +4973,10 @@ class Studs:
                 if i == '4.1':
                     return 'Greedy Method'
 
+        if subject == 'CAT_Quantitative_Aptitude':
+                if i == '11.1':
+                    return 'Geometry'
+
 
 
 
@@ -5328,7 +5344,6 @@ class Studs:
         context =\
         {'right_time':ave_right,'ave_wrong':ave_wrong,'total_attempted':total}
         return context
-
 
 
 
@@ -7827,6 +7842,13 @@ class Teach:
                     numbers.append(i)
             return list(zip(names,numbers))
 
+        if subject == 'CAT_Quantitative_Aptitude':
+            for i in arr:
+                if i == '11.1':
+                    names.append('Geometry')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
 
 
 
@@ -8909,6 +8931,14 @@ class Teach:
                 return list(zip(names,numbers))
 
 
+        if subject == 'CAT_Quantitative_Aptitude':
+            for i,j in arr:
+                if i == '11.1':
+                    names.append('Geometry')
+                    numbers.append(i)
+
+            return list(zip(names,numbers))
+
 
 
 
@@ -9672,6 +9702,12 @@ class Teach:
                     numbers.append('4.1')
                 return numbers
 
+        if subject == 'CAT_Quantitative_Aptitude':
+            for i in arr:
+                if i == 'Geometry':
+                    numbers.append('11.1')
+
+            return numbers
 
 
 
@@ -10740,6 +10776,13 @@ def change_topicNumbersNames(arr,subject):
 
             return list(zip(names,numbers))
 
+        if subject == 'CAT_Quantitative_Aptitude':
+            for i in arr:
+                if i == '11.1':
+                    names.append('Geometry')
+                    numbers.append(i)
+            return list(zip(names,numbers))
+
 
 
 def changeIndividualNames(i,subject):
@@ -11457,6 +11500,10 @@ def changeIndividualNames(i,subject):
                 return 'Introduction'
             if i == '4.1':
                 return 'Greedy Method'
+
+    if subject == 'CAT_Quantitative_Aptitude':
+                if i == '11.1':
+                    return 'Geometry'
 
 
 
