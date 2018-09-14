@@ -1,6 +1,6 @@
 from rest_framework import generics
 from django.utils import timezone
-from celery.result import AsyncResult
+from celery.result import AsyncResult 
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from basicinformation.models import *
@@ -949,11 +949,9 @@ class StudentShowTimeTableAPIView(APIView):
         batch = me.get_batch()
         all_time_tables = []
         all_time_tables_serializer = []
-        for i in batch:
-            time_table = TimeTable.objects.filter(batch = i)
-            all_time_tables.append(time_table)
-            for j in all_time_tables:
-                all_time_tables_serializer.append(TimeTableModelSerializer(j))
+        time_table = TimeTable.objects.filter(batch = batch)
+        for time_tab in time_table:
+            all_time_tables.append(TimeTableModelSerializer(time_tab).data)
         return Response(all_time_tables)
 
 

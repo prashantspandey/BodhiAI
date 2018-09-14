@@ -50,6 +50,8 @@ urlpatterns = [
     url(r'teacher_analysis_sendStudents/$',views.TeacherAnalysisIndividualSendStudentAPIView.as_view(),name='TeacherAnalysisIndividualSendStudent'),
 # Teacher Individual Student Test Analysis 
     url(r'teacher_analysis_student_analysis/$',views.TeacherAnalysisIndividualStudentAPIView.as_view(),name='TeacherAnalysisIndividualStudentFinal'),
+# Student Time Table 
+    url(r'student_timetables/$',views.StudentShowTimeTableAPIView.as_view(),name='StudentTimeTables'),
 
 
 ]

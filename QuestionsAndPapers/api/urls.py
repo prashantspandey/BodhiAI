@@ -28,6 +28,10 @@ urlpatterns = [
     url(r'take_test/$',views.StudentTakeTestAPIView.as_view(),name='StudentTakeTest'),
     # Student evaluate test APIs
     url(r'evaluate_test_android/$',views.StudentEvaluateTestAPIView.as_view(),name='StudentEvaluateTest'),
+    # Student smart test api for subjects
+    url(r'smart_test_subjects/$',views.StudentSmartTestSubjectAPIView.as_view(),name='StudentSmartTestSubject'),
+    # Student smart test creation
+    url(r'smart_test_create/$',views.StudentSmartTestCreationAPIView.as_view(),name='StudentSmartTestCreation'),
 
 
 ]

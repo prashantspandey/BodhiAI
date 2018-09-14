@@ -5295,7 +5295,6 @@ class Studs:
     def student_weak_timing_details(self,student_id,subject,chapter):
         student = Student.objects.get(id = student_id)
         my_marks = SSCOnlineMarks.objects.filter(student = student)
-        print('{} len marks'.format(len(my_marks)))
         right_time = []
         wrong_time = []
         for mark in my_marks:
@@ -5305,7 +5304,6 @@ class Studs:
                 print(quest.topic_category)
                 if quest.section_category == subject and quest.topic_category\
                 == chapter:
-                    print('found right')
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
                                                                mark,quest=quest)
                     right_time.append(answered.time)
@@ -5313,13 +5311,11 @@ class Studs:
                 quest = SSCquestions.objects.get(choices__id = rid)
                 if quest.section_category == subject and quest.topic_category\
                 == chapter:
-                    print('found wrong')
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
                                                                mark,quest=quest)
                     wrong_time.append(answered.time)
         len_right = len(right_time)
         len_wrong = len(wrong_time)
-        print('{} len right, {} len left'.format(len_right,len_wrong))
         if len_right == 0:
             ave_right = 'No right questions'
         else:

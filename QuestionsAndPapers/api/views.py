@@ -537,3 +537,75 @@ class StudentEvaluateTestAPIView(APIView):
         print(context)
         return Response(context)
 
+class StudentSmartTestSubjectAPIView(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        subjects = me.my_subjects_names()
+        context = {'subjects':subjects}
+        return Response(context)
+
+class StudentSmartTestCreationAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Studs(self.request.user)
+        subject = request.POST['subject']
+        weakAreas = me.weakAreas_IntensityAverage(subject)
+        # order weak areas according to their intensity
+        ordered_weakAreas = sorted(weakAreas, key= lambda wa:wa[1],
+                                   reverse=True)
+        numTopics = 2
+        numQuestions = 10
+        # choose topics to incude in test according to number of questions
+        chosen_topics = ordered_weakAreas[:numTopics]
+        number_questofTopics = int(numQuestions /numTopics)
+        print('%d number quest of topics' %number_questofTopics)
+        #choose questions according to topics chosen
+        all_questions = []
+        topic_counter = 1
+        max_marks = 0
+        for topic,weakness in chosen_topics:
+            deficient_by = 0
+            if topic_counter == numTopics + 1:
+                break
+            if numQuestions - len(all_questions) == 0:
+                break
+           
+
+            questions = SSCquestions.objects.filter(section_category =
+                                                    subject,topic_category =
+                                                    topic)
+
+            quest_count = 0
+            for num,quest in enumerate(questions):
+                if topic_counter == len(chosen_topics) and num == 0:
+                    number_questofTopics = numQuestions - len(all_questions)
+
+                if quest_count == number_questofTopics:
+                    break
+                taken = me.isQuestionTaken(quest)
+                if taken:
+                    continue
+                all_questions.append(quest)
+                max_marks = max_marks + quest.max_marks
+                quest_count += 1
+            topic_counter += 1
+
+        smartTest = SSCKlassTest()
+        smartTest.creator = User.objects.get(username = 'BodhiAI')
+        smartTest.mode = 'BodhiOnline'
+        smartTest.name = 'SmartTest' + " " + str(chosen_topics)
+        smartTest.sub = subject
+        smartTest.max_marks = max_marks
+        smartTest.totalTime = len(all_questions) * 0.6
+        smartTest.save()
+        smartTest.testTakers.add(me.profile)
+        for quest in all_questions:
+            quest.ktest.add(smartTest)
+        weak_names = me.changeTopicNumbersNames(chosen_topics,subject)
+        weakar = []
+        for i,j in weak_names:
+            weakar.append(i)
+        test_serializer = TestSerializer(smartTest)
+        context = {'weakAreas':weakar,'test':test_serializer.data}
+        return Response(context)
+
+
