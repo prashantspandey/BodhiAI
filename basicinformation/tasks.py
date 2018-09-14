@@ -1788,7 +1788,7 @@ def CreateOneClickTestFinal(user_id,batch,subject,quest_ids):
 
 
 @shared_task
-def CreateUpdateStudentAvergeTimingDetail(student_id,subject,mark_id):
+def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
     student = Student.objects.get(id = student_id)
     this_marks = SSCOnlineMarks.objects.get(id = marks_id)
     chapters = []
