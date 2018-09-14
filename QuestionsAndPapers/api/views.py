@@ -490,6 +490,7 @@ class StudentEvaluateTestAPIView(APIView):
         outer = np.array(outer)
         me = Studs(self.request.user)
         test = SSCKlassTest.objects.get(id = test_id)
+        subject = test.sub
         online_marks = SSCOnlineMarks()
         online_marks.test = test
         online_marks.testTaken = localdate()
