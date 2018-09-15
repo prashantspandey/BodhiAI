@@ -38,7 +38,6 @@ class CustomRegistration(APIView):
        if serializer.is_valid():
            user = serializer.save()
            if user:
-               print('{} institute code'.format(institute))
                school = School.objects.get(name=institute)
                batch = klass.objects.get(school=school,name='Outer')
                stud = Student(studentuser = user,klass = batch,school =school)
@@ -52,7 +51,7 @@ class CustomRegistration(APIView):
                teacher = Teacher.objects.get(school=school)
                if institute == 'YSM' or institute == 'BodhiAI':
                    add_subjects('SSC',stud,teacher)
-               elif institute == 'JEN':
+               elif 'jen' in institute.lower():
                    add_subjects('Loco',stud,teacher)
                confirmation = StudentConfirmation()
                confirmation.student = user
