@@ -38,6 +38,9 @@ class CustomRegistration(APIView):
        if serializer.is_valid():
            user = serializer.save()
            if user:
+               print('{} institute'.format(institute))
+               if 'jen' in institute.lower():
+                   institute = 'JEN'
                school = School.objects.get(name=institute)
                batch = klass.objects.get(school=school,name='Outer')
                stud = Student(studentuser = user,klass = batch,school =school)
