@@ -331,7 +331,7 @@ def home(request):
             #adding_quest =\
             #delete_allQuestions.delay("JEN")
             #allquestions_institute.delay('English',"JEN")
-            add_to_database_questions.delay(sheet_links,'BodhiAI',production=False,onlyImage=True)
+            #add_to_database_questions.delay(sheet_links,'BodhiAI',production=False,onlyImage=True)
             #add_png.delay()
             #school_name = 'JEN'
             #batch = 'LocoPilot'
@@ -345,7 +345,9 @@ def home(request):
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
-            #add_questions.delay('JEN','General-Intelligence')
+            add_questions.delay('YSM','General-Intelligence')
+            add_questions.delay('YSM','Quantitative-Aptitude')
+            add_questions.delay('YSM','General-Knowledge')
             #add_questions('Aravali Defence Academy','GroupX-Maths')
             #add_questions('Aravali Defence Academy','Defence-Physics')
             #add_questions('Aravali Defence Academy','Defence-English')

@@ -1563,6 +1563,19 @@ def add_questions(institute,section):
         print('%s --num quests' %len(questions))
         for i in questions:
             i.school.add(school)
+    if institute == 'YSM':
+        if section == 'English':
+            copy_institute = 'SIEL'
+        else:
+            copy_institute = 'BodhiAI'
+        questions = SSCquestions.objects.filter(school__name =
+                                                copy_institute,sectionsection_category
+                                                = section)
+        school = School.objects.get(name=institute)
+        print('%s --num quests' %len(questions))
+        for i in questions:
+            i.school.add(school)
+
     if institute == 'JECRC':
        questions = SSCquestions.objects.filter(school__name = 'Swami Reasoning World')
        school = School.objects.get(name = institute)
