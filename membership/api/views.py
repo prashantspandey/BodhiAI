@@ -41,6 +41,8 @@ class CustomRegistration(APIView):
                print('{} institute'.format(institute))
                if 'jen' in institute.lower():
                    institute = 'JEN'
+               if 'ysm' in institute.lower():
+                   institute = 'YSM'
                school = School.objects.get(name=institute)
                batch = klass.objects.get(school=school,name='Outer')
                stud = Student(studentuser = user,klass = batch,school =school)
