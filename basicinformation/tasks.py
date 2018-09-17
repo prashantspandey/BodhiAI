@@ -1569,7 +1569,7 @@ def add_questions(institute,section):
         else:
             copy_institute = 'BodhiAI'
         questions = SSCquestions.objects.filter(school__name =
-                                                copy_institute,sectionsection_category
+                                                copy_institute,section_category
                                                 = section)
         school = School.objects.get(name=institute)
         print('%s --num quests' %len(questions))
