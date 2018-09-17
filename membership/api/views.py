@@ -211,12 +211,12 @@ class CustomLogoutAPIView(APIView):
 
 def add_subjects(course,stud,teacher):
     if course == 'SSC':
-        subGenInte = Subject(name="General-Intelligence",student=student,teacher=me.profile)
+        subGenInte = Subject(name="General-Intelligence",student=stud,teacher=me.profile)
         subGenInte.save()
-        subMaths = Subject(name="Quantitative-Analysis",student=student,teacher=me.profile)
-        subEnglish = Subject(name="English",student=student,teacher=me.profile)
-        subGenKnow = Subject(name="General-Knowledge",student=student,teacher=me.profile)
-        subGenSci = Subject(name="General-Science",student=student,teacher=me.profile)
+        subMaths = Subject(name="Quantitative-Analysis",student=stud,teacher=me.profile)
+        subEnglish = Subject(name="English",student=stud,teacher=me.profile)
+        subGenKnow = Subject(name="General-Knowledge",student=stud,teacher=me.profile)
+        subGenSci = Subject(name="General-Science",student=stud,teacher=me.profile)
         subMaths.save()
         subGenSci.save()
         subEnglish.save()
