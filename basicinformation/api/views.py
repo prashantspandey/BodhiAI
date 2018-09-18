@@ -1244,4 +1244,27 @@ class TeacherAnalysisIndividualStudentAPIView(APIView):
         serializer = SSCOnlineMarksSerializer(mark)
         return Response(serializer.data)
 
+class StudentShowPerformanceSubjectsAPIView(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        subjects = me.already_takenTests_Subjects()
+        context = {'subjects':subjects}
+        return Response(context)
+
+class StudentShowPerformanceTestsAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Studs(self.request.user)
+        subject = request.POST['subject']
+        tests = SSCOnlineMarks.objects.filter(student =
+                                              me.profile,test__sub = subject)
+        test_date = []
+        test_id = []
+        for i in tests:
+            test_date.append(i.testTaken)
+            test_id.append(i.id)
+
+        test_details = list(zip(test_id,test_date))
+        context = {'test_details':test_details}
+        return Response(context)
+
 
