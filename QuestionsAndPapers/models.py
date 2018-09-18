@@ -490,3 +490,19 @@ class StudentAverageTimingDetailCache(models.Model):
         return str(self.student) + " " + str(self.subect) + " " +\
     str(self.chapter)
 
+class StudentWeakAreasChapterCache(models.Model):
+    student = models.ForeignKey(Student)
+    subject = models.CharField(max_length=100)
+    chapter = models.CharField(max_length=100)
+    totalAttempted = models.IntegerField()
+    accuracy = models.FloatField()
+    totalRight = models.IntegerField()
+    totalWrong = models.IntegerField()
+    totalSkipped = models.IntegerField()
+    skippedPercent = models.FloatField()
+
+
+
+    def __str__(self):
+        return str(self.student) + " " + str(self.subject) + " " +\
+    str(self.chapter)

@@ -345,9 +345,9 @@ def home(request):
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
-            add_questions.delay('YSM','General-Intelligence')
-            add_questions.delay('YSM','Quantitative-Aptitude')
-            add_questions.delay('YSM','General-Knowledge')
+            #add_questions.delay('YSM','General-Intelligence')
+            #add_questions.delay('YSM','Quantitative-Aptitude')
+            #add_questions.delay('YSM','General-Knowledge')
             #add_questions('Aravali Defence Academy','GroupX-Maths')
             #add_questions('Aravali Defence Academy','Defence-Physics')
             #add_questions('Aravali Defence Academy','Defence-English')
@@ -359,6 +359,19 @@ def home(request):
             
             #questions = SSCquestions.objects.filter(section_category = 'GroupX-English')
             #print(len(questions))
+            # add cache weak areas to all students and subjects
+            caches = StudentWeakAreasChapterCache.objects.all()
+            for i in caches:
+                i.delete()
+                print('deleted')
+            #students = Student.objects.all()
+            #for student in students:
+            #    subjects = student.subject_set.all()
+            #    for subject in subjects:
+            #        subject = subject.name
+            #        chapters = get_chapters(subject)
+            #        for chapter in chapters:
+            #            createCacheStudentWeakAreasCache.delay(student.id,subject,chapter)
             return HttpResponse("Done")
 
         if user.groups.filter(name='Students').exists():

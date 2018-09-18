@@ -1927,132 +1927,173 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
 def CreateUpdateStudentWeakAreas(student_id,subject,mark_id):
     student = Student.objects.get(id = student_id)
     marks = SSCOnlineMarks.objects.get(id = mark_id)
+    chapters = []
+    for quest in marks.test.sscquestions_set.all():
+        chapters.append(quest.topic_category)
+
+
+    for chapter in chapters:
+        try:
+            old_cache =\
+                    StudentWeakAreasChapterCache.objects.get(student = student,
+                                                             subject =
+                                                             subject,chapter =
+                                                             chapter)
+            old_total_right = old_cache.totalRight
+            old_total_wrong = old_cache.totalWrong
+            old_skipped = old_cache.totalSkipped
+            old_total_accuracy = old_cache.accuracy
+            old_total_attempted = old_cache.totalAttempted
+            right = 0
+            wrong = 0
+            skipped = 0
+            for quest_id in marks.rightAnswers:
+                quest = SSCquestions.objects.get(choices__id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chapter:
+                    right += 1
+            for quest_id in marks.wrongAnswers:
+                quest = SSCquestions.objects.get(choices__id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chapter:
+                    wrong += 1
+            for quest_id in marks.skippedAnswers:
+                quest = SSCquestions.objects.get(id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chapter:
+                    skipped += 1
+            total_attempted = right + wrong
+            if total_attempted == 0:
+                accuracy = 0
+            else:
+                accuracy = (right / (total_attempted))* 100
+            new_total_right = old_total_right + right
+            new_total_wrong = old_total_wrong + wrong
+            new_total_attempted = old_total_attempted + total_attempted
+            new_total_skipped = old_total_skipped + skipped
+            new_skipped_percent = (new_total_skipped / new_total_attempted)*100
+            new_total_accuracy = (new_total_right / new_total_attempted)*100
+            old_cache.totalRight = new_total_right
+            old_cache.totalWrong = new_total_wrong
+            old_cache.totalSkipped = new_total_skipped
+            old_cache.skippedPercent = new_skipped_percent
+            old_cache.accuracy = new_total_accuracy
+            old_cache.totalAttempted = new_total_attempted
+            old_cache.save()
+        except:
+            right = 0
+            wrong = 0
+            skipped = 0
+            for quest_id in marks.rightAnswers:
+                quest = SSCquestions.objects.get(choices__id = ra)
+                if quest.section_category == subject and quest.topic_category\
+                ==chapter:
+                    right += 1
+            for quest_id in marks.wrongAnswers:
+                if quest.section_category == subject and quest.topic_category\
+                ==chapter:
+                    wrong += 1
+            for quest_id in marks.skippedAnswers:
+                quest = SSCquestions.objects.get(id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chapter:
+                    skipped += 1
+            total_attempted = right + wrong
+            if total_attempted == 0:
+                accuracy = 0
+            else:
+                accuracy = (right / (total_attempted))* 100
+            new_total_right = old_total_right + right
+            new_total_wrong = old_total_wrong + wrong
+            new_total_attempted = old_total_attempted + total_attempted
+            new_total_skipped = old_total_skipped + skipped
+            new_skipped_percent = (new_total_skipped / new_total_attempted)*100
+            new_total_accuracy = (new_total_right / new_total_attempted)*100
+            skipped_percent = (skipped / (right + wrong))*100
+            accuracy = (right + (right+wrong)) * 100
+            new_cache = StudentWeakAreasChapterCache()
+            new_cache.totalRight = right
+            new_cache.totalWrong = wrong
+            new_cache.totalSkipped = skipped
+            new_cache.skippedPercent = skipped_percent
+            new_cache.accuracy = accuracy
+            new_cache.totalAttempted = total_attempted
+            new_cache.save()
+
+
+
+
+
+@shared_task
+def createCacheStudentWeakAreasCache(student_id,subject,chapter):
+    student = Student.objects.get(id = student_id)
     try:
-        old_cache =\
-        StudentWeakAreasCache.objects.get(student=student,subject=subject)
-        
-    except Exception as e:
-        arr = self.weakAreas_Intensity(subject)
-
-        marks = SSCOnlineMarks.objects.filter(student =
-                                          self.profile,test__sub =
-                                          subject)
-        if 'Defence' in subject:
-            all_marks = SSCOnlineMarks.objects.filter(student=
-                                                  self.profile,test__sub='Defence-MultipleSubjects')
+        old_cache = StudentWeakAreasChapterCache.objects.get(student =
+                                                             student,subject =
+                                                             subject,chapter =
+                                                             chapter)
+        print('for student {} already cache for {} and\
+              {}'.format(student,chapter,subject))
+    except:
+        all_marks = SSCOnlineMarks.objects.filter(student = student,test__sub =
+                                                  subject)
+        right = 0
+        wrong = 0
+        skipped = 0
+        for marks in all_marks:
+            for quest_id in marks.rightAnswers:
+                quest = SSCquestions.objects.get(choices__id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chapter:
+                    right += 1
+            for quest_id in marks.wrongAnswers:
+                quest = SSCquestions.objects.get(choices__id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chapter:
+                    wrong += 1
+            for quest_id in marks.skippedAnswers:
+                quest = SSCquestions.objects.get(id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chapter:
+                    skipped += 1
+        total_attempted = right + wrong
+        if total_attempted == 0:
+            accuracy = 0
+            skipped_percent = 0
         else:
+            accuracy = (right / (total_attempted))* 100
+            skipped_percent = (skipped / (right + wrong))*100
+        accuracy = (right + (right+wrong)) * 100
+        new_cache = StudentWeakAreasChapterCache()
+        new_cache.totalRight = right
+        new_cache.totalWrong = wrong
+        new_cache.totalSkipped = skipped
+        new_cache.skippedPercent = skipped_percent
+        new_cache.accuracy = accuracy
+        new_cache.totalAttempted = total_attempted
+        new_cache.subject =subject
+        new_cache.chapter = chapter
+        new_cache.student = student
+        new_cache.save()
+        print('for student {} new cache for {} and\
+              {}'.format(student,chapter,subject))
 
-            all_marks = SSCOnlineMarks.objects.filter(student=
-                                                  self.profile,test__sub='SSCMultipleSections')
-
-        all_ids = []
-        all_tests_ids = []
-        for mark in marks:
-            all_tests_ids.append(mark.id)
-            for total in mark.allAnswers:
-                try:
-                    quest = SSCquestions.objects.get(choices__id = total)
-                except Exception as e:
-                    print(str(e))
-                    continue
-                all_ids.append(quest.topic_category)
-            for sk in mark.skippedAnswers:
-                try:
-                    quest = SSCquestions.objects.get(id = sk)
-                except Exception as e:
-                    print(str(e))
-                    continue
-                all_ids.append(quest.topic_category)
-        # finds question ids from mixed category tests
-        if all_marks:
-            for mark in all_marks:
-                all_tests_ids.append(mark.id)
-                for total in mark.allAnswers:
-                    try:
-                        quest = SSCquestions.objects.get(choices__id = total)
-                    except Exception as e:
-                        print(str(e))
-                        continue
-                    if quest.section_category == subject:
-                        all_ids.append(quest.topic_category)
-                for sk in mark.skippedAnswers:
-                    try:
-                        quest = SSCquestions.objects.get(id = sk)
-                    except Exception as e:
-                        print(str(e))
-                        continue
-                    if quest.section_category == subject:
-                        all_ids.append(quest.topic_category)
-        #if offline_marks:
-        #    for mark in offline_marks:
-        #        for total in mark.allAnswers:
-        #            try:
-        #                quest = SSCquestions.objects.get(choices__id = total)
-        #            except Exception as e:
-        #                print(str(e))
-        #                continue
-        #            all_ids.append(quest.topic_category)
-        #        for sk in mark.skippedAnswers:
-        #            try:
-        #                quest = SSCquestions.objects.get(id = sk)
-        #            except Exception as e:
-        #                print(str(e))
-        #                continue
-        #            all_ids.append(quest.topic_category)
-        #if offline_all_marks:
-        #    for mark in offline_all_marks:
-        #        for total in mark.allAnswers:
-        #            try:
-        #                quest = SSCquestions.objects.get(choices__id = total)
-        #            except Exception as e:
-        #                print(str(e))
-        #                continue
-        #            if quest.section_category == subject:
-        #                all_ids.append(quest.topic_category)
-        #        for sk in mark.skippedAnswers:
-        #            try:
-        #                quest = SSCquestions.objects.get(id = sk)
-        #            except Exception as e:
-        #                print(str(e))
-        #                continue
-        #            if quest.section_category == subject:
-        #                all_ids.append(quest.topic_category)
+@shared_task
+def get_chapters(subject):
+    topic_choice = []
+    for ch in range(1,50):
+        for tp in range(1,20):
+            topic_choice.append(str(ch) + '.' + str(tp))
+    all_chapters = []
+    for tp in topic_choice:
+        try:
+            chap = changeIndividualNames(tp,subject)
+            all_chapters.append(tp)
+        except Exception as e:
+            print(str(e))
+    return all_chapters
 
 
 
 
-
-        unique, counts = np.unique(all_ids, return_counts=True)
-        cat_quests = np.asarray((unique, counts)).T
-        arr = np.array(arr)
-        average_cat = []
-        average_percent = []
-
-        if len(arr)>0:
-            for i,j in cat_quests:
-                if i in arr[:,0]:
-                    ind = np.where(arr==i)
-                    now_arr = arr[ind[0],1]
-                    average =(int(now_arr[0])/int(j)*100)
-                    average_cat.append(i)
-                    average_percent.append(100-average)
-
-            weak_average = list(zip(average_cat,average_percent))
-            weak_cache = StudentWeakAreasCache()
-            weak_cache = StudentWeakAreasCache()
-            weak_cache.categories = average_cat
-            weak_cache.accuracies = average_percent
-            weak_cache.subject = subject
-            weak_cache.allTests = all_tests_ids
-            weak_cache.numTests = len(all_tests_ids)
-            weak_cache.student = self.profile
-            weak_cache.save()
-
-
-
-
-            return weak_average
-        else:
-            return 0
-       
 
