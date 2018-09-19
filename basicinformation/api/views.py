@@ -759,6 +759,7 @@ class StudentPreviousPerformanceBriefAndroidAPIView(APIView):
 
 class StudentTopicWiseProficiency(APIView):
     def get(self,request,format=None):
+        me = Studs(self.request.user)
         subjects = get_subject(self.request.user)
         strong_areas = {}
         for subject in subjects:
