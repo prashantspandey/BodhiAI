@@ -2097,7 +2097,7 @@ def get_chapters(subject):
 
 @shared_task
 def create_cache_weak_areas():
-    students = Student.objects.all()
+    students = Student.objects.filter(school__name = 'JEN')
     for n,student in enumerate(students):
         print('{} -- calculating for {}'.format(n,student))
         subjects = student.subject_set.all()
