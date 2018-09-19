@@ -1262,7 +1262,7 @@ class StudentShowPerformanceTestsAPIView(APIView):
         test_id = []
         for i in tests:
             test_date.append(i.testTaken)
-            test_id.append(i.id)
+            test_id.append(i.test.id)
 
         test_details = list(zip(test_id,test_date))
         context = {'test_details':test_details}
