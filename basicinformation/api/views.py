@@ -759,7 +759,6 @@ class StudentPreviousPerformanceBriefAndroidAPIView(APIView):
 
 class StudentTopicWiseProficiency(APIView):
     def get(self,request,format=None):
-        me = Studs(self.request.user)
         subjects = get_subject(self.request.user)
         strong_areas = {}
         for subject in subjects:
@@ -787,6 +786,38 @@ class StudentTopicWiseProficiency(APIView):
             strong_areas[subject] = {'strongTopics':skills_names}
         return Response(strong_areas)
 
+class StudentAccuracyBriefAPIView(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        weak_areas_cache = StudentWeakAreasChapterCache.objects.filter(student = me.profile)
+        context = []
+        for wa in weak_areas_cache:
+            subject = wa.subject
+            chapter = wa.chapter
+            accuracy = 100 - wa.accuracy
+            weak_areas =\
+            {'subject':subject,'chapter':chapter,'accuracy':accuracy}
+            context.append(weak_areas)
+            return Response(context)
+
+class StudentAccuracyDetailAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Studs(self.request.user)
+        subject = request.POST['subject']
+        chapter = request.POST['chapter']
+        weak_areas_cache =\
+        StudentWeakAreasChapterCache.objects.get(student=me.profile,subject
+                                                    = subject, chapter =
+                                                    chapter)
+        accuracy = weak_areas_cache.accuracy
+        totalRight = weak_areas_cache.totalRight
+        totalWrong = weak_areas_cache.totalWrong
+        totalSkipped = weak_areas_cache.totalSkipped
+        skippedPercent = weak_areas_cache.skippedPercent
+        totalAttempted = weak_areas_cache.totalAttempted
+        context =\
+        {'accuracy':accuracy,'totalRight':totalRight,'totalWrong':totalWrong,'totalSkipped':totalSkipped,'skippedPercent':skippedPercent,'totalAttempted':totalAttempted}
+        return Response(context)
 
 class StudentTopicWiseProficiencyAndroid(APIView):
     def get(self,request,format=None):

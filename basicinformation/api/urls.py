@@ -56,8 +56,12 @@ urlpatterns = [
     url(r'student_performance_1/$',views.StudentShowPerformanceSubjectsAPIView.as_view(),name='StudentMyPerformanceSubjects'),
 # Student My performance Tests 
     url(r'student_performance_2/$',views.StudentShowPerformanceTestsAPIView.as_view(),name='StudentMyPerformanceTests'),
-# Teache edit batch of studnet 
+# Teacher edit batch of studnet 
     url(r'edit_batch/$',views.TeacherEditBatches.as_view(),name='TeacherEditBatches'),
+# Student Accuracy Brief 
+    url(r'student_weak_accuracy_brief/$',views.StudentAccuracyBriefAPIView.as_view(),name='StudentAccuracyBrief'),
+# Student Accuracy Detailed 
+    url(r'student_weak_accuracy_detail/$',views.StudentAccuracyDetailAPIView.as_view(),name='StudentAccuracyBrief'),
 
 
 ]

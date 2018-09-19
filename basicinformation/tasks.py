@@ -1985,11 +1985,12 @@ def CreateUpdateStudentWeakAreas(student_id,subject,mark_id):
             wrong = 0
             skipped = 0
             for quest_id in marks.rightAnswers:
-                quest = SSCquestions.objects.get(choices__id = ra)
+                quest = SSCquestions.objects.get(choices__id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chapter:
                     right += 1
             for quest_id in marks.wrongAnswers:
+                quest = SSCquestions.objects.get(choices__id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chapter:
                     wrong += 1

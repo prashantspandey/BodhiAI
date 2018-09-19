@@ -536,6 +536,7 @@ class StudentEvaluateTestAPIView(APIView):
         serializer = SSCOnlineMarksSerializer(online_marks)
         context = {'marks':serializer.data}
         CreateUpdateStudentAverageTimingDetail.delay(me.profile.id,subject,online_marks.id)
+        CreateUpdateStudentWeakAreas.delay(me.profile.id,subject,online_marks.id)
         return Response(context)
 
 class StudentSmartTestSubjectAPIView(APIView):
