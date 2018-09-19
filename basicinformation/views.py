@@ -364,11 +364,12 @@ def home(request):
             #for i in caches:
             #    i.delete()
             #    print('deleted')
-            #students = Student.objects.all()
+            students = Student.objects.all()
             #cache = StudentWeakAreasChapterCache.objects.all()
             #for i in cache:
             #    if i.totalAttempted != 0:
             #        print(i.totalAttempted)
+
             for n,student in enumerate(students):
                 subjects = student.subject_set.all()
                 for subject in subjects:
