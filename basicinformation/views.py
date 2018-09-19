@@ -360,12 +360,16 @@ def home(request):
             #questions = SSCquestions.objects.filter(section_category = 'GroupX-English')
             #print(len(questions))
             # add cache weak areas to all students and subjects
-            caches = StudentWeakAreasChapterCache.objects.all()
-            for i in caches:
-                i.delete()
-                print('deleted')
-            #students = Student.objects.all()
-            #for student in students:
+            #caches = StudentWeakAreasChapterCache.objects.all()
+            #for i in caches:
+            #    i.delete()
+            #    print('deleted')
+            students = Student.objects.all()
+            cache = StudentWeakAreasChapterCache.objects.all()
+            for i in cache:
+                if i.totalAttempted != 0:
+                    print(i.totalAttempted)
+            #for n,student in enumerate(students):
             #    subjects = student.subject_set.all()
             #    for subject in subjects:
             #        subject = subject.name

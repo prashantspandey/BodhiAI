@@ -41,6 +41,7 @@ class StudentConfirmationSerializer(serializers.ModelSerializer):
     teacher = TeacherSerializer()
     student = StudentDetailSerializer()
     school = SchoolDisplaySerializer()
+    batch = BatchNameSerializer()
     class Meta:
        model = StudentConfirmation
 

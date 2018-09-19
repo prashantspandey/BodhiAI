@@ -2064,6 +2064,8 @@ def createCacheStudentWeakAreasCache(student_id,subject,chapter):
             accuracy = (right / (total_attempted))* 100
             skipped_percent = (skipped / (right + wrong))*100
         accuracy = (right + (right+wrong)) * 100
+        if accuracy == 0:
+            return
         new_cache = StudentWeakAreasChapterCache()
         new_cache.totalRight = right
         new_cache.totalWrong = wrong
@@ -2086,11 +2088,10 @@ def get_chapters(subject):
             topic_choice.append(str(ch) + '.' + str(tp))
     all_chapters = []
     for tp in topic_choice:
-        try:
-            chap = changeIndividualNames(tp,subject)
+        chap = changeIndividualNames(tp,subject)
+        if chap is not None:
+            print(chap)
             all_chapters.append(tp)
-        except Exception as e:
-            print(str(e))
     return all_chapters
 
 

@@ -13,6 +13,7 @@ from basicinformation.models import *
 from basicinformation.marksprediction import *
 import json
 from basicinformation.nameconversions import *
+from membership.api.serializers import *
 from rest_framework.response import Response
 from rest_framework.permissions import (
     IsAuthenticated
@@ -1268,3 +1269,11 @@ class StudentShowPerformanceTestsAPIView(APIView):
         return Response(context)
 
 
+class TeacherEditBatches(APIView):
+    def get(self,request):
+        me = Teach(self.request.user)
+        batch_confirmations = StudentConfirmation.objects.filter(teacher =
+                                                                 me.profile)
+        serializer =\
+        StudentConfirmationSerializer(batch_confirmations,many=True)
+        return Response(serializer.data)
