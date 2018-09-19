@@ -550,14 +550,32 @@ class StudentSmartTestCreationAPIView(APIView):
     def post(self,request,*args,**kwargs):
         me = Studs(self.request.user)
         subject = request.POST['subject']
-        weakAreas = me.weakAreas_IntensityAverage(subject)
+        #weakAreas = me.weakAreas_IntensityAverage(subject)
+        weakAreasCache = StudentWeakAreasChapterCache.objects.filter(student =
+                                                                    me.profile,subject
+                                                                    = subject)
+        chapters = []
+        all_chapters = []
+        all_accuracies = []
+        for wac in weakAreasCache:
+            if wac.totalAttempted != 0:
+                all_chapters.append(wac.chapter)
+                all_accuracies.append(wac.accuracy)
+        all_weakness = list(zip(all_chapters,all_accuracies))
+        ordered_chapters = sorted(all_weakness,key=lambda x: x[1])
+        print(ordered_chapters)
+
+
+
+
         # order weak areas according to their intensity
-        ordered_weakAreas = sorted(weakAreas, key= lambda wa:wa[1],
-                                   reverse=True)
+        #ordered_weakAreas = sorted(weakAreas, key= lambda wa:wa[1],
+        #                           reverse=True)
         numTopics = 2
         numQuestions = 10
         # choose topics to incude in test according to number of questions
-        chosen_topics = ordered_weakAreas[:numTopics]
+        chosen_topics = ordered_chapters[:numTopics]
+        print(chosen_topics)
         number_questofTopics = int(numQuestions /numTopics)
         print('%d number quest of topics' %number_questofTopics)
         #choose questions according to topics chosen

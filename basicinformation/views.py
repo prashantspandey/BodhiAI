@@ -369,14 +369,7 @@ def home(request):
             #for i in cache:
             #    if i.totalAttempted != 0:
             #        print(i.totalAttempted)
-
-            for n,student in enumerate(students):
-                subjects = student.subject_set.all()
-                for subject in subjects:
-                    subject = subject.name
-                    chapters = get_chapters(subject)
-                    for chapter in chapters:
-                        createCacheStudentWeakAreasCache.delay(student.id,subject,chapter)
+            create_cache_weak_areas.delay()
             return HttpResponse("Done")
 
         if user.groups.filter(name='Students').exists():

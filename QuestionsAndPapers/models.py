@@ -2,8 +2,7 @@ from django.db import models
 from basicinformation.models import *
 from django.contrib.auth.models import User 
 from django.contrib.postgres.fields import ArrayField
-# Create your models here.
-
+# Create your models here.  
 class KlassTest(models.Model): 
     mode_choices =\
     (('BodhiOnline','BodhiOnline'),('BodhiSchool','BodhiSchool')) 

@@ -2058,15 +2058,14 @@ def createCacheStudentWeakAreasCache(student_id,subject,chapter):
                 ==chapter:
                     skipped += 1
         total_attempted = right + wrong
+        all_questions_attempted = total_attempted + skipped
+        if all_questions_attempted == 0:
+            return 
         if total_attempted == 0:
             accuracy = 0
-            skipped_percent = 0
         else:
             accuracy = (right / (total_attempted))* 100
-            skipped_percent = (skipped / (right + wrong))*100
-        accuracy = (right + (right+wrong)) * 100
-        if accuracy == 0:
-            return
+        skipped_percent = (skipped / (all_questions_attempted))*100
         new_cache = StudentWeakAreasChapterCache()
         new_cache.totalRight = right
         new_cache.totalWrong = wrong
@@ -2096,6 +2095,17 @@ def get_chapters(subject):
     return all_chapters
 
 
+@shared_task
+def create_cache_weak_areas():
+    students = Student.objects.all()
+    for n,student in enumerate(students):
+        print('{} -- calculating for {}'.format(n,student))
+        subjects = student.subject_set.all()
+        for subject in subjects:
+            subject = subject.name
+            chapters = get_chapters(subject)
+            for chapter in chapters:
+                createCacheStudentWeakAreasCache.delay(student.id,subject,chapter)
 
 
 
