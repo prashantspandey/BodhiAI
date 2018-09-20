@@ -2011,15 +2011,8 @@ def CreateUpdateStudentWeakAreas(student_id,subject,mark_id):
                 accuracy = 0
             else:
                 accuracy = (right / (total_attempted))* 100
+            skippedPercent = (skipped / (allquestions_institute))*100
 
-
-            new_total_right = old_total_right + right
-            new_total_wrong = old_total_wrong + wrong
-            new_total_attempted = old_total_attempted + total_attempted
-            new_total_skipped = old_total_skipped + skipped
-            new_skipped_percent = (new_total_skipped / new_total_attempted)*100
-            new_total_accuracy = (new_total_right / new_total_attempted)*100
-            skipped_percent = (skipped / (right + wrong))*100
             new_cache = StudentWeakAreasChapterCache()
             new_cache.totalRight = right
             new_cache.totalWrong = wrong
