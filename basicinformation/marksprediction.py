@@ -3420,7 +3420,7 @@ class Studs:
                     timing.append(j)
 
             return list(zip(namedarr,timing))
-        if subject == 'Civil':
+        if subject == 'Civil_Loco_Pilot_Tech':
             for i,j in arr:
                 if i == '2.1':
                     namedarr.append('Land Surveying Basic Principal And Classification')
@@ -4232,7 +4232,7 @@ class Studs:
 
             return namedarr
 
-        if subject == 'Civil':
+        if subject == 'Civil_Loco_Pilot_Tech':
             for i in arr:
                 if i == '2.1':
                     namedarr.append('Land Surveying Basic Principal And Classification')
@@ -4991,7 +4991,7 @@ class Studs:
                     return 'Other Important Questions'
                 if i == '18.1':
                     return 'Previous Year Exams Questions'
-        if subject == 'Civil':
+        if subject == 'Civil_Loco_Pilot_Tech':
                 if i == '2.1':
                     return 'Land Surveying Basic Principal And Classification'
                 if i == '2.2':
@@ -7857,7 +7857,7 @@ class Teach:
                     numbers.append(i)
 
             return list(zip(names,numbers))
-        if subject == 'Civil':
+        if subject == 'Civil_Loco_Pilot_Tech':
             for i in arr:
                 if i == '2.1':
                     names.append('Land Surveying Basic Principal And Classification')
@@ -8973,7 +8973,7 @@ class Teach:
 
             return list(zip(names,numbers))
 
-        if subject == 'Civil':
+        if subject == 'Civil_Loco_Pilot_Tech':
             for i, j in arr:
                 if i == '2.1':
                     names.append('Land Surveying Basic Principal And Classification')
@@ -9791,7 +9791,7 @@ class Teach:
 
             return numbers
 
-        if subject == 'Civil':
+        if subject == 'Civil_Loco_Pilot_Tech':
             for i in arr:
                 if i == 'Land Surveying Basic Principal And Classification':
                     numbers.append('2.1')
@@ -10867,7 +10867,7 @@ def change_topicNumbersNames(arr,subject):
 
             return list(zip(names,numbers))
 
-        if subject == 'Civil':
+        if subject == 'Civil_Loco_Pilot_Tech':
             for i in arr:
                 if i == '2.1':
                     names.append('Land Surveying Basic Principal And Classification')
@@ -11644,7 +11644,7 @@ def changeIndividualNames(i,subject):
                 return 'Previous Year Exams Questions'
         
         
-    if subject == 'Civil':
+    if subject == 'Civil_Loco_Pilot_Tech':
             if i == '2.1':
                 return 'Land Surveying Basic Principal And Classification'
             if i == '2.2':

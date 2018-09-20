@@ -332,7 +332,7 @@ def home(request):
             #delete_allQuestions.delay("JEN")
             #allquestions_institute.delay('English',"JEN")
             #add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
-            students = Student.objects.filter(name = "JEN")
+            students = Student.objects.filter(school__name = "JEN")
             jen_teacher = Teacher.objects.get(school__name = "JEN")
             for stud in students:
                 add_subjects_new.delay("Civil_Loco_Pilot_Tech",stud.id,jen_teacher.id)
