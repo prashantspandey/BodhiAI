@@ -860,7 +860,7 @@ class StudentTakenTestsDetailsAPIView(APIView):
     def get(self,request,format=None):
         me = Studs(self.request.user)
         marks = SSCOnlineMarks.objects.filter(student=
-                                              me.profile).order_by('test__published')
+                                              me.profile).order_by('testTaken')[:5]
         marks_dic = {}
         all_marks = []
         #percent = []
