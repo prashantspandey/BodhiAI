@@ -1978,7 +1978,7 @@ def CreateUpdateStudentWeakAreas(student_id,subject,mark_id):
             new_total_right = old_total_right + right
             new_total_wrong = old_total_wrong + wrong
             new_total_attempted = old_total_attempted + total_attempted
-            new_total_skipped = old_total_skipped + skipped
+            new_total_skipped = old_skipped + skipped
             new_skipped_percent = (new_total_skipped / new_total_attempted)*100
             new_total_accuracy = (new_total_right / new_total_attempted)*100
             old_cache.totalRight = new_total_right
