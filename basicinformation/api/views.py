@@ -801,7 +801,7 @@ class StudentAccuracyBriefAPIView(APIView):
             weak_areas =\
                     {'subject':subject,'chapter':chapter,'accuracy':accuracy,'chapterName':chapter_name}
             context.append(weak_areas)
-            return Response(context)
+        return Response(context)
 
 class StudentAccuracyDetailAPIView(APIView):
     def post(self,request,*args,**kwargs):
