@@ -1838,14 +1838,14 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
                 if quest.section_category == subject and quest.topic_category\
                 == chapter:
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
-                                                               mark,quest=quest)
+                                                               this_marks,quest=quest)
                     right_time.append(answered.time)
             for wid in this_marks.wrongAnswers:
                 quest = SSCquestions.objects.get(choices__id = rid)
                 if quest.section_category == subject and quest.topic_category\
                 == chapter:
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
-                                                               mark,quest=quest)
+                                                               this_marks,quest=quest)
                     wrong_time.append(answered.time)
             len_right = len(right_time)
             len_wrong = len(wrong_time)
@@ -1887,14 +1887,14 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
                 if quest.section_category == subject and quest.topic_category\
                 == chapter:
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
-                                                               mark,quest=quest)
+                                                               this_marks,quest=quest)
                     right_time.append(answered.time)
             for wid in this_marks.wrongAnswers:
                 quest = SSCquestions.objects.get(choices__id = rid)
                 if quest.section_category == subject and quest.topic_category\
                 == chapter:
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
-                                                               mark,quest=quest)
+                                                               this_marks,quest=quest)
                     wrong_time.append(answered.time)
             len_right = len(right_time)
             len_wrong = len(wrong_time)
