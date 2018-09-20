@@ -1906,7 +1906,7 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
                 ave_wrong = 0
             else:
                 ave_wrong = sum(wrong_time) / len_wrong
-            
+            print('{} averageright,{} ave wrong'.format(ave_right,ave_wrong))
             new_timing_cache = StudentAverageTimingDetailCache()
             new_timing_cache.student = student
             new_timing_cache.chapter = chapter
@@ -1914,10 +1914,10 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
             new_timing_cache.rightAverage = ave_right
             new_timing_cache.wrongAverage = ave_wrong
             new_timing_cache.totalAttempted = len_right + len_wrong
-            new_timing_cache.rightTotal = len_right
-            new_timing_cache.wrongTotal = len_wrong
-            new_timing_cache.rightTotalTime = right_time
-            new_timing_cache.wrongTotalTime = wrong_time
+            new_timing_cache.rightTotal = int(len_right)
+            new_timing_cache.wrongTotal = int(len_wrong)
+            new_timing_cache.rightTotalTime = sum(right_time)
+            new_timing_cache.wrongTotalTime = sum(wrong_time)
             new_timing_cache.save()
 
 
