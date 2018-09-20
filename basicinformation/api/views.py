@@ -799,7 +799,7 @@ class StudentAccuracyBriefAPIView(APIView):
             chapter_name = changeIndividualNames(chapter,subject)
             accuracy = 100 - wa.accuracy
             weak_areas =\
-                    {'subject':subject,'chapter':chapter,'accuracy':accuracy',chapterName':chapter_name}
+                    {'subject':subject,'chapter':chapter,'accuracy':accuracy,'chapterName':chapter_name}
             context.append(weak_areas)
             return Response(context)
 
