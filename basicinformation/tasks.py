@@ -1916,7 +1916,7 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
             new_timing_cache = StudentAverageTimingDetailCache()
             new_timing_cache.student = student
             new_timing_cache.chapter = chapter
-            new_timing_cache.subect = subject
+            new_timing_cache.subject = subject
             new_timing_cache.rightAverage = ave_right
             new_timing_cache.wrongAverage = ave_wrong
             new_timing_cache.allMarksIds =all_ids
@@ -1937,10 +1937,8 @@ def CreateUpdateStudentWeakAreas(student_id,subject,mark_id):
     for quest in marks.test.sscquestions_set.all():
         chapters.append(quest.topic_category)
 
-
+    chapters =list(unique_everseen(chapters))
     for chapter in chapters:
-        print(chapter)
-        print(type(chapter))
         try:
             old_cache =\
                     StudentWeakAreasChapterCache.objects.get(student = student,
@@ -1955,6 +1953,7 @@ def CreateUpdateStudentWeakAreas(student_id,subject,mark_id):
             right = 0
             wrong = 0
             skipped = 0
+            print(old_total_right)
             for quest_id in marks.rightAnswers:
                 quest = SSCquestions.objects.get(choices__id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
