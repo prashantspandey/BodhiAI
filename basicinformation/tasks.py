@@ -1812,7 +1812,7 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
 
     for chapter in chapters:
         try:
-            timing_cache = StudentAverageTimingDetailAPIView.objects.get(student =
+            timing_cache = StudentAverageTimingDetailCache.objects.get(student =
                                                                      student,subject
                                                                      =
                                                                      subject,chapter
@@ -1909,7 +1909,7 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
                 ave_wrong = sum(wrong_time) / len_wrong
             
             total = len_right + len_wrong
-            new_timing_cache = StudentAverageTimingDetailAPIView()
+            new_timing_cache = StudentAverageTimingDetailCache()
             new_timing_cache.student = student
             new_timing_cache.chapter = chapter
             new_timing_cache.subect = subject
@@ -2019,7 +2019,7 @@ def CreateUpdateStudentWeakAreas(student_id,subject,mark_id):
             new_cache.totalRight = right
             new_cache.totalWrong = wrong
             new_cache.totalSkipped = skipped
-            new_cache.skippedPercent = skipped_percent
+            new_cache.skippedPercent = skippedPercent
             new_cache.accuracy = accuracy
             new_cache.totalAttempted = total_attempted
             new_cache.save()
