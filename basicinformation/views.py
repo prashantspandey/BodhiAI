@@ -368,12 +368,12 @@ def home(request):
             #for i in caches:
             #    i.delete()
             #    print('deleted')
-            students = Student.objects.all()
+            #students = Student.objects.all()
             #cache = StudentWeakAreasChapterCache.objects.all()
             #for i in cache:
             #    if i.totalAttempted != 0:
             #        print(i.totalAttempted)
-            create_cache_weak_areas.delay()
+            #create_cache_weak_areas.delay()
             return HttpResponse("Done")
 
         if user.groups.filter(name='Students').exists():
