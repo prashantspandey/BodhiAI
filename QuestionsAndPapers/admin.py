@@ -8,7 +8,7 @@ class ChoiceInline(admin.TabularInline):
 class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
 
-class SscQuestInline(admin.TabularInline):
+class SscQuestInline(admin.TabularInline): 
     model = SSCansweredQuestion
     extra = 1
 
@@ -57,3 +57,4 @@ admin.site.register(StudentTestAnalysis)
 admin.site.register(StudentWeakAreasCache)
 admin.site.register(TimeTable)
 admin.site.register(StudentWeakAreasChapterCache)
+admin.site.register(StudentAverageTimingDetailCache)
