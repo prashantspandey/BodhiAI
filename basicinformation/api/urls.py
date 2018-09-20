@@ -63,7 +63,7 @@ urlpatterns = [
 # Student Accuracy Detailed 
     url(r'student_weak_accuracy_detail/$',views.StudentAccuracyDetailAPIView.as_view(),name='StudentAccuracyBrief'),
 # Teacher batch change send batches 
-    url(r'teacher_edit_batch_2/$',views.TeacherEditBatchesFinal.as_view(),name='TeacherEditBatch2'),
+    url(r'teacher_edit_batch_2/$',views.TeacherEditBatchesSendBatch.as_view(),name='TeacherEditBatch2'),
 # Teacher batch change final 
     url(r'teacher_edit_batch_final/$',views.TeacherEditBatchesFinal.as_view(),name='TeacherEditBatchFinal'),
 
