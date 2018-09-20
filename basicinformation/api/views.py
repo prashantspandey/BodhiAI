@@ -1328,11 +1328,16 @@ class TeacherEditBatchesFinal(APIView):
         confirmation = StudentConfirmation.objects.get(id = confirmation_id)
         confirmation.batch = kl
         confirmation.save()
-        student = confirmation.student
+        student_user = confirmation.student
+        student = Student.objects.get(studentuser = student_user)
+        
         if kl.name == 'SSC' or kl.name == 'RailwayGroupD':
             course = 'SSC'
         if kl.name == 'LocoPilot' or kl.name == 'Outer':
             course = 'Loco'
+        my_subjects = me.profile.subject_set.all()
+        for i in my_subjects:
+            i.delete()
         add_subjects(course,student,me.profile)
         addOldTests.delay(student.id,me.profile.id,kl.id)
         serializer = StudentConfirmationSerializer(confirmation)
