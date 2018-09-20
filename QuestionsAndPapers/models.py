@@ -486,7 +486,7 @@ class StudentAverageTimingDetailCache(models.Model):
     allMarksIds = ArrayField(models.IntegerField(),null=True)
 
     def __str__(self):
-        return str(self.student) + " " + str(self.subect) + " " +\
+        return str(self.student) + " " + str(self.subject) + " " +\
     str(self.chapter)
 
 class StudentWeakAreasChapterCache(models.Model):
