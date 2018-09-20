@@ -1809,10 +1809,8 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
     chapters = []
     for quest in this_marks.test.sscquestions_set.all():
         chapters.append(quest.topic_category)
-
+    chapters = list(unique_everseen(chapters))
     for chapter in chapters:
-        print(chapter)
-        print(type(chapter))
 
         try:
             timing_cache = StudentAverageTimingDetailCache.objects.get(student =
@@ -1876,7 +1874,6 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
             timing_cache.wrongTotalTime = new_average_wrong
             timing_cache.rightAverage = new_right_average_timing
             timing_cache.wrongAverage = new_wrong_average_timing
-            timing_cache.allMarksIds = new_total_ids
             timing_cache.save()
 
         except:
@@ -1919,7 +1916,6 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
             new_timing_cache.subject = subject
             new_timing_cache.rightAverage = ave_right
             new_timing_cache.wrongAverage = ave_wrong
-            new_timing_cache.allMarksIds =all_ids
             new_timing_cache.totalAttempted = total
             new_timing_cache.rightTotal = len_right
             new_timing_cache.wrongTotal = len_wrong
@@ -1991,7 +1987,8 @@ def CreateUpdateStudentWeakAreas(student_id,subject,mark_id):
             old_cache.accuracy = new_total_accuracy
             old_cache.totalAttempted = new_total_attempted
             old_cache.save()
-        except:
+        except Exception as e:
+            print(str(e))
             right = 0
             wrong = 0
             skipped = 0
