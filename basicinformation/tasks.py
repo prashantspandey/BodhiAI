@@ -2109,4 +2109,47 @@ def create_cache_weak_areas():
                 createCacheStudentWeakAreasCache.delay(student.id,subject,chapter)
 
 
+@shared_task
+def add_subjects_change_batch(course,stud_id,teacher_id):
+    stud = Student.objects.get(id = stud_id)
+    teacher = Teacher.objects.get(id = teacher_id)
+    if course == 'SSC':
+        subGenInte =\
+        Subject(name="General-Intelligence",student=stud,teacher=teacher)
+        subGenInte.save()
+        subMaths =\
+        Subject(name="Quantitative-Analysis",student=stud,teacher=teacher)
+        subEnglish = Subject(name="English",student=stud,teacher=teacher)
+        subGenKnow =\
+        Subject(name="General-Knowledge",student=stud,teacher=teacher)
+        subGenSci = Subject(name="General-Science",student=stud,teacher=teacher)
+        subMaths.save()
+        subGenSci.save()
+        subEnglish.save()
+        subGenKnow.save()
+    elif course == 'Loco':
+       subGenInte =\
+       Subject(name="General-Intelligence",student=stud,teacher=teacher)
+       subGenInte.save()
+       subMaths =\
+       Subject(name="Quantitative-Analysis",student=stud,teacher=teacher)
+       subEnglish =\
+       Subject(name="English",student=stud,teacher=teacher)
+       subGenKnow =\
+       Subject(name="General-Knowledge",student=stud,teacher=teacher)
+       subGenSci =\
+       Subject(name="General-Science",student=stud,teacher=teacher)
+       subLocoPilot =\
+       Subject(name="ElectricalLocoPilot",student=stud,teacher=teacher)
+       subLocoPilot.save()
+       subLocoPilot_diesel =\
+       Subject(name="LocoPilot_Diesel",student=stud,teacher=teacher)
+       subLocoPilot_diesel.save()
+
+
+
+       subMaths.save()
+       subEnglish.save()
+       subGenSci.save()
+       subGenKnow.save()
 
