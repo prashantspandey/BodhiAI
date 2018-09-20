@@ -2102,7 +2102,6 @@ def get_chapters(subject):
     for tp in topic_choice:
         chap = changeIndividualNames(tp,subject)
         if chap is not None:
-            print(chap)
             all_chapters.append(tp)
     return all_chapters
 
