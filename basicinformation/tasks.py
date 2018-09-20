@@ -1876,7 +1876,8 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
             timing_cache.wrongAverage = new_wrong_average_timing
             timing_cache.save()
 
-        except:
+        except Exception as e:
+            print(str(e))
             my_marks = SSCOnlineMarks.objects.filter(student = student)
 
             right_time = []
