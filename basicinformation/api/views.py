@@ -9,8 +9,8 @@ from .serializers import *
 from QuestionsAndPapers.api.views import *
 from basicinformation.marksprediction import *
 from QuestionsAndPapers.models import *
-from basicinformation.models import *
-from basicinformation.marksprediction import *
+from basicinformation.models import * 
+from basicinformation.marksprediction import * 
 from membership.api.views import add_subjects
 import json
 from basicinformation.nameconversions import *
@@ -799,7 +799,7 @@ class StudentAccuracyBriefAPIView(APIView):
             chapter_name = changeIndividualNames(chapter,subject)
             accuracy = 100 - wa.accuracy
             weak_areas =\
-            {'subject':subject,'chapter':chapter,'accuracy':accuracy}
+                    {'subject':subject,'chapter':chapter,'accuracy':accuracy',chapterName':chapter_name}
             context.append(weak_areas)
             return Response(context)
 
