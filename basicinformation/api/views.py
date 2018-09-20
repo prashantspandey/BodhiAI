@@ -1322,9 +1322,9 @@ class TeacherEditBatchesSendBatch(APIView):
 class TeacherEditBatchesFinal(APIView):
     def post(self,request,*args,**kwargs):
         me = Teach(self.request.user)
-        klass = request.POST['klass']
+        klass_name = request.POST['klass']
         confirmation_id = request.POST['confirmation_id']
-        kl = klass.objects.get(name = klass,school = me.profile.school)
+        kl = klass.objects.get(name = klass_name,school = me.profile.school)
         confirmation = StudentConfirmation.objects.get(id = confirmation_id)
         confirmation.batch = kl
         confirmation.save()
