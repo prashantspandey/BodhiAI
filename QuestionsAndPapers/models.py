@@ -39,7 +39,7 @@ class SSCKlassTest(models.Model):
          ,('PhysicsIITJEE11','PhysicsIITJEE11'),('PhysicsIITJEE12','PhysicsIITJEE12')
          ,('ElectricalLocoPilot','ElectricalLocoPilot'),('FitterLocoPilot','FitterLocoPilot')
          ,('General-Science','General-Science'),('LocoPilot_Diesel','LocoPilot_Diesel'),
-        ('CAT_Quantitative_Aptitude','CAT_Quantitative_Aptitude'))
+        ('CAT_Quantitative_Aptitude','CAT_Quantitative_Aptitude'),('Civil_Loco_Pilot_Tech','Civil_Loco_Pilot_Tech'))
     course_choices = (('SSC','SSC'),('Railways','Railways'))
 
     #max_marks = models.DecimalField(max_digits=4,decimal_places=2)
@@ -143,7 +143,7 @@ class SSCquestions(models.Model):
          ,('PhysicsIITJEE12','PhysicsIITJEE12'),('Design and analysis of algorithm','Design and analysis of algorithm')
          ,('ElectricalLocoPilot','ElectricalLocoPilot'),('FitterLocoPilot','FitterLocoPilot')
          ,('General-Science','General-Science'),('LocoPilot_Diesel','LocoPilot_Diesel'),
-        ('CAT_Quantitative_Aptitude','CAT_Quantitative_Aptitude'))
+        ('CAT_Quantitative_Aptitude','CAT_Quantitative_Aptitude'),('Civil_Loco_Pilot_Tech','Civil_Loco_Pilot_Tech'))
     diffculty_choices = (('easy','easy'),('medium','medium'),('hard','hard'))
     text = models.TextField(blank=True,null=True)
     tier_category = models.CharField(max_length=20,choices = tier_choices)
@@ -505,3 +505,6 @@ class StudentWeakAreasChapterCache(models.Model):
     def __str__(self):
         return str(self.student) + " " + str(self.subject) + " " +\
     str(self.chapter)
+
+
+

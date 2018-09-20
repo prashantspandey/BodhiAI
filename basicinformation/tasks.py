@@ -678,7 +678,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/jen_content/diesel/'+sh,error_bad_lines=False )
+                pd.read_csv('/app/question_data/jen_content/civil_nontech/'+sh,error_bad_lines=False )
             else:
                 df=\
                 pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/cat/aptitude/'+sh,error_bad_lines=False )
@@ -859,6 +859,8 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
             new_questions.section_category = 'LocoPilot_Diesel'
         elif sectionType.strip() == 'cat_quant':
             new_questions.section_category = 'CAT_Quantitative_Aptitude'
+        elif sectionType.strip() == 'loco_civil':
+            new_questions.section_category = 'Civil_Loco_Pilot_Tech'
 
 
 
@@ -1803,7 +1805,7 @@ def CreateOneClickTestFinal(user_id,batch,subject,quest_ids):
 @shared_task
 def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
     student = Student.objects.get(id = student_id)
-    this_marks = SSCOnlineMarks.objects.get(id = marks_id)
+    this_marks = SSCOnlineMarks.objects.get(id = mark_id)
     chapters = []
     for quest in this_marks.test.sscquestions_set.all():
         chapters.append(quest.topic_category)
@@ -2011,7 +2013,7 @@ def CreateUpdateStudentWeakAreas(student_id,subject,mark_id):
                 accuracy = 0
             else:
                 accuracy = (right / (total_attempted))* 100
-            skippedPercent = (skipped / (allquestions_institute))*100
+            skippedPercent = (skipped / (all_questions_attempted))*100
 
             new_cache = StudentWeakAreasChapterCache()
             new_cache.totalRight = right
@@ -2152,4 +2154,12 @@ def add_subjects_change_batch(course,stud_id,teacher_id):
        subEnglish.save()
        subGenSci.save()
        subGenKnow.save()
+
+@shared_task
+def add_subjects_new(course,stud_id,teacher_id):
+    stud = Student.objects.get(id = stud_id)
+    teacher = Teacher.objects.get(id = teacher_id)
+    sub =\
+    Subject(name=course,student=stud,teacher=teacher)
+    sub.save()
 

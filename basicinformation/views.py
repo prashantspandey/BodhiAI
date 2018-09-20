@@ -325,13 +325,17 @@ def home(request):
             #sheet_links =\
             #['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
             sheet_links = \
-                    ['geometry.csv']
+                    ['c_1.csv','c_2.csv','c_3.csv','c_4.csv','c_5.csv','c_6.csv','c_7.csv','c_8.csv','c_9.csv','c_10.csv']
             #sheet_links2 = \
             #        ['1f.csv']
             #adding_quest =\
             #delete_allQuestions.delay("JEN")
             #allquestions_institute.delay('English',"JEN")
-            #add_to_database_questions.delay(sheet_links,'BodhiAI',production=False,onlyImage=True)
+            add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
+            students = Student.objects.filter(name = "JEN")
+            jen_teacher = Teacher.objects.get(school__name = "JEN")
+            for stud in student:
+                add_subjects_new.delay("Civil_Loco_Pilot_Tech",stud.id,jen_teacher.id)
             #add_png.delay()
             #school_name = 'JEN'
             #batch = 'LocoPilot'

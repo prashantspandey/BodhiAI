@@ -3423,8 +3423,38 @@ class Studs:
         if subject == 'Civil':
             for i,j in arr:
                 if i == '2.1':
-                    namedarr.append('Surveying Engineering')
+                    namedarr.append('Land Surveying Basic Principal And Classification')
                     timing.append(j)
+                if i == '2.2':
+                    namedarr.append('Chain Surveying')
+                    timing.append(j)
+                if i == '2.3':
+                    namedarr.append('Compass Surveying')
+                    timing.append(j)
+                if i == '2.4':
+                    namedarr.append('Levelling')
+                    timing.append(j)
+                if i == '2.5':
+                    namedarr.append('Minor Instruments')
+                    timing.append(j)
+                if i == '2.6':
+                    namedarr.append('Computation Of Land')
+                    timing.append(j)
+                if i == '2.7':
+                    namedarr.append('Plane Table Survey')
+                    timing.append(j)
+                if i == '2.8':
+                    namedarr.append('Contours And Contouring')
+                    timing.append(j)
+                if i == '2.9':
+                    namedarr.append('Theodolite Survey')
+                    timing.append(j)
+                if i == '50.1':
+                    namedarr.append('Curve And Curves Setting')
+                    timing.append(j)
+
+            return list(zip(namedarr,timing))
+
         if subject == 'LocoPilot_Diesel':
             for i,j in arr:
                 if i == '1.1':
@@ -4205,10 +4235,38 @@ class Studs:
         if subject == 'Civil':
             for i in arr:
                 if i == '2.1':
-                    namedarr.append('Surveying Engineering')
+                    namedarr.append('Land Surveying Basic Principal And Classification')
+
+                if i == '2.2':
+                    namedarr.append('Chain Surveying')
+
+                if i == '2.3':
+                    namedarr.append('Compass Surveying')
+
+                if i == '2.4':
+                    namedarr.append('Levelling')
+
+                if i == '2.5':
+                    namedarr.append('Minor Instruments')
+
+                if i == '2.6':
+                    namedarr.append('Computation Of Land')
+
+                if i == '2.7':
+                    namedarr.append('Plane Table Survey')
+
+                if i == '2.8':
+                    namedarr.append('Contours And Contouring')
+
+                if i == '2.9':
+                    namedarr.append('Theodolite Survey')
+
+                if i == '50.1':
+                    namedarr.append('Curve And Curves Setting')
 
 
-                return namedarr
+
+            return list(zip(name,numbers))
         if subject == 'LocoPilot_Diesel':
             for i in arr:
                 if i == '1.1':
@@ -4935,8 +4993,25 @@ class Studs:
                     return 'Previous Year Exams Questions'
         if subject == 'Civil':
                 if i == '2.1':
-                    return 'Surveying Engineering'
-
+                    return 'Land Surveying Basic Principal And Classification'
+                if i == '2.2':
+                    return 'Chain Surveying'
+                if i == '2.3':
+                    return 'Compass Surveying'
+                if i == '2.4':
+                    return 'Levelling'
+                if i == '2.5':
+                    return 'Minor Instruments'
+                if i == '2.6':
+                    return 'Computation Of Land'
+                if i == '2.7':
+                    return 'Plane Table Survey'
+                if i == '2.8':
+                    return 'Contours And Contouring'
+                if i == '2.9':
+                    return 'Theodolite Survey'
+                if i == '50.1':
+                    return 'Curve And Curves Setting'
         if subject == 'LocoPilot_Diesel':
                 if i == '1.1':
                     return 'Introduction to Engine & Development'
@@ -7785,7 +7860,34 @@ class Teach:
         if subject == 'Civil':
             for i in arr:
                 if i == '2.1':
-                    names.append('Surveying Engineering')
+                    names.append('Land Surveying Basic Principal And Classification')
+                    numbers.append(i)
+                if i == '2.2':
+                    names.append('Chain Surveying')
+                    numbers.append(i)
+                if i == '2.3':
+                    names.append('Compass Surveying')
+                    numbers.append(i)
+                if i == '2.4':
+                    names.append('Levelling')
+                    numbers.append(i)
+                if i == '2.5':
+                    names.append('Minor Instruments')
+                    numbers.append(i)
+                if i == '2.6':
+                    names.append('Computation Of Land')
+                    numbers.append(i)
+                if i == '2.7':
+                    names.append('Plane Table Survey')
+                    numbers.append(i)
+                if i == '2.8':
+                    names.append('Contours And Contouring')
+                    numbers.append(i)
+                if i == '2.9':
+                    names.append('Theodolite Survey')
+                    numbers.append(i)
+                if i == '50.1':
+                    names.append('Curve And Curves Setting')
                     numbers.append(i)
             return list(zip(names,numbers))
 
@@ -8872,12 +8974,42 @@ class Teach:
             return list(zip(names,numbers))
 
         if subject == 'Civil':
-            for i,j in arr:
+            for i, j in arr:
                 if i == '2.1':
-                    names.append('Surveying Engineering')
+                    names.append('Land Surveying Basic Principal And Classification')
+                    numbers.append(j)
+                if i == '2.2':
+                    names.append('Chain Surveying')
+                    numbers.append(j)
+                if i == '2.3':
+                    names.append('Compass Surveying')
+                    numbers.append(j)
+                if i == '2.4':
+                    names.append('Levelling')
+                    numbers.append(j)
+                if i == '2.5':
+                    names.append('Minor Instruments')
+                    numbers.append(j)
+                if i == '2.6':
+                    names.append('Computation Of Land')
+                    numbers.append(j)
+                if i == '2.7':
+                    names.append('Plane Table Survey')
+                    numbers.append(j)
+                if i == '2.8':
+                    names.append('Contours And Contouring')
+                    numbers.append(j)
+                if i == '2.9':
+                    names.append('Theodolite Survey')
+                    numbers.append(j)
+                if i == '50.1':
+                    names.append('Curve And Curves Setting')
                     numbers.append(j)
 
             return list(zip(names,numbers))
+
+
+
         if subject == 'LocoPilot_Diesel':
             for i,j in arr:
                 if i == '1.1':
@@ -9661,9 +9793,29 @@ class Teach:
 
         if subject == 'Civil':
             for i in arr:
-                if i == 'Surveying Engineering':
+                if i == 'Land Surveying Basic Principal And Classification':
                     numbers.append('2.1')
+                if i == 'Chain Surveying':
+                    numbers.append('2.2')
+                if i == 'Compass Surveying':
+                    numbers.append('2.3')
+                if i == 'Levelling':
+                    numbers.append('2.4')
+                if i == 'Minor Instruments':
+                    numbers.append('2.5')
+                if i == 'Computation Of Land':
+                    numbers.append('2.6')
+                if i == 'Plane Table Survey':
+                    numbers.append('2.7')
+                if i == 'Contours And Contouring':
+                    numbers.append('2.8')
+                if i == 'Theodolite Survey':
+                    numbers.append('2.9')
+                if i == 'Curve And Curves Setting':
+                    numbers.append('50.1')
+
             return numbers
+
         if subject == 'LocoPilot_Diesel':
             for i in arr:
                 if i == 'Introduction to Engine & Development':
@@ -10718,10 +10870,38 @@ def change_topicNumbersNames(arr,subject):
         if subject == 'Civil':
             for i in arr:
                 if i == '2.1':
-                    names.append('Surveying Engineering')
+                    names.append('Land Surveying Basic Principal And Classification')
+                    numbers.append(i)
+                if i == '2.2':
+                    names.append('Chain Surveying')
+                    numbers.append(i)
+                if i == '2.3':
+                    names.append('Compass Surveying')
+                    numbers.append(i)
+                if i == '2.4':
+                    names.append('Levelling')
+                    numbers.append(i)
+                if i == '2.5':
+                    names.append('Minor Instruments')
+                    numbers.append(i)
+                if i == '2.6':
+                    names.append('Computation Of Land')
+                    numbers.append(i)
+                if i == '2.7':
+                    names.append('Plane Table Survey')
+                    numbers.append(i)
+                if i == '2.8':
+                    names.append('Contours And Contouring')
+                    numbers.append(i)
+                if i == '2.9':
+                    names.append('Theodolite Survey')
+                    numbers.append(i)
+                if i == '50.1':
+                    names.append('Curve And Curves Setting')
                     numbers.append(i)
 
             return list(zip(names,numbers))
+
         if subject == 'LocoPilot_Diesel':
             for i in arr:
                 if i == '1.1':
@@ -11465,8 +11645,27 @@ def changeIndividualNames(i,subject):
         
         
     if subject == 'Civil':
-        if i == '2.1':
-            return 'Surveying Engineering'
+            if i == '2.1':
+                return 'Land Surveying Basic Principal And Classification'
+            if i == '2.2':
+                return 'Chain Surveying'
+            if i == '2.3':
+                return 'Compass Surveying'
+            if i == '2.4':
+                return 'Levelling'
+            if i == '2.5':
+                return 'Minor Instruments'
+            if i == '2.6':
+                return 'Computation Of Land'
+            if i == '2.7':
+                return 'Plane Table Survey'
+            if i == '2.8':
+                return 'Contours And Contouring'
+            if i == '2.9':
+                return 'Theodolite Survey'
+            if i == '50.1':
+                return 'Curve And Curves Setting'
+
     if subject == 'LocoPilot_Diesel':
         if i == '1.1':
             return 'Introduction to Engine & Development'

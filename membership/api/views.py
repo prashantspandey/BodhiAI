@@ -122,9 +122,11 @@ class TeacherStudentConfirmedAPIView(APIView):
             subLocoPilot_diesel =\
             Subject(name="LocoPilot_Diesel",student=student,teacher=me.profile)
             subLocoPilot_diesel.save()
+            subCivil =\
+            Subject(name='Civil_Loco_Pilot_Tech',student=stud,teacher=teacher)
 
 
-
+            subCivil.save() 
             subMaths.save()
             subEnglish.save()
             subGenSci.save()
@@ -140,6 +142,9 @@ class TeacherStudentConfirmedAPIView(APIView):
             subEnglish = Subject(name="English",student=student,teacher=me.profile)
             subGenKnow = Subject(name="General-Knowledge",student=student,teacher=me.profile)
             subGenSci = Subject(name="General-Science",student=student,teacher=me.profile)
+            subCivil =\
+            Subject(name='Civil_Loco_Pilot_Tech',student=stud,teacher=teacher)
+            subCivil.save()
             subMaths.save()
             subGenSci.save()
             subEnglish.save()
@@ -175,10 +180,12 @@ class TeacherStudentConfirmedAPIView(APIView):
             subLocoPilot_diesel =\
             Subject(name="LocoPilot_Diesel",student=student,teacher=me.profile)
             subLocoPilot_diesel.save()
+            subCivil =\
+            Subject(name='Civil_Loco_Pilot_Tech',student=stud,teacher=teacher)
 
 
 
-
+            subCivil.save()
             subGenKnow.save()
         confirmation.confirm = True
         confirmation.batch = batch
@@ -220,10 +227,13 @@ def add_subjects(course,stud,teacher):
         subGenKnow =\
         Subject(name="General-Knowledge",student=stud,teacher=teacher)
         subGenSci = Subject(name="General-Science",student=stud,teacher=teacher)
+        subCivil =\
+        Subject(name='Civil_Loco_Pilot_Tech',student=stud,teacher=teacher)
         subMaths.save()
         subGenSci.save()
         subEnglish.save()
         subGenKnow.save()
+        subCivil.save()
     elif course == 'Loco':
        subGenInte =\
        Subject(name="General-Intelligence",student=stud,teacher=teacher)
@@ -242,9 +252,12 @@ def add_subjects(course,stud,teacher):
        subLocoPilot_diesel =\
        Subject(name="LocoPilot_Diesel",student=stud,teacher=teacher)
        subLocoPilot_diesel.save()
+       subCivil =\
+       Subject(name='Civil_Loco_Pilot_Tech',student=stud,teacher=teacher)
 
 
 
+       subCivil.save()
        subMaths.save()
        subEnglish.save()
        subGenSci.save()
