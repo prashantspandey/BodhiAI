@@ -1816,7 +1816,8 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
                                                                      student,subject
                                                                      =
                                                                      subject,chapter
-                                                                     = chapter)
+                                                                     =
+                                                                       str(chapter))
             old_right_ave = timing_cache.rightAverage
             old_wrong_ave = timing_cache.wrongAverage
             old_total_attempted = timing_cache.totalAttempted
@@ -2016,6 +2017,9 @@ def CreateUpdateStudentWeakAreas(student_id,subject,mark_id):
             skippedPercent = (skipped / (all_questions_attempted))*100
 
             new_cache = StudentWeakAreasChapterCache()
+            new_cache.student = student
+            new_cache.subject = subject
+            new_cache.chapter = chapter
             new_cache.totalRight = right
             new_cache.totalWrong = wrong
             new_cache.totalSkipped = skipped
