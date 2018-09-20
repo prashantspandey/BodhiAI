@@ -796,6 +796,7 @@ class StudentAccuracyBriefAPIView(APIView):
         for wa in weak_areas_cache:
             subject = wa.subject
             chapter = wa.chapter
+            chapter_name = changeIndividualNames(chapter,subject)
             accuracy = 100 - wa.accuracy
             weak_areas =\
             {'subject':subject,'chapter':chapter,'accuracy':accuracy}
@@ -1336,4 +1337,10 @@ class TeacherEditBatchesFinal(APIView):
         addOldTests.delay(student.id,me.profile.id,kl.id)
         serializer = StudentConfirmationSerializer(confirmation)
         return Response(serializer)
-
+class CreateBatchAPIView(APIView):
+    def get(self,request,*args,**kwargs):
+        me = Teach(self.request.user)
+        teachers = Teacher.objects.filter(school = me.profile.school)
+        teacher_serializer = TeacherSerializer(teachers,many=True)
+        context  = {'teachers':teacher_serializer.data}
+        return Response(context)

@@ -66,6 +66,8 @@ urlpatterns = [
     url(r'teacher_edit_batch_2/$',views.TeacherEditBatchesSendBatch.as_view(),name='TeacherEditBatch2'),
 # Teacher batch change final 
     url(r'teacher_edit_batch_final/$',views.TeacherEditBatchesFinal.as_view(),name='TeacherEditBatchFinal'),
+# Teacher create batch 
+    url(r'teacher_create_batch1/$',views.CreateBatchAPIView.as_view(),name='TeacherCreateBatch'),
 
 
 ]
