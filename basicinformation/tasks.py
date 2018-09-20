@@ -1811,6 +1811,9 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
         chapters.append(quest.topic_category)
 
     for chapter in chapters:
+        print(chapter)
+        print(type(chapter))
+
         try:
             timing_cache = StudentAverageTimingDetailCache.objects.get(student =
                                                                      student,subject
@@ -1936,12 +1939,14 @@ def CreateUpdateStudentWeakAreas(student_id,subject,mark_id):
 
 
     for chapter in chapters:
+        print(chapter)
+        print(type(chapter))
         try:
             old_cache =\
                     StudentWeakAreasChapterCache.objects.get(student = student,
                                                              subject =
                                                              subject,chapter =
-                                                             chapter)
+                                                             str(chapter))
             old_total_right = old_cache.totalRight
             old_total_wrong = old_cache.totalWrong
             old_skipped = old_cache.totalSkipped
