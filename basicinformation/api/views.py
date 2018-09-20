@@ -11,6 +11,7 @@ from basicinformation.marksprediction import *
 from QuestionsAndPapers.models import *
 from basicinformation.models import *
 from basicinformation.marksprediction import *
+from membership.api.views import add_subjects
 import json
 from basicinformation.nameconversions import *
 from membership.api.serializers import *
@@ -1309,3 +1310,30 @@ class TeacherEditBatches(APIView):
         serializer =\
         StudentConfirmationSerializer(batch_confirmations,many=True)
         return Response(serializer.data)
+
+class TeacherEditBatchesSendBatch(APIView):
+    def get(self,request):
+        me = Teach(self.request.user)
+        klass = me.my_classes_names_cache()
+        context = {'klasses':klass}
+        return Response(context)
+
+class TeacherEditBatchesFinal(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Teach(self.request.user)
+        klass = request.POST['klass']
+        confirmation_id = request.POST['confirmation_id']
+        kl = klass.objects.get(name = klass,school = me.profile.school)
+        confirmation = StudentConfirmation.objects.get(id = confirmation_id)
+        confirmation.batch = kl
+        confirmation.save()
+        student = confirmation.student
+        if kl.name == 'SSC' or kl.name == 'RailwayGroupD':
+            course = 'SSC'
+        if kl.name == 'LocoPilot' or kl.name == 'Outer':
+            course = 'Loco'
+        add_subjects(course,student,me.profile)
+        addOldTests.delay(student.id,me.profile.id,kl.id)
+        serializer = StudentConfirmationSerializer(confirmation)
+        return Response(serializer)
+
