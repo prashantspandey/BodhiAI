@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from basicinformation.models import *
-from QuestionsAndPapers.models import *
 # Create your models here.
 
 class RecommendedContent(models.Model):

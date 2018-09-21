@@ -1,6 +1,6 @@
 from django.db import models
 from basicinformation.models import *
-from Recommendations.models import *
+from Recommendations.models import Concepts
 from django.contrib.auth.models import User 
 from django.contrib.postgres.fields import ArrayField
 
