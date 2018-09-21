@@ -28,6 +28,4 @@ class Concept(models.Model):
 
 
     def __str__(self):
-        return str(self.question.id) +' '+ str(self.name) + ' ' +\
-    str(self.subject)\
-    + ' ' + str(self.chapter)
+        return str(self.subject) +' '+ str(self.chapter) +' '+ str(self.concpet_number)
