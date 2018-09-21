@@ -1347,8 +1347,18 @@ class CreateBatchAPIView(APIView):
         me = Teach(self.request.user)
         teachers = Teacher.objects.filter(school = me.profile.school)
         teacher_serializer = TeacherSerializer(teachers,many=True)
-        context  = {'teachers':teacher_serializer.data}
+        subjects = me.my_subjects_names()
+
+        context  = {'teachers':teacher_serializer.data,'subjects':subjects}
         return Response(context)
+
+class CreateBatchFinalAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Teach(self.request.user)
+        teacher = request.POST['teacher_id']
+        name = request.POST['batch_name']
+        return response({'hello':'hello'})
+
 
 
 class checkAndroidUpdateAPIView(APIView):
