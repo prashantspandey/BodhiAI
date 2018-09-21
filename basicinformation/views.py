@@ -327,13 +327,13 @@ def home(request):
             #['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
             sheet_links = \
                     ['c_1.csv','c_2.csv','c_3.csv','c_4.csv','c_5.csv','c_6.csv','c_7.csv','c_8.csv','c_9.csv','c_10.csv']
+            add_concepts()
             #sheet_links2 = \
             #        ['1f.csv']
             #adding_quest =\
             #delete_allQuestions.delay("JEN")
             #allquestions_institute.delay('English',"JEN")
             #add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
-            delete_concepts()
             #students = Student.objects.filter(school__name = "JEN")
             #jen_teacher = Teacher.objects.get(school__name = "JEN")
             #for stud in students:
@@ -2895,5 +2895,25 @@ def delete_concepts():
     for i in concepts:
         i.delete()
 
+def add_concepts():
+    df =\
+    pd.read_csv('/app/question_data/helper/si_categories.csv')
+    quest_ids = df['question_id']
+    cons = df['concept_id']
+    overall = list(zip(quest_ids,cons))
+    for i,j in overall:
+        quest = SSCquestions.objects.get(id = i)
+        if ',' in j:
+            kk = j.split(',')
+            for n in kk:
+                c = Concepts.objects.get(concept_number = int(n))
+                c.question = quest
+                c.save()
+        else:
+            c = Concepts.objects.get(concept_number = int(n))
+            c.question = quest
+            c.save()
 
+            print('{} normal'.format(j))
 
+        
