@@ -21,6 +21,7 @@ from django.contrib.auth.models import User, Group
 from .models import *
 from django.utils import timezone
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from Recommendations.models import *
 # from .marksprediction import predictionConvertion, readmarks, averageoftest, teacher_get_students_classwise 
 from .marksprediction import *
 from operator import itemgetter
@@ -332,10 +333,11 @@ def home(request):
             #delete_allQuestions.delay("JEN")
             #allquestions_institute.delay('English',"JEN")
             #add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
-            students = Student.objects.filter(school__name = "JEN")
-            jen_teacher = Teacher.objects.get(school__name = "JEN")
-            for stud in students:
-                add_subjects_new.delay("Civil_Loco_Pilot_Tech",stud.id,jen_teacher.id)
+            delete_concepts()
+            #students = Student.objects.filter(school__name = "JEN")
+            #jen_teacher = Teacher.objects.get(school__name = "JEN")
+            #for stud in students:
+            #    add_subjects_new.delay("Civil_Loco_Pilot_Tech",stud.id,jen_teacher.id)
             #add_png.delay()
             #school_name = 'JEN'
             #batch = 'LocoPilot'
@@ -2888,7 +2890,10 @@ def change_question_marks(subject):
         i.negative_marks = 0
         i.save()
 
-
+def delete_concepts():
+    concepts = Concept.objects.all()
+    for i in concepts:
+        i.delete()
 
 
 
