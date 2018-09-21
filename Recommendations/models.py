@@ -23,8 +23,8 @@ class Concept(models.Model):
     name = models.CharField(max_length=200)
     content = models.ForeignKey(RecommendedContent,null=True,blank=True)
     subject = models.CharField(max_length =200)
-    chapter = models.FloatField()
-    concpet_number = models.IntegerField()
+    chapter = models.FloatField(blank=True,null=True)
+    concpet_number = models.IntegerField(blank=True,null=True)
 
 
     def __str__(self):
