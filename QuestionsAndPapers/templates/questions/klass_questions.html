@@ -57,9 +57,7 @@
             {% for tused in i.timesused_set.all %} {% if tused.teacher == user.teacher %}
             <p>Times Used for <strong>{{tused.batch}}: {{tused.numUsed}}</strong></p>
             {%endif%} {%endfor%}
-	    {% if user.teacher.name == 'BodhiAI' %}
 	    <p>{{i.id}}</p>
-	    {%endif%}
 
         </div>
         {% if i.pk in idlist %}
