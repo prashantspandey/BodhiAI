@@ -163,7 +163,8 @@ class SSCquestions(models.Model):
     language = models.CharField(max_length = 20,null=True,blank=True )
     concepts = models.ManyToManyField(Concepts)
 
-
+    def __str__(self):
+        return str(self.id)
 
 class GeneralDifficulty(models.Model):
     average_difficulty = models.FloatField()
