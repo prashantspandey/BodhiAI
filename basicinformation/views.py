@@ -2907,12 +2907,10 @@ def add_concepts():
             kk = j.split(',')
             for n in kk:
                 c = Concepts.objects.get(concept_number = int(n))
-                c.question = quest
-                c.save()
+                quest.concepts.add(c)
         else:
-            c = Concepts.objects.get(concept_number = int(n))
-            c.question = quest
-            c.save()
+            c = Concepts.objects.get(concept_number = int(j))
+            quest.concepts.add(c)
 
             print('{} normal'.format(j))
 

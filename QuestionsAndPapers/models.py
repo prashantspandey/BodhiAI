@@ -1,7 +1,11 @@
 from django.db import models
 from basicinformation.models import *
+from Recommendations.models import *
 from django.contrib.auth.models import User 
 from django.contrib.postgres.fields import ArrayField
+
+
+
 # Create your models here.  
 class KlassTest(models.Model): 
     mode_choices =\
@@ -157,7 +161,7 @@ class SSCquestions(models.Model):
     source = models.CharField(max_length= 50,null=True,blank=True)
     dateInserted = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     language = models.CharField(max_length = 20,null=True,blank=True )
-
+    concepts = models.ManyToManyField(Concepts)
 
 
 
