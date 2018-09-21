@@ -143,6 +143,16 @@ class TeacherClasses(models.Model):
         return str(self.teacher)+str(self.klass)
 
 
+class AndroidAppVersion(models.Model):
+    package_name = models.CharField(max_length=200)
+    version_code = models.IntegerField()
+    time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.package_name) + ' ' + str(self.version_code)
+
+
+
 #class ImprovementStudent(models.Model):
 #    testid = ArrayField(models.IntegerField())
 #    percent = ArrayField(models.CharField(max_length=10))

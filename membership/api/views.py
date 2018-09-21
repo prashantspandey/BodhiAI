@@ -123,7 +123,7 @@ class TeacherStudentConfirmedAPIView(APIView):
             Subject(name="LocoPilot_Diesel",student=student,teacher=me.profile)
             subLocoPilot_diesel.save()
             subCivil =\
-            Subject(name='Civil_Loco_Pilot_Tech',student=stud,teacher=teacher)
+            Subject(name='Civil_Loco_Pilot_Tech',student=student,teacher=teacher)
 
 
             subCivil.save() 
@@ -143,7 +143,7 @@ class TeacherStudentConfirmedAPIView(APIView):
             subGenKnow = Subject(name="General-Knowledge",student=student,teacher=me.profile)
             subGenSci = Subject(name="General-Science",student=student,teacher=me.profile)
             subCivil =\
-            Subject(name='Civil_Loco_Pilot_Tech',student=stud,teacher=teacher)
+            Subject(name='Civil_Loco_Pilot_Tech',student=student,teacher=teacher)
             subCivil.save()
             subMaths.save()
             subGenSci.save()
@@ -181,7 +181,7 @@ class TeacherStudentConfirmedAPIView(APIView):
             Subject(name="LocoPilot_Diesel",student=student,teacher=me.profile)
             subLocoPilot_diesel.save()
             subCivil =\
-            Subject(name='Civil_Loco_Pilot_Tech',student=stud,teacher=teacher)
+            Subject(name='Civil_Loco_Pilot_Tech',student=student,teacher=teacher)
 
 
 
