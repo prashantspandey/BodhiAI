@@ -71,6 +71,9 @@ urlpatterns = [
     url(r'teacher_create_batch1/$',views.CreateBatchAPIView.as_view(),name='TeacherCreateBatch'),
 # Check Android Version 
     url(r'android_version/$',views.checkAndroidUpdateAPIView.as_view(),name='CheckAndroidUpdate'),
+# Delete Bad Tests
+    url(r'delete_bad_tests/$',views.DeleteBadTestsAPIView.as_view(),name='DeleteBadTests'),
+
 
 
 ]

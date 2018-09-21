@@ -555,6 +555,7 @@ class StudentSmartTestCreationAPIView(APIView):
         weakAreasCache = StudentWeakAreasChapterCache.objects.filter(student =
                                                                     me.profile,subject
                                                                     = subject)
+        print('{} total weak areas cache'.format(weakAreasCache))
         chapters = []
         all_chapters = []
         all_accuracies = []

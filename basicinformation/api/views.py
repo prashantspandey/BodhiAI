@@ -1394,3 +1394,7 @@ class checkAndroidUpdateAPIView(APIView):
             new_entry.save()
             return Response({'new_version':False})
 
+class DeleteBadTestsAPIView(APIView):
+    def get(self,request,format=None):
+        deleteBadTests.delay()
+        return Response({'deleted':'success'})
