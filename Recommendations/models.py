@@ -29,3 +29,15 @@ class RecommendedContent(models.Model):
 #
 #    def __str__(self):
 #        return str(self.subject) +' '+ str(self.chapter) 
+
+class Concepts(models.Model):
+    question = models.ForeignKey(SSCquestions,null=True,blank=True)
+    name = models.CharField(max_length=200)
+    content = models.ForeignKey(RecommendedContent,null=True,blank=True)
+    subject = models.CharField(max_length =200)
+    chapter = models.FloatField(blank=True,null=True)
+    concept_number = models.IntegerField(blank=True,null=True)
+
+
+    def __str__(self):
+        return str(self.subject) +' '+ str(self.chapter) 
