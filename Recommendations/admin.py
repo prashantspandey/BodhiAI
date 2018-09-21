@@ -3,4 +3,4 @@ from .models import *
 # Register your models here.
 
 admin.site.register(RecommendedContent)
-admin.site.register(Concept)
+#admin.site.register(Concept)
