@@ -19,11 +19,12 @@ class RecommendedContent(models.Model):
         return str(self.subject) + str(self.chapter) + str(self.title)
 
 class Concept(models.Model):
-    question = models.ForeignKey(SSCquestions)
+    question = models.ForeignKey(SSCquestions,null=True,blank=True)
     name = models.CharField(max_length=200)
-    content = models.ForeignKey(RecommendedContent)
+    content = models.ForeignKey(RecommendedContent,null=True,blank=True)
     subject = models.CharField(max_length =200)
     chapter = models.FloatField()
+    concpet_number = models.IntegerField()
 
 
     def __str__(self):
