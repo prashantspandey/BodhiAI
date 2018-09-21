@@ -461,7 +461,7 @@ class StudentTakeTestAPIView(APIView):
     def post(self,request,*args,**kwargs):
         me = Studs(self.request.user)
         test_id = request.POST['test_id']
-        test = SSCKlassTest.objects.get(id = test_id)
+        test = SSCKlassTest.objects.get(id = int(test_id))
         #questions = test.sscquestions_set.all()
         serializer = TestSerializer(test)
         return Response(serializer.data)
