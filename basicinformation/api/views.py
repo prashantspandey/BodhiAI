@@ -1357,6 +1357,8 @@ class CreateBatchFinalAPIView(APIView):
         me = Teach(self.request.user)
         teacher = request.POST['teacher_id']
         name = request.POST['batch_name']
+        subjects = request.POST['subjects']
+        print(teacher,name,subjects)
         return response({'hello':'hello'})
 
 

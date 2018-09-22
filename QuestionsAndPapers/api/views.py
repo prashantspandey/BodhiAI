@@ -554,7 +554,6 @@ class StudentSmartTestCreationAPIView(APIView):
         weakAreasCache = StudentWeakAreasChapterCache.objects.filter(student =
                                                                     me.profile,subject
                                                                     = subject)
-        print('{} total weak areas cache'.format(weakAreasCache))
         chapters = []
         all_chapters = []
         all_accuracies = []
@@ -564,7 +563,6 @@ class StudentSmartTestCreationAPIView(APIView):
                 all_accuracies.append(wac.accuracy)
         all_weakness = list(zip(all_chapters,all_accuracies))
         ordered_chapters = sorted(all_weakness,key=lambda x: x[1])
-        print(ordered_chapters)
 
 
 
@@ -625,8 +623,7 @@ class StudentSmartTestCreationAPIView(APIView):
         weakar = []
         for i,j in weak_names:
             weakar.append(i)
-        test_serializer = TestSerializer(smartTest)
-        context = {'weakAreas':weakar,'test':test_serializer.data}
+        context = {'weakAreas':weakar,'test':smartTest.id}
         return Response(context)
 
 
