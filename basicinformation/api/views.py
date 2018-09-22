@@ -1383,6 +1383,8 @@ class checkAndroidUpdateAPIView(APIView):
             new_entry.time = timezone.now()
             new_entry.version_code = version_code
             new_entry.save()
+            for i in entry:
+                i.delete()
             return Response({'new_version':False})
 
 
