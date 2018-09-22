@@ -159,6 +159,15 @@ class StudentTestTakenSubjectsCache(models.Model):
 
     def __str__(self):
         return str(self.student) 
+
+class CustomBatch(models.Model):
+    klass = models.ForeignKey(klass)
+    subjects = ArrayField(models.CharField(max_length=200))
+    school = models.ForeignKey(School)
+    teacher = models.ForeignKey(Teacher)
+
+    def __str__(self):
+        return str(self.school) + ' ' + str(self.subjects)
 #class ImprovementStudent(models.Model):
 #    testid = ArrayField(models.IntegerField())
 #    percent = ArrayField(models.CharField(max_length=10))

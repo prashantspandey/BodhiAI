@@ -109,6 +109,15 @@ class TeacherStudentConfirmedAPIView(APIView):
         subs = Subject.objects.filter(student = student)
         for i in subs:
             i.delete()
+        custom_batches = CustomBatch.objects.filter(school = school)
+        for cb in custom_batches:
+            custom_bat = cb.klass
+            if batch == custom_bat:
+                subjects = cb.subjects
+                for sub in subjects:
+                    addSub = Subject(name =
+                                     sub,student=student,teacher=me.profile)
+                    addSub.save()
         if batch.name == 'LocoPilot':
             subGenInte = Subject(name="General-Intelligence",student=student,teacher=me.profile)
             subGenInte.save()

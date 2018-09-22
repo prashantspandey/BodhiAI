@@ -1358,8 +1358,23 @@ class CreateBatchFinalAPIView(APIView):
         teacher = request.POST['teacher_id']
         name = request.POST['batch_name']
         subjects = request.POST['subjects']
-        print(teacher,name,subjects)
-        return Response({'hello':'hello'})
+        subjects = subjects.split(',')
+        kl = klass()
+        kl.level = 'SSC'
+        kl.name = name
+        kl.school = me.profile.school
+        kl.save()
+        teacher = Teacher.objects.get(id = teacher)
+        custom_batch = CustomBatch()
+        custom_batch.klass = kl
+        custom_batch.school = me.profile.school
+        custom_batch.teacher = teacher
+        custom_batch.subjects = subjects
+        custom_batch.save()
+        teacher_serializer = TeacherSerializer(teacher)
+        context =\
+        {'name':name,'teacher':teacher_serializer.data,'subjects':subjects}
+        return Response(context)
 
 
 
