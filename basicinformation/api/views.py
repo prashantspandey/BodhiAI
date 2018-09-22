@@ -1369,7 +1369,6 @@ class checkAndroidUpdateAPIView(APIView):
         version_code = request.POST['version_code']
         entry = AndroidAppVersion.objects.filter(package_name =
                                                  package_name).order_by('time')
-        already_exist = False
         new_version = False
         if len(entry) != 0:
             for i in entry:
@@ -1378,13 +1377,12 @@ class checkAndroidUpdateAPIView(APIView):
                     context = {'new_version':new_version}
                     return Response(context)
                 elif int(version_code) == i.version_code:
-                    already_exist = True
-            if new_version and not already_exist:
-                new_entry = AndroidAppVersion()
-                new_entry.package_name = package_name
-                new_entry.time = timezone.now()
-                new_entry.version_code = version_code
-                new_entry.save()
+                    return Response({'new_version':False})
+            new_entry = AndroidAppVersion()
+            new_entry.package_name = package_name
+            new_entry.time = timezone.now()
+            new_entry.version_code = version_code
+            new_entry.save()
             return Response({'new_version':False})
 
 
