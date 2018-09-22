@@ -1373,11 +1373,11 @@ class checkAndroidUpdateAPIView(APIView):
         new_version = False
         if len(entry) != 0:
             for i in entry:
-                if version_code < i.version_code:
+                if int(version_code) < i.version_code:
                     new_version = True
                     context = {'new_version':new_version}
                     return Response(context)
-                elif version_code == i.version_code:
+                elif int(version_code) == i.version_code:
                     already_exist = True
             if new_version and not already_exist:
                 new_entry = AndroidAppVersion()
@@ -1400,3 +1400,24 @@ class DeleteBadTestsAPIView(APIView):
     def get(self,request,format=None):
         deleteBadTests.delay()
         return Response({'deleted':'success'})
+
+
+class StudentSubjectsAPIView(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        subjects = me.my_subjects_names()
+        context = {'subjects':subjects}
+        return Response(context)
+
+
+class StudentFilledProfileAPIView(APIView):
+    def get(self,request):
+        me = Studs(self.request.user)
+        profile = StudentDetails.objects.get(student = me.profile)
+        phone = profile.phone
+        if phone == '' or phone is None:
+            return Response({'filled':False})
+        else:
+            return Response({'filled':True})
+
+

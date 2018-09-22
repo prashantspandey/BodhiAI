@@ -152,7 +152,13 @@ class AndroidAppVersion(models.Model):
         return str(self.package_name) + ' ' + str(self.version_code)
 
 
+class StudentTestTakenSubjectsCache(models.Model):
+    student = models.ForeignKey(Student)
+    subjects = ArrayField(models.CharField(max_length=200))
 
+
+    def __str__(self):
+        return str(self.student) 
 #class ImprovementStudent(models.Model):
 #    testid = ArrayField(models.IntegerField())
 #    percent = ArrayField(models.CharField(max_length=10))
