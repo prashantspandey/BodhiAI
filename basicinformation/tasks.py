@@ -1548,12 +1548,10 @@ def TeacherHardQuestionsLast3TestsAsync(user_id):
 @shared_task
 def deleteBadTests():
     quest_bad = SSCKlassTest.objects.all()
-    print('{} total bad tests'.format(len(quest_bad)))
     for quest in quest_bad:
         if quest.sub == "":
             quest.delete()
         if len(quest.sscquestions_set.all()) == 0:
-            print('found bad test')
             quest.delete()
 @shared_task
 def add_questions(institute,section):
@@ -2104,11 +2102,14 @@ def get_chapters_withCode(subject):
         for tp in range(1,20):
             topic_choice.append(str(ch) + '.' + str(tp))
     all_chapters = []
+    chapter_names = []
     for tp in topic_choice:
         chap = changeIndividualNames(tp,subject)
         if chap is not None:
             all_chapters.append(tp)
-    return all_chapters
+            chapter_names.append(chap)
+    final_chapter = list(zip(all_chapters,chapter_names))
+    return final_chapter
 
 
 @shared_task
@@ -2176,4 +2177,16 @@ def add_subjects_new(course,stud_id,teacher_id):
     Subject(name=course,student=stud,teacher=teacher)
     sub.save()
 
-
+@shared_task
+def addChapter(subject):
+    chapts = get_chapters_withCode(subject)
+    for cd,na in chapts:
+        try:
+            custom_chap = SubjectChapters.objects.get(subject = subject,code  =
+                                                      cd)
+        except:
+            custom_chap = SubjectChapters()
+            custom_chap.subject = subject
+            custom_chap.code = cd
+            custom_chap.name = na
+            custom_chap.save()
