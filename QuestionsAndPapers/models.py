@@ -504,12 +504,10 @@ class StudentWeakAreasChapterCache(models.Model):
     totalWrong = models.IntegerField()
     totalSkipped = models.IntegerField()
     skippedPercent = models.FloatField()
-
-
-
     def __str__(self):
         return str(self.student) + " " + str(self.subject) + " " +\
     str(self.chapter)
+
 
 
 

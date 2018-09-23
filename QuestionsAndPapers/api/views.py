@@ -340,6 +340,7 @@ class TeacherOneClickConfirmAPIView(APIView):
    
 class TeacherOneClickFinalAPIView(APIView):
     def post(self,request,*args,**kwargs):
+        print('in one click final')
         subject = request.POST['subject']
         batch = request.POST['batch']
         quest_ids = request.POST['quest_ids']

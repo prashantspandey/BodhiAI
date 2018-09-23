@@ -2098,6 +2098,18 @@ def get_chapters(subject):
             all_chapters.append(tp)
     return all_chapters
 
+def get_chapters_withCode(subject):
+    topic_choice = []
+    for ch in range(1,50):
+        for tp in range(1,20):
+            topic_choice.append(str(ch) + '.' + str(tp))
+    all_chapters = []
+    for tp in topic_choice:
+        chap = changeIndividualNames(tp,subject)
+        if chap is not None:
+            all_chapters.append(tp)
+    return all_chapters
+
 
 @shared_task
 def create_cache_weak_areas():
