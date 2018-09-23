@@ -2,6 +2,7 @@ from celery import shared_task
 from rest_framework.response import Response
 from django.shortcuts import render, HttpResponseRedirect, reverse, redirect
 from .models import *
+from learning.models import *
 from QuestionsAndPapers.models import *
 from django.utils import timezone
 from more_itertools import unique_everseen
