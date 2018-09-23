@@ -1972,7 +1972,7 @@ def create_timing_cache_detail():
         u_subjects = []
         for i in subjects:
             u_subjects.append(i.name)
-        unique_subjects = list(unique_everseen(U_subjects))
+        unique_subjects = list(unique_everseen(u_subjects))
 
         for subject in unique_subjects:
             chapters = get_chapters(subject)
