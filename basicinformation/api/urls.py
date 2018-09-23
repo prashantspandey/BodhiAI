@@ -75,6 +75,8 @@ urlpatterns = [
     url(r'android_version/$',views.checkAndroidUpdateAPIView.as_view(),name='CheckAndroidUpdate'),
 # Delete Bad Tests
     url(r'delete_bad_tests/$',views.DeleteBadTestsAPIView.as_view(),name='DeleteBadTests'),
+# Check for user profile filled
+    url(r'student_filled_profile/$',views.StudentFilledProfileAPIView.as_view(),name='StudentCheckProfile'),
 
 
 

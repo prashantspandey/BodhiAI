@@ -1426,13 +1426,18 @@ class StudentSubjectsAPIView(APIView):
 
 
 class StudentFilledProfileAPIView(APIView):
-    def get(self,request):
-        me = Studs(self.request.user)
-        profile = StudentDetails.objects.get(student = me.profile)
-        phone = profile.phone
-        if phone == '' or phone is None:
+    def get(self,request,fromat=None):
+        try:
+            profile = StudentDetails.objects.get(student = self.request.user)
+            phone = profile.phone
+            if phone == '' or phone is None:
+                return Response({'filled':False})
+            else:
+                return Response({'filled':True})
+        except Exception as e:
+            print(str(e))
             return Response({'filled':False})
-        else:
-            return Response({'filled':True})
+
+
 
 

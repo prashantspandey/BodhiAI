@@ -2164,3 +2164,4 @@ def add_subjects_new(course,stud_id,teacher_id):
     Subject(name=course,student=stud,teacher=teacher)
     sub.save()
 
+
