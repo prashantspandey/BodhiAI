@@ -1920,6 +1920,7 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
             new_timing_cache.save()
 @shared_task
 def CreateCacheForTimingDetail(student_id,subject,chapter):
+        student = Student.objects.get(id = student_id)
         marks = SSCOnlineMarks.objects.filter(test__sub = subject)
         right_time = []
         wrong_time = []
