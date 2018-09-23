@@ -1327,6 +1327,7 @@ class TeacherEditBatchesFinal(APIView):
         kl = klass.objects.get(name = klass_name,school = me.profile.school)
         confirmation = StudentConfirmation.objects.get(id = confirmation_id)
         confirmation.batch = kl
+        confirmation.confirm = True
         confirmation.save()
         student_user = confirmation.student
         student = Student.objects.get(studentuser = student_user)

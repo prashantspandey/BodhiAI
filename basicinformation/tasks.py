@@ -1918,6 +1918,66 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
             new_timing_cache.rightTotalTime = sum(right_time)
             new_timing_cache.wrongTotalTime = sum(wrong_time)
             new_timing_cache.save()
+@shared_task
+def CreateCacheForTimingDetail(student_id,subject,chapter):
+        marks = SSCOnlineMarks.objects.filter(test__sub = subject)
+        right_time = []
+        wrong_time = []
+        for ma in marks:
+            for rid in ma.rightAnswers:
+                quest = SSCquestions.objects.get(choices__id = rid)
+                if quest.section_category == subject and quest.topic_category\
+                == chapter:
+                    answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                               ma,quest=quest)
+                    right_time.append(answered.time)
+            for wid in ma.wrongAnswers:
+                quest = SSCquestions.objects.get(choices__id = rid)
+                if quest.section_category == subject and quest.topic_category\
+                == chapter:
+                    answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                               ma,quest=quest)
+                    wrong_time.append(answered.time)
+            len_right = len(right_time)
+            len_wrong = len(wrong_time)
+            if len_right == 0:
+                ave_right = 0
+            else:
+                ave_right = sum(right_time) / len_right
+            if len_wrong == 0:
+                ave_wrong = 0
+            else:
+                ave_wrong = sum(wrong_time) / len_wrong
+            print('{} averageright,{} ave wrong'.format(ave_right,ave_wrong))
+            new_timing_cache = StudentAverageTimingDetailCache()
+            new_timing_cache.student = student
+            new_timing_cache.chapter = chapter
+            new_timing_cache.subject = subject
+            new_timing_cache.rightAverage = ave_right
+            new_timing_cache.wrongAverage = ave_wrong
+            new_timing_cache.totalAttempted = len_right + len_wrong
+            new_timing_cache.rightTotal = int(len_right)
+            new_timing_cache.wrongTotal = int(len_wrong)
+            new_timing_cache.rightTotalTime = sum(right_time)
+            new_timing_cache.wrongTotalTime = sum(wrong_time)
+            new_timing_cache.save()
+
+
+@shared_task
+def create_timing_cache_detail():
+    students = Student.objects.filter(school__name = 'JEN')
+    for n,student in enumerate(students):
+        print('{} -- calculating for {}'.format(n,student))
+        subjects = student.subject_set.all()
+        u_subjects = []
+        for i in subjects:
+            u_subjects.append(i.name)
+        unique_subjects = list(unique_everseen(U_subjects))
+
+        for subject in unique_subjects:
+            chapters = get_chapters(subject)
+            for chapter in chapters:
+                CreateCacheForTimingDetail.delay(student.id,subject,chapter)
 
 
 
@@ -1945,7 +2005,6 @@ def CreateUpdateStudentWeakAreas(student_id,subject,mark_id):
             right = 0
             wrong = 0
             skipped = 0
-            print(old_total_right)
             for quest_id in marks.rightAnswers:
                 quest = SSCquestions.objects.get(choices__id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
@@ -1974,7 +2033,7 @@ def CreateUpdateStudentWeakAreas(student_id,subject,mark_id):
             new_total_wrong = old_total_wrong + wrong
             new_total_attempted = old_total_attempted + total_attempted
             new_total_skipped = old_skipped + skipped
-            new_skipped_percent = (new_total_skipped / new_total_attempted)*100
+            new_skipped_percent = (new_total_skipped /(new_total_attempted+all_questions_attempted))*100
             new_total_accuracy = (new_total_right / new_total_attempted)*100
             old_cache.totalRight = new_total_right
             old_cache.totalWrong = new_total_wrong
