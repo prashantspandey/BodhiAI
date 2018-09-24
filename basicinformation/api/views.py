@@ -1383,6 +1383,11 @@ class CreateBatchFinalAPIView(APIView):
         custom_batch.teacher = teacher
         custom_batch.subjects = subjects
         custom_batch.save()
+        klass_cache = TeacherClasses()
+        klass_cache.teacher = teacher
+        klass_cache.klass = kl
+        klass_cache.numStudents = 0
+        klass_cache.save()
         teacher_serializer = TeacherSerializer(teacher)
         context =\
         {'name':name,'teacher':teacher_serializer.data,'subjects':subjects}
