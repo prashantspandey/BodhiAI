@@ -328,8 +328,10 @@ def home(request):
             sheet_links = \
                     ['c_1.csv','c_2.csv','c_3.csv','c_4.csv','c_5.csv','c_6.csv','c_7.csv','c_8.csv','c_9.csv','c_10.csv']
             cache = StudentAverageTimingDetailCache.objects.all()
+            print('{} len of cache'.format(cache))
             for i in cache:
                 i.delete()
+                print('i deleted')
 
             #create_timing_cache_detail.delay()
             #sheet_links2 = \
