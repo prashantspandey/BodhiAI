@@ -113,7 +113,6 @@ class TeacherStudentConfirmedAPIView(APIView):
         custom_batches = CustomBatch.objects.filter(school = school)
         for cb in custom_batches:
             custom_bat = cb.klass
-            print('{} custom batch'.format(cb.name))
             if batch == custom_bat:
                 subjects = cb.subjects
                 for sub in subjects:
