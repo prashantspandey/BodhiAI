@@ -1986,7 +1986,7 @@ def CreateCacheForTimingDetail(student_id,subject,chapter):
 
 @shared_task
 def delete_timing_cache():
-    cache = StudentAverageTimingDetailCache.objects.all()
+    cache = StudentAverageTimingDetailCache.objects.all()[:1000]
     print('{} len of cache'.format(len(cache)))
     for i in cache:
         i.delete()
