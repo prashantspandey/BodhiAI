@@ -79,6 +79,10 @@ urlpatterns = [
     url(r'student_filled_profile/$',views.StudentFilledProfileAPIView.as_view(),name='StudentCheckProfile'),
 # Students all subjects
     url(r'student_my_subjects/$',views.StudentSubjectsAPIView.as_view(),name='StudentSubjects'),
+# Students average chapterwise timing detail
+    url(r'student_chapter_timing/$',views.StudentAverageTimingChapterWiseAPIView.as_view(),name='StudentAverageChapterwiseTiming'),
+# Teacher see student profile
+    url(r'teacher_studentProfile_detail/$',views.TeacherStudentProfileDetailAPIView.as_view(),name='TeacherStudentProfileDetail'),
 
 
 

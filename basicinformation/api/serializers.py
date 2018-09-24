@@ -99,3 +99,23 @@ class StudentProfileDetailsSerializer(serializers.ModelSerializer):
             'parentPhone',
 
         ]
+
+
+class StudentTimingChapterwiseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentAverageTimingDetailCache
+        fields = [
+            'id',
+            'student',
+            'subject',
+            'chapter',
+            'rightAverage',
+            'wrongAverage',
+            'totalAverage',
+            'rightTotalTime',
+            'wrongTotalTime',
+            'rightTotal',
+            'wrongTotal',
+            'totalAttempted',
+
+        ]

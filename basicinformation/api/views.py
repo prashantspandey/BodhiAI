@@ -1240,6 +1240,17 @@ class StudentAverageTimingDetailAPIView(APIView):
         context = {'result':result,'overall_average_timing':average_timing}
         return Response(context)
 
+class StudentAverageTimingChapterWiseAPIView(APIView):
+    def get(self,request,format=None):
+        me = Studs(self.request.user)
+        timing_cache = StudentAverageTimingDetailCache.objects.filter(student =
+                                                                      me.profile)
+
+        timing_serializer =\
+        StudentTimingChapterwiseSerializer(timing_cache,many=True)
+        return Response(timing_serializer.data)
+
+
 
 class TeacherAnalysisShowTestsAPIView(APIView):
     def post(self,request,*args,**kwargs):
@@ -1440,5 +1451,19 @@ class StudentFilledProfileAPIView(APIView):
             return Response({'filled':False})
 
 
+class TeacherStudentProfileDetailAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        student_id = request.POST['student_id']
+        me = Teach(self.request.user)
+        student = Student.objects.get(id = student_id)
+        student_user = student.studentuser
+        try:
+            profile = StudentDetails.objects.get(student = student_user)
+            serializer = StudentProfileDetailsSerializer(profile)
+            context ={'details':serializer.data}
+            return Response(context)
+        except:
+            context = {'details':'No profile'}
+            return Response(context)
 
 

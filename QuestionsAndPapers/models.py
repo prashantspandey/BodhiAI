@@ -488,6 +488,7 @@ class StudentAverageTimingDetailCache(models.Model):
     wrongTotal = models.IntegerField()
     rightTotalTime = models.FloatField()
     wrongTotalTime = models.FloatField()
+    totalAverage = models.FloatField()
     allMarksIds = ArrayField(models.IntegerField(),null=True)
 
     def __str__(self):

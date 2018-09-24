@@ -1827,6 +1827,7 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
             old_wrong_total = timing_cache.wrongTotalTime
             old_total_right = timing_cache.rightTotal
             old_total_wrong = timing_cache.wrongTotal
+            old_total_average = timing_cache.totalAverage
 
 
 
@@ -1848,6 +1849,9 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
                     wrong_time.append(answered.time)
             len_right = len(right_time)
             len_wrong = len(wrong_time)
+            total = len_right +  len_wrong
+            if total == 0:
+                return
             if len_right == 0:
                 ave_right = 0
             else:
@@ -1856,7 +1860,6 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
                 ave_wrong = 0
             else:
                 ave_wrong = sum(wrong_time) / len_wrong
-            total = len_right + len_wrong
             new_right_total = len_right + old_total_right
             new_wrong_total = len_wrong + old_total_wrong
             new_average_right = sum(right_time) + old_right_total
@@ -1864,9 +1867,7 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
             new_right_average_timing = new_average_right / new_right_total
             new_wrong_average_timing = new_average_wrong / new_wrong_total
             new_total_attempted = total + old_total_attempted
-            old_marks_ids =list(old_total_ids)
-            old_marks_ids.append(this.marks.id)
-            new_total_ids = old_marks_ids
+            new_average_total = (old_total_average / new_total_attempted)
             timing_cache.rightTotal = new_right_total
             timing_cache.wrongTotal = new_wrong_total
             timing_cache.totalAttempted = new_total_attempted
@@ -1874,6 +1875,7 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
             timing_cache.wrongTotalTime = new_average_wrong
             timing_cache.rightAverage = new_right_average_timing
             timing_cache.wrongAverage = new_wrong_average_timing
+            timing_cache.totalAverage = new_average_total
             timing_cache.save()
 
         except Exception as e:
@@ -1897,6 +1899,9 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
                     wrong_time.append(answered.time)
             len_right = len(right_time)
             len_wrong = len(wrong_time)
+            total = len_right + len_wrong
+            if total == 0:
+                return
             if len_right == 0:
                 ave_right = 0
             else:
@@ -1913,6 +1918,9 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
             new_timing_cache.rightAverage = ave_right
             new_timing_cache.wrongAverage = ave_wrong
             new_timing_cache.totalAttempted = len_right + len_wrong
+            new_timing_cache.totalAverage = ((right_time + wrong_time)
+                                             /(total))
+
             new_timing_cache.rightTotal = int(len_right)
             new_timing_cache.wrongTotal = int(len_wrong)
             new_timing_cache.rightTotalTime = sum(right_time)
@@ -1922,25 +1930,36 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
 def CreateCacheForTimingDetail(student_id,subject,chapter):
         student = Student.objects.get(id = student_id)
         marks = SSCOnlineMarks.objects.filter(test__sub = subject)
-        right_time = []
-        wrong_time = []
-        for ma in marks:
-            for rid in ma.rightAnswers:
-                quest = SSCquestions.objects.get(choices__id = rid)
-                if quest.section_category == subject and quest.topic_category\
-                == chapter:
-                    answered = SSCansweredQuestion.objects.get(onlineMarks =
-                                                               ma,quest=quest)
-                    right_time.append(answered.time)
-            for wid in ma.wrongAnswers:
-                quest = SSCquestions.objects.get(choices__id = rid)
-                if quest.section_category == subject and quest.topic_category\
-                == chapter:
-                    answered = SSCansweredQuestion.objects.get(onlineMarks =
-                                                               ma,quest=quest)
-                    wrong_time.append(answered.time)
+        try:
+            cache = StudentAverageTimingDetailCache.objects.get(subject
+                                                                =subject,chapter
+                                                                =
+                                                                chapter,student
+                                                                = student)
+            return
+        except:
+            right_time = []
+            wrong_time = []
+            for ma in marks:
+                for rid in ma.rightAnswers:
+                    quest = SSCquestions.objects.get(choices__id = rid)
+                    if quest.section_category == subject and quest.topic_category\
+                    == chapter:
+                        answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                                   ma,quest=quest)
+                        right_time.append(answered.time)
+                for wid in ma.wrongAnswers:
+                    quest = SSCquestions.objects.get(choices__id = rid)
+                    if quest.section_category == subject and quest.topic_category\
+                    == chapter:
+                        answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                                   ma,quest=quest)
+                        wrong_time.append(answered.time)
             len_right = len(right_time)
             len_wrong = len(wrong_time)
+            total = len_right + len_wrong
+            if total == 0:
+                return
             if len_right == 0:
                 ave_right = 0
             else:
@@ -1959,11 +1978,17 @@ def CreateCacheForTimingDetail(student_id,subject,chapter):
             new_timing_cache.totalAttempted = len_right + len_wrong
             new_timing_cache.rightTotal = int(len_right)
             new_timing_cache.wrongTotal = int(len_wrong)
+            new_timing_cache.totalAverage = ((right_time + wrong_time)
+                                             /(total))
             new_timing_cache.rightTotalTime = sum(right_time)
             new_timing_cache.wrongTotalTime = sum(wrong_time)
             new_timing_cache.save()
 
-
+@shared_task
+def delete_timing_cache():
+    cache = StudentAverageTimingDetailCache.objects.all()
+    for i in cache:
+        i.delete()
 @shared_task
 def create_timing_cache_detail():
     students = Student.objects.filter(school__name = 'JEN')
