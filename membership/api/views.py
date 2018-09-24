@@ -153,7 +153,7 @@ class TeacherStudentConfirmedAPIView(APIView):
             subGenKnow = Subject(name="General-Knowledge",student=student,teacher=me.profile)
             subGenSci = Subject(name="General-Science",student=student,teacher=me.profile)
             subCivil =\
-            Subject(name='Civil_Loco_Pilot_Tech',student=student,teacher=teacher)
+            Subject(name='Civil_Loco_Pilot_Tech',student=student,teacher=me.profile)
             subCivil.save()
             subMaths.save()
             subGenSci.save()
