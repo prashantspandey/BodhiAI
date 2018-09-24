@@ -44,6 +44,7 @@ class CustomRegistration(APIView):
                if 'ysm' in institute.lower():
                    institute = 'YSM'
                school = School.objects.get(name=institute)
+               print('{} school'.format(school.name))
                batch = klass.objects.get(school=school,name='Outer')
                stud = Student(studentuser = user,klass = batch,school =school)
                stud.studentuser.first_name = name
@@ -112,6 +113,7 @@ class TeacherStudentConfirmedAPIView(APIView):
         custom_batches = CustomBatch.objects.filter(school = school)
         for cb in custom_batches:
             custom_bat = cb.klass
+            print('{} custom batch'.format(cb.name))
             if batch == custom_bat:
                 subjects = cb.subjects
                 for sub in subjects:
