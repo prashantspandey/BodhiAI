@@ -1336,6 +1336,7 @@ class TeacherEditBatchesFinal(APIView):
         klass_name = request.POST['klass']
         confirmation_id = request.POST['confirmation_id']
         kl = klass.objects.get(name = klass_name,school = me.profile.school)
+        print('changed to {}'.format(kl.name))
         confirmation = StudentConfirmation.objects.get(id = confirmation_id)
         confirmation.batch = kl
         confirmation.confirm = True
