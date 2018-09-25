@@ -1436,14 +1436,6 @@ class DeleteBadTestsAPIView(APIView):
         return Response({'deleted':'success'})
 
 
-class StudentSubjectsAPIView(APIView):
-    def get(self,request,format=None):
-        me = Studs(self.request.user)
-        subjects = me.my_subjects_names()
-        context = {'subjects':subjects}
-        return Response(context)
-
-
 class StudentFilledProfileAPIView(APIView):
     def get(self,request,fromat=None):
         try:
