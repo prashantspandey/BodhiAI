@@ -2437,7 +2437,8 @@ def createProgressCache(student_id,subject,chap):
                                                                  subject,chapter=chap)
         print('{} for cache found'.format(student))
         return 
-    except:
+    except Exception as e:
+        print(str(e))
         right = 0
         wrong = 0
         skipped = 0 
