@@ -2425,6 +2425,7 @@ def createProgressCache(student_id,subject,chap):
                                                                  student,subject
                                                                  =
                                                                  subject,chapter=chap)
+        print('{} for cache found'.format(student))
         return 
     except:
         right = 0
@@ -2486,6 +2487,7 @@ def createProgressCache(student_id,subject,chap):
             progress.rightTime =right_ave_timing
             progress.wrongTime = wrong_ave_timing
             progress.save()
+            print('{} for student saved'.format(student))
 
 
 
