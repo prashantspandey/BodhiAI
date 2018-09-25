@@ -2278,3 +2278,214 @@ def addChapter(subject):
             custom_chap.code = cd
             custom_chap.name = na
             custom_chap.save()
+
+@shared_task
+def track_progress_cache(student_id,marks_id):
+    student = Student.objects.get(id = student_id)
+    marks = SSCOnlineMarks.objects.get(id = marks_id)
+    subject = marks.test.sub
+    chapters = get_chapters(subject)
+    for chap in chapters:
+        try:
+            progress = StudentProgressChapterCache.objects.get(student =
+                                                               student,subject =
+                                                               subject,chapter =
+                                                               chap)
+            marks_old = progress.marks
+            dates_old = progress.dates
+            skipped_old = progress.skippedPercent
+            rightPercent_old = progress.rightPercent
+            wrongPercent_old = progress.wrongPercent
+            right_timing_old = progress.rightTime
+            wrong_timing_old = progress.wrongTime
+            right = 0
+            wrong = 0
+            skipped = 0 
+            chapter_mark = 0
+            wrong_time = []
+            right_time = []
+            for quest_id in marks.rightAnswers:
+                quest = SSCquestions.objects.get(choices__id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chap:
+                    answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                               marks,quest=quest)
+                    right_time.append(answered.time)
+
+                    right += right
+                    chapter_mark += quest.max_marks
+            for quest_id in marks.wrongAnswers:
+                quest = SSCquestions.objects.get(choices__id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chap:
+                    answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                               marks,quest=quest)
+                    wrong_time.append(answered.time)
+
+
+                    wrong += wrong
+                    chapter_mark -= quest.max_marks
+            for quest_id in marks.skippedAnswers:
+                quest = SSCquestions.objects.get(id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chap:
+                    skipped += 1
+            right_percent = (right / (right+wrong))*100
+            wrong_percent = (wrong / (right+wrong))*100
+            skipped_percent = (skipped + (right+wrong+skipped)) * 100
+            marks_old.append(chapter_mark)
+            dates_old.append(str(marks.testTaken))
+            right_ave_timing = (sum(right_time) / len(right_time))
+            wrong_ave_timing = (sum(wrong_time) / len(wrong_time))
+            right_timing_old.append(right_ave_timing)
+            wrong_timing_old.append(wrong_ave_timing)
+            progress.marks = marks_old
+            progress.dates = dates_old
+            skipped_old.append(skipped_percent)
+            progress.skippedPercent = skipped_old
+            rightPercent_old.append(right_percent)
+            wrongPercent_old.append(wrong_percent)
+            progress.rightPercent = rightPercent_old
+            progress.wrongPercent = wrongPercent_old
+            progress.rightTime = right_timing_old
+            progress.wrongTime = wrong_timing_old
+            progress.save()
+            
+        except:
+            right = 0
+            wrong = 0
+            skipped = 0 
+            chapter_mark = 0
+            wrong_time = []
+            right_time = []
+
+            for quest_id in marks.rightAnswers:
+                quest = SSCquestions.objects.get(choices__id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chap:
+                    answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                               marks,quest=quest)
+                    right_time.append(answered.time)
+
+
+                    right += right
+                    chapter_mark += quest.max_marks
+            for quest_id in marks.wrongAnswers:
+                quest = SSCquestions.objects.get(choices__id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chap:
+                    answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                               marks,quest=quest)
+                    wrong_time.append(answered.time)
+
+
+                    wrong += wrong
+                    chapter_mark -= quest.max_marks
+            for quest_id in marks.skippedAnswers:
+                quest = SSCquestions.objects.get(id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chap:
+                    skipped += 1
+            if right + wrong == 0:
+                right_percent = 0
+                wrong_percent = 0
+            else:
+                right_percent = (right / (right+wrong))*100
+                wrong_percent = (wrong / (right+wrong))*100
+            skipped_percent = (skipped + (right+wrong+skipped)) * 100
+            right_ave_timing = [(sum(right_time) / len(right_time))]
+            wrong_ave_timing = [(sum(wrong_time) / len(wrong_time))]
+
+            progress = StudentProgressChapterCache()
+            right_list = [right_percent]
+            wrong_list = [wrong_percent]
+            dates = [str(marks.testTaken)]
+            test_mark = [chapter_mark]
+            skipped_percent_list = [skipped_percent]
+            progress.marks = test_mark
+            progress.rightPercent = right_list
+            progress.wrongPercent = wrong_list
+            progress.skippedPercent = skipped_percent_list
+            progress.chapter = chap
+            progress.subject = subject
+            progress.dates = dates
+            progress.student = student
+            progress.rightTime =right_ave_timing
+            progress.wrongTime = wrong_ave_timing
+            progress.save()
+
+
+@shared_task
+def createProgressCache(student_id,subject,chap):
+    student = Student.objects.get(id = student_id)
+    marks = SSCOnlineMarks.objects.filter(test__sub =
+                                          subject).order_by('testTaken')
+    try:
+        progress_cache = StudentProgressChapterCache.objects.get(student =
+                                                                 student,subject
+                                                                 =
+                                                                 subject,chapter=chap)
+        return 
+    except:
+        right = 0
+        wrong = 0
+        skipped = 0 
+        chapter_mark = 0
+        wrong_time = []
+        right_time = []
+        for ma in marks:
+            for quest_id in ma.rightAnswers:
+                quest = SSCquestions.objects.get(choices__id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chap:
+                    answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                               ma,quest=quest)
+                    right_time.append(answered.time)
+
+
+                    right += right
+                    chapter_mark += quest.max_marks
+            for quest_id in ma.wrongAnswers:
+                quest = SSCquestions.objects.get(choices__id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chap:
+                    answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                               ma,quest=quest)
+                    wrong_time.append(answered.time)
+
+
+                    wrong += wrong
+                    chapter_mark -= quest.max_marks
+            for quest_id in ma.skippedAnswers:
+                quest = SSCquestions.objects.get(id = quest_id)
+                if quest.section_category == subject and quest.topic_category\
+                ==chap:
+                    skipped += 1
+            if right + wrong == 0:
+                return
+            right_percent = (right / (right+wrong))*100
+            wrong_percent = (wrong / (right+wrong))*100
+            skipped_percent = (skipped + (right+wrong+skipped)) * 100
+            right_ave_timing = [(sum(right_time) / len(right_time))]
+            wrong_ave_timing = [(sum(wrong_time) / len(wrong_time))]
+
+            progress = StudentProgressChapterCache()
+            right_list = [right_percent]
+            wrong_list = [wrong_percent]
+            dates = [str(ma.testTaken)]
+            test_mark = [chapter_mark]
+            skipped_percent_list = [skipped_percent]
+            progress.marks = test_mark
+            progress.rightPercent = right_list
+            progress.wrongPercent = wrong_list
+            progress.skippedPercent = skipped_percent_list
+            progress.chapter = chap
+            progress.subject = subject
+            progress.dates = dates
+            progress.student = student
+            progress.rightTime =right_ave_timing
+            progress.wrongTime = wrong_ave_timing
+            progress.save()
+
+
+

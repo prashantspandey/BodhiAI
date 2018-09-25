@@ -16,12 +16,9 @@ import json
 from basicinformation.nameconversions import *
 from membership.api.serializers import *
 from rest_framework.response import Response
-from rest_framework.permissions import (
-    IsAuthenticated
-)
 from basicinformation.tasks import *
+from Recommendations.models import *
 import datetime
-from .serializers import *
 
 class StudentSubjectsAPIView(APIView):
     def get(self,request,format=None):
@@ -38,4 +35,19 @@ class StudentGetChaptersAPIView(APIView):
         chapters = SubjectChapters.objects.filter(subject = subject)
         chapter_serializer = SubjectChapterSerializer(chapters,many=True)
         return Response(chapter_serializer.data)
+
+
+class StudentGetCoceptsAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        code = request.POST['chapter']
+        subject = request.POST['subject']
+        con = Concepts.objects.filter(chapter = code,subject=subject)
+        if len(con) == 0:
+            return Response({'concepts':'no concepts'})
+        else:
+
+            concept_serializer = ConceptsBriefSerializer(con,many=True)
+            context = {'concepts':concept_serializer.data}
+            return Response(context)
+
 

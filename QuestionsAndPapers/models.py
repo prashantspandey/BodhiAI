@@ -510,5 +510,21 @@ class StudentWeakAreasChapterCache(models.Model):
     str(self.chapter)
 
 
+class StudentProgressChapterCache(models.Model):
+    student = models.ForeignKey(Student)
+    subject = models.CharField(max_length=100)
+    chapter = models.CharField(max_length=100)
+    marks = ArrayField(models.FloatField(),null=True)
+    rightPercent = ArrayField(models.FloatField(),null=True)
+    wrongPercent = ArrayField(models.FloatField(),null=True)
+    rightTime = ArrayField(models.FloatField(),null=True)
+    wrongTime = ArrayField(models.FloatField(),null=True)
+    skippedPercent = ArrayField(models.FloatField(),null=True)
+    dates = ArrayField(models.CharField(max_length = 25),null=True)
+
+    def __str__(self):
+        return str(self.student) + ' ' + str(self.subject) + ' '+\
+    str(self.marks)
+
 
 

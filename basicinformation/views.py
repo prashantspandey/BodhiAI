@@ -377,12 +377,13 @@ def home(request):
             #for i in caches:
             #    i.delete()
             #    print('deleted')
-            #students = Student.objects.all()
-            #cache = StudentWeakAreasChapterCache.objects.all()
-            #for i in cache:
-            #    if i.totalAttempted != 0:
-            #        print(i.totalAttempted)
-            #create_cache_weak_areas.delay()
+            students = Student.objects.all()
+            for stud in students:
+                subjects = stud.subject_set.all()
+                for sub in subjects:
+                    chapters = get_chapters(sub)
+                    for chap in chapters:
+                        createProgressCache.delay(stud.id,sub,chap)
             return HttpResponse("Done")
 
         if user.groups.filter(name='Students').exists():
