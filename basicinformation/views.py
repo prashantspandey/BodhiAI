@@ -330,9 +330,9 @@ def home(request):
             students = Student.objects.filter(school__name = "JEN")
             print('{} total student'.format(len(students)))
             for stud in students:
+                print('{} student '.format(stud))
                 subjects = stud.subject_set.all()
                 for sub in subjects:
-                    print('{} sub in subjects'.format(sub))
                     chapters = get_chapters(sub.name)
                     for chap in chapters:
                         createProgressCache.delay(stud.id,sub.name,chap)

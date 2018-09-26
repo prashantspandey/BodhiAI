@@ -2451,6 +2451,10 @@ def createProgressCache(student_id,subject,chap):
     except Exception as e:
         print(str(e))
         marks = SSCOnlineMarks.objects.filter(student = student).order_by('testTaken')
+        if len(marks) == 0:
+            print('no tests found')
+            return
+        
         print('for {} tests number {}'.format(student,len(marks)))
         right = 0
         wrong = 0
