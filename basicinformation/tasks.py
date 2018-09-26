@@ -2432,7 +2432,7 @@ def start_caching_prgress():
 def createProgressCache(student_id,subject,chap):
     student = Student.objects.get(id = student_id)
     marks = SSCOnlineMarks.objects.filter(test__sub =
-                                          subject).order_by('testTaken')
+                                          subject,student = student).order_by('testTaken')
     print('for {} tests number {}'.format(student,len(marks)))
     try:
         progress_cache = StudentProgressChapterCache.objects.get(student =
