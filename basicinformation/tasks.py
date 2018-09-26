@@ -2417,11 +2417,13 @@ def track_progress_cache(student_id,marks_id):
 @shared_task
 def start_caching_prgress():
     students = Student.objects.all()
+    print('{} students found'.format(students))
     for stud in students:
         subjects = stud.subject_set.all()
         for sub in subjects:
             chapters = get_chapters(sub)
             for chap in chapters:
+                print('{} for chapter'.format(chap))
                 createProgressCache.delay(stud.id,sub,chap)
 
 
