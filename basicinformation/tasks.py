@@ -2423,7 +2423,7 @@ def start_caching_prgress():
             chapters = get_chapters(sub.name)
             for chap in chapters:
                 print('{} for chapter'.format(chap))
-                createProgressCache.delay(stud.id,sub,chap)
+                createProgressCache.delay(stud.id,sub.name,chap)
 
 
 @shared_task
