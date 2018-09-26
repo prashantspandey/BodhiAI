@@ -2473,37 +2473,37 @@ def createProgressCache(student_id,subject,chap):
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
                     skipped += 1
-            if right + wrong == 0:
-                print('no attempted')
-                return
-            right_percent = (right / (right+wrong))*100
-            wrong_percent = (wrong / (right+wrong))*100
-            skipped_percent = (skipped + (right+wrong+skipped)) * 100
-            right_ave_timing = [(sum(right_time) / len(right_time))]
-            wrong_ave_timing = [(sum(wrong_time) / len(wrong_time))]
+        if right + wrong == 0:
+            print('no attempted')
+            return
+        right_percent = (right / (right+wrong))*100
+        wrong_percent = (wrong / (right+wrong))*100
+        skipped_percent = (skipped + (right+wrong+skipped)) * 100
+        right_ave_timing = [(sum(right_time) / len(right_time))]
+        wrong_ave_timing = [(sum(wrong_time) / len(wrong_time))]
 
-            progress = StudentProgressChapterCache()
-            right_list = [right_percent]
-            wrong_list = [wrong_percent]
-            dates = [str(ma.testTaken)]
-            test_mark = [chapter_mark]
-            skipped_percent_list = [skipped_percent]
-            print(right_list)
-            print(wrong_list)
-            print(dates)
-            print(test_mark)
-            progress.marks = test_mark
-            progress.rightPercent = right_list
-            progress.wrongPercent = wrong_list
-            progress.skippedPercent = skipped_percent_list
-            progress.chapter = chap
-            progress.subject = subject
-            progress.dates = dates
-            progress.student = student
-            progress.rightTime =right_ave_timing
-            progress.wrongTime = wrong_ave_timing
-            progress.save()
-            print('{} for student saved'.format(student))
+        progress = StudentProgressChapterCache()
+        right_list = [right_percent]
+        wrong_list = [wrong_percent]
+        dates = [str(ma.testTaken)]
+        test_mark = [chapter_mark]
+        skipped_percent_list = [skipped_percent]
+        print(right_list)
+        print(wrong_list)
+        print(dates)
+        print(test_mark)
+        progress.marks = test_mark
+        progress.rightPercent = right_list
+        progress.wrongPercent = wrong_list
+        progress.skippedPercent = skipped_percent_list
+        progress.chapter = chap
+        progress.subject = subject
+        progress.dates = dates
+        progress.student = student
+        progress.rightTime =right_ave_timing
+        progress.wrongTime = wrong_ave_timing
+        progress.save()
+        print('{} for student saved'.format(student))
 
 
 
