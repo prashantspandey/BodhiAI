@@ -2416,7 +2416,7 @@ def track_progress_cache(student_id,marks_id):
 
 @shared_task
 def start_caching_prgress():
-    students = Student.objects.all()
+    students = Student.objects.filter(school__name = "JEN")
     for stud in students:
         subjects = stud.subject_set.all()
         for sub in subjects:
