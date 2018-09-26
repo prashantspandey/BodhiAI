@@ -335,7 +335,7 @@ def home(request):
                 for sub in subjects:
                     chapters = get_chapters(sub.name)
                     for chap in chapters:
-                        createProgressCache.delay(stud.id,sub.name,chap)
+                        createProgressCache(stud.id,sub.name,chap)
 
 
             #start_caching_prgress.delay()
