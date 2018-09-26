@@ -2214,48 +2214,57 @@ def create_cache_weak_areas():
 
 
 @shared_task
-def add_subjects_change_batch(course,stud_id,teacher_id):
+def add_subjects_change_batch(course,stud_id,teacher_id,kl_id):
     stud = Student.objects.get(id = stud_id)
     teacher = Teacher.objects.get(id = teacher_id)
-    if course == 'SSC':
-        subGenInte =\
-        Subject(name="General-Intelligence",student=stud,teacher=teacher)
-        subGenInte.save()
-        subMaths =\
-        Subject(name="Quantitative-Analysis",student=stud,teacher=teacher)
-        subEnglish = Subject(name="English",student=stud,teacher=teacher)
-        subGenKnow =\
-        Subject(name="General-Knowledge",student=stud,teacher=teacher)
-        subGenSci = Subject(name="General-Science",student=stud,teacher=teacher)
-        subMaths.save()
-        subGenSci.save()
-        subEnglish.save()
-        subGenKnow.save()
-    elif course == 'Loco':
-       subGenInte =\
-       Subject(name="General-Intelligence",student=stud,teacher=teacher)
-       subGenInte.save()
-       subMaths =\
-       Subject(name="Quantitative-Analysis",student=stud,teacher=teacher)
-       subEnglish =\
-       Subject(name="English",student=stud,teacher=teacher)
-       subGenKnow =\
-       Subject(name="General-Knowledge",student=stud,teacher=teacher)
-       subGenSci =\
-       Subject(name="General-Science",student=stud,teacher=teacher)
-       subLocoPilot =\
-       Subject(name="ElectricalLocoPilot",student=stud,teacher=teacher)
-       subLocoPilot.save()
-       subLocoPilot_diesel =\
-       Subject(name="LocoPilot_Diesel",student=stud,teacher=teacher)
-       subLocoPilot_diesel.save()
+    try:
+        custom_batch = CustomBatch.objects.get(klass__id = kl_id)
+        print('in custom batch')
+        for sub in custom_batch.subjects:
+            custom_sub = Subject(name=sub,student = stud,teacher=teacher)
+            custom_sub.save()
+            print('{} sub saved'.format(sub))
+    except:
+
+        if course == 'SSC':
+            subGenInte =\
+            Subject(name="General-Intelligence",student=stud,teacher=teacher)
+            subGenInte.save()
+            subMaths =\
+            Subject(name="Quantitative-Analysis",student=stud,teacher=teacher)
+            subEnglish = Subject(name="English",student=stud,teacher=teacher)
+            subGenKnow =\
+            Subject(name="General-Knowledge",student=stud,teacher=teacher)
+            subGenSci = Subject(name="General-Science",student=stud,teacher=teacher)
+            subMaths.save()
+            subGenSci.save()
+            subEnglish.save()
+            subGenKnow.save()
+        elif course == 'Loco':
+           subGenInte =\
+           Subject(name="General-Intelligence",student=stud,teacher=teacher)
+           subGenInte.save()
+           subMaths =\
+           Subject(name="Quantitative-Analysis",student=stud,teacher=teacher)
+           subEnglish =\
+           Subject(name="English",student=stud,teacher=teacher)
+           subGenKnow =\
+           Subject(name="General-Knowledge",student=stud,teacher=teacher)
+           subGenSci =\
+           Subject(name="General-Science",student=stud,teacher=teacher)
+           subLocoPilot =\
+           Subject(name="ElectricalLocoPilot",student=stud,teacher=teacher)
+           subLocoPilot.save()
+           subLocoPilot_diesel =\
+           Subject(name="LocoPilot_Diesel",student=stud,teacher=teacher)
+           subLocoPilot_diesel.save()
 
 
 
-       subMaths.save()
-       subEnglish.save()
-       subGenSci.save()
-       subGenKnow.save()
+           subMaths.save()
+           subEnglish.save()
+           subGenSci.save()
+           subGenKnow.save()
 
 @shared_task
 def add_subjects_new(course,stud_id,teacher_id):

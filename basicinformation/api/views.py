@@ -1352,7 +1352,7 @@ class TeacherEditBatchesFinal(APIView):
         my_subjects = me.profile.subject_set.all()
         for i in my_subjects:
             i.delete()
-        add_subjects_change_batch.delay(course,student.id,me.profile.id)
+        add_subjects_change_batch.delay(course,student.id,me.profile.id,kl.id)
         addOldTests.delay(student.id,me.profile.id,kl.id)
         serializer = StudentConfirmationSerializer(confirmation)
         return Response(serializer.data)
