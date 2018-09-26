@@ -2441,8 +2441,6 @@ def start_caching_prgress():
 @shared_task
 def createProgressCache(student_id,subject,chap):
     student = Student.objects.get(id = student_id)
-    marks = SSCOnlineMarks.objects.filter(student = student).order_by('testTaken')
-    print('for {} tests number {}'.format(student,len(marks)))
     try:
         progress_cache = StudentProgressChapterCache.objects.get(student =
                                                                  student,subject
@@ -2452,6 +2450,8 @@ def createProgressCache(student_id,subject,chap):
         return 
     except Exception as e:
         print(str(e))
+        marks = SSCOnlineMarks.objects.filter(student = student).order_by('testTaken')
+        print('for {} tests number {}'.format(student,len(marks)))
         right = 0
         wrong = 0
         skipped = 0 
