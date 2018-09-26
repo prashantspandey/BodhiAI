@@ -2421,6 +2421,7 @@ def start_caching_prgress():
     for stud in students:
         subjects = stud.subject_set.all()
         for sub in subjects:
+            print('{} sub in subjects'.format(sub))
             chapters = get_chapters(sub.name)
             for chap in chapters:
                 createProgressCache.delay(stud.id,sub.name,chap)
