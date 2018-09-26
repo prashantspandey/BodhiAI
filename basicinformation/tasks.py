@@ -2431,7 +2431,6 @@ def start_caching_prgress():
     print('{} total student'.format(len(students)))
     for stud in students:
         subjects = stud.subject_set.all()
-        print('{} subject'.format(subjects))
         for sub in subjects:
             print('{} sub in subjects'.format(sub))
             chapters = get_chapters(sub.name)
@@ -2467,9 +2466,8 @@ def createProgressCache(student_id,subject,chap):
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
                                                                ma,quest=quest)
                     right_time.append(answered.time)
+                    right = right + 1
 
-
-                    print('right added')
                     chapter_mark += quest.max_marks
             for quest_id in ma.wrongAnswers:
                 quest = SSCquestions.objects.get(choices__id = quest_id)
@@ -2480,7 +2478,7 @@ def createProgressCache(student_id,subject,chap):
                     wrong_time.append(answered.time)
 
 
-                    wrong += wrong
+                    wrong = wrong +1
                     chapter_mark -= quest.max_marks
             for quest_id in ma.skippedAnswers:
                 quest = SSCquestions.objects.get(id = quest_id)
