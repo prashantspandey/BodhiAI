@@ -330,8 +330,8 @@ def home(request):
             students = Student.objects.filter(school__name = "JEN")
             print('{} total student'.format(len(students)))
             for stud in students:
-                print('{} student '.format(stud))
                 subjects = stud.subject_set.all()
+                print('{} student {} subjects '.format(stud,subjects))
                 for sub in subjects:
                     chapters = get_chapters(sub.name)
                     for chap in chapters:
