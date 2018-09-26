@@ -2459,7 +2459,6 @@ def createProgressCache(student_id,subject,chap):
                     right_time.append(answered.time)
 
 
-                    right += right
                     print('right added')
                     chapter_mark += quest.max_marks
             for quest_id in ma.wrongAnswers:
@@ -2472,13 +2471,13 @@ def createProgressCache(student_id,subject,chap):
 
 
                     wrong += wrong
-                    print('wrong added')
                     chapter_mark -= quest.max_marks
             for quest_id in ma.skippedAnswers:
                 quest = SSCquestions.objects.get(id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
                     skipped += 1
+        print('{} right + wrong'.format(right + wrong))
         if right + wrong == 0:
             print('no attempted')
             return
