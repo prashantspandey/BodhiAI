@@ -2420,6 +2420,7 @@ def start_caching_prgress():
     print('{} total student'.format(len(students)))
     for stud in students:
         subjects = stud.subject_set.all()
+        print('{} subject'.format(subjects))
         for sub in subjects:
             print('{} sub in subjects'.format(sub))
             chapters = get_chapters(sub.name)
