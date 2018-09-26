@@ -2414,6 +2414,16 @@ def track_progress_cache(student_id,marks_id):
             progress.wrongTime = wrong_ave_timing
             progress.save()
 
+@shared_task
+def start_caching_prgress():
+    students = Student.objects.all()
+    for stud in students:
+        subjects = stud.subject_set.all()
+        for sub in subjects:
+            chapters = get_chapters(sub)
+            for chap in chapters:
+                createProgressCache.delay(stud.id,sub,chap)
+
 
 @shared_task
 def createProgressCache(student_id,subject,chap):
