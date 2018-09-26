@@ -2218,13 +2218,15 @@ def add_subjects_change_batch(course,stud_id,teacher_id,kl_id):
     stud = Student.objects.get(id = stud_id)
     teacher = Teacher.objects.get(id = teacher_id)
     try:
-        custom_batch = CustomBatch.objects.get(klass__id = kl_id)
+        custom_batch = CustomBatch.objects.get(klass__id = kl_id,teacher =
+                                               teacher)
         print('in custom batch')
         for sub in custom_batch.subjects:
             custom_sub = Subject(name=sub,student = stud,teacher=teacher)
             custom_sub.save()
             print('{} sub saved'.format(sub))
-    except:
+    except Exception as e:
+        print(str(e))
 
         if course == 'SSC':
             subGenInte =\
