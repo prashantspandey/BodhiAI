@@ -2450,7 +2450,8 @@ def createProgressCache(student_id,subject,chap):
         return 
     except Exception as e:
         print(str(e))
-        marks = SSCOnlineMarks.objects.filter(student = student).order_by('testTaken')
+        marks = SSCOnlineMarks.objects.filter(student = student,test__sub =
+                                              subject).order_by('testTaken')
         if len(marks) == 0:
             print('no tests found')
             return
@@ -2471,7 +2472,7 @@ def createProgressCache(student_id,subject,chap):
                                                                ma,quest=quest)
                     right_time.append(answered.time)
                     right = right + 1
-
+                    print('{} right count'.format(right))
                     chapter_mark += quest.max_marks
             for quest_id in ma.wrongAnswers:
                 quest = SSCquestions.objects.get(choices__id = quest_id)
@@ -2483,7 +2484,9 @@ def createProgressCache(student_id,subject,chap):
 
 
                     wrong = wrong +1
-                    chapter_mark -= quest.max_marks
+
+                    print('{} wrong count'.format(wrong))
+                    chapter_mark -= quest.negative_marks
             for quest_id in ma.skippedAnswers:
                 quest = SSCquestions.objects.get(id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
