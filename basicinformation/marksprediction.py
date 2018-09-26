@@ -3452,6 +3452,49 @@ class Studs:
                 if i == '50.1':
                     namedarr.append('Curve And Curves Setting')
                     timing.append(j)
+                if i == '12.1':
+                    namedarr.append('Bending moment and sheer force')
+                    timing.append(j)
+                if i == '12.2':
+                    namedarr.append('Bending and sheer stress')
+                    timing.append(j)
+                if i == '12.3':
+                    namedarr.append('Combined direct and bending stress')
+                    timing.append(j)
+                if i == '12.4':
+                    namedarr.append('Slope and deflection')
+                    timing.append(j)
+                if i == '12.5':
+                    namedarr.append('Principal stress and principle planes')
+                    timing.append(j)
+                if i == '12.6':
+                    namedarr.append('Columns and struts')
+                    timing.append(j)
+                if i == '12.7':
+                    namedarr.append('Trosion')
+                    timing.append(j)
+
+                if i == '13.1':
+                    namedarr.append('Rivet Connection')
+                    timing.append(j)
+                if i == '13.2':
+                    namedarr.append('Weld Connection')
+                    timing.append(j)
+                if i == '13.3':
+                    namedarr.append('Tension Members')
+                    timing.append(j)
+                if i == '13.4':
+                    namedarr.append('Compression Member')
+                    timing.append(j)
+                if i == '13.5':
+                    namedarr.append('Steel Beams')
+                    timing.append(j)
+                if i == '13.6':
+                    namedarr.append('Column base and Foundation')
+                    timing.append(j)
+                if i == '13.7':
+                    namedarr.append('Steel root of trusses')
+                    timing.append(j)
 
             return list(zip(namedarr,timing))
 
@@ -4263,10 +4306,39 @@ class Studs:
 
                 if i == '50.1':
                     namedarr.append('Curve And Curves Setting')
+                if i == '12.1':
+                    namedarr.append('Bending moment and sheer force')
+                if i == '12.2':
+                    namedarr.append('Bending and sheer stress')
+                if i == '12.3':
+                    namedarr.append('Combined direct and bending stress')
+                if i == '12.4':
+                    namedarr.append('Slope and deflection')
+                if i == '12.5':
+                    namedarr.append('Principal stress and principle planes')
+                if i == '12.6':
+                    namedarr.append('Columns and struts')
+                if i == '12.7':
+                    namedarr.append('Trosion')
+
+                if i == '13.1':
+                    namedarr.append('Rivet Connection')
+                if i == '13.2':
+                    namedarr.append('Weld Connection')
+                if i == '13.3':
+                    namedarr.append('Tension Members')
+                if i == '13.4':
+                    namedarr.append('Compression Member')
+                if i == '13.5':
+                    namedarr.append('Steel Beams')
+                if i == '13.6':
+                    namedarr.append('Column base and Foundation')
+                if i == '13.7':
+                    namedarr.append('Steel root of trusses')
 
 
 
-            return list(zip(name,numbers))
+            return namedarr
         if subject == 'LocoPilot_Diesel':
             for i in arr:
                 if i == '1.1':
@@ -5012,6 +5084,36 @@ class Studs:
                     return 'Theodolite Survey'
                 if i == '50.1':
                     return 'Curve And Curves Setting'
+                if i == '12.1':
+                    return 'Bending moment and sheer force'
+                if i == '12.2':
+                    return 'Bending and sheer stress'
+                if i == '12.3':
+                    return 'Combined direct and bending stress'
+                if i == '12.4':
+                    return 'Slope and deflection'
+                if i == '12.5':
+                    return 'Principal stress and principle planes'
+                if i == '12.6':
+                    return 'Columns and struts'
+                if i == '12.7':
+                    return 'Trosion'
+                if i == '13.1':
+                    return 'Rivet Connection'
+                if i == '13.2':
+                    return 'Weld Connection'
+                if i == '13.3':
+                    return 'Tension Members'
+                if i == '13.4':
+                    return 'Compression Member'
+                if i == '13.5':
+                    return 'Steel Beams'
+                if i == '13.6':
+                    return 'Column base and Foundation'
+                if i == '13.7':
+                    return 'Steel root of trusses'
+
+
         if subject == 'LocoPilot_Diesel':
                 if i == '1.1':
                     return 'Introduction to Engine & Development'
@@ -7889,6 +7991,50 @@ class Teach:
                 if i == '50.1':
                     names.append('Curve And Curves Setting')
                     numbers.append(i)
+                if i == '12.1':
+                    names.append('Bending moment and sheer force')
+                    numbers.append(i)
+                if i == '12.2':
+                    names.append('Bending and sheer stress')
+                    numbers.append(i)
+                if i == '12.3':
+                    names.append('Combined direct and bending stress')
+                    numbers.append(i)
+                if i == '12.4':
+                    names.append('Slope and deflection')
+                    numbers.append(i)
+                if i == '12.5':
+                    names.append('Principal stress and principle planes')
+                    numbers.append(i)
+                if i == '12.6':
+                    names.append('Columns and struts')
+                    numbers.append(i)
+                if i == '12.7':
+                    names.append('Trosion')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('Rivet Connection')
+                    numbers.append(i)
+                if i == '13.2':
+                    names.append('Weld Connection')
+                    numbers.append(i)
+                if i == '13.3':
+                    names.append('Tension Members')
+                    numbers.append(i)
+                if i == '13.4':
+                    names.append('Compression Member')
+                    numbers.append(i)
+                if i == '13.5':
+                    names.append('Steel Beams')
+                    numbers.append(i)
+                if i == '13.6':
+                    names.append('Column base and Foundation')
+                    numbers.append(i)
+                if i == '13.7':
+                    names.append('Steel root of trusses')
+                    numbers.append(i)
+
+
             return list(zip(names,numbers))
 
         if subject == 'LocoPilot_Diesel':
@@ -9005,6 +9151,49 @@ class Teach:
                 if i == '50.1':
                     names.append('Curve And Curves Setting')
                     numbers.append(j)
+                if i == '12.1':
+                    names.append('Bending moment and sheer force')
+                    numbers.append(j)
+                if i == '12.2':
+                    names.append('Bending and sheer stress')
+                    numbers.append(j)
+                if i == '12.3':
+                    names.append('Combined direct and bending stress')
+                    numbers.append(j)
+                if i == '12.4':
+                    names.append('Slope and deflection')
+                    numbers.append(j)
+                if i == '12.5':
+                    names.append('Principal stress and principle planes')
+                    numbers.append(j)
+                if i == '12.6':
+                    names.append('Columns and struts')
+                    numbers.append(j)
+                if i == '12.7':
+                    names.append('Trosion')
+                    numbers.append(j)
+                if i == '13.1':
+                    names.append('Rivet Connection')
+                    numbers.append(j)
+                if i == '13.2':
+                    names.append('Weld Connection')
+                    numbers.append(j)
+                if i == '13.3':
+                    names.append('Tension Members')
+                    numbers.append(j)
+                if i == '13.4':
+                    names.append('Compression Member')
+                    numbers.append(j)
+                if i == '13.5':
+                    names.append('Steel Beams')
+                    numbers.append(j)
+                if i == '13.6':
+                    names.append('Column base and Foundation')
+                    numbers.append(j)
+                if i == '13.7':
+                    names.append('Steel root of trusses')
+                    numbers.append(j)
+
 
             return list(zip(names,numbers))
 
@@ -9813,7 +10002,36 @@ class Teach:
                     numbers.append('2.9')
                 if i == 'Curve And Curves Setting':
                     numbers.append('50.1')
+                if i == 'Bending moment and sheer force':
+                    numbers.append('12.1')
+                if i == 'Bending and sheer stress':
+                    numbers.append('12.2')
+                if i == 'Combined direct and bending stress':
+                    numbers.append('12.3')
+                if i == 'Slope and deflection':
+                    numbers.append('12.4')
+                if i == 'Principal stress and principle planes':
+                    numbers.append('12.5')
+                if i == 'Columns and struts':
+                    numbers.append('12.6')
+                if i == 'Trosion':
+                    numbers.append('12.7')
+                if i == 'Rivet Connection':
+                    numbers.append('13.1')
+                if i == 'Weld Connection':
+                    numbers.append('13.2')
+                if i == 'Tension Members':
+                    numbers.append('13.3')
+                if i == 'Compression Member':
+                    numbers.append('13.4')
+                if i == 'Steel Beams':
+                    numbers.append('13.5')
+                if i == 'Column base and Foundation':
+                    numbers.append('13.6')
+                if i == 'Steel root of trusses':
+                    numbers.append('13.7')
 
+ 
             return numbers
 
         if subject == 'LocoPilot_Diesel':
@@ -10899,6 +11117,49 @@ def change_topicNumbersNames(arr,subject):
                 if i == '50.1':
                     names.append('Curve And Curves Setting')
                     numbers.append(i)
+                if i == '12.1':
+                    names.append('Bending moment and sheer force')
+                    numbers.append(i)
+                if i == '12.2':
+                    names.append('Bending and sheer stress')
+                    numbers.append(i)
+                if i == '12.3':
+                    names.append('Combined direct and bending stress')
+                    numbers.append(i)
+                if i == '12.4':
+                    names.append('Slope and deflection')
+                    numbers.append(i)
+                if i == '12.5':
+                    names.append('Principal stress and principle planes')
+                    numbers.append(i)
+                if i == '12.6':
+                    names.append('Columns and struts')
+                    numbers.append(i)
+                if i == '12.7':
+                    names.append('Trosion')
+                    numbers.append(i)
+                if i == '13.1':
+                    names.append('Rivet Connection')
+                    numbers.append(i)
+                if i == '13.2':
+                    names.append('Weld Connection')
+                    numbers.append(i)
+                if i == '13.3':
+                    names.append('Tension Members')
+                    numbers.append(i)
+                if i == '13.4':
+                    names.append('Compression Member')
+                    numbers.append(i)
+                if i == '13.5':
+                    names.append('Steel Beams')
+                    numbers.append(i)
+                if i == '13.6':
+                    names.append('Column base and Foundation')
+                    numbers.append(i)
+                if i == '13.7':
+                    names.append('Steel root of trusses')
+                    numbers.append(i)
+
 
             return list(zip(names,numbers))
 
@@ -11665,6 +11926,35 @@ def changeIndividualNames(i,subject):
                 return 'Theodolite Survey'
             if i == '50.1':
                 return 'Curve And Curves Setting'
+            if i == '12.1':
+                return 'Bending moment and sheer force'
+            if i == '12.2':
+                return 'Bending and sheer stress'
+            if i == '12.3':
+                return 'Combined direct and bending stress'
+            if i == '12.4':
+                return 'Slope and deflection'
+            if i == '12.5':
+                return 'Principal stress and principle planes'
+            if i == '12.6':
+                return 'Columns and struts'
+            if i == '12.7':
+                return 'Trosion'
+            if i == '13.1':
+                return 'Rivet Connection'
+            if i == '13.2':
+                return 'Weld Connection'
+            if i == '13.3':
+                return 'Tension Members'
+            if i == '13.4':
+                return 'Compression Member'
+            if i == '13.5':
+                return 'Steel Beams'
+            if i == '13.6':
+                return 'Column base and Foundation'
+            if i == '13.7':
+                return 'Steel root of trusses'
+
 
     if subject == 'LocoPilot_Diesel':
         if i == '1.1':

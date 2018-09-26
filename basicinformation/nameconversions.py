@@ -676,10 +676,56 @@ def changeIndividualNames(i,subject):
             if i == '18.1':
                 return 'Previous Year Exams Questions'
         
-        
-    if subject == 'Civil':
-        if i == '2.1':
-            return 'Surveying Engineering'
+    if subject == 'Civil_Loco_Pilot_Tech':
+            if i == '2.1':
+                return 'Land Surveying Basic Principal And Classification'
+            if i == '2.2':
+                return 'Chain Surveying'
+            if i == '2.3':
+                return 'Compass Surveying'
+            if i == '2.4':
+                return 'Levelling'
+            if i == '2.5':
+                return 'Minor Instruments'
+            if i == '2.6':
+                return 'Computation Of Land'
+            if i == '2.7':
+                return 'Plane Table Survey'
+            if i == '2.8':
+                return 'Contours And Contouring'
+            if i == '2.9':
+                return 'Theodolite Survey'
+            if i == '50.1':
+                return 'Curve And Curves Setting'
+            if i == '12.1':
+                return 'Bending moment and sheer force'
+            if i == '12.2':
+                return 'Bending and sheer stress'
+            if i == '12.3':
+                return 'Combined direct and bending stress'
+            if i == '12.4':
+                return 'Slope and deflection'
+            if i == '12.5':
+                return 'Principal stress and principle planes'
+            if i == '12.6':
+                return 'Columns and struts'
+            if i == '12.7':
+                return 'Trosion'
+            if i == '13.1':
+                return 'Rivet Connection'
+            if i == '13.2':
+                return 'Weld Connection'
+            if i == '13.3':
+                return 'Tension Members'
+            if i == '13.4':
+                return 'Compression Member'
+            if i == '13.5':
+                return 'Steel Beams'
+            if i == '13.6':
+                return 'Column base and Foundation'
+            if i == '13.7':
+                return 'Steel root of trusses'
+
     if subject == 'LocoPilot_Diesel':
         if i == '1.1':
             return 'Introduction to Engine & Development'
@@ -1391,11 +1437,58 @@ def changeIndividualNumberNames(i,subject):
                 return'17.1'
             if i ==  'Previous Year Exams Questions':
                 return'18.1'
-        
-        
-    if subject == 'Civil':
-        if i ==  'Surveying Engineering':
-            return'2.1'
+    if subject == 'Civil_Loco_Pilot_Tech':
+            if i == '2.1':
+                return 'Land Surveying Basic Principal And Classification'
+            if i == '2.2':
+                return 'Chain Surveying'
+            if i == '2.3':
+                return 'Compass Surveying'
+            if i == '2.4':
+                return 'Levelling'
+            if i == '2.5':
+                return 'Minor Instruments'
+            if i == '2.6':
+                return 'Computation Of Land'
+            if i == '2.7':
+                return 'Plane Table Survey'
+            if i == '2.8':
+                return 'Contours And Contouring'
+            if i == '2.9':
+                return 'Theodolite Survey'
+            if i == '50.1':
+                return 'Curve And Curves Setting'
+            if i == '12.1':
+                return 'Bending moment and sheer force'
+            if i == '12.2':
+                return 'Bending and sheer stress'
+            if i == '12.3':
+                return 'Combined direct and bending stress'
+            if i == '12.4':
+                return 'Slope and deflection'
+            if i == '12.5':
+                return 'Principal stress and principle planes'
+            if i == '12.6':
+                return 'Columns and struts'
+            if i == '12.7':
+                return 'Trosion'
+            if i == '13.1':
+                return 'Rivet Connection'
+            if i == '13.2':
+                return 'Weld Connection'
+            if i == '13.3':
+                return 'Tension Members'
+            if i == '13.4':
+                return 'Compression Member'
+            if i == '13.5':
+                return 'Steel Beams'
+            if i == '13.6':
+                return 'Column base and Foundation'
+            if i == '13.7':
+                return 'Steel root of trusses'
+
+
+       
     if subject == 'LocoPilot_Diesel':
         if i ==  'Introduction to Engine & Development':
             return'1.1'
