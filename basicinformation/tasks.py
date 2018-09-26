@@ -2422,7 +2422,6 @@ def start_caching_prgress():
         for sub in subjects:
             chapters = get_chapters(sub.name)
             for chap in chapters:
-                print('{} for chapter'.format(chap))
                 createProgressCache.delay(stud.id,sub.name,chap)
 
 
@@ -2475,6 +2474,7 @@ def createProgressCache(student_id,subject,chap):
                 ==chap:
                     skipped += 1
             if right + wrong == 0:
+                print('no attempted')
                 return
             right_percent = (right / (right+wrong))*100
             wrong_percent = (wrong / (right+wrong))*100
@@ -2488,6 +2488,10 @@ def createProgressCache(student_id,subject,chap):
             dates = [str(ma.testTaken)]
             test_mark = [chapter_mark]
             skipped_percent_list = [skipped_percent]
+            print(right_list)
+            print(wrong_list)
+            print(dates)
+            print(test_mark)
             progress.marks = test_mark
             progress.rightPercent = right_list
             progress.wrongPercent = wrong_list
