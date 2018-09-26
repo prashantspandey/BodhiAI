@@ -2433,6 +2433,7 @@ def createProgressCache(student_id,subject,chap):
     student = Student.objects.get(id = student_id)
     marks = SSCOnlineMarks.objects.filter(test__sub =
                                           subject).order_by('testTaken')
+    print('for {} tests number {}'.format(student,len(marks)))
     try:
         progress_cache = StudentProgressChapterCache.objects.get(student =
                                                                  student,subject
@@ -2459,6 +2460,7 @@ def createProgressCache(student_id,subject,chap):
 
 
                     right += right
+                    print('right added')
                     chapter_mark += quest.max_marks
             for quest_id in ma.wrongAnswers:
                 quest = SSCquestions.objects.get(choices__id = quest_id)
@@ -2470,6 +2472,7 @@ def createProgressCache(student_id,subject,chap):
 
 
                     wrong += wrong
+                    print('wrong added')
                     chapter_mark -= quest.max_marks
             for quest_id in ma.skippedAnswers:
                 quest = SSCquestions.objects.get(id = quest_id)
