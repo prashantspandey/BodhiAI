@@ -17,8 +17,8 @@ from basicinformation.nameconversions import *
 from membership.api.serializers import *
 from rest_framework.response import Response
 from basicinformation.tasks import *
-from Recommendations.models import *
 from Recommendations.api.serializers import *
+from Recommendations.models import *
 import datetime
 
 class StudentSubjectsAPIView(APIView):
