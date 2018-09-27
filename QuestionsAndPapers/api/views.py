@@ -356,7 +356,7 @@ class CreateTestBatchesAPIView(APIView):
         user = self.request.user
         me = Teach(user)
         all_klasses = me.my_classes_names_cache()
-        my_batches = {'myBatches':klasses}
+        my_batches = {'myBatches':all_klasses}
         return Response(my_batches)
 
 class CreateTestSubjectsAPIView(APIView):
