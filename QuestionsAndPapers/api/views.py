@@ -369,10 +369,11 @@ class CreateTestSubjectsAPIView(APIView):
                                             me.profile.school)
         if len(quest)!=0:
             unique_chapters = me.my_subjects_names()
+
             uc = []
             for i in unique_chapters:
                 uc.append(i.name.strip())
-
+            print('{} chapters, {} uc'.format(len(unique_chapters),len(uc)))
             context = {'subjects':
                        uc,'klass':ttt}
             return Response(context)
