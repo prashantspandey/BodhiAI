@@ -1373,6 +1373,9 @@ class CreateBatchFinalAPIView(APIView):
         name = request.POST['batch_name']
         subjects = request.POST['subjects']
         subjects = subjects.split(',')
+        sub_list = []
+        for i in subject:
+            sub_list.append(i.strip())
         kl = klass()
         kl.level = 'SSC'
         kl.name = name
@@ -1383,7 +1386,7 @@ class CreateBatchFinalAPIView(APIView):
         custom_batch.klass = kl
         custom_batch.school = me.profile.school
         custom_batch.teacher = teacher
-        custom_batch.subjects = subjects
+        custom_batch.subjects = sub_list
         custom_batch.save()
         klass_cache = TeacherClasses()
         klass_cache.teacher = teacher

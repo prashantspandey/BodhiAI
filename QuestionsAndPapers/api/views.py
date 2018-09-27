@@ -371,7 +371,7 @@ class CreateTestSubjectsAPIView(APIView):
             unique_chapters = me.my_subjects_names()
             uc = []
             for i in unique_chapters:
-                uc.append(i.name)
+                uc.append(i.name.strip())
 
             context = {'subjects':
                        uc,'klass':ttt}
