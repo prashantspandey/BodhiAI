@@ -1918,8 +1918,7 @@ def CreateUpdateStudentAverageTimingDetail(student_id,subject,mark_id):
             new_timing_cache.rightAverage = ave_right
             new_timing_cache.wrongAverage = ave_wrong
             new_timing_cache.totalAttempted = len_right + len_wrong
-            new_timing_cache.totalAverage = ((right_time + wrong_time)
-                                             /(total))
+            new_timing_cache.totalAverage = ((sum(right_time) + sum(wrong_time))/(total))
 
             new_timing_cache.rightTotal = int(len_right)
             new_timing_cache.wrongTotal = int(len_wrong)
