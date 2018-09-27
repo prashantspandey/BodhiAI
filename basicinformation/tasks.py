@@ -2452,19 +2452,13 @@ def createProgressCache(student_id,subject,chap):
         print(str(e))
         print('subject -{}-{}-'.format(subject,student))
         marks = SSCOnlineMarks.objects.filter(student = student,test__sub =
-                                              subject)
+                                              subject).order_by('-testTaken')
         if len(marks) == 0:
             print('no tests found')
             return
         else:
         
             print('for {} tests number {}'.format(student,len(marks)))
-            right = 0
-            wrong = 0
-            skipped = 0 
-            chapter_mark = 0
-            wrong_time = []
-            right_time = []
             list_right_percent = []
             list_wrong_percent = []
             list_date = []
@@ -2473,6 +2467,13 @@ def createProgressCache(student_id,subject,chap):
             list_wrong_ave_timing = []
             list_chapter_mark = []
             for ma in marks:
+                right = 0
+                wrong = 0
+                skipped = 0 
+                chapter_mark = 0
+                wrong_time = []
+                right_time = []
+
                 for quest_id in ma.rightAnswers:
                     quest = SSCquestions.objects.get(choices__id = quest_id)
                     if quest.section_category == subject and quest.topic_category\
@@ -2534,7 +2535,7 @@ def createProgressCache(student_id,subject,chap):
                     list_wrong_percent.append(wrong_percent)
                     list_chapter_mark.append(chapter_mark)
 
-
+            
             progress = StudentProgressChapterCache()
             progress.marks = list_chapter_mark
             progress.rightPercent = list_right_percent
