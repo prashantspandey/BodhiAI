@@ -389,6 +389,7 @@ class CreateTestChaptersAPIView(APIView):
 
         split_category = category_klass.split(',')[0]
         split_klass = category_klass.split(',')[1]
+        print('{} category'.format(category_klass))
         quest = SSCquestions.objects.filter(section_category =
                                             split_category,school
                                             =me.profile.school)
