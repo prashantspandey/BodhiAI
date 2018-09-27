@@ -390,7 +390,7 @@ class CreateTestChaptersAPIView(APIView):
         me = Teach(user)
 
         split_category = category_klass.split(',')[0]
-        split_klass = category_klass.split(',')[1]
+        split_klass = str(category_klass.split(',')[1].strip())
         print('{} category'.format(category_klass))
         print(split_category,split_klass)
         quest = SSCquestions.objects.filter(section_category =
