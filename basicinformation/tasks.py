@@ -2428,7 +2428,7 @@ def track_progress_cache(student_id,marks_id):
 
 @shared_task
 def start_caching_prgress():
-    students = Student.objects.all()
+    students = Student.objects.filter(school__name = "JEN")
     print('{} total student'.format(len(students)))
     for stud in students:
         subjects = stud.subject_set.all()
@@ -2553,4 +2553,77 @@ def createProgressCache(student_id,subject,chap):
                 print('{} for student saved'.format(student))
 
 
+@shared_task
+def create_Subject_topics(sheet_link):
+    for sh in sheet_link:
+        if production:
+            df=\
+            pd.read_csv('/app/question_data/jen_content/civil_nontech/'+sh,error_bad_lines=False )
+        else:
+            df=\
+            pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/cat/aptitude/'+sh,error_bad_lines=False )
 
+        sectionType = df['section_category']
+        if sectionType == 'English':
+            subject = 'English'
+        elif sectionType == 'Reasoning':
+            subject = 'General-Intelligence'
+        elif sectionType == 'Maths':
+            subject = 'Quantitative-Analysis'
+        elif sectionType == 'GK':
+            subject = 'General-Knowledge'
+        elif sectionType == 'groupxen':
+            subject = 'Defence-English'
+        elif sectionType == 'groupxphy':
+            subject = 'Defence-Physics'
+        elif sectionType == 'groupxmath':
+            subject = 'GroupX-Maths'
+        elif sectionType == 'groupgk':
+            subject = 'Defence-GK-CA'
+        elif sectionType == 'jeeMaths10':
+            subject = 'MathsIITJEE10'
+        elif sectionType == 'jeeMaths11':
+            subject = 'MathsIITJEE11'
+        elif sectionType == 'jeeMaths12':
+            subject = 'MathsIITJEE12'
+        elif sectionType == 'jeePhysics10':
+            subject = 'PhysicsIITJEE10'
+        elif sectionType == 'jeePhysics11':
+            subject = 'PhysicsIITJEE11'
+        elif sectionType == 'jeePhysics12':
+            subject = 'PhysicsIITJEE12'
+        elif sectionType == 'jeeChemistry10':
+            subject = 'ChemistryIITJEE10'
+        elif sectionType == 'jeeChemistry11':
+            subject = 'ChemistryIITJEE11'
+        elif sectionType == 'jeeChemistry12':
+            subject = 'ChemistryIITJEE12'
+        elif sectionType == 'locopilot_electrical':
+            subject = 'ElectricalLocoPilot'
+        elif sectionType == 'locopilot_fitter':
+            subject = 'FitterLocoPilot'
+        elif sectionType == 'general_science':
+            subject = 'General-Science'
+        elif sectionType == 'locopilot_diesel':
+            subject = 'LocoPilot_Diesel'
+        elif sectionType.strip() == 'cat_quant':
+            subject = 'CAT_Quantitative_Aptitude'
+        elif sectionType.strip() == 'loco_civil':
+            subject = 'Civil_Loco_Pilot_Tech'
+
+
+        name = df['name']
+
+        code = df['category']
+        code = float(code)
+        try:
+            chapter = SubjectChapters.objects.get(subject = subject,code =
+                                                  code)
+            print('found chapter')
+        except:
+            chapter = SubjectChapters()
+            chapter.name = name
+            chapter.subject = subject
+            chapter.code = code
+            chapter.save()
+            print('{} new subject with {} code'.format(subject,str(code)))
