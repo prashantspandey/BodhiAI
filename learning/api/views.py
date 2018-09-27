@@ -57,7 +57,7 @@ class StudentGetContentAPIView(APIView):
         lang = request.POST['lang']
         con_url = []
         con_title = []
-        concept = Concepts.objects.filter(id = concept_id)
+        concept = Concepts.objects.get(id = concept_id)
         content = concept.recommendedcontent_set.all()
         for con in content:
             if lang in str(con.lang).lower():
