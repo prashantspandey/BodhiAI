@@ -384,6 +384,8 @@ class CreateTestSubjectsAPIView(APIView):
 class CreateTestChaptersAPIView(APIView):
     def post(self,request,*args,**kwargs):
         category_klass = request.POST['getChapters']
+        print('here in create test')
+        print(category_klass)
         user = self.request.user
         me = Teach(user)
 
