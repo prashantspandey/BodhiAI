@@ -2502,9 +2502,10 @@ def createProgressCache(student_id,subject,chap):
                         skipped += 1
                 print('{} right + wrong'.format(right + wrong))
                 if right + wrong + skipped == 0:
-                    print('no attempted')
+                    print('not valid test')
                     continue
                 elif right + wrong == 0:
+                    print('not attempted')
                     right_percent = 0
                     wrong_percent = 0
                     skipped_percent = (skipped / (right+wrong+skipped)) * 100
@@ -2521,6 +2522,7 @@ def createProgressCache(student_id,subject,chap):
 
 
                 else:
+                    print('attempted')
                     right_percent = (right / (right+wrong))*100
                     wrong_percent = (wrong / (right+wrong))*100
                     skipped_percent = (skipped / (right+wrong+skipped)) * 100
@@ -2535,20 +2537,20 @@ def createProgressCache(student_id,subject,chap):
                     list_wrong_percent.append(wrong_percent)
                     list_chapter_mark.append(chapter_mark)
 
-            
-            progress = StudentProgressChapterCache()
-            progress.marks = list_chapter_mark
-            progress.rightPercent = list_right_percent
-            progress.wrongPercent = list_wrong_percent
-            progress.skippedPercent = list_skipped_percent
-            progress.chapter = chap
-            progress.subject = subject
-            progress.dates = list_date
-            progress.student = student
-            progress.rightTime =list_right_ave_timing
-            progress.wrongTime = list_wrong_ave_timing
-            progress.save()
-            print('{} for student saved'.format(student))
+            if len(list_chapter_mark) != 0:
+                progress = StudentProgressChapterCache()
+                progress.marks = list_chapter_mark
+                progress.rightPercent = list_right_percent
+                progress.wrongPercent = list_wrong_percent
+                progress.skippedPercent = list_skipped_percent
+                progress.chapter = chap
+                progress.subject = subject
+                progress.dates = list_date
+                progress.student = student
+                progress.rightTime =list_right_ave_timing
+                progress.wrongTime = list_wrong_ave_timing
+                progress.save()
+                print('{} for student saved'.format(student))
 
 
 
