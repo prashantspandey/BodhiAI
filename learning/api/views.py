@@ -58,7 +58,7 @@ class StudentGetContentAPIView(APIView):
         con_url = []
         con_title = []
         concept = Concepts.objects.get(id = concept_id)
-        if lang.lower() in str(concept.lang).lower():
+        if lang.lower() in str(concept.content.lang).lower():
             con_url.append(concept.content.url)
             con_title.append(concept.content.title)
 
