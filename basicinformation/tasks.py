@@ -1994,7 +1994,7 @@ def delete_timing_cache():
         print('i deleted')
 @shared_task
 def create_timing_cache_detail():
-    students = Student.objects.filter()
+    students = Student.objects.filter(school__name="JEN")
     for n,student in enumerate(students):
         print('{} -- calculating for {}'.format(n,student))
         subjects = student.subject_set.all()
