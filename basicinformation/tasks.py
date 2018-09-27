@@ -2559,7 +2559,7 @@ def create_Subject_topics(sheet_link):
         df=\
         pd.read_csv('/app/question_data/jen_content/civil_nontech/'+sh,error_bad_lines=False )
 
-        sectionType = df['section_category']
+        sectionType = df['section_type']
         if sectionType == 'English':
             subject = 'English'
         elif sectionType == 'Reasoning':
