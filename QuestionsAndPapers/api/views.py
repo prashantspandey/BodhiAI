@@ -389,24 +389,25 @@ class CreateTestChaptersAPIView(APIView):
 
         split_category = category_klass.split(',')[0]
         split_klass = category_klass.split(',')[1]
-        print('{} category'.format(category_klass))
-        print(split_category,split_klass)
         quest = SSCquestions.objects.filter(section_category =
                                             split_category,school
                                             =me.profile.school)
-        #topics = SubjectChapters.objects.filter(subject=split_category)
-        #all_categories = []
-        #for tp in topics:
-        #    all_categories.append(tp.name)
+        topics = SubjectChapters.objects.filter(subject=split_category)
         all_categories = []
-        for i in quest:
-            all_categories.append(i.topic_category)
-        all_categories = list(unique_everseen(all_categories))
-        all_categories = \
-        me.change_topicNumbersNames(all_categories,split_category)
-        all_categories.sort()
+        category_code = []
+        for tp in topics:
+            all_categories.append(tp.name)
+            category_code.append(tp.code)
+        #all_categories = []
+        #for i in quest:
+        #    all_categories.append(i.topic_category)
+        #all_categories = list(unique_everseen(all_categories))
+        cats_final = list(zip(all_categories,category_code))
+        #all_categories = \
+        #me.change_topicNumbersNames(all_categories,split_category)
+        #all_categories.sort()
         context = \
-                {'chapters':all_categories,'klass':split_klass,'subject':split_category}
+                {'chapters':cats_final,'klass':split_klass,'subject':split_category}
         return Response(context)
 
 class CreateTestQuestionsAPIView(APIView):
