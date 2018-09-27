@@ -25,6 +25,7 @@ class StudentSubjectsAPIView(APIView):
     def get(self,request,format=None):
         me = Studs(self.request.user)
         subjects = me.my_subjects_names()
+        print(subjects)
         context = {'subjects':subjects}
         return Response(context)
 
