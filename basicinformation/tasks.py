@@ -2554,53 +2554,52 @@ def createProgressCache(student_id,subject,chap):
 
 def get_section(sectionType):
         if sectionType == 'English':
-            subject = 'English'
+            return('English')
         elif sectionType == 'Reasoning':
-            subject = 'General-Intelligence'
+            return('General-Intelligence')
         elif sectionType == 'Maths':
-            subject = 'Quantitative-Analysis'
+            return('Quantitative-Analysis')
         elif sectionType == 'GK':
-            subject = 'General-Knowledge'
+            return('General-Knowledge')
         elif sectionType == 'groupxen':
-            subject = 'Defence-English'
+            return('Defence-English')
         elif sectionType == 'groupxphy':
-            subject = 'Defence-Physics'
+            return('Defence-Physics')
         elif sectionType == 'groupxmath':
-            subject = 'GroupX-Maths'
+            return('GroupX-Maths')
         elif sectionType == 'groupgk':
-            subject = 'Defence-GK-CA'
+            return('Defence-GK-CA')
         elif sectionType == 'jeeMaths10':
-            subject = 'MathsIITJEE10'
+            return('MathsIITJEE10')
         elif sectionType == 'jeeMaths11':
-            subject = 'MathsIITJEE11'
+            return('MathsIITJEE11')
         elif sectionType == 'jeeMaths12':
-            subject = 'MathsIITJEE12'
+            return('MathsIITJEE12')
         elif sectionType == 'jeePhysics10':
-            subject = 'PhysicsIITJEE10'
+            return('PhysicsIITJEE10')
         elif sectionType == 'jeePhysics11':
-            subject = 'PhysicsIITJEE11'
+            return('PhysicsIITJEE11')
         elif sectionType == 'jeePhysics12':
-            subject = 'PhysicsIITJEE12'
+            return('PhysicsIITJEE12')
         elif sectionType == 'jeeChemistry10':
-            subject = 'ChemistryIITJEE10'
+            return('ChemistryIITJEE10')
         elif sectionType == 'jeeChemistry11':
-            subject = 'ChemistryIITJEE11'
+            return('ChemistryIITJEE11')
         elif sectionType == 'jeeChemistry12':
-            subject = 'ChemistryIITJEE12'
+            return('ChemistryIITJEE12')
         elif sectionType == 'locopilot_electrical':
-            subject = 'ElectricalLocoPilot'
+            return('ElectricalLocoPilot')
         elif sectionType == 'locopilot_fitter':
-            subject = 'FitterLocoPilot'
+            return('FitterLocoPilot')
         elif sectionType == 'general_science':
-            subject = 'General-Science'
+            return('General-Science')
         elif sectionType == 'locopilot_diesel':
-            subject = 'LocoPilot_Diesel'
+            return('LocoPilot_Diesel')
         elif sectionType.strip() == 'cat_quant':
-            subject = 'CAT_Quantitative_Aptitude'
+            return('CAT_Quantitative_Aptitude')
         elif sectionType.strip() == 'loco_civil':
-            subject = 'Civil_Loco_Pilot_Tech'
+            return('Civil_Loco_Pilot_Tech')
 
-        return subject
 @shared_task
 def create_Subject_topics(sheet_link):
     for sh in sheet_link:
