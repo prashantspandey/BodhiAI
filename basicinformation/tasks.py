@@ -2605,24 +2605,23 @@ def create_Subject_topics(sheet_link):
     for sh in sheet_link:
         df=\
         pd.read_csv('/app/question_data/jen_content/civil_nontech/'+sh,error_bad_lines=False )
-        subject = 'hello'
         sectionType = df['section_type']
-        print(type(sectionType))
-        section = sectionType[0]
-        subject = get_section(sectionType)
-
-        name = df['name']
-
         code = df['category']
-        code = float(code)
-        try:
-            chapter = SubjectChapters.objects.get(subject = subject,code =
-                                                  code)
-            print('found chapter')
-        except:
-            chapter = SubjectChapters()
-            chapter.name = name
-            chapter.subject = subject
-            chapter.code = code
-            chapter.save()
-            print('{} new subject with {} code'.format(subject,str(code)))
+        final = list(zip(sectionType,code,name))
+        name = df['name']
+        for s,c,n in final:
+            subject = get_section(s)
+            co = float(c)
+
+
+            try:
+                chapter = SubjectChapters.objects.get(subject = subject,code =
+                                                      co)
+                print('found chapter')
+            except:
+                chapter = SubjectChapters()
+                chapter.name = n
+                chapter.subject = subject
+                chapter.code = co
+                chapter.save()
+                print('{} new subject with {} code'.format(subject,str(code)))
