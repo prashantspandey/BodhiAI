@@ -2448,81 +2448,82 @@ def createProgressCache(student_id,subject,chap):
         print('{} for cache found'.format(student))
     except Exception as e:
         print(str(e))
-        print('subject -{}-'.format(subject))
+        print('subject -{}-{}-'.format(subject,student))
         marks = SSCOnlineMarks.objects.filter(student = student,test__sub =
                                               subject)
         if len(marks) == 0:
             print('no tests found')
             return
+        else:
         
-        print('for {} tests number {}'.format(student,len(marks)))
-        right = 0
-        wrong = 0
-        skipped = 0 
-        chapter_mark = 0
-        wrong_time = []
-        right_time = []
-        for ma in marks:
-            for quest_id in ma.rightAnswers:
-                quest = SSCquestions.objects.get(choices__id = quest_id)
-                if quest.section_category == subject and quest.topic_category\
-                ==chap:
-                    answered = SSCansweredQuestion.objects.get(onlineMarks =
-                                                               ma,quest=quest)
-                    right_time.append(answered.time)
-                    right = right + 1
-                    print('{} right count'.format(right))
-                    chapter_mark += quest.max_marks
-            for quest_id in ma.wrongAnswers:
-                quest = SSCquestions.objects.get(choices__id = quest_id)
-                if quest.section_category == subject and quest.topic_category\
-                ==chap:
-                    answered = SSCansweredQuestion.objects.get(onlineMarks =
-                                                               ma,quest=quest)
-                    wrong_time.append(answered.time)
+            print('for {} tests number {}'.format(student,len(marks)))
+            right = 0
+            wrong = 0
+            skipped = 0 
+            chapter_mark = 0
+            wrong_time = []
+            right_time = []
+            for ma in marks:
+                for quest_id in ma.rightAnswers:
+                    quest = SSCquestions.objects.get(choices__id = quest_id)
+                    if quest.section_category == subject and quest.topic_category\
+                    ==chap:
+                        answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                                   ma,quest=quest)
+                        right_time.append(answered.time)
+                        right = right + 1
+                        print('{} right count'.format(right))
+                        chapter_mark += quest.max_marks
+                for quest_id in ma.wrongAnswers:
+                    quest = SSCquestions.objects.get(choices__id = quest_id)
+                    if quest.section_category == subject and quest.topic_category\
+                    ==chap:
+                        answered = SSCansweredQuestion.objects.get(onlineMarks =
+                                                                   ma,quest=quest)
+                        wrong_time.append(answered.time)
 
 
-                    wrong = wrong +1
+                        wrong = wrong +1
 
-                    print('{} wrong count'.format(wrong))
-                    chapter_mark -= quest.negative_marks
-            for quest_id in ma.skippedAnswers:
-                quest = SSCquestions.objects.get(id = quest_id)
-                if quest.section_category == subject and quest.topic_category\
-                ==chap:
-                    skipped += 1
-        print('{} right + wrong'.format(right + wrong))
-        if right + wrong == 0:
-            print('no attempted')
-            return
-        right_percent = (right / (right+wrong))*100
-        wrong_percent = (wrong / (right+wrong))*100
-        skipped_percent = (skipped + (right+wrong+skipped)) * 100
-        right_ave_timing = [(sum(right_time) / len(right_time))]
-        wrong_ave_timing = [(sum(wrong_time) / len(wrong_time))]
+                        print('{} wrong count'.format(wrong))
+                        chapter_mark -= quest.negative_marks
+                for quest_id in ma.skippedAnswers:
+                    quest = SSCquestions.objects.get(id = quest_id)
+                    if quest.section_category == subject and quest.topic_category\
+                    ==chap:
+                        skipped += 1
+            print('{} right + wrong'.format(right + wrong))
+            if right + wrong == 0:
+                print('no attempted')
+                return
+            right_percent = (right / (right+wrong))*100
+            wrong_percent = (wrong / (right+wrong))*100
+            skipped_percent = (skipped + (right+wrong+skipped)) * 100
+            right_ave_timing = [(sum(right_time) / len(right_time))]
+            wrong_ave_timing = [(sum(wrong_time) / len(wrong_time))]
 
-        progress = StudentProgressChapterCache()
-        right_list = [right_percent]
-        wrong_list = [wrong_percent]
-        dates = [str(ma.testTaken)]
-        test_mark = [chapter_mark]
-        skipped_percent_list = [skipped_percent]
-        print(right_list)
-        print(wrong_list)
-        print(dates)
-        print(test_mark)
-        progress.marks = test_mark
-        progress.rightPercent = right_list
-        progress.wrongPercent = wrong_list
-        progress.skippedPercent = skipped_percent_list
-        progress.chapter = chap
-        progress.subject = subject
-        progress.dates = dates
-        progress.student = student
-        progress.rightTime =right_ave_timing
-        progress.wrongTime = wrong_ave_timing
-        progress.save()
-        print('{} for student saved'.format(student))
+            progress = StudentProgressChapterCache()
+            right_list = [right_percent]
+            wrong_list = [wrong_percent]
+            dates = [str(ma.testTaken)]
+            test_mark = [chapter_mark]
+            skipped_percent_list = [skipped_percent]
+            print(right_list)
+            print(wrong_list)
+            print(dates)
+            print(test_mark)
+            progress.marks = test_mark
+            progress.rightPercent = right_list
+            progress.wrongPercent = wrong_list
+            progress.skippedPercent = skipped_percent_list
+            progress.chapter = chap
+            progress.subject = subject
+            progress.dates = dates
+            progress.student = student
+            progress.rightTime =right_ave_timing
+            progress.wrongTime = wrong_ave_timing
+            progress.save()
+            print('{} for student saved'.format(student))
 
 
 
