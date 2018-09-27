@@ -369,9 +369,12 @@ class CreateTestSubjectsAPIView(APIView):
                                             me.profile.school)
         if len(quest)!=0:
             unique_chapters = me.my_subjects_names()
-            test_type = 'SSC'
+            uc = []
+            for i in unique_chapters:
+                uc.append(i.name)
+
             context = {'subjects':
-                       unique_chapters,'klass':ttt}
+                       uc,'klass':ttt}
             return Response(context)
         else:
             noTest = 'Not Questions for this class'
