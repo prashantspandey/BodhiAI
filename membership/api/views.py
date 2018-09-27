@@ -191,7 +191,7 @@ class TeacherStudentConfirmedAPIView(APIView):
             Subject(name="LocoPilot_Diesel",student=student,teacher=me.profile)
             subLocoPilot_diesel.save()
             subCivil =\
-            Subject(name='Civil_Loco_Pilot_Tech',student=student,teacher=teacher)
+            Subject(name='Civil_Loco_Pilot_Tech',student=student,teacher=me.profile)
 
 
 
