@@ -2448,6 +2448,7 @@ def createProgressCache(student_id,subject,chap):
         print('{} for cache found'.format(student))
     except Exception as e:
         print(str(e))
+        print('subject -{}-'.format(subject))
         marks = SSCOnlineMarks.objects.filter(student = student,test__sub =
                                               subject)
         if len(marks) == 0:
