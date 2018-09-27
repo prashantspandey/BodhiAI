@@ -51,4 +51,21 @@ class StudentGetCoceptsAPIView(APIView):
             context = {'concepts':concept_serializer.data}
             return Response(context)
 
+class StudentGetContentAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        concept_id = request.POST['concept_id']
+        lang = request.POST['lang']
+        con_url = []
+        con_title = []
+        concept = Concepts.objects.filter(id = concept_id)
+        content = concept.recommendedcontent_set.all()
+        for con in content:
+            if lang in str(con.lang).lower():
+                con_url.append(con.url)
+                con_title.append(title)
+
+        final_content = list(zip(con_url,con_title))
+        context = {'content':final_content}
+        return Response(context)
+
 
