@@ -356,9 +356,6 @@ class CreateTestBatchesAPIView(APIView):
         user = self.request.user
         me = Teach(user)
         all_klasses = me.my_classes_names_cache()
-        klasses = []
-        for i in all_klasses:
-            klasses.append(i)
         my_batches = {'myBatches':klasses}
         return Response(my_batches)
 
@@ -367,6 +364,7 @@ class CreateTestSubjectsAPIView(APIView):
         user = self.request.user
         me = Teach(user)
         ttt = request.POST['batch']
+        
         quest = SSCquestions.objects.filter(school=
                                             me.profile.school)
         if len(quest)!=0:
