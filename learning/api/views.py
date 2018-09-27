@@ -65,8 +65,7 @@ class StudentGetContentAPIView(APIView):
                 con_url.append(i.url)
                 con_title.append(i.title)
 
-        final_content = list(zip(con_url,con_title))
-        context = {'content':final_content}
+        context = {'url':con_url,'title':con_title}
         return Response(context)
 
 
