@@ -2552,15 +2552,7 @@ def createProgressCache(student_id,subject,chap):
                 progress.save()
                 print('{} for student saved'.format(student))
 
-
-@shared_task
-def create_Subject_topics(sheet_link):
-    for sh in sheet_link:
-        df=\
-        pd.read_csv('/app/question_data/jen_content/civil_nontech/'+sh,error_bad_lines=False )
-        subject = 'hello'
-        sectionType = df['section_type']
-        sectionType == str(sectionType).strip()
+def get_section(sectionType):
         if sectionType == 'English':
             subject = 'English'
         elif sectionType == 'Reasoning':
@@ -2608,6 +2600,16 @@ def create_Subject_topics(sheet_link):
         elif sectionType.strip() == 'loco_civil':
             subject = 'Civil_Loco_Pilot_Tech'
 
+        return subject
+@shared_task
+def create_Subject_topics(sheet_link):
+    for sh in sheet_link:
+        df=\
+        pd.read_csv('/app/question_data/jen_content/civil_nontech/'+sh,error_bad_lines=False )
+        subject = 'hello'
+        sectionType = df['section_type']
+        sectionType == str(sectionType).strip()
+        subject = get_section(sectionType)
 
         name = df['name']
 
