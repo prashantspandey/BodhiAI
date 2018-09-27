@@ -2607,7 +2607,8 @@ def create_Subject_topics(sheet_link):
         pd.read_csv('/app/question_data/jen_content/civil_nontech/'+sh,error_bad_lines=False )
         subject = 'hello'
         sectionType = df['section_type']
-        sectionType == str(sectionType).strip()
+        print(type(sectionType))
+        section = sectionType[0]
         subject = get_section(sectionType)
 
         name = df['name']
