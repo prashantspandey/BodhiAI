@@ -1344,15 +1344,23 @@ class TeacherEditBatchesFinal(APIView):
         confirmation.save()
         student_user = confirmation.student
         student = Student.objects.get(studentuser = student_user)
-        
-        if kl.name == 'SSC' or kl.name == 'RailwayGroupD':
-            course = 'SSC'
-        if kl.name == 'LocoPilot' or kl.name == 'Outer':
-            course = 'Loco'
-        my_subjects = me.profile.subject_set.all()
+        try:
+            custom_batch = CustomBatch.objects.get(klass = kl, teacher=me.profile)
+            subjects = custom_batch.subjects
+            for sub in subjects:
+                custom_sub =\
+                Subject(name=sub.strip(),student=stud,teacher=me.profile)
+                custom_sub.save()
+        except:
+
+            if kl.name == 'SSC' or kl.name == 'RailwayGroupD':
+                course = 'SSC'
+            if kl.name == 'LocoPilot' or kl.name == 'Outer':
+                course = 'Loco'
+            my_subjects = me.profile.subject_set.all()
+            add_subjects_change_batch.delay(course,student.id,me.profile.id,kl.id)
         for i in my_subjects:
             i.delete()
-        add_subjects_change_batch.delay(course,student.id,me.profile.id,kl.id)
         addOldTests.delay(student.id,me.profile.id,kl.id)
         serializer = StudentConfirmationSerializer(confirmation)
         return Response(serializer.data)
