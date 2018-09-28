@@ -1390,7 +1390,7 @@ class CreateBatchFinalAPIView(APIView):
             sub_list.append(su.strip())
         kl = klass()
         kl.level = 'SSC'
-        final_name = name.strip()
+        final_name = name.replace(' ','')
         final_name_2 = final_name.replace('-','_')
         kl.name = final_name_2
         kl.school = me.profile.school
