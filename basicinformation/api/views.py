@@ -1351,7 +1351,8 @@ class TeacherEditBatchesFinal(APIView):
                 custom_sub =\
                 Subject(name=sub.strip(),student=stud,teacher=me.profile)
                 custom_sub.save()
-        except:
+        except Exception as e:
+            print(str(e))
 
             if kl.name == 'SSC' or kl.name == 'RailwayGroupD':
                 course = 'SSC'
