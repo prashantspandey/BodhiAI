@@ -2625,3 +2625,5 @@ def create_Subject_topics(sheet_link):
                 chapter.code = co
                 chapter.save()
                 print('{} new subject with {} code'.format(subject,str(code)))
+
+
