@@ -117,7 +117,7 @@ class TeacherStudentConfirmedAPIView(APIView):
                 subjects = cb.subjects
                 for sub in subjects:
                     addSub = Subject(name =
-                                     sub,student=student,teacher=me.profile)
+                                     sub.strip(),student=student,teacher=me.profile)
                     addSub.save()
         if batch.name == 'LocoPilot':
             subGenInte = Subject(name="General-Intelligence",student=student,teacher=me.profile)
