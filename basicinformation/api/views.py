@@ -1384,7 +1384,7 @@ class CreateBatchFinalAPIView(APIView):
         subjects = request.POST['subjects']
         subjects = subjects.split(',')
         sub_list = []
-        for i in subject:
+        for i in subjects:
             su = i.replace('[','')
             su = su.replace(']','')
             sub_list.append(su.strip())
