@@ -1385,7 +1385,9 @@ class CreateBatchFinalAPIView(APIView):
         subjects = subjects.split(',')
         sub_list = []
         for i in subject:
-            sub_list.append(i.strip())
+            su = i.replace('[','')
+            su = su.replace(']','')
+            sub_list.append(su.strip())
         kl = klass()
         kl.level = 'SSC'
         kl.name = name
