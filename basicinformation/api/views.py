@@ -1349,7 +1349,7 @@ class TeacherEditBatchesFinal(APIView):
             subjects = custom_batch.subjects
             for sub in subjects:
                 custom_sub =\
-                Subject(name=sub.strip(),student=stud,teacher=me.profile)
+                Subject(name=sub.strip(),student=student,teacher=me.profile)
                 custom_sub.save()
         except Exception as e:
             print(str(e))
