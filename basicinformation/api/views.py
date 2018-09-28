@@ -1334,16 +1334,16 @@ class TeacherEditBatchesFinal(APIView):
     def post(self,request,*args,**kwargs):
         me = Teach(self.request.user)
         klass_name = request.POST['klass']
-        print("{} klass_name".format(klass_name))
         confirmation_id = request.POST['confirmation_id']
         kl = klass.objects.get(name = klass_name,school = me.profile.school)
-        print('changed to {}'.format(kl.name))
         confirmation = StudentConfirmation.objects.get(id = confirmation_id)
         confirmation.batch = kl
         confirmation.confirm = True
         confirmation.save()
         student_user = confirmation.student
         student = Student.objects.get(studentuser = student_user)
+        student.klass = kl
+        student.save()
         my_subjects = student.subject_set.all()
         for i in my_subjects:
             i.delete()
