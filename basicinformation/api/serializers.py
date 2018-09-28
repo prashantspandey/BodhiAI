@@ -43,6 +43,7 @@ class StudentModelSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'name',
+            'klass',
         ]
 
     #def get_user(self,obj):
