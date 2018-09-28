@@ -107,6 +107,8 @@ class TeacherStudentConfirmedAPIView(APIView):
         school = confirmation.school
         student_user = confirmation.student
         student = Student.objects.get(studentuser = student_user)
+        student.klass = batch
+        student.save()
         subs = Subject.objects.filter(student = student)
         for i in subs:
             i.delete()
