@@ -1482,4 +1482,24 @@ class TeacherStudentProfileDetailAPIView(APIView):
             context = {'details':'No profile'}
             return Response(context)
 
+class StudentAllWeakAreasAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Studs(self.request.user)
+        subject = request.POST['subject']
+        weak_areas_cache =\
+        StudentWeakAreasChapterCache.objects.filter(student=me.profile,subject
+                                                    = subject)
+        weak_areas = []
+        for i in weak_areas_cache:
+            accuracy = i.accuracy
+            totalRight = i.totalRight
+            totalWrong = i.totalWrong
+            totalSkipped = i.totalSkipped
+            skippedPercent = i.skippedPercent
+            totalAttempted = i.totalAttempted
+            context =\
+                    {'chapter':i.chapter,'accuracy':accuracy,'totalRight':totalRight,'totalWrong':totalWrong,'totalSkipped':totalSkipped,'skippedPercent':skippedPercent,'totalAttempted':totalAttempted}
+            weak_areas.append(context)
+        return Response(context)
+
 

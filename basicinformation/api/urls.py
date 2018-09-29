@@ -83,7 +83,8 @@ urlpatterns = [
     url(r'student_chapter_timing/$',views.StudentAverageTimingChapterWiseAPIView.as_view(),name='StudentAverageChapterwiseTiming'),
 # Teacher see student profile
     url(r'teacher_studentProfile_detail/$',views.TeacherStudentProfileDetailAPIView.as_view(),name='TeacherStudentProfileDetail'),
-
+# Student Weak Area Subjectwise
+    url(r'student_subject_weakAreas/$',views.StudentAllWeakAreasAPIView.as_view(),name='StudentSubjectWeakAreas'),
 
 
 
