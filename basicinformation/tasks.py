@@ -2289,7 +2289,6 @@ def track_progress_cache(student_id,subject,marks_id):
     student = Student.objects.get(id = student_id)
     chapters = get_chapters(subject)
 
-    print('{} student -- {} marks, for subject {}'.format(student,marks,subject))
     for chap in chapters:
         marks = SSCOnlineMarks.objects.get(id = marks_id)
         try:
