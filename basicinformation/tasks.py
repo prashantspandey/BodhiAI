@@ -2288,9 +2288,10 @@ def addChapter(subject):
 def track_progress_cache(student_id,marks_id):
     student = Student.objects.get(id = student_id)
     marks = SSCOnlineMarks.objects.get(id = marks_id)
-    print('{} student -- {} marks'.format(student,marks))
     subject = marks.test.sub
     chapters = get_chapters(subject)
+
+    print('{} student -- {} marks, for subject {}'.format(student,marks,subject))
     for chap in chapters:
         try:
             progress = StudentProgressChapterCache.objects.get(student =
@@ -2378,7 +2379,8 @@ def track_progress_cache(student_id,marks_id):
             chapter_mark = 0
             wrong_time = []
             right_time = []
-
+            print('{} len of right answers, {} wrong answers,{}\
+                  skipped'.format(len(marks.rightAnswers),len(marks.wrongAnswers),len(marks.skippedAnswers)))
             for quest_id in marks.rightAnswers:
                 quest = SSCquestions.objects.get(choices__id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
@@ -2409,7 +2411,8 @@ def track_progress_cache(student_id,marks_id):
                 ==chap:
                     skipped += 1
                     print(skipped)
-            if right + wrong + skipped == 0:
+            total_overall = (right + wrong + skipped)
+            if total_overall == 0:
                 print('not in test')
                 return
             if right + wrong == 0:
