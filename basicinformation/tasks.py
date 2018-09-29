@@ -2285,9 +2285,8 @@ def addChapter(subject):
             custom_chap.save()
 
 @shared_task
-def track_progress_cache(student_id,marks_id):
+def track_progress_cache(student_id,subject,marks_id):
     student = Student.objects.get(id = student_id)
-    subject = marks.test.sub
     chapters = get_chapters(subject)
 
     print('{} student -- {} marks, for subject {}'.format(student,marks,subject))
