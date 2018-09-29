@@ -2390,9 +2390,10 @@ def track_progress_cache(student_id,subject,marks_id):
                 print(type(quest.section_category),type(subject))
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
-                    right += right
-                    print(right)
+                    right = right + 1
+                    print('{} right'.format(right))
                     chapter_mark = chapter_mark +  quest.max_marks
+                    print('{} marks '.format(chapter_mark))
 
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
                                                                marks,quest=quest)
@@ -2403,9 +2404,10 @@ def track_progress_cache(student_id,subject,marks_id):
                 quest = SSCquestions.objects.get(choices__id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
-                    wrong += wrong
-                    print(wrong)
+                    wrong = wrong + 1
+                    print('{} wrong'.format(wrong))
                     chapter_mark = chapter_mark -  quest.max_marks
+                    print('{} marks '.format(chapter_mark))
 
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
                                                                marks,quest=quest)
@@ -2416,9 +2418,10 @@ def track_progress_cache(student_id,subject,marks_id):
                 quest = SSCquestions.objects.get(id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
-                    skipped += 1
+                    skipped = skipped + 1
                     print(skipped)
             total_overall = (right + wrong + skipped)
+            print('{} overall total'.format(total_overall))
             if total_overall == 0:
                 print('not in test')
                 continue
