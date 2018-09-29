@@ -2304,6 +2304,9 @@ def track_progress_cache(student_id,subject,marks_id):
             wrongPercent_old = progress.wrongPercent
             right_timing_old = progress.rightTime
             wrong_timing_old = progress.wrongTime
+            totalRight_old = progress.totalRight
+            totalWrong_old = progress.totalWrong
+            totalSkipped_old = progress.totalSkipped
             right = 0
             wrong = 0
             skipped = 0 
@@ -2361,6 +2364,9 @@ def track_progress_cache(student_id,subject,marks_id):
             progress.marks = marks_old
             progress.dates = dates_old
             skipped_old.append(skipped_percent)
+            totalRight_old.append(right)
+            totalWrong_old.append(wrong)
+            totalSkipped_old.append(skipped)
             progress.skippedPercent = skipped_old
             rightPercent_old.append(right_percent)
             wrongPercent_old.append(wrong_percent)
@@ -2442,6 +2448,9 @@ def track_progress_cache(student_id,subject,marks_id):
                 wrong_ave_timing = [(sum(wrong_time) / wrong)]
 
             progress = StudentProgressChapterCache()
+            totalRight = [right]
+            totalWrong = [wrong]
+            totalSkipped = [skipped]
             right_list = [right_percent]
             wrong_list = [wrong_percent]
             dates = [str(marks.testTaken)]
@@ -2457,6 +2466,9 @@ def track_progress_cache(student_id,subject,marks_id):
             progress.student = student
             progress.rightTime =right_ave_timing
             progress.wrongTime = wrong_ave_timing
+            progress.totalRight = totalRight
+            progress.totalWrong = totalWrong
+            progress.totalSkipped = totalSkipped
             print(progress.dates)
             print('progress aved for first time')
             progress.save()

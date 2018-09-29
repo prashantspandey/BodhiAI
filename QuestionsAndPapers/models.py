@@ -521,6 +521,10 @@ class StudentProgressChapterCache(models.Model):
     wrongTime = ArrayField(models.FloatField(),null=True)
     skippedPercent = ArrayField(models.FloatField(),null=True)
     dates = ArrayField(models.CharField(max_length = 25),null=True)
+    totalRight = ArrayField(models.IntegerField(),null=True)
+    totalWrong = ArrayField(models.IntegerField(),null=True)
+    totalSkipped = ArrayField(models.IntegerField(),null=True)
+    
 
     def __str__(self):
         return str(self.student) + ' ' + str(self.subject) + ' '+\
