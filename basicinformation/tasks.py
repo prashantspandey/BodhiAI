@@ -2317,8 +2317,8 @@ def track_progress_cache(student_id,subject,marks_id):
                 quest = SSCquestions.objects.get(choices__id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
-                    right += right
-                    chapter_mark += quest.max_marks
+                    right = right + 1
+                    chapter_mark = chapter_mark +  quest.max_marks
 
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
                                                                marks,quest=quest)
@@ -2328,8 +2328,8 @@ def track_progress_cache(student_id,subject,marks_id):
                 quest = SSCquestions.objects.get(choices__id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
-                    wrong += wrong
-                    chapter_mark -= quest.max_marks
+                    wrong = wrong + 1
+                    chapter_mark = chapter_mark -  quest.max_marks
 
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
                                                                marks,quest=quest)
@@ -2340,8 +2340,9 @@ def track_progress_cache(student_id,subject,marks_id):
                 quest = SSCquestions.objects.get(id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
-                    skipped += 1
-            if right+wrong+skipped == 0:
+                    skipped = skipped + 1
+            total_overall = right + wrong + skipped
+            if total_overall == 0:
                 print('topic was not in test')
                 continue
        # right percent
@@ -2349,7 +2350,7 @@ def track_progress_cache(student_id,subject,marks_id):
     # wrong percent
             wrong_percent = (wrong / (right+wrong))*100
     # skipped percent
-            skipped_percent = (skipped + (right+wrong+skipped)) * 100
+            skipped_percent = (skipped / (right+wrong+skipped)) * 100
     #adding current marks to old marks list
             marks_old.append(chapter_mark)
     # adding current test date to old dates list
