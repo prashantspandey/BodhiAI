@@ -2385,6 +2385,10 @@ def track_progress_cache(student_id,marks_id):
                   skipped'.format(len(marks.rightAnswers),len(marks.wrongAnswers),len(marks.skippedAnswers)))
             for quest_id in marks.rightAnswers:
                 quest = SSCquestions.objects.get(choices__id = quest_id)
+                print('{} question cat, {} this cat, {} quest subject,{} this\
+                      subject'.format(quest.topic_category,chap,quest.section_category,subject))
+                print(type(quest.topic_category),type(chap))
+                print(type(quest.section_category),type(subject))
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
                     right += right
