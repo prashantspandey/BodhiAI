@@ -2431,7 +2431,7 @@ def track_progress_cache(student_id,subject,marks_id):
             else:
                 right_percent = (right / (right+wrong))*100
                 wrong_percent = (wrong / (right+wrong))*100
-            skipped_percent = (skipped + (right+wrong+skipped)) * 100
+            skipped_percent = (skipped / (right+wrong+skipped)) * 100
             if len(right_time) == 0:
                 right_ave_timing = [0]
             else:
