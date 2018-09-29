@@ -72,7 +72,20 @@ class StudentShowAnnnouncementAPIView(APIView):
     def get(self,request,format=None):
         me = Studs(self.request.user)
         my_announcement = Announcement.objects.filter(listener = me.profile)
-        serializer = AnnouncementSerializer(my_announcement,many=True)
-        return Response(serializer.data)
+        all_announcements = []
+        for ann in my_announcement:
+            a_dict = {'teacher':ann.announcer,'text':ann.text,'date':ann.date}
+            all_announcements.append(a_dict)
 
+        context = {'announcements':all_announcements}
+        return Response(context)
+
+class StudentInbox(generics.ListAPIView):
+    serializer_class = PrivateMessageModalSerializer
+    def get_queryset(self):
+        return PrivateMessage.objects.filter(receiver =
+                                             self.request.user)
+
+
+       
 

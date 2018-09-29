@@ -12,6 +12,9 @@ urlpatterns = [
     url(r'teacher_create_announcement_final/$',views.TeacherCreateAnnouncemntFinalAPIView.as_view(),name='TeacherCreateAnnouncementFinal'),
     # Student see announcements
     url(r'student_announcements/$',views.StudentShowAnnnouncementAPIView.as_view(),name='StudentAnnouncements'),
+    # Student Inbox
+    url(r'student_inbox/$',views.StudentInbox.as_view(),name='StudentInbox'),
+
 
     
 ]
