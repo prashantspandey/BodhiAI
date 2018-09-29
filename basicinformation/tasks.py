@@ -1790,15 +1790,8 @@ def CreateOneClickTestFinal(user_id,batch,subject,quest_ids):
                                           me.my_school())
         # add testtakers(students of a specific batch) to test paper
         for st in students:
-            # looks for common subject between student and teacher
-            subs = Subject.objects.filter(student=st,teacher =
-                                          me.profile,name=subject)
-            # if common subject found that means student is connected to
-            # teacher and he should be added to test
-            if subs:
-                stu = Student.objects.get(subject = subs)
-                test.testTakers.add(stu)
-                test.save()
+            test.testTakers.add(st)
+            test.save()
 
 
 @shared_task
@@ -2342,15 +2335,23 @@ def track_progress_cache(student_id,marks_id):
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
                     skipped += 1
+       # right percent
             right_percent = (right / (right+wrong))*100
+    # wrong percent
             wrong_percent = (wrong / (right+wrong))*100
+    # skipped percent
             skipped_percent = (skipped + (right+wrong+skipped)) * 100
+    #adding current marks to old marks list
             marks_old.append(chapter_mark)
+    # adding current test date to old dates list
             dates_old.append(str(marks.testTaken))
+    # calculating the average timing when question is right or wrong
             right_ave_timing = (sum(right_time) / len(right_time))
             wrong_ave_timing = (sum(wrong_time) / len(wrong_time))
+    # adding average right or wrong timing to the old list
             right_timing_old.append(right_ave_timing)
             wrong_timing_old.append(wrong_ave_timing)
+    # saving lists to cached progress
             progress.marks = marks_old
             progress.dates = dates_old
             skipped_old.append(skipped_percent)
