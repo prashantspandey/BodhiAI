@@ -2406,8 +2406,14 @@ def track_progress_cache(student_id,marks_id):
                 right_percent = (right / (right+wrong))*100
                 wrong_percent = (wrong / (right+wrong))*100
             skipped_percent = (skipped + (right+wrong+skipped)) * 100
-            right_ave_timing = [(sum(right_time) / len(right_time))]
-            wrong_ave_timing = [(sum(wrong_time) / len(wrong_time))]
+            if len(right_time) == 0:
+                right_ave_timing = 0
+            else:
+                right_ave_timing = [(sum(right_time) / len(right_time))]
+            if len(wrong_time) == 0:
+                wrong_ave_timing = 0
+            else:
+                wrong_ave_timing = [(sum(wrong_time) / len(wrong_time))]
 
             progress = StudentProgressChapterCache()
             right_list = [right_percent]
