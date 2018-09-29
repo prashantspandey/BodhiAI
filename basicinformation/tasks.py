@@ -2342,7 +2342,7 @@ def track_progress_cache(student_id,marks_id):
                     skipped += 1
             if right+wrong+skipped == 0:
                 print('topic was not in test')
-                return
+                continue
        # right percent
             right_percent = (right / (right+wrong))*100
     # wrong percent
@@ -2422,7 +2422,7 @@ def track_progress_cache(student_id,marks_id):
             total_overall = (right + wrong + skipped)
             if total_overall == 0:
                 print('not in test')
-                return
+                continue
             if right + wrong == 0:
                 right_percent = 0
                 wrong_percent = 0
