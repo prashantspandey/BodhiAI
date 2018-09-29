@@ -2287,12 +2287,12 @@ def addChapter(subject):
 @shared_task
 def track_progress_cache(student_id,marks_id):
     student = Student.objects.get(id = student_id)
-    marks = SSCOnlineMarks.objects.get(id = marks_id)
     subject = marks.test.sub
     chapters = get_chapters(subject)
 
     print('{} student -- {} marks, for subject {}'.format(student,marks,subject))
     for chap in chapters:
+        marks = SSCOnlineMarks.objects.get(id = marks_id)
         try:
             progress = StudentProgressChapterCache.objects.get(student =
                                                                student,subject =
