@@ -74,7 +74,7 @@ class StudentShowAnnnouncementAPIView(APIView):
         my_announcement = Announcement.objects.filter(listener = me.profile)
         all_announcements = []
         for ann in my_announcement:
-            a_dict = {'teacher':ann.announcer,'text':ann.text,'date':ann.date}
+            a_dict = {'teacher':ann.announcer.name,'text':ann.text.strip(),'date':ann.date}
             all_announcements.append(a_dict)
 
         context = {'announcements':all_announcements}
