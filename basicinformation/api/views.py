@@ -1497,8 +1497,13 @@ class StudentAllWeakAreasAPIView(APIView):
             totalSkipped = i.totalSkipped
             skippedPercent = i.skippedPercent
             totalAttempted = i.totalAttempted
+            chapter_name_table = SubjectChapters.objects.get(subject =
+                                                             subject,code =
+                                                             float(i.chapter))
+            chapter_name = chapter_name_table.name
+
             context =\
-                    {'chapter':i.chapter,'accuracy':accuracy,'totalRight':totalRight,'totalWrong':totalWrong,'totalSkipped':totalSkipped,'skippedPercent':skippedPercent,'totalAttempted':totalAttempted}
+                    {'chapter':chapter_name,'accuracy':accuracy,'totalRight':totalRight,'totalWrong':totalWrong,'totalSkipped':totalSkipped,'skippedPercent':skippedPercent,'totalAttempted':totalAttempted}
             weak_areas.append(context)
         return Response(context)
 
