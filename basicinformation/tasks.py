@@ -2316,23 +2316,25 @@ def track_progress_cache(student_id,marks_id):
                 quest = SSCquestions.objects.get(choices__id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
+                    right += right
+                    chapter_mark += quest.max_marks
+
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
                                                                marks,quest=quest)
                     right_time.append(answered.time)
 
-                    right += right
-                    chapter_mark += quest.max_marks
             for quest_id in marks.wrongAnswers:
                 quest = SSCquestions.objects.get(choices__id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
+                    wrong += wrong
+                    chapter_mark -= quest.max_marks
+
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
                                                                marks,quest=quest)
                     wrong_time.append(answered.time)
 
 
-                    wrong += wrong
-                    chapter_mark -= quest.max_marks
             for quest_id in marks.skippedAnswers:
                 quest = SSCquestions.objects.get(id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
@@ -2352,8 +2354,8 @@ def track_progress_cache(student_id,marks_id):
     # adding current test date to old dates list
             dates_old.append(str(marks.testTaken))
     # calculating the average timing when question is right or wrong
-            right_ave_timing = (sum(right_time) / len(right_time))
-            wrong_ave_timing = (sum(wrong_time) / len(wrong_time))
+            right_ave_timing = (sum(right_time) / right)
+            wrong_ave_timing = (sum(wrong_time) / wrong)
     # adding average right or wrong timing to the old list
             right_timing_old.append(right_ave_timing)
             wrong_timing_old.append(wrong_ave_timing)
@@ -2385,26 +2387,28 @@ def track_progress_cache(student_id,marks_id):
                 quest = SSCquestions.objects.get(choices__id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
+                    right += right
+                    print(right)
+                    chapter_mark = chapter_mark +  quest.max_marks
+
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
                                                                marks,quest=quest)
                     right_time.append(answered.time)
 
 
-                    right += right
-                    print(right)
-                    chapter_mark = chapter_mark +  quest.max_marks
             for quest_id in marks.wrongAnswers:
                 quest = SSCquestions.objects.get(choices__id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
+                    wrong += wrong
+                    print(wrong)
+                    chapter_mark = chapter_mark -  quest.max_marks
+
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
                                                                marks,quest=quest)
                     wrong_time.append(answered.time)
 
 
-                    wrong += wrong
-                    print(wrong)
-                    chapter_mark = chapter_mark -  quest.max_marks
             for quest_id in marks.skippedAnswers:
                 quest = SSCquestions.objects.get(id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
@@ -2425,11 +2429,11 @@ def track_progress_cache(student_id,marks_id):
             if len(right_time) == 0:
                 right_ave_timing = [0]
             else:
-                right_ave_timing = [(sum(right_time) / len(right_time))]
+                right_ave_timing = [(sum(right_time) / right)]
             if len(wrong_time) == 0:
                 wrong_ave_timing = [0]
             else:
-                wrong_ave_timing = [(sum(wrong_time) / len(wrong_time))]
+                wrong_ave_timing = [(sum(wrong_time) / wrong)]
 
             progress = StudentProgressChapterCache()
             right_list = [right_percent]
