@@ -2335,6 +2335,8 @@ def track_progress_cache(student_id,marks_id):
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
                     skipped += 1
+            if right+wrong+skipped == 0:
+                return
        # right percent
             right_percent = (right / (right+wrong))*100
     # wrong percent
@@ -2382,7 +2384,7 @@ def track_progress_cache(student_id,marks_id):
 
 
                     right += right
-                    chapter_mark += quest.max_marks
+                    chapter_mark = chapter_mark +  quest.max_marks
             for quest_id in marks.wrongAnswers:
                 quest = SSCquestions.objects.get(choices__id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
@@ -2393,12 +2395,14 @@ def track_progress_cache(student_id,marks_id):
 
 
                     wrong += wrong
-                    chapter_mark -= quest.max_marks
+                    chapter_mark = chapter_mark -  quest.max_marks
             for quest_id in marks.skippedAnswers:
                 quest = SSCquestions.objects.get(id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
                     skipped += 1
+            if right + wrong + skipped == 0:
+                return
             if right + wrong == 0:
                 right_percent = 0
                 wrong_percent = 0
