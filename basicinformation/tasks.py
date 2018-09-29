@@ -2382,6 +2382,7 @@ def track_progress_cache(student_id,subject,marks_id):
             print('{} len of right answers, {} wrong answers,{}\
                   skipped'.format(len(marks.rightAnswers),len(marks.wrongAnswers),len(marks.skippedAnswers)))
             for quest_id in marks.rightAnswers:
+                print('{} question id'.format(quest_id))
                 quest = SSCquestions.objects.get(choices__id = quest_id)
                 print('{} question cat, {} this cat, {} quest subject,{} this\
                       subject'.format(quest.topic_category,chap,quest.section_category,subject))
