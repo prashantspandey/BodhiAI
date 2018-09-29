@@ -2296,6 +2296,7 @@ def track_progress_cache(student_id,marks_id):
                                                                student,subject =
                                                                subject,chapter =
                                                                chap)
+            print('progress found')
             marks_old = progress.marks
             dates_old = progress.dates
             skipped_old = progress.skippedPercent
@@ -2336,6 +2337,7 @@ def track_progress_cache(student_id,marks_id):
                 ==chap:
                     skipped += 1
             if right+wrong+skipped == 0:
+                print('topic was not in test')
                 return
        # right percent
             right_percent = (right / (right+wrong))*100
@@ -2364,6 +2366,8 @@ def track_progress_cache(student_id,marks_id):
             progress.wrongPercent = wrongPercent_old
             progress.rightTime = right_timing_old
             progress.wrongTime = wrong_timing_old
+            print(progress.dates)
+            print('progress to be saved (previous cache)')
             progress.save()
             
         except:
@@ -2384,6 +2388,7 @@ def track_progress_cache(student_id,marks_id):
 
 
                     right += right
+                    print(right)
                     chapter_mark = chapter_mark +  quest.max_marks
             for quest_id in marks.wrongAnswers:
                 quest = SSCquestions.objects.get(choices__id = quest_id)
@@ -2395,13 +2400,16 @@ def track_progress_cache(student_id,marks_id):
 
 
                     wrong += wrong
+                    print(wrong)
                     chapter_mark = chapter_mark -  quest.max_marks
             for quest_id in marks.skippedAnswers:
                 quest = SSCquestions.objects.get(id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
                     skipped += 1
+                    print(skipped)
             if right + wrong + skipped == 0:
+                print('not in test')
                 return
             if right + wrong == 0:
                 right_percent = 0
@@ -2435,6 +2443,8 @@ def track_progress_cache(student_id,marks_id):
             progress.student = student
             progress.rightTime =right_ave_timing
             progress.wrongTime = wrong_ave_timing
+            print(progress.dates)
+            print('progress aved for first time')
             progress.save()
 
 @shared_task
