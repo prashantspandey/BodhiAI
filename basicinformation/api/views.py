@@ -1511,7 +1511,7 @@ class StudentAllWeakAreasAPIView(APIView):
 class StudentProgressBriefAPIView(APIView):
     def get(self,request):
         me = Studs(self.request.user)
-        progress_cache = StudentPorgressChapterCache.objects.filter(student=
+        progress_cache = StudentProgressChapterCache.objects.filter(student=
                                                                     me.profile)
         progress_list = []
         for pr in progress_cache:
