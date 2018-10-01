@@ -1508,3 +1508,15 @@ class StudentAllWeakAreasAPIView(APIView):
         return Response(context)
 
 
+class StudentProgressBriefAPIView(APIView):
+    def get(self,request):
+        me = Studs(self.request.user)
+        progress_cache = StudentPorgressChapterCache.objects.filter(student=
+                                                                    me.profile)
+        progress_list = []
+        for pr in progress_cache:
+            pr_dict =\
+                    {'subject':pr.subject,'chapter':chapter,'marks':pr.marks,'dates':pr.dates}
+            progress_list.append(pr_dict)
+
+        return Response(progress_list)
