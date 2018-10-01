@@ -216,8 +216,9 @@ class CustomLoginAPIView(APIView):
         token, created = Token.objects.get_or_create(user=user)
         groups = user.groups.all()
         deleteBadTests.delay()
+        student_details = StudentDetails.objects.get(student = user)
         token_context  = \
-        {'key':token.key,'user_type':groups[0].name,'name':user.username}
+                {'key':token.key,'user_type':groups[0].name,'name':user.username,'photo':student_details.photo}
         return Response(token_context,status = 200)
 
 class CustomLogoutAPIView(APIView):
