@@ -1516,7 +1516,7 @@ class StudentProgressBriefAPIView(APIView):
         progress_list = []
         for pr in progress_cache:
             pr_dict =\
-                    {'subject':pr.subject,'chapter':chapter,'marks':pr.marks,'dates':pr.dates}
+                    {'subject':pr.subject,'chapter':pr.chapter,'marks':pr.marks,'dates':pr.dates}
             progress_list.append(pr_dict)
 
         return Response(progress_list)
