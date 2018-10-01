@@ -54,7 +54,7 @@ class StudentShowDetialsAPIView(APIView):
         except Exception as e:
             print(str(e))
             context =\
-            {"id":None,"fullName":None,"phone":None,"address":None,"email":None,"fatherName":None,"parentPhone":None}
+                    {"id":None,"fullName":None,"phone":None,"address":None,"email":None,"fatherName":None,"parentPhone":None,"photo_url":None}
             return Response(context)
 
 
@@ -66,6 +66,7 @@ class StudentFillDetailsAPIView(APIView):
         fatherName = request.POST['fathersName']
         parentPhone = request.POST['parentPhone']
         email = request.POST['email']
+        photo_url = request.POST['photo_url']
         try:
             my_profile = StudentDetails.objects.get(student =
                                                     self.request.user)
@@ -73,6 +74,7 @@ class StudentFillDetailsAPIView(APIView):
 
             my_profile = StudentDetails()
         my_profile.student = self.request.user
+        my_profile.photo = photo_url
         my_profile.address = address
         my_profile.email = email
         my_profile.phone = phone

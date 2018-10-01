@@ -78,6 +78,7 @@ class StudentCustomProfile(models.Model):
 
 class StudentDetails(models.Model):
     student = models.OneToOneField(User)
+    photo = models.URLField(max_length = 500,null=True,blank=True)
     fullName = models.CharField(max_length = 100,null=True,blank=True)
     address = models.CharField(max_length = 400,null=True,blank=True)
     phone = models.BigIntegerField(null=True, blank=True,

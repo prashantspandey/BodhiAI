@@ -90,6 +90,7 @@ class StudentProfileDetailsSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'fullName',
+            'photo',
             'phone',
             'address',
             'email',
