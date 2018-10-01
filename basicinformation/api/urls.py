@@ -87,6 +87,10 @@ urlpatterns = [
     url(r'student_subject_weakAreas/$',views.StudentAllWeakAreasAPIView.as_view(),name='StudentSubjectWeakAreas'),
 # Student Progress brief
     url(r'student_progress_brief/$',views.StudentProgressBriefAPIView.as_view(),name='StudentProgressBrief'),
+# Student Progress chapterwise detail
+    url(r'student_progress_detail/$',views.StudentProgressChapterDetailAPIView.as_view(),name='StudentProgressDetail'),
+# Student Progress  detail
+    url(r'student_progress_subject/$',views.StudentProgressDetailAPIView.as_view(),name='StudentProgressSubject'),
 
 
 

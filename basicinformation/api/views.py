@@ -1519,7 +1519,42 @@ class StudentProgressBriefAPIView(APIView):
                                                   pr.chapter)
             chapter_name = chapter.name
             pr_dict =\
-                    {'subject':pr.subject,'chapter':chapter_name,'marks':pr.marks,'dates':pr.dates}
+                    {'subject':pr.subject,'chapter_code':pr.chapter,'chapter':chapter_name,'marks':pr.marks,'dates':pr.dates}
             progress_list.append(pr_dict)
 
         return Response(progress_list)
+
+class StudentProgressChapterDetailAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        chapter = request.POST['chapter']
+        subject = request.POST['subject']
+        me = Studs(self.request.user)
+        progress_cache = StudentProgressChapterCache.objects.get(subject =
+                                                                    subject,chapter=chapter,student=me.profile)
+        context =\
+        {'marks':progress_cache.marks,'rightPercent':progress_cache.rightPercent,'wrongPercent':progress_cache.wrongPercent,
+         'rightTime':progress_cache.rightTime,'wrongTime':progress_cache.wrongTime,'skippedPercent':progress_cache.skippedPercent,'totalRight':progress_cache.totalRight,
+         'totalWrong':progress_cache.totalWrong,'totalSkipped':progress_cache.totalSkipped,'dates':progress_cache.dates}
+        return Response(context)
+
+
+class StudentProgressDetailAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        subject = request.POST['subject']
+        progress_cache = StudentProgressChapterCache.objects.filter(student =
+                                                                    me.profile,subject
+                                                                    = subject)
+        progress_list = []
+        for pr in progress_cache:
+            chapter = SubjectChapters.objects.get(subject = pr.subject,code =
+                                                  pr.chapter)
+            chapter_name = chapter.name
+
+            context =\
+                    {'chapter':chapter_name,'marks':pr.marks,'rightPercent':pr.rightPercent,'wrongPercent':pr.wrongPercent,
+             'rightTime':pr.rightTime,'wrongTime':pr.wrongTime,'skippedPercent':pr.skippedPercent,'totalRight':pr.totalRight,
+             'totalWrong':pr.totalWrong,'totalSkipped':pr.totalSkipped,'dates':pr.dates}
+            progress_list.append(context)
+        return Response(progress_list)
+
+
