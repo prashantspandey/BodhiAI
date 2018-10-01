@@ -9,7 +9,7 @@ from .serializers import *
 from basicinformation.marksprediction import *
 from QuestionsAndPapers.models import *
 from basicinformation.tasks import *
-import json
+import json 
 from more_itertools import unique_everseen
 from rest_framework.response import Response
 from rest_framework.permissions import (
@@ -217,7 +217,7 @@ class CustomLoginAPIView(APIView):
         groups = user.groups.all()
         deleteBadTests.delay()
         token_context  = \
-        {'key':token.key,'user_type':groups[0].name,'name':user.first_name}
+        {'key':token.key,'user_type':groups[0].name,'name':user.username}
         return Response(token_context,status = 200)
 
 class CustomLogoutAPIView(APIView):
