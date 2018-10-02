@@ -296,7 +296,7 @@ class TeacherOneClickConfirmAPIView(APIView):
         # class object to find out how many times has the teacher used a
         # question for that certain class
         test_quest = []  # the question containing list
-        print(topics_total)
+        print('{} total topics in test'.format(topics_total))
         for cat,num in topics_total:
             cat = cat.strip()
             num = int(num)

@@ -1759,7 +1759,7 @@ def CreateOneClickTestFinal(user_id,batch,subject,quest_ids):
         kl = klass.objects.get(school = me.my_school(),name= batch)
         test.klas = kl
         totalTime = len(test_quest)*0.6 # one question requires 36 secs
-
+        print('{} total time of test, {} for batch'.format(totalTime,kl))
         test.totalTime = totalTime
         test.save()
         # add questions to testpaper

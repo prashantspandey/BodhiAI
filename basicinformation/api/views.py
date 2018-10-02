@@ -1543,6 +1543,7 @@ class StudentProgressChapterDetailAPIView(APIView):
 class StudentProgressDetailAPIView(APIView):
     def post(self,request,*args,**kwargs):
         subject = request.POST['subject']
+        me = Studs(self.request.user)
         progress_cache = StudentProgressChapterCache.objects.filter(student =
                                                                     me.profile,subject
                                                                     = subject)
