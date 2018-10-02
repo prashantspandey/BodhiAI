@@ -1752,8 +1752,11 @@ def CreateOneClickTestFinal(user_id,batch,subject,quest_ids):
         quest_ids2 = quest_ids1.replace(']','')
         quest_ids_list = quest_ids2.split(',')
         print('{} quests list'.format(quest_ids_list))
+        test_quest = []
         for qu in quest_ids_list:
-            quest = SSCquestions.objects.get(id = qu)
+            qu = qu.strip()
+            qid = int(qu)
+            quest = SSCquestions.objects.get(id = qid)
             test_quest.append(quest)
         for qu in test_quest:
             marks += qu.max_marks
