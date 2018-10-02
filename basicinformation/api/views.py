@@ -1336,7 +1336,8 @@ class TeacherEditBatchesFinal(APIView):
     def post(self,request,*args,**kwargs):
         me = Teach(self.request.user)
         confirmation_list = request.POST['confirmation_list']
-        answers = answers.split(',')
+        print(confirmation_list)
+        answers = confirmation_list.split(',')
         inner = []
         outer = []
         tot = 0

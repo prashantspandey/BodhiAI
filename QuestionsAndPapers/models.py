@@ -531,4 +531,10 @@ class StudentProgressChapterCache(models.Model):
     str(self.marks)
 
 
+class JobList(models.Model):
+    title = models.CharField(max_length = 500)
+    body = models.TextField()
+    date = models.CharField(max_length = 30)
 
+    def __str__(self):
+        return str(self.title) + ' '+ str(self.date)
