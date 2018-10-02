@@ -1344,7 +1344,7 @@ class TeacherEditBatchesFinal(APIView):
         for n,a in enumerate(answers):
             a = a.replace('[','')
             a = a.replace(']','')
-            val = int(a)
+            val = a
             inner.append(val)
             if (n+1)%2 == 0:
                 outer.append(list(inner))
