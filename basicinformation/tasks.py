@@ -1742,7 +1742,8 @@ def addOldTests(stud_id,teacher_id,kl):
    
 @shared_task
 def CreateOneClickTestFinal(user_id,batch,subject,quest_ids):
-        me = Teacher.objects.get(teacheruser_id = user_id)
+        user = User.objects.get(id = user_id)
+        me = Teach(user)
         test = SSCKlassTest()
         test.name=str('oneclick')+str(me.profile)+str(batch)+str(timezone.now())
         test.mode = 'BodhiOnline'
