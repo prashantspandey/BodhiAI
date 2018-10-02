@@ -1358,41 +1358,39 @@ class TeacherEditBatchesFinal(APIView):
         for i,j in outer:
             print(i)
             print(j)
+            kl = klass.objects.get(name = j.strip(),school = me.profile.school)
+            confirmation = StudentConfirmation.objects.get(id = int(i))
+            confirmation.batch = kl
+            confirmation.confirm = True
+            confirmation.save()
+            student_user = confirmation.student
+            student = Student.objects.get(studentuser = student_user)
+            student.klass = kl
+            student.save()
+            my_subjects = student.subject_set.all()
+            for i in my_subjects:
+                i.delete()
 
+            try:
+                custom_batch = CustomBatch.objects.get(klass = kl, teacher=me.profile)
+                subjects = custom_batch.subjects
+                for sub in subjects:
+                    custom_sub =\
+                    Subject(name=sub.strip(),student=student,teacher=me.profile)
+                    custom_sub.save()
+            except Exception as e:
+                print(str(e))
 
-        #klass_name = request.POST['klass']
-        #confirmation_id = request.POST['confirmation_id']
-        #kl = klass.objects.get(name = klass_name,school = me.profile.school)
-        #confirmation = StudentConfirmation.objects.get(id = confirmation_id)
-        #confirmation.batch = kl
-        #confirmation.confirm = True
-        #confirmation.save()
-        #student_user = confirmation.student
-        #student = Student.objects.get(studentuser = student_user)
-        #student.klass = kl
-        #student.save()
-        #my_subjects = student.subject_set.all()
-        #for i in my_subjects:
-        #    i.delete()
+                if kl.name == 'SSC' or kl.name == 'RailwayGroupD':
+                    course = 'SSC'
+                if kl.name == 'LocoPilot' or kl.name == 'Outer':
+                    course = 'Loco'
+                add_subjects_change_batch.delay(course,student.id,me.profile.id,kl.id)
+            addOldTests.delay(student.id,me.profile.id,kl.id)
+            serializer = StudentConfirmationSerializer(confirmation)
 
-        #try:
-        #    custom_batch = CustomBatch.objects.get(klass = kl, teacher=me.profile)
-        #    subjects = custom_batch.subjects
-        #    for sub in subjects:
-        #        custom_sub =\
-        #        Subject(name=sub.strip(),student=student,teacher=me.profile)
-        #        custom_sub.save()
-        #except Exception as e:
-        #    print(str(e))
-
-        #    if kl.name == 'SSC' or kl.name == 'RailwayGroupD':
-        #        course = 'SSC'
-        #    if kl.name == 'LocoPilot' or kl.name == 'Outer':
-        #        course = 'Loco'
-        #    add_subjects_change_batch.delay(course,student.id,me.profile.id,kl.id)
-        #addOldTests.delay(student.id,me.profile.id,kl.id)
-        #serializer = StudentConfirmationSerializer(confirmation)
         return Response(serializer.data)
+
 class CreateBatchAPIView(APIView):
     def get(self,request,*args,**kwargs):
         me = Teach(self.request.user)
