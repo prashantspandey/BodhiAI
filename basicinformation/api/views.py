@@ -1387,9 +1387,9 @@ class TeacherEditBatchesFinal(APIView):
                     course = 'Loco'
                 add_subjects_change_batch.delay(course,student.id,me.profile.id,kl.id)
             addOldTests.delay(student.id,me.profile.id,kl.id)
-            serializer = StudentConfirmationSerializer(confirmation)
+            context = {'success':'success'}
 
-        return Response(serializer.data)
+        return Response(context)
 
 class CreateBatchAPIView(APIView):
     def get(self,request,*args,**kwargs):
