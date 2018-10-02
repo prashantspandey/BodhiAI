@@ -1355,6 +1355,9 @@ class TeacherEditBatchesFinal(APIView):
 
         outer = np.array(outer)
         print(outer)
+        for i,j in outer:
+            print(i)
+            print(j)
 
 
         #klass_name = request.POST['klass']
