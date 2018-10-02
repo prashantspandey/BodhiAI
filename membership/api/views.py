@@ -43,6 +43,8 @@ class CustomRegistration(APIView):
                    institute = 'JEN'
                if 'ysm' in institute.lower():
                    institute = 'YSM'
+               if 'bodhiai' in institute.lower():
+                   institute = "BodhiAI"
                school = School.objects.get(name=institute)
                print('{} school'.format(school.name))
                batch = klass.objects.get(school=school,name='Outer')
@@ -55,7 +57,7 @@ class CustomRegistration(APIView):
 
             
                teacher = Teacher.objects.get(school=school)
-               if institute == 'YSM' or institute == 'BodhiAI':
+               if institute == 'YSM' or institute == 'BodhiAi':
                    add_subjects('SSC',stud,teacher)
                elif 'jen' in institute.lower():
                    add_subjects('Loco',stud,teacher)
