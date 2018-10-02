@@ -1748,7 +1748,11 @@ def CreateOneClickTestFinal(user_id,batch,subject,quest_ids):
         test.name=str('oneclick')+str(me.profile)+str(batch)+str(timezone.now())
         test.mode = 'BodhiOnline'
         marks = 0
-        for qu in quest_ids:
+        quest_ids1 = quest_ids.replace('[','')
+        quest_ids2 = quest_ids1.replace(']','')
+        quest_ids_list = quest_ids2.split(',')
+        print('{} quests list'.format(quest_ids_list))
+        for qu in quest_ids_list:
             quest = SSCquestions.objects.get(id = qu)
             test_quest.append(quest)
         for qu in test_quest:
