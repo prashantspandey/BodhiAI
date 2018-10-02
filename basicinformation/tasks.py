@@ -2321,11 +2321,13 @@ def track_progress_cache(student_id,subject,marks_id):
             chapter_mark = 0
             wrong_time = []
             right_time = []
+            total_marks = 0
             for quest_id in marks.rightAnswers:
                 quest = SSCquestions.objects.get(choices__id = quest_id)
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
                     right = right + 1
+                    total_marks = total_marks + quest.max_marks
                     chapter_mark = chapter_mark +  quest.max_marks
 
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
@@ -2337,6 +2339,7 @@ def track_progress_cache(student_id,subject,marks_id):
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
                     wrong = wrong + 1
+                    total_marks = total_marks + quest.max_marks
                     chapter_mark = chapter_mark -  quest.max_marks
 
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
@@ -2360,7 +2363,8 @@ def track_progress_cache(student_id,subject,marks_id):
     # skipped percent
             skipped_percent = (skipped / (right+wrong+skipped)) * 100
     #adding current marks to old marks list
-            marks_old.append(chapter_mark)
+            mark_percent = (chapter_mark / total_marks) *100
+            marks_old.append(mark_percent)
     # adding current test date to old dates list
             dates_old.append(str(marks.testTaken))
     # calculating the average timing when question is right or wrong
@@ -2394,6 +2398,7 @@ def track_progress_cache(student_id,subject,marks_id):
             chapter_mark = 0
             wrong_time = []
             right_time = []
+            total_marks = 0
             print('{} len of right answers, {} wrong answers,{}\
                   skipped'.format(len(marks.rightAnswers),len(marks.wrongAnswers),len(marks.skippedAnswers)))
             for quest_id in marks.rightAnswers:
@@ -2406,6 +2411,7 @@ def track_progress_cache(student_id,subject,marks_id):
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
                     right = right + 1
+                    total_marks = total_marks + quest.max_marks
                     print('{} right'.format(right))
                     chapter_mark = chapter_mark +  quest.max_marks
                     print('{} marks '.format(chapter_mark))
@@ -2420,6 +2426,7 @@ def track_progress_cache(student_id,subject,marks_id):
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
                     wrong = wrong + 1
+                    total_marks = total_marks + quest.max_marks
                     print('{} wrong'.format(wrong))
                     chapter_mark = chapter_mark -  quest.max_marks
                     print('{} marks '.format(chapter_mark))
@@ -2463,7 +2470,8 @@ def track_progress_cache(student_id,subject,marks_id):
             right_list = [right_percent]
             wrong_list = [wrong_percent]
             dates = [str(marks.testTaken)]
-            test_mark = [chapter_mark]
+            mark_percent = (chapter_mark / total_marks) *100
+            test_mark = [mark_percent]
             skipped_percent_list = [skipped_percent]
             progress.marks = test_mark
             progress.rightPercent = right_list
