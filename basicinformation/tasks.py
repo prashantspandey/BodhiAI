@@ -2392,6 +2392,7 @@ def track_progress_cache(student_id,subject,marks_id):
             progress.save()
             
         except Exception as e:
+            print(str(e))
             right = 0
             wrong = 0
             skipped = 0 
