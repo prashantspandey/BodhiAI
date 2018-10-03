@@ -1530,7 +1530,7 @@ class StudentAllWeakAreasAPIView(APIView):
             context =\
                     {'chapter':chapter_name,'accuracy':accuracy,'totalRight':totalRight,'totalWrong':totalWrong,'totalSkipped':totalSkipped,'skippedPercent':skippedPercent,'totalAttempted':totalAttempted}
             weak_areas.append(context)
-        return Response(context)
+        return Response(weak_areas)
 
 
 class StudentProgressBriefAPIView(APIView):
