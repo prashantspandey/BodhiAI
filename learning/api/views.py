@@ -69,4 +69,9 @@ class StudentGetContentAPIView(APIView):
         context = {'url':con_url,'title':con_title}
         return Response(context)
 
-
+class TeacherSubjectsAPIView(APIView):
+    def get(self,request):
+        me = Teach(self.request.user)
+        subjects = me.my_subjects_names()
+        context = {'subjects':subjects}
+        return Response(context)
