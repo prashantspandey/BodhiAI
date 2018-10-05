@@ -75,3 +75,12 @@ class TeacherSubjectsAPIView(APIView):
         subjects = me.my_subjects_names()
         context = {'subjects':subjects}
         return Response(context)
+
+class TeacherGetChaptersAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        subject = request.POST['subject']
+        chapters = SubjectChapters.objects.filter(subject = subject)
+        chapter_serializer = SubjectChapterSerializer(chapters,many=True)
+        return Response(chapter_serializer.data)
+
+
