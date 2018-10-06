@@ -1599,7 +1599,7 @@ class TeacherAddQuestionImageAPIView(APIView):
         quest.picture = image_url
         quest.section_category = subject
         quest.topic_category = chapter
-        quest.school = me.my_school()
+        quest.school = me.profile.school
         quest.max_marks = int(max_marks)
         quest.negative_marks = negative_marks
         quest.language = lang
