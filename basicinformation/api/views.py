@@ -1611,6 +1611,7 @@ class TeacherAddQuestionImageAPIView(APIView):
         quest.language = lang
         quest.save()
         quest.school.add(me.profile.school)
+        opt_num = int(opt_num)
         for i in range(opt_num):
             choice = Choices()
             choice.quest = quest
