@@ -2664,12 +2664,14 @@ def get_section(sectionType):
             return('CAT_Quantitative_Aptitude')
         elif sectionType.strip() == 'loco_civil':
             return('Civil_Loco_Pilot_Tech')
+        elif sectionType.strip() == 'ssc_electrical':
+            return('SSC_Electronics1')
 
 @shared_task
 def create_Subject_topics(sheet_link):
     for sh in sheet_link:
         df=\
-        pd.read_csv('/app/question_data/jen_content/civil_nontech/'+sh,error_bad_lines=False )
+        pd.read_csv('/app/question_data/jen_content/electrical_jen/'+sh,error_bad_lines=False )
         sectionType = df['section_type']
         code = df['category']
         name = df['name']
