@@ -776,7 +776,13 @@ class Studs:
             subjects.append(sub.name)
         subjects = list(unique_everseen(subjects))
         return subjects
-
+    def get_taken_subjects(self):
+        tests = SSCOnlineMarks.objects.filter(student = self.profile)
+        subs = []
+        for i in tests:
+            subs.append(i.test.sub)
+        sub = list(unique_everseen(subs))
+        return sub
 
     def readmarks(self,subject):
         subjects = self.profile.subject_set.get(name = subject)

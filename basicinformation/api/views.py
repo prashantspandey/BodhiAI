@@ -1583,4 +1583,22 @@ class StudentProgressDetailAPIView(APIView):
             progress_list.append(context)
         return Response(progress_list)
 
+class TeacherAddQuestionImageAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Teach(self.request.user)
+        image_url = request.POST['image_url']
+        subject = request.POST['subject']
+        chapter = request.POST['chapter']
+        correct_option = request.POST['correct']
+        max_marks = request.POST['max_marks']
+        negative_marks = request.POST['negative_marks']
+
+
+        quest = SSCquestions()
+        quest.picture = image_url
+        quest.section_category = subject
+        quest.topic_category = chapter
+        quest.school = me.my_school()
+        context = {'none':'none'}
+        return Response(context)
 

@@ -24,7 +24,8 @@ import datetime
 class StudentSubjectsAPIView(APIView):
     def get(self,request,format=None):
         me = Studs(self.request.user)
-        subjects = me.my_subjects_names()
+        #subjects = me.my_subjects_names()
+        subjects = me.get_taken_subjects()
         print(subjects)
         context = {'subjects':subjects}
         return Response(context)
