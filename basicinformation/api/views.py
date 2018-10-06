@@ -1594,16 +1594,23 @@ class TeacherAddQuestionImageAPIView(APIView):
         negative_marks = request.POST['negative_marks']
         opt_num = request.POST['numberOptions']
         lang = request.POST['lang']
-
+        print(image_url)
+        print(subject)
+        print(chapter)
+        print(correct_option)
+        print(max_marks)
+        print(negative_marks)
+        print(opt_num)
+        print(lang)
         quest = SSCquestions()
         quest.picture = image_url
         quest.section_category = subject
         quest.topic_category = chapter
-        quest.school = me.profile.school
         quest.max_marks = int(max_marks)
         quest.negative_marks = negative_marks
         quest.language = lang
         quest.save()
+        quest.school.add(me.profile.school)
         for i in range(opt_num):
             choice = Choices()
             choice.quest = quest
