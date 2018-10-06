@@ -862,6 +862,9 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
             new_questions.section_category = 'CAT_Quantitative_Aptitude'
         elif sectionType.strip() == 'loco_civil':
             new_questions.section_category = 'Civil_Loco_Pilot_Tech'
+        elif sectionType.strip() == 'ssc_electrical':
+            new_questions.section_category = 'SSC_Electronics1'
+
 
 
 
