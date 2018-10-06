@@ -1592,13 +1592,49 @@ class TeacherAddQuestionImageAPIView(APIView):
         correct_option = request.POST['correct']
         max_marks = request.POST['max_marks']
         negative_marks = request.POST['negative_marks']
-
+        opt_num = request.POST['numberOptions']
+        lang = request.POST['lang']
 
         quest = SSCquestions()
         quest.picture = image_url
         quest.section_category = subject
         quest.topic_category = chapter
         quest.school = me.my_school()
-        context = {'none':'none'}
+        quest.max_marks = int(max_marks)
+        quest.negative_marks = negative_marks
+        quest.language = lang
+        quest.save()
+        for i in range(opt_num):
+            choice = Choices()
+            choice.quest = quest
+            if i == 0:
+                choice.text = 'A'
+            elif i == 1:
+                choice.text = 'B'
+            elif i == 2:
+                choice.text = 'C'
+            elif i == 3:
+                choice.text = 'D'
+            elif i == 4:
+                choice.text = 'E'
+            if i == 0 and correct_option == 'A':
+                choice.predicament = 'Correct'
+            elif i == 1 and correct_option == 'B':
+                choice.predicament = 'Correct'
+            elif i == 2 and correct_option == 'C':
+                choice.predicament = 'Correct'
+            elif i == 3 and correct_option == 'D':
+                choice.predicament = 'Correct'
+            elif i == 4 and correct_option == 'E':
+                choice.predicament = 'Correct'
+            else:
+                choice.predicament = 'Wrong'
+
+            choice.save()
+
+
+        serializer = SSCQuestionSerializer(quest)
+        context = {'question':serializer.data}
+
         return Response(context)
 

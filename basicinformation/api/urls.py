@@ -8,10 +8,7 @@ urlpatterns = [
     url(r'last_test_performance_teacher/$',views.LastClassTestPerformanceTeacherAPI.as_view(),name='last_performance_teacher'),
     url(r'teacher_weak_areas_brief/$',views.TeacherWeakAreasBrief.as_view(),name='teacher_weak_areas_brief'),
     url(r'teacher_weak_areas_brief_android/$',views.TeacherWeakAreasBriefAndroid.as_view(),name='teacher_weak_areas_brief_Android'),
-    url(r'teacher_weak_areas_detail/$',views.TeacherWeakAreasDetailAPIView.as_view(),name='TeacherWeakAreasDetailAPI'),
-    url(r'teacher_tests_overview/$',views.TeacherTestsOverview.as_view(),name='teacher_tests_overview'),
-    url(r'teacher_tests_overview_android/$',views.TeacherTestsOverviewAndroid.as_view(),name='teacher_tests_overview_Android'),
-    url(r'teacher_hard_questions/$',views.TeachersHardQuestionsAPIView.as_view(),name='TeacherHardQuestions'),
+    url(r'teacher_weak_areas_detail/$',views.TeacherWeakAreasDetailAPIView.as_view(),name='TeacherWeakAreasDetailAPI'), url(r'teacher_tests_overview/$',views.TeacherTestsOverview.as_view(),name='teacher_tests_overview'), url(r'teacher_tests_overview_android/$',views.TeacherTestsOverviewAndroid.as_view(),name='teacher_tests_overview_Android'), url(r'teacher_hard_questions/$',views.TeachersHardQuestionsAPIView.as_view(),name='TeacherHardQuestions'),
     url(r'teacher_hard_questions_latest/$',views.TeachersHardQuestions3TestsAPIView.as_view(),name='TeacherHardQuestionsLatest'),
     url(r'teacher_subjectNames/$',views.TeacherSubjectsAPIView.as_view(),name='TeacherSubjects'),
     url(r'teacher_classNames/$',views.TeacherBatchesAPIView.as_view(),name='TeacherBatches'),
@@ -91,6 +88,8 @@ urlpatterns = [
     url(r'student_progress_detail/$',views.StudentProgressChapterDetailAPIView.as_view(),name='StudentProgressDetail'),
 # Student Progress  detail
     url(r'student_progress_subject/$',views.StudentProgressDetailAPIView.as_view(),name='StudentProgressSubject'),
+# Teacher Add question
+    url(r'teacher_add_question/$',views.TeacherAddQuestionImageAPIView.as_view(),name='TeacherAddQuestions'),
 
 
 
