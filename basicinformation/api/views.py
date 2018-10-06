@@ -1614,7 +1614,7 @@ class TeacherAddQuestionImageAPIView(APIView):
         opt_num = int(opt_num)
         for i in range(opt_num):
             choice = Choices()
-            choice.quest = quest
+            choice.sscquest = quest
             if i == 0:
                 choice.text = 'A'
             elif i == 1:
