@@ -343,17 +343,17 @@ def home(request):
             #adding_quest =\
             #delete_allQuestions.delay("JEN")
             #allquestions_institute.delay('English',"JEN")
-            add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
+            #add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
             #students = Student.objects.filter(school__name = "JEN")
             #jen_teacher = Teacher.objects.get(school__name = "JEN")
             #for stud in students:
             #    add_subjects_new.delay("Civil_Loco_Pilot_Tech",stud.id,jen_teacher.id)
             #add_png.delay()
-            #school_name = 'JEN'
-            #batch = 'LocoPilot'
-            #school = School.objects.get(name=school_name)
-            #teacher = Teacher.objects.get(school=school)
-            #addsubjects.delay(school_name,batch,teacher.name)
+            school_name = 'JEN'
+            batch = 'LocoPilot'
+            school = School.objects.get(name=school_name)
+            teacher = Teacher.objects.get(school=school)
+            addsubjects.delay(school_name,batch,teacher.name)
             #add_questions('JEN','ElectricalLocoPilot')
             #quest_added = add_to_database_questions.delay(sheet_links,'Swami Reasoning World',onlyImage=True,production =\
             #                          True)

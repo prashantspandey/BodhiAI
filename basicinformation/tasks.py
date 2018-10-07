@@ -977,7 +977,7 @@ def addsubjects(school,batch,teacher):
     for i in students:
         sub = Subject()
         sub.teacher = teacher
-        sub.name = 'FitterLocoPilot'
+        sub.name = 'SSC_Electronics1'
         sub.student = i
         sub.save()
 
