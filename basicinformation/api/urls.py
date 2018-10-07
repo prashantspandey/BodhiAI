@@ -90,6 +90,8 @@ urlpatterns = [
     url(r'student_progress_subject/$',views.StudentProgressDetailAPIView.as_view(),name='StudentProgressSubject'),
 # Teacher Add question
     url(r'teacher_add_question/$',views.TeacherAddQuestionImageAPIView.as_view(),name='TeacherAddQuestions'),
+# Teacher Add text question
+    url(r'teacher_add_question_text/$',views.TeacherUploadTextQuestionAPIView.as_view(),name='TeacherAddQuestionText'),
 
 
 

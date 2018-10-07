@@ -165,7 +165,7 @@ class CustomBatch(models.Model):
     klass = models.ForeignKey(klass)
     subjects = ArrayField(models.CharField(max_length=200))
     school = models.ForeignKey(School)
-    teacher = models.ForeignKey(Teacher)
+    teacher = models.ManyToManyField(Teacher,blank=True)
 
     def __str__(self):
         return str(self.school) + ' ' + str(self.subjects)

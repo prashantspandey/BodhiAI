@@ -21,7 +21,7 @@ from rest_framework.permissions import (
 )
 from basicinformation.tasks import *
 import datetime
-
+from decimal import Decimal
 
 class StudentListAPIView(generics.ListAPIView):
     serializer_class = StudentModelSerializer
@@ -1424,9 +1424,9 @@ class CreateBatchFinalAPIView(APIView):
         custom_batch = CustomBatch()
         custom_batch.klass = kl
         custom_batch.school = me.profile.school
-        custom_batch.teacher = teacher
         custom_batch.subjects = sub_list
         custom_batch.save()
+        custom_batch.teacher.add(teacher)
         klass_cache = TeacherClasses()
         klass_cache.teacher = teacher
         klass_cache.klass = kl
@@ -1607,7 +1607,7 @@ class TeacherAddQuestionImageAPIView(APIView):
         quest.section_category = subject
         quest.topic_category = chapter
         quest.max_marks = int(max_marks)
-        quest.negative_marks = negative_marks
+        quest.negative_marks = Decimal(negative_marks)
         quest.language = lang
         quest.save()
         quest.school.add(me.profile.school)
@@ -1645,4 +1645,63 @@ class TeacherAddQuestionImageAPIView(APIView):
         context = {'question':serializer.data}
 
         return Response(context)
+
+class TeacherUploadTextQuestionAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Teah(self.request.user)
+        text = request.POST['text']
+        optA = request.POST['optA']
+        optB = request.POST['optB']
+        optC = request.POST['optC']
+        optD = request.POST['optD']
+        optE = request.POST['optE']
+        list_options = []
+        list_options.append(optA)
+        list_options.append(optB)
+        list_options.append(optC)
+        list_options.append(optD)
+        list_options.append(optE)
+        correct = request.POST['correct']
+        max_marks = request.POST['max_marks']
+        negative_marks = request.POST['negative_marks']
+        subject = request.POST['subject']
+        chapter = request.POST['chapter']
+        num_options = request.POST['number_options']
+        quest = SSCquestions()
+        quest.text = text.strip()
+        quest.section_category = subject
+        quest.topic_category = chapter
+        quest.max_marks = int(max_marks)
+        quest.negative_marks = Decimal(negative_marks)
+        quest.language = lang
+        quest.save()
+        quest.school.add(me.profile.school)
+        num_options = int(num_options)
+        for opt in range(num_options):
+            choice = Choices()
+            choice.text = list_options[opt]
+            if opt == 0 and correct == 'A':
+                choice.predicament == 'Correct'
+            elif opt == 1 and correct == 'B':
+                choice.predicament == 'Correct'
+            elif opt == 2 and correct == 'C':
+                choice.predicament == 'Correct'
+            elif opt == 3 and correct == 'D':
+                choice.predicament == 'Correct'
+            elif opt == 4 and correct == 'E':
+                choice.predicament == 'Correct'
+            else:
+                choice.predicament = 'Wrong'
+            choice.save()
+
+        serializer = SSCQuestionSerializer(quest)
+        context = {'question':serializer.data}
+
+        return Response(context)
+
+
+
+
+
+
 

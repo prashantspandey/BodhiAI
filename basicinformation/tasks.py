@@ -1674,31 +1674,16 @@ def create_test_api(user_id,quest_list,date,time,kl):
         students = Student.objects.filter(klass = kl,school =
                                           me.profile.school)
         for i in students:
-            subjs = Subject.objects.filter(teacher =
-                                          me.profile,student=i,name
-                                          = test.sub)
-            if subjs:
-                studs = Student.objects.get(subject = subjs)
-                test.testTakers.add(studs)
-                test.save()
+            test.testTakers.add(i)
+            test.save()
 
     else:
         students = Student.objects.filter(klass = kl,school = me.profile.school)
         for i in students:
-            all_subs = []
-            for su in subs:
-                subjs = Subject.objects.filter(teacher =
-                                          me.profile,student=i,name
-                                          = su)
-                all_subs.append(subjs)
-            if len(all_subs) != 0:
-                for s in all_subs:
-                    try:
-                        studs = Student.objects.get(subject = s)
-                        test.testTakers.add(studs)
-                        test.save()
-                    except:
-                        pass
+            test.testTakers.add(i)
+            test.save()
+
+
         if 'Defence-Physics' in subs or 'Defence-English' in\
         subs or 'Defence-GK-CA' in subs:
             test.sub = 'Defence-MultipleSubjects'
@@ -1712,7 +1697,7 @@ def create_test_api(user_id,quest_list,date,time,kl):
             test.sub = 'LocoPilot-MultipleSubjects'
 
         else:
-            test.sub = 'SSCMultipleSections'
+            test.sub = 'MultipleSections'
     
     test.mode = 'BodhiOnline'
     test.save()
