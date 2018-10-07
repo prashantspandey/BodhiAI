@@ -72,7 +72,8 @@ class TeacherCreateAnnouncemntFinalAPIView(APIView):
 class StudentShowAnnnouncementAPIView(APIView):
     def get(self,request,format=None):
         me = Studs(self.request.user)
-        my_announcement = Announcement.objects.filter(listener = me.profile)
+        my_announcement = Announcement.objects.filter(listener =
+                                                      me.profile).order_by('id')
         all_announcements = []
         for ann in my_announcement:
             a_dict = {'teacher':ann.announcer.name,'text':ann.text.strip(),'date':ann.date}
