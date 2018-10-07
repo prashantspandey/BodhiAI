@@ -2681,4 +2681,11 @@ def create_Subject_topics(sheet_link):
                 chapter.save()
                 print('{} new subject with {} code'.format(subject,str(code)))
 
+@shared_task
+def add_announcements_newStudent(stud_id,kl_id):
+    student = Student.objects.get(id = stud_id)
+    klass = klass.objects.get(id = kl_id)
+    announcements = Announcement.objects.filter(klass = klass)
+    for ann in announcements:
+        ann.listener.add(student)
 

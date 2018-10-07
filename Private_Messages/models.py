@@ -20,6 +20,7 @@ class Announcement(models.Model):
     listener = models.ManyToManyField(Student)
     text = models.CharField(max_length= 1000)
     date = models.DateField(auto_now_add = True)
+    klass = models.ManyToManyField(klass,blank=True)
 
     def __str__(self):
         return self.text

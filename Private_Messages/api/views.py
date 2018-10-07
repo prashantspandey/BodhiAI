@@ -60,6 +60,7 @@ class TeacherCreateAnnouncemntFinalAPIView(APIView):
         announcement = Announcement()
         announcement.announcer = me.profile
         announcement.text = message
+        announcement.klass.add(batch)
         announcement.save()
         for stud in students:
             announcement.listener.add(stud)

@@ -69,7 +69,7 @@ class CustomRegistration(APIView):
                confirmation.batch = batch
                confirmation.save()
                addOldTests.delay(stud.id,teacher.id,batch.id)
-                
+               add_announcements_newStudent.delay(stud.id,batch.id)
 
                token = Token.objects.create(user=user)
                json = serializer.data
@@ -205,6 +205,7 @@ class TeacherStudentConfirmedAPIView(APIView):
         confirmation.batch = batch
         confirmation.save()
         addOldTests.delay(student.id,me.profile.id,batch.id)
+        add_announcements_newStudent.delay(student.id,batch.id)
         context = {'success': '{} Successfully added to  {} batch.'.format(student.name,batch.name)}
         return Response(context)
 
