@@ -2284,7 +2284,7 @@ def addChapter(subject):
 def track_progress_cache(student_id,subject,marks_id):
     student = Student.objects.get(id = student_id)
     chapters = get_chapters(subject)
-
+    subject = subject.strip()
     for chap in chapters:
         marks = SSCOnlineMarks.objects.get(id = marks_id)
         try:
@@ -2345,9 +2345,14 @@ def track_progress_cache(student_id,subject,marks_id):
                 print('topic was not in test')
                 continue
        # right percent
-            right_percent = (right / (right+wrong))*100
+            if right+wrong == 0:
+                right_percent = 0
+                wrong_percent =0
+            else:
+                right_percent = (right / (right+wrong))*100
+
     # wrong percent
-            wrong_percent = (wrong / (right+wrong))*100
+                wrong_percent = (wrong / (right+wrong))*100
     # skipped percent
             skipped_percent = (skipped / (right+wrong+skipped)) * 100
     #adding current marks to old marks list
@@ -2356,8 +2361,14 @@ def track_progress_cache(student_id,subject,marks_id):
     # adding current test date to old dates list
             dates_old.append(str(marks.testTaken))
     # calculating the average timing when question is right or wrong
-            right_ave_timing = (sum(right_time) / right)
-            wrong_ave_timing = (sum(wrong_time) / wrong)
+            if right != 0:
+                right_ave_timing = (sum(right_time) / right)
+            else:
+                right_ave_timing = 0
+            if wrong != 0:
+                wrong_ave_timing = (sum(wrong_time) / wrong)
+            else:
+                wrong_ave_timing = 0
     # adding average right or wrong timing to the old list
             right_timing_old.append(right_ave_timing)
             wrong_timing_old.append(wrong_ave_timing)
