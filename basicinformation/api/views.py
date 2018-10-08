@@ -1594,6 +1594,7 @@ class TeacherAddQuestionImageAPIView(APIView):
         negative_marks = request.POST['negative_marks']
         opt_num = request.POST['numberOptions']
         lang = request.POST['lang']
+        direction = request.POST['direction']
         print(image_url)
         print(subject)
         print(chapter)
@@ -1602,8 +1603,11 @@ class TeacherAddQuestionImageAPIView(APIView):
         print(negative_marks)
         print(opt_num)
         print(lang)
+        print(direction)
         quest = SSCquestions()
         quest.picture = image_url
+        if direction != "":
+            quest.text = direction.strip()
         quest.section_category = subject
         quest.topic_category = chapter
         quest.max_marks = int(max_marks)
@@ -1648,7 +1652,7 @@ class TeacherAddQuestionImageAPIView(APIView):
 
 class TeacherUploadTextQuestionAPIView(APIView):
     def post(self,request,*args,**kwargs):
-        me = Teah(self.request.user)
+        me = Teach(self.request.user)
         text = request.POST['text']
         optA = request.POST['optA']
         optB = request.POST['optB']
