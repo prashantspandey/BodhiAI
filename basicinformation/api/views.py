@@ -1671,6 +1671,7 @@ class TeacherUploadTextQuestionAPIView(APIView):
         subject = request.POST['subject']
         chapter = request.POST['chapter']
         num_options = request.POST['number_options']
+        lang = request.POST['lang']
         quest = SSCquestions()
         quest.text = text.strip()
         quest.section_category = subject
