@@ -1611,7 +1611,7 @@ class TeacherAddQuestionImageAPIView(APIView):
         quest.section_category = subject
         quest.topic_category = chapter
         quest.max_marks = int(max_marks)
-        quest.negative_marks = Decimal(negative_marks)
+        quest.negative_marks = float(negative_marks)
         quest.language = lang
         quest.save()
         quest.school.add(me.profile.school)
