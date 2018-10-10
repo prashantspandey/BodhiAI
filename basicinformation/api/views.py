@@ -76,7 +76,7 @@ class StudentFillDetailsAPIView(APIView):
         if parentPhone == "":
             parentPhone = None
         if email == "":
-            email = None
+            email = 'none@none.com'
 
         my_profile.student = self.request.user
         my_profile.photo = photo_url
