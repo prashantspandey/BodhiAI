@@ -73,6 +73,11 @@ class StudentFillDetailsAPIView(APIView):
         except:
 
             my_profile = StudentDetails()
+        if parentPhone == "":
+            parentPhone = None
+        if email == "":
+            email = None
+
         my_profile.student = self.request.user
         my_profile.photo = photo_url
         my_profile.address = address
