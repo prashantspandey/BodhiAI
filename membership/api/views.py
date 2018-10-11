@@ -289,12 +289,10 @@ def add_subjects(course,stud,teacher):
 
 class FireBaseToken(APIView):
     def post(self,request,*args,**kwargs):
-        username = request.POST['username']
         token = request.POST['token']
-        user = User.objects.get(username = username)
-        student = Student.objects.get(studentuser = user)
+        user = self.request.user
         firebase_token = FirebaseToken()
-        firebase_token.student = student
+        firebase_token.user = user
         firebase_token.token = token
         firebase_token.save()
         context = {'token': 'token saved'}

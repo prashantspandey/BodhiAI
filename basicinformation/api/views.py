@@ -1710,7 +1710,12 @@ class TeacherUploadTextQuestionAPIView(APIView):
         return Response(context)
 
 
-
+class get_username(APIView):
+    def get(self,request):
+        user = self.request.user
+        username = user.username
+        context = {'username':username}
+        return Response(context)
 
 
 

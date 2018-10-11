@@ -4,7 +4,7 @@ from django.contrib.postgres.fields import ArrayField
 from basicinformation.models import *
 
 class FirebaseToken(models.Model):
-    student = models.ForeignKey(Student)
+    user = models.ForeignKey(User,null=True,blank=True)
     token = models.CharField(max_length = 500)
 
     def __str__(self):
