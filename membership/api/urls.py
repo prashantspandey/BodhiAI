@@ -18,6 +18,10 @@ urlpatterns = [
    url(r'custom_logout/$',
        views.CustomLogoutAPIView.as_view(),name =
        'CustomLogout'),
+   url(r'firebase_token/$',
+       views.FireBaseToken.as_view(),name =
+       'FireBaseToken'),
+
 
 
 ]
