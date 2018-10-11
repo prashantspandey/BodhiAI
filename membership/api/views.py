@@ -221,8 +221,12 @@ class CustomLoginAPIView(APIView):
         deleteBadTests.delay()
         try:
             student_details = StudentDetails.objects.get(student = user)
+            student = Student.objects.get(studentuser = user)
+            klass_name = student.klass.name
+
             token_context  = \
-                {'key':token.key,'user_type':groups[0].name,'name':user.username,'photo':student_details.photo}
+                {'key':token.key,'user_type':groups[0].name,'name':user.username,'photo':student_details.photo,'batch':klass_name}
+
         except:
             token_context  = \
                 {'key':token.key,'user_type':groups[0].name,'name':user.username,'photo':None}

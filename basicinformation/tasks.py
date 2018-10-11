@@ -26,8 +26,7 @@ def bring_teacher_subjects_analysis(user_id):
     subject1 = me.test_taken_subjects(user)
     sub = subject0 + subject1
     sub = list(unique_everseen(sub))
-    return sub 
-@shared_task
+    return sub @shared_task
 def evaluate_test(user_id,test_id,time_taken):
         # get values of test id and total test time
         user = User.objects.get(id = user_id)
@@ -2699,4 +2698,21 @@ def add_announcements_newStudent(stud_id,kl_id):
     announcements = Announcement.objects.filter(klass = klass)
     for ann in announcements:
         ann.listener.add(student)
+@shared_task
+def delete_questions():
+    df =\
+    pd.read_csv('/app/question_data/jen_content/delete/question_delete.csv')
+    quest_ids = df['delete']
+    print('{} questions to be deleted'.format(len(quest_ids)))
+    for i in quest_ids:
+        try:
+            question = SSCquestions.objects.get(id = int(i))
+            question.delete()
+        except Exception as e:
+            print(str(e))
 
+@shared_task
+def add_jobs(path):
+    with open(path) as fi:
+        jobs = pickle.load(fi)
+    print(jobs)

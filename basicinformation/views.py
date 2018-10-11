@@ -327,7 +327,7 @@ def home(request):
             #['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
             sheet_links = \
                     ['electronics1.csv']
-            delete_questions()
+            delete_questions.delay('/app/scraped/pickles/freejobs.pickle')
             #create_timing_cache_detail.delay()
             #start_caching_prgress.delay()
             #create_Subject_topics.delay(sheet_links)
@@ -2926,12 +2926,4 @@ def add_concepts():
 
             print('{} normal'.format(j))
 
-def delete_questions():
-    df =\
-    pd.read_csv('/app/question_data/jen_content/delete/question_delete.csv')
-    quest_ids = df['delete']
-    print('{} questions to be deleted'.format(len(quest_ids)))
-    for i in quest_ids:
-        question = SSCquestions.objects.get(id = int(i))
-        question.delete()
-        
+       
