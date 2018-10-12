@@ -1305,7 +1305,7 @@ class TeacherAnalysisIndividualStudentAPIView(APIView):
 class StudentShowPerformanceSubjectsAPIView(APIView):
     def get(self,request,format=None):
         me = Studs(self.request.user)
-        subjects = me.already_takenTests_Subjects()
+        subjects = me.my_taken_subjects()
         context = {'subjects':subjects}
         return Response(context)
 
@@ -1605,15 +1605,6 @@ class TeacherAddQuestionImageAPIView(APIView):
         opt_num = request.POST['numberOptions']
         lang = request.POST['lang']
         direction = request.POST['direction']
-        print(image_url)
-        print(subject)
-        print(chapter)
-        print(correct_option)
-        print(max_marks)
-        print(negative_marks)
-        print(opt_num)
-        print(lang)
-        print(direction)
         quest = SSCquestions()
         quest.picture = image_url
         if direction != "":
