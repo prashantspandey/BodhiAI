@@ -169,6 +169,13 @@ class CustomBatch(models.Model):
 
     def __str__(self):
         return str(self.school) + ' ' + str(self.subjects)
+
+class PrefferredLanguage(models.Model):
+    student = models.ForeignKey(student)
+    language = models.CharField(max_length = 100)
+
+    def __str__(self):
+        return str(self.student) + ' ' + str(self.language)
 #class ImprovementStudent(models.Model):
 #    testid = ArrayField(models.IntegerField())
 #    percent = ArrayField(models.CharField(max_length=10))

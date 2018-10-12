@@ -94,6 +94,8 @@ urlpatterns = [
     url(r'teacher_add_question_text/$',views.TeacherUploadTextQuestionAPIView.as_view(),name='TeacherAddQuestionText'),
 # Get username of user
     url(r'get_username/$',views.get_username.as_view(),name='GetUsername'),
+# Preferred Language set
+    url(r'preffered_language/$',views.SetPrefferedLanguage.as_view(),name='SetPrefferedLanguage'),
 
 
 

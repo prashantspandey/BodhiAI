@@ -1263,7 +1263,12 @@ class TeacherAnalysisShowTestsAPIView(APIView):
     def post(self,request,*args,**kwargs):
         subject = request.POST['subject']
         batch = request.POST['batch']
-        all_tests = SSCKlassTest.objects.filter(creator = self.request.user)
+        me = Teach(self.request.user)
+        school = me.my_school()
+        klass = klass.objects.get(name = batch,school = school)
+        all_tests = SSCKlassTest.objects.filter(creator =
+                                                self.request.user,sub =
+                                                subject,klas = klass)
         all_ids = []
         all_dates = []
         all_test_dict = {}
@@ -1719,4 +1724,16 @@ class get_username(APIView):
 
 
 
-
+class SetPreferredLanguage(APIView):
+    def post(self,request,*args,**kwargs):
+        language = request.POST['language']
+        student = Student.objects.get(studentuser = self.request.user)
+        try:
+            preffered_lang = PrefferedLanguage.objects.get(student = student)
+        except:
+            preffered_lang = PrefferedLanguage()
+            preffered_lang.student = student
+            preffered_lang.language = language
+            preffered_lang.save()
+        context = {'saved':'saved'}
+        return Response(context)
