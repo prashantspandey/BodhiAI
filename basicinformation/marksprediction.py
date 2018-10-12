@@ -1058,7 +1058,7 @@ class Studs:
 
     def my_taken_subjects(self):
         subject_cache = StudentTakenSubjectsCache.objects.get(student =
-                                                              me.profile)
+                                                              self.profile)
         subjects = subject_cache.subjects
         return subjects
     def subjects_NotTakenTests(self):
