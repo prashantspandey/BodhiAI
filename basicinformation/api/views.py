@@ -1724,7 +1724,7 @@ class get_username(APIView):
 
 
 
-class SetPreferredLanguage(APIView):
+class SetPrefferedLanguage(APIView):
     def post(self,request,*args,**kwargs):
         language = request.POST['language']
         student = Student.objects.get(studentuser = self.request.user)

@@ -171,7 +171,7 @@ class CustomBatch(models.Model):
         return str(self.school) + ' ' + str(self.subjects)
 
 class PrefferredLanguage(models.Model):
-    student = models.ForeignKey(student)
+    student = models.ForeignKey(Student)
     language = models.CharField(max_length = 100)
 
     def __str__(self):
