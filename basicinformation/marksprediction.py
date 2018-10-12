@@ -1056,7 +1056,11 @@ class Studs:
                 subs.append(i.test.sub)
         return list(unique_everseen(subs))
 
-
+    def my_taken_subjects(self):
+        subject_cache = StudentTakenSubjectsCache.objects.get(student =
+                                                              me.profile)
+        subjects = subject_cache.subjects
+        return subjects
     def subjects_NotTakenTests(self):
         tests = SSCKlassTest.objects.filter(testTakers=self.profile)
         sub_list = []

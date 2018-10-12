@@ -553,7 +553,8 @@ class StudentEvaluateTestAPIView(APIView):
 class StudentSmartTestSubjectAPIView(APIView):
     def get(self,request,format=None):
         me = Studs(self.request.user)
-        subjects = me.already_takenTests_Subjects()
+        #subjects = me.already_takenTests_Subjects()
+        subjects = me.my_taken_subjects()
         context = {'subjects':subjects}
         return Response(context)
 
