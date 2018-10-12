@@ -1265,10 +1265,10 @@ class TeacherAnalysisShowTestsAPIView(APIView):
         batch = request.POST['batch']
         me = Teach(self.request.user)
         school = me.my_school()
-        klass = klass.objects.get(name = batch,school = school)
+        kl = klass.objects.get(name = batch,school = school)
         all_tests = SSCKlassTest.objects.filter(creator =
                                                 self.request.user,sub =
-                                                subject,klas = klass)
+                                                subject,klas = kl)
         all_ids = []
         all_dates = []
         all_test_dict = {}
