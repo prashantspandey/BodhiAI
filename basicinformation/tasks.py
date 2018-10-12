@@ -26,7 +26,8 @@ def bring_teacher_subjects_analysis(user_id):
     subject1 = me.test_taken_subjects(user)
     sub = subject0 + subject1
     sub = list(unique_everseen(sub))
-    return sub @shared_task
+    return sub 
+@shared_task
 def evaluate_test(user_id,test_id,time_taken):
         # get values of test id and total test time
         user = User.objects.get(id = user_id)
@@ -2716,3 +2717,43 @@ def add_jobs(path):
     with open(path) as fi:
         jobs = pickle.load(fi)
     print(jobs)
+
+@shared_task
+def fill_taken_subjects():
+    students = Student.objects.all()
+    for stud in students:
+        try:
+            cache = StudentTakenSubjectsCache.objects.get(student = stud)
+        except:
+            cache = StudentTakenSubjectsCache()
+            cache.student = stud
+            tests = SSCOnlineMarks.objects.filter(student = stud)
+            subjects = []
+            for te in tests:
+                subjects.append(te.test.sub)
+            subjects = list(unique_everseen(subjects))
+            if len(subjects) == 0:
+                continue
+            cache.subjects = subjects
+            cache.save()
+            print('{} for studnet cache saved'.format(stud))
+
+@shared_task
+def fill_subjects(student_id,subject):
+    student = Student.objects.get(id = student_id)
+    try:
+        cache = StudentTakenSubjectsCache.objects.get(student = student)
+        subs = cache.subjects
+        if subject in subs:
+            return
+        else:
+            subs.append(subject)
+            cache.subjects = subs
+            cache.save()
+    except:
+        cache = StudentTakenSubjectsCache()
+        cache.student = student
+        cache.subjects = list(subject)
+        cache.save()
+
+

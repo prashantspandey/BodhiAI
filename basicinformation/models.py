@@ -176,6 +176,13 @@ class PrefferredLanguage(models.Model):
 
     def __str__(self):
         return str(self.student) + ' ' + str(self.language)
+
+class StudentTakenSubjectsCache(models.Model):
+    student = models.ForeignKey(Student)
+    subjects = ArrayField(models.CharField(max_length=200))
+    
+    def __str__(self):
+        return str(self.student) + ' ' + str(self.subjects)
 #class ImprovementStudent(models.Model):
 #    testid = ArrayField(models.IntegerField())
 #    percent = ArrayField(models.CharField(max_length=10))

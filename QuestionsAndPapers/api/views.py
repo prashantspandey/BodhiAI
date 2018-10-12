@@ -547,6 +547,7 @@ class StudentEvaluateTestAPIView(APIView):
         CreateUpdateStudentAverageTimingDetail.delay(me.profile.id,subject,online_marks.id)
         CreateUpdateStudentWeakAreas.delay(me.profile.id,subject,online_marks.id)
         track_progress_cache.delay(me.profile.id,subject,online_marks.id)
+        fill_subjects.delay(me.profile.id,subject)
         return Response(context)
 
 class StudentSmartTestSubjectAPIView(APIView):
@@ -636,4 +637,10 @@ class StudentSmartTestCreationAPIView(APIView):
         context = {'weakAreas':weakar,'test':smartTest.id}
         return Response(context)
 
-
+class GetAllQuestions(APIView):
+    def get(self,request):
+        me = Teach(self.request.user)
+        quests = SSCquestions.objects.filter(section_category
+                                             ='LocoPilot_Diesel')
+        serializer = SSCQuestionSerializer(quests,many=True)
+        return Response(serializer.data)
