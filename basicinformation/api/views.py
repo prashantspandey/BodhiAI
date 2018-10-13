@@ -1453,6 +1453,7 @@ class checkAndroidUpdateAPIView(APIView):
     def post(self,request,*args,**kwargs):
         package_name = request.POST['package_name']
         version_code = request.POST['version_code']
+        return None
         entry = AndroidAppVersion.objects.filter(package_name =
                                                  package_name).order_by('time')
         new_version = False
