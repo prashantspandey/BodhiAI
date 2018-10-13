@@ -1348,10 +1348,11 @@ class TeacherEditBatchSearch(APIView):
     def post(self,request,*args,**kwargs):
         name =request.POST['name']
         batch_confirmations =\
-        StudentConfirmation.objects.filter(student__username = name)
+        StudentConfirmation.objects.filter(student__username__icontains = name)
         serialzer =\
         StudentConfirmationSerializer(batch_confirmations,many=True)
         return Response(serialzer.data)
+
 class TeacherEditBatchesFinal(APIView):
     def post(self,request,*args,**kwargs):
         me = Teach(self.request.user)
