@@ -8,5 +8,5 @@ class FirebaseToken(models.Model):
     token = models.CharField(max_length = 500)
 
     def __str__(self):
-        return str(self.student) + ' ' + str(self.token)
+        return str(self.user) + ' ' + str(self.token)
  
