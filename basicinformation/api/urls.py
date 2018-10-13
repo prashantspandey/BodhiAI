@@ -96,6 +96,8 @@ urlpatterns = [
     url(r'get_username/$',views.get_username.as_view(),name='GetUsername'),
 # Preferred Language set
     url(r'preffered_language/$',views.SetPrefferedLanguage.as_view(),name='SetPrefferedLanguage'),
+# Edit batch search
+    url(r'edit_batch_search/$',views.TeacherEditBatchSearch.as_view(),name='EditBatchSearch'),
 
 
 

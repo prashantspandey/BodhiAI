@@ -1335,6 +1335,8 @@ class TeacherEditBatches(APIView):
         StudentConfirmationSerializer(batch_confirmations,many=True)
         return Response(serializer.data)
 
+
+
 class TeacherEditBatchesSendBatch(APIView):
     def get(self,request):
         me = Teach(self.request.user)
@@ -1342,11 +1344,18 @@ class TeacherEditBatchesSendBatch(APIView):
         context = {'klasses':klass}
         return Response(context)
 
+class TeacherEditBatchSearch(APIView):
+    def post(self,request,*args,**kwargs):
+        name =request.POST['name']
+        batch_confirmations =\
+        StudentConfirmation.objects.filter(student__username = name)
+        serialzer =\
+        StudentConfirmationSerializer(batch_confirmations,many=True)
+        return Response(serialzer.data)
 class TeacherEditBatchesFinal(APIView):
     def post(self,request,*args,**kwargs):
         me = Teach(self.request.user)
         confirmation_list = request.POST['confirmation_list']
-        print(confirmation_list)
         answers = confirmation_list.split(',')
         inner = []
         outer = []
