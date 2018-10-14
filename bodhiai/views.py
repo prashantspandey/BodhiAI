@@ -5,7 +5,7 @@ from django.utils import timezone
 from basicinformation.models import InterestedPeople
 def index(request):
     context = {'hello':'hello'}
-    return render(request,'basicinformation/index2.html',context)
+    return render(request,'basicinformation/index3.html',context)
 
 def interested_people(request):
     if 'tel' in request.GET:
