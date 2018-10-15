@@ -1744,5 +1744,5 @@ class StudentCurrentBatchAPIView(APIView):
     def get(self,request):
         me = Studs(self.request.user)
         batch = me.get_batch()
-        context = {'batch':batch}
+        context = {'batch':batch.name}
         return Response(context)
