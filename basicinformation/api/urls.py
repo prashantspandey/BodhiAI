@@ -101,6 +101,8 @@ urlpatterns = [
     url(r'preffered_language/$',views.SetPrefferedLanguage.as_view(),name='SetPrefferedLanguage'),
 # Edit batch search
     url(r'edit_batch_search/$',views.TeacherEditBatchSearch.as_view(),name='EditBatchSearch'),
+# Student Current Batch
+    url(r'student_current_batch/$',views.StudentCurrentBatchAPIView.as_view(),name='StudentCurrentBatch'),
 
 
 

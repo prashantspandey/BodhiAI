@@ -1739,3 +1739,10 @@ class SetPrefferedLanguage(APIView):
             preffered_lang.save()
         context = {'saved':'saved'}
         return Response(context)
+
+class StudentCurrentBatchAPIView(APIView):
+    def get(self,request):
+        me = Studs(self.request.user)
+        batch = me.get_batch()
+        context = {'batch':batch}
+        return Response(context)
