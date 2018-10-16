@@ -291,10 +291,15 @@ class FireBaseToken(APIView):
     def post(self,request,*args,**kwargs):
         token = request.POST['token']
         user = self.request.user
-        firebase_token = FirebaseToken()
-        firebase_token.user = user
-        firebase_token.token = token
-        firebase_token.save()
+        try:
+            firebase_token = FireBaseToken.objects.get(user = user)
+            firebase_token.token = token
+            firebase_token.save()
+        except:
+            firebase_token = FirebaseToken()
+            firebase_token.user = user
+            firebase_token.token = token
+            firebase_token.save()
         context = {'token': 'token saved'}
         return Response(context)
         
