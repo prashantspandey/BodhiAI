@@ -183,6 +183,17 @@ class StudentTakenSubjectsCache(models.Model):
     
     def __str__(self):
         return str(self.student) + ' ' + str(self.subjects)
+
+class StudentTapTracker(models.Model):
+    student = models.ForeignKey(Student)
+    events = ArrayField(models.CharField(max_length=400))
+    subjects = ArrayField(models.DateTimeField())
+    date = models.DateField()
+
+    def __str__(self):
+        return str(self.student)+' ' + str(self.events)+ ' ' + str(self.date)
+
+    
 #class ImprovementStudent(models.Model):
 #    testid = ArrayField(models.IntegerField())
 #    percent = ArrayField(models.CharField(max_length=10))

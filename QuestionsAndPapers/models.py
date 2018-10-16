@@ -532,7 +532,17 @@ class StudentProgressChapterCache(models.Model):
         return str(self.student) + ' ' + str(self.subject) + ' '+\
     str(self.marks)
 
+class StudentChapterWiseActivity(models.Model):
+    student = models.ForeignKey(Student)
+    subject = models.CharField(max_length=100)
+    chapter = models.CharField(max_length=100)
+    numAttempted = ArrayField(models.IntegerField(),null=True)
+    date = models.DateField()
 
+    def __str__(self):
+        return str(self.student) + ' ' + str(self.numAttempted) + ' ' +\
+    str(self.date)
+    
 class JobList(models.Model):
     title = models.CharField(max_length = 500)
     body = models.TextField()
