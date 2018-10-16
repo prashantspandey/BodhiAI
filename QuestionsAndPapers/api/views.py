@@ -33,7 +33,8 @@ class StudentPaperDetailsAPIView(APIView):
         taken_ids = []
         for test in my_tests:
             taken_ids.append(test.test.id)
-        new_tests = SSCKlassTest.objects.filter(testTakers = me.profile)
+        new_tests = SSCKlassTest.objects.filter(testTakers =
+                                                me.profile).order_by('-id')[:10]
         tests = []
         test_details = {}
         for te in new_tests:

@@ -716,7 +716,7 @@ class StudentPreviousPerformanceBriefAPIView(APIView):
     def get(self,request,format=None):
         me = Studs(self.request.user)
         taken_tests =\
-        SSCOnlineMarks.objects.filter(student=me.profile).order_by('testTaken')
+        SSCOnlineMarks.objects.filter(student=me.profile).order_by('-testTaken')
         prev_performance = {}
         subjects = []
         for test in taken_tests:
