@@ -247,6 +247,7 @@ class SSCOnlineMarks(models.Model):
     skippedAnswers = ArrayField(models.IntegerField(null=True,blank=True))
     marks = models.DecimalField(max_digits=4,decimal_places=2)
     testTaken = models.DateField()
+    testTakenTime = models.DateTimeField(blank=True,null=True)
     timeTaken = models.IntegerField()
     def __str__(self):
         return str(self.marks)

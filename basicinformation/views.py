@@ -326,13 +326,13 @@ def home(request):
             #sheet_links =\
             #['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
             sheet_links = \
-                    ['electronics1.csv']
-            add_jobs.delay('app/scraped/pickles/freejobs.pickle')
+                    ['units_measurements.csv','vector_analysis.csv']
+            #add_jobs.delay('app/scraped/pickles/freejobs.pickle')
             #delete_questions.delay('/app/scraped/pickles/freejobs.pickle')
             #fill_taken_subjects.delay()
             #create_timing_cache_detail.delay()
             #start_caching_prgress.delay()
-            #create_Subject_topics.delay(sheet_links)
+            create_Subject_topics.delay(sheet_links)
             #delete_timing_cache.delay()
             #cache = StudentAverageTimingDetailCache.objects.all()
             #print('{} len of cache'.format(cache))

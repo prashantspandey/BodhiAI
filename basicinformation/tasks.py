@@ -2675,7 +2675,7 @@ def get_section(sectionType):
 def create_Subject_topics(sheet_link):
     for sh in sheet_link:
         df=\
-        pd.read_csv('/app/question_data/jen_content/electrical_jen/'+sh,error_bad_lines=False )
+        pd.read_csv('/app/question_data/jen_content/iit_jee_physics/jee_phy/'+sh,error_bad_lines=False )
         sectionType = df['section_type']
         code = df['category']
         name = df['name']
