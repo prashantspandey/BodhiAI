@@ -979,6 +979,9 @@ class TeacherCreateTimeTable(APIView):
         if subject in my_subjects:
             time_table.sub = subject
             time_table.save()
+            title = "Your class is on " + str(date)
+            body = "Class of " + str(subject)
+            notification_create_timetable.delay(title,body,self.request.user.id,batch.name)
             serialzer = TimeTableModelSerializer(time_table)
             return Response(serialzer.data)
         else:
