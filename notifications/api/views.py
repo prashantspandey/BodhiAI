@@ -49,6 +49,7 @@ def CreateTestNotification(title,body,sender_token,batch):
            }
 
     link = "https://fcm.googleapis.com/fcm/send"
+    print('{} payload {} headers'.format(payload,headers))
     response = requests.post(link,data=json.dumps(payload),headers=headers)
     print('{} response code create test'.format(response.status_code))
     return response.status_code
