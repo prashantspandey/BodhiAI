@@ -332,7 +332,7 @@ def home(request):
             #fill_taken_subjects.delay()
             #create_timing_cache_detail.delay()
             #start_caching_prgress.delay()
-            create_Subject_topics.delay(sheet_links)
+            #create_Subject_topics.delay(sheet_links)
             #delete_timing_cache.delay()
             #cache = StudentAverageTimingDetailCache.objects.all()
             #print('{} len of cache'.format(cache))
@@ -346,7 +346,7 @@ def home(request):
             #adding_quest =\
             #delete_allQuestions.delay("JEN")
             #allquestions_institute.delay('English',"JEN")
-            #add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
+            add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
             #students = Student.objects.filter(school__name = "JEN")
             #jen_teacher = Teacher.objects.get(school__name = "JEN")
             #for stud in students:
