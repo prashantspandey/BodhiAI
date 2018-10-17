@@ -28,6 +28,7 @@ def  OneToOneMessageAPIView(title,body,sender_token,receiver_token):
 
     link = "https://fcm.googleapis.com/fcm/send"
     response = requests.post(link,data=json.dumps(payload),headers=headers)
+    print('{} response code message'.format(response.status_code))
     return response.status_code
 
 
@@ -49,6 +50,7 @@ def CreateTestNotification(title,body,sender_token,batch):
 
     link = "https://fcm.googleapis.com/fcm/send"
     response = requests.post(link,data=json.dumps(payload),headers=headers)
+    print('{} response code create test'.format(response.status_code))
     return response.status_code
 
 
@@ -70,6 +72,7 @@ def AnnouncementNotification(title,body,sender_token,batch):
 
     link = "https://fcm.googleapis.com/fcm/send"
     response = requests.post(link,data=json.dumps(payload),headers=headers)
+    print('{} response code announcement'.format(response.status_code))
     return response.status_code
 
 def TimeTableNotification(title,body,sender_token,batch):
@@ -90,6 +93,7 @@ def TimeTableNotification(title,body,sender_token,batch):
 
     link = "https://fcm.googleapis.com/fcm/send"
     response = requests.post(link,data=json.dumps(payload),headers=headers)
+    print('{} response code time table'.format(response.status_code))
     return response.status_code
 
 
