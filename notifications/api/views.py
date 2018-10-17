@@ -10,7 +10,7 @@ from rest_framework.response import Response
 import requests
 
 
-class OneToOneMessageAPIView(title,body,sender_token,receiver_token):
+def  OneToOneMessageAPIView(title,body,sender_token,receiver_token):
     payload = {
     "notification" : {
         "title" : str(title),
@@ -31,7 +31,7 @@ class OneToOneMessageAPIView(title,body,sender_token,receiver_token):
     return
 
 
-class CreateTestNotification(title,body,teacher_token,batch):
+def CreateTestNotification(title,body,teacher_token,batch):
     payload = {
     "notification" : {
         "title" : str(title),
@@ -52,7 +52,7 @@ class CreateTestNotification(title,body,teacher_token,batch):
     return
 
 
-class AnnouncementNotification(title,body,teacher_token,batch):
+def AnnouncementNotification(title,body,teacher_token,batch):
     payload = {
     "notification" : {
         "title" : str(title),
@@ -72,7 +72,7 @@ class AnnouncementNotification(title,body,teacher_token,batch):
     response = requests.post(link,data=json.dumps(payload),headers=headers)
     return
 
-class TimeTableNotification(title,body,teacher_token,batch):
+def TimeTableNotification(title,body,teacher_token,batch):
     payload = {
     "notification" : {
         "title" : str(title),
