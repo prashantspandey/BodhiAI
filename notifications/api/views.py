@@ -31,7 +31,7 @@ def  OneToOneMessageAPIView(title,body,sender_token,receiver_token):
     return response.status_code
 
 
-def CreateTestNotification(title,body,teacher_token,batch):
+def CreateTestNotification(title,body,sender_token,batch):
     payload = {
     "notification" : {
         "title" : str(title),
@@ -52,7 +52,7 @@ def CreateTestNotification(title,body,teacher_token,batch):
     return response.status_code
 
 
-def AnnouncementNotification(title,body,teacher_token,batch):
+def AnnouncementNotification(title,body,sender_token,batch):
     payload = {
     "notification" : {
         "title" : str(title),
@@ -72,7 +72,7 @@ def AnnouncementNotification(title,body,teacher_token,batch):
     response = requests.post(link,data=json.dumps(payload),headers=headers)
     return response.status_code
 
-def TimeTableNotification(title,body,teacher_token,batch):
+def TimeTableNotification(title,body,sender_token,batch):
     payload = {
     "notification" : {
         "title" : str(title),
