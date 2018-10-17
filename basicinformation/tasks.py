@@ -2777,32 +2777,23 @@ def notification_onetoone_message(title,body,sender_id,receiver_id):
     
 @shared_task
 def notification_announcement(title,body,sender_id,batch):
-    user_send = User.objects.get(id = sender_id)
-    try:
-        sender_query = FirebaseToken.objects.get(user = user_send)
-        sender_token = sender_query.token
-        AnnouncementNotification(title,body,sender_token,batch)
-    except Exception as e:
-        print(str(e))
+    user = User.objectsg.get(id = sender_id)
+    me = Teach(user)
+    school = me.my_school()
+    AnnouncementNotification(title,body,school.name,batch)
 
 @shared_task
 def notification_create_test(title,body,sender_id,batch):
-    user_send = User.objects.get(id = sender_id)
-    try:
-        sender_query = FirebaseToken.objects.get(user = user_send)
-        sender_token = sender_query.token
-        CreateTestNotification(title,body,sender_token,batch)
-    except Exception as e:
-        print(str(e))
+    user = User.objectsg.get(id = sender_id)
+    me = Teach(user)
+    school = me.my_school()
+    CreateTestNotification(title,body,school.name,batch)
 
 @shared_task
 def notification_create_timetable(title,body,sender_id,batch):
-    user_send = User.objects.get(id = sender_id)
-    try:
-        sender_query = FirebaseToken.objects.get(user = user_send)
-        sender_token = sender_query.token
-        TimeTableNotification(title,body,sender_token,batch)
-    except Exception as e:
-        print(str(e))
+    user = User.objectsg.get(id = sender_id)
+    me = Teach(user)
+    school = me.my_school()
+    TimeTableNotification(title,body,school.name,batch)
 
 

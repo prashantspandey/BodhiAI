@@ -10,7 +10,9 @@ from rest_framework.response import Response
 import requests
 
 
-def  OneToOneMessageAPIView(title,body,sender_token,receiver_token):
+JEN_KEY = 'AIzaSyCnTXtRcZgSXhNSYA_wAWNIHrYBBru0Q-s'
+BODHIAI_KEY = 'AIzaSyBPReyXJ8R4K18wdVw8ij7mjbdj3DNUUPI'
+def  OneToOneMessageAPIView(title,body,school,receiver_token):
     payload = {
     "notification" : {
         "title" : str(title),
@@ -32,7 +34,12 @@ def  OneToOneMessageAPIView(title,body,sender_token,receiver_token):
     return response.status_code
 
 
-def CreateTestNotification(title,body,sender_token,batch):
+def CreateTestNotification(title,body,school,batch):
+    if 'JEN' in school:
+        sender_token = JEN_KEY
+    elif 'BodhiAI' in school:
+        sender_token = BODHIAI_KEY
+
     payload = {
     "notification" : {
         "title" : str(title),
@@ -55,7 +62,11 @@ def CreateTestNotification(title,body,sender_token,batch):
     return response.status_code
 
 
-def AnnouncementNotification(title,body,sender_token,batch):
+def AnnouncementNotification(title,body,school,batch):
+    if 'JEN' in school:
+        sender_token = JEN_KEY
+    elif 'BodhiAI' in school:
+        sender_token = BODHIAI_KEY
     payload = {
     "notification" : {
         "title" : str(title),
@@ -76,7 +87,12 @@ def AnnouncementNotification(title,body,sender_token,batch):
     print('{} response code announcement'.format(response.status_code))
     return response.status_code
 
-def TimeTableNotification(title,body,sender_token,batch):
+def TimeTableNotification(title,body,school,batch):
+    if 'JEN' in school:
+        sender_token = JEN_KEY
+    elif 'BodhiAI' in school:
+        sender_token = BODHIAI_KEY
+
     payload = {
     "notification" : {
         "title" : str(title),
