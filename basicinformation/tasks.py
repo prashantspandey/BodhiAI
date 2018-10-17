@@ -17,6 +17,8 @@ import pickle
 import json
 from django.db.models.signals import post_save
 from notifications.api.views import *
+from membership.models import *
+
 
 @shared_task
 def bring_teacher_subjects_analysis(user_id):
