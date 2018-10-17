@@ -38,6 +38,8 @@ class StudentSendMessageFinal(APIView):
         send_message.receiver = teacher.teacheruser
         send_message.body = message
         send_message.save()
+        title = 'Private Message from' + str(me.profile)
+        notification_onetoone_message.delay(title,message,batch.name)
         context = {'teacher':teacher.name,'message':message}
         return Response(context)
 
@@ -66,6 +68,7 @@ class TeacherCreateAnnouncemntFinalAPIView(APIView):
             announcement.listener.add(stud)
 
         announcement.save()
+        notification_announcement.delay('Announcement',message,batch.name)
         context = {'messsage':message, 'batch':batch.name}
         return Response(context)
 

@@ -444,6 +444,11 @@ class CreateTestFinalAPIView(APIView):
 
         
         serializer = SSCQuestionSerializer(all_questions,many=True)
+        title = 'Test can be created for you'
+        body = 'Number of questions: '+ str(len(all_questions))+ ' '+ 'of '+\
+        str(total_marks)
+
+
         context =\
         {'totalMarks':total_marks,'questions':serializer.data,'number_questions':len(all_questions)}
         return Response(context)

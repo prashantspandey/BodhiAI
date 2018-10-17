@@ -16,7 +16,7 @@ from .views import *
 import pickle
 import json
 from django.db.models.signals import post_save
-
+from notifications.api.views import *
 
 @shared_task
 def bring_teacher_subjects_analysis(user_id):
@@ -1701,6 +1701,9 @@ def create_test_api(user_id,quest_list,date,time,kl):
     
     test.mode = 'BodhiOnline'
     test.save()
+    title = "New test for you on "+str(test.sub)
+    body = "Total number of questions " + str(len(all_questions))
+    notification_create_test(title,body,user.id,kl.name)
 
 
 @shared_task
@@ -2755,5 +2758,49 @@ def fill_subjects(student_id,subject):
         cache.student = student
         cache.subjects = list(subject)
         cache.save()
+
+@shared_task
+def notification_onetoone_message(title,body,sender_id,receiver_id):
+    user_send = User.objects.get(id = sender_id)
+    user_receiver = User.objects.get(id = receiver_id)
+    try:
+        sender_query = FirebaseToken.objects.get(user = user_send)
+        receiver_query = FirebaseToken.objects.get(user = user_send)
+        sender_token = sender_query.token
+        receiver_token = receiver_query.token
+        OneToOneMessageAPIView(title,body,sender_token,receiver_token)
+    except Exception as e:
+        print(str(e))
+
+    
+@shared_task
+def notification_announcement(title,body,sender_id,batch):
+    user_send = User.objects.get(id = sender_id)
+    try:
+        sender_query = FirebaseToken.objects.get(user = user_send)
+        sender_token = sender_query.token
+        AnnouncementNotification(title,body,sender_token,batch)
+    except Exception as e:
+        print(str(e))
+
+@shared_task
+def notification_create_test(title,body,sender_id,batch):
+    user_send = User.objects.get(id = sender_id)
+    try:
+        sender_query = FirebaseToken.objects.get(user = user_send)
+        sender_token = sender_query.token
+        CreateTestNotification(title,body,sender_token,batch)
+    except Exception as e:
+        print(str(e))
+
+@shared_task
+def notification_create_timetable(title,body,sender_id,batch):
+    user_send = User.objects.get(id = sender_id)
+    try:
+        sender_query = FirebaseToken.objects.get(user = user_send)
+        sender_token = sender_query.token
+        TimeTableNotification(title,body,sender_token,batch)
+    except Exception as e:
+        print(str(e))
 
 
