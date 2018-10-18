@@ -39,3 +39,14 @@ class Concepts(models.Model):
 
     def __str__(self):
         return str(self.subject) +' '+ str(self.chapter) 
+
+
+class YoutubeExternalVideos(models.Model):
+    title = models.CharField(max_length=200,blank=True,null=True)
+    chapter = models.CharField(max_length=100,blank=True,null=True)
+    subject = models.CharField(max_length=100,blank=True,null=True)
+    link = models.URLField(max_length=500,blank=True,null=True)
+    
+    def __str__(self):
+        return str(self.title) + ' ' + str(self.subject)
+

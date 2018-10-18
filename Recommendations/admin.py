@@ -4,3 +4,4 @@ from .models import *
 
 admin.site.register(RecommendedContent)
 admin.site.register(Concepts)
+admin.site.register(YoutubeExternalVideos)

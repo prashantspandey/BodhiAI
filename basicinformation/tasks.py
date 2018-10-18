@@ -18,7 +18,7 @@ import json
 from django.db.models.signals import post_save
 from notifications.api.views import *
 from membership.models import *
-
+from Recommendations.api.views import *
 
 @shared_task
 def bring_teacher_subjects_analysis(user_id):
@@ -2797,3 +2797,31 @@ def notification_create_timetable(title,body,sender_id,batch):
     TimeTableNotification(title,body,school.name,batch)
 
 
+@shared_task
+def get_youtube_videos(subject,chapter):
+    print('in get youtube videos')
+    result = youtube_search(chapter)
+
+    print(result['title'])
+    print(result['videoId'])
+    li = result['videoId']
+    title = result['title']
+    title_list = []
+    link_list = []
+    for i in title:
+        title_list.append(i)
+    for i in li:
+        link_list.append(i)
+    both = list(zip(title_list,link_list))
+    for i,j in both:
+    
+        try:
+            vid = YoutubeExternalVideos.objects.get(link = j)
+        except Exception as e:
+            print(str(e))
+            save_vid = YoutubeExternalVideos()
+            save_vid.title = i[:150]
+            save_vid.chapter = chapter
+            save_vid.subject = subject
+            save_vid.link = j
+            save_vid.save()

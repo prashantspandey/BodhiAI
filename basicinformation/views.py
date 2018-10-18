@@ -327,6 +327,15 @@ def home(request):
             #['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
             sheet_links = \
                     ['units_measurements.csv','vector_analysis.csv']
+            sub = 'General-Intelligence'
+            chap = SubjectChapters.objects.filter(subject = sub)
+            print('all chapters {}'.format(chap))
+            chapters = []
+            for i in chap:
+                chapters.append(i.name)
+            for i in chapters:
+                print('searching for {} ...'.format(i))
+                get_youtube_videos(sub,i)
             #add_jobs.delay('app/scraped/pickles/freejobs.pickle')
             #delete_questions.delay('/app/scraped/pickles/freejobs.pickle')
             #fill_taken_subjects.delay()
@@ -347,10 +356,10 @@ def home(request):
             #delete_allQuestions.delay("JEN")
             #allquestions_institute.delay('English',"JEN")
             #add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
-            students = Student.objects.filter(school__name = "JEN")
-            jen_teacher = Teacher.objects.get(school__name = "JEN")
-            for stud in students:
-                add_subjects_new.delay("PhysicsIITJEE11",stud.id,jen_teacher.id)
+            #students = Student.objects.filter(school__name = "JEN")
+            #jen_teacher = Teacher.objects.get(school__name = "JEN")
+            #for stud in students:
+            #    add_subjects_new.delay("PhysicsIITJEE11",stud.id,jen_teacher.id)
             #add_png.delay()
             #school_name = 'JEN'
             #batch = 'LocoPilot'
