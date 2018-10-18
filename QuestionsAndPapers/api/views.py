@@ -7,7 +7,6 @@ from django.http import Http404, HttpResponse
 from .serializers import *
 from basicinformation.marksprediction import *
 from QuestionsAndPapers.models import *
-from basicinformation.tasks import *
 import json
 from more_itertools import unique_everseen
 from rest_framework.response import Response
@@ -18,6 +17,7 @@ from basicinformation.tasks import *
 from django.utils import timezone
 from django.utils.timezone import localdate
 import numpy as np
+from basicinformation.tasks import *
 # ALL STUDENT APIs
 
 #---------------------------------------------------------------------------------------
