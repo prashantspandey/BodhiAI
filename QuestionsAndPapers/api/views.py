@@ -69,7 +69,7 @@ class StudentPaperDetailsAndroidAPIView(APIView):
         for test in my_tests:
             taken_ids.append(test.test.id)
         new_tests = SSCKlassTest.objects.filter(testTakers =
-                                                me.profile).order_by('-id')[:10]
+                                                me.profile).order_by('-id')
 
         tests = []
         test_details = {}
