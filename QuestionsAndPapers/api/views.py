@@ -17,7 +17,7 @@ from basicinformation.tasks import *
 from django.utils import timezone
 from django.utils.timezone import localdate
 import numpy as np
-from basicinformation.tasks import *
+from basicinformation.tasks import create_test_api
 # ALL STUDENT APIs
 
 #---------------------------------------------------------------------------------------
