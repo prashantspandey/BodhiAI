@@ -22,7 +22,6 @@ from .models import *
 from django.utils import timezone
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from Recommendations.models import *
-# from .marksprediction import predictionConvertion, readmarks, averageoftest, teacher_get_students_classwise 
 from .marksprediction import *
 from operator import itemgetter
 from io import BytesIO as IO

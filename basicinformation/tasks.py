@@ -2700,7 +2700,8 @@ def notification_create_timetable(title,body,sender_id,batch):
 
 @shared_task
 def get_youtube_videos(subject,chapter):
-    result = youtube_search(chapter)
+    se = str(chapter) + ' ' + 'ssc'
+    result = youtube_search(se)
 
     print(result['title'])
     print(result['videoId'])

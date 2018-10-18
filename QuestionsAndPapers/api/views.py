@@ -1,4 +1,5 @@
 from rest_framework import generics
+from basicinformation.tasks import *
 from celery.result import AsyncResult
 from rest_framework.decorators import api_view 
 from rest_framework.views import APIView
@@ -17,7 +18,6 @@ from basicinformation.tasks import *
 from django.utils import timezone
 from django.utils.timezone import localdate
 import numpy as np
-from basicinformation.tasks import *
 # ALL STUDENT APIs
 
 #---------------------------------------------------------------------------------------
