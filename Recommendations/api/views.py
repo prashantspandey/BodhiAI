@@ -101,7 +101,6 @@ youtube_search(q,max_results=5,order='relevance',token=None,location=None,locati
 
     return youtube_dict
 
-    return search_response
 
 
 
