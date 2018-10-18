@@ -30,7 +30,6 @@ import timeit
 from PIL import Image
 import requests
 from django.contrib import messages
-from .tasks import *
 from celery.result import AsyncResult
 from django.core import serializers
 from time import sleep
