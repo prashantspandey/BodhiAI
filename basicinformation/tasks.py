@@ -1543,13 +1543,6 @@ def TeacherHardQuestionsLast3TestsAsync(user_id):
     return all_questions[::-1]
 
 
-#_--------------------------------------------------------------------------------------------
-#@shared_task
-#def student_topic_test(user_id):
-#    user = User.objects.get(id = user_id)
-#    me = Studs(user)
-#    subjects = me.my_subjects_names()
-#    for sub in subjects:
 
 @shared_task
 def deleteBadTests():

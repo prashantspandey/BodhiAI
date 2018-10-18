@@ -217,7 +217,6 @@ class CustomLoginAPIView(APIView):
         django_login(request,user)
         token, created = Token.objects.get_or_create(user=user)
         groups = user.groups.all()
-        deleteBadTests.delay()
         try:
             student_details = StudentDetails.objects.get(student = user)
             student = Student.objects.get(studentuser = user)
