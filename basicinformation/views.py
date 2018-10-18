@@ -325,15 +325,49 @@ def home(request):
             #['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
             sheet_links = \
                     ['units_measurements.csv','vector_analysis.csv']
-            sub = 'General-Intelligence'
-            chap = SubjectChapters.objects.filter(subject = sub)
-            print('all chapters {}'.format(chap))
-            chapters = []
-            for i in chap:
-                chapters.append(i.name)
-            for i in chapters:
-                print('searching for {} ...'.format(i))
-                get_youtube_videos(sub,i)
+            student_user = User.objects.get(username = 'prashant_pandey')
+            student = Student.objects.get(studentuser = student_user)
+            weak_area = StudentWeakAreasChapterCache.objects.filter(student
+                                                                    =student)
+            recommendation_list = []        
+            for wa in weak_area:
+                sub = wa.subject
+                chap = wa.chapter
+                print(sub,chap)
+                try:
+                    subject_chapter = SubjectChapters.objects.get(subject =
+                                                              sub,code =
+                                                              float(chap))
+                    chap_name = subject_chapter.name
+                    try:
+                        youtube_video = YoutubeExternalVideos.objects.filter(subject =
+                                                                      sub,chapter =                   
+                                                                      chap_name)                      
+                        for num,yv in enumerate(youtube_video):
+                            if num == 2:
+                                break
+
+                            recommendation_dict = \
+                                {'link':yv.link,'title':yv.title,'chapter':chap_name,'subject':sub}
+                            recommendation_list.append(recommendation_dict)
+                    except Exception as e:          
+                        print(str(e))
+                except Exception as e:
+                    print(str(e))
+            print(recommendation_list)
+
+
+
+
+            #sub = 'General-Intelligence'
+            #chap = SubjectChapters.objects.filter(subject = sub)
+            #print('all chapters {}'.format(chap))
+            #chapters = []
+            #for i in chap:
+            #    chapters.append(i.name)
+            #for i in chapters:
+            #    print('searching for {} ...'.format(i))
+            #    get_youtube_videos(sub,i)
             #add_jobs.delay('app/scraped/pickles/freejobs.pickle')
             #delete_questions.delay('/app/scraped/pickles/freejobs.pickle')
             #fill_taken_subjects.delay()
