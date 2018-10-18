@@ -1608,100 +1608,6 @@ def add_questions(institute,section):
             i.school.add(school)
         print('%s num questions' %len(questions))
 
-@shared_task
-def create_test_api(user_id,quest_list,date,time,kl):
-    user = User.objects.get(id = user_id)
-    me = Teach(user)
-    kl = klass.objects.get(school = me.my_school(),name=kl)
-    date = datetime.strptime(date,"%d-%m-%Y")
-    all_questions = []
-    total_marks = 0
-    if ',' in quest_list:
-        quest_list = quest_list.split(',')
-        for qu in quest_list:
-            questions = SSCquestions.objects.get(id = int(qu))
-            total_marks = total_marks + questions.max_marks
-            all_questions.append(questions)
-
-    else:
-            questions = SSCquestions.objects.get(id = int(quest_list))
-            total_marks = total_marks + questions.max_marks
-            all_questions.append(questions)
-    test = SSCKlassTest()
-    test.due_date = date
-    test.totalTime = time
-    subs = []
-    test.klas = kl
-    test.max_marks = total_marks
-    test.name = str(me.profile)+ str(timezone.now())
-    test.creator = user
-    test.save()
-    for qu in all_questions:
-        qu.ktest.add(test)
-
-    for sub in test.sscquestions_set.all():
-        timesus = TimesUsed.objects.filter(teacher =
-                                          me.profile,quest =
-                                          sub,batch = kl)
-        if len(timesus) == 1:
-            for i in timesus:
-                i.numUsed = i.numUsed + 1
-                i.save()
-                
-        else:
-            tused = TimesUsed()
-            tused.numUsed = 1
-            tused.teacher = me.profile
-            tused.quest = sub
-            tused.batch = kl
-            tused.save()
-
-        subs.append(sub.section_category)
-    
-    subs = list(unique_everseen(subs))
-    test_details = TestDetails()
-    test_details.test = test
-    test_details.num_questions = len(all_questions)
-    test_details.questions = quest_list
-    test_details.save()
-
-    if len(subs)==1:
-        test.sub = subs[0]
-        kl = test.klas
-        students = Student.objects.filter(klass = kl,school =
-                                          me.profile.school)
-        for i in students:
-            test.testTakers.add(i)
-            test.save()
-
-    else:
-        students = Student.objects.filter(klass = kl,school = me.profile.school)
-        for i in students:
-            test.testTakers.add(i)
-            test.save()
-
-
-        if 'Defence-Physics' in subs or 'Defence-English' in\
-        subs or 'Defence-GK-CA' in subs:
-            test.sub = 'Defence-MultipleSubjects'
-        elif 'JEE10' in subs[0]:
-            test.sub = 'IITJEE10-MultipleSubjects'
-        elif 'JEE11' in subs[0]:
-            test.sub = 'IITJEE11-MultipleSubjects'
-        elif 'JEE12' in subs[0]:
-            test.sub = 'IITJEE12-MultipleSubjects'
-        elif 'FitterLocoPilot' in subs:
-            test.sub = 'LocoPilot-MultipleSubjects'
-
-        else:
-            test.sub = 'MultipleSections'
-    
-    test.mode = 'BodhiOnline'
-    test.save()
-    title = "New test for you on "+str(test.sub)
-    body = "Total number of questions " + str(len(all_questions))
-    notification_create_test(title,body,user.id,kl.name)
-
 
 @shared_task
 def add_png():
@@ -2794,7 +2700,6 @@ def notification_create_timetable(title,body,sender_id,batch):
 
 @shared_task
 def get_youtube_videos(subject,chapter):
-    print('in get youtube videos')
     result = youtube_search(chapter)
 
     print(result['title'])
@@ -2820,3 +2725,100 @@ def get_youtube_videos(subject,chapter):
             save_vid.subject = subject
             save_vid.link = j
             save_vid.save()
+
+
+@shared_task
+def create_test_api(user_id,quest_list,date,time,kl):
+    user = User.objects.get(id = user_id)
+    me = Teach(user)
+    kl = klass.objects.get(school = me.my_school(),name=kl)
+    date = datetime.strptime(date,"%d-%m-%Y")
+    all_questions = []
+    total_marks = 0
+    if ',' in quest_list:
+        quest_list = quest_list.split(',')
+        for qu in quest_list:
+            questions = SSCquestions.objects.get(id = int(qu))
+            total_marks = total_marks + questions.max_marks
+            all_questions.append(questions)
+
+    else:
+            questions = SSCquestions.objects.get(id = int(quest_list))
+            total_marks = total_marks + questions.max_marks
+            all_questions.append(questions)
+    test = SSCKlassTest()
+    test.due_date = date
+    test.totalTime = time
+    subs = []
+    test.klas = kl
+    test.max_marks = total_marks
+    test.name = str(me.profile)+ str(timezone.now())
+    test.creator = user
+    test.save()
+    for qu in all_questions:
+        qu.ktest.add(test)
+
+    for sub in test.sscquestions_set.all():
+        timesus = TimesUsed.objects.filter(teacher =
+                                          me.profile,quest =
+                                          sub,batch = kl)
+        if len(timesus) == 1:
+            for i in timesus:
+                i.numUsed = i.numUsed + 1
+                i.save()
+                
+        else:
+            tused = TimesUsed()
+            tused.numUsed = 1
+            tused.teacher = me.profile
+            tused.quest = sub
+            tused.batch = kl
+            tused.save()
+
+        subs.append(sub.section_category)
+    
+    subs = list(unique_everseen(subs))
+    test_details = TestDetails()
+    test_details.test = test
+    test_details.num_questions = len(all_questions)
+    test_details.questions = quest_list
+    test_details.save()
+
+    if len(subs)==1:
+        test.sub = subs[0]
+        kl = test.klas
+        students = Student.objects.filter(klass = kl,school =
+                                          me.profile.school)
+        for i in students:
+            test.testTakers.add(i)
+            test.save()
+
+    else:
+        students = Student.objects.filter(klass = kl,school = me.profile.school)
+        for i in students:
+            test.testTakers.add(i)
+            test.save()
+
+
+        if 'Defence-Physics' in subs or 'Defence-English' in\
+        subs or 'Defence-GK-CA' in subs:
+            test.sub = 'Defence-MultipleSubjects'
+        elif 'JEE10' in subs[0]:
+            test.sub = 'IITJEE10-MultipleSubjects'
+        elif 'JEE11' in subs[0]:
+            test.sub = 'IITJEE11-MultipleSubjects'
+        elif 'JEE12' in subs[0]:
+            test.sub = 'IITJEE12-MultipleSubjects'
+        elif 'FitterLocoPilot' in subs:
+            test.sub = 'LocoPilot-MultipleSubjects'
+
+        else:
+            test.sub = 'MultipleSections'
+    
+    test.mode = 'BodhiOnline'
+    test.save()
+    title = "New test for you on "+str(test.sub)
+    body = "Total number of questions " + str(len(all_questions))
+    notification_create_test(title,body,user.id,kl.name)
+
+
