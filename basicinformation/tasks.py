@@ -1559,6 +1559,8 @@ def deleteBadTests():
             quest.delete()
         if len(quest.sscquestions_set.all()) == 0:
             quest.delete()
+        if quest.totalTime == 0:
+            quest.delete()
 @shared_task
 def add_questions(institute,section):
     if institute == 'JEN':
