@@ -549,10 +549,13 @@ class StudentEvaluateTestAPIView(APIView):
 
         serializer = SSCOnlineMarksSerializer(online_marks)
         context = {'marks':serializer.data}
-        fill_subjects.delay(me.profile.id,subject)
-        track_progress_cache.delay(me.profile.id,subject,online_marks.id)
-        CreateUpdateStudentWeakAreas.delay(me.profile.id,subject,online_marks.id)
-        CreateUpdateStudentAverageTimingDetail.delay(me.profile.id,subject,online_marks.id)
+        try:
+            fill_subjects.delay(me.profile.id,subject)
+            track_progress_cache.delay(me.profile.id,subject,online_marks.id)
+            CreateUpdateStudentWeakAreas.delay(me.profile.id,subject,online_marks.id)
+            CreateUpdateStudentAverageTimingDetail.delay(me.profile.id,subject,online_marks.id)
+        except Exception as e:
+            print(str(e))
         return Response(context)
 
 class StudentSmartTestSubjectAPIView(APIView):
