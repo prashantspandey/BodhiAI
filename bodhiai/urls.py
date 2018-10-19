@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^api/papers/',include('QuestionsAndPapers.api.urls',namespace='paper-api')),
     url(r'^api/membership/',include('membership.api.urls',namespace='membership-api')),
     url(r'^api/learning/',include('learning.api.urls',namespace='learning-api')),
+    url(r'^api/recommendations/',include('Recommendations.api.urls',namespace='recommendations-api')),
     url(r'^admin/', admin.site.urls),
     url(r'^interested/', views.interested_people,name='InterestedPeople'),
     url(r'^rest-auth/',include('rest_auth.urls')),
