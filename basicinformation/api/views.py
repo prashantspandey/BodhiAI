@@ -1749,3 +1749,14 @@ class StudentCurrentBatchAPIView(APIView):
         batch = me.get_batch()
         context = {'batch':batch.name}
         return Response(context)
+
+class StudentTrackActivityAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Studs(self.request.user)
+        all_data = request.POST['all_data']
+        json_data = json.loads(all_data)
+        print(json_data['accuracy_Data'])
+        print(json_data['averageTime_Data'])
+        print(json_data['progress_Data'])
+        context = {'tracking':json_data}
+        return Response(context)

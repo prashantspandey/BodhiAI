@@ -103,6 +103,8 @@ urlpatterns = [
     url(r'edit_batch_search/$',views.TeacherEditBatchSearch.as_view(),name='EditBatchSearch'),
 # Student Current Batch
     url(r'student_current_batch/$',views.StudentCurrentBatchAPIView.as_view(),name='StudentCurrentBatch'),
+# Student track activity
+    url(r'student_track_activity/$',views.StudentTrackActivityAPIView.as_view(),name='StudentTrackActivity'),
 
 
 

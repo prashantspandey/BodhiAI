@@ -185,10 +185,14 @@ class StudentTakenSubjectsCache(models.Model):
         return str(self.student) + ' ' + str(self.subjects)
 
 class StudentTapTracker(models.Model):
-    student = models.ForeignKey(Student)
-    events = ArrayField(models.CharField(max_length=400))
-    subjects = ArrayField(models.DateTimeField())
-    date = models.DateField()
+    student = models.ForeignKey(Student,blank=True,null=True)
+    accuractyData = ArrayField(models.CharField(max_length=400),blank=True,null=True)
+    averageTimeData = ArrayField(models.CharField(max_length=400),blank=True,null=True)
+    performancdData = ArrayField(models.CharField(max_length=400),blank=True,null=True)
+    progressData = ArrayField(models.CharField(max_length=400),blank=True,null=True)
+    testData = ArrayField(models.CharField(max_length=400),blank=True,null=True)
+    learnData = ArrayField(models.CharField(max_length=400),blank=True,null=True)
+    date = models.DateField(blank=True,null=True)
 
     def __str__(self):
         return str(self.student)+' ' + str(self.events)+ ' ' + str(self.date)
