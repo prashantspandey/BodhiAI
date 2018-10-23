@@ -9,7 +9,7 @@ class SchoolDisplaySerializer(serializers.ModelSerializer):
             'name',
         ]
 class TimesUsedSerializer(serializers.ModelSerializer):
-    #batch = BatchNameSerializer()
+    batch = BatchNameSerializer()
     class Meta:
         model = TimesUsed
         fields = [
@@ -117,4 +117,14 @@ class SSCOnlineMarksSerializer(serializers.ModelSerializer):
         return\
     SSCansweredQuestionSerializer(obj.sscansweredquestion_set.all(),many=True,read_only=True).data
 
-
+class BookmarkSerializer(serializers.ModelSerializer):
+    question = serializers.SSCQuestionSerializer()
+    student = serializers.StudentModelSerializer()
+    class Meta:
+        model = StudentBookMarkQuestion
+        fields = [
+            'id',
+            'question',
+            'student',
+            'notes',
+        ]

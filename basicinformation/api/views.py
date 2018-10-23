@@ -1766,11 +1766,30 @@ class StudentBookmarkQuestionAPIView(APIView):
     def post(self,request,*args,**kwargs):
         me = Studs(self.request.user)
         question_list = request.POST['bookmark_id']
-        print(question_list)
         question_arr = question_list.split(',')
         for i in question_arr:
-            print(i)
-
+            if '[' in i:
+                j = i.replace('[','')
+            elif ']' in i:
+                j = i.replace(']','')
+            else:
+                j = i
+            print('{} this is j'.format(j))
+            question = SSCquestions.objects.get(id = int(j))
+            bookmark = StudentBookMarkQuestion()
+            bookmark.student = me.profile
+            bookmark.question = question
+            bookmark.save()
         context = {'bookmark':'successful'}
         return Response(context)
+
+class ShowBookMarksQuestionsAPIView(APIView):
+    def get(self,request):
+        me = Studs(self.request.user)
+        my_bookmarks = StudentBookMarkQuestion.objects.filter(student =
+                                                              me.profile)
+        serializer = BookmarkSerializer(my_bookmarks,many=True)
+        context = {'bookmarks':serializer.data}
+        return Response(context)
+
 
