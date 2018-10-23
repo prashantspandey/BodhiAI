@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from QuestionsAndPapers.models import *
-
+from basicinformation.api.serializers import *
 
 class SchoolDisplaySerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,6 +9,7 @@ class SchoolDisplaySerializer(serializers.ModelSerializer):
             'name',
         ]
 class TimesUsedSerializer(serializers.ModelSerializer):
+    batch = BatchNameSerializer()
     class Meta:
         model = TimesUsed
         fields = [
