@@ -118,8 +118,8 @@ class SSCOnlineMarksSerializer(serializers.ModelSerializer):
     SSCansweredQuestionSerializer(obj.sscansweredquestion_set.all(),many=True,read_only=True).data
 
 class BookmarkSerializer(serializers.ModelSerializer):
-    question = serializers.SSCQuestionSerializer()
-    student = serializers.StudentModelSerializer()
+    question = SSCQuestionSerializer()
+    student = StudentModelSerializer()
     class Meta:
         model = StudentBookMarkQuestion
         fields = [
