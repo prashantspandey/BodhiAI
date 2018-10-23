@@ -105,6 +105,9 @@ urlpatterns = [
     url(r'student_current_batch/$',views.StudentCurrentBatchAPIView.as_view(),name='StudentCurrentBatch'),
 # Student track activity
     url(r'student_track_activity/$',views.StudentTrackActivityAPIView.as_view(),name='StudentTrackActivity'),
+# Student bookmark question
+    url(r'student_bookmark_question/$',views.StudentBookmarkQuestionAPIView.as_view(),name='StudentBookmarkQuestion'),
+
 
 
 

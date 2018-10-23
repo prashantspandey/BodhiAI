@@ -1760,3 +1760,17 @@ class StudentTrackActivityAPIView(APIView):
         print(json_data['progress_Data'])
         context = {'tracking':json_data}
         return Response(context)
+
+
+class StudentBookmarkQuestionAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Studs(self.request.user)
+        question_list = request.POST['bookmark_id']
+        print(question_list)
+        question_arr = question_list.split(',')
+        for i in question_arr:
+            print(i)
+
+        context = {'bookmark':'successful'}
+        return Response(context)
+

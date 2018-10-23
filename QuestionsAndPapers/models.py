@@ -551,3 +551,11 @@ class JobList(models.Model):
 
     def __str__(self):
         return str(self.title) + ' '+ str(self.date)
+
+class StudentBookMarkQuestion(models.Model):
+    student = models.ForeignKey(Student,blank=True,null=True)
+    question = models.ForeignKey(SSCquestions,blank=True,null=True)
+    notes = models.TextField()
+
+    def __str__(self):
+        return str(self.student) + ' ' + str(self.question.id)
