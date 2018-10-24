@@ -13,6 +13,7 @@ from basicinformation.models import *
 from basicinformation.marksprediction import * 
 from membership.api.views import add_subjects
 import json
+import random
 from basicinformation.nameconversions import *
 from membership.api.serializers import *
 from rest_framework.response import Response
@@ -1790,6 +1791,27 @@ class ShowBookMarksQuestionsAPIView(APIView):
                                                               me.profile)
         serializer = BookmarkSerializer(my_bookmarks,many=True)
         context = {'bookmarks':serializer.data}
+        return Response(context)
+
+class QuizGameAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Studs(self.request.user)
+        subject = request.POST['subject']
+        chapter = request.POST['chapter']
+        questions = SSCquestions.objects.filter(section_category =
+                                                subject,topic_category =
+                                                chapter)
+        quest = random.choice(questions)
+        right_choice = None
+        choices = quest.choices_set.all()
+        for i in choices:
+            if i.predicament == 'Correct':
+                right_choice = i
+        quest_serializer = SSCQuestionSerializer(quest)
+
+        hint =\
+        {'text':right_choice.text,'picture':right_choice.picture,'time':20}
+        context ={'question':quest_serializer.data,'hint':hint}
         return Response(context)
 
 
