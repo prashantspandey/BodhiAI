@@ -9,7 +9,7 @@ class SchoolDisplaySerializer(serializers.ModelSerializer):
             'name',
         ]
 class TimesUsedSerializer(serializers.ModelSerializer):
-    #batch = BatchNameSerializer()
+    batch = BatchNameSerializer()
     class Meta:
         model = TimesUsed
         fields = [
