@@ -2672,7 +2672,7 @@ def fill_subjects(student_id,subject):
     except:
         cache = StudentTakenSubjectsCache()
         cache.student = student
-        cache.subjects = subject
+        cache.subjects = [subject]
         cache.save()
 
 @shared_task
