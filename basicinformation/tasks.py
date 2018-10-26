@@ -2649,7 +2649,8 @@ def fill_taken_subjects():
             subjects = []
             for te in tests:
                 subjects.append(te.test.sub)
-            subjects = list(unique_everseen(subjects))
+            if len(subjects) > 1:
+                subjects = list(unique_everseen(subjects))
             if len(subjects) == 0:
                 continue
             cache.subjects = subjects
@@ -2671,7 +2672,7 @@ def fill_subjects(student_id,subject):
     except:
         cache = StudentTakenSubjectsCache()
         cache.student = student
-        cache.subjects = list(subject)
+        cache.subjects = subject
         cache.save()
 
 @shared_task
