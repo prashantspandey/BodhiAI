@@ -2632,10 +2632,10 @@ def delete_questions():
 
 @shared_task
 def add_jobs(path):
-    with open(path) as fi:
+    with open(path,'rb') as fi:
         jobs = pickle.load(fi)
-    print(jobs)
-
+    json_jobs = json.dumps(jobs[11:])
+    print(json_jobs)
 @shared_task
 def fill_taken_subjects():
     students = Student.objects.all()

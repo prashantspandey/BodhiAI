@@ -17,6 +17,15 @@ class TimesUsedSerializer(serializers.ModelSerializer):
             'numUsed',
         ]
 
+class TimesUsedSerializerNew(serializers.ModelSerializer):
+    batch = BatchNameSerializer()
+    class Meta:
+        model = TimesUsed
+        fields = [
+            'batch',
+            'numUsed',
+        ]
+
 
 class ChoicesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,8 +79,39 @@ class SSCQuestionSerializer(serializers.ModelSerializer):
     ChoicesSerializer(obj.choices_set.all(),many=True,read_only=True).data
     
     def get_timesused(self,obj):
+        return []
+
+class SSCQuestionSerializerNew(serializers.ModelSerializer):
+    choices = serializers.SerializerMethodField() 
+    timesused = serializers.SerializerMethodField()
+    class Meta:
+        model = SSCquestions
+        depth = 1
+        fields = [
+            'id',
+            'comprehension',
+            'max_marks',
+            'negative_marks',
+            'text',
+            'section_category',
+            'picture',
+            'source',
+            'language',
+            'choices',
+            'timesused'
+
+        ]
+
+    def get_choices(self,obj):
+        return\
+    ChoicesSerializer(obj.choices_set.all(),many=True,read_only=True).data
+    
+    def get_timesused(self,obj):
         return\
     TimesUsedSerializer(obj.timesused_set.all(),many=True,read_only=True).data
+
+
+
 
 class TestSerializer(serializers.ModelSerializer):
     sscquestions = serializers.SerializerMethodField() 

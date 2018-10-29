@@ -368,7 +368,7 @@ def home(request):
             #for i in chapters:
             #    print('searching for {} ...'.format(i))
             #    get_youtube_videos(sub,i)
-            #add_jobs.delay('app/scraped/pickles/freejobs.pickle')
+            add_jobs.delay('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/scraped/pickles/freejobs.pickle')
             #delete_questions.delay('/app/scraped/pickles/freejobs.pickle')
             #fill_taken_subjects.delay()
             #create_timing_cache_detail.delay()

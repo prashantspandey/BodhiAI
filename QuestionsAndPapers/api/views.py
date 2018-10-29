@@ -335,7 +335,7 @@ class TeacherOneClickConfirmAPIView(APIView):
             # finally add all questions to final questions list
             test_quest.extend(cat_quest)
         # setting up the test
-        serializer = SSCQuestionSerializer(test_quest,many=True)
+        serializer = SSCQuestionSerializerNew(test_quest,many=True)
         return Response(serializer.data)
    
 class TeacherOneClickFinalAPIView(APIView):
@@ -418,7 +418,7 @@ class CreateTestQuestionsAPIView(APIView):
         splitSection = which_chap.split(",")[2]
         qu = \
     SSCquestions.objects.filter(topic_category=splitChap,school=me.profile.school,section_category=splitSection)
-        serializer = SSCQuestionSerializer(qu,many=True)
+        serializer = SSCQuestionSerializerNew(qu,many=True)
         return Response(serializer.data)
 
 
@@ -442,8 +442,7 @@ class CreateTestFinalAPIView(APIView):
                 total_marks = total_marks + questions.max_marks
                 all_questions.append(questions)
 
-        
-        serializer = SSCQuestionSerializer(all_questions,many=True)
+        serializer = SSCQuestionSerializerNew(qu,many=True)
         title = 'Test can be created for you'
         body = 'Number of questions: '+ str(len(all_questions))+ ' '+ 'of '+\
         str(total_marks)
@@ -653,3 +652,11 @@ class GetAllQuestions(APIView):
                                              ='LocoPilot_Diesel')
         serializer = SSCQuestionSerializer(quests,many=True)
         return Response(serializer.data)
+
+class test_json(APIView):
+    def get(self,request):
+        quests = SSCquestions.objects.all()[:100]
+        serializer = SSCQuestionSerializerNew(quests,many=True)
+        return Response(serializer.data)
+
+

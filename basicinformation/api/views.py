@@ -1660,8 +1660,12 @@ class TeacherAddQuestionImageAPIView(APIView):
 
             choice.save()
 
+        try:
+            new = request.POST['new']
+            serializer = SSCQuestionSerializerNew(qu,many=True)
+        except Exception as e:
 
-        serializer = SSCQuestionSerializer(quest)
+            serializer = SSCQuestionSerializer(quest)
         context = {'question':serializer.data}
 
         return Response(context)
@@ -1714,8 +1718,12 @@ class TeacherUploadTextQuestionAPIView(APIView):
             else:
                 choice.predicament = 'Wrong'
             choice.save()
+        try:
+            new = request.POST['new']
+            serializer = SSCQuestionSerializerNew(qu,many=True)
+        except Exception as e:
 
-        serializer = SSCQuestionSerializer(quest)
+            serializer = SSCQuestionSerializer(quest)
         context = {'question':serializer.data}
 
         return Response(context)

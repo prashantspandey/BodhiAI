@@ -34,6 +34,8 @@ urlpatterns = [
     url(r'smart_test_create/$',views.StudentSmartTestCreationAPIView.as_view(),name='StudentSmartTestCreation'),
     # Teacher Debug all questions
     url(r'get_questions/$',views.GetAllQuestions.as_view(),name='DebugQuestions'),
+    # ssc questions test json
+    url(r'test_json/$',views.test_json.as_view(),name='TestJson'),
 
 
 ]
