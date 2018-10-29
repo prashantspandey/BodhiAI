@@ -108,7 +108,7 @@ class SSCQuestionSerializerNew(serializers.ModelSerializer):
     
     def get_timesused(self,obj):
         return\
-    TimesUsedSerializer(obj.timesused_set.all(),many=True,read_only=True).data
+    TimesUsedSerializerNew(obj.timesused_set.all(),many=True,read_only=True).data
 
 
 
