@@ -594,7 +594,7 @@ def add_to_database_questions_text(sheet_link,school,production=False,explanatio
                 pd.read_csv('/app/question_data/jen_content/general_science/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bod/BodhiAI/question_data/cat/aptitude/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/ubuntu/bodhiai/question_data/kiran_maths/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
@@ -648,6 +648,7 @@ def add_to_database_questions_text(sheet_link,school,production=False,explanatio
             print('%s optD' %len(optD))
             try:
                 print('%s optE' %len(optE))
+
             except Exception as e:
                 print(str(e))
             print('%s correct answers' %len(right_answer))
@@ -693,10 +694,10 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/app/question_data/jen_content/iit_jee_physics/jee_phy/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/ubuntu/bodhiai/question_data/kiran_maths/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/question_data/cat/aptitude/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/ubuntu/bodhiai/question_data/kiran_maths/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
@@ -729,9 +730,10 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                 quest_text = df['Question']
             sectionType = df['section_type']
             #direction = df['Direction']
-
-            if explanation_quest:
-                exp = df['Explanation']
+            try:
+                exp = df['explanation']
+            except:
+                exp = len(optD) * ['None']
             quest_category = df['category']
             for i in df['correct']:
                 ichanged = str(i).replace(u'\\xa0',u' ')
@@ -764,10 +766,14 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
             #print('%s languages ' %len(lang))
             print('%s sources' %len(source))
             print('%s sheet ' %sh)
-        
+            try:
+                print('{} exp link'.format(len(exp)))
+            except Exception as e:
+                print('explanation not found')
+   
             for ind in range(len(optA)):
                 if onlyImage:
-                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],None,sectionType[ind],str(lang[ind]),used_for[ind],source[ind],fouroptions='4',direction
+                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],exp[ind],sectionType[ind],str(lang[ind]),used_for[ind],source[ind],fouroptions='4',direction
                                     = direction[ind],difficulty= difficulty[ind] )
                 else:
                     write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],direction[ind],fouroptions='3')
@@ -782,191 +788,196 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
 @shared_task
 def\
 write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questCategory,exp,sectionType,lang,used_for,source,fouroptions,direction=False,replace=False,difficulty=None):
-    if replace:
-        quest = SSCquestions.objects.filter(picture = image)
-        for n,qu in enumerate(quest):
-            for num,ch in enumerate(qu.choices_set.all()):
-                print(num)
-                if num+1 == correctOpt:
-                    ch.predicament ='Correct'
-                else:
-                    ch.predicament = 'Wrong'
-                ch.save()
-            
-    else:
-
-
-        school = School.objects.filter(name = school)
-        if fouroptions == '4':
-            all_options = [optA,optB,optC,optD]
-        elif fouroptions == '3':
-            all_options = [optA,optB,optC]
-        elif fouroptions == '5':
-            all_options = [optA,optB,optC,optD,optE]
-
-
-        else:
-            try:
-                if optE:
-                    print('Found optE in final')
-                    if math.isnan(optE):
-                        all_options = [optA,optB,optC,optD]
+    print('{} this is the exp link'.format(exp))
+    try:
+        old_question = SSCquestions.objects.get(picture=image)
+        return
+    except:
+        if replace:
+            quest = SSCquestions.objects.filter(picture = image)
+            for n,qu in enumerate(quest):
+                for num,ch in enumerate(qu.choices_set.all()):
+                    print(num)
+                    if num+1 == correctOpt:
+                        ch.predicament ='Correct'
                     else:
-                        all_options = [optA,optB,optC,optD,optE]
-                else:
-                        all_options = [optA,optB,optC,optD,optE]
-            except Exception as e:
-                print(str(e))
+                        ch.predicament = 'Wrong'
+                    ch.save()
+                
+        else:
+
+
+            school = School.objects.filter(name = school)
+            if fouroptions == '4':
+                all_options = [optA,optB,optC,optD]
+            elif fouroptions == '3':
+                all_options = [optA,optB,optC]
+            elif fouroptions == '5':
                 all_options = [optA,optB,optC,optD,optE]
-        new_questions = SSCquestions()
-        new_questions.language = lang
-
-        new_questions.usedFor = used_for
-
-        if source:
-            new_questions.source = source
-
-        new_questions.tier_category = '1'
-        new_questions.max_marks = int(1)
-        new_questions.negative_marks = 0.0
-        print('{} is the section cateogry'.format(sectionType))
-        if sectionType == 'English':
-            new_questions.section_category = 'English'
-        elif sectionType == 'Reasoning':
-            new_questions.section_category = 'General-Intelligence'
-        elif sectionType == 'Maths':
-            new_questions.section_category = 'Quantitative-Analysis'
-        elif sectionType == 'GK':
-            new_questions.section_category = 'General-Knowledge'
-        elif sectionType == 'groupxen':
-            new_questions.section_category = 'Defence-English'
-        elif sectionType == 'groupxphy':
-            new_questions.section_category = 'Defence-Physics'
-        elif sectionType == 'groupxmath':
-            new_questions.section_category = 'GroupX-Maths'
-        elif sectionType == 'groupgk':
-            new_questions.section_category = 'Defence-GK-CA'
-        elif sectionType == 'jeeMaths10':
-            new_questions.section_category = 'MathsIITJEE10'
-        elif sectionType == 'jeeMaths11':
-            new_questions.section_category = 'MathsIITJEE11'
-        elif sectionType == 'jeeMaths12':
-            new_questions.section_category = 'MathsIITJEE12'
-        elif sectionType == 'jeePhysics10':
-            new_questions.section_category = 'PhysicsIITJEE10'
-        elif sectionType == 'jeePhysics11':
-            new_questions.section_category = 'PhysicsIITJEE11'
-        elif sectionType == 'jeePhysics12':
-            new_questions.section_category = 'PhysicsIITJEE12'
-        elif sectionType == 'jeeChemistry10':
-            new_questions.section_category = 'ChemistryIITJEE10'
-        elif sectionType == 'jeeChemistry11':
-            new_questions.section_category = 'ChemistryIITJEE11'
-        elif sectionType == 'jeeChemistry12':
-            new_questions.section_category = 'ChemistryIITJEE12'
-        elif sectionType == 'locopilot_electrical':
-            new_questions.section_category = 'ElectricalLocoPilot'
-        elif sectionType == 'locopilot_fitter':
-            new_questions.section_category = 'FitterLocoPilot'
-        elif sectionType == 'general_science':
-            new_questions.section_category = 'General-Science'
-        elif sectionType == 'locopilot_diesel':
-            new_questions.section_category = 'LocoPilot_Diesel'
-        elif sectionType.strip() == 'cat_quant':
-            new_questions.section_category = 'CAT_Quantitative_Aptitude'
-        elif sectionType.strip() == 'loco_civil':
-            new_questions.section_category = 'Civil_Loco_Pilot_Tech'
-        elif sectionType.strip() == 'ssc_electrical':
-            new_questions.section_category = 'SSC_Electronics1'
 
 
+            else:
+                try:
+                    if optE:
+                        print('Found optE in final')
+                        if math.isnan(optE):
+                            all_options = [optA,optB,optC,optD]
+                        else:
+                            all_options = [optA,optB,optC,optD,optE]
+                    else:
+                            all_options = [optA,optB,optC,optD,optE]
+                except Exception as e:
+                    print(str(e))
+                    all_options = [optA,optB,optC,optD,optE]
+            new_questions = SSCquestions()
+            new_questions.language = lang
+
+            new_questions.usedFor = used_for
+
+            if source:
+                new_questions.source = source
+
+            new_questions.tier_category = '1'
+            new_questions.max_marks = int(1)
+            new_questions.negative_marks = 0.0
+            print('{} is the section cateogry'.format(sectionType))
+            if sectionType == 'English':
+                new_questions.section_category = 'English'
+            elif sectionType == 'Reasoning':
+                new_questions.section_category = 'General-Intelligence'
+            elif sectionType == 'Maths':
+                new_questions.section_category = 'Quantitative-Analysis'
+            elif sectionType == 'GK':
+                new_questions.section_category = 'General-Knowledge'
+            elif sectionType == 'groupxen':
+                new_questions.section_category = 'Defence-English'
+            elif sectionType == 'groupxphy':
+                new_questions.section_category = 'Defence-Physics'
+            elif sectionType == 'groupxmath':
+                new_questions.section_category = 'GroupX-Maths'
+            elif sectionType == 'groupgk':
+                new_questions.section_category = 'Defence-GK-CA'
+            elif sectionType == 'jeeMaths10':
+                new_questions.section_category = 'MathsIITJEE10'
+            elif sectionType == 'jeeMaths11':
+                new_questions.section_category = 'MathsIITJEE11'
+            elif sectionType == 'jeeMaths12':
+                new_questions.section_category = 'MathsIITJEE12'
+            elif sectionType == 'jeePhysics10':
+                new_questions.section_category = 'PhysicsIITJEE10'
+            elif sectionType == 'jeePhysics11':
+                new_questions.section_category = 'PhysicsIITJEE11'
+            elif sectionType == 'jeePhysics12':
+                new_questions.section_category = 'PhysicsIITJEE12'
+            elif sectionType == 'jeeChemistry10':
+                new_questions.section_category = 'ChemistryIITJEE10'
+            elif sectionType == 'jeeChemistry11':
+                new_questions.section_category = 'ChemistryIITJEE11'
+            elif sectionType == 'jeeChemistry12':
+                new_questions.section_category = 'ChemistryIITJEE12'
+            elif sectionType == 'locopilot_electrical':
+                new_questions.section_category = 'ElectricalLocoPilot'
+            elif sectionType == 'locopilot_fitter':
+                new_questions.section_category = 'FitterLocoPilot'
+            elif sectionType == 'general_science':
+                new_questions.section_category = 'General-Science'
+            elif sectionType == 'locopilot_diesel':
+                new_questions.section_category = 'LocoPilot_Diesel'
+            elif sectionType.strip() == 'cat_quant':
+                new_questions.section_category = 'CAT_Quantitative_Aptitude'
+            elif sectionType.strip() == 'loco_civil':
+                new_questions.section_category = 'Civil_Loco_Pilot_Tech'
+            elif sectionType.strip() == 'ssc_electrical':
+                new_questions.section_category = 'SSC_Electronics1'
 
 
 
 
 
-        #if question != None:
-        #    new_questions.text = str(question)
-        print('%s direction, %s question' %(direction,question))
-        if direction!='None' and question is None:
-            new_questions.text = str(direction)
-        elif question != None and direction:
-            new_questions.text = str(direction) +'\n'+str(question)
-        elif direction == None or direction == '' or direction == 'lll':
-            new_questions.text = str(question)
-        elif question and direction == False:
-            new_questions.text = str(question)
 
-        new_questions.topic_category = str(questCategory)
-        if direction:
-            try:
-                if direction != 'None' :
-                    print('%s inside' %direction)
-                    print(type(direction))
-                    direct = Comprehension()
-                    direct.picture = direction
-                    direct.save()
+
+            #if question != None:
+            #    new_questions.text = str(question)
+            print('%s direction, %s question' %(direction,question))
+            if direction!='None' and question is None:
+                new_questions.text = str(direction)
+            elif question != None and direction:
+                new_questions.text = str(direction) +'\n'+str(question)
+            elif direction == None or direction == '' or direction == 'lll':
+                new_questions.text = str(question)
+            elif question and direction == False:
+                new_questions.text = str(question)
+
+            new_questions.topic_category = str(questCategory)
+            if direction:
+                try:
+                    if direction != 'None' :
+                        print('%s inside' %direction)
+                        print(type(direction))
+                        direct = Comprehension()
+                        direct.picture = direction
+                        direct.save()
+                    else:
+                        print('%s outside' %direction)
+                except:
+                    pass
+            if difficulty:
+                if difficulty != 'None':
+                    new_questions.diffculty_category = difficulty
                 else:
-                    print('%s outside' %direction)
-            except:
-                pass
-        if difficulty:
-            if difficulty != 'None':
-                new_questions.diffculty_category = difficulty
-            else:
-                print('direction but something wrong')
-        if image:
-            new_questions.picture = image
-            #try:
-            #    new_questions.comprehension = direct
-            #except:
-            #    pass
-        new_questions.save()
-        for sch in school:
-            new_questions.school.add(sch)
-        #for j in range(1,9):
-        #    if questCategory == str(j):
-        #        mn = questCategory + '.'+'1'
-        #        new_questions.topic_category = str(mn)
-        #        new_questions.topic_category = str(mn)
-        #        new_questions.save()
-        #    else:
-        #        new_questions.topic_category = str(questCategory)
-        #        new_questions.save()
-        #print(new_questions.topic_category)
-        for n,i in enumerate(all_options):
-            new_choices = Choices()
-            new_choices.sscquest = new_questions
-            if 'https:' in str(i):
-                new_choices.picture = str(i)
-            else:
-                itext = str(i).replace('[','')
-                itext2 = itext.replace(']','')
-                itext3 = itext2.replace(')','')
-                itext4 = itext3.replace(u'\\xa0',u' ')
-                itext5 = itext4.replace('\"','')
-                new_choices.text = itext5
-            if 'https:' in str(exp):
-                pass
-            else:
-                exptext = str(exp).replace('[','')
-                exptext2 = exptext.replace(']','')
-                exptext3 = exptext2.replace(u'\\xa0',u' ')
-                exptext4 = exptext3.replace('\"','')
-            if correctOpt == n+1:
-                new_choices.predicament = 'Correct'
-                if 'https:' in str(exp):
+                    print('direction but something wrong')
+            if image:
+                new_questions.picture = image
+                #try:
+                #    new_questions.comprehension = direct
+                #except:
+                #    pass
+            new_questions.save()
+            for sch in school:
+                new_questions.school.add(sch)
+            #for j in range(1,9):
+            #    if questCategory == str(j):
+            #        mn = questCategory + '.'+'1'
+            #        new_questions.topic_category = str(mn)
+            #        new_questions.topic_category = str(mn)
+            #        new_questions.save()
+            #    else:
+            #        new_questions.topic_category = str(questCategory)
+            #        new_questions.save()
+            #print(new_questions.topic_category)
+            for n,i in enumerate(all_options):
+                new_choices = Choices()
+                new_choices.sscquest = new_questions
+                if 'https:' in str(i):
+                    new_choices.picture = str(i)
+                else:
+                    itext = str(i).replace('[','')
+                    itext2 = itext.replace(']','')
+                    itext3 = itext2.replace(')','')
+                    itext4 = itext3.replace(u'\\xa0',u' ')
+                    itext5 = itext4.replace('\"','')
+                    new_choices.text = itext5
+                #if 'https:' in str(exp):
+                #    pass
+                #else:
+                #    exptext = str(exp).replace('[','')
+                #    exptext2 = exptext.replace(']','')
+                #    exptext3 = exptext2.replace(u'\\xa0',u' ')
+                #    exptext4 = exptext3.replace('\"','')
+                if correctOpt == n+1:
+                    new_choices.predicament = 'Correct'
+                    #if 'https:' in str(exp):
                     new_choices.explanationPicture = exp
+                    #else:
+                    #    new_choices.explanation = exptext4
                 else:
-                    new_choices.explanation = exptext4
-            else:
-                new_choices.predicament = 'Wrong'
-            new_choices.save()
+                    new_choices.predicament = 'Wrong'
+                new_choices.save()
 @shared_task
 def allquestions_institute(subject,institute):
     sch = School.objects.get(name=institute)
     questions =\
-    SSCquestions.objects.filter(section_category=subject,source='SSCMaths')
+    SSCquestions.objects.filter(section_category=subject,)
     for i in questions:
         i.school.add(sch)
     print('{} questions added to {}'.format(len(questions),institute))
@@ -2613,8 +2624,8 @@ def create_Subject_topics(sheet_link):
 @shared_task
 def add_announcements_newStudent(stud_id,kl_id):
     student = Student.objects.get(id = stud_id)
-    klass = klass.objects.get(id = kl_id)
-    announcements = Announcement.objects.filter(klass = klass)
+    klass_obj = klass.objects.get(id = kl_id)
+    announcements = Announcement.objects.filter(klass = klass_obj)
     for ann in announcements:
         ann.listener.add(student)
 @shared_task
@@ -2901,4 +2912,12 @@ def create_test_api(user_id,quest_list,date,time,kl):
     body = "Total number of questions " + str(len(all_questions))
     notification_create_test(title,body,user.id,kl.name)
 
-
+@shared_task
+def delete_repeat_questions():
+    questions = SSCquestions.objects.all()
+    for quest in questions:
+        quest_id = quest.id
+        already_question = SSCquestions.objects.filter(picture = quest.picture)
+        if len(already_question) > 1:
+            print('{} id of question deleted'.format(quest.id))
+            quest.delete()

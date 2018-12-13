@@ -21,6 +21,10 @@ urlpatterns = [
    url(r'firebase_token/$',
        views.FireBaseToken.as_view(),name =
        'FireBaseToken'),
+   url(r'reset_password/$',
+       views.ResetPassword.as_view(),name =
+       'ResetPassword'),
+
 
 
 

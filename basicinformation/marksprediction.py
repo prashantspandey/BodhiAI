@@ -1041,7 +1041,7 @@ class Studs:
         rank = rank +1
 
         context =\
-                {'rank':rank,'marks':my_marks,'total_students':total,'published':published,'subject':subject}
+                {'rank':rank,'marks':my_marks,'total_students':total,'published':published,'subject':subject,'test_id':test_id}
         return context
 
 

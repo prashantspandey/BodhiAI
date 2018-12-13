@@ -169,7 +169,9 @@ class StudentShowAllTopicsOfTest(APIView):
 class  IndividualTestDetailsAPIView(APIView):
 
     def post(self,request,*args,**kwargs):
-        test_id = request.POST['testid']
+        data = request.data
+
+        test_id = data['testid']
         test = SSCKlassTest.objects.get(id= test_id)
         topics = []
         for quest in test.sscquestions_set.all():
@@ -255,16 +257,28 @@ class TeacherOneClickTestChaptersAPIView(APIView):
         me = Teach(self.request.user)
         sub = subandbatch.split(',')[0]
         batch = subandbatch.split(',')[1]
+        print('{} one click chapters'.format(subandbatch))
         school = me.my_school()
         all_topics = []
         sub_topics = SSCquestions.objects.filter(section_category =
                                                  sub,school = school)
-        for i in sub_topics:
-            all_topics.append(i.topic_category)
-        all_topics = list(unique_everseen(all_topics))
-        topics = me.change_topicNumbersNames(all_topics,sub)
-        topics = np.array(topics)
-        context = {'chapters':topics,'subject':sub,'oneclickbatch':batch}
+        topics = SubjectChapters.objects.filter(subject=sub)
+        all_categories = []
+        category_code = []
+        for tp in topics:
+            all_categories.append(tp.name)
+            category_code.append(tp.code)
+        cats_final = list(zip(all_categories,category_code))
+        context = \
+                {'chapters':cats_final,'oneclickbatch':batch,'subject':sub}
+
+        #for i in sub_topics:
+        #    all_topics.append(i.topic_category)
+        #all_topics = list(unique_everseen(all_topics))
+        #topics = me.change_topicNumbersNames(all_topics,sub)
+        #topics = np.array(topics)
+        #print('{} onel click topics'.format(topics))
+        #context = {'chapters':topics,'subject':sub,'oneclickbatch':batch}
         return Response(context)
 
 class TeacherOneClickConfirmAPIView(APIView):
@@ -412,23 +426,27 @@ class CreateTestQuestionsAPIView(APIView):
     def post(self,request,*args,**kwargs):
         me = Teach(self.request.user)
         which_chap = request.POST['chapter_test']
+        print('{} which chap'.format(which_chap))
         questions_list = []
         splitChap = which_chap.split(",")[0]
         splitClass = which_chap.split(",")[1]
         splitSection = which_chap.split(",")[2]
+        print('{},{},{} --splitchap,splitclass,splicsection'.format(splitChap,splitClass,splitSection))
         qu = \
     SSCquestions.objects.filter(topic_category=splitChap,school=me.profile.school,section_category=splitSection)
+        print('{} number of questions in test'.format(len(qu)))
         serializer = SSCQuestionSerializerNew(qu,many=True)
         return Response(serializer.data)
 
 
 class CreateTestFinalAPIView(APIView):
     def post(self,request,*args,**kwargs):
+        print('in last test api')
         me = Teach(self.request.user)
         quest_list  = request.POST['questions_list']
         all_questions = []
         total_marks = 0
-
+        print('{} quest_list'.format(quest_list))
         if ',' in quest_list:
             quest_list = quest_list.split(',')
             for qu in quest_list:
@@ -442,7 +460,7 @@ class CreateTestFinalAPIView(APIView):
                 total_marks = total_marks + questions.max_marks
                 all_questions.append(questions)
 
-        serializer = SSCQuestionSerializerNew(qu,many=True)
+        serializer = SSCQuestionSerializerNew(all_questions,many=True)
         title = 'Test can be created for you'
         body = 'Number of questions: '+ str(len(all_questions))+ ' '+ 'of '+\
         str(total_marks)
@@ -472,8 +490,9 @@ class StudentSubjectsAPIView(APIView):
 
 class StudentTakeTestAPIView(APIView):
     def post(self,request,*args,**kwargs):
+        data = request.data
         me = Studs(self.request.user)
-        test_id = request.POST['test_id']
+        test_id = data['test_id']
         test = SSCKlassTest.objects.get(id = int(test_id))
         #questions = test.sscquestions_set.all()
         serializer = TestSerializer(test)
@@ -481,9 +500,10 @@ class StudentTakeTestAPIView(APIView):
 
 class StudentEvaluateTestAPIView(APIView):
     def post(self,request,*args,**kwargs):
-        test_id = request.POST['test_id']
-        answers = request.POST['answers']
-        total_time = request.POST['total_time']
+        data = request.data
+        test_id = data['test_id']
+        answers = data['answers']
+        total_time = data['total_time']
         answers = answers.split(',')
         inner = []
         outer = []

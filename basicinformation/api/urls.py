@@ -1,5 +1,7 @@
 from django.conf.urls import url
 from basicinformation.api import views
+from django.views.decorators.csrf import csrf_exempt
+
 
 urlpatterns = [
     url(r'^$',views.StudentListAPIView.as_view(),name='studentList'),

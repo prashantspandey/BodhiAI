@@ -814,8 +814,9 @@ class StudentAccuracyBriefAPIView(APIView):
 class StudentAccuracyDetailAPIView(APIView):
     def post(self,request,*args,**kwargs):
         me = Studs(self.request.user)
-        subject = request.POST['subject']
-        chapter = request.POST['chapter']
+        data = request.data
+        subject = data['subject']
+        chapter = data['chapter']
         weak_areas_cache =\
         StudentWeakAreasChapterCache.objects.get(student=me.profile,subject
                                                     = subject, chapter =
@@ -878,7 +879,7 @@ class StudentTakenTestsDetailsAPIView(APIView):
         for m in marks:
             percent_calc = ((m.marks/m.test.max_marks)*100)
             percent = percent_calc
-            attempted = (len(m.allAnswers))
+            attempted = (len(m.rightAnswers)+len(m.wrongAnswers))
             right = (len(m.rightAnswers))
             wrong = (len(m.wrongAnswers))
             published = m.testTaken
@@ -1003,8 +1004,9 @@ class StudentShowTimeTableAPIView(APIView):
 
 class StudentTestPerformanceDetailedAPIView(APIView):
     def post(self,request,*args,**kwargs):
-        test_id = request.POST['test_id']
-        sub = request.POST['subject']
+        data = request.data
+        test_id = data['test_id']
+        sub = data['subject']
         me = Studs(self.request.user)
         #visible_tests(test_id)
         try:
@@ -1256,10 +1258,23 @@ class StudentAverageTimingChapterWiseAPIView(APIView):
         me = Studs(self.request.user)
         timing_cache = StudentAverageTimingDetailCache.objects.filter(student =
                                                                       me.profile)
-
-        timing_serializer =\
-        StudentTimingChapterwiseSerializer(timing_cache,many=True)
-        return Response(timing_serializer.data)
+        final_timing = []
+        for tc in timing_cache:
+            try:
+                chapter_name = \
+                    SubjectChapters.objects.get(subject=tc.subject,code=float(tc.chapter))
+                c_name = chapter_name.name
+                print('{} c_name'.format(c_name))
+                cache =\
+                {'id':tc.id,'student':tc.student.id,'subject':tc.subject,'chapter':c_name,'rightAverage':tc.rightAverage,'wrongAverage':tc.wrongAverage,'totalAverage':tc.totalAverage,'rightTotalTime':tc.rightTotalTime,'wrongTotalTime':tc.wrongTotalTime,'rightTotal':tc.rightTotal,'wrongTotal':tc.wrongTotal,'totalAttemted':tc.totalAttempted}
+            except Exception as e:
+                continue
+            final_timing.append(cache)
+        print('{} this is the final timing'.format(final_timing))
+        return Response(final_timing)
+        #timing_serializer =\
+        #StudentTimingChapterwiseSerializer(timing_cache,many=True)
+        #return Response(timing_serializer.data)
 
 
 
@@ -1316,7 +1331,10 @@ class StudentShowPerformanceSubjectsAPIView(APIView):
 class StudentShowPerformanceTestsAPIView(APIView):
     def post(self,request,*args,**kwargs):
         me = Studs(self.request.user)
-        subject = request.POST['subject']
+        data = request.data
+
+        subject = data['subject']
+        print('this is the subject {}'.format(subject))
         tests = SSCOnlineMarks.objects.filter(student =
                                               me.profile,test__sub = subject)
         test_date = []
@@ -1576,8 +1594,9 @@ class StudentProgressBriefAPIView(APIView):
 
 class StudentProgressChapterDetailAPIView(APIView):
     def post(self,request,*args,**kwargs):
-        chapter = request.POST['chapter']
-        subject = request.POST['subject']
+        data = request.data
+        chapter = data['chapter']
+        subject = data['subject']
         me = Studs(self.request.user)
         progress_cache = StudentProgressChapterCache.objects.get(subject =
                                                                     subject,chapter=chapter,student=me.profile)
@@ -1762,11 +1781,21 @@ class StudentCurrentBatchAPIView(APIView):
 class StudentTrackActivityAPIView(APIView):
     def post(self,request,*args,**kwargs):
         me = Studs(self.request.user)
-        all_data = request.POST['all_data']
+        data = request.data
+        all_data = data.POST['all_data']
         json_data = json.loads(all_data)
+        accuracy_Data = json_data(['accuracy_Data'])
+        averageTime_data = json_data(['averageTime_Data'])
+        progress_data = json_data(['progress_Data'])
         print(json_data['accuracy_Data'])
         print(json_data['averageTime_Data'])
         print(json_data['progress_Data'])
+        student_track_data = StudentTapTracker()
+        student_track_data.student = me.profile
+        student_track_data.accuracyData = accuracyData
+        student_track_data.averageTimeData = averageTime_data
+        student_track_data.progress_data = progress_data
+        student_track.save()
         context = {'tracking':json_data}
         return Response(context)
 
@@ -1822,4 +1851,14 @@ class QuizGameAPIView(APIView):
         context ={'question':quest_serializer.data,'hint':hint}
         return Response(context)
 
+class StudentLanguage(APIView):
+    def post(self,request,*args,**kwargs):
+        me = Studs(self.request.user)
+        data = request.data
+        language = data['language']
+        student_language = StudentLanguage()
+        student_language.student = me.profile
+        student_language.language = language
+        student_language.save()
+        return Response({'language':language})
 

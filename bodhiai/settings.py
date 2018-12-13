@@ -25,7 +25,7 @@ SECRET_KEY = '$x7qlgtufkr7v#zzrn)9zq_trt+juze+86674$-&^ia5dj=%un'
 DEBUG = True
 
 ALLOWED_HOSTS =\
-        ['https://bodhiai.herokuapp.com/','https://bodhiai.herokuapp.com','https://bodhiai.herokuapp.com/bodhi','bodhiai.herokuapp.com','bodhiai.in','www.bodhiai.in','http://bodhiai.in','bodhiai.in/','https://bodhiai.in','https://www.bodhiai.in']
+        ['*']
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'prashantbodhi@gmail.com'
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'corsheaders',
     'django_mathjax',
     'rest_framework',
     'rest_framework.authtoken',
@@ -56,6 +57,7 @@ INSTALLED_APPS = [
     'scraped',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
     'rest_auth.registration',
     'django.contrib.sites',
 
@@ -63,6 +65,7 @@ INSTALLED_APPS = [
 SITE_ID=1
 MATHJAX_ENABLED=True
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -70,7 +73,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'bodhiai.urls'
@@ -100,10 +102,10 @@ WSGI_APPLICATION = 'bodhiai.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd8pul6emrt8f43',
-        'HOST':'ec2-107-21-108-204.compute-1.amazonaws.com',        
-        'USER':'ekbdxvoiwyyfyz',
-        'PASSWORD':'f6f07d23ae886e4a7395b1e345b7561653caa7dc2849dced51f8069359325a3a',
+        'NAME': 'bodhieducation',
+        'HOST':'localhost',        
+        'USER':'prashant',
+        'PASSWORD':'elonmusk123',
         
     }
 }
@@ -127,9 +129,15 @@ AUTH_PASSWORD_VALIDATORS = [
 #    },
 ]
 REST_FRAMEWORK = {
+       'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),  
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+
     )
 }
 
@@ -158,3 +166,4 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CORS_ORIGIN_ALLOW_ALL = True

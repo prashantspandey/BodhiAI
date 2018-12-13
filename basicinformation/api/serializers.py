@@ -118,3 +118,12 @@ class StudentTimingChapterwiseSerializer(serializers.ModelSerializer):
             'totalAttempted',
 
         ]
+    def validate(self,validated_data):
+        chapter_code = validated_data['chapter']
+        print('{} this is the chapter code'.format(chapter_code))
+        chapter_name =\
+        SubjectChapters.objects.get(subject=validated_data['subject'],code=validated_data['chapter'])
+        validated_data['chapter']= chapter_name.name
+        print('{} this is the validated data'.format(validated_data))
+        return validated_data
+

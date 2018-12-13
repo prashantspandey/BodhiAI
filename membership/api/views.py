@@ -23,7 +23,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.contrib.auth import login as django_login, logout as django_logout
-
+import requests
 
 class CustomRegistration(APIView):
    def post(self,request,*args,**kwargs):
@@ -302,4 +302,24 @@ class FireBaseToken(APIView):
             firebase_token.save()
         context = {'token': 'token saved'}
         return Response(context)
-        
+
+class ResetPassword(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        username = data['username']
+        phone = data['phone']
+        password = data['password']
+        try:
+            user = User.objects.get(username=username)
+            message = 'This is your new password '+str(password)
+            send_url = 'http://sms.trickylab.com/http-api.php?username=bodhiai&password=123456&senderid=Bodhii&route=1&number='+phone+'&message='+message+''
+            r = requests.get(send_url)
+            print('status code {}'.format(r.status_code))
+            print(r.text)
+            user.set_password(str(password))
+            user.save()
+            return Response({'type':'success'})
+
+        except:
+            return Response({'type':'failed'})
+

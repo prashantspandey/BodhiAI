@@ -321,40 +321,41 @@ def home(request):
                     {'students':all_students,'teachers':all_teachers,'all_classes':klasses,'tests_created':new_test_teachers}
             return render(request,'basicinformation/managementHomePage.html',context)
         if user.is_staff:
+            print('yes i am in user staff')
             #sheet_links =\
             #['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
-            sheet_links = \
-                    ['units_measurements.csv','vector_analysis.csv']
-            student_user = User.objects.get(username = 'prashant_pandey')
-            student = Student.objects.get(studentuser = student_user)
-            weak_area = StudentWeakAreasChapterCache.objects.filter(student
-                                                                    =student)
-            recommendation_list = []        
-            for wa in weak_area:
-                sub = wa.subject
-                chap = wa.chapter
-                print(sub,chap)
-                try:
-                    subject_chapter = SubjectChapters.objects.get(subject =
-                                                              sub,code =
-                                                              float(chap))
-                    chap_name = subject_chapter.name
-                    try:
-                        youtube_video = YoutubeExternalVideos.objects.filter(subject =
-                                                                      sub,chapter =                   
-                                                                      chap_name)                      
-                        for num,yv in enumerate(youtube_video):
-                            if num == 2:
-                                break
+            #sheet_links = \
+            #        ['algebra.csv','pipes_cistern.csv','indices_surds.csv','time_work.csv','ratio_proportion.csv','compound_interest.csv']
+            #student_user = User.objects.get(username = 'prashant_pandey')
+            #student = Student.objects.get(studentuser = student_user)
+            #weak_area = StudentWeakAreasChapterCache.objects.filter(student
+            #                                                        =student)
+            #recommendation_list = []        
+            #for wa in weak_area:
+            #    sub = wa.subject
+            #    chap = wa.chapter
+            #    print(sub,chap)
+            #    try:
+            #        subject_chapter = SubjectChapters.objects.get(subject =
+            #                                                  sub,code =
+            #                                                  float(chap))
+            #        chap_name = subject_chapter.name
+            #        try:
+            #            youtube_video = YoutubeExternalVideos.objects.filter(subject =
+            #                                                          sub,chapter =                   
+            #                                                          chap_name)                      
+            #            for num,yv in enumerate(youtube_video):
+            #                if num == 2:
+            #                    break
 
-                            recommendation_dict = \
-                                {'link':yv.link,'title':yv.title,'chapter':chap_name,'subject':sub}
-                            recommendation_list.append(recommendation_dict)
-                    except Exception as e:          
-                        print(str(e))
-                except Exception as e:
-                    print(str(e))
-            print(recommendation_list)
+            #                recommendation_dict = \
+            #                    {'link':yv.link,'title':yv.title,'chapter':chap_name,'subject':sub}
+            #                recommendation_list.append(recommendation_dict)
+            #        except Exception as e:          
+            #            print(str(e))
+            #    except Exception as e:
+            #        print(str(e))
+            #print(recommendation_list)
 
 
 
@@ -368,7 +369,7 @@ def home(request):
             #for i in chapters:
             #    print('searching for {} ...'.format(i))
             #    get_youtube_videos(sub,i)
-            add_jobs.delay('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/scraped/pickles/freejobs.pickle')
+            #add_jobs.delay('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/scraped/pickles/freejobs.pickle')
             #delete_questions.delay('/app/scraped/pickles/freejobs.pickle')
             #fill_taken_subjects.delay()
             #create_timing_cache_detail.delay()
@@ -386,8 +387,9 @@ def home(request):
             #        ['1f.csv']
             #adding_quest =\
             #delete_allQuestions.delay("JEN")
-            #allquestions_institute.delay('English',"JEN")
-            #add_to_database_questions.delay(sheet_links,'JEN',production=True,onlyImage=True)
+            allquestions_institute.delay('Quantitative-Analysis',"JEN")
+            delete_repeat_questions.delay()
+            #add_to_database_questions.delay(sheet_links,'BodhiAI',production=True,onlyImage=True)
             #students = Student.objects.filter(school__name = "JEN")
             #jen_teacher = Teacher.objects.get(school__name = "JEN")
             #for stud in students:

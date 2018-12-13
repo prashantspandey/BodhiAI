@@ -197,7 +197,12 @@ class StudentTapTracker(models.Model):
     def __str__(self):
         return str(self.student)+' ' + str(self.events)+ ' ' + str(self.date)
 
-    
+class StudentLanguage(models.Model):
+    student = models.ForeignKey(Student,blank=True,null=True)
+    language = models.CharField(max_length=30)
+
+    def __str__(self):
+        return str(self.student) + ' ' + self.language
 #class ImprovementStudent(models.Model):
 #    testid = ArrayField(models.IntegerField())
 #    percent = ArrayField(models.CharField(max_length=10))
