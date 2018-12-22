@@ -323,3 +323,72 @@ class ResetPassword(APIView):
         except:
             return Response({'type':'failed'})
 
+
+class GoogleCustomLoginAndroid(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        user_id = data['user_id']
+        email = data['email']
+        display_name = data['display_name']
+        photo = data['photo']
+        try:
+            user = User.objects.create_user(username=user_id, email=email,\
+                                                password='newpassword')
+            institute = "BodhiAI"
+            school = School.objects.get(name=institute)
+            print('{} school'.format(school.name))
+            batch = klass.objects.get(school=school,name='Outer')
+            stud = Student(studentuser = user,klass = batch,school =school)
+            stud.studentuser.first_name = display_name
+            stud.name = display_name
+            stud.save()
+            student_details = StudentDetails()
+            student_details.student = user
+            student_details.photo = photo
+            student_details.email = email
+            student_details.save()
+            my_group = Group.objects.get(name='Students')
+            my_group.user_set.add(user)
+
+
+            teacher = Teacher.objects.get(school=school)
+            if institute == 'YSM' or institute == 'BodhiAi':
+               add_subjects('SSC',stud,teacher)
+            confirmation = StudentConfirmation()
+            confirmation.student = user
+            confirmation.school = school
+            confirmation.name = stud.name
+            confirmation.teacher = teacher
+            confirmation.batch = batch
+            confirmation.save()
+            addOldTests.delay(stud.id,teacher.id,batch.id)
+            add_announcements_newStudent.delay(stud.id,batch.id)
+
+            token = Token.objects.create(user=user)
+            json = serializer.data
+            json['token'] =\
+                    {'token':token.key,'class':stud.klass.name,'school':stud.school.name,'photo':photo,'name':display_name}
+            return Response(json,status = status.HTTP_201_CREATED)
+
+            print('new user created')
+        except Exception as e:
+            print(str(e))
+            user = User.objects.get(username=user_id)
+            django_login(request,user)
+            token, created = Token.objects.get_or_create(user=user)
+            groups = user.groups.all()
+            student = Student.objects.get(studentuser = user)
+            klass_name = student.klass.name
+            try:
+                student_details = StudentDetails.objects.get(student = user)
+
+                token_context  = \
+                    {'key':token.key,'user_type':groups[0].name,'name':student.name,'photo':student_details.photo,'batch':klass_name}
+
+            except:
+                token_context  = \
+                {'key':token.key,'user_type':groups[0].name,'name':student.name,'photo':None,'batch':klass_name}
+            return Response(token_context,status = 200)
+
+
+

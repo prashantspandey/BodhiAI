@@ -3,6 +3,7 @@ from django.utils import timezone
 from celery.result import AsyncResult 
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
+from more_itertools import unique_everseen
 from basicinformation.models import *
 from django.http import Http404, HttpResponse
 from .serializers import *
@@ -84,4 +85,15 @@ class TeacherGetChaptersAPIView(APIView):
         chapter_serializer = SubjectChapterSerializer(chapters,many=True)
         return Response(chapter_serializer.data)
 
-
+class CourseSubjects(APIView):
+    def post(self,request):
+        data = request.data
+        course = data['course']
+        course = Course.objects.get(course_name=course)
+        subject_chapters = SubjectChapters.objects.filter(course = course)
+        subject_list=  []
+        for i in subject_chapters:
+            subject_list.append(i.subject)
+        subjects = list(unique_everseen(subject_list))
+        context = {'subjects':subjects}
+        return Response(context)

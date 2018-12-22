@@ -694,10 +694,10 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
         for sh in sheet_link:
             if production:
                 df=\
-                pd.read_csv('/home/ubuntu/bodhiai/question_data/kiran_maths/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/ubuntu/bodhiai/question_data/jen_content/basic_science_ssc/'+sh,error_bad_lines=False )
             else:
                 df=\
-                pd.read_csv('/home/ubuntu/bodhiai/question_data/kiran_maths/'+sh,error_bad_lines=False )
+                pd.read_csv('/home/ubuntu/bodhiai/question_data/jen_content/basic_science_ssc/'+sh,error_bad_lines=False )
 
             quests = []
             optA = []
@@ -714,7 +714,7 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
             optD = df['optD']
            
             try:
-                direction = df['Direction']
+                direction = df['direction']
             except:
                 direction = len(optD) * ['None']
             try:
@@ -761,6 +761,10 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
             print('%s optB' %len(optB))
             print('%s optC' %len(optC))
             print('%s optD' %len(optD))
+            try:
+                print('%s optE' %len(optE))
+            except Exception as e:
+                print(str(e))
             print('%s correct answers' %len(right_answer))
             print('%s number of categories' %len(quest_category))
             #print('%s languages ' %len(lang))
@@ -772,11 +776,16 @@ def add_to_database_questions(sheet_link,school,production=False,onlyImage =
                 print('explanation not found')
    
             for ind in range(len(optA)):
-                if onlyImage:
-                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],exp[ind],sectionType[ind],str(lang[ind]),used_for[ind],source[ind],fouroptions='4',direction
+                if onlyImage and fiveOptions:
+                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],optE[ind],images[ind],right_answer[ind],quest_category[ind],exp[ind],sectionType[ind],str(lang[ind]),used_for[ind],source[ind],fouroptions='5',direction
                                     = direction[ind],difficulty= difficulty[ind] )
                 else:
-                    write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],direction[ind],fouroptions='3')
+
+                #if onlyImage:
+                    write_questions(school,None,optA[ind],optB[ind],optC[ind],optD[ind],None,images[ind],right_answer[ind],quest_category[ind],exp[ind],sectionType[ind],str(lang[ind]),used_for[ind],source[ind],fouroptions='4',direction
+                                    = direction[ind],difficulty= difficulty[ind] )
+                #else:
+                #    write_questions(school,quest_text,optA[ind],optB[ind],optC[ind],optD[ind],None,None,right_answer[ind],quest_category[ind],None,sectionType[ind],lang[ind],used_for[ind],source[ind],direction[ind],fouroptions='3')
 
 
 
@@ -889,6 +898,15 @@ write_questions(school,question,optA,optB,optC,optD,optE,image,correctOpt,questC
                 new_questions.section_category = 'Civil_Loco_Pilot_Tech'
             elif sectionType.strip() == 'ssc_electrical':
                 new_questions.section_category = 'SSC_Electronics1'
+            elif sectionType.strip() == 'BasicScienceLocopilot':
+                new_questions.section_category = 'Basic-Science'
+            elif sectionType.strip() == 'EnvironmentStudyLocopilot':
+                new_questions.section_category = 'Environment-Study'
+            elif sectionType.strip() == 'EngineeringDrawingLocopilot':
+                new_questions.section_category = 'Engineering-Drawing'
+
+
+
 
 
 
@@ -1581,8 +1599,8 @@ def deleteBadTests():
 def add_questions(institute,section):
     if institute == 'JEN':
         questions = SSCquestions.objects.filter(school__name =
-                                                'SIEL',section_category
-                                                = section)
+                                                'BodhiAI',section_category
+                                                = 'Basic-Science')
         school = School.objects.get(name=institute)
         print('%s --num quests' %len(questions))
         for i in questions:
@@ -2216,6 +2234,13 @@ def track_progress_cache(student_id,subject,marks_id):
     subject = subject.strip()
     for chap in chapters:
         marks = SSCOnlineMarks.objects.get(id = marks_id)
+        test = marks.test
+        #total_marks = 0
+        #for qu in test.sscquestions_set.all():
+        #    total_marks = total_marks + qu.max_marks
+
+
+
         try:
             progress = StudentProgressChapterCache.objects.get(student =
                                                                student,subject =
@@ -2328,6 +2353,11 @@ def track_progress_cache(student_id,subject,marks_id):
             wrong_time = []
             right_time = []
             total_marks = 0
+            #total_marks = 0
+            #for qu in test.sscquestions_set.all():
+            #    total_marks = total_marks + qu.max_marks
+
+           
             print('{} len of right answers, {} wrong answers,{}\
                   skipped'.format(len(marks.rightAnswers),len(marks.wrongAnswers),len(marks.skippedAnswers)))
             for quest_id in marks.rightAnswers:
@@ -2921,3 +2951,23 @@ def delete_repeat_questions():
         if len(already_question) > 1:
             print('{} id of question deleted'.format(quest.id))
             quest.delete()
+
+
+@shared_task
+def delete_duplicate_marks():
+    students = Student.objects.all()
+    print('number of students {}'.format(len(students)))
+    for stud in students:
+        tests = SSCKlassTest.objects.all()
+        print('number of tests {}'.format(len(tests)))
+        for te in tests:
+            marks = SSCOnlineMarks.objects.filter(student =
+                                                  stud,test=te)
+            if len(marks) > 1:
+                print('number of tests = {}'.format(len(marks)))
+                for ma in marks:
+                    ma.delete()
+                    print('marks deleted')
+                    if len(marks) == 1:
+                        break
+

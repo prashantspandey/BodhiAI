@@ -1552,8 +1552,9 @@ class TeacherStudentProfileDetailAPIView(APIView):
 
 class StudentAllWeakAreasAPIView(APIView):
     def post(self,request,*args,**kwargs):
+        data = request.data
         me = Studs(self.request.user)
-        subject = request.POST['subject']
+        subject = data['subject']
         weak_areas_cache =\
         StudentWeakAreasChapterCache.objects.filter(student=me.profile,subject
                                                     = subject)

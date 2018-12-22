@@ -24,6 +24,10 @@ urlpatterns = [
    url(r'reset_password/$',
        views.ResetPassword.as_view(),name =
        'ResetPassword'),
+   url(r'google_login/$',
+       views.GoogleCustomLoginAndroid.as_view(),name =
+       'GoogleCustomLogin'),
+
 
 
 

@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'rest_auth.registration',
     'django.contrib.sites',
 
@@ -93,6 +94,11 @@ TEMPLATES = [
     },
 ]
 
+
+#AUTHENTICATION_BACKENDS = (
+#        'django.contrib.auth.backends.ModelBackend',
+#        'allauth.account.auth_backends.AuthenticationBackend',
+#)
 WSGI_APPLICATION = 'bodhiai.wsgi.application'
 
 

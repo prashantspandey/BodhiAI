@@ -44,7 +44,7 @@ class SSCKlassTest(models.Model):
          ,('ElectricalLocoPilot','ElectricalLocoPilot'),('FitterLocoPilot','FitterLocoPilot')
          ,('General-Science','General-Science'),('LocoPilot_Diesel','LocoPilot_Diesel'),
         ('CAT_Quantitative_Aptitude','CAT_Quantitative_Aptitude'),('Civil_Loco_Pilot_Tech','Civil_Loco_Pilot_Tech'),
-        ('SSC_Electronics1','SSC_Electronics1'))
+        ('SSC_Electronics1','SSC_Electronics1'),('Basic-Science','Basic-Science'),('Environment-Study','Environment-Study'),('Engineering-Drawing','Engineering-Drawing'))
     course_choices = (('SSC','SSC'),('Railways','Railways'))
 
     #max_marks = models.DecimalField(max_digits=4,decimal_places=2)
@@ -149,7 +149,7 @@ class SSCquestions(models.Model):
          ,('ElectricalLocoPilot','ElectricalLocoPilot'),('FitterLocoPilot','FitterLocoPilot')
          ,('General-Science','General-Science'),('LocoPilot_Diesel','LocoPilot_Diesel'),
         ('CAT_Quantitative_Aptitude','CAT_Quantitative_Aptitude'),('Civil_Loco_Pilot_Tech','Civil_Loco_Pilot_Tech'),
-        ('SSC_Electronics1','SSC_Electronics1'))
+        ('SSC_Electronics1','SSC_Electronics1'),('Basic-Science','Basic-Science'),('Environment-Study','Environment-Study'),('Engineering-Drawing','Engineering-Drawing'))
     diffculty_choices = (('easy','easy'),('medium','medium'),('hard','hard'))
     text = models.TextField(blank=True,null=True)
     tier_category = models.CharField(max_length=20,choices = tier_choices)

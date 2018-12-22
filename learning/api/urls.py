@@ -8,4 +8,6 @@ urlpatterns = [
     url(r'concept_content/$',views.StudentGetContentAPIView.as_view(),name='GetContent'),
     url(r'teacher_subjects/$',views.TeacherSubjectsAPIView.as_view(),name='TeacherSubjects'),
     url(r'teacher_chapters/$',views.TeacherGetChaptersAPIView.as_view(),name='TeacherChapters'),
+    url(r'teacher_chapters/$',views.TeacherGetChaptersAPIView.as_view(),name='TeacherChapters'),
+    url(r'course_subjects/$',views.CourseSubjects.as_view(),name='CourseSubjects'),
 ]

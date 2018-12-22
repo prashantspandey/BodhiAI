@@ -324,8 +324,8 @@ def home(request):
             print('yes i am in user staff')
             #sheet_links =\
             #['age.csv','alligations.csv','average.csv','boat_and_stream.csv','discount.csv','fraction.csv','lcm_lcf.csv','number_system.csv','percentage.csv','pipe_cistern.csv','ratio_proportions.csv','simple_compound_interest.csv','simplification.csv','speed_distance.csv','square_cube_roots.csv','surds.csv','time_work.csv','train.csv','volume.csv',]
-            #sheet_links = \
-            #        ['algebra.csv','pipes_cistern.csv','indices_surds.csv','time_work.csv','ratio_proportion.csv','compound_interest.csv']
+            sheet_links = \
+                    ['basic_science.csv','engineering_drawing.csv','environment_science.csv']
             #student_user = User.objects.get(username = 'prashant_pandey')
             #student = Student.objects.get(studentuser = student_user)
             #weak_area = StudentWeakAreasChapterCache.objects.filter(student
@@ -387,9 +387,12 @@ def home(request):
             #        ['1f.csv']
             #adding_quest =\
             #delete_allQuestions.delay("JEN")
-            allquestions_institute.delay('Quantitative-Analysis',"JEN")
-            delete_repeat_questions.delay()
+            #allquestions_institute.delay('Quantitative-Analysis',"JEN")
+            #delete_repeat_questions.delay()
             #add_to_database_questions.delay(sheet_links,'BodhiAI',production=True,onlyImage=True)
+            add_new_subject_student('Engineering-Drawing')
+            add_new_subject_student('Environment-Study')
+            add_new_subject_student('Basic-Science')
             #students = Student.objects.filter(school__name = "JEN")
             #jen_teacher = Teacher.objects.get(school__name = "JEN")
             #for stud in students:
@@ -407,7 +410,9 @@ def home(request):
             #def add_to_database_questions(sheet_link,extra_info=False,production=False,onlyImage =
             #                  False,fiveOptions=False,explanation_quest=False):
 
-            #add_questions.delay('YSM','General-Intelligence')
+            #add_questions.delay('JEN','Basic-Science')
+            #add_questions.delay('JEN','Engineering-Drawing')
+            #add_questions.delay('JEN','Environment-Study')
             #add_questions.delay('YSM','Quantitative-Aptitude')
             #add_questions.delay('YSM','General-Knowledge')
             #add_questions('Aravali Defence Academy','GroupX-Maths')
@@ -433,6 +438,19 @@ def home(request):
             #        chapters = get_chapters(sub)
             #        for chap in chapters:
             #            createProgressCache.delay(stud.id,sub,chap)
+            #subject_chapters = SubjectChapters.objects.all()
+            #course_cgl = Course.objects.get(course_name='SSC CGL')
+            #course_je = Course.objects.get(course_name='SSC JE')
+            #for sc in subject_chapters:
+            #    if 'General-Intelligence' or 'Quantitative-Analysis' or\
+            #    'English' or 'General-Knowledge' == sc.subject:
+            #        sc.course.add(course_cgl)
+            #        sc.course.add(course_je)
+            #        print('course added in specified subject')
+            #    else:
+            #        sc.course.add(course_je)
+            #        print('course added')
+            #delete_duplicate_marks.delay()
             return HttpResponse("Done")
 
         if user.groups.filter(name='Students').exists():
@@ -2505,6 +2523,16 @@ def add_student_subject(institute,subject,teach,allTeacers=False):
             sub = Subject(name=subject, student=st,
                                     teacher=teach)
             sub.save()
+
+
+def add_new_subject_student(subject):
+    students = Student.objects.filter(school__name = 'JEN')
+    teacher = Teacher.objects.get(name = 'Anshul Goyal')
+    for st in students:
+        sub = Subject(name=subject, student=st,
+                                    teacher=teacher)
+        sub.save()
+
 
 
 

@@ -36,6 +36,8 @@ urlpatterns = [
     url(r'get_questions/$',views.GetAllQuestions.as_view(),name='DebugQuestions'),
     # ssc questions test json
     url(r'test_json/$',views.test_json.as_view(),name='TestJson'),
+    # get subject chapter tests for B2C
+    url(r'subject_chapter_tests/$',views.getSubjectChapterTestAPIView.as_view(),name='TestSubjectChapter'),
 
 
 ]
