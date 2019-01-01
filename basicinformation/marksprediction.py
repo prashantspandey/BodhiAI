@@ -1187,7 +1187,8 @@ class Studs:
             my_score = OnlineMarks.objects.get(test__id=test_id, student=self.profile)
         elif self.institution == 'SSC':
             test = SSCOnlineMarks.objects.filter(test__id=test_id)
-            my_score = SSCOnlineMarks.objects.get(test__id=test_id, student=self.profile)
+            my_score = SSCOnlineMarks.objects.filter(test__id=test_id,
+                                                     student=self.profile)[0]
         all_marks = []
         for te in test:
             all_marks.append(te.marks)

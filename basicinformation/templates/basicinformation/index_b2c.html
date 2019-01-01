@@ -39,21 +39,21 @@
 <meta name="viewport" content="user-scalable&#x3D;no,width&#x3D;device-width,initial-scale&#x3D;1,maximum-scale&#x3D;1,shrink-to-fit&#x3D;no,minimal-ui" />
 
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="dcterms.rightsHolder" content="Copyright 1997–2018 Intuit, Inc. All Rights Reserved." />
+<meta name="dcterms.rightsHolder" content="Copyright 1997–2018 BodhiAI, Inc. All Rights Reserved." />
 <meta name="dcterms.audience" content="Global" />
-<meta name="msapplication-config" content="https://turbotax.intuit.com/browserconfig.xml" />
+<meta name="msapplication-config" content="" />
 
 <meta name="author" content="" />
-<meta name="description" content="Take charge of your finances with Mint’s online budget planner. Our free budget tracker helps you understand your spending for a brighter financial future." />
-<meta name="keywords" content="Budget tracker, online budget planner, budget software, free budget software, money management software" />
+<meta name="description" content="Preparation of competitive exams is no more boring. With Bodhi AI's technology get personalised study plan while competing and growing with friends." />
+<meta name="keywords" content="BodhiAI is preparation platform for competitive exams such as SSC,NEET,IITJEE. Students can now get personalised study plan with help of artificial intelligence." />
 <meta name="robots" content="index,follow,noodp" />
 <meta name="slurp" content="noydir" />
-<meta property="fb:page_id" content="" />
+<meta property="fb:page_id" content="https://www.facebook.com/bodhiai/" />
 
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="" />
-<meta name="twitter:creator" content="" />
+<meta name="twitter:site" content="https://twitter.com/bodhiai" />
+<meta name="twitter:creator" content="https://twitter.com/bodhiai" />
 
 
 
@@ -70,7 +70,7 @@
 
 <link rel="canonical" href="index.html" />
 
-
+<link rel="icon" href="{% static 'basicinformation/images/favicon.ico' %}">
 
 
 
@@ -86,15 +86,44 @@
 <link href="{% static 'basicinformation/css_b2c/common_3.0.1009/common/bower_components/avenir/Avenir.css' %}" rel="stylesheet">
 
 
-<link rel="stylesheet" href="cms/component/asset/cg-mktg-component-mast-header/1.0.1/cg-mktg-component-mast-header.css" />
-<link rel="stylesheet" href="cms/component/asset/cg-mktg-component-header/1.0.2/cg-mktg-component-header.css" />
-<link rel="stylesheet" href="cms/component/asset/cg-mktg-component-nav-dropdowns/1.0.0/cg-mktg-component-nav-dropdowns.css" />
-<link rel="stylesheet" href="cms/component/asset/cg-mktg-component-hero/1.0.8/cg-mktg-component-hero.css" />
-<link rel="stylesheet" href="cms/component/asset/cg-mktg-component-grid/1.0.2/cg-mktg-component-grid.css" />
-<link rel="stylesheet" href="cms/component/asset/cg-mktg-component-hero-list/1.0.5/cg-mktg-component-hero-list.css" />
-<link rel="stylesheet" href="cms/component/asset/cg-mktg-component-promo/1.0.0/cg-mktg-component-promo.css" />
-<link rel="stylesheet" href="cms/component/asset/cg-mktg-component-mast-footer/1.0.0/cg-mktg-component-mast-footer.css" />
-<link rel="stylesheet" href="cms/component/asset/cg-mktg-component-footer/1.0.1/cg-mktg-component-footer.css" />
+<link rel="stylesheet" href="{% static 'basicinformation/cms_b2c/component/asset/cg-mktg-component-mast-header/1.0.1/cg-mktg-component-mast-header.css' %}" />
+
+
+
+<link rel="stylesheet" href= "{% static 'basicinformation/cms_b2c/component/asset/cg-mktg-component-header/1.0.2/cg-mktg-component-header.css' %}" />
+
+
+
+<link rel="stylesheet" href="{% static 'basicinformation/cms_b2c/component/asset/cg-mktg-component-nav-dropdowns/1.0.0/cg-mktg-component-nav-dropdowns.css' %}" />
+
+
+
+<link rel="stylesheet" href="{% static 'basicinformation/cms_b2c/component/asset/cg-mktg-component-hero/1.0.8/cg-mktg-component-hero.css' %}" />
+
+
+
+<link rel="stylesheet" href="{% static 'basicinformation/cms_b2c/component/asset/cg-mktg-component-grid/1.0.2/cg-mktg-component-grid.css' %}" />
+
+
+
+<link rel="stylesheet" href="{% static 'basicinformation/cms_b2c/component/asset/cg-mktg-component-hero-list/1.0.5/cg-mktg-component-hero-list.css' %}" />
+
+
+
+<link rel="stylesheet" href="{% static 'basicinformation/cms_b2c/component/asset/cg-mktg-component-promo/1.0.0/cg-mktg-component-promo.css' %}" />
+
+
+
+<link rel="stylesheet" href="{% static 'basicinformation/cms_b2c/component/asset/cg-mktg-component-mast-footer/1.0.0/cg-mktg-component-mast-footer.css' %}" />
+
+
+
+
+<link rel="stylesheet" href="{% static 'basicinformation/cms_b2c/component/asset/cg-mktg-component-footer/1.0.1/cg-mktg-component-footer.css' %}" />
+
+
+
+
 
 
     <script>window['adrum-start-time'] = new Date().getTime();</script>
@@ -164,9 +193,9 @@
 
 
 
-<script src="handlebars/common_3.0.1009/common/utilities/lazysizes.min.js"></script>
-<script src="handlebars/common_3.0.1009/common/utilities/promise-handler.js"></script>
-<script src="handlebars/common_3.0.1009/common/utilities/perf-beacon-tools.js"></script>
+<script src="{% static 'basicinformation/css_b2c/common_3.0.1009/common/utilities/lazysizes.min.js' %}"></script>
+<script src="{% static 'basicinformation/css_b2c/common_3.0.1009/common/utilities/promise-handler.js' %}"></script>
+<script src="{% static 'basicinformation/css_b2c/common_3.0.1009/common/utilities/perf-beacon-tools.js' %}"></script>
 
 
 
@@ -243,22 +272,6 @@
       <span class='nav-dropdowns__1-0-0__nav-link-underline cgmt-bgcolor-teal02'></span>
       </a>
 
-        <ul class="nav-dropdowns__1-0-0__submenu">
-
-          <li class="nav-dropdowns__1-0-0__drop-list-item">
-            <a class='nav-dropdowns__1-0-0__drop-link beacon-this' href='how-mint-works.html' role='menuitem'>
-            All in one
-            </a>
-          </li>
-
-          <li class="nav-dropdowns__1-0-0__drop-list-item">
-            <a class='nav-dropdowns__1-0-0__drop-link beacon-this' href='how-mint-bills-works.html' role='menuitem'>
-            Bill tracking
-            </a>
-          </li>
-
-        </ul>
-
     </li>
 
     <li class="nav-dropdowns__1-0-0__nav-list-item">
@@ -278,8 +291,8 @@
     </li>
 
     <li class="nav-dropdowns__1-0-0__nav-list-item">
-      <a class='nav-dropdowns__1-0-0__nav-link beacon-this nav-menu-tier1-link' href='https://blog.mint.com/' role='menuitem'>
-      Blog
+      <a class='nav-dropdowns__1-0-0__nav-link beacon-this nav-menu-tier1-link' href="{%url 'basic:howitworks' %}" role='menuitem'>
+      Are you an coaching institute?
       <span class='nav-dropdowns__1-0-0__nav-link-underline cgmt-bgcolor-teal02'></span>
       </a>
 
@@ -303,11 +316,11 @@
   data-instance-version='1'
   data-auto-sel='c9FoKCrXa'
   >
-  <source media='(min-width: 1200px)' data-breakpoint='xl' data-srcset='{% static 'basicinformation/images_b2c/logo.png' %}'>
-  <source media='(min-width: 1024px)' data-breakpoint='lg' data-srcset='{% static 'basicinformation/images_b2c/logo.png' %}'>
-  <source media='(min-width: 768px)' data-breakpoint='md' data-srcset='{% static 'basicinformation/images_b2c/logo.png' %}'>
-  <source media='(min-width: 480px)' data-breakpoint='sm' data-srcset='{% static 'basicinformation/images_b2c/logo.png' %}'>
-  <img data-src='{% static 'basicinformation/images_b2c/logo.png' %}' class='lazyload' alt='' />
+  <source media='(min-width: 1200px)' data-breakpoint='xl' data-srcset="{% static 'basicinformation/images_b2c/logo.png' %}">
+  <source media='(min-width: 1024px)' data-breakpoint='lg' data-srcset="{% static 'basicinformation/images_b2c/logo.png' %}">
+  <source media='(min-width: 768px)' data-breakpoint='md' data-srcset="{% static 'basicinformation/images_b2c/logo.png' %}">
+  <source media='(min-width: 480px)' data-breakpoint='sm' data-srcset="{% static 'basicinformation/images_b2c/logo.png' %}">
+  <img data-src="{% static 'basicinformation/images_b2c/logo.png' %}" class='lazyload' alt='' />
 </picture>
 
         </a>
@@ -316,7 +329,7 @@
 
     <div class="header__1-0-2__header__buttons btn-inline-container btn-small-container show-first-button">
       <a
-  href="https://accounts.intuit.com/signup.html?offering_id=Intuit.ifs.mint&amp;namespace_id=50000026&amp;redirect_url=https%3A%2F%2Fmint.intuit.com%2Foverview.event%3Futm_medium%3Ddirect%26cta%3Dhero_sign_up_free_ProspectWeb"
+  href="{%url 'membership:register' %}"
   class="btn btn-upsell beacon-this"
 
   data-com-id='com-cms-cg-mktg-component-button-link|c33RNyqrJ|1'
@@ -330,7 +343,7 @@
 	Register
 </a>
 <a
-  href="https://accounts.intuit.com/index.html?offering_id=Intuit.ifs.mint&amp;namespace_id=50000026&amp;redirect_url=https%3A%2F%2Fmint.intuit.com%2Foverview.event%3Futm_medium%3Ddirect%26cta%3Dnav_login_dropdown"
+  href="{%url 'membership:login' %}"
   class="btn btn-secondary beacon-this"
 
   data-com-id='com-cms-cg-mktg-component-button-link|c0GK8jYsa|1'
@@ -405,7 +418,7 @@
         <div class='hero__1-0-8__cta'>
           <div class=''>
              <a
-  href="link to test"
+  href="{%url 'membership:login' %}"
   class="btn btn-upsell beacon-this"
 
   data-com-id='com-cms-cg-mktg-component-button-link|c33RNyqrJ|1'
@@ -447,11 +460,11 @@
   data-instance-version='1'
   data-auto-sel='c76A0xoGK'
   >
-  <source media='(min-width: 1200px)' data-breakpoint='xl' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/bodhi_header.jpg'>
-  <source media='(min-width: 1024px)' data-breakpoint='lg' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/bodhi_header.jpg'>
-  <source media='(min-width: 768px)' data-breakpoint='md' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/bodhi_header.jpg'>
-  <source media='(min-width: 480px)' data-breakpoint='sm' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/bodhi_header.jpg'>
-  <img data-src='/home/prashant/Desktop/programming/others/www.mint.com/images/bodhi_header.jpg' class='lazyload' alt='' />
+  <source media='(min-width: 1200px)' data-breakpoint='xl' data-srcset="{% static 'basicinformation/images_b2c/bodhi_header.jpg' %}">
+	  <source media='(min-width: 1024px)' data-breakpoint='lg' data-srcset="{% static 'basicinformation/images_b2c/bodhi_header.jpg' %}">
+		  <source media='(min-width: 768px)' data-breakpoint='md' data-srcset="{% static 'basicinformation/images_b2c/bodhi_header.jpg' %}">
+			  <source media='(min-width: 480px)' data-breakpoint='sm' data-srcset="{% static 'basicinformation/images_b2c/bodhi_header.jpg' %}">
+				  <img data-src="{% static 'basicinformation/images_b2c/bodhi_header.jpg' %}" class='lazyload' alt='' />
 </picture>
 
     </div>
@@ -492,7 +505,7 @@
             ">
 
 
-              <img class="lazyload grid__1-0-2__grid__img-icon" data-src="/home/prashant/Desktop/programming/others/www.mint.com/images/high_rank.png" alt="" width="60" />
+		  <img class="lazyload grid__1-0-2__grid__img-icon" data-src="{% static 'basicinformation/images_b2c/high_rank.png' %}" alt="" width="60" />
 
 
 
@@ -532,7 +545,7 @@
             ">
 
 
-              <img class="lazyload grid__1-0-2__grid__img-icon" data-src="/home/prashant/Desktop/programming/others/www.mint.com/images/fun.png" alt="" width="60" />
+		  <img class="lazyload grid__1-0-2__grid__img-icon" data-src="{% static 'basicinformation/images_b2c/fun.png' %}" alt="" width="60" />
 
 
 
@@ -572,7 +585,7 @@
             ">
 
 
-              <img class="lazyload grid__1-0-2__grid__img-icon" data-src="/home/prashant/Desktop/programming/others/www.mint.com/images/plan.png" alt="" width="60" />
+		  <img class="lazyload grid__1-0-2__grid__img-icon" data-src="{% static 'basicinformation/images_b2c/plan.png' %}" alt="" width="60" />
 
 
 
@@ -621,11 +634,11 @@
   data-instance-version='1'
   data-auto-sel='c3s5bz82u'
   >
-  <source media='(min-width: 1200px)' data-breakpoint='xl' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/effortless2.png'>
-  <source media='(min-width: 1024px)' data-breakpoint='lg' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/effortless2.png'>
-  <source media='(min-width: 768px)' data-breakpoint='md' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/effortless2png'>
-  <source media='(min-width: 480px)' data-breakpoint='sm' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/effortless2.png'>
-  <img data-src='/home/prashant/Desktop/programming/others/www.mint.com/images/effortless2.png' class='lazyload' alt='' />
+  <source media='(min-width: 1200px)' data-breakpoint='xl' data-srcset="{% static 'basicinformation/images_b2c/effortless2.png' %}">
+	  <source media='(min-width: 1024px)' data-breakpoint='lg' data-srcset="{% static 'basicinformation/images_b2c/effortless2.png' %}">
+		  <source media='(min-width: 768px)' data-breakpoint='md' data-srcset="{% static 'basicinformation/images_b2c/effortless2.png' %}">
+			  <source media='(min-width: 480px)' data-breakpoint='sm' data-srcset="{% static 'basicinformation/images_b2c/effortless2.png' %}">
+				  <img data-src="{% static 'basicinformation/images_b2c/effortless2.png' %}" class='lazyload' alt='' />
 </picture>
 
       </div>
@@ -722,7 +735,7 @@
         <div class='hero-list__1-0-5__btnContainer '>
 
                       <a
-  href="link to test"
+  href="{%url 'basic:howitworks' %}"
   class="btn btn-upsell beacon-this"
 
   data-com-id='com-cms-cg-mktg-component-button-link|c33RNyqrJ|1'
@@ -760,11 +773,11 @@
   data-instance-version='1'
   data-auto-sel='c1i4Zn9nO'
   >
-  <source media='(min-width: 1200px)' data-breakpoint='xl' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/personalised1.png'>
-  <source media='(min-width: 1024px)' data-breakpoint='lg' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/personalised1.png'>
-  <source media='(min-width: 768px)' data-breakpoint='md' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/personalised1.png'>
-  <source media='(min-width: 480px)' data-breakpoint='sm' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/personalised1.png'>
-  <img data-src='/home/prashant/Desktop/programming/others/www.mint.com/images/personalised1.png' class='lazyload' alt='' />
+  <source media='(min-width: 1200px)' data-breakpoint='xl' data-srcset="{% static 'basicinformation/images_b2c/personalised1.png' %}">
+	  <source media='(min-width: 1024px)' data-breakpoint='lg' data-srcset="{% static 'basicinformation/images_b2c/personalised1.png' %}">
+		  <source media='(min-width: 768px)' data-breakpoint='md' data-srcset="{% static 'basicinformation/images_b2c/personalised1.png' %}">
+			  <source media='(min-width: 480px)' data-breakpoint='sm' data-srcset="{% static 'basicinformation/images_b2c/personalised1.png' %}">
+				  <img data-src="{% static 'basicinformation/images_b2c/personalised1.png' %}" class='lazyload' alt='' />
 </picture>
 
       </div>
@@ -868,7 +881,7 @@
 
         <div class='hero-list__1-0-5__btnContainer '>
                   <a
-  href="link to test"
+  href="{%url 'basic:howitworks' %}"
   class="btn btn-upsell beacon-this"
 
   data-com-id='com-cms-cg-mktg-component-button-link|c33RNyqrJ|1'
@@ -906,11 +919,11 @@
   data-instance-version='1'
   data-auto-sel='c0MqaEZov'
   >
-  <source media='(min-width: 1200px)' data-breakpoint='xl' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/content.png'>
-  <source media='(min-width: 1024px)' data-breakpoint='lg' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/content.png'>
-  <source media='(min-width: 768px)' data-breakpoint='md' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/content.png'>
-  <source media='(min-width: 480px)' data-breakpoint='sm' data-srcset='/home/prashant/Desktop/programming/others/www.mint.com/images/content.png'>
-  <img data-src='/home/prashant/Desktop/programming/others/www.mint.com/images/content.png' class='lazyload' alt='' />
+  <source media='(min-width: 1200px)' data-breakpoint='xl' data-srcset="{% static 'basicinformation/images_b2c/content.png' %}">
+	  <source media='(min-width: 1024px)' data-breakpoint='lg' data-srcset="{% static 'basicinformation/images_b2c/content.png' %}">
+		  <source media='(min-width: 768px)' data-breakpoint='md' data-srcset="{% static 'basicinformation/images_b2c/content.png' %}">
+			  <source media='(min-width: 480px)' data-breakpoint='sm' data-srcset="{% static 'basicinformation/images_b2c/content.png' %}">
+				  <img data-src="{% static 'basicinformation/images_b2c/content.png' %}" class='lazyload' alt='' />
 </picture>
 
       </div>
@@ -979,7 +992,7 @@
         <div class='hero-list__1-0-5__btnContainer '>
            <a
   href="how-mint-works/security.html"
-  class="btn btn-secondary beacon-this"
+  class="btn btn-upsell beacon-this"
 
   data-com-id='com-cms-cg-mktg-component-button-link|c0EpEdqnA|1'
   data-template-id='button-link'
@@ -1062,7 +1075,7 @@
 
             ">
 
-              <img class="lazyload grid__1-0-2__grid__img-large" data-src="/home/prashant/Desktop/programming/others/www.mint.com/images/simple.jpg" alt="" />
+		  <img class="lazyload grid__1-0-2__grid__img-large" data-src="{% static 'basicinformation/images_b2c/simple.jpg' %}" alt="" />
 
 
 
@@ -1102,7 +1115,7 @@
 
             ">
 
-              <img class="lazyload grid__1-0-2__grid__img-large" data-src="/home/prashant/Desktop/programming/others/www.mint.com/images/test_fun.jpg" alt="" />
+		  <img class="lazyload grid__1-0-2__grid__img-large" data-src="{% static 'basicinformation/images_b2c/test_fun.jpg' %}" alt="" />
 
 
 
@@ -1142,7 +1155,7 @@
 
             ">
 
-              <img class="lazyload grid__1-0-2__grid__img-large" data-src="/home/prashant/Desktop/programming/others/www.mint.com/images/step.jpg" alt="" />
+		  <img class="lazyload grid__1-0-2__grid__img-large" data-src="{% static 'basicinformation/images_b2c/step.jpg' %}" alt="" />
 
 
 
@@ -1198,7 +1211,7 @@
       <div class='promo__1-0-0__promo__cta promo__1-0-0__promo__generic'>
         <div class=''>
            <a
-  href="https://accounts.intuit.com/signup.html?offering_id=Intuit.ifs.mint&amp;namespace_id=50000026&amp;redirect_url=https%3A%2F%2Fmint.intuit.com%2Foverview.event%3Futm_medium%3Ddirect%26cta%3Dhero_sign_up_free_ProspectWeb"
+  href="{%url 'membership:register' %}"
   class="btn btn-upsell beacon-this"
 
   data-com-id='com-cms-cg-mktg-component-button-link|c33RNyqrJ|1'
@@ -1212,7 +1225,7 @@
 	Sign Up Free
 </a>
   <a
-  href="https://accounts.intuit.com/index.html?offering_id=Intuit.ifs.mint&amp;namespace_id=50000026&amp;redirect_url=https%3A%2F%2Fmint.intuit.com%2Foverview.event%3Futm_medium%3Ddirect%26cta%3Dbody_mint_login"
+  href="{%url 'membership:login' %}"
   class="btn btn-upsell beacon-this"
 
   data-com-id='com-cms-cg-mktg-component-button-link|c3xHvO3xB|1'
@@ -1258,7 +1271,7 @@
       <div class='promo__1-0-0__promo__cta promo__1-0-0__promo__generic'>
         <div class=''>
            <a
-  href="https://itunes.apple.com/us/app/mint-personal-finance/id300238550?mt=8"
+  href="https://play.google.com/store/apps/details?id=in.bodhiaieducation.bodhiaieducation_android&hl=en_IN"
   class="btn btn-secondary beacon-this"
    target="_blank"
   data-com-id='com-cms-cg-mktg-component-button-link|c24NjOn89|1'
@@ -1274,7 +1287,7 @@
 	Download
 </a>
   <a
-  href="https://play.google.com/store/apps/details?id=com.mint&amp;hl=en"
+  href="https://play.google.com/store/apps/details?id=in.bodhiaieducation.bodhiaieducation_android&hl=en_IN"
   class="btn btn-secondary beacon-this"
    target="_blank"
   data-com-id='com-cms-cg-mktg-component-button-link|c4ojTW6i2|1'
@@ -1336,19 +1349,15 @@
 
           <div class='footer__1-0-1__social '>
 
-              <a href='https://www.youtube.com/user/MintSoftware'>
+              <a href='https://www.youtube.com/channel/UCrcZf8dGWj-7SbHu2ZD5i7g'>
                 <img alt='' class='lazyload footer__1-0-1__social__img' data-src='https://digitalasset.intuit.com/IMAGE/A3qoCKw9G/youtube.png'>
               </a>
 
-              <a href='https://blog.mint.com/'>
-                <img alt='' class='lazyload footer__1-0-1__social__img' data-src='https://digitalasset.intuit.com/IMAGE/A7Fou45F0/rss.png'>
-              </a>
-
-              <a href='https://www.facebook.com/mint'>
+              <a href='https://www.facebook.com/bodhiai/'>
                 <img alt='' class='lazyload footer__1-0-1__social__img' data-src='https://digitalasset.intuit.com/IMAGE/A1xjq2Z2M/facebook.png'>
               </a>
 
-              <a href='http://www.twitter.com/mint'>
+              <a href='https://twitter.com/bodhiai'>
                 <img alt='' class='lazyload footer__1-0-1__social__img' data-src='https://digitalasset.intuit.com/IMAGE/A7cSGpsTN/twitter.png'>
               </a>
 
@@ -1359,79 +1368,8 @@
           </div>
         </div>
         <div class='footer__1-0-1__products-container'>
-          <div class='footer__1-0-1__intuit'>
-
-            <a href='https://www.intuit.com/'>
-              <img alt='Intuit Logo' class='lazyload' data-src='https://digitalasset.intuit.com/IMAGE/A3sCSkZiS/intuit-dark.png'>
-            </a>
-
-          </div>
-          <div class='footer__1-0-1__products'>
-
-              <a class='footer__1-0-1__product-link' href='index.html'>
-                <img alt='' class='lazyload' height='19' data-src='https://digitalasset.intuit.com/IMAGE/A3OSvbxLf/logo-mint-footer.png'>
-              </a>
-
-              <a class='footer__1-0-1__product-link' href='https://turbotax.intuit.com/'>
-                <img alt='' class='lazyload' height='19' data-src='https://digitalasset.intuit.com/IMAGE/A4ldtKC3b/logo-turbotax.png'>
-              </a>
-
-              <a class='footer__1-0-1__product-link' href='https://quickbooks.intuit.com/'>
-                <img alt='' class='lazyload' height='19' data-src='https://digitalasset.intuit.com/IMAGE/A7Aq9134m/logo-quickbooks.png'>
-              </a>
-
-              <a class='footer__1-0-1__product-link' href='https://proconnect.intuit.com/'>
-                <img alt='' class='lazyload' height='19' data-src='https://digitalasset.intuit.com/IMAGE/A6mmpu99P/logo-proconnect.png'>
-              </a>
-
-          </div>
         </div>
-        <div class='text-container'>
-          <div class='footer__1-0-1__links'>
-            <ul class='footer__1-0-1__link-list'>
-
-                <li class='footer__1-0-1__link-list-item'>
-                  <a href='https://www.intuit.com/company/'>About Intuit</a>
-                </li>
-
-                <li class='footer__1-0-1__link-list-item'>
-                  <a href='https://careers.intuit.com/'>Join Our Team</a>
-                </li>
-
-                <li class='footer__1-0-1__link-list-item'>
-                  <a href='https://www.intuit.com/company/press-room/media-contacts/'>Press</a>
-                </li>
-
-                <li class='footer__1-0-1__link-list-item'>
-                  <a href='https://security.intuit.com/index.php/privacy'>Privacy</a>
-                </li>
-
-                <li class='footer__1-0-1__link-list-item'>
-                  <a href='how-mint-works/security.html'>Security</a>
-                </li>
-
-                <li class='footer__1-0-1__link-list-item'>
-                  <a href='terms.html'>Terms of Use</a>
-                </li>
-
-                <li class='footer__1-0-1__link-list-item'>
-                  <a href='https://help.mint.com/'>FAQs</a>
-                </li>
-
-                <li class='footer__1-0-1__link-list-item'>
-                  <a href='partners.html'>Affiliates and Partners</a>
-                </li>
-
-            </ul>
-          </div>
-          <div class='footer__1-0-1__legal'>
-            <p class='footer__1-0-1__legal-text'>
-              ©1997-2018 Intuit, Inc. All rights reserved. Intuit, QuickBooks, QB, TurboTax, ProConnect, and Mint are registered trademarks of Intuit Inc. Terms and conditions, features, support, pricing, and service options subject to change without notice.<br /><br /> Security Certification of the TurboTax Online application has been performed by C-Level Security. <br /><br /> By accessing and using this page you agree to the <a href="terms.html">Terms and Conditions.</a>
-            </p>
-            <ul class='footer__1-0-1__certs'>
-
-            </ul>
-          </div>
+         </div>
         </div>
       </div>
     </div>
@@ -1452,15 +1390,27 @@
 
 
 
-<script src="handlebars/common_3.0.1009/mint/_common/analytics/js/adrum.js"></script>
-<script src="handlebars/common_3.0.1009/common/utilities/polyfill.object-assign.min.js"></script>
-<script src="handlebars/common_3.0.1009/common/utilities/polyfill.picture.min.js"></script>
-<script src="handlebars/common_3.0.1009/common/utilities/splunk-logging-v2.js"></script>
-<script src="handlebars/common_3.0.1009/common/utilities/error-handler-utility.js"></script>
-<script src="handlebars/common_3.0.1009/cms/_common/js/analytics/perf-gathering.js"></script>
+<script src="{% static 'basicinformation/css_b2c/common_3.0.1009/mint/_common/analytics/js/adrum.js' %}"></script>
 
 
-<script src="cms/component/asset/cg-mktg-component-nav-dropdowns/1.0.0/cg-mktg-component-nav-dropdowns.html"></script>
+<script src="{% static 'basicinformation/css_b2c/common_3.0.1009/common/utilities/polyfill.object-assign.min.js' %}"></script>
+
+
+<script src="{% static 'basicinformation/css_b2c/common_3.0.1009/common/utilities/polyfill.picture.min.js' %}"></script>
+
+
+<script src="{% static 'basicinformation/css_b2c/handlebars/common_3.0.1009/common/utilities/splunk-logging-v2.js' %}"></script>
+
+
+<script src="{% static 'basicinformation/css_b2c/common_3.0.1009/common/utilities/error-handler-utility.js' %}"></script>
+
+
+<script src="{% static 'basicinformation/css_b2c/handlebars/common_3.0.1009/cms/_common/js/analytics/perf-gathering.js' %}"></script>
+
+
+
+
+<script src="{% static 'basicinformation/cms_b2c/component/asset/cg-mktg-component-nav-dropdowns/1.0.0/cg-mktg-component-nav-dropdowns.html' %}"></script>
 
 
 
@@ -1469,5 +1419,4 @@
 
 </body>
 
-<!-- Mirrored from www.mint.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Dec 2018 09:45:57 GMT -->
 </html>

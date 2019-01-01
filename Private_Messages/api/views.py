@@ -7,6 +7,7 @@ import json
 from basicinformation.api.serializers import *
 from basicinformation.marksprediction import *
 from Private_Messages.models import *
+from basicinformation.tasks import notification_onetoone_message
 from rest_framework.response import Response
 from rest_framework.permissions import (
     IsAuthenticated
@@ -30,8 +31,9 @@ class StudentSendMessage(APIView):
 class StudentSendMessageFinal(APIView):
     def post(self,request,*args,**kwargs):
         me = Studs(self.request.user)
-        teacher_id = request.POST['teacher_id']
-        message = request.POST['message']
+        data = request.data
+        teacher_id = data['teacher_id']
+        message = data['message']
         teacher = Teacher.objects.get(id = teacher_id)
         send_message = PrivateMessage()
         send_message.sender = self.request.user
@@ -39,7 +41,8 @@ class StudentSendMessageFinal(APIView):
         send_message.body = message
         send_message.save()
         title = 'Private Message from' + str(me.profile)
-        notification_onetoone_message.delay(title,message,batch.name)
+        #notification_onetoone_message.delay(title,message,batch.name)
+        notification_onetoone_message.delay(title,message,teacher.teacheruser.id,self.request.user.id)
         context = {'teacher':teacher.name,'message':message}
         return Response(context)
 

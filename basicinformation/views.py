@@ -35,6 +35,7 @@ from time import sleep
 from membership.forms import StudentInformationForm,StudentForm
 from .tasks import *
 
+
 def jitoData(request):
     user = request.user
     if user.is_authenticated:
@@ -2999,4 +3000,6 @@ def add_concepts():
 
             print('{} normal'.format(j))
 
-       
+def howitworks(request):
+    return render(request,'basicinformation/index3.html')
+

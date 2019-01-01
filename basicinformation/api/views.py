@@ -1013,7 +1013,8 @@ class StudentTestPerformanceDetailedAPIView(APIView):
             test = SSCOfflineMarks.objects.get(student=me.profile, test__id=test_id)
             mode = 'offline'
         except:
-            test = SSCOnlineMarks.objects.get(student=me.profile, test__id=test_id)
+            test = SSCOnlineMarks.objects.filter(student=me.profile,
+                                                 test__id=test_id)[0]
             te = SSCKlassTest.objects.get(id = test_id)
             mode = 'online'
 
@@ -1857,9 +1858,178 @@ class StudentLanguage(APIView):
         me = Studs(self.request.user)
         data = request.data
         language = data['language']
-        student_language = StudentLanguage()
-        student_language.student = me.profile
-        student_language.language = language
-        student_language.save()
+        #try:
+        #    student_lang = StudentLanguage.objects.get(student =
+        #                                                   me.profile)
+        #    student_lang.language = language
+        #    student_lang.save()
+        #except:
+        #    student_lang = StudentLanguage()
+        #    student_lang.student = me.profile
+        #    student_lang.language = language
+        #    student_lang.save()
+        student_details = StudentDetails.objects.get(student = self.request.user)
+        student_details.language = language
+        student_details.save()
+
         return Response({'language':language})
 
+class HomePageSubjects(APIView):
+    def get(self,request):
+        user = self.request.user
+        me = Studs(user)
+        subjects = Subject.objects.filter(student=me.profile)
+        subjects_list = []
+        subjects_logo_list = []
+        for sub in subjects:
+            try:
+                subject_logo = SubjectLogo.objects.get(name = sub.name)
+                logo = subject_logo.logo
+                subjects_logo_list.append(logo)
+            except:
+                subjects_logo_list.append('No logo')
+
+            subjects_list.append(sub.name)
+        final_subject_list = list(zip(subjects_list,subjects_logo_list))
+        context = {'subjects':final_subject_list}
+        return Response(context)
+
+class ChangeStudentDetails(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        photo_url = data['photo']
+        course = data['course']
+        language = data['language']
+        phone = data['phone']
+        full_name = data['full_name']
+        student_details = StudentDetails.objects.get(student=self.request.user)
+        student_details.photo = photo_url
+        student_details.fullName = full_name
+        student_details.language = language
+        student_details.course = course
+        student_details.phone = phone
+        student_details.save()
+        return\
+                Response({'course':course,'phone':phone,'full_name':full_name,'language':language,'photo_url':photo_url})
+
+
+class getTestRank(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        test_id = data['test_id']
+        final_rank_list = []
+        klass_test = SSCKlassTest.objects.get(id = test_id)
+        test_rank = TestRank.objects.get(test=klass_test)
+        sortedMarks = test_rank.sortedMarks
+        sortedStudents = test_rank.students
+        for rank_index,stud in enumerate(sortedStudents):
+            st = Student.objects.get(id = stud)
+            try:
+                student_detail = StudentDetails.objects.get(student =
+                                                        st.studentuser)
+                photo_url = student_detail.photo
+                finalPhoto = photo_url
+
+            except:
+                finalPhoto = None
+
+            student_wise_rank_dict =\
+                    {'name':st.name,'photo':finalPhoto,'username':st.studentuser.username,'rank':int(rank_index+1),'score':sortedMarks[rank_index]}
+            final_rank_list.append(student_wise_rank_dict)
+        #final_rank =\
+        #list(zip(student_name_list,student_photo_list,student_rank_list,student_score_list,student_username_list))
+        context = {'ranking':final_rank_list}
+        return Response(context)
+
+
+class getTakenTestsIds(APIView):
+    def get(self,request):
+        me = Studs(self.request.user)
+        my_taken_marks = SSCOnlineMarks.objects.filter(student=me.profile)
+        test_ids = []
+        for t_marks in my_taken_marks:
+            test_ids.append(t_marks.test.id)
+        context = {'test_id':test_ids}
+        return Response(context)
+
+
+class printTestRank(APIView):
+    def get(self,request):
+        test_rank = TestRank.objects.all()
+        test_ids = []
+        for tr in test_rank:
+            test_ids.append(tr.test.id)
+        context = {'tests':test_ids}
+        return Response(context)
+
+#class setSubjectWiseRank(APIView):
+#    def post(self,request,*args,**kwargs):
+#        data = request.data
+#        subject = data['subject']
+#        all_subject_tests = SSCKlassTest.objects.filter(sub=subject)
+#        student_accuracy = []
+#        student_photo = []
+#        student_name = []
+#        student_username = []
+#        for subjectTest in all_subject_tests:
+#            all_subject_marks = SSCOnlineMarks.objects.filter(test =
+#                                                              subjectTest)
+#            for subjectMark in all_subject_marks:
+#                #questions = SSCquestions.objects.filter(ktest = subjectTest)
+#                rightAnswers = subjectMark.rightAnswers
+#                wrongAnswers = subjectMark.wrongAnswers
+#                countRightAnswers = 0
+#                countWrongAnswers = 0
+#                for ra in rightAnswers:
+#                    question = SSCquestions.objects.get(choice__id = ra)
+#                    if question.section_category == subject:
+#                        countRightAnswers += 1
+#                for wa in wrongAnswers:
+#                    question = SSCquestions.objects.get(choice__id = wa)
+#                    if question.section_category == subject:
+#                        countWrongAnswers += 1
+#                totalQuestionsAttempted = len(rightAnswers) + len(wrongAnswers)
+#                accuracy = (countRightAnswers / totalQuestionsAttempted) * 100
+
+class getSubjectRank(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        subject = data['subject']
+        final_rank_list = []
+        test_rank = SubjectRank.objects.get(subject=subject)
+        sortedMarks = test_rank.sortedAccuracies
+        sortedStudents = test_rank.students
+        sortedMinimumTests = test_rank.minimumTests
+        for rank_index,stud in enumerate(sortedStudents):
+            st = Student.objects.get(id = stud)
+            try:
+                student_detail = StudentDetails.objects.get(student =
+                                                        st.studentuser)
+                photo_url = student_detail.photo
+                finalPhoto = photo_url
+
+            except:
+                finalPhoto = None
+
+            student_wise_rank_dict =\
+                    {'name':st.name,'photo':finalPhoto,'username':st.studentuser.username,'rank':int(rank_index+1),'accuracy':sortedMarks[rank_index],'numberTests':sortedMinimumTests}
+            final_rank_list.append(student_wise_rank_dict)
+        #final_rank =\
+        #list(zip(student_name_list,student_photo_list,student_rank_list,student_score_list,student_username_list))
+        context = {'subject':subject,'subject_ranking':final_rank_list}
+        return Response(context)
+
+
+class getSubjectLogo(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        subject = data['subject']
+        subject_logo = SubjectLogo.objects.get(name=subject)
+        logo_link = subject_logo.logo
+        context = {'subject':subject,'logo':logo_link}
+        return Response(context)
+
+
+                    
+
+        

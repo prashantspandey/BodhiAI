@@ -4,6 +4,7 @@ from django.shortcuts import render, HttpResponseRedirect, reverse, redirect
 from .models import *
 from learning.models import *
 from QuestionsAndPapers.models import *
+from Private_Messages.models import *
 from django.utils import timezone
 from more_itertools import unique_everseen
 from django.http import Http404
@@ -2970,4 +2971,174 @@ def delete_duplicate_marks():
                     print('marks deleted')
                     if len(marks) == 1:
                         break
+
+
+@shared_task
+def saveTestRank(test_id):
+    specific_test = SSCKlassTest.objects.get(id = test_id)
+    try:
+        test_ranking_table = TestRank.objects.get(test = specific_test)
+        test_ranking_table.delete()
+    except:
+        pass
+    all_mark = SSCOnlineMarks.objects.filter(test__id = test_id)
+    my_marks = 0
+
+    others_marks = []
+    others_students = []
+    for i in all_mark:
+        others_marks.append(i.marks)
+        others_students.append(i.student.id)
+    total_ranking_list = list(zip(others_marks,others_students))
+    #ranked_marks = sorted(others_marks,reverse = True)
+    sorted_ranked_marks = sorted(total_ranking_list, key=lambda x:\
+                                 x[0],reverse=True)
+    print(' marks ranked {}'.format(sorted_ranked_marks))
+    sorted_ranked_marks = np.array(sorted_ranked_marks)
+    total = len(sorted_ranked_marks)
+    new_ranking_table = TestRank()
+    new_ranking_table.sortedMarks = list(sorted_ranked_marks[:,0])
+    new_ranking_table.students = list(sorted_ranked_marks[:,1])
+    new_ranking_table.test = specific_test
+    new_ranking_table.save()
+    print('test ranking saved {}'.format(sorted_ranked_marks))
+
+@shared_task
+def delete_bad_Online_Marks(user_id):
+    user = User.objects.get(id = user_id)
+    student = Student.objects.get(studentuser=user)
+    my_tests = SSCKlassTest.objects.filter(testTakers = student)
+    for test in my_tests:
+        online_marks = SSCOnlineMarks.objects.filter(student = student,test__id = test.id)
+        print('total number of repeated marks {}'.format(len(online_marks)))
+        if len(online_marks) != 0:
+            for om in online_marks:
+                om.delete()
+                print('test deleted')
+                if len(online_marks) == 1:
+                    break
+
+@shared_task
+def saveSubjectWiseAccuracyCache(user_id,test_id,subject):
+    user = User.objects.get(id = user_id)
+    me = Studs(user)
+    test = SSCKlassTest.objects.get(id = test_id)
+    marks = SSCOnlineMarks.objects.get(student = me.profile,test = test)
+    rightAnswers = marks.rightAnswers
+    wrongAnswers = marks.wrongAnswers
+    numberAttempted = len(rightAnswers) + len(wrongAnswers)
+    if numberAttempted == 0:
+        return
+    try:
+        accuracyCache = SubjectAccuracyStudent.objects.get(student =
+                                                             me.profile,subject
+                                                            = subject)
+        pastNumberRightAnswers = accuracyCache.rightAnswers
+        pastNumberTotalAttempted = accuracyCache.totalAttempted
+        numberOfTests = accuracyCache.testNumbers
+        numberOfTests = numberOfTests + 1
+        countRightAnswers = 0
+        countSubjectAttempted = 0
+        for ra in rightAnswers:
+            question = SSCquestions.objects.get(choices__id = ra)
+            if question.section_category == subject:
+                countRightAnswers += 1
+                countSubjectAttempted += 1
+
+        for wa in wrongAnswers:
+            question = SSCquestions.objects.get(choices__id = wa)
+            if question.section_category == subject:
+                countSubjectAttempted += 1
+        if countSubjectAttempted == 0:
+            accuracyCache.save()
+            return
+        print('right answers {}, total attempted in test\
+              {}'.format(countRightAnswers,countSubjectAttempted))
+        totalRightAnswers = pastNumberRightAnswers + countRightAnswers
+        totalNumberAttempted = pastNumberTotalAttempted + countSubjectAttempted
+        newAccuracy = (totalRightAnswers / totalNumberAttempted) * 100
+        print('right answers {}, total attempted \
+              {} accuracy\
+              {}'.format(countRightAnswers,countSubjectAttempted,newAccuracy))
+
+        accuracyCache.accuracy = newAccuracy
+        accuracyCache.rightAnswers = totalRightAnswers
+        accuracyCache.totalAttempted = totalNumberAttempted
+        accuracyCache.testNumbers = numberOfTests
+        accuracyCache.save()
+
+
+
+    except Exception as e:
+        print('exception accuracy cache error {}'.format(str(e)))
+        accuracyCache = SubjectAccuracyStudent()
+        countRightAnswers = 0
+        countSubjectAttempted = 0
+        for ra in rightAnswers:
+            question = SSCquestions.objects.get(choices__id = ra)
+            if question.section_category == subject:
+                countRightAnswers += 1
+                countSubjectAttempted += 1
+
+        for wa in wrongAnswers:
+            question = SSCquestions.objects.get(choices__id = wa)
+            if question.section_category == subject:
+                countSubjectAttempted += 1
+
+
+        if countSubjectAttempted == 0:
+            return
+       
+        accuracy = (countRightAnswers / countSubjectAttempted) * 100 
+ 
+        accuracyCache.student = me.profile
+        accuracyCache.subject = subject
+        accuracyCache.rightAnswers = countRightAnswers
+        accuracyCache.totalAttempted = countSubjectAttempted
+        accuracyCache.testNumbers = int(1)
+        accuracyCache.accuracy = accuracy
+        accuracyCache.save()
+
+@shared_task
+def saveSubjectWiseAccuracyRanking(user_id,subject):
+    try:
+        subject_ranking = SubjectRank.objects.get(subject = subject)
+        subject_ranking.delete()
+        
+    except Exception as e:
+        print(str(e))
+
+    subject_ranking_model = SubjectRank()
+    subject_accuracy_list = []
+    total_attempted_list = []
+    number_test_list = []
+    student_id_list = []
+    all_accuracy = SubjectAccuracyStudent.objects.filter(subject
+                                                        = subject)
+
+    for sub_acc in all_accuracy:
+        #sub_acc =\
+        #SubjectAccuracyStudent.objects.filter(subject=subject,student=marks.student)
+        accuracy = sub_acc.accuracy
+        question_attempted = sub_acc.totalAttempted
+        number_tests = sub_acc.testNumbers
+        stud = sub_acc.student
+        subject_accuracy_list.append(accuracy)
+        total_attempted_list.append(question_attempted)
+        number_test_list.append(number_tests)
+        student_id_list.append(stud.id)
+    subject_ranking =\
+    list(zip(student_id_list,subject_accuracy_list,total_attempted_list,number_test_list))
+    sorted_ranked_marks = sorted(subject_ranking, key=lambda x:\
+                                 x[1],reverse=True)
+    sorted_ranked_marks = np.array(sorted_ranked_marks)
+    print('subject ranking {}'.format(sorted_ranked_marks))
+    subject_ranking_model.subject = subject
+    subject_ranking_model.sortedAccuracies = list(sorted_ranked_marks[:,1])
+    subject_ranking_model.students = list(sorted_ranked_marks[:,0])
+    subject_ranking_model.minimumTests = min(sorted_ranked_marks[:,3])
+    subject_ranking_model.maximumTests =max(sorted_ranked_marks[:,3])
+    subject_ranking_model.save()
+
+
 

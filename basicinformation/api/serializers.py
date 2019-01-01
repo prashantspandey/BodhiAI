@@ -29,6 +29,24 @@ class BatchSerializer(serializers.ModelSerializer):
             'school',
         ]
 
+class LanguageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentLanguage
+        fields = [
+            'language',
+        ]
+
+
+class CourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentCourse
+        fields = [
+            'course',
+        ]
+
+
+
+
 class BatchNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = klass
@@ -85,6 +103,8 @@ class TimeTableModelSerializer(serializers.ModelSerializer):
 
 
 class StudentProfileDetailsSerializer(serializers.ModelSerializer):
+    #language = LanguageSerializer()
+    course = CourseSerializer()
     class Meta:
         model = StudentDetails
         fields = [
@@ -96,6 +116,9 @@ class StudentProfileDetailsSerializer(serializers.ModelSerializer):
             'email',
             'fatherName',
             'parentPhone',
+            'language',
+            'course',
+            'username'
 
         ]
 

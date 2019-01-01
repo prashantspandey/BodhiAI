@@ -534,8 +534,10 @@ class StudentEvaluateTestAPIView(APIView):
         skipped_answers = []
         all_answers = []
         details = []
+        subjects_in_test_list = []
         for qid,chid,time in outer:
             question = SSCquestions.objects.get(id = qid)
+            subjects_in_test_list.append(question.section_category)
             all_answers.append(chid)
             if chid == -1:
                 skipped_answers.append(qid)
@@ -568,11 +570,38 @@ class StudentEvaluateTestAPIView(APIView):
 
         serializer = SSCOnlineMarksSerializer(online_marks)
         context = {'marks':serializer.data}
+        subjects_in_test_list = list(unique_everseen(subjects_in_test_list))
         try:
             fill_subjects.delay(me.profile.id,subject)
+        except Exception as e:
+            print(str(e))
+        try:
             track_progress_cache.delay(me.profile.id,subject,online_marks.id)
+        except Exception as e:
+            print(str(e))
+
+        try:
             CreateUpdateStudentWeakAreas.delay(me.profile.id,subject,online_marks.id)
+        except Exception as e:
+            print(str(e))
+    
+        try:
             CreateUpdateStudentAverageTimingDetail.delay(me.profile.id,subject,online_marks.id)
+        except Exception as e:
+            print(str(e))
+
+        try:
+            saveTestRank.delay(test_id)
+        except Exception as e:
+            print(str(e))
+        try:
+            for sub in subjects_in_test_list:
+                saveSubjectWiseAccuracyCache.delay(self.request.user.id,test_id,sub)
+        except Exception as e:
+            print(str(e))
+        try:
+            for sub in subjects_in_test_list:
+                saveSubjectWiseAccuracyRanking.delay(self.request.user.id,sub)
         except Exception as e:
             print(str(e))
         return Response(context)
@@ -686,6 +715,7 @@ class getSubjectChapterTestAPIView(APIView):
         data = request.data
         test_sub = data['subject']
         test_chapter = data['chapter']
+        print('want test of {} {}'.format(test_sub,test_chapter))
         user = self.request.user
         me = Studs(user)
         my_tests = SSCOnlineMarks.objects.filter(student = me.profile)
@@ -701,13 +731,15 @@ class getSubjectChapterTestAPIView(APIView):
         for te in new_tests:
             if te.id not in taken_ids:
                 tests.append(te.id)
-                topics,num_questions,isChapter =\
+                num_questions,isChapter =\
                 self.find_topics(te,test_chapter)
-                if isChapter:
+                print('isChapter {}'.format(isChapter))
+                if isChapter == False:
                     continue
-                test_details =\
-                        {'id':te.id,'topics':topics[:2],'num_questions':num_questions,'subject':te.sub,'published':te.published,'creator':te.creator.teacher.name}
-                details.append(test_details)
+                else:
+                    test_details =\
+                            {'id':te.id,'topics':test_chapter,'num_questions':num_questions,'subject':te.sub,'published':te.published,'creator':te.creator.teacher.name}
+                    details.append(test_details)
 
         return Response(details)
 
@@ -718,12 +750,94 @@ class getSubjectChapterTestAPIView(APIView):
             tp_number = quest.topic_category
             tp_name = changeIndividualNames(tp_number,quest.section_category)
             topics.append(tp_name)
-            isChapter = False
-            if tp_name == chapter_cat:
-                isChapter = True
 
         topics = list(unique_everseen(topics))
+        print('these are topics {} ,num topics {}'.format(topics,len(topics)))
+        isChapter = False
         num_questions = len(test.sscquestions_set.all())
-        return topics,num_questions,isChapter
+        if len(topics) == 1 and chapter_cat == topics[0]:
+            isChapter = True
+            return num_questions,isChapter
+        else:
+            return num_questions,isChapter
 
-  
+class CreatePatternTestCheckPattern(APIView):
+    def post(self,request,*args,**kwargs):
+        user = request.user
+        me = Teach(user)
+        subject = request.POST['subject']
+        try:
+            existing_pattern = PatternTestPattern.objects.get(subject=subject)
+            context = {'Test':'Pattern found'}
+        except Exception as e:
+            context = {'Test':str(e)}
+        return Response(context)
+ 
+class CreatePatternTestFinal(APIView):
+    def post(self,request,*args,**kwargs):
+        user = request.user
+        me = Teach(user)
+        subject = request.POST['subject']
+        batch = request.POST['batch']
+        # get the existing pattern of subject 
+        existing_pattern = PatternTestPattern.objects.get(subject=subject)
+        pattern_chapter = existing_pattern.chapter
+        pattern_number_questions = existing_pattern.numberQuestions
+        final_pattern = list(pattern_chapter,pattern_number_questions)
+        kl = klass.objects.get(school = me.my_school(),name=batch)
+        test_questions_list_all = []  # all questions that will appear in test
+        # choose number of questions in pattern from existing questions in
+        # specific chapter of subject
+        for ch,number_questions in final_pattern:
+            questions = SSCquestions.objects.filter(topic_category =
+                                                    ch,section_category =
+                                                    subject,school=me.my_school())
+            test_questions_list = [] # questions to be in test list
+            used_questions_list = [] # already used questions containing list
+            for count_index,quest in enumerate(questions):
+                # get the number of times used object associated with the
+                # question
+
+                times_used=\
+                TimesUsed.objects.filter(teacher=me.profile,quest=quest,batch=kl)
+
+                #if quest has not been used in the batch before then add that
+                #question
+
+                if len(times_used) == 0 and count_index < int(number_questions):
+                    test_questions_list.append(quest)
+                # otherwise add used questions to the used_quest list
+                if len(times_used) != 0:
+                    used_questions_list.append(quest)
+            # check if there are not enough new(unused) questions 
+            if len(test_questions_list) < int(number_questions):
+                try:
+                    # if yes then add already used questions to list until
+                    # list is equal to number of required questions
+                    for used_count,used_question in enumerate(used_questions_list):
+                        if used_count < len(number_questions):
+                            test_questions_list.append(used_question)
+                except Exception as e:
+                    print(str(e))
+            # finally add all questions to final questions list
+            test_questions_list_all.extend(cat_quest)
+        # setting up the test
+        # getting all the ids of questions to be used in test
+        final_questions_id = []
+        for quest in test_questions_list_all:
+            final_questions_id.append(quest.id)
+        CreateOneClickTestFinal.delay(user.id,batch,subject,final_questions_id)
+
+        #serializer = SSCQuestionSerializerNew(test_quest,many=True)
+        context = {"Created":"Created"}
+        return Response(context)
+
+class TeacherGetSubjects(APIView):
+    def get(self,request):
+        me = Teach(self.request.user)
+        my_subs = me.my_subjects_names()
+
+        context = {'subjects':my_subs}
+        return Response(context)
+
+ 

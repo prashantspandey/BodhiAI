@@ -38,6 +38,12 @@ urlpatterns = [
     url(r'test_json/$',views.test_json.as_view(),name='TestJson'),
     # get subject chapter tests for B2C
     url(r'subject_chapter_tests/$',views.getSubjectChapterTestAPIView.as_view(),name='TestSubjectChapter'),
+    # Pattern Test check for pattern
+    url(r'pattern_test_check_pattern/$',views.CreatePatternTestCheckPattern.as_view(),name='PatternTestCheckPattern'),
+    # Pattern Test create test final
+    url(r'pattern_test_create/$',views.CreatePatternTestFinal.as_view(),name='CreatePatternTestFinal'),
+    # Teacher get subjects
+    url(r'teacher_get_subjects/$',views.TeacherGetSubjects.as_view(),name='TeacherGetSubjects'),
 
 
 ]

@@ -87,6 +87,11 @@ class StudentDetails(models.Model):
     parentPhone = models.BigIntegerField(null=True, blank=True,
                             validators=[MaxValueValidator(9999999999),MinValueValidator(1000000000)])
     email = models.EmailField(max_length = 70, blank = True)
+    language = models.CharField(max_length=100,null=True,blank=True)
+    course= models.CharField(max_length=100,null=True,blank=True)
+    username= models.CharField(max_length=150,null=True,blank=True)
+
+
 
     def __str__(self):
         return str(self.student) + '' + str(self.phone)
@@ -203,6 +208,46 @@ class StudentLanguage(models.Model):
 
     def __str__(self):
         return str(self.student) + ' ' + self.language
+
+class StudentCourse(models.Model):
+    course_choices = (('IITJEE','IITJEE'),('SSC','SSC'),("NEET","NEET"))
+    student = models.ForeignKey(Student,blank=True,null=True)
+    course = models.CharField(max_length = 30, choices =
+                                course_choices,null=True,blank=True)
+
+    def __str__(self):
+        return str(self.student) + ' ' + self.course
+
+class SubjectLogo(models.Model):
+    name = models.CharField(max_length = 100,null=True,blank=True)
+    logo = models.URLField(max_length = 500,null=True,blank=True)
+
+    def __str__(self):
+        return self.name 
+
+class StudentSubjectWiseAccuracyCache(models.Model):
+    student = models.ForeignKey(Student,null=True,blank=True)
+    subject = models.CharField(max_length=100,null=True,blank=True)
+    numberRightAnswers = models.IntegerField(null=True,blank=True)
+    numberTotalAttempted = models.IntegerField(null=True,blank=True)
+    numberTests = models.IntegerField(null=True,blank=True)
+    accuracy = models.FloatField(null=True,blank=True)
+
+    def __str__(self):
+        return str(self.student) + ' ' + self.subject
+
+
+class SubjectAccuracyStudent(models.Model):
+    student = models.ForeignKey(Student,null=True,blank=True)
+    subject = models.CharField(max_length=100,null=True,blank=True)
+    rightAnswers = models.IntegerField(null=True,blank=True)
+    totalAttempted = models.IntegerField(null=True,blank=True)
+    testNumbers = models.IntegerField(null=True,blank=True)
+    accuracy = models.FloatField(null=True,blank=True)
+
+    def __str__(self):
+        return str(self.student) + ' ' + self.subject
+
 #class ImprovementStudent(models.Model):
 #    testid = ArrayField(models.IntegerField())
 #    percent = ArrayField(models.CharField(max_length=10))

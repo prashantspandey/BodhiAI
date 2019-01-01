@@ -27,6 +27,18 @@ urlpatterns = [
    url(r'google_login/$',
        views.GoogleCustomLoginAndroid.as_view(),name =
        'GoogleCustomLogin'),
+# register student course
+   url(r'register_student_course/$',
+       views.B2CRegisterCourse.as_view(),name =
+       'RegisterStudentCourse'),
+# B2C Normal Registration
+   url(r'b2c_student_registration/$',
+       views.B2CNormalRegistration.as_view(),name =
+       'B2CNormalRegistration'),
+# Has subjects?
+   url(r'check_subject/$',
+       views.CheckSubjects.as_view(),name =
+       'CheckForStudentSubjects'),
 
 
 

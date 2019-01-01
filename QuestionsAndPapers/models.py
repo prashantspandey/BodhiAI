@@ -44,7 +44,9 @@ class SSCKlassTest(models.Model):
          ,('ElectricalLocoPilot','ElectricalLocoPilot'),('FitterLocoPilot','FitterLocoPilot')
          ,('General-Science','General-Science'),('LocoPilot_Diesel','LocoPilot_Diesel'),
         ('CAT_Quantitative_Aptitude','CAT_Quantitative_Aptitude'),('Civil_Loco_Pilot_Tech','Civil_Loco_Pilot_Tech'),
-        ('SSC_Electronics1','SSC_Electronics1'),('Basic-Science','Basic-Science'),('Environment-Study','Environment-Study'),('Engineering-Drawing','Engineering-Drawing'))
+        ('SSC_Electronics1','SSC_Electronics1'),('Basic-Science','Basic-Science'),('Environment-Study','Environment-Study'),('Engineering-Drawing','Engineering-Drawing'),
+        ('Physics_NEET','Physics_NEET'),('Chemistry_NEET','Chemistry_NEET'),('Botony_NEET','Botony_NEET'),('Physics_IIT','Physics_IIT'),('Maths_IIT','Maths_IIT'),
+        ('Chemistry_IIT','Chemistry_IIT'))
     course_choices = (('SSC','SSC'),('Railways','Railways'))
 
     #max_marks = models.DecimalField(max_digits=4,decimal_places=2)
@@ -149,7 +151,9 @@ class SSCquestions(models.Model):
          ,('ElectricalLocoPilot','ElectricalLocoPilot'),('FitterLocoPilot','FitterLocoPilot')
          ,('General-Science','General-Science'),('LocoPilot_Diesel','LocoPilot_Diesel'),
         ('CAT_Quantitative_Aptitude','CAT_Quantitative_Aptitude'),('Civil_Loco_Pilot_Tech','Civil_Loco_Pilot_Tech'),
-        ('SSC_Electronics1','SSC_Electronics1'),('Basic-Science','Basic-Science'),('Environment-Study','Environment-Study'),('Engineering-Drawing','Engineering-Drawing'))
+        ('SSC_Electronics1','SSC_Electronics1'),('Basic-Science','Basic-Science'),('Environment-Study','Environment-Study'),('Engineering-Drawing','Engineering-Drawing'),
+        ('Physics_NEET','Physics_NEET'),('Chemistry_NEET','Chemistry_NEET'),('Botony_NEET','Botony_NEET'),('Physics_IIT','Physics_IIT'),('Maths_IIT','Maths_IIT'),
+        ('Chemistry_IIT','Chemistry_IIT'))
     diffculty_choices = (('easy','easy'),('medium','medium'),('hard','hard'))
     text = models.TextField(blank=True,null=True)
     tier_category = models.CharField(max_length=20,choices = tier_choices)
@@ -559,3 +563,24 @@ class StudentBookMarkQuestion(models.Model):
 
     def __str__(self):
         return str(self.student) + ' ' + str(self.question.id)
+
+class TestRank(models.Model):
+    test = models.ForeignKey(SSCKlassTest,blank=True,null=True)
+    sortedMarks = ArrayField(models.FloatField(),blank=True,null=True)
+    students = ArrayField(models.IntegerField(null=True),null=True,blank=True)
+
+
+    def __str__(self):
+        return str(self.sortedMarks)
+
+class SubjectRank(models.Model):
+    subject = models.CharField(max_length=100,blank=True,null=True)
+    sortedAccuracies = ArrayField(models.FloatField(),blank=True,null=True)
+    students = ArrayField(models.IntegerField(null=True),null=True,blank=True)
+    minimumTests = models.IntegerField(null=True,blank=True)
+    maximumTests = models.IntegerField(null=True,blank=True)
+
+
+    def __str__(self):
+        return str(self.sortedAccuracies)
+ 

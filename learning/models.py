@@ -20,6 +20,7 @@ class SubjectChapters(models.Model):
     name = models.CharField(max_length =200)
     code = models.FloatField()
     course = models.ManyToManyField(Course,null=True,blank=True)
+    logo = models.URLField(max_length=500,null=True,blank=True)
 
     def __str__(self):
         return str(self.subject) + ' ' + str(self.name)

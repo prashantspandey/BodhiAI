@@ -113,6 +113,25 @@ urlpatterns = [
     url(r'student_show_bookmarked_questions/$',views.ShowBookMarksQuestionsAPIView.as_view(),name='ShowBookmarkedQuestion'),
 # Student quiz game
     url(r'student_get_quiz_question/$',views.QuizGameAPIView.as_view(),name='StudentQuizGame'),
+# Student language
+    url(r'student_set_language/$',views.StudentLanguage.as_view(),name='StudentSetLanguage'),
+# Student home page subjects
+    url(r'home_page_subjects/$',views.HomePageSubjects.as_view(),name='HomePageSubjects'),
+# Student change details with language and course (react native and s3 url of
+# photo
+    url(r'student_change_details/$',views.ChangeStudentDetails.as_view(),name='ChangeStudentDetails'),
+# Student get test ranking table
+    url(r'test_ranking_table/$',views.getTestRank.as_view(),name='GetStudentTestRank'),
+# print test ranks
+    url(r'print_testRank/$',views.printTestRank.as_view(),name='testrankPrint'),
+# student subject ranks
+    url(r'subject_ranking_table/$',views.getSubjectRank.as_view(),name='getSubjectRank'),
+# get taken tests ids (student)
+    url(r'taken_test_ids/$',views.getTakenTestsIds.as_view(),name='getTakenTestIds'),
+# get subject logo
+    url(r'subject_logo/$',views.getSubjectLogo.as_view(),name='getSubjectLogo'),
+
+
 
 
 

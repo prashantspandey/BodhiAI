@@ -217,6 +217,7 @@ class CustomLoginAPIView(APIView):
         django_login(request,user)
         token, created = Token.objects.get_or_create(user=user)
         groups = user.groups.all()
+        #delete_bad_Online_Marks.delay(user.id)
         try:
             student_details = StudentDetails.objects.get(student = user)
             student = Student.objects.get(studentuser = user)
@@ -277,14 +278,35 @@ def add_subjects(course,stud,teacher):
        subLocoPilot_diesel.save()
        subCivil =\
        Subject(name='Civil_Loco_Pilot_Tech',student=stud,teacher=teacher)
+    elif course == 'NEET':
+       subPhysics =\
+       Subject(name="Physics_NEET",student=stud,teacher=teacher)
+       subChemistry =\
+       Subject(name="Chemistry_NEET",student=stud,teacher=teacher)
+       subBotony =\
+       Subject(name="Botony_NEET",student=stud,teacher=teacher)
 
 
 
-       subCivil.save()
-       subMaths.save()
-       subEnglish.save()
+
+       subChemistry.save()
+       subPhysics.save()
+       subBotony.save()
        subGenSci.save()
-       subGenKnow.save()
+
+
+    elif course == 'IITJEE':
+       subPhysics =\
+       Subject(name="Physics_IIT",student=stud,teacher=teacher)
+       subMaths =\
+       Subject(name="Maths_IIT",student=stud,teacher=teacher)
+       subChemistry =\
+       Subject(name="Chemistry_IIT",student=stud,teacher=teacher)
+
+       subChemistry.save()
+       subPhysics.save()
+       subMaths.save()
+
 
 class FireBaseToken(APIView):
     def post(self,request,*args,**kwargs):
@@ -336,7 +358,6 @@ class GoogleCustomLoginAndroid(APIView):
                                                 password='newpassword')
             institute = "BodhiAI"
             school = School.objects.get(name=institute)
-            print('{} school'.format(school.name))
             batch = klass.objects.get(school=school,name='Outer')
             stud = Student(studentuser = user,klass = batch,school =school)
             stud.studentuser.first_name = display_name
@@ -346,14 +367,13 @@ class GoogleCustomLoginAndroid(APIView):
             student_details.student = user
             student_details.photo = photo
             student_details.email = email
+            student_details.username = display_name
             student_details.save()
             my_group = Group.objects.get(name='Students')
             my_group.user_set.add(user)
 
 
             teacher = Teacher.objects.get(school=school)
-            if institute == 'YSM' or institute == 'BodhiAi':
-               add_subjects('SSC',stud,teacher)
             confirmation = StudentConfirmation()
             confirmation.student = user
             confirmation.school = school
@@ -361,7 +381,7 @@ class GoogleCustomLoginAndroid(APIView):
             confirmation.teacher = teacher
             confirmation.batch = batch
             confirmation.save()
-            addOldTests.delay(stud.id,teacher.id,batch.id)
+            #addOldTests.delay(stud.id,teacher.id,batch.id)
             add_announcements_newStudent.delay(stud.id,batch.id)
 
             token = Token.objects.create(user=user)
@@ -391,4 +411,98 @@ class GoogleCustomLoginAndroid(APIView):
             return Response(token_context,status = 200)
 
 
+class B2CNormalRegistration(APIView):
+   def post(self,request,*args,**kwargs):
+       data = request.data
+       username = data['username']
+       password = data['password']
+       name = data['name'] 
+       institute = data['institute']
+       context =\
+               {'username':username,'password':password,'first_name':name}
+       serializer = CustomRegistrationSerializer(data = context)
+       if serializer.is_valid():
+           user = serializer.save()
+           if user:
+               print('{} institute'.format(institute))
+               if 'bodhiai' in institute.lower():
+                   institute = "BodhiAI"
+               school = School.objects.get(name=institute)
+               batch = klass.objects.get(school=school,name='Outer')
+               stud = Student(studentuser = user,klass = batch,school =school)
+               stud.studentuser.first_name = name
+               stud.name = name
+               stud.save()
+               my_group = Group.objects.get(name='Students')
+               my_group.user_set.add(user)
+               student_details = StudentDetails()
+               student_details.student = user
+               student_details.photo = photo
+               student_details.email = email
+               student_details.username = username
+               student_details.save()
+ 
+                # add subjects will happen when student chooses a course 
+               #teacher = Teacher.objects.get(school=school)
+               #if  institute == 'BodhiAi':
+               #    add_subjects('SSC',stud,teacher)
+               #elif 'jen' in institute.lower():
+               #    add_subjects('Loco',stud,teacher)
+               confirmation = StudentConfirmation()
+               confirmation.student = user
+               confirmation.school = school
+               confirmation.name = stud.name
+               confirmation.teacher = teacher
+               confirmation.batch = batch
+               confirmation.save()
+               #addOldTests.delay(stud.id,teacher.id,batch.id)
+               add_announcements_newStudent.delay(stud.id,batch.id)
+
+               token = Token.objects.create(user=user)
+               json = serializer.data
+               json['token'] =\
+               {'token':token.key,'class':stud.klass.name,'school':stud.school.name}
+               return Response(json,status = status.HTTP_201_CREATED)
+       return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+class B2CRegisterCourse(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        user = self.request.user
+        me = Studs(user)
+        teacher = Teacher.objects.get(name='BodhiAI')
+        course = data['course']
+        print('subjects added')
+        try:
+            course_model = StudentCourse.objects.get(student=me.profile)
+        except:
+            course_model = StudentCourse()
+            course_model.student = me.profile
+            course_model.course = course
+            course_model.save()
+        # delete existing subjects
+        student_subjects = Subject.objects.filter(student = me.profile)
+        for sub in student_subjects:
+            sub.delete()
+
+        add_subjects(course,me.profile,teacher)
+        student_details = StudentDetails.objects.get(student = user)
+        student_details.course = course
+        student_details.save()
+        context = {'subjects':'{} course registered'.format(course)}
+        return Response(context)
+class CheckSubjects(APIView):
+    def get(self,request):
+        user = self.request.user
+        me = Studs(user)
+        student_id = me.profile.id
+        
+        subjects = Subject.objects.filter(student = me.profile)
+        if len(subjects) != 0:
+            context = {"subjects":'has course'}
+            return Response(context)
+        else:
+            context = {"subjects":'no course'}
+            return Response(context)
 
