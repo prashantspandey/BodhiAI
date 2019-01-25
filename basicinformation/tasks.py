@@ -23,10 +23,12 @@ from apiclient.discovery import build
 from apiclient.errors import HttpError 
 from oauth2client.tools import argparser 
 import pprint 
-
-
-
+import boto3
+import random
+import requests
 DEVELOPER_KEY = "AIzaSyDOW6Nt-1jpzxcEbypSpJ-ObCsZHjYBjPA" 
+ACCESS_KEY_ID = 'AKIAJTAZGK4Z5GYDF3IQ'
+ACCESS_SECRET_KEY = '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'
 
 
 YOUTUBE_API_SERVICE_NAME = "youtube"
@@ -55,7 +57,6 @@ def evaluate_test(user_id,test_id,time_taken):
         try:
             test = SSCKlassTest.objects.get(id = test_id)
         except Exception as e:
-            print('cant fetch test error to evaluate')
             print(str(e))
         online_marks = SSCOnlineMarks()
         quest_ids = []
@@ -82,15 +83,14 @@ def evaluate_test(user_id,test_id,time_taken):
                         answers_ids.append(int(j.answers))
                         time_ids.append(j.time)
                     except Exception as e:
-                        print(str(e))
-               
+                        pass 
                 
                 qad = {'answers':answers_ids,'time':time_ids}
                 quest_ans_dict[i] = qad
         
                 
             except Exception as e:
-                print(str(e))
+                pass
                 skipped_ids.append(i)
 
         all_answers = []
@@ -161,17 +161,14 @@ def evaluate_test(user_id,test_id,time_taken):
             if not an in ra and not an in wa:
                 final_skipped2.append(an)
         # calculate the total time taken for the test
-        print('%s time taken, %s type' %(time_taken,type(time_taken)))
         try:
             time_taken = float(time_taken)
         except Exception as e:
             time_taken = float(100)
-            print(str(e))
 
         try:
             total_time = (test.totalTime * 60)- time_taken
         except Exception as e:
-            print(str(e))
             total_time = int(1000) - time_taken
         # save to SSCOnlinemarks
         try:
@@ -183,8 +180,7 @@ def evaluate_test(user_id,test_id,time_taken):
             online_marks.timeTaken = total_time
             online_marks.save()
         except Exception as e:
-            print('error at line 1263')
-            print(str(e))
+            pass
         num = 0
         # save question and time taken to solve the question
         for q in test.sscquestions_set.all():
@@ -203,7 +199,7 @@ def evaluate_test(user_id,test_id,time_taken):
             try:
                 online_marks_quests.save()
             except Exception as e:
-                print(str(e))
+                pass
         # calculate time to send to template
         try:
             hours = int(total_time/3600)
@@ -218,13 +214,13 @@ def evaluate_test(user_id,test_id,time_taken):
                 tt = '{} hours {} minutes and {}\
                 seconds'.format(hours,mins,seconds)
         except Exception as e:
-            print(str(e))
+            pass
 
         # delete the temporary holders
         try:
             TemporaryAnswerHolder.objects.filter(stud=user.student,test__id=int(test_id)).delete()
         except Exception as e:
-            print(str(e))
+            pass
         return test_id
 @shared_task
 def teacher_test_analysis_new(test_id,user_id):
@@ -370,7 +366,7 @@ def test_get_QuestionPosition(user_id,testid,pos):
                 Quests.append(int(i.answers))
                 break
             except Exception as e:
-                print(str(e))
+                pass
         answer_sel = Quests[-1]
         return tosend,testid,answer_sel,how_many
     except:
@@ -624,7 +620,6 @@ def add_to_database_questions_text(sheet_link,school,production=False,explanatio
                 optE = df['optE']
             except:
                 optE = ['lll']
-                print(optE)
             sectionType = "English"
             quest_category = df['cat_num']
             for i in df['correct']:
@@ -1252,10 +1247,7 @@ def TeacherWeakAreasBriefAsync(user_id):
 
         latest_test = SSCOnlineMarks.objects.filter(test__creator =
                                              user).order_by('-test__published')[0]
-        print(saved_areas.date)
-        print(latest_test.test.published)
         if latest_test.test.published <= saved_areas.date:
-            print('yes dates are same')
             final = []
             weak_response = {}
             all_saved_areas =\
@@ -1268,7 +1260,6 @@ def TeacherWeakAreasBriefAsync(user_id):
             wsas = weak_subs_areas_serialized.decode('utf-8')
             return wsas
         else:
-            print('no dates are not same')
             subjects = me.my_subjects_names()
             weak_subs_areas_dict = []
             teach_klass = TeacherClasses.objects.filter(teacher=me.profile)
@@ -1321,7 +1312,6 @@ def TeacherWeakAreasBriefAsync(user_id):
 
     except Exception as e:
         print(str(e))
-        print('above exception happened')
         subjects = me.my_subjects_names()
         weak_subs_areas_dict = []
         teach_klass = TeacherClasses.objects.filter(teacher=me.profile)
@@ -1362,7 +1352,7 @@ def TeacherWeakAreasBriefAsync(user_id):
                         new_saved_area.save()
                         final.append(weak_response)
                     except Exception as e:
-                        print(str(e))
+                        pass
         except:
             pass
         
@@ -1677,29 +1667,39 @@ def addOldTests(stud_id,teacher_id,kl):
         i.testTakers.add(student)
    
 @shared_task
-def CreateOneClickTestFinal(user_id,batch,subject,quest_ids):
+def CreateOneClickTestFinal(user_id,batch,subject,quest_ids,patternTest =False):
         user = User.objects.get(id = user_id)
         me = Teach(user)
         test = SSCKlassTest()
-        test.name=str('oneclick')+str(me.profile)+str(batch)+str(timezone.now())
+        test_quest = []
+        if patternTest:
+            test.name = 'pattern_test'+str(me.profile)+str(batch)
+        else:
+            test.name=str('oneclick')+str(me.profile)+str(batch)+str(timezone.now())
         test.mode = 'BodhiOnline'
         marks = 0
-        quest_ids1 = quest_ids.replace('[','')
-        quest_ids2 = quest_ids1.replace(']','')
-        quest_ids_list = quest_ids2.split(',')
-        print('{} quests list'.format(quest_ids_list))
-        test_quest = []
-        for qu in quest_ids_list:
-            qu = qu.strip()
-            qid = int(qu)
-            quest = SSCquestions.objects.get(id = qid)
-            test_quest.append(quest)
+        if patternTest:
+            for qu in quest_ids:
+                quest = SSCquestions.objects.get(id = qu)
+                test_quest.append(quest)
+        else:
+            quest_ids1 = quest_ids.replace('[','')
+            quest_ids2 = quest_ids1.replace(']','')
+            quest_ids_list = quest_ids2.split(',')
+            print('{} quests list'.format(quest_ids_list))
+            for qu in quest_ids_list:
+                qu = qu.strip()
+                qid = int(qu)
+                quest = SSCquestions.objects.get(id = qid)
+                test_quest.append(quest)
         for qu in test_quest:
             marks += qu.max_marks
         test.max_marks = marks
         test.course = 'SSC'
         test.creator = user
         test.sub = subject
+        if patternTest:
+            test.pattern_test = True
         kl = klass.objects.get(school = me.my_school(),name= batch)
         test.klas = kl
         totalTime = len(test_quest)*0.6 # one question requires 36 secs
@@ -2247,7 +2247,6 @@ def track_progress_cache(student_id,subject,marks_id):
                                                                student,subject =
                                                                subject,chapter =
                                                                chap)
-            print('progress found')
             marks_old = progress.marks
             dates_old = progress.dates
             skipped_old = progress.skippedPercent
@@ -2297,7 +2296,6 @@ def track_progress_cache(student_id,subject,marks_id):
                     skipped = skipped + 1
             total_overall = right + wrong + skipped
             if total_overall == 0:
-                print('topic was not in test')
                 continue
        # right percent
             if right+wrong == 0:
@@ -2341,8 +2339,6 @@ def track_progress_cache(student_id,subject,marks_id):
             progress.wrongPercent = wrongPercent_old
             progress.rightTime = right_timing_old
             progress.wrongTime = wrong_timing_old
-            print(progress.dates)
-            print('progress to be saved (previous cache)')
             progress.save()
             
         except Exception as e:
@@ -2359,22 +2355,13 @@ def track_progress_cache(student_id,subject,marks_id):
             #    total_marks = total_marks + qu.max_marks
 
            
-            print('{} len of right answers, {} wrong answers,{}\
-                  skipped'.format(len(marks.rightAnswers),len(marks.wrongAnswers),len(marks.skippedAnswers)))
             for quest_id in marks.rightAnswers:
-                print('{} question id'.format(quest_id))
                 quest = SSCquestions.objects.get(choices__id = quest_id)
-                print('{} question cat, {} this cat, {} quest subject,{} this\
-                      subject'.format(quest.topic_category,chap,quest.section_category,subject))
-                print(type(quest.topic_category),type(chap))
-                print(type(quest.section_category),type(subject))
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
                     right = right + 1
                     total_marks = total_marks + quest.max_marks
-                    print('{} right'.format(right))
                     chapter_mark = chapter_mark +  quest.max_marks
-                    print('{} marks '.format(chapter_mark))
 
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
                                                                marks,quest=quest)
@@ -2387,9 +2374,7 @@ def track_progress_cache(student_id,subject,marks_id):
                 ==chap:
                     wrong = wrong + 1
                     total_marks = total_marks + quest.max_marks
-                    print('{} wrong'.format(wrong))
                     chapter_mark = chapter_mark -  quest.max_marks
-                    print('{} marks '.format(chapter_mark))
 
                     answered = SSCansweredQuestion.objects.get(onlineMarks =
                                                                marks,quest=quest)
@@ -2401,11 +2386,8 @@ def track_progress_cache(student_id,subject,marks_id):
                 if quest.section_category == subject and quest.topic_category\
                 ==chap:
                     skipped = skipped + 1
-                    print(skipped)
             total_overall = (right + wrong + skipped)
-            print('{} overall total'.format(total_overall))
             if total_overall == 0:
-                print('not in test')
                 continue
             if right + wrong == 0:
                 right_percent = 0
@@ -2446,18 +2428,14 @@ def track_progress_cache(student_id,subject,marks_id):
             progress.totalRight = totalRight
             progress.totalWrong = totalWrong
             progress.totalSkipped = totalSkipped
-            print(progress.dates)
-            print('progress aved for first time')
             progress.save()
 
 @shared_task
 def start_caching_prgress():
     students = Student.objects.filter(school__name = "JEN")
-    print('{} total student'.format(len(students)))
     for stud in students:
         subjects = stud.subject_set.all()
         for sub in subjects:
-            print('{} sub in subjects'.format(sub))
             chapters = get_chapters(sub.name)
             for chap in chapters:
                 createProgressCache.delay(stud.id,sub.name,chap)
@@ -2471,18 +2449,14 @@ def createProgressCache(student_id,subject,chap):
                                                                  student,subject
                                                                  =
                                                                  subject,chapter=chap)
-        print('{} for cache found'.format(student))
     except Exception as e:
         print(str(e))
-        print('subject -{}-{}-'.format(subject,student))
         marks = SSCOnlineMarks.objects.filter(student = student,test__sub =
                                               subject).order_by('-testTaken')
         if len(marks) == 0:
-            print('no tests found')
             return
         else:
         
-            print('for {} tests number {}'.format(student,len(marks)))
             list_right_percent = []
             list_wrong_percent = []
             list_date = []
@@ -2524,12 +2498,9 @@ def createProgressCache(student_id,subject,chap):
                     if quest.section_category == subject and quest.topic_category\
                     ==chap:
                         skipped += 1
-                print('{} right + wrong'.format(right + wrong))
                 if right + wrong + skipped == 0:
-                    print('not valid test')
                     continue
                 elif right + wrong == 0:
-                    print('not attempted')
                     right_percent = 0
                     wrong_percent = 0
                     skipped_percent = (skipped / (right+wrong+skipped)) * 100
@@ -2546,7 +2517,6 @@ def createProgressCache(student_id,subject,chap):
 
 
                 else:
-                    print('attempted')
                     right_percent = (right / (right+wrong))*100
                     wrong_percent = (wrong / (right+wrong))*100
                     skipped_percent = (skipped / (right+wrong+skipped)) * 100
@@ -2574,7 +2544,6 @@ def createProgressCache(student_id,subject,chap):
                 progress.rightTime =list_right_ave_timing
                 progress.wrongTime = list_wrong_ave_timing
                 progress.save()
-                print('{} for student saved'.format(student))
 
 def get_section(sectionType):
         if sectionType == 'English':
@@ -2643,14 +2612,12 @@ def create_Subject_topics(sheet_link):
             try:
                 chapter = SubjectChapters.objects.get(subject = subject,code =
                                                       co)
-                print('found chapter')
             except:
                 chapter = SubjectChapters()
                 chapter.name = n
                 chapter.subject = subject
                 chapter.code = co
                 chapter.save()
-                print('{} new subject with {} code'.format(subject,str(code)))
 
 @shared_task
 def add_announcements_newStudent(stud_id,kl_id):
@@ -2697,7 +2664,6 @@ def fill_taken_subjects():
                 continue
             cache.subjects = subjects
             cache.save()
-            print('{} for studnet cache saved'.format(stud))
 
 @shared_task
 def fill_subjects(student_id,subject):
@@ -2756,7 +2722,6 @@ def notification_create_timetable(title,body,sender_id,batch):
 
 def\
 youtube_search(q,max_results=5,order='relevance',token=None,location=None,location_radius=None):
-    print('got here')
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,developerKey=
                     DEVELOPER_KEY)
     search_response = youtube.search().list(
@@ -2993,7 +2958,6 @@ def saveTestRank(test_id):
     #ranked_marks = sorted(others_marks,reverse = True)
     sorted_ranked_marks = sorted(total_ranking_list, key=lambda x:\
                                  x[0],reverse=True)
-    print(' marks ranked {}'.format(sorted_ranked_marks))
     sorted_ranked_marks = np.array(sorted_ranked_marks)
     total = len(sorted_ranked_marks)
     new_ranking_table = TestRank()
@@ -3001,7 +2965,6 @@ def saveTestRank(test_id):
     new_ranking_table.students = list(sorted_ranked_marks[:,1])
     new_ranking_table.test = specific_test
     new_ranking_table.save()
-    print('test ranking saved {}'.format(sorted_ranked_marks))
 
 @shared_task
 def delete_bad_Online_Marks(user_id):
@@ -3010,11 +2973,9 @@ def delete_bad_Online_Marks(user_id):
     my_tests = SSCKlassTest.objects.filter(testTakers = student)
     for test in my_tests:
         online_marks = SSCOnlineMarks.objects.filter(student = student,test__id = test.id)
-        print('total number of repeated marks {}'.format(len(online_marks)))
         if len(online_marks) != 0:
             for om in online_marks:
                 om.delete()
-                print('test deleted')
                 if len(online_marks) == 1:
                     break
 
@@ -3052,14 +3013,9 @@ def saveSubjectWiseAccuracyCache(user_id,test_id,subject):
         if countSubjectAttempted == 0:
             accuracyCache.save()
             return
-        print('right answers {}, total attempted in test\
-              {}'.format(countRightAnswers,countSubjectAttempted))
         totalRightAnswers = pastNumberRightAnswers + countRightAnswers
         totalNumberAttempted = pastNumberTotalAttempted + countSubjectAttempted
         newAccuracy = (totalRightAnswers / totalNumberAttempted) * 100
-        print('right answers {}, total attempted \
-              {} accuracy\
-              {}'.format(countRightAnswers,countSubjectAttempted,newAccuracy))
 
         accuracyCache.accuracy = newAccuracy
         accuracyCache.rightAnswers = totalRightAnswers
@@ -3070,7 +3026,6 @@ def saveSubjectWiseAccuracyCache(user_id,test_id,subject):
 
 
     except Exception as e:
-        print('exception accuracy cache error {}'.format(str(e)))
         accuracyCache = SubjectAccuracyStudent()
         countRightAnswers = 0
         countSubjectAttempted = 0
@@ -3115,10 +3070,98 @@ def saveSubjectWiseAccuracyRanking(user_id,subject):
     student_id_list = []
     all_accuracy = SubjectAccuracyStudent.objects.filter(subject
                                                         = subject)
-
+    student_object = Student.objects.get(studentuser__id = user_id)
+    print('student object id {}'.format(student_object.id))
     for sub_acc in all_accuracy:
         #sub_acc =\
         #SubjectAccuracyStudent.objects.filter(subject=subject,student=marks.student)
+        accuracy = sub_acc.accuracy
+        my_student_id = student_object.id
+        question_attempted = sub_acc.totalAttempted
+        number_tests = sub_acc.testNumbers
+        stud = sub_acc.student
+        subject_accuracy_list.append(accuracy)
+        total_attempted_list.append(question_attempted)
+        number_test_list.append(number_tests)
+        student_id_list.append(stud.id)
+
+
+
+    subject_ranking =\
+    list(zip(student_id_list,subject_accuracy_list,total_attempted_list,number_test_list))
+    sorted_ranked_marks = sorted(subject_ranking, key=lambda x:\
+                                 x[1],reverse=True)
+    sorted_ranked_marks = np.array(sorted_ranked_marks)
+    subject_ranking_model.subject = subject
+    subject_ranking_model.sortedAccuracies = list(sorted_ranked_marks[:,1])
+    subject_ranking_model.students = list(sorted_ranked_marks[:,0])
+    subject_ranking_model.minimumTests = min(sorted_ranked_marks[:,3])
+    subject_ranking_model.maximumTests =max(sorted_ranked_marks[:,3])
+    subject_ranking_model.save()
+    ranking_key = str(my_student_id)+sub_acc.subject
+    try:
+        my_rank = np.where(sorted_ranked_marks[:,0] == my_student_id)[0]
+        print('before my_rank {}'.format(my_rank))
+        my_rank = my_rank[0]+1
+        print('key {}, my rank {}'.format(ranking_key,my_rank))
+    except:
+        my_rank = int(99)
+    try:
+        client = boto3.resource(
+        'dynamodb',
+        aws_access_key_id = ACCESS_KEY_ID,
+        aws_secret_access_key = ACCESS_SECRET_KEY,
+        region_name = 'ap-south-1'
+        )
+        table = client.Table('subjectranking1')
+        res = table.update_item(
+            Key = { 
+                    'student_id':ranking_key
+                },  
+        UpdateExpression = "SET  dateTaken = list_append(dateTaken,:da),ranking =list_append(ranking,:ra)",
+        ExpressionAttributeValues={
+                    ':ra': [int(my_rank)],
+                    ':da': [str(timezone.now())]
+                },  
+        ReturnValues="UPDATED_NEW"
+
+        )
+        print('db updated')
+    except Exception as e:
+        print('amazon db error {}'.format(str(e)))
+        table.put_item(
+        Item={
+        'student_id': ranking_key,
+        'ranking': [int(my_rank)],
+        'dateTaken':[str(timezone.now())],
+        'subject':subject
+
+            }
+        )
+        print('db created')
+
+@shared_task
+def saveChapterWiseAccuracyRanking(subject,chapter_code,chapter_name,student_id):
+    chapter_code = float(chapter_code)
+    try:
+        subject_ranking = ChapterRank.objects.get(subject =
+                                                  subject,chapterCode =
+                                                  chapter_code)
+        subject_ranking.delete()
+        
+    except Exception as e:
+        pass
+
+    chapter_ranking_model = ChapterRank()
+    subject_accuracy_list = []
+    total_attempted_list = []
+    number_test_list = []
+    student_id_list = []
+    all_accuracy = ChapterAccuracyStudent.objects.filter(subject
+                                                        =
+                                                         subject,chapterCode=chapter_code)
+
+    for sub_acc in all_accuracy:
         accuracy = sub_acc.accuracy
         question_attempted = sub_acc.totalAttempted
         number_tests = sub_acc.testNumbers
@@ -3132,13 +3175,169 @@ def saveSubjectWiseAccuracyRanking(user_id,subject):
     sorted_ranked_marks = sorted(subject_ranking, key=lambda x:\
                                  x[1],reverse=True)
     sorted_ranked_marks = np.array(sorted_ranked_marks)
-    print('subject ranking {}'.format(sorted_ranked_marks))
-    subject_ranking_model.subject = subject
-    subject_ranking_model.sortedAccuracies = list(sorted_ranked_marks[:,1])
-    subject_ranking_model.students = list(sorted_ranked_marks[:,0])
-    subject_ranking_model.minimumTests = min(sorted_ranked_marks[:,3])
-    subject_ranking_model.maximumTests =max(sorted_ranked_marks[:,3])
-    subject_ranking_model.save()
+    chapter_ranking_model.subject = subject
+    chapter_ranking_model.chapterCode = chapter_code
+    chapter_ranking_model.chapterName = chapter_name
+    chapter_ranking_model.sortedAccuracies = list(sorted_ranked_marks[:,1])
+    chapter_ranking_model.students = list(sorted_ranked_marks[:,0])
+    chapter_ranking_model.minimumTests = min(sorted_ranked_marks[:,3])
+    chapter_ranking_model.maximumTests =max(sorted_ranked_marks[:,3])
+    chapter_ranking_model.save()
+    ranking_key = str(student_id)+subject+chapter_name
+    try:
+        my_rank = np.where(sorted_ranked_marks[:,0] == student_id)[0]
+        print('before my_rank {}'.format(my_rank))
+        my_rank = my_rank[0]+1
+        print('key {}, my rank {}'.format(ranking_key,my_rank))
+    except:
+        my_rank = int(0)
+    try:
+        client = boto3.resource(
+        'dynamodb',
+        aws_access_key_id = ACCESS_KEY_ID,
+        aws_secret_access_key = ACCESS_SECRET_KEY,
+        region_name = 'ap-south-1'
+        )
+        table = client.Table('chapterRanking')
+        res = table.update_item(
+            Key = { 
+                    'student_id':ranking_key
+                },  
+        UpdateExpression = "SET  dateTaken = list_append(dateTaken,:da),ranking =list_append(ranking,:ra)",
+        ExpressionAttributeValues={
+                    ':ra': [int(my_rank)],
+                    ':da': [str(timezone.now())]
+                },  
+        ReturnValues="UPDATED_NEW"
+
+        )
+        print('db updated')
+    except Exception as e:
+        print('amazon db error {}'.format(str(e)))
+        table.put_item(
+        Item={
+        'student_id': ranking_key,
+        'ranking': [int(my_rank)],
+        'dateTaken':[str(timezone.now())],
+        'subject':subject,
+        'chapter':chapter_name,
+        'chapterCode':str(chapter_code)
+
+            }
+        )
+        print('db created chapter')
+
+
+
+
+
+
+@shared_task
+def helperChapterAccuracy(user_id,test_id,subject,chapter_code,chapter_name):
+    chapter_code = str(chapter_code)
+    user = User.objects.get(id = user_id)
+    me = Studs(user)
+    student_id = me.profile.id
+    test = SSCKlassTest.objects.get(id = test_id)
+    marks = SSCOnlineMarks.objects.get(student = me.profile,test = test)
+    rightAnswers = marks.rightAnswers
+    wrongAnswers = marks.wrongAnswers
+    numberAttempted = len(rightAnswers) + len(wrongAnswers)
+    if numberAttempted == 0:
+        return
+    try:
+        accuracyCache = ChapterAccuracyStudent.objects.get(student =
+                                                             me.profile,subject
+                                                            =
+                                                           subject,chapterCode=chapter_code)
+        pastNumberRightAnswers = accuracyCache.rightAnswers
+        pastNumberTotalAttempted = accuracyCache.totalAttempted
+        numberOfTests = accuracyCache.testNumbers
+        numberOfTests = numberOfTests + 1
+        countRightAnswers = 0
+        countChapterAttempted = 0
+        for ra in rightAnswers:
+            question = SSCquestions.objects.get(choices__id = ra)
+            if question.section_category == subject and question.topic_category == chapter_code:
+                countRightAnswers += 1
+                countChapterAttempted += 1
+
+        for wa in wrongAnswers:
+            question = SSCquestions.objects.get(choices__id = wa)
+            if question.section_category == subject and question.topic_category == chapter_code:
+                countChapterAttempted += 1
+        if countChapterAttempted == 0:
+            accuracyCache.save()
+            return
+        totalRightAnswers = pastNumberRightAnswers + countRightAnswers
+        totalNumberAttempted = pastNumberTotalAttempted + countChapterAttempted
+        newAccuracy = (totalRightAnswers / totalNumberAttempted) * 100
+
+        accuracyCache.accuracy = newAccuracy
+        accuracyCache.rightAnswers = totalRightAnswers
+        accuracyCache.totalAttempted = totalNumberAttempted
+        accuracyCache.testNumbers = numberOfTests
+        accuracyCache.save()
+        saveChapterWiseAccuracyRanking(subject,chapter_code,chapter_name,student_id)
+
+
+
+    except Exception as e:
+        accuracyCache = ChapterAccuracyStudent()
+        countRightAnswers = 0
+        countChapterAttempted = 0
+        for ra in rightAnswers:
+            question = SSCquestions.objects.get(choices__id = ra)
+            if question.section_category == subject and\
+            question.topic_category == chapter_code:
+                countRightAnswers += 1
+                countChapterAttempted += 1
+
+        for wa in wrongAnswers:
+            question = SSCquestions.objects.get(choices__id = wa)
+            if question.section_category == subject and\
+               question.topic_category == chapter_code:
+                countChapterAttempted += 1
+
+
+        if countChapterAttempted == 0:
+            return
+       
+        accuracy = (countRightAnswers / countChapterAttempted) * 100 
+ 
+        accuracyCache.student = me.profile
+        accuracyCache.subject = subject
+        accuracyCache.rightAnswers = countRightAnswers
+        accuracyCache.totalAttempted = countChapterAttempted
+        accuracyCache.testNumbers = int(1)
+        accuracyCache.accuracy = accuracy
+        accuracyCache.chapterCode = chapter_code
+        accuracyCache.chapterName = chapter_name
+        accuracyCache.save()
+        saveChapterWiseAccuracyRanking(subject,chapter_code,chapter_name,student_id)
+
+ 
+@shared_task
+def saveChapterWiseAccuracyCache(user_id,test_id,subject):
+    subject_chapters = SubjectChapters.objects.filter(subject = subject)
+    for sub_chap in subject_chapters:
+        chapter_name = sub_chap.name
+        chapter_code = sub_chap.code
+        helperChapterAccuracy(user_id,test_id,subject,chapter_code,chapter_name)
+
+
+@shared_task
+def send_otp(num,otp):
+    message = """Welcome to BodhiAI, you OTP is {}""".format(otp)
+   
+        #send_url =\
+        #"""http://sms.trickylab.com/http-api.php?username={}&password={}
+        #&senderid={}&route=1&number={}&message={}""".format('bodhiai','123456','Bodhii',num,message)
+
+    send_url =\
+    'http://sms.trickylab.com/http-api.php?username=bodhiai&password=123456&senderid=Bodhii&route=1&number='+num+'&message='+message+''
+    r = requests.get(send_url)
+
 
 
 

@@ -39,7 +39,7 @@ urlpatterns = [
     # get subject chapter tests for B2C
     url(r'subject_chapter_tests/$',views.getSubjectChapterTestAPIView.as_view(),name='TestSubjectChapter'),
     # Pattern Test check for pattern
-    url(r'pattern_test_check_pattern/$',views.CreatePatternTestCheckPattern.as_view(),name='PatternTestCheckPattern'),
+    url(r'pattern_test_exams/$',views.CreatePatternTestCheckExam.as_view(),name='PatternTestCheckPattern'),
     # Pattern Test create test final
     url(r'pattern_test_create/$',views.CreatePatternTestFinal.as_view(),name='CreatePatternTestFinal'),
     # Teacher get subjects

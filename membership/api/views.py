@@ -24,6 +24,8 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from django.contrib.auth import login as django_login, logout as django_logout
 import requests
+import random 
+
 
 class CustomRegistration(APIView):
    def post(self,request,*args,**kwargs):
@@ -217,18 +219,33 @@ class CustomLoginAPIView(APIView):
         django_login(request,user)
         token, created = Token.objects.get_or_create(user=user)
         groups = user.groups.all()
+        try:
+            student = Student.objects.get(studentuser = user)
+        except:
+            token_context  = \
+                    {'key':token.key,'user_type':groups[0].name,'name':user.username}
+            return Response(token_context,status = 200)
+
+
+        check_subjects = Subject.objects.filter(student = student)
+        if len(check_subjects) != 0:
+            hasCourse = True
+        else:
+            hasCourse = False
+
+
         #delete_bad_Online_Marks.delay(user.id)
         try:
             student_details = StudentDetails.objects.get(student = user)
-            student = Student.objects.get(studentuser = user)
+            #student = Student.objects.get(studentuser = user)
             klass_name = student.klass.name
 
             token_context  = \
-                {'key':token.key,'user_type':groups[0].name,'name':user.username,'photo':student_details.photo,'batch':klass_name}
+                    {'key':token.key,'user_type':groups[0].name,'name':user.username,'photo':student_details.photo,'batch':klass_name,'hasCourse':hasCourse,'display_name':student.name}
 
         except:
             token_context  = \
-                {'key':token.key,'user_type':groups[0].name,'name':user.username,'photo':None}
+                    {'key':token.key,'user_type':groups[0].name,'name':user.username,'photo':None,'hasCourse':hasCourse,'display_name':student.name}
 
         return Response(token_context,status = 200)
 
@@ -292,7 +309,6 @@ def add_subjects(course,stud,teacher):
        subChemistry.save()
        subPhysics.save()
        subBotony.save()
-       subGenSci.save()
 
 
     elif course == 'IITJEE':
@@ -353,8 +369,9 @@ class GoogleCustomLoginAndroid(APIView):
         email = data['email']
         display_name = data['display_name']
         photo = data['photo']
+        print('user data from google {}'.format(str(data)))
         try:
-            user = User.objects.create_user(username=user_id, email=email,\
+            user = User.objects.create_user(username=email, email=email,\
                                                 password='newpassword')
             institute = "BodhiAI"
             school = School.objects.get(name=institute)
@@ -367,7 +384,7 @@ class GoogleCustomLoginAndroid(APIView):
             student_details.student = user
             student_details.photo = photo
             student_details.email = email
-            student_details.username = display_name
+            student_details.username = email
             student_details.save()
             my_group = Group.objects.get(name='Students')
             my_group.user_set.add(user)
@@ -384,30 +401,37 @@ class GoogleCustomLoginAndroid(APIView):
             #addOldTests.delay(stud.id,teacher.id,batch.id)
             add_announcements_newStudent.delay(stud.id,batch.id)
 
+            hasCourse = False
             token = Token.objects.create(user=user)
             json = serializer.data
             json['token'] =\
-                    {'token':token.key,'class':stud.klass.name,'school':stud.school.name,'photo':photo,'name':display_name}
+                    {'token':token.key,'class':stud.klass.name,'school':stud.school.name,'photo':photo,'name':display_name,'hasCourse':hasCourse}
             return Response(json,status = status.HTTP_201_CREATED)
 
             print('new user created')
         except Exception as e:
             print(str(e))
-            user = User.objects.get(username=user_id)
+            user = User.objects.get(username=email)
             django_login(request,user)
             token, created = Token.objects.get_or_create(user=user)
             groups = user.groups.all()
             student = Student.objects.get(studentuser = user)
             klass_name = student.klass.name
+            check_subjects = Subject.objects.filter(student = student)
+            if len(check_subjects) != 0:
+                hasCourse = True
+            else:
+                hasCourse = False
+
             try:
                 student_details = StudentDetails.objects.get(student = user)
 
                 token_context  = \
-                    {'key':token.key,'user_type':groups[0].name,'name':student.name,'photo':student_details.photo,'batch':klass_name}
+                        {'key':token.key,'user_type':groups[0].name,'name':student.name,'photo':student_details.photo,'batch':klass_name,'hasCourse':hasCourse}
 
             except:
                 token_context  = \
-                {'key':token.key,'user_type':groups[0].name,'name':student.name,'photo':None,'batch':klass_name}
+                {'key':token.key,'user_type':groups[0].name,'name':student.name,'photo':None,'batch':klass_name,'hasCourse':hasCourse}
             return Response(token_context,status = 200)
 
 
@@ -427,6 +451,7 @@ class B2CNormalRegistration(APIView):
                print('{} institute'.format(institute))
                if 'bodhiai' in institute.lower():
                    institute = "BodhiAI"
+
                school = School.objects.get(name=institute)
                batch = klass.objects.get(school=school,name='Outer')
                stud = Student(studentuser = user,klass = batch,school =school)
@@ -437,9 +462,10 @@ class B2CNormalRegistration(APIView):
                my_group.user_set.add(user)
                student_details = StudentDetails()
                student_details.student = user
-               student_details.photo = photo
-               student_details.email = email
+               #student_details.photo = photo
+               #student_details.email = email
                student_details.username = username
+               student_details.fullName = name
                student_details.save()
  
                 # add subjects will happen when student chooses a course 
@@ -448,6 +474,8 @@ class B2CNormalRegistration(APIView):
                #    add_subjects('SSC',stud,teacher)
                #elif 'jen' in institute.lower():
                #    add_subjects('Loco',stud,teacher)
+
+               teacher = Teacher.objects.get(school=school)
                confirmation = StudentConfirmation()
                confirmation.student = user
                confirmation.school = school
@@ -457,11 +485,12 @@ class B2CNormalRegistration(APIView):
                confirmation.save()
                #addOldTests.delay(stud.id,teacher.id,batch.id)
                add_announcements_newStudent.delay(stud.id,batch.id)
-
+               hasCourse = False
+ 
                token = Token.objects.create(user=user)
                json = serializer.data
                json['token'] =\
-               {'token':token.key,'class':stud.klass.name,'school':stud.school.name}
+               {'token':token.key,'class':stud.klass.name,'school':stud.school.name,'hasCourse':hasCourse}
                return Response(json,status = status.HTTP_201_CREATED)
        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
@@ -473,7 +502,6 @@ class B2CRegisterCourse(APIView):
         me = Studs(user)
         teacher = Teacher.objects.get(name='BodhiAI')
         course = data['course']
-        print('subjects added')
         try:
             course_model = StudentCourse.objects.get(student=me.profile)
         except:
@@ -485,13 +513,60 @@ class B2CRegisterCourse(APIView):
         student_subjects = Subject.objects.filter(student = me.profile)
         for sub in student_subjects:
             sub.delete()
-
-        add_subjects(course,me.profile,teacher)
+        student_klass = me.profile.klass
+        my_school = me.profile.school
+        new_klass = klass.objects.get(name=course,school= my_school)
+        me.profile.klass = new_klass
+        bodhi_teacher = Teacher.objects.get(school = my_school)
+        add_subjects(course,me.profile,bodhi_teacher)
+        addOldTests.delay(me.profile.id,bodhi_teacher.id,new_klass.id)
         student_details = StudentDetails.objects.get(student = user)
         student_details.course = course
         student_details.save()
         context = {'subjects':'{} course registered'.format(course)}
         return Response(context)
+
+class B2CRegisterCourseAndLanguage(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        user = self.request.user
+        me = Studs(user)
+        teacher = Teacher.objects.get(name='BodhiAI')
+        course = data['course']
+        language = data['language']
+        try:
+            course_model = StudentCourse.objects.get(student=me.profile)
+        except:
+            course_model = StudentCourse()
+            course_model.student = me.profile
+            course_model.course = course
+            course_model.save()
+        # delete existing subjects
+        student_subjects = Subject.objects.filter(student = me.profile)
+        for sub in student_subjects:
+            sub.delete()
+        student_klass = me.profile.klass
+        my_school = me.profile.school
+        new_klass = klass.objects.get(name=course,school= my_school)
+        me.profile.klass = new_klass
+        bodhi_teacher = Teacher.objects.get(school = my_school)
+        add_subjects(course,me.profile,bodhi_teacher)
+        addOldTests.delay(me.profile.id,bodhi_teacher.id,new_klass.id)
+        try:
+            student_details = StudentDetails.objects.get(student = user)
+            student_details.course = course
+            student_details.language = language
+            student_details.save()
+        except:
+            student_details = StudentDetails()
+            student_details.student = user
+            student_details.language = language
+            student_details.course = course
+            student_details.save()
+        context = {'subjects':'{} course registered'.format(course)}
+        return Response(context)
+
+
 class CheckSubjects(APIView):
     def get(self,request):
         user = self.request.user
@@ -506,3 +581,22 @@ class CheckSubjects(APIView):
             context = {"subjects":'no course'}
             return Response(context)
 
+class SendOTPRegistration(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        phone = data['phone']
+        try:
+            user = User.objects.get(username = phone)
+            context = {'number':phone,'otp':str(True)}
+            return Response(context)
+        except:
+            pass
+        otp = self.generate_four_digit_otp(4)
+        send_otp.delay(phone,otp)
+        context = {'number':phone,'otp':otp}
+        return Response(context)
+
+    def generate_four_digit_otp(self,digits):
+        lower = 10**(digits-1)
+        upper = 10**digits - 1
+        return random.randint(lower, upper)

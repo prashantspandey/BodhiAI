@@ -130,6 +130,24 @@ urlpatterns = [
     url(r'taken_test_ids/$',views.getTakenTestsIds.as_view(),name='getTakenTestIds'),
 # get subject logo
     url(r'subject_logo/$',views.getSubjectLogo.as_view(),name='getSubjectLogo'),
+# student chapter ranks
+    url(r'chapter_ranking_table/$',views.getChapterRank.as_view(),name='getChapterRank'),
+# student see rank details
+    url(r'subject_rank_details/$',views.getStudentSubjectRankDetails.as_view(),name='getStudentSubjectRankDetails'),
+# student delete profile picture
+    url(r'delete_profile_picture/$',views.deleteProfilePicture.as_view(),name='deleteProfilePicture'),
+# student all subject rank detail
+    url(r'all_rank_details/$',views.getStudentSubjectAllRankDetails.as_view(),name='SubjectRankDetailsAll'),
+# teacher test analysis
+    url(r'teacher_test_analysis_detail/$',views.TeacherTestAnalysisAPIView.as_view(),name='TeacherTestAnalysis'),
+# subject group details
+    url(r'subjectwise_group_details/$',views.getSubjectWiseGroupRank.as_view(),name='SubjectwiseGroupRank'),
+
+
+
+
+
+
 
 
 

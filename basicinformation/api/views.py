@@ -23,6 +23,15 @@ from rest_framework.permissions import (
 from basicinformation.tasks import *
 import datetime
 from decimal import Decimal
+from exponent_server_sdk import DeviceNotRegisteredError
+from exponent_server_sdk import PushClient
+from exponent_server_sdk import PushMessage
+from exponent_server_sdk import PushResponseError
+from exponent_server_sdk import PushServerError
+from requests.exceptions import ConnectionError
+from requests.exceptions import HTTPError
+
+
 
 class StudentListAPIView(generics.ListAPIView):
     serializer_class = StudentModelSerializer
@@ -49,9 +58,11 @@ class StudentShowDetialsAPIView(APIView):
     def get(self,request,format=None):
         try:
             my_profile = StudentDetails.objects.get(student = self.request.user)
-            serializer_student_profile =\
-            StudentProfileDetailsSerializer(my_profile)
-            return Response(serializer_student_profile.data)
+            context =\
+            {'id':self.request.user.id,'fullName':my_profile.fullName,'phone':my_profile.phone,'address':my_profile.address,'email':my_profile.address,'fatherName':my_profile.fatherName,'parentPhone':my_profile.parentPhone,'photo_url':my_profile.photo,'language':my_profile.language,'course':my_profile.course}
+            #serializer_student_profile =\
+            #StudentProfileDetailsSerializer(my_profile)
+            return Response(context)
         except Exception as e:
             print(str(e))
             context =\
@@ -184,7 +195,6 @@ class TeacherWeakAreasBrief(APIView):
                     except Exception as e:
                         print(str(e))
             weak_subs_areas = list(zip(subs,weak_klass,weak_subs))
-            print(type(weak_subs_areas))
             #weak_subs_areas = None
         except:
             weak_subs_areas = None
@@ -344,6 +354,84 @@ class TeacherSubjectAPIView(APIView):
                 o_tests.append(te.object)
             context = {'tests': o_tests}
             return Response(context)
+class TeacherTestAnalysisAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        if 'onlinetestid' in request.POST:
+            test_id = request.POST['onlinetestid']
+            me = Teach(self.request.user)
+            # get the number of students who took test
+            test_object = SSCKlassTest.objects.get(id = test_id)
+            online_marks =\
+            SSCOnlineMarks.objects.filter(test = test_object,student__school =
+                                          me.profile.school)
+
+
+            all_marks = []
+            all_students = []
+            test_max_marks = test_object.max_marks
+            for om in online_marks:
+                all_marks.append(om.marks)
+                all_students.append(om.student)
+            marks_student = list(zip(all_students,all_marks))
+            grade_s = 0 
+            grade_a = 0
+            grade_b = 0
+            grade_c = 0
+            grade_d = 0
+            grade_e = 0
+            for am in all_marks:
+                percentage = am / test_max_marks
+                if percentage >= 90:
+                    grade_s += 1
+                elif 80 <= percentage < 90:
+                    grade_a += 1
+                elif 70 <= percentage < 80:
+                    grade_b += 1
+                elif 60 <= percentage < 70:
+                    grade_c += 1
+                elif 50 <= percentage < 60:
+                    grade_d += 1
+                elif percentage < 50:
+                    grade_e += 1
+            marks_student = np.array(marks_student)
+            sorted_ranked_marks = sorted(marks_student, key=lambda x:\
+                                 x[1],reverse=True)
+            rank_list = []
+            count_rank = 1
+            for i,j in sorted_ranked_marks:
+                count_rank += 1
+                ranked_dict = {'rank':count_rank,'student':i,'marks':j}
+                rank_list.append(ranked_dict)
+            hardest_question_id = []
+            for om in online_marks:
+                rightAnswers = om.rightAnswers
+                wrongAnswers = om.wrongAnswers
+                skippedAnwers = om.skippedAnswers
+                for wa in wrongAnswers:
+                    question = SSCquestions.objects.get(choices__id =wa)
+                    hardest_question_id.append(question.id)
+                for sa in skippedAnswers:
+                    hardest_question_id.append(sa)
+            unique, counts = np.unique(hardest_question_id, return_counts=True)
+            hard_freq = np.asarray((unique, counts)).T
+            sorted_hard_questions = sorted(hard_freq, key=lambda x:\
+                                 x[1],reverse=True)
+            hard_quest_final = []
+            for i,j in sorted_hard_questions:
+                quest = SSCquestions.objects.get(id = i)
+                choices_list = []
+                choices = quest.choices_set.all()
+                for ch in choices:
+                    ch_dict =\
+                    {'predicament':ch.predicament,'text':ch.text,'picture':ch.picture,'explanation':ch.explanation,'explanationPicture':ch.explanationPicture}
+                    choices_list.append(ch_dict)
+                question = {'picture':quest.picture,'choices':choices_list}
+                hard_quest_final.append(question)
+            context = {'grade_s':grade_s,'grade_a':grade_a,'grade_b':grade_b,'grade_c':grade_c,
+                       'grade_d':grade_d,'grade_e':grade_e,
+                       'hardQuestions':hard_quest_final,'rank':rank_list,'len_test':len(online_marks)}
+            return Response(context)
+
 
 class TeacherTestSelectionAPIView(APIView):
     def post(self,request,*args,**kwargs):
@@ -641,7 +729,6 @@ class TeacherTestQuestionsAPIView(APIView):
             pro_quests = new_rl.problemQuestions
             pro_freq  = new_rl.problemQuestionsFreq
             problem_quests = list(zip(pro_quests,pro_freq))
-            print(sq,freq)
 
 
         saved_marks = result_loader.onlineMarks.all()
@@ -657,7 +744,6 @@ class TeacherTestQuestionsAPIView(APIView):
             freqQuests = result_loader.freqAnswersQuestions
             freqQuestsfreq = result_loader.freqAnswersFreq
             freq = list(zip(freqQuests,freqQuestsfreq))
-            print(sq,freq)
         else:
             new_rl = teacher_test_analysis_already.delay(test_id,user.id)
             rl_id = new_rl.task_id
@@ -670,7 +756,6 @@ class TeacherTestQuestionsAPIView(APIView):
             freqQuests = result_loader.freqAnswersQuestions
             freqQuestsfreq = result_loader.freqAnswersFreq
             freq = list(zip(freqQuests,freqQuestsfreq))
-            print(sq,freq)
 
 
 class TeacherWeakAreasDetailAPIView(APIView):
@@ -788,7 +873,6 @@ class StudentTopicWiseProficiency(APIView):
             # changing topic categories numbers to names
             freq_Names = me.changeTopicNumbersNames(freq,subject)
 
-            print('{} skill names'.format(freq_Names))
             skills = list(zip(strongAreas,strongFreq))
             skills_names = me.changeTopicNumbersNames(skills,subject)
             if skills_names == None:
@@ -1249,7 +1333,6 @@ class StudentAverageTimingDetailAPIView(APIView):
         chapter = request.POST['chapter']
         average_timing = request.POST['average_timing']
         chapter = changeIndividualNumberNames(chapter,subject)
-        print('chapter {}'.format(chapter))
         result = me.student_weak_timing_details(me.profile.id,subject,chapter)
         context = {'result':result,'overall_average_timing':average_timing}
         return Response(context)
@@ -1265,13 +1348,11 @@ class StudentAverageTimingChapterWiseAPIView(APIView):
                 chapter_name = \
                     SubjectChapters.objects.get(subject=tc.subject,code=float(tc.chapter))
                 c_name = chapter_name.name
-                print('{} c_name'.format(c_name))
                 cache =\
                 {'id':tc.id,'student':tc.student.id,'subject':tc.subject,'chapter':c_name,'rightAverage':tc.rightAverage,'wrongAverage':tc.wrongAverage,'totalAverage':tc.totalAverage,'rightTotalTime':tc.rightTotalTime,'wrongTotalTime':tc.wrongTotalTime,'rightTotal':tc.rightTotal,'wrongTotal':tc.wrongTotal,'totalAttemted':tc.totalAttempted}
             except Exception as e:
                 continue
             final_timing.append(cache)
-        print('{} this is the final timing'.format(final_timing))
         return Response(final_timing)
         #timing_serializer =\
         #StudentTimingChapterwiseSerializer(timing_cache,many=True)
@@ -1325,8 +1406,12 @@ class TeacherAnalysisIndividualStudentAPIView(APIView):
 class StudentShowPerformanceSubjectsAPIView(APIView):
     def get(self,request,format=None):
         me = Studs(self.request.user)
-        subjects = me.my_taken_subjects()
-        context = {'subjects':subjects}
+        #subjects = me.my_taken_subjects()
+        subjects = Subject.objects.filter(student = me.profile)
+        subs = []
+        for sub in subjects:
+            subs.append(sub.name)
+        context = {'subjects':subs}
         return Response(context)
 
 class StudentShowPerformanceTestsAPIView(APIView):
@@ -1335,7 +1420,6 @@ class StudentShowPerformanceTestsAPIView(APIView):
         data = request.data
 
         subject = data['subject']
-        print('this is the subject {}'.format(subject))
         tests = SSCOnlineMarks.objects.filter(student =
                                               me.profile,test__sub = subject)
         test_date = []
@@ -1397,10 +1481,7 @@ class TeacherEditBatchesFinal(APIView):
 
 
         outer = np.array(outer)
-        print(outer)
         for i,j in outer:
-            print(i)
-            print(j)
             kl = klass.objects.get(name = j.strip(),school = me.profile.school)
             confirmation = StudentConfirmation.objects.get(id = int(i))
             confirmation.batch = kl
@@ -1556,9 +1637,14 @@ class StudentAllWeakAreasAPIView(APIView):
         data = request.data
         me = Studs(self.request.user)
         subject = data['subject']
-        weak_areas_cache =\
-        StudentWeakAreasChapterCache.objects.filter(student=me.profile,subject
-                                                    = subject)
+        try:
+            weak_areas_cache =\
+            StudentWeakAreasChapterCache.objects.filter(student=me.profile,subject
+                                                        = subject)
+        except:
+            context=\
+            {'chapter':None,'accuracy':None,'totalRight':None,'totalWrong':None,'totalSkipped':None,'skippedPercent':None,'totalAttempted':None}
+            return Response(context)
         weak_areas = []
         for i in weak_areas_cache:
             accuracy = i.accuracy
@@ -1567,9 +1653,12 @@ class StudentAllWeakAreasAPIView(APIView):
             totalSkipped = i.totalSkipped
             skippedPercent = i.skippedPercent
             totalAttempted = i.totalAttempted
-            chapter_name_table = SubjectChapters.objects.get(subject =
+            try:
+                chapter_name_table = SubjectChapters.objects.get(subject =
                                                              subject,code =
                                                              float(i.chapter))
+            except:
+                continue
             chapter_name = chapter_name_table.name
 
             context =\
@@ -1789,9 +1878,6 @@ class StudentTrackActivityAPIView(APIView):
         accuracy_Data = json_data(['accuracy_Data'])
         averageTime_data = json_data(['averageTime_Data'])
         progress_data = json_data(['progress_Data'])
-        print(json_data['accuracy_Data'])
-        print(json_data['averageTime_Data'])
-        print(json_data['progress_Data'])
         student_track_data = StudentTapTracker()
         student_track_data.student = me.profile
         student_track_data.accuracyData = accuracyData
@@ -1814,7 +1900,6 @@ class StudentBookmarkQuestionAPIView(APIView):
                 j = i.replace(']','')
             else:
                 j = i
-            print('{} this is j'.format(j))
             question = SSCquestions.objects.get(id = int(j))
             bookmark = StudentBookMarkQuestion()
             bookmark.student = me.profile
@@ -1868,9 +1953,15 @@ class StudentLanguage(APIView):
         #    student_lang.student = me.profile
         #    student_lang.language = language
         #    student_lang.save()
-        student_details = StudentDetails.objects.get(student = self.request.user)
-        student_details.language = language
-        student_details.save()
+        try:
+            student_details = StudentDetails.objects.get(student = self.request.user)
+            student_details.language = language
+            student_details.save()
+        except:
+            student_details = StudentDetails()
+            student_details.student = self.request.user
+            student_details.language = language
+            student_details.save()
 
         return Response({'language':language})
 
@@ -1881,16 +1972,21 @@ class HomePageSubjects(APIView):
         subjects = Subject.objects.filter(student=me.profile)
         subjects_list = []
         subjects_logo_list = []
+        subjects_logo_list2 = []
         for sub in subjects:
             try:
                 subject_logo = SubjectLogo.objects.get(name = sub.name)
                 logo = subject_logo.logo
+                logo2 = subject_logo.logo2
                 subjects_logo_list.append(logo)
+                subjects_logo_list2.append(logo2)
             except:
                 subjects_logo_list.append('No logo')
+                subjects_logo_list2.append('No logo')
 
             subjects_list.append(sub.name)
-        final_subject_list = list(zip(subjects_list,subjects_logo_list))
+        final_subject_list =\
+        list(zip(subjects_list,subjects_logo_list,subjects_logo_list2))
         context = {'subjects':final_subject_list}
         return Response(context)
 
@@ -1918,8 +2014,12 @@ class getTestRank(APIView):
         data = request.data
         test_id = data['test_id']
         final_rank_list = []
-        klass_test = SSCKlassTest.objects.get(id = test_id)
-        test_rank = TestRank.objects.get(test=klass_test)
+        try:
+            klass_test = SSCKlassTest.objects.get(id = test_id)
+            test_rank = TestRank.objects.get(test=klass_test)
+        except:
+            context = {'ranking':'No ranking'}
+            return Response(context)
         sortedMarks = test_rank.sortedMarks
         sortedStudents = test_rank.students
         for rank_index,stud in enumerate(sortedStudents):
@@ -1932,9 +2032,16 @@ class getTestRank(APIView):
 
             except:
                 finalPhoto = None
+            student_marks = SSCOnlineMarks.objects.get(student=st,test
+                                                       =klass_test)
+            rightAnswers = len(student_marks.rightAnswers)
+            allAnswers = len(student_marks.allAnswers)
+            accuracy = rightAnswers/ allAnswers
+
+
 
             student_wise_rank_dict =\
-                    {'name':st.name,'photo':finalPhoto,'username':st.studentuser.username,'rank':int(rank_index+1),'score':sortedMarks[rank_index]}
+                    {'name':st.name,'photo':finalPhoto,'username':st.studentuser.username,'rank':int(rank_index+1),'score':sortedMarks[rank_index],'accuracy':accuracy,'questionAttempted':allAnswers,'right':rightAnswers}
             final_rank_list.append(student_wise_rank_dict)
         #final_rank =\
         #list(zip(student_name_list,student_photo_list,student_rank_list,student_score_list,student_username_list))
@@ -1947,9 +2054,22 @@ class getTakenTestsIds(APIView):
         me = Studs(self.request.user)
         my_taken_marks = SSCOnlineMarks.objects.filter(student=me.profile)
         test_ids = []
+        subjects = []
+        subject_logo = []
+        date = []
+        test_details = []
         for t_marks in my_taken_marks:
-            test_ids.append(t_marks.test.id)
-        context = {'test_id':test_ids}
+            try:
+                logo = SubjectLogo.objects.get(name = t_marks.test.sub)
+                sub_logo = logo.logo2
+            except:
+                sub_logo = None
+            subject_logo.append(sub_logo)
+            test_detail =\
+            {'test_id':t_marks.test.id,'subject':t_marks.test.sub,'logo':sub_logo,'date':t_marks.testTaken}
+            test_details.append(test_detail)
+        context =\
+                    {'tests':test_details}
         return Response(context)
 
 
@@ -1996,7 +2116,12 @@ class getSubjectRank(APIView):
         data = request.data
         subject = data['subject']
         final_rank_list = []
-        test_rank = SubjectRank.objects.get(subject=subject)
+        try:
+            test_rank = SubjectRank.objects.get(subject=subject)
+        except:
+            context = {'subject':subject,'subject_ranking':{}}
+            return Response(context)
+
         sortedMarks = test_rank.sortedAccuracies
         sortedStudents = test_rank.students
         sortedMinimumTests = test_rank.minimumTests
@@ -2010,9 +2135,14 @@ class getSubjectRank(APIView):
 
             except:
                 finalPhoto = None
+            student_cache =\
+                SubjectAccuracyStudent.objects.get(student=st,subject=subject)
+            totalQuestionAttempted = student_cache.totalAttempted
+            totalQuestionsRight = student_cache.rightAnswers
+
 
             student_wise_rank_dict =\
-                    {'name':st.name,'photo':finalPhoto,'username':st.studentuser.username,'rank':int(rank_index+1),'accuracy':sortedMarks[rank_index],'numberTests':sortedMinimumTests}
+                    {'name':st.name,'photo':finalPhoto,'username':st.studentuser.username,'rank':int(rank_index+1),'accuracy':sortedMarks[rank_index],'questionAttempted':totalQuestionAttempted,'right':totalQuestionsRight}
             final_rank_list.append(student_wise_rank_dict)
         #final_rank =\
         #list(zip(student_name_list,student_photo_list,student_rank_list,student_score_list,student_username_list))
@@ -2030,6 +2160,205 @@ class getSubjectLogo(APIView):
         return Response(context)
 
 
-                    
 
-        
+class getChapterRank(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        subject = data['subject']
+        chapter_name = data['chapter_name']
+        final_rank_list = []
+        test_rank =\
+        ChapterRank.objects.get(subject=subject,chapterName=chapter_name)
+        sortedMarks = test_rank.sortedAccuracies
+        sortedStudents = test_rank.students
+        sortedMinimumTests = test_rank.minimumTests
+        for rank_index,stud in enumerate(sortedStudents):
+            st = Student.objects.get(id = stud)
+            try:
+                student_detail = StudentDetails.objects.get(student =
+                                                        st.studentuser)
+                photo_url = student_detail.photo
+                finalPhoto = photo_url
+
+            except:
+                finalPhoto = None
+            student_cache =\
+                ChapterAccuracyStudent.objects.get(student=st,subject=subject,chapterName=chapter_name)
+            totalQuestionAttempted = student_cache.totalAttempted
+            totalQuestionsRight = student_cache.rightAnswers
+
+
+            student_wise_rank_dict =\
+                    {'name':st.name,'photo':finalPhoto,'username':st.studentuser.username,'rank':int(rank_index+1),'accuracy':sortedMarks[rank_index],'questionAttempted':totalQuestionAttempted,'right':totalQuestionsRight,'chapter_name':test_rank.chapterName}
+            final_rank_list.append(student_wise_rank_dict)
+        context = {'subject':subject,'subject_ranking':final_rank_list}
+        return Response(context)
+
+
+class getStudentSubjectRankDetails(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        student_username = data['username']
+        subject = data['subject']
+        student_object = Student.objects.get(studentuser__username =
+                                             student_username)
+        try:
+            student_details_object =\
+            StudentDetails.objects.get(student=student_object.studentuser)
+            student_photo = student_details_object.photo
+            student_name = student_object.name
+        except:
+            student_photo = None
+            student_name = student_object.name
+        student_subjects = Subject.objects.filter(student = student_object)
+        student_subject_cache =\
+        SubjectAccuracyStudent.objects.get(subject=subject,student=student_object)
+        questions_attempted = student_subject_cache.totalAttempted
+        questions_right = student_subject_cache.rightAnswers
+        questions_accuracy = student_subject_cache.accuracy
+        context =\
+        {'name':student_name,'photo':student_photo,'username':student_username,'subject':subject,'attempted':questions_attempted,'right':questions_right,'accuracy':questions_accuracy}
+        return Response(context)
+
+
+
+class getStudentSubjectAllRankDetails(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        student_username = data['username']
+        student_object = Student.objects.get(studentuser__username =
+                                             student_username)
+        try:
+            student_details_object =\
+            StudentDetails.objects.get(student=student_object.studentuser)
+            student_photo = student_details_object.photo
+            student_name = student_object.name
+        except:
+            student_photo = None
+            student_name = student_object.name
+        student_subjects = Subject.objects.filter(student = student_object)
+        all_subjects = []
+        for sub in student_subjects:
+            all_subjects.append(sub.name)
+        details = []
+        all_subjects = list(unique_everseen(all_subjects))
+        for sub in all_subjects:
+            try:
+                subject_logo =SubjectLogo.objects.get(name = sub)
+                logo_url = subject_logo.logo
+                student_subject_cache =\
+                SubjectAccuracyStudent.objects.get(subject=sub,student=student_object)
+                questions_attempted = student_subject_cache.totalAttempted
+                questions_right = student_subject_cache.rightAnswers
+                questions_accuracy = student_subject_cache.accuracy
+                subject_details_dict =\
+                        {'subject':sub,'logo':logo_url,'attempted':questions_attempted,'right':questions_right,'accuracy':questions_accuracy}
+                details.append(subject_details_dict)
+            except:
+                continue
+        context =\
+                {'name':student_name,'photo':student_photo,'username':student_username,'details':details}
+        return Response(context)
+
+
+class deleteProfilePicture(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        old_url = data['old_url']
+        context = {'old_url':old_url}
+        return Response(context)
+
+class getSubjectWiseGroupRank(APIView):
+    def get(self,request):
+        me = Studs(self.request.user)
+
+        my_subjects = Subject.objects.filter(student=me.profile)
+        details = []
+        for sub in my_subjects:
+            try:
+                subject_rank = SubjectRank.objects.get(subject=sub.name)
+                all_students = subject_rank.students
+                rank = all_students.index(me.profile.id)
+                rank = rank + 1
+                group_size = 20
+                which_group = (rank / group_size) 
+                my_group = math.ceil(which_group)
+                my_group_rank = (rank % group_size)
+                try:
+                    subject_logo = SubjectLogo.objects.get(name=sub.name)
+                    logo_url = subject_logo.logo2
+                except:
+                    logo_url = None
+                try:
+                    group = GroupBadge.objects.get(group=my_group)
+                    if my_group == 1:
+                        group_name = 'Diamond'
+                    elif my_group == 2:
+                        group_name = 'Platinum'
+                    elif my_group == 3:
+                        group_name = 'Gold'
+                    elif my_group == 4:
+                        group_name = 'Silver'
+                    elif my_group >=  5:
+                        group_name = 'Bronze'
+                    group_logo = group.logo
+                except:
+                    group_logo = None
+                    group_name = None
+                group_details =\
+                        {'subject':sub.name,'group':group_name,'group_rank':my_group_rank,'totalRank':rank,'logo':logo_url,'group_logo':group_logo}
+                details.append(group_details)
+            except Exception as e:
+                print('group rank {}'.format(str(e)))
+        context = {'group_details':details}
+        return Response(context)
+
+class expoNotification(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        token = data['expoToken']
+        messsage = data['message']
+        extra = None
+        try:
+            response = PushClient().publish(
+                PushMessage(to=token,
+                            body=message,
+                            data=extra))
+        except PushServerError as exc:
+            # Encountered some likely formatting/validation error.
+            rollbar.report_exc_info(
+                extra_data={
+                    'token': token,
+                    'message': message,
+                    'extra': extra,
+                    'errors': exc.errors,
+                    'response_data': exc.response_data,
+                })
+            raise
+        except (ConnectionError, HTTPError) as exc:
+            # Encountered some Connection or HTTP error - retry a few times in
+            # case it is transient.
+            rollbar.report_exc_info(
+                extra_data={'token': token, 'message': message, 'extra': extra})
+            raise self.retry(exc=exc)
+
+        try:
+            # We got a response back, but we don't know whether it's an error yet.
+            # This call raises errors so we can handle them with normal exception
+            # flows.
+            response.validate_response()
+        except DeviceNotRegisteredError:
+            # Mark the push token as inactive
+            from notifications.models import PushToken
+            PushToken.objects.filter(token=token).update(active=False)
+        except PushResponseError as exc:
+            # Encountered some other per-notification error.
+            rollbar.report_exc_info(
+                extra_data={
+                    'token': token,
+                    'message': message,
+                    'extra': extra,
+                    'push_response': exc.push_response._asdict(),
+                })
+            raise self.retry(exc=exc)
+        return Response({'notification':'sent'})

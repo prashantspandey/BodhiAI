@@ -31,6 +31,12 @@ urlpatterns = [
    url(r'register_student_course/$',
        views.B2CRegisterCourse.as_view(),name =
        'RegisterStudentCourse'),
+
+# register student course and language
+   url(r'register_student_course_language/$',
+       views.B2CRegisterCourseAndLanguage.as_view(),name =
+       'RegisterStudentCourse'),
+
 # B2C Normal Registration
    url(r'b2c_student_registration/$',
        views.B2CNormalRegistration.as_view(),name =
@@ -39,6 +45,11 @@ urlpatterns = [
    url(r'check_subject/$',
        views.CheckSubjects.as_view(),name =
        'CheckForStudentSubjects'),
+# send registration otp
+   url(r'register_send_otp/$',
+       views.SendOTPRegistration.as_view(),name =
+       'SendOTPRegistration'),
+
 
 
 

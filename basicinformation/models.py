@@ -221,6 +221,7 @@ class StudentCourse(models.Model):
 class SubjectLogo(models.Model):
     name = models.CharField(max_length = 100,null=True,blank=True)
     logo = models.URLField(max_length = 500,null=True,blank=True)
+    logo2 = models.URLField(max_length = 500,null=True,blank=True)
 
     def __str__(self):
         return self.name 
@@ -248,6 +249,35 @@ class SubjectAccuracyStudent(models.Model):
     def __str__(self):
         return str(self.student) + ' ' + self.subject
 
+
+class ChapterAccuracyStudent(models.Model):
+    student = models.ForeignKey(Student,null=True,blank=True)
+    subject = models.CharField(max_length=100,null=True,blank=True)
+    chapterCode = models.FloatField(blank=True,null=True)
+    chapterName = models.CharField(max_length=200,blank=True,null=True)
+    rightAnswers = models.IntegerField(null=True,blank=True)
+    totalAttempted = models.IntegerField(null=True,blank=True)
+    testNumbers = models.IntegerField(null=True,blank=True)
+    accuracy = models.FloatField(null=True,blank=True)
+
+    def __str__(self):
+        return str(self.student) + ' ' + self.subject + ' ' + self.chapterName
+
+
+class GroupBadge(models.Model):
+    logo = models.URLField(max_length = 500,null=True,blank=True)
+    group = models.IntegerField(null=True,blank=True)
+
+    def __str__(self):
+        return str(self.group)
+
+class StudentExpoToken(models.Model):
+    student = models.ForeignKey(Student,null=True,blank=True)
+    token = models.CharField(max_length=500,null=True,blank=True)
+
+    def __str__(self):
+        return self.token
+    
 #class ImprovementStudent(models.Model):
 #    testid = ArrayField(models.IntegerField())
 #    percent = ArrayField(models.CharField(max_length=10))

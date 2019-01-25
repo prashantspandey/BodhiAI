@@ -35,7 +35,9 @@ class StudentSubjectsAPIView(APIView):
 class StudentGetChaptersAPIView(APIView):
     def post(self,request,*args,**kwargs):
         me = Studs(self.request.user)
-        subject = request.POST['subject']
+        data = request.data
+        subject = data['subject']
+
         chapters = SubjectChapters.objects.filter(subject = subject)
         chapter_serializer = SubjectChapterSerializer(chapters,many=True)
         return Response(chapter_serializer.data)

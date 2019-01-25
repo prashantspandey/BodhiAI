@@ -81,7 +81,7 @@ class Comprehension(models.Model):
     picture = models.URLField(max_length=500,null=True,blank=True)
 
     def __str__(self):
-        return self.text[:100]
+        return self.text[:100] + self.picture
 
 
 
@@ -583,4 +583,26 @@ class SubjectRank(models.Model):
 
     def __str__(self):
         return str(self.sortedAccuracies)
- 
+
+
+class ChapterRank(models.Model):
+    subject = models.CharField(max_length=100,blank=True,null=True)
+    chapterCode = models.FloatField(null=True,blank=True)
+    chapterName = models.CharField(max_length=200,null=True,blank=True)
+    sortedAccuracies = ArrayField(models.FloatField(),blank=True,null=True)
+    students = ArrayField(models.IntegerField(null=True),null=True,blank=True)
+    minimumTests = models.IntegerField(null=True,blank=True)
+    maximumTests = models.IntegerField(null=True,blank=True)
+
+
+    def __str__(self):
+        return str(self.chapterCode) + ' ' + str(self.sortedAccuracies)
+
+class PatternTestPattern(models.Model):
+    exam_name = models.CharField(max_length=100,null=True,blank=True)
+    subjects = ArrayField(models.CharField(max_length=100),null=True,blank=True)
+    numberQuestions = ArrayField(models.IntegerField(),null=True,blank=True)
+
+
+    def __str__(self):
+        return self.exam_name 
