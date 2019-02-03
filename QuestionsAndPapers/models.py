@@ -606,3 +606,12 @@ class PatternTestPattern(models.Model):
 
     def __str__(self):
         return self.exam_name 
+
+class TestRating(models.Model):
+    test = models.ForeignKey(SSCKlassTest)
+    student = models.ForeignKey(Student)
+    rating = models.IntegerField()
+
+    def __str__(self):
+        return str(self.student) + ' '+ str(self.rating) + ' ' + str(self.test.id)
+

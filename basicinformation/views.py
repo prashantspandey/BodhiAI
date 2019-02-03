@@ -369,7 +369,13 @@ def home(request):
             #    chapters.append(i.name)
             #for i in chapters:
             #    print('searching for {} ...'.format(i))
-            #    get_youtube_videos(sub,i)
+            try:
+                sub_list =\
+                [('Quantitative-Analysis','Area'),('General-Intelligence','Analogy'),('English','Adjective')]
+                for i,j in sub_list:
+                    get_youtube_videos(i,j)
+            except Exception as e:
+                print(str(e))
             #add_jobs.delay('/home/prashant/Desktop/programming/projects/bodhiai/bodhiai/scraped/pickles/freejobs.pickle')
             #delete_questions.delay('/app/scraped/pickles/freejobs.pickle')
             #fill_taken_subjects.delay()
@@ -391,9 +397,9 @@ def home(request):
             #allquestions_institute.delay('Quantitative-Analysis',"JEN")
             #delete_repeat_questions.delay()
             #add_to_database_questions.delay(sheet_links,'BodhiAI',production=True,onlyImage=True)
-            add_new_subject_student('Engineering-Drawing')
-            add_new_subject_student('Environment-Study')
-            add_new_subject_student('Basic-Science')
+            #add_new_subject_student('Engineering-Drawing')
+            #add_new_subject_student('Environment-Study')
+            #add_new_subject_student('Basic-Science')
             #students = Student.objects.filter(school__name = "JEN")
             #jen_teacher = Teacher.objects.get(school__name = "JEN")
             #for stud in students:

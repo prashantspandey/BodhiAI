@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'Private_Messages',
     'learning',
     'scraped',
+    'chatbox',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

@@ -369,7 +369,6 @@ class GoogleCustomLoginAndroid(APIView):
         email = data['email']
         display_name = data['display_name']
         photo = data['photo']
-        print('user data from google {}'.format(str(data)))
         try:
             user = User.objects.create_user(username=email, email=email,\
                                                 password='newpassword')
@@ -385,6 +384,7 @@ class GoogleCustomLoginAndroid(APIView):
             student_details.photo = photo
             student_details.email = email
             student_details.username = email
+            student_details.fullName = display_name
             student_details.save()
             my_group = Group.objects.get(name='Students')
             my_group.user_set.add(user)
@@ -405,7 +405,7 @@ class GoogleCustomLoginAndroid(APIView):
             token = Token.objects.create(user=user)
             json = serializer.data
             json['token'] =\
-                    {'token':token.key,'class':stud.klass.name,'school':stud.school.name,'photo':photo,'name':display_name,'hasCourse':hasCourse}
+                    {'token':token.key,'class':stud.klass.name,'school':stud.school.name,'photo':photo,'name':email,'hasCourse':hasCourse,'display_name':display_name}
             return Response(json,status = status.HTTP_201_CREATED)
 
             print('new user created')
@@ -427,11 +427,11 @@ class GoogleCustomLoginAndroid(APIView):
                 student_details = StudentDetails.objects.get(student = user)
 
                 token_context  = \
-                        {'key':token.key,'user_type':groups[0].name,'name':student.name,'photo':student_details.photo,'batch':klass_name,'hasCourse':hasCourse}
+                        {'key':token.key,'user_type':groups[0].name,'name':user.username,'photo':student_details.photo,'batch':klass_name,'hasCourse':hasCourse,'display_name':display_name}
 
             except:
                 token_context  = \
-                {'key':token.key,'user_type':groups[0].name,'name':student.name,'photo':None,'batch':klass_name,'hasCourse':hasCourse}
+                        {'key':token.key,'user_type':groups[0].name,'name':user.username,'photo':None,'batch':klass_name,'hasCourse':hasCourse,'display_name':display_name}
             return Response(token_context,status = 200)
 
 

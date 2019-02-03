@@ -142,16 +142,9 @@ urlpatterns = [
     url(r'teacher_test_analysis_detail/$',views.TeacherTestAnalysisAPIView.as_view(),name='TeacherTestAnalysis'),
 # subject group details
     url(r'subjectwise_group_details/$',views.getSubjectWiseGroupRank.as_view(),name='SubjectwiseGroupRank'),
-
-
-
-
-
-
-
-
-
-
-
+# rate the test
+    url(r'student_rate_test/$',views.RateTestAPIView.as_view(),name='StudentRateTest'),
+# get overall rating of test
+    url(r'overall_rating_test/$',views.GetTestOverallRating.as_view(),name='TestOverallRating'),
 
 ]

@@ -226,16 +226,16 @@ class SubjectLogo(models.Model):
     def __str__(self):
         return self.name 
 
-class StudentSubjectWiseAccuracyCache(models.Model):
-    student = models.ForeignKey(Student,null=True,blank=True)
-    subject = models.CharField(max_length=100,null=True,blank=True)
-    numberRightAnswers = models.IntegerField(null=True,blank=True)
-    numberTotalAttempted = models.IntegerField(null=True,blank=True)
-    numberTests = models.IntegerField(null=True,blank=True)
-    accuracy = models.FloatField(null=True,blank=True)
-
-    def __str__(self):
-        return str(self.student) + ' ' + self.subject
+#class StudentSubjectWiseAccuracyCache(models.Model):
+#    student = models.ForeignKey(Student,null=True,blank=True)
+#    subject = models.CharField(max_length=100,null=True,blank=True)
+#    numberRightAnswers = models.IntegerField(null=True,blank=True)
+#    numberTotalAttempted = models.IntegerField(null=True,blank=True)
+#    numberTests = models.IntegerField(null=True,blank=True)
+#    accuracy = models.FloatField(null=True,blank=True)
+#
+#    def __str__(self):
+#        return str(self.student) + ' ' + self.subject
 
 
 class SubjectAccuracyStudent(models.Model):

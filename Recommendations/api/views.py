@@ -49,7 +49,7 @@ class StudentChapterYoutubeRecommendationsAPIView(APIView):
                         if num == 1:
                             break
                         recommendation_dict =\
-                            {'link':yv.link,'title':yv.title,'chapter':chap_name,'subject':sub}
+                            {'link':yv.link,'title':yv.title,'chapter':chap_name,'subject':sub,'thumbnail':yv.thumbnail}
                         recommendation_list.append(recommendation_dict)
                 except Exception as e:
                     print(str(e))
@@ -58,3 +58,33 @@ class StudentChapterYoutubeRecommendationsAPIView(APIView):
         context = {'recommendations':recommendation_list}
         return Response(context)
 
+class StudentChapterWiseRecommendationAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        chapter = data['chapter']
+        subject = data['subject']
+        try:
+            recommendation_list = []
+            subject_chapter = SubjectChapters.objects.get(subject = subject,code =
+                                                              chapter)
+            chap_name = subject_chapter.name
+            try:
+                youtube_video = YoutubeExternalVideos.objects.filter(subject =
+                                                                  subject,chapter =
+                                                                  chap_name)
+                for num,yv in enumerate(youtube_video):
+                    if num == 3:
+                        break
+                    recommendation_dict =\
+                            {'link':yv.link,'title':yv.title,'thumbnail':yv.thumbnail}
+                    recommendation_list.append(recommendation_dict)
+            except Exception as e:
+                context = {'videos':str(e),'subject':subject,'chapter':chapter}
+        except Exception as e:
+            context = {'videos':str(e),'subject':subject,'chapter':chapter}
+        context =\
+            {'videos':recommendation_list,'subject':subject,'chapter':chapter}
+        return Response(context)
+
+        
+ 

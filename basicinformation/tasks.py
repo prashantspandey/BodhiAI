@@ -27,8 +27,8 @@ import boto3
 import random
 import requests
 DEVELOPER_KEY = "AIzaSyDOW6Nt-1jpzxcEbypSpJ-ObCsZHjYBjPA" 
-ACCESS_KEY_ID = 'AKIAJTAZGK4Z5GYDF3IQ'
-ACCESS_SECRET_KEY = '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'
+ACCESS_KEY_ID = 'AKIAJWLJN4TAFCMJWM2Q'
+ACCESS_SECRET_KEY = '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'
 
 
 YOUTUBE_API_SERVICE_NAME = "youtube"
@@ -2747,10 +2747,12 @@ youtube_search(q,max_results=5,order='relevance',token=None,location=None,locati
     category = []
     tags = []
     videos = []
+    thumbnail = []
 
     for search_result in search_response.get("items", []):
         if search_result["id"]["kind"] == "youtube#video":
             title.append(search_result['snippet']['title'])
+            thumbnail.append(search_result['snippet']['thumbnails'])
 
             videoId.append(search_result['id']['videoId'])
 
@@ -2777,7 +2779,9 @@ youtube_search(q,max_results=5,order='relevance',token=None,location=None,locati
         else:
             tags.append([])
 
-    youtube_dict = {'tags':tags,'channelId': channelId,'channelTitle': channelTitle,'categoryId':categoryId,'title':title,'videoId':videoId,'viewCount':viewCount,'likeCount':likeCount,'dislikeCount':dislikeCount,'commentCount':commentCount,'favoriteCount':favoriteCount}
+    youtube_dict = {'tags':tags,'channelId': channelId,'channelTitle':
+                    channelTitle,'categoryId':categoryId,'title':title,'videoId':videoId,'viewCount':viewCount,'likeCount':likeCount,'dislikeCount':dislikeCount,'commentCount':commentCount,'favoriteCount':favoriteCount,'thumbnail':thumbnail}
+    print('youtube searched videos {}'.format(youtube_dict))
 
     return youtube_dict
 
@@ -2793,6 +2797,8 @@ def get_youtube_videos(subject,chapter):
     print(result['videoId'])
     li = result['videoId']
     title = result['title']
+    thumbnail = result['thumbnail'][0]['medium']['url']
+    print('this is the thumbnail youtube {}'.format(thumbnail))
     title_list = []
     link_list = []
     for i in title:
@@ -2811,7 +2817,9 @@ def get_youtube_videos(subject,chapter):
             save_vid.chapter = chapter
             save_vid.subject = subject
             save_vid.link = j
+            save_vid.thumbnail = thumbnail
             save_vid.save()
+            print('new youtube video saved')
 
 
 @shared_task

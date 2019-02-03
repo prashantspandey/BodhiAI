@@ -968,9 +968,14 @@ class StudentTakenTestsDetailsAPIView(APIView):
             wrong = (len(m.wrongAnswers))
             published = m.testTaken
             time = m.timeTaken
+            try:
+                sub_logo = SubjectLogo.objects.get(name = m.test.sub)
+                logo = sub_logo.logo2
+            except:
+                logo = None
             total_questions = len(m.test.sscquestions_set.all())
             marks_dic =\
-                    {'subject':m.test.sub,'percent':round(percent,1),'attempted':attempted,'rightAnswers':right,'wrongAnswers':wrong,'total_questions':total_questions,'published':published,'time':time,'testid':m.test.id,'answer_id':m.id}
+                    {'subject':m.test.sub,'logo':logo,'percent':round(percent,1),'attempted':attempted,'rightAnswers':right,'wrongAnswers':wrong,'total_questions':total_questions,'published':published,'time':time,'testid':m.test.id,'answer_id':m.id}
             all_marks.append(marks_dic)
 
         return Response(all_marks)
@@ -2018,7 +2023,7 @@ class getTestRank(APIView):
             klass_test = SSCKlassTest.objects.get(id = test_id)
             test_rank = TestRank.objects.get(test=klass_test)
         except:
-            context = {'ranking':'No ranking'}
+            context = {'ranking':[]}
             return Response(context)
         sortedMarks = test_rank.sortedMarks
         sortedStudents = test_rank.students
@@ -2241,7 +2246,6 @@ class getStudentSubjectAllRankDetails(APIView):
         for sub in student_subjects:
             all_subjects.append(sub.name)
         details = []
-        all_subjects = list(unique_everseen(all_subjects))
         for sub in all_subjects:
             try:
                 subject_logo =SubjectLogo.objects.get(name = sub)
@@ -2362,3 +2366,43 @@ class expoNotification(APIView):
                 })
             raise self.retry(exc=exc)
         return Response({'notification':'sent'})
+
+class RateTestAPIView(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        test_id = data['test_id']
+        rating = data['rating']
+        user = self.request.user
+        me = Studs(user)
+        test = SSCKlassTest.objects.get(id = test_id)
+        try:
+            test_rating = TestRating.objects.get(student = me.profile,test
+                                                 =test)
+            context =\
+            {'rating':"False",'student':user.username,'test_id':test_id}
+            return Response(context)
+        except Exception as e:
+            test_rating = TestRating()
+            test_rating.test = test
+            test_rating.student = me.profile
+            test_rating.rating = int(rating)
+            test_rating.save()
+            context =\
+                    {'rating':int(rating),'student':user.username,'test_id':test_id,'exception':str(e)}
+            return Response(context)
+ 
+ 
+class GetTestOverallRating(APIView):
+    def post(self,request,*args,**kwargs):
+        data = request.data
+        test_id = data['test_id']
+        test = SSCKlassTest.objects.get(id = test_id)
+        test_ratings = TestRating.objects.filter(test = test)
+        total_ratings = len(test_ratings)
+        ratings_list = []
+        for tr in test_ratings:
+            ratings_list.append(tr.rating)
+            sum_ratings = sum(ratings_list)
+            average_rating = sum_ratings / total_ratings
+            context = {'testID':test_id,'averageRating':average_rating}
+            return Response(context)

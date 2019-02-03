@@ -166,6 +166,83 @@ class StudentPaperDetailsAndroidPaginatedAPIView(APIView):
 
 
 
+class StudentPaperDetailsFilter(APIView):
+
+    def post(self,request,format=None):
+        data = request.data
+        typeTest = data['typeTest']
+        user = self.request.user
+        me = Studs(user)
+        my_tests = SSCOnlineMarks.objects.filter(student = me.profile)
+        taken_ids = []
+        for test in my_tests:
+            taken_ids.append(test.test.id)
+
+
+        if typeTest == 'MockTest':
+            new_tests = SSCKlassTest.objects.filter(testTakers =
+                                                    me.profile).order_by('-id')
+
+            tests = []
+            test_details = {}
+            details = []
+            counter = 0
+            for te in new_tests:
+                if te.id not in taken_ids:
+                    if 'multiple' in te.sub or 'Multiple' in te.sub:
+                        tests.append(te.id)
+                        try:
+                            subject_logo = SubjectLogo.objects.get(name=te.sub)
+                            logo_url = subject_logo.logo2
+                        except:
+                            logo_url = None
+
+                        test_details =\
+                                {'id':te.id,'topics':[],'num_questions':None,'subject':te.sub,'published':te.published,'creator':te.creator.teacher.name,'logo':logo_url}
+                        details.append(test_details)
+
+            return Response(details)
+        elif typeTest == 'SubjectTest':
+            new_tests = SSCKlassTest.objects.filter(testTakers =
+                                                    me.profile).order_by('-id')
+
+            tests = []
+            test_details = {}
+            details = []
+            counter = 0
+            for te in new_tests:
+                if te.id not in taken_ids:
+                    if 'multiple' not in te.sub or 'Multiple' not in te.sub:
+                        tests.append(te.id)
+                        topics,num_questions = self.find_topics(te)
+                        try:
+                            subject_logo = SubjectLogo.objects.get(name=te.sub)
+                            logo_url = subject_logo.logo2
+                        except:
+                            logo_url = None
+
+                        test_details =\
+                                {'id':te.id,'topics':topics[:3],'num_questions':num_questions,'subject':te.sub,'published':te.published,'creator':te.creator.teacher.name,'logo':logo_url}
+                        details.append(test_details)
+
+            return Response(details)
+ 
+
+    def find_topics(self,test):
+        topics = []
+        tp_num = []
+        for quest in test.sscquestions_set.all():
+            tp_number = quest.topic_category
+            try:
+                subject_chapter =\
+                SubjectChapters.objects.get(subject=quest.section_category,code=float(tp_number))
+                tp_name = subject_chapter.name
+            except:
+                tp_name = 'Topics'
+            topics.append(tp_name)
+        topics = list(unique_everseen(topics))
+        num_questions = len(test.sscquestions_set.all())
+        return topics,num_questions
 
 
 #---------------------------------------------------------------------------------------
